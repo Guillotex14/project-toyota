@@ -1,0 +1,1 @@
+{"version":3,"file":"medicalFile.js","sourceRoot":"","sources":["../../../src/models/medicalFile.ts"],"names":[],"mappings":";;AAAA,uCAAyC;AAEzC,MAAM,WAAW,GAAG,IAAI,iBAAM,CAAC;IAC3B,OAAO,EAAE,MAAM;IACf,OAAO,EAAE,MAAM;IACf,UAAU,EAAE,MAAM;IAClB,UAAU,EAAE,MAAM;CACrB,CAAC,CAAC;AAEH,kBAAe,IAAA,gBAAK,EAAC,aAAa,EAAE,WAAW,CAAC,CAAC"}
