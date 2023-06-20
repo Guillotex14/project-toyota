@@ -3,6 +3,7 @@ import { port } from "./config";
 import cors from "cors";
 import authRouter from "./src/routes/auth";
 import adminRouter from "./src/routes/admin";
+import sellerRouter from "./src/routes/seller";
 import path from "path"
 
 export class App {
@@ -28,6 +29,8 @@ export class App {
     routes() {
         this.app.use("/auth", authRouter );
         this.app.use("/admin", adminRouter );
+        this.app.use("/seller", sellerRouter);
+        this.app.use("/public", Express.static(path.join(__dirname, "public")));
         this.app.use(Express.static(path.join(__dirname, "public")));
     }
 

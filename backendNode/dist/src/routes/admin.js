@@ -46,18 +46,48 @@ adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(ress);
 }));
 adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
-    const ress = yield Users_1.default.find({ type_user: "seller" }).then((res) => {
+    const jsonRes = new Response_1.ResponseModel();
+    let arraySellers = [];
+    let infoSellers = [];
+    const ress = yield Users_1.default.find({ type_user: "seller" }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
             jsonRes.status = true;
-            jsonRes.data = res;
+            for (let i = 0; i < res.length; i++) {
+                yield Sellers_1.default.find({ id_user: res[i]._id }).then((res2) => {
+                    console.log(res2, "res2");
+                    if (res2) {
+                        res2.forEach((element) => {
+                            infoSellers.push(element);
+                        });
+                    }
+                    else if (!res2) {
+                        infoSellers = [];
+                        return res2;
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+            for (let j = 0; j < res.length; j++) {
+                for (let k = 0; k < infoSellers.length; k++) {
+                    if (res[j]._id.toString() == infoSellers[k].id_user.toString()) {
+                        let seller = {
+                            id: res[j]._id,
+                            id_seller: infoSellers[k]._id,
+                            fullName: infoSellers[k].fullName,
+                            city: infoSellers[k].city,
+                            concesionary: infoSellers[k].concesionary,
+                            username: res[j].username,
+                            email: res[j].email,
+                            type_user: res[j].type_user,
+                        };
+                        arraySellers.push(seller);
+                    }
+                }
+            }
+            jsonRes.data = arraySellers;
             return jsonRes;
         }
         else if (!res) {
@@ -66,17 +96,17 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
             jsonRes.status = false;
             return jsonRes;
         }
-    }).catch((err) => {
+    })).catch((err) => {
         console.log(err);
     });
     res.json(ress);
 }));
 adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { email, password, username, fullName, city, concesionary } = req.body;
-    const hash = yield bcrypt_1.default.hash(password, 10);
-    const newUser = new Users_1.default({ email, password: hash, username, type_user: "seller" });
-    const newSeller = new Sellers_1.default({ fullName, city, concesionary });
+    const reqAdd = req.body;
+    const hash = yield bcrypt_1.default.hash(reqAdd.password, 10);
+    const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
+    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary });
     yield newUser.save().then((res) => {
         if (res) {
             newSeller.id_user = res._id;
@@ -90,6 +120,80 @@ adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, f
     reponseJson.status = true;
     reponseJson.data = "";
     res.json(reponseJson);
+}));
+adminRouter.post("/sellerById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id } = req.body;
+    let infoSeller = {};
+    const ress = yield Users_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            yield Sellers_1.default.findOne({ id_user: res._id }).then((res2) => {
+                if (res2) {
+                    infoSeller.id = res._id;
+                    infoSeller.id_seller = res2._id;
+                    infoSeller.fullName = res2.fullName;
+                    infoSeller.city = res2.city;
+                    infoSeller.concesionary = res2.concesionary;
+                    infoSeller.username = res.username;
+                    infoSeller.email = res.email;
+                    infoSeller.type_user = res.type_user;
+                }
+                else if (!res2) {
+                    infoSeller = {};
+                    return res2;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+            jsonRes.data = infoSeller;
+            return jsonRes;
+        }
+        else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    })).catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
+}));
+adminRouter.post("/updateSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+}));
+adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const ress = yield Users_1.default.findOneAndDelete({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            yield Sellers_1.default.findOneAndDelete({ id_user: res._id }).then((res2) => {
+                if (res2) {
+                    return res2;
+                }
+                else if (!res2) {
+                    return res2;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+            return jsonRes;
+        }
+        else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    })).catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
 }));
 exports.default = adminRouter;
 //# sourceMappingURL=admin.js.map

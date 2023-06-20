@@ -9,6 +9,7 @@ const config_1 = require("./config");
 const cors_1 = __importDefault(require("cors"));
 const auth_1 = __importDefault(require("./src/routes/auth"));
 const admin_1 = __importDefault(require("./src/routes/admin"));
+const seller_1 = __importDefault(require("./src/routes/seller"));
 const path_1 = __importDefault(require("path"));
 class App {
     constructor() {
@@ -28,6 +29,8 @@ class App {
     routes() {
         this.app.use("/auth", auth_1.default);
         this.app.use("/admin", admin_1.default);
+        this.app.use("/seller", seller_1.default);
+        this.app.use("/public", express_1.default.static(path_1.default.join(__dirname, "public")));
         this.app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
     }
     start() {
