@@ -1,0 +1,7 @@
+{
+  "name": "carShop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

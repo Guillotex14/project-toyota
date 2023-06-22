@@ -32,7 +32,7 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                 jsonRes.data = res;
                 return jsonRes;
             }
-            else if (res.password != password && res.password != null) {
+            else {
                 jsonRes.code = 400;
                 jsonRes.message = "password incorrecto";
                 jsonRes.status = false;

@@ -25,7 +25,7 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                 jsonRes.status = true;
                 jsonRes.data = res;
                 return jsonRes;
-            } else if (res.password != password && res.password != null) {
+            } else {
                 jsonRes.code = 400;
                 jsonRes.message = "password incorrecto";
                 jsonRes.status = false;
