@@ -16,20 +16,63 @@ const express_1 = require("express");
 //modelss
 const Users_1 = __importDefault(require("../models/Users"));
 const Response_1 = require("../models/Response");
+const Sellers_1 = __importDefault(require("../models/Sellers"));
+const Mechanics_1 = __importDefault(require("../models/Mechanics"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { email, password } = req.body;
-    const ress = yield Users_1.default.findOne({ email: email }).then((res) => {
+    const ress = yield Users_1.default.findOne({ email: email }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             const hash = bcrypt_1.default.compareSync(password, res.password);
-            console.log(hash);
             if (hash) {
                 jsonRes.code = 200;
                 jsonRes.message = "login success";
                 jsonRes.status = true;
-                jsonRes.data = res;
+                if (res.type_user == "seller") {
+                    yield Sellers_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
+                        if (res2) {
+                            let seller = {
+                                id: res._id,
+                                id_sell: res2._id,
+                                fullName: res2.fullName,
+                                city: res2.city,
+                                concesionary: res2.concesionary,
+                                email: res.email,
+                                username: res.username,
+                                type_user: res.type_user
+                            };
+                            jsonRes.data = seller;
+                            // return jsonRes;
+                        }
+                    })).catch((err) => {
+                        console.log(err);
+                    });
+                }
+                else if (res.type_user == "mechanic") {
+                    yield Mechanics_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
+                        if (res2) {
+                            let mechanic = {
+                                id: res._id,
+                                id_mechanic: res2._id,
+                                fullName: res2.fullName,
+                                city: res2.city,
+                                concesionary: res2.concesionary,
+                                email: res.email,
+                                username: res.username,
+                                type_user: res.type_user
+                            };
+                            jsonRes.data = mechanic;
+                            // return jsonRes;
+                        }
+                    })).catch((err) => {
+                        console.log(err);
+                    });
+                }
+                else {
+                    jsonRes.data = res;
+                }
                 return jsonRes;
             }
             else {
@@ -45,26 +88,10 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
             jsonRes.status = false;
             return jsonRes;
         }
-    }).catch((err) => {
+    })).catch((err) => {
         console.log(err);
     });
-    console.log(ress === null || ress === void 0 ? void 0 : ress.data.type_user);
-    // if (ress?.data.type_user == "seller") {
-    //     const info = await sellers.findOne({id_user: ress?.data._id}).then((res:any) => {
-    //         if (res) {
-    //             jsonRes.code = 200;
-    //             jsonRes.message = "login success";
-    //             jsonRes.status = true;
-    //             jsonRes.data = res;
-    //             return res;
-    //         }
-    //     }).catch((err: any) => {
-    //         console.log(err)
-    //     });
-    // } else if (ress?.data.type_user == "mechanic") {
-    // } else {
-    // }
-    res.json(ress);
+    res.json(jsonRes);
 }));
 authRouter.post("/loginMedic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = {
