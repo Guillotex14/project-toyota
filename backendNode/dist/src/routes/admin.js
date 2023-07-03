@@ -56,7 +56,6 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
             jsonRes.status = true;
             for (let i = 0; i < res.length; i++) {
                 yield Sellers_1.default.find({ id_user: res[i]._id }).then((res2) => {
-                    console.log(res2, "res2");
                     if (res2) {
                         res2.forEach((element) => {
                             infoSellers.push(element);

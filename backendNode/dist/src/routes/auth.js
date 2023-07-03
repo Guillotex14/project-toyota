@@ -93,61 +93,59 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
     res.json(jsonRes);
 }));
-authRouter.post("/loginMedic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
-    const { email, password } = req.body;
-    const ress = yield Users_1.default.findOne({ email: email }).then((res) => {
-        if (res) {
-            if (res.password == password) {
-                jsonRes.code = 200;
-                jsonRes.message = "login success";
-                jsonRes.status = true;
-                jsonRes.data = res;
-                return jsonRes;
-            }
-            else if (res.password != password && res.password != null) {
-                jsonRes.code = 400;
-                jsonRes.message = "password incorrecto";
-                jsonRes.status = false;
-                return jsonRes;
-            }
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
-    console.log(ress);
-    res.json(ress);
-}));
-authRouter.get("/registerPatient", (req, res) => {
-    console.log("Register");
-    res.send("Register");
-});
-authRouter.get("/registerMedic", (req, res) => {
-    console.log("Register");
-    res.send("Register");
-});
-authRouter.get("/forgotPassword", (req, res) => {
-    console.log("forgotPassword");
-    res.send("forgotPassword");
-});
-authRouter.get("/verifyCode", (req, res) => {
-    console.log("verifyCode");
-    res.send("verifyCode");
-});
-authRouter.get("/resetPassword", (req, res) => {
-    console.log("resetPassword");
-    res.send("resetPassword");
-});
+// authRouter.post("/loginMedic", async (req: Request, res: Response) => {
+//     const jsonRes = {
+//         code: 0,
+//         data: {},
+//         message: "",
+//         status: false,
+//     };
+//     const { email, password } = req.body;
+//     const ress =  await Users.findOne({email: email}).then((res:any) => {
+//         if (res) {
+//             if (res.password == password) {
+//                 jsonRes.code = 200;
+//                 jsonRes.message = "login success";
+//                 jsonRes.status = true;
+//                 jsonRes.data = res;
+//                 return jsonRes;
+//             } else if (res.password != password && res.password != null) {
+//                 jsonRes.code = 400;
+//                 jsonRes.message = "password incorrecto";
+//                 jsonRes.status = false;
+//                 return jsonRes;
+//             }
+//         } else if (!res) {
+//             jsonRes.code = 400;
+//             jsonRes.message = "no existe";
+//             jsonRes.status = false;
+//             return jsonRes;
+//         }
+//     }).catch((err: any) => {
+//         console.log(err)
+//     });
+//     console.log(ress)
+//     res.json(ress);
+// });
+// authRouter.get("/registerPatient", (req: Request, res: Response) => {
+//     console.log("Register")
+//     res.send("Register");
+// });
+// authRouter.get("/registerMedic", (req: Request, res: Response) => {
+//     console.log("Register")
+//     res.send("Register");
+// });
+// authRouter.get("/forgotPassword", (req: Request, res: Response) => {
+//     console.log("forgotPassword")
+//     res.send("forgotPassword");
+// });
+// authRouter.get("/verifyCode", (req: Request, res: Response) => {
+//     console.log("verifyCode")
+//     res.send("verifyCode");
+// });
+// authRouter.get("/resetPassword", (req: Request, res: Response) => {
+//     console.log("resetPassword")
+//     res.send("resetPassword");
+// });
 exports.default = authRouter;
 //# sourceMappingURL=auth.js.map

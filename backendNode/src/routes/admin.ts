@@ -50,7 +50,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
 
             for (let i = 0; i < res.length; i++) {
                 await sellers.find({id_user: res[i]._id}).then((res2:any) => {
-                    console.log(res2, "res2")
+                    
                     if (res2) {
                         res2.forEach((element: any) => {
                             infoSellers.push(element);
