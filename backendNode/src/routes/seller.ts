@@ -1,10 +1,13 @@
 import { Router, Request, Response } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
 import mechanics from "../models/Mechanics";
+import zones from "../models/Zones";
+import concesionary from "../models/Concesionaries";
 import { ResponseModel } from "../models/Response";
+import mechanicalsFiles from "../models/mechanicalsFiles";
 
 
 const sellerRouter = Router();
@@ -41,9 +44,9 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     
     const reponseJson:ResponseModel = new ResponseModel();
 
-    const {model,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,traction_control,performance,comfort,technology} = req.body;
+    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,traction_control,performance,comfort,technology});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic});
 
     await newVehicle.save()
 
@@ -56,13 +59,123 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
 
 });
 
+sellerRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
+    const reponseJson:ResponseModel = new ResponseModel();
+
+    const {
+        part_emblems_complete,
+        wiper_shower_brushes_windshield,
+        hits,
+        scratches,
+        paint_condition,
+        bugle_accessories,
+        air_conditioning_system,
+        radio_player,
+        courtesy_lights,
+        upholstery_condition,
+        gts,
+        board_lights,
+        tire_pressure,
+        tire_life,
+        battery_status_terminals,
+        transmitter_belts,
+        motor_oil,
+        engine_coolant_container,
+        radiator_status,
+        exhaust_pipe_bracket,
+        fuel_tank_cover_pipes_hoses_connections,
+        distribution_mail,
+        spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+        fuel_system,
+        parking_break,
+        brake_bands_drums,
+        brake_pads_discs,
+        brake_pipes_hoses,
+        master_cylinder,
+        brake_fluid,
+        bushings_plateaus,
+        stumps,
+        terminals,
+        Stabilizer_bar,
+        bearings,
+        tripoids_rubbe_bands,
+        shock_absorbers_coils,
+        dealer_maintenance,
+        id_vehicle,
+        id_mechanic
+    } = req.body;
+
+    const newMechanicFile = new mechanicalsFiles({
+        part_emblems_complete,
+        wiper_shower_brushes_windshield,
+        hits,
+        scratches,
+        paint_condition,
+        bugle_accessories,
+        air_conditioning_system,
+        radio_player,
+        courtesy_lights,
+        upholstery_condition,
+        gts,
+        board_lights,
+        tire_pressure,
+        tire_life,
+        battery_status_terminals,
+        transmitter_belts,
+        motor_oil,
+        engine_coolant_container,
+        radiator_status,
+        exhaust_pipe_bracket,
+        fuel_tank_cover_pipes_hoses_connections,
+        distribution_mail,
+        spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+        fuel_system,
+        parking_break,
+        brake_bands_drums,
+        brake_pads_discs,
+        brake_pipes_hoses,
+        master_cylinder,
+        brake_fluid,
+        bushings_plateaus,
+        stumps,
+        terminals,
+        Stabilizer_bar,
+        bearings,
+        tripoids_rubbe_bands,
+        shock_absorbers_coils,
+        dealer_maintenance,
+        approve: false,
+        reject: false,
+        edit: false,
+        id_vehicle,
+        id_mechanic
+    });
+
+    const newMechanicFileSaved = await newMechanicFile.save();
+
+    const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{mechanicalFile: true});
+
+    if(newMechanicFileSaved){
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Ficha mecanica creada correctamente";
+        reponseJson.data = newMechanicFileSaved;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se pudo crear la Ficha mecanica";
+    }
+
+    res.json(reponseJson);
+});
+
 sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const {id_seller} = req.body;
+
+
+
     const ress = await vehicles.find().then((res:any) => {
         if (res) {
             jsonRes.code = 200;
@@ -79,10 +192,43 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
     }).catch((err: any) => {
         console.log(err)
     });
+
+
+    // for (let i = 0; i < ress!.data.length; i++) {
+    //     if (ress!.data[i].id_seller !== id_seller) {
+    //         let vehicle = {
+    //             model: ress!.data[i].model,
+    //             brand: ress!.data[i].brand,
+    //             year: ress!.data[i].year,
+    //             displacement: ress!.data[i].displacement,
+    //             km: ress!.data[i].km,
+    //             engine_model: ress!.data[i].engine_model,
+    //             titles: ress!.data[i].titles,
+    //             fuel: ress!.data[i].fuel,
+    //             transmission: ress!.data[i].transmission,
+    //             transmission_2: ress!.data[i].transmission_2,
+    //             city: ress!.data[i].city,
+    //             dealer: ress!.data[i].dealer,
+    //             concesionary: ress!.data[i].concesionary,
+    //             traction_control: ress!.data[i].traction_control,
+    //             performance: ress!.data[i].performance,
+    //             price:  ress!.data[i].price,
+    //             comfort: ress!.data[i].comfort,
+    //             technology: ress!.data[i].technology,
+    //             mechanicalFile: ress!.data[i].mechanicalFile,
+    //             id_seller: ress!.data[i].id_seller,
+    //             id_mechanic: ress!.data[i].id_mechanic,
+    //         }
+
+    //         jsonRes.data.push(vehicle);
+    //     }
+        
+    // }
+
     res.json(ress);
 });
 
-sellerRouter.get("/vehicleById", async (req: Request, res: Response) => {
+sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
 
     const jsonRes = {
         code: 0,
@@ -114,8 +260,139 @@ sellerRouter.get("/vehicleById", async (req: Request, res: Response) => {
     res.json(ress);
 });
 
-sellerRouter.get("/mechanicalFile", async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicalFile", async (req: Request, res: Response) => {
 });
 
+sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
+    const responseJson:ResponseModel = new ResponseModel();
+    let arrayMechanics: any[] = [];
+    let infoMechanic: any[] = [];
+
+    const ress = await Users.find({type_user: "mechanic"}).then(async (res:any) => {
+        if (res) {
+            responseJson.code = 200;
+            responseJson.message = "success";
+            responseJson.status = true;
+
+            for (let i = 0; i < res.length; i++) {
+                await mechanics.find({id_user: res[i]._id}).then((res2:any) => {
+                    if (res2) {
+                        res2.forEach((element:any) => {
+                            infoMechanic.push(element);
+                        });
+                    }else{
+                        infoMechanic = [];
+                        return res2;
+                    }
+                }).catch((err: any) => {
+                    console.log(err)
+                });    
+            }
+
+            for (let j = 0; j < res.length; j++) {
+                for (let k = 0; k < infoMechanic.length; k++) {
+                    if (res[j]._id.toString() === infoMechanic[k].id_user.toString()) {
+                        let mechanic = {
+                            id: res[j]._id,
+                            id_mechanic: infoMechanic[k]._id,
+                            fullName: infoMechanic[k].fullName,
+                            city: infoMechanic[k].city,
+                            concesionary: infoMechanic[k].concesionary,
+                            email: res[j].email,
+                            username: res[j].username,
+                            type_user: res[j].type_user
+                        }
+                        arrayMechanics.push(mechanic);
+                    }
+                }
+            }
+
+            responseJson.data = arrayMechanics;
+            return responseJson;
+        }else{
+            responseJson.code = 400;
+            responseJson.message = "no existe";
+            responseJson.status = false;
+            return responseJson;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    }
+    );
+
+    res.json(ress);
+
+});
+
+sellerRouter.get("/allZones", async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+    const ress = await zones.find().then((res:any) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        } else if (!res) {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+    res.json(ress);
+});
+
+sellerRouter.get("/allConcesionaries", async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+
+    const ress = await concesionary.find().then(async (res:any) => {
+        console.log(res)
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        } else if (!res) {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+
+    res.json(ress);
+
+});
+
+function saveImage(img: any,imgname: any) {
+    let posr = img.split(';')[0];
+    let base64 = img.split(';base64,').pop();
+    let mime_type = posr.split(':')[1];
+    let type = mime_type.split('/')[1];
+    let directory = '../public/img/vehicles/';
+
+    img.mv(__dirname + directory + imgname + "." + type);
+
+    return imgname + "." + type;
+
+}
+
+// public function uploadBase64($image, $name)
+//     {
+//         $posr = explode(';', $image)[0];
+//         $base64 = explode(";base64,", $image);
+//         $mime_type = explode(':', $posr)[1];
+//         $type = explode('/', $mime_type)[1];
+//         $directory = '../public/img/recipes/';
+
+//         file_put_contents($directory . $name . "." . $type, base64_decode($base64[1]));
+//         return $name . "." . $type;
+//     }
 
 export default sellerRouter;

@@ -1,7 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const medicalFile = new mongoose_1.Schema({
+import { Schema, model } from "mongoose";
+
+const mechanicalFileSchema = new Schema({
     part_emblems_complete: String,
     wiper_shower_brushes_windshield: String,
     hits: String,
@@ -40,12 +39,15 @@ const medicalFile = new mongoose_1.Schema({
     tripoids_rubbe_bands: String,
     shock_absorbers_coils: String,
     dealer_maintenance: String,
+    approve: Boolean,
+    reject: Boolean,
+    edit: Boolean,
     id_vehicle: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
     },
     id_mechanic: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
     }
 });
-exports.default = (0, mongoose_1.model)("medicalFile", medicalFile);
-//# sourceMappingURL=mecanicalsFiles.js.map
+
+export default model("mechanicalFile", mechanicalFileSchema);
