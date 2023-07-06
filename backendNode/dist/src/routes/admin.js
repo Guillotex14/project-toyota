@@ -103,6 +103,7 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
 adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const reqAdd = req.body;
+    console.log(reqAdd);
     const hash = yield bcrypt_1.default.hash(reqAdd.password, 10);
     const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
     const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary });

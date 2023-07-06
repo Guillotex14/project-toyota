@@ -46,7 +46,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
 
     const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, price,id_seller, id_mechanic});
 
     await newVehicle.save()
 
