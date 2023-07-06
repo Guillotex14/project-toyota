@@ -108,6 +108,8 @@ adminRouter.post("/addSeller", async (req: Request, res: Response) => {
 
     const reqAdd: AddSellerModel = req.body;
 
+    console.log(reqAdd)
+
     const hash = await bcrypt.hash(reqAdd.password, 10);
 
     const newUser = new Users({email:reqAdd.email, password:hash, username:reqAdd.username, type_user: "seller"});
