@@ -76,7 +76,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
 
     const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: {$unset: null}});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null});
 
     // id_seller_buyer: {$unset: null}
     // id_seller_buyer:null

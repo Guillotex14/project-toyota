@@ -74,7 +74,9 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: "" });
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null });
+    // id_seller_buyer: {$unset: null}
+    // id_seller_buyer:null
     yield newVehicle.save();
     yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
