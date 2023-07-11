@@ -18,6 +18,8 @@ const Users_1 = __importDefault(require("../models/Users"));
 const Vehicles_1 = __importDefault(require("../models/Vehicles"));
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const Response_1 = require("../models/Response");
+const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
+const moment_1 = __importDefault(require("moment"));
 const adminRouter = (0, express_1.Router)();
 adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = {
@@ -26,7 +28,7 @@ adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, 
         message: "",
         status: false,
     };
-    const ress = yield Vehicles_1.default.find().then((res) => {
+    const ress = yield Vehicles_1.default.find({ selled: false }).then((res) => {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -102,11 +104,11 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
+    const date_created = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     const reqAdd = req.body;
-    console.log(reqAdd);
     const hash = yield bcrypt_1.default.hash(reqAdd.password, 10);
     const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
-    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary });
+    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary, date_created: date_created });
     yield newUser.save().then((res) => {
         if (res) {
             newSeller.id_user = res._id;
@@ -163,6 +165,25 @@ adminRouter.post("/sellerById", (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(ress);
 }));
 adminRouter.post("/updateSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id, email, username, fullName, city, concesionary, id_seller, password } = req.body;
+    const _id = { _id: id };
+    const seller = { _id: id_seller };
+    const sellerUpdate = { fullName: fullName, city: city, concesionary: concesionary };
+    if (password != "") {
+        const hash = yield bcrypt_1.default.hash(password, 10);
+        const userUpdate = { email: email, username: username, password: hash };
+        yield Users_1.default.findOneAndUpdate(_id, userUpdate);
+    }
+    else {
+        const userUpdate = { email: email, username: username };
+        yield Users_1.default.findOneAndUpdate(_id, userUpdate);
+    }
+    yield Sellers_1.default.findOneAndUpdate(seller, sellerUpdate);
+    jsonRes.code = 200;
+    jsonRes.message = "Vendedor actualizado exitosamente";
+    jsonRes.status = true;
+    res.json(jsonRes);
 }));
 adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -194,6 +215,49 @@ adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0
         console.log(err);
     });
     res.json(ress);
+}));
+adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id } = req.body;
+    console.log("id", id);
+    const ress = yield Vehicles_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(res);
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            jsonRes.data = res;
+            return jsonRes;
+        }
+        else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    })).catch((err) => {
+        console.log(err);
+    });
+    res.json(jsonRes);
+}));
+adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id_vehicle } = req.body;
+    const ress = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
+    if (ress) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = ress;
+        return jsonRes;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+        return jsonRes;
+    }
+    res.json(jsonRes);
 }));
 exports.default = adminRouter;
 //# sourceMappingURL=admin.js.map

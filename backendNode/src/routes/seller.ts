@@ -1,5 +1,7 @@
 import { Router, Request, Response } from "express";
 import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer';
+import moment from "moment";
 
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
@@ -8,18 +10,19 @@ import zones from "../models/Zones";
 import concesionary from "../models/Concesionaries";
 import { ResponseModel } from "../models/Response";
 import mechanicalsFiles from "../models/mechanicalsFiles";
-
+import Sellers from "../models/Sellers";
 
 const sellerRouter = Router();
 
 sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
     
     const reponseJson:ResponseModel = new ResponseModel();
+    const date_created = moment().format('DD/MM/YYYY');
     const {email,password,username,fullName,city,concesionary} = req.body;
     const hash = await bcrypt.hash(password, 10);
     
     const newUser = new Users({email,password:hash,username,type_user: "mechanic"});
-    const newMechanic = new mechanics({fullName,city,concesionary});
+    const newMechanic = new mechanics({fullName,city,concesionary,date_created});
 
     await newUser.save().then((res:any) => {
         if (res) {
@@ -30,6 +33,30 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
     });
 
     await newMechanic.save()
+    
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        }
+    });
+    
+    const mailOptions = {
+        from: 'Toyousado',
+        to: email,
+        subject: 'Bienvenido',
+        text: 'Bienvenido a Toyousado, tu usuario es: ' + email + ' y tu contraseña es: ' + password + '',
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        };
+    });
+
 
     reponseJson.code = 200;
     reponseJson.message = "Mecanico agregado exitosamente";
@@ -43,12 +70,65 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
 sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     
     const reponseJson:ResponseModel = new ResponseModel();
+    let emailmechanic = "";
+    let infoSeller: any = {};
+    let dateNow = moment().format('DD/MM/YYYY');
 
     const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, price,id_seller, id_mechanic});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: {$unset: null}});
 
+    // id_seller_buyer: {$unset: null}
+    // id_seller_buyer:null
+    
     await newVehicle.save()
+
+    await mechanics.findOne({_id: id_mechanic}).then(async (res:any) => {
+        
+        if (res) {
+            await Users.findOne({_id: res.id_user}).then((res:any) => {
+                if (res) {
+                    emailmechanic = res.email;
+                }
+            }).catch((err: any) => {
+                console.log(err)
+            });
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+
+    await Sellers.findOne({_id: id_seller}).then((res:any) => {
+        if (res) {
+            infoSeller = res;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+    
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        }
+    });
+    
+    const mailOptions = {
+        from: 'Toyousado',
+        to: emailmechanic,
+        subject: 'Revisión de vehiculo',
+        text: 'El vendedor ' + infoSeller.fullName +'del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 
     reponseJson.code = 200;
     reponseJson.message = "Vehiculo agregado exitosamente";
@@ -173,10 +253,9 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 
     const {id_seller} = req.body;
-
-
-
-    const ress = await vehicles.find().then((res:any) => {
+    
+    const ress = await vehicles.find({mechanicalFile:true,selled:false,id_seller:{$ne: id_seller}}).then((res:any) => {
+        console.log("carros a la venta", res)
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -194,52 +273,45 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
     });
 
 
-    // for (let i = 0; i < ress!.data.length; i++) {
-    //     if (ress!.data[i].id_seller !== id_seller) {
-    //         let vehicle = {
-    //             model: ress!.data[i].model,
-    //             brand: ress!.data[i].brand,
-    //             year: ress!.data[i].year,
-    //             displacement: ress!.data[i].displacement,
-    //             km: ress!.data[i].km,
-    //             engine_model: ress!.data[i].engine_model,
-    //             titles: ress!.data[i].titles,
-    //             fuel: ress!.data[i].fuel,
-    //             transmission: ress!.data[i].transmission,
-    //             transmission_2: ress!.data[i].transmission_2,
-    //             city: ress!.data[i].city,
-    //             dealer: ress!.data[i].dealer,
-    //             concesionary: ress!.data[i].concesionary,
-    //             traction_control: ress!.data[i].traction_control,
-    //             performance: ress!.data[i].performance,
-    //             price:  ress!.data[i].price,
-    //             comfort: ress!.data[i].comfort,
-    //             technology: ress!.data[i].technology,
-    //             mechanicalFile: ress!.data[i].mechanicalFile,
-    //             id_seller: ress!.data[i].id_seller,
-    //             id_mechanic: ress!.data[i].id_mechanic,
-    //         }
+    res.json(ress);
+});
 
-    //         jsonRes.data.push(vehicle);
-    //     }
-        
-    // }
+sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
+    const jsonRes: ResponseModel = new ResponseModel();
+    const {id_seller} = req.body;
+
+    const ress = await vehicles.find({id_seller: id_seller}).then((res:any) => {
+        console.log("carros a la venta", res)
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            jsonRes.data = res;
+            return jsonRes;
+        } else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
 
     res.json(ress);
 });
 
+
 sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
 
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
+    const jsonRes: ResponseModel = new ResponseModel();
 
-    const {_id} = req.body;
+    const {id} = req.body;
 
-    const ress = await vehicles.findOne({_id: _id}).then((res:any) => {
+    console.log("id", id)
+
+    const ress = await vehicles.findOne({_id: id}).then(async (res:any) => {
+        console.log(res)
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -257,10 +329,31 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
         console.log(err)
     });
 
-    res.json(ress);
+    res.json(jsonRes);
 });
 
-sellerRouter.post("/mechanicalFile", async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const {id_vehicle} = req.body;
+
+    const ress = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
+
+    if (ress) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = ress;
+        return jsonRes;
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+        return jsonRes;
+    }
+
+    res.json(jsonRes);
+
 });
 
 sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
@@ -369,6 +462,91 @@ sellerRouter.get("/allConcesionaries", async (req: Request, res: Response) => {
     res.json(ress);
 
 });
+
+sellerRouter.post('/buyCar', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    
+    const { id_vehicle, id_seller } = req.body;
+
+    const dateNow = moment().format('YYYY-MM-DD');
+
+    const vehicle= await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller});
+
+    const infoBuyer = await Sellers.findById(id_seller);
+
+    const infoSeller = await Sellers.findById(vehicle!.id_seller);
+
+    const email = await Users.findById(infoSeller!.id_user);
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        },
+    });
+
+    const mailOptions = {
+        from: 'Toyousado Notifications',
+        to: email!.email,
+        subject: 'Compra de vehiculo',
+        text: `el vendedor ${infoBuyer!.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor`,
+    }
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        };
+    });
+
+
+})
+
+sellerRouter.post('/approveBuyCar', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id_vehicle } = req.body;
+
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {selled: true});
+
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehicle;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+});
+
+sellerRouter.post('/rejectBuyCar', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id_vehicle } = req.body;
+
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: null, selled: false});
+    
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehicle;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+
+});
+
 
 function saveImage(img: any,imgname: any) {
     let posr = img.split(';')[0];

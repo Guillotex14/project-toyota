@@ -6,6 +6,8 @@ import Vehicles from "../models/Vehicles";
 import sellers from "../models/Sellers";
 import { ResponseModel } from "../models/Response";
 import { AddSellerModel } from "../models/adminModel";
+import mechanicalsFiles from "../models/mechanicalsFiles";
+import moment from "moment";
 
 
 const adminRouter = Router();
@@ -17,7 +19,7 @@ adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
         message: "",
         status: false,
     };
-    const ress = await Vehicles.find().then((res:any) => {
+    const ress = await Vehicles.find({selled: false}).then((res:any) => {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -105,15 +107,15 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
 adminRouter.post("/addSeller", async (req: Request, res: Response) => {
     
     const reponseJson:ResponseModel = new ResponseModel();
+    
+    const date_created = moment().format("YYYY-MM-DD HH:mm:ss");
 
     const reqAdd: AddSellerModel = req.body;
-
-    console.log(reqAdd)
 
     const hash = await bcrypt.hash(reqAdd.password, 10);
 
     const newUser = new Users({email:reqAdd.email, password:hash, username:reqAdd.username, type_user: "seller"});
-    const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary});
+    const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary, date_created: date_created});
 
     await newUser.save().then((res:any) => {
         if (res) {
@@ -178,6 +180,29 @@ adminRouter.post("/sellerById", async (req: Request, res: Response) => {
 });
 
 adminRouter.post("/updateSeller", async (req: Request, res: Response) => {
+    const jsonRes: ResponseModel = new ResponseModel();
+    const {id, email, username, fullName, city, concesionary,id_seller,password} = req.body;
+    
+    const _id = {_id:id};
+    const seller = {_id: id_seller}
+    const sellerUpdate = { fullName:fullName,city:city,concesionary:concesionary}
+
+    if (password != "") {
+        const hash = await bcrypt.hash(password, 10);
+        const userUpdate = {email:email,username:username,password:hash};
+        await Users.findOneAndUpdate(_id,userUpdate);
+    }else{
+        const userUpdate = {email:email,username:username};
+        await Users.findOneAndUpdate(_id,userUpdate);
+    }
+
+    await sellers.findOneAndUpdate(seller,sellerUpdate);
+
+    jsonRes.code = 200;
+    jsonRes.message = "Vendedor actualizado exitosamente"
+    jsonRes.status = true;
+
+    res.json(jsonRes);
 });
 
 adminRouter.post("/deleteSeller", async (req: Request, res: Response) => {
@@ -212,6 +237,60 @@ adminRouter.post("/deleteSeller", async (req: Request, res: Response) => {
     });
 
     res.json(ress);
+});
+
+adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
+
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const {id} = req.body;
+
+    console.log("id", id)
+
+    const ress = await Vehicles.findOne({_id: id}).then(async (res:any) => {
+        console.log(res)
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            jsonRes.data = res;
+            return jsonRes;
+        } else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    }
+    ).catch((err: any) => {
+        console.log(err)
+    });
+
+    res.json(jsonRes);
+});
+
+adminRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const {id_vehicle} = req.body;
+
+    const ress = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
+
+    if (ress) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = ress;
+        return jsonRes;
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+        return jsonRes;
+    }
+
+    res.json(jsonRes);
+
 });
 
 export default adminRouter;

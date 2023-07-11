@@ -1,8 +1,14 @@
 import { Router, Request, Response } from 'express';
 import { ResponseModel } from '../models/Response';
+import moment from 'moment';
+
 import vehicles from '../models/Vehicles';
 import mechanics from '../models/Mechanics';
+import sellers from '../models/Sellers';
+import users from '../models/Users';
 import mechanicalsFiles from '../models/mechanicalsFiles';
+import nodemailer from 'nodemailer';
+import notifications from '../models/notifications';
 
 const mechanicRouter = Router();
 
@@ -62,7 +68,7 @@ mechanicRouter.post("/getMechanicFileByIdVehicle", async (req: Request, res: Res
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_vehicle} = req.body;
 
-    const mecFile = await mechanicalsFiles.findOne({id_vehicle});
+    const mecFile = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
     if(mecFile){
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -79,6 +85,11 @@ mechanicRouter.post("/getMechanicFileByIdVehicle", async (req: Request, res: Res
 
 mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
+    
+    let mailSeller = "";
+    let infoMechanic:any = {};
+    let dateNow = moment().format('YYYY-MM-DD');
+    let messageNotification = "";
 
     const {
         part_emblems_complete,
@@ -119,6 +130,8 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         tripoids_rubbe_bands,
         shock_absorbers_coils,
         dealer_maintenance,
+        headlights_lights,
+        general_condition,
         id_vehicle,
         id_mechanic
     } = req.body;
@@ -162,6 +175,9 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         tripoids_rubbe_bands,
         shock_absorbers_coils,
         dealer_maintenance,
+        headlights_lights,
+        general_condition,
+        date: dateNow,
         id_vehicle,
         id_mechanic
     });
@@ -175,6 +191,78 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         reponseJson.status = true;
         reponseJson.message = "Ficha mecanica creada correctamente";
         reponseJson.data = newMechanicFileSaved;
+
+        //obteniendo el correo del vendedor
+        const vehicle = await vehicles.findOne({_id: id_vehicle});
+
+        if(vehicle){
+            const seller = await sellers.findOne({_id: vehicle.id_seller});
+            if(seller){
+                const user = await users.findOne({_id: seller.id_user})
+                if(user){
+                    mailSeller = user.email!;
+                }
+            }
+        }
+
+        //obteniendo la informacion del mecanico
+        const mechanic = await mechanics.findOne({_id: id_mechanic});
+
+        if(mechanic){
+            infoMechanic.fullname = mechanic.fullName;
+            infoMechanic.concesionary = mechanic.concesionary;
+            infoMechanic.city = mechanic.city;
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'jefersonmujica@gmail.com',
+                pass: 'qtthfkossxcahyzo',
+            }
+        });
+        
+
+        if (general_condition === "malo") {
+            const mailOptions = {
+                from: 'Toyousado Notifications',
+                to: mailSeller,
+                subject: 'Ficha mecanica Rechazada',
+                text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`,
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                };
+            });
+
+            messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`;
+        }
+
+        if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
+            const mailOptions = {
+                from: 'Toyousado Notifications',
+                to: mailSeller,
+                subject: 'Ficha mecanica creada',
+                text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`,
+            };
+    
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                };
+            });
+
+            messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`;
+        }
+
+        sendNotification(vehicle!.id_seller?.toString()!, messageNotification);
+
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
@@ -184,76 +272,45 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     res.json(reponseJson);
 });
 
-mechanicRouter.post("/approveMechanicalFile", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
+mechanicRouter.post('/getVehicles', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
 
-    const {id_mechanical_file} = req.body;
+    const { id_mechanic } = req.body;
 
-    const mechanicalFileUpdated = await mechanicalsFiles.findByIdAndUpdate(id_mechanical_file,{approve: true, reject: false, edit: false});
+    const vehiclesMechanic = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile:true});
 
-    if(mechanicalFileUpdated){
+    if(vehiclesMechanic){
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica aprobada correctamente";
-        reponseJson.data = mechanicalFileUpdated;
+        reponseJson.message = "Vehiculos encontrados";
+        reponseJson.data = vehiclesMechanic;
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo aprobar la Ficha mecanica";
-    }
-
-    res.json(reponseJson);
-
-
-
-});
-
-mechanicRouter.post("/rejectMechanicalFile", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-
-    const {id_mechanical_file} = req.body;
-
-    const mechanicalFileUpdated = await mechanicalsFiles.findByIdAndUpdate(id_mechanical_file,{approve: false, reject: true, edit: false});
-
-    if(mechanicalFileUpdated){
-        reponseJson.code = 200;
-        reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica rechazada correctamente";
-        reponseJson.data = mechanicalFileUpdated;
-    }else{
-        reponseJson.code = 400;
-        reponseJson.status = false;
-        reponseJson.message = "No se pudo rechazar la Ficha mecanica";
+        reponseJson.message = "No se encontraron vehiculos";
     }
 
     res.json(reponseJson);
 
 });
 
+const sendNotification = async (id_seller:string, message: string) => {
+    // const jsonRes: ResponseModel = new ResponseModel();
 
-mechanicRouter.post("/editMechanicalFile", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
+    const userInfo = await sellers.findOne({_id: id_seller});
 
-    const { id_mechanical_file } = req.body;
+    if(userInfo){
+        const notify = new notifications({
+            id_user: userInfo.id_user,
+            message: message,
+            date: moment().format('YYYY-MM-DD HH:mm:ss')
+        });
 
-    const mechanicalFileUpdated = await mechanicalsFiles.findByIdAndUpdate(id_mechanical_file,{approve: false, reject: false, edit: true});
+        await notify.save();
 
-    if(mechanicalFileUpdated){
-        reponseJson.code = 200;
-        reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica editada correctamente";
-        reponseJson.data = mechanicalFileUpdated;
-    }else{
-        reponseJson.code = 400;
-        reponseJson.status = false;
-        reponseJson.message = "No se pudo editar la Ficha mecanica";
+
     }
 
-    res.json(reponseJson);
-
-});
-
-
-
+}
 
 export default mechanicRouter;
