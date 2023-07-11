@@ -20,10 +20,15 @@ const vehicleSchema = new Schema({
     comfort: String,
     technology: String,
     mechanicalFile: Boolean,
+    selled: Boolean,
+    date: String,
     id_seller: {
         type: Schema.Types.ObjectId
     },
     id_mechanic: {
+        type: Schema.Types.ObjectId
+    },
+    id_seller_buyer: {
         type: Schema.Types.ObjectId
     }
 });

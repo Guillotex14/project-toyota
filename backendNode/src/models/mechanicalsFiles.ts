@@ -39,9 +39,9 @@ const mechanicalFileSchema = new Schema({
     tripoids_rubbe_bands: String,
     shock_absorbers_coils: String,
     dealer_maintenance: String,
-    approve: Boolean,
-    reject: Boolean,
-    edit: Boolean,
+    headlights_lights: String,
+    general_condition: String,
+    date: String,
     id_vehicle: {
         type: Schema.Types.ObjectId,
     },

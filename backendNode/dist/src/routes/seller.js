@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const moment_1 = __importDefault(require("moment"));
 const Users_1 = __importDefault(require("../models/Users"));
 const Vehicles_1 = __importDefault(require("../models/Vehicles"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
@@ -21,13 +23,15 @@ const Zones_1 = __importDefault(require("../models/Zones"));
 const Concesionaries_1 = __importDefault(require("../models/Concesionaries"));
 const Response_1 = require("../models/Response");
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
+const Sellers_1 = __importDefault(require("../models/Sellers"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
+    const date_created = (0, moment_1.default)().format('DD/MM/YYYY');
     const { email, password, username, fullName, city, concesionary } = req.body;
     const hash = yield bcrypt_1.default.hash(password, 10);
     const newUser = new Users_1.default({ email, password: hash, username, type_user: "mechanic" });
-    const newMechanic = new Mechanics_1.default({ fullName, city, concesionary });
+    const newMechanic = new Mechanics_1.default({ fullName, city, concesionary, date_created });
     yield newUser.save().then((res) => {
         if (res) {
             newMechanic.id_user = res._id;
@@ -36,6 +40,28 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
         console.log(err);
     });
     yield newMechanic.save();
+    const transporter = nodemailer_1.default.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        }
+    });
+    const mailOptions = {
+        from: 'Toyousado',
+        to: email,
+        subject: 'Bienvenido',
+        text: 'Bienvenido a Toyousado, tu usuario es: ' + email + ' y tu contraseña es: ' + password + '',
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+        ;
+    });
     reponseJson.code = 200;
     reponseJson.message = "Mecanico agregado exitosamente";
     reponseJson.status = true;
@@ -44,9 +70,53 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
 }));
 sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic });
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: "" });
     yield newVehicle.save();
+    yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        if (res) {
+            yield Users_1.default.findOne({ _id: res.id_user }).then((res) => {
+                if (res) {
+                    emailmechanic = res.email;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+    })).catch((err) => {
+        console.log(err);
+    });
+    yield Sellers_1.default.findOne({ _id: id_seller }).then((res) => {
+        if (res) {
+            infoSeller = res;
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+    const transporter = nodemailer_1.default.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        }
+    });
+    const mailOptions = {
+        from: 'Toyousado',
+        to: emailmechanic,
+        subject: 'Revisión de vehiculo',
+        text: 'El vendedor ' + infoSeller.fullName + 'del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
     reponseJson.code = 200;
     reponseJson.message = "Vehiculo agregado exitosamente";
     reponseJson.status = true;
@@ -119,7 +189,8 @@ sellerRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, 
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const ress = yield Vehicles_1.default.find().then((res) => {
+    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, selled: false, id_seller: { $ne: id_seller } }).then((res) => {
+        console.log("carros a la venta", res);
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -136,45 +207,37 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     }).catch((err) => {
         console.log(err);
     });
-    // for (let i = 0; i < ress!.data.length; i++) {
-    //     if (ress!.data[i].id_seller !== id_seller) {
-    //         let vehicle = {
-    //             model: ress!.data[i].model,
-    //             brand: ress!.data[i].brand,
-    //             year: ress!.data[i].year,
-    //             displacement: ress!.data[i].displacement,
-    //             km: ress!.data[i].km,
-    //             engine_model: ress!.data[i].engine_model,
-    //             titles: ress!.data[i].titles,
-    //             fuel: ress!.data[i].fuel,
-    //             transmission: ress!.data[i].transmission,
-    //             transmission_2: ress!.data[i].transmission_2,
-    //             city: ress!.data[i].city,
-    //             dealer: ress!.data[i].dealer,
-    //             concesionary: ress!.data[i].concesionary,
-    //             traction_control: ress!.data[i].traction_control,
-    //             performance: ress!.data[i].performance,
-    //             price:  ress!.data[i].price,
-    //             comfort: ress!.data[i].comfort,
-    //             technology: ress!.data[i].technology,
-    //             mechanicalFile: ress!.data[i].mechanicalFile,
-    //             id_seller: ress!.data[i].id_seller,
-    //             id_mechanic: ress!.data[i].id_mechanic,
-    //         }
-    //         jsonRes.data.push(vehicle);
-    //     }
-    // }
+    res.json(ress);
+}));
+sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id_seller } = req.body;
+    const ress = yield Vehicles_1.default.find({ id_seller: id_seller }).then((res) => {
+        console.log("carros a la venta", res);
+        if (res) {
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            jsonRes.data = res;
+            return jsonRes;
+        }
+        else if (!res) {
+            jsonRes.code = 400;
+            jsonRes.message = "no existe";
+            jsonRes.status = false;
+            return jsonRes;
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
     res.json(ress);
 }));
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
-    const { _id } = req.body;
-    const ress = yield Vehicles_1.default.findOne({ _id: _id }).then((res) => {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id } = req.body;
+    console.log("id", id);
+    const ress = yield Vehicles_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(res);
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
@@ -188,12 +251,29 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
             jsonRes.status = false;
             return jsonRes;
         }
-    }).catch((err) => {
+    })).catch((err) => {
         console.log(err);
     });
-    res.json(ress);
+    res.json(jsonRes);
 }));
-sellerRouter.post("/mechanicalFile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id_vehicle } = req.body;
+    const ress = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
+    if (ress) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = ress;
+        return jsonRes;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+        return jsonRes;
+    }
+    res.json(jsonRes);
 }));
 sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
@@ -292,6 +372,71 @@ sellerRouter.get("/allConcesionaries", (req, res) => __awaiter(void 0, void 0, v
         console.log(err);
     });
     res.json(ress);
+}));
+sellerRouter.post('/buyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, id_seller } = req.body;
+    const dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller });
+    const infoBuyer = yield Sellers_1.default.findById(id_seller);
+    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
+    const email = yield Users_1.default.findById(infoSeller.id_user);
+    const transporter = nodemailer_1.default.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'jefersonmujica@gmail.com',
+            pass: 'qtthfkossxcahyzo',
+        },
+    });
+    const mailOptions = {
+        from: 'Toyousado Notifications',
+        to: email.email,
+        subject: 'Compra de vehiculo',
+        text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor`,
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+        ;
+    });
+}));
+sellerRouter.post('/approveBuyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle } = req.body;
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { selled: true });
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehicle;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post('/rejectBuyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle } = req.body;
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: null, selled: false });
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehicle;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
 }));
 function saveImage(img, imgname) {
     let posr = img.split(';')[0];

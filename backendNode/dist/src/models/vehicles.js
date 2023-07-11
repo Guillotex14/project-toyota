@@ -21,10 +21,15 @@ const vehicleSchema = new mongoose_1.Schema({
     comfort: String,
     technology: String,
     mechanicalFile: Boolean,
+    selled: Boolean,
+    date: String,
     id_seller: {
         type: mongoose_1.Schema.Types.ObjectId
     },
     id_mechanic: {
+        type: mongoose_1.Schema.Types.ObjectId
+    },
+    id_seller_buyer: {
         type: mongoose_1.Schema.Types.ObjectId
     }
 });

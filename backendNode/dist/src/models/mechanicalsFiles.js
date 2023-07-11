@@ -40,9 +40,9 @@ const mechanicalFileSchema = new mongoose_1.Schema({
     tripoids_rubbe_bands: String,
     shock_absorbers_coils: String,
     dealer_maintenance: String,
-    approve: Boolean,
-    reject: Boolean,
-    edit: Boolean,
+    headlights_lights: String,
+    general_condition: String,
+    date: String,
     id_vehicle: {
         type: mongoose_1.Schema.Types.ObjectId,
     },
