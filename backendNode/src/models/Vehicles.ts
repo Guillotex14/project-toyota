@@ -22,6 +22,7 @@ const vehicleSchema = new Schema({
     mechanicalFile: Boolean,
     selled: Boolean,
     date: String,
+    type_vehicle: String,
     id_seller: {
         type: Schema.Types.ObjectId
     },

@@ -23,6 +23,7 @@ const vehicleSchema = new mongoose_1.Schema({
     mechanicalFile: Boolean,
     selled: Boolean,
     date: String,
+    type_vehicle: String,
     id_seller: {
         type: mongoose_1.Schema.Types.ObjectId
     },
