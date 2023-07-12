@@ -24,6 +24,7 @@ const Concesionaries_1 = __importDefault(require("../models/Concesionaries"));
 const Response_1 = require("../models/Response");
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const Sellers_1 = __importDefault(require("../models/Sellers"));
+const brands_1 = __importDefault(require("../models/brands"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -73,8 +74,8 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null });
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, type_vehicle, images } = req.body;
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
     // id_seller_buyer: {$unset: null}
     // id_seller_buyer:null
     yield newVehicle.save();
@@ -374,6 +375,27 @@ sellerRouter.get("/allConcesionaries", (req, res) => __awaiter(void 0, void 0, v
         console.log(err);
     });
     res.json(ress);
+}));
+sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const brand = yield brands_1.default.find().then((res) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        }
+        else {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+    res.json(jsonResponse);
 }));
 sellerRouter.post('/buyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();

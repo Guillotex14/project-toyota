@@ -11,6 +11,7 @@ import concesionary from "../models/Concesionaries";
 import { ResponseModel } from "../models/Response";
 import mechanicalsFiles from "../models/mechanicalsFiles";
 import Sellers from "../models/Sellers";
+import brands from "../models/brands";
 
 const sellerRouter = Router();
 
@@ -74,9 +75,9 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     let infoSeller: any = {};
     let dateNow = moment().format('DD/MM/YYYY');
 
-    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, images} = req.body;
+    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, type_vehicle,images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
 
     // id_seller_buyer: {$unset: null}
     // id_seller_buyer:null
@@ -460,6 +461,30 @@ sellerRouter.get("/allConcesionaries", async (req: Request, res: Response) => {
     });
 
     res.json(ress);
+
+});
+
+sellerRouter.get("/allBrands", async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+
+    const brand = await brands.find().then((res:any) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        } else {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+
+    res.json(jsonResponse);
 
 });
 
