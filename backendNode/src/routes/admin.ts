@@ -9,7 +9,6 @@ import { AddSellerModel } from "../models/adminModel";
 import mechanicalsFiles from "../models/mechanicalsFiles";
 import moment from "moment";
 
-
 const adminRouter = Router();
 
 adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
