@@ -114,7 +114,7 @@ adminRouter.post("/addSeller", async (req: Request, res: Response) => {
     const hash = await bcrypt.hash(reqAdd.password, 10);
 
     const newUser = new Users({email:reqAdd.email, password:hash, username:reqAdd.username, type_user: "seller"});
-    const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary, date_created: date_created});
+    const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone});
 
     await newUser.save().then((res:any) => {
         if (res) {
