@@ -548,7 +548,7 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
     });
 
     responseJson.code = 200;
-    responseJson.message = "success";
+    responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
 
     res.json(responseJson);
@@ -560,7 +560,7 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
 
     const { id_vehicle } = req.body;
 
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {selled: true});
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {sold: true});
 
     if (vehicle) {
         reponseJson.code = 200;
@@ -581,7 +581,7 @@ sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
 
     const { id_vehicle } = req.body;
 
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: null, selled: false});
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: null, sold: false});
     
     if (vehicle) {
         reponseJson.code = 200;
