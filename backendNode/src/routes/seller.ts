@@ -334,24 +334,22 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
 });
 
 sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
-    const jsonRes: ResponseModel = new ResponseModel();
-
+    const reponseJson:ResponseModel = new ResponseModel();
     const {id_vehicle} = req.body;
 
-    const ress = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
-
-    if (ress) {
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
-        jsonRes.data = ress;
+    const mecFile = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
+    if(mecFile){
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Ficha mecanica encontrada";
+        reponseJson.data = mecFile;
     }else{
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se encontro la ficha mecanica";
     }
 
-    res.json(jsonRes);
+    res.json(reponseJson);
 
 });
 
