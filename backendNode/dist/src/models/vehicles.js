@@ -21,7 +21,7 @@ const vehicleSchema = new mongoose_1.Schema({
     comfort: String,
     technology: String,
     mechanicalFile: Boolean,
-    selled: Boolean,
+    sold: Boolean,
     date: String,
     type_vehicle: String,
     id_seller: {
