@@ -509,7 +509,7 @@ sellerRouter.get("/allBrands", async (req: Request, res: Response) => {
 
 });
 
-sellerRouter.post('/buyCar', async (req: Request, res: Response) => {
+sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
     const responseJson: ResponseModel = new ResponseModel();
     
     const { id_vehicle, id_seller } = req.body;
@@ -555,7 +555,7 @@ sellerRouter.post('/buyCar', async (req: Request, res: Response) => {
 
 })
 
-sellerRouter.post('/approveBuyCar', async (req: Request, res: Response) => {
+sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_vehicle } = req.body;
@@ -576,7 +576,7 @@ sellerRouter.post('/approveBuyCar', async (req: Request, res: Response) => {
     res.json(reponseJson);
 });
 
-sellerRouter.post('/rejectBuyCar', async (req: Request, res: Response) => {
+sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_vehicle } = req.body;
