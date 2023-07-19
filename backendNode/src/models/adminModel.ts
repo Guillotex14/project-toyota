@@ -4,6 +4,7 @@ export class AddSellerModel{
     public username!: string;
     public fullName!: string;
     public city!: string;
+    public phone!: string;
     public concesionary!: string;
     
 }
