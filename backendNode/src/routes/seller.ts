@@ -77,7 +77,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
 
     const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, type_vehicle,images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, selled: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
 
     // id_seller_buyer: {$unset: null}
     // id_seller_buyer:null
@@ -255,7 +255,7 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
     const {id_seller} = req.body;
     
-    const ress = await vehicles.find({mechanicalFile:true,selled:false,id_seller:{$ne: id_seller}}).then((res:any) => {
+    const ress = await vehicles.find({mechanicalFile:true,sold:false,id_seller:{$ne: id_seller}}).then((res:any) => {
         console.log("carros a la venta", res)
         if (res) {
             jsonRes.code = 200;

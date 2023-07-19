@@ -19,7 +19,7 @@ adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
         message: "",
         status: false,
     };
-    const ress = await Vehicles.find({selled: false}).then((res:any) => {
+    const ress = await Vehicles.find({sold: false}).then((res:any) => {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
