@@ -345,12 +345,10 @@ sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respon
         jsonRes.message = "success";
         jsonRes.status = true;
         jsonRes.data = ress;
-        return jsonRes;
     }else{
         jsonRes.code = 400;
         jsonRes.message = "no existe";
         jsonRes.status = false;
-        return jsonRes;
     }
 
     res.json(jsonRes);
