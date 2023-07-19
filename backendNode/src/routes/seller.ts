@@ -418,6 +418,31 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
 
 });
 
+sellerRouter.post("/mechanicByConcesionary", async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+    const {concesionary} = req.body;
+
+    const ress = await mechanics.find({concesionary: concesionary}).then((res:any) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        } else if (!res) {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err: any) => {
+        console.log(err)
+    });
+
+    res.json(ress);
+
+});
+
 sellerRouter.get("/allZones", async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const ress = await zones.find().then((res:any) => {
