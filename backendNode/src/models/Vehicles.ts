@@ -20,7 +20,7 @@ const vehicleSchema = new Schema({
     comfort: String,
     technology: String,
     mechanicalFile: Boolean,
-    selled: Boolean,
+    sold: Boolean,
     date: String,
     type_vehicle: String,
     id_seller: {
