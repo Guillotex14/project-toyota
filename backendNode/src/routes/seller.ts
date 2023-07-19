@@ -510,7 +510,7 @@ sellerRouter.get("/allBrands", async (req: Request, res: Response) => {
 });
 
 sellerRouter.post('/buyCar', async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
+    const responseJson: ResponseModel = new ResponseModel();
     
     const { id_vehicle, id_seller } = req.body;
 
@@ -547,6 +547,11 @@ sellerRouter.post('/buyCar', async (req: Request, res: Response) => {
         };
     });
 
+    responseJson.code = 200;
+    responseJson.message = "success";
+    responseJson.status = true;
+
+    res.json(responseJson);
 
 })
 
