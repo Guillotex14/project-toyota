@@ -255,7 +255,7 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
     const {id_seller} = req.body;
     
-    const ress = await vehicles.find({mechanicalFile:true,sold:false,id_seller:{$ne: id_seller}}).then((res:any) => {
+    const ress = await vehicles.find({mechanicalFile:true,sold:false,id_seller:{$ne: id_seller}, id_seller_buyer: null}).then((res:any) => {
         console.log("carros a la venta", res)
         if (res) {
             jsonRes.code = 200;
