@@ -8,6 +8,7 @@ import { ResponseModel } from "../models/Response";
 import { AddSellerModel } from "../models/adminModel";
 import mechanicalsFiles from "../models/mechanicalsFiles";
 import moment from "moment";
+import brands from "../models/brands";
 
 const adminRouter = Router();
 
@@ -287,6 +288,25 @@ adminRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respons
         jsonRes.status = false;
         return jsonRes;
     }
+
+    res.json(jsonRes);
+
+});
+
+adminRouter.post("/addBrand", async (req: Request, res: Response) => {
+    
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const {name} = req.body;
+
+    const newBrand = new brands({name: name});
+
+    await newBrand.save();
+
+    jsonRes.code = 200;
+    jsonRes.message = "Marca agregada exitosamente";
+    jsonRes.status = true;
+    jsonRes.data = "";
 
     res.json(jsonRes);
 
