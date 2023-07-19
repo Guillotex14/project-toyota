@@ -28,7 +28,7 @@ adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, 
         message: "",
         status: false,
     };
-    const ress = yield Vehicles_1.default.find({ selled: false }).then((res) => {
+    const ress = yield Vehicles_1.default.find({ sold: false }).then((res) => {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";

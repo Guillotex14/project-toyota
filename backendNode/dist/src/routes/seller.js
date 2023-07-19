@@ -75,7 +75,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, type_vehicle, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, selled: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
     // id_seller_buyer: {$unset: null}
     // id_seller_buyer:null
     yield newVehicle.save();
@@ -192,7 +192,7 @@ sellerRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, 
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, selled: false, id_seller: { $ne: id_seller } }).then((res) => {
+    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, sold: false, id_seller: { $ne: id_seller }, id_seller_buyer: null }).then((res) => {
         console.log("carros a la venta", res);
         if (res) {
             jsonRes.code = 200;
@@ -260,23 +260,21 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
     res.json(jsonRes);
 }));
 sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = new Response_1.ResponseModel();
+    const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const ress = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
-    if (ress) {
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
-        jsonRes.data = ress;
-        return jsonRes;
+    const mecFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
+    if (mecFile) {
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Ficha mecanica encontrada";
+        reponseJson.data = mecFile;
     }
     else {
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
-        return jsonRes;
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se encontro la ficha mecanica";
     }
-    res.json(jsonRes);
+    res.json(reponseJson);
 }));
 sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
@@ -329,6 +327,28 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
             return responseJson;
         }
     })).catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
+}));
+sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const { concesionary } = req.body;
+    const ress = yield Mechanics_1.default.find({ concesionary: concesionary }).then((res) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        }
+        else if (!res) {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err) => {
         console.log(err);
     });
     res.json(ress);
@@ -397,8 +417,8 @@ sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     res.json(jsonResponse);
 }));
-sellerRouter.post('/buyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
+sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const responseJson = new Response_1.ResponseModel();
     const { id_vehicle, id_seller } = req.body;
     const dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller });
@@ -427,11 +447,15 @@ sellerRouter.post('/buyCar', (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
         ;
     });
+    responseJson.code = 200;
+    responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
+    responseJson.status = true;
+    res.json(responseJson);
 }));
-sellerRouter.post('/approveBuyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { selled: true });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { sold: true });
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
@@ -445,10 +469,10 @@ sellerRouter.post('/approveBuyCar', (req, res) => __awaiter(void 0, void 0, void
     }
     res.json(reponseJson);
 }));
-sellerRouter.post('/rejectBuyCar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: null, selled: false });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: null, sold: false });
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
