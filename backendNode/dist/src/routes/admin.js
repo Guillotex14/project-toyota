@@ -20,6 +20,7 @@ const Sellers_1 = __importDefault(require("../models/Sellers"));
 const Response_1 = require("../models/Response");
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const moment_1 = __importDefault(require("moment"));
+const brands_1 = __importDefault(require("../models/brands"));
 const adminRouter = (0, express_1.Router)();
 adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = {
@@ -108,7 +109,7 @@ adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, f
     const reqAdd = req.body;
     const hash = yield bcrypt_1.default.hash(reqAdd.password, 10);
     const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
-    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary, date_created: date_created });
+    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone });
     yield newUser.save().then((res) => {
         if (res) {
             newSeller.id_user = res._id;
@@ -257,6 +258,17 @@ adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, v
         jsonRes.status = false;
         return jsonRes;
     }
+    res.json(jsonRes);
+}));
+adminRouter.post("/addBrand", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { name } = req.body;
+    const newBrand = new brands_1.default({ name: name });
+    yield newBrand.save();
+    jsonRes.code = 200;
+    jsonRes.message = "Marca agregada exitosamente";
+    jsonRes.status = true;
+    jsonRes.data = "";
     res.json(jsonRes);
 }));
 exports.default = adminRouter;
