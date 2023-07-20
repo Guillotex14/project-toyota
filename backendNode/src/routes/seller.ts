@@ -12,6 +12,7 @@ import { ResponseModel } from "../models/Response";
 import mechanicalsFiles from "../models/mechanicalsFiles";
 import Sellers from "../models/Sellers";
 import brands from "../models/brands";
+import notifications from "../models/notifications";
 
 const sellerRouter = Router();
 
@@ -120,7 +121,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
         from: 'Toyousado',
         to: emailmechanic,
         subject: 'Revisión de vehiculo',
-        text: 'El vendedor ' + infoSeller.fullName +'del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
+        text: 'El vendedor ' + infoSeller.fullName +' del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -301,7 +302,6 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
 
     res.json(ress);
 });
-
 
 sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
 
@@ -524,6 +524,8 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
 
     const email = await Users.findById(infoSeller!.id_user);
 
+    const emailBuyer = await Users.findById(infoBuyer!.id_user);
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -536,7 +538,7 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
         from: 'Toyousado Notifications',
         to: email!.email,
         subject: 'Compra de vehiculo',
-        text: `el vendedor ${infoBuyer!.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor`,
+        text: `el vendedor ${infoBuyer!.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${emailBuyer!.email} o al numero telefono ${infoBuyer!.phone}`,
     }
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -546,6 +548,8 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
             console.log('Email sent: ' + info.response);
         };
     });
+
+    sendNotification(infoSeller!._id.toString(), mailOptions.text)
 
     responseJson.code = 200;
     responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
@@ -562,11 +566,45 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
 
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {sold: true});
 
+    const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
+
+    const userbuyer = await Users.findById(infoBuyer!.id_user);
+
+    const infoSeller = await Sellers.findById(vehicle!.id_seller);
+
+    const userSeller = await Users.findById(infoSeller!.id_user);
+
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'jefersonmujica@gmail.com',
+                pass: 'qtthfkossxcahyzo',
+            },
+        });
+    
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: userbuyer!.email,
+            subject: 'Compra de vehiculo aprobada',
+            text: `Tu compra del vehiculo ${vehicle!.model} del concesionario ${vehicle!.concesionary} ha sido aprobada, para mas información comunicate con el vendedor al correo ${userSeller!.email} o al numero telefono ${infoSeller!.phone}`,
+        }
+    
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            };
+        });
+
+        sendNotification(userbuyer!._id.toString(), mailOptions.text)
+
     }else{
         reponseJson.code = 400;
         reponseJson.message = "no existe";
@@ -583,11 +621,45 @@ sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
 
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: null, sold: false});
     
+    const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
+
+    const userbuyer = await Users.findById(infoBuyer!.id_user);
+
+    const infoSeller = await Sellers.findById(vehicle!.id_seller);
+
+    const userSeller = await Users.findById(infoSeller!.id_user);
+
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'jefersonmujica@gmail.com',
+                pass: 'qtthfkossxcahyzo',
+            },
+        });
+    
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: userbuyer!.email,
+            subject: 'Compra de vehiculo rechazada',
+            text: `Tu compra del vehiculo ${vehicle!.model} del concesionario ${vehicle!.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller!.email} o al numero telefono ${infoSeller!.phone}`,
+        }
+    
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            };
+        });
+
+        sendNotification(userbuyer!._id.toString(), mailOptions.text)
+
     }else{
         reponseJson.code = 400;
         reponseJson.message = "no existe";
@@ -598,6 +670,24 @@ sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
 
 });
 
+const sendNotification = async (id_seller:string, message: string) => {
+    // const jsonRes: ResponseModel = new ResponseModel();
+
+    const userInfo = await Sellers.findOne({_id: id_seller});
+
+    if(userInfo){
+        const notify = new notifications({
+            id_user: userInfo.id_user,
+            message: message,
+            date: moment().format('YYYY-MM-DD HH:mm:ss')
+        });
+
+        await notify.save();
+
+
+    }
+
+}
 
 function saveImage(img: any,imgname: any) {
     let posr = img.split(';')[0];

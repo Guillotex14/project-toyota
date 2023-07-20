@@ -192,7 +192,7 @@ sellerRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, 
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, sold: false, id_seller: { $ne: id_seller }, id_seller_buyer: null }).then((res) => {
+    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, sold: false, id_seller: { $ne: id_seller } }).then((res) => {
         console.log("carros a la venta", res);
         if (res) {
             jsonRes.code = 200;
