@@ -514,8 +514,6 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
     
     const { id_vehicle, id_seller } = req.body;
 
-    const dateNow = moment().format('YYYY-MM-DD');
-
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller})
 
     const getVehicle = await vehicles.findById(id_vehicle);
@@ -551,7 +549,7 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
         };
     });
 
-    sendNotification(infoSeller!._id.toString(), mailOptions.text)
+    sendNotification(infoSeller!._id.toString(), mailOptions.text, mailOptions.subject)
 
     responseJson.code = 200;
     responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
@@ -605,7 +603,7 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
             };
         });
 
-        sendNotification(userbuyer!._id.toString(), mailOptions.text)
+        sendNotification(userbuyer!._id.toString(), mailOptions.text, mailOptions.subject)
 
     }else{
         reponseJson.code = 400;
@@ -660,7 +658,7 @@ sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
             };
         });
 
-        sendNotification(userbuyer!._id.toString(), mailOptions.text)
+        sendNotification(userbuyer!._id.toString(), mailOptions.text, mailOptions.subject)
 
     }else{
         reponseJson.code = 400;
@@ -672,7 +670,49 @@ sellerRouter.post('/rejectBuyVehicle', async (req: Request, res: Response) => {
 
 });
 
-const sendNotification = async (id_seller:string, message: string) => {
+sellerRouter.post('/getNotifications', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id_user } = req.body;
+
+    const notificationsUser = await notifications.find({id_user: id_user, status: false});
+
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+});
+
+sellerRouter.post('/updateNotification', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id } = req.body;
+
+    const notificationsUser = await notifications.findByIdAndUpdate(id, {status: true});
+
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+});
+
+const sendNotification = async (id_seller:string, message: string, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
 
     const userInfo = await Sellers.findOne({_id: id_seller});
@@ -680,8 +720,10 @@ const sendNotification = async (id_seller:string, message: string) => {
     if(userInfo){
         const notify = new notifications({
             id_user: userInfo.id_user,
+            title: title,
             message: message,
-            date: moment().format('YYYY-MM-DD HH:mm:ss')
+            date: moment().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
         });
 
         await notify.save();
