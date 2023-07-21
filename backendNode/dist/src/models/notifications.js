@@ -5,6 +5,7 @@ const notificationsSchema = new mongoose_1.Schema({
     id_user: {
         type: mongoose_1.Schema.Types.ObjectId,
     },
+    title: String,
     message: String,
     date: String,
     status: Boolean,

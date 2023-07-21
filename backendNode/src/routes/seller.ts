@@ -712,6 +712,29 @@ sellerRouter.post('/updateNotification', async (req: Request, res: Response) => 
     res.json(reponseJson);
 });
 
+sellerRouter.post('/countNotifications', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id_user } = req.body;
+
+    const countNotifies = await notifications.countDocuments({id_user: id_user, status: false});
+
+    if (countNotifies) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = countNotifies;
+    }else{
+
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+
+});
+
 const sendNotification = async (id_seller:string, message: string, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
 

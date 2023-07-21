@@ -89,6 +89,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     let infoMechanic = {};
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
     let messageNotification = "";
+    let title = "";
     const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, Stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
     const newMechanicFile = new mechanicalsFiles_1.default({
         part_emblems_complete,
@@ -184,6 +185,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
                 ;
             });
             messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`;
+            title = "Ficha mecanica Rechazada";
         }
         if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {
             const mailOptions = {
@@ -202,8 +204,9 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
                 ;
             });
             messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`;
+            title = "Ficha mecanica creada";
         }
-        sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), messageNotification);
+        sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), messageNotification, title);
     }
     else {
         reponseJson.code = 400;
@@ -229,14 +232,16 @@ mechanicRouter.post('/getVehicles', (req, res) => __awaiter(void 0, void 0, void
     }
     res.json(reponseJson);
 }));
-const sendNotification = (id_seller, message) => __awaiter(void 0, void 0, void 0, function* () {
+const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
     if (userInfo) {
         const notify = new notifications_1.default({
             id_user: userInfo.id_user,
+            title: title,
             message: message,
-            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss')
+            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
         });
         yield notify.save();
     }
