@@ -421,7 +421,6 @@ sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, f
 sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
     const { id_vehicle, id_seller } = req.body;
-    const dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller });
     const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
     const infoBuyer = yield Sellers_1.default.findById(id_seller);
@@ -450,7 +449,7 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
         }
         ;
     });
-    sendNotification(infoSeller._id.toString(), mailOptions.text);
+    sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
     responseJson.code = 200;
     responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
@@ -491,7 +490,7 @@ sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, 
             }
             ;
         });
-        sendNotification(userbuyer._id.toString(), mailOptions.text);
+        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
         reponseJson.code = 400;
@@ -535,7 +534,7 @@ sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, v
             }
             ;
         });
-        sendNotification(userbuyer._id.toString(), mailOptions.text);
+        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
         reponseJson.code = 400;
@@ -544,14 +543,50 @@ sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, v
     }
     res.json(reponseJson);
 }));
-const sendNotification = (id_seller, message) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post('/getNotifications', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user } = req.body;
+    const notificationsUser = yield notifications_1.default.find({ id_user: id_user, status: false });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post('/updateNotification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const notificationsUser = yield notifications_1.default.findByIdAndUpdate(id, { status: true });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
     if (userInfo) {
         const notify = new notifications_1.default({
             id_user: userInfo.id_user,
+            title: title,
             message: message,
-            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss')
+            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
         });
         yield notify.save();
     }
