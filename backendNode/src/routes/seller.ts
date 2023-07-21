@@ -516,11 +516,13 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
 
     const dateNow = moment().format('YYYY-MM-DD');
 
-    const vehicle= await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller});
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller})
+
+    const getVehicle = await vehicles.findById(id_vehicle);
 
     const infoBuyer = await Sellers.findById(id_seller);
 
-    const infoSeller = await Sellers.findById(vehicle!.id_seller);
+    const infoSeller = await Sellers.findById(getVehicle!.id_seller);
 
     const email = await Users.findById(infoSeller!.id_user);
 
