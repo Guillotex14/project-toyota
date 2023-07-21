@@ -90,6 +90,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     let infoMechanic:any = {};
     let dateNow = moment().format('YYYY-MM-DD');
     let messageNotification = "";
+    let title = "";
 
     const {
         part_emblems_complete,
@@ -240,6 +241,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             });
 
             messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`;
+            title = "Ficha mecanica Rechazada";
         }
 
         if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
@@ -259,9 +261,10 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             });
 
             messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`;
+            title = "Ficha mecanica creada";
         }
 
-        sendNotification(vehicle!.id_seller?.toString()!, messageNotification);
+        sendNotification(vehicle!.id_seller?.toString()!, messageNotification, title);
 
     }else{
         reponseJson.code = 400;
@@ -294,7 +297,7 @@ mechanicRouter.post('/getVehicles', async (req: Request, res: Response) => {
 
 });
 
-const sendNotification = async (id_seller:string, message: string) => {
+const sendNotification = async (id_seller:string, message: string, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
 
     const userInfo = await sellers.findOne({_id: id_seller});
@@ -302,8 +305,10 @@ const sendNotification = async (id_seller:string, message: string) => {
     if(userInfo){
         const notify = new notifications({
             id_user: userInfo.id_user,
+            title: title,
             message: message,
-            date: moment().format('YYYY-MM-DD HH:mm:ss')
+            date: moment().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
         });
 
         await notify.save();

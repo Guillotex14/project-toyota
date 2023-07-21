@@ -25,6 +25,7 @@ const Response_1 = require("../models/Response");
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const brands_1 = __importDefault(require("../models/brands"));
+const notifications_1 = __importDefault(require("../models/notifications"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -110,7 +111,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: 'Toyousado',
         to: emailmechanic,
         subject: 'Revisión de vehiculo',
-        text: 'El vendedor ' + infoSeller.fullName + 'del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
+        text: 'El vendedor ' + infoSeller.fullName + ' del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -422,9 +423,11 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
     const { id_vehicle, id_seller } = req.body;
     const dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller });
+    const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
     const infoBuyer = yield Sellers_1.default.findById(id_seller);
-    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
+    const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
     const email = yield Users_1.default.findById(infoSeller.id_user);
+    const emailBuyer = yield Users_1.default.findById(infoBuyer.id_user);
     const transporter = nodemailer_1.default.createTransport({
         service: 'gmail',
         auth: {
@@ -436,7 +439,7 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
         from: 'Toyousado Notifications',
         to: email.email,
         subject: 'Compra de vehiculo',
-        text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor`,
+        text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al numero telefono ${infoBuyer.phone}`,
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -447,6 +450,7 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
         }
         ;
     });
+    sendNotification(infoSeller._id.toString(), mailOptions.text);
     responseJson.code = 200;
     responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
@@ -456,11 +460,38 @@ sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, 
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { sold: true });
+    const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
+    const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
+    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
+    const userSeller = yield Users_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
+        const transporter = nodemailer_1.default.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'jefersonmujica@gmail.com',
+                pass: 'qtthfkossxcahyzo',
+            },
+        });
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: userbuyer.email,
+            subject: 'Compra de vehiculo aprobada',
+            text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aprobada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+            ;
+        });
+        sendNotification(userbuyer._id.toString(), mailOptions.text);
     }
     else {
         reponseJson.code = 400;
@@ -473,11 +504,38 @@ sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: null, sold: false });
+    const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
+    const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
+    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
+    const userSeller = yield Users_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
+        const transporter = nodemailer_1.default.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'jefersonmujica@gmail.com',
+                pass: 'qtthfkossxcahyzo',
+            },
+        });
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: userbuyer.email,
+            subject: 'Compra de vehiculo rechazada',
+            text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+            ;
+        });
+        sendNotification(userbuyer._id.toString(), mailOptions.text);
     }
     else {
         reponseJson.code = 400;
@@ -486,6 +544,18 @@ sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, v
     }
     res.json(reponseJson);
 }));
+const sendNotification = (id_seller, message) => __awaiter(void 0, void 0, void 0, function* () {
+    // const jsonRes: ResponseModel = new ResponseModel();
+    const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
+    if (userInfo) {
+        const notify = new notifications_1.default({
+            id_user: userInfo.id_user,
+            message: message,
+            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss')
+        });
+        yield notify.save();
+    }
+});
 function saveImage(img, imgname) {
     let posr = img.split(';')[0];
     let base64 = img.split(';base64,').pop();
