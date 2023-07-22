@@ -712,6 +712,27 @@ sellerRouter.post('/updateNotification', async (req: Request, res: Response) => 
     res.json(reponseJson);
 });
 
+sellerRouter.post('/notificationById', async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { id } = req.body;
+
+    const notificationsUser = await notifications.findById(id);
+
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+});
+
 sellerRouter.post('/countNotifications', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
