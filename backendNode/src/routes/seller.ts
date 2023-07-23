@@ -763,6 +763,8 @@ sellerRouter.post('/getVehicleByType', async (req: Request, res: Response) => {
 
     const arrayVehicles = await vehicles.find({type_vehicle: type_vehicle, mechanicalFile: true, sold: false, id_seller_buyer: null});
 
+    console.log("arrayVehicles", arrayVehicles)
+    
     if (arrayVehicles) {
         reponseJson.code = 200;
         reponseJson.message = "success";
