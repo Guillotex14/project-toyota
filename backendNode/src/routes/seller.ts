@@ -79,9 +79,6 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, type_vehicle,images} = req.body;
 
     const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
-
-    // id_seller_buyer: {$unset: null}
-    // id_seller_buyer:null
     
     await newVehicle.save()
 
@@ -131,6 +128,8 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
             console.log('Email sent: ' + info.response);
         }
     });
+
+    sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
 
     reponseJson.code = 200;
     reponseJson.message = "Vehiculo agregado exitosamente";
@@ -756,6 +755,28 @@ sellerRouter.post('/countNotifications', async (req: Request, res: Response) => 
 
 });
 
+sellerRouter.post('/getVehicleByType', async (req: Request, res: Response) => {
+
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { type_vehicle } = req.body;
+
+    const arrayVehicles = await vehicles.find({type_vehicle: type_vehicle, mechanicalFile: true, sold: false, id_seller_buyer: null});
+
+    if (arrayVehicles) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = arrayVehicles;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+});
+
 const sendNotification = async (id_seller:string, message: string, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
 
@@ -773,6 +794,25 @@ const sendNotification = async (id_seller:string, message: string, title: string
         await notify.save();
 
 
+    }
+
+}
+
+const sendNotificationMechanic = async (id_mechanic:string, message: string, title: string) => {
+    // const jsonRes: ResponseModel = new ResponseModel();
+
+    const userInfo = await mechanics.findOne({_id: id_mechanic});
+
+    if(userInfo){
+        const notify = new notifications({
+            id_user: userInfo.id_user,
+            title: title,
+            message: message,
+            date: moment().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
+        });
+
+        await notify.save();
     }
 
 }
