@@ -77,8 +77,6 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, type_vehicle, images } = req.body;
     const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
-    // id_seller_buyer: {$unset: null}
-    // id_seller_buyer:null
     yield newVehicle.save();
     yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
@@ -121,6 +119,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             console.log('Email sent: ' + info.response);
         }
     });
+    sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
     reponseJson.code = 200;
     reponseJson.message = "Vehiculo agregado exitosamente";
     reponseJson.status = true;
@@ -611,9 +610,41 @@ sellerRouter.post('/countNotifications', (req, res) => __awaiter(void 0, void 0,
     }
     res.json(reponseJson);
 }));
+sellerRouter.post('/getVehicleByType', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { type_vehicle } = req.body;
+    const arrayVehicles = yield Vehicles_1.default.find({ type_vehicle: type_vehicle, mechanicalFile: true, sold: false, id_seller_buyer: null });
+    console.log("arrayVehicles", arrayVehicles);
+    if (arrayVehicles) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = arrayVehicles;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
 const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
+    if (userInfo) {
+        const notify = new notifications_1.default({
+            id_user: userInfo.id_user,
+            title: title,
+            message: message,
+            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
+            status: false
+        });
+        yield notify.save();
+    }
+});
+const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void 0, void 0, void 0, function* () {
+    // const jsonRes: ResponseModel = new ResponseModel();
+    const userInfo = yield Mechanics_1.default.findOne({ _id: id_mechanic });
     if (userInfo) {
         const notify = new notifications_1.default({
             id_user: userInfo.id_user,
