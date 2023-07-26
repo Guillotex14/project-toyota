@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, response } from 'express';
 import { ResponseModel } from '../models/Response';
 import moment from 'moment';
 
@@ -50,10 +50,85 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
     const {id} = req.body;
 
     const vehicle = await vehicles.findOne({_id: id});
+    const mechanicFile = await mechanicalsFiles.findOne({id_vehicle: id});
     if(vehicle){
-        reponseJson.code = 200;
-        reponseJson.status = true;
-        reponseJson.data = vehicle;
+        
+        if (mechanicFile) {
+
+            let data = {
+                _id: vehicle._id,
+                model: vehicle.model,
+                year: vehicle.year,
+                brand: vehicle.brand,
+                displacement: vehicle.displacement,
+                km: vehicle.km,
+                engine_model: vehicle.engine_model,
+                titles: vehicle.titles,
+                fuel: vehicle.fuel,
+                transmission: vehicle.transmission,
+                transmission_2: vehicle.transmission_2,
+                city: vehicle.city,
+                dealer: vehicle.dealer,
+                concesionary: vehicle.concesionary,
+                traction_control: vehicle.traction_control,
+                performance: vehicle.performance,
+                price: vehicle.price,
+                comfort: vehicle.comfort,
+                technology: vehicle.technology,
+                mechanicalFile: vehicle.mechanicalFile,
+                sold: vehicle.sold,
+                date: vehicle.date,
+                type_vehicle: vehicle.type_vehicle,
+                id_seller: vehicle.id_seller,
+                id_mechanic: vehicle.id_mechanic,
+                id_seller_buyer: vehicle.id_seller_buyer,
+                general_condition: mechanicFile.general_condition
+            }
+
+            reponseJson.code = 200;
+            reponseJson.status = true;
+            reponseJson.message = "Vehiculo encontrado";
+            reponseJson.data = data;
+
+        }else{
+            let data = {
+                _id: vehicle._id,
+                model: vehicle.model,
+                year: vehicle.year,
+                brand: vehicle.brand,
+                displacement: vehicle.displacement,
+                km: vehicle.km,
+                engine_model: vehicle.engine_model,
+                titles: vehicle.titles,
+                fuel: vehicle.fuel,
+                transmission: vehicle.transmission,
+                transmission_2: vehicle.transmission_2,
+                city: vehicle.city,
+                dealer: vehicle.dealer,
+                concesionary: vehicle.concesionary,
+                traction_control: vehicle.traction_control,
+                performance: vehicle.performance,
+                price: vehicle.price,
+                comfort: vehicle.comfort,
+                technology: vehicle.technology,
+                mechanicalFile: vehicle.mechanicalFile,
+                sold: vehicle.sold,
+                date: vehicle.date,
+                type_vehicle: vehicle.type_vehicle,
+                id_seller: vehicle.id_seller,
+                id_mechanic: vehicle.id_mechanic,
+                id_seller_buyer: vehicle.id_seller_buyer,
+                general_condition: ""
+            }
+
+            reponseJson.code = 200;
+            reponseJson.status = true;
+            reponseJson.message = "Vehiculo encontrado";
+            reponseJson.data = data;
+        }
+
+
+
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
