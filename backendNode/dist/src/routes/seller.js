@@ -238,15 +238,55 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
-    console.log("id", id);
     const ress = yield Vehicles_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(res);
         if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            jsonRes.data = res;
-            return jsonRes;
+            yield mechanicalsFiles_1.default.findOne({ id_vehicle: res._id }).then((res2) => {
+                if (res2) {
+                    let vehicle = {
+                        _id: res._id,
+                        model: res.model,
+                        year: res.year,
+                        brand: res.brand,
+                        displacement: res.displacement,
+                        km: res.km,
+                        engine_model: res.engine_model,
+                        titles: res.titles,
+                        fuel: res.fuel,
+                        transmission: res.transmission,
+                        transmission_2: res.transmission_2,
+                        city: res.city,
+                        dealer: res.dealer,
+                        concesionary: res.concesionary,
+                        traction_control: res.traction_control,
+                        performance: res.performance,
+                        price: res.price,
+                        comfort: res.comfort,
+                        technology: res.technology,
+                        mechanicalFile: res.mechanicalFile,
+                        sold: res.sold,
+                        date: res.date,
+                        type_vehicle: res.type_vehicle,
+                        id_seller: res.id_seller,
+                        id_mechanic: res.id_mechanic,
+                        id_seller_buyer: res.id_seller_buyer,
+                        general_condition: res2.general_condition
+                    };
+                    jsonRes.code = 200;
+                    jsonRes.message = "success";
+                    jsonRes.status = true;
+                    jsonRes.data = vehicle;
+                    return jsonRes;
+                }
+                else {
+                    jsonRes.code = 400;
+                    jsonRes.message = "no existe";
+                    jsonRes.status = false;
+                    return jsonRes;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         }
         else if (!res) {
             jsonRes.code = 400;
@@ -614,7 +654,6 @@ sellerRouter.post('/getVehicleByType', (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { type_vehicle } = req.body;
     const arrayVehicles = yield Vehicles_1.default.find({ type_vehicle: type_vehicle, mechanicalFile: true, sold: false, id_seller_buyer: null });
-    console.log("arrayVehicles", arrayVehicles);
     if (arrayVehicles) {
         reponseJson.code = 200;
         reponseJson.message = "success";

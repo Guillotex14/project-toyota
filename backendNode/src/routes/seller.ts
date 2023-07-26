@@ -308,16 +308,58 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
 
     const {id} = req.body;
 
-    console.log("id", id)
-
     const ress = await vehicles.findOne({_id: id}).then(async (res:any) => {
         console.log(res)
         if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            jsonRes.data = res;
-            return jsonRes;
+            await mechanicalsFiles.findOne({id_vehicle: res._id}).then((res2:any) => {
+                if (res2) {
+
+                    let vehicle = {
+                        _id: res._id,
+                        model: res.model,
+                        year: res.year,
+                        brand: res.brand,
+                        displacement: res.displacement,
+                        km: res.km,
+                        engine_model: res.engine_model,
+                        titles: res.titles,
+                        fuel: res.fuel,
+                        transmission: res.transmission,
+                        transmission_2: res.transmission_2,
+                        city: res.city,
+                        dealer: res.dealer,
+                        concesionary: res.concesionary,
+                        traction_control: res.traction_control,
+                        performance: res.performance,
+                        price: res.price,
+                        comfort: res.comfort,
+                        technology: res.technology,
+                        mechanicalFile: res.mechanicalFile,
+                        sold: res.sold,
+                        date: res.date,
+                        type_vehicle: res.type_vehicle,
+                        id_seller: res.id_seller,
+                        id_mechanic: res.id_mechanic,
+                        id_seller_buyer: res.id_seller_buyer,
+                        general_condition: res2.general_condition
+                    }
+
+                    jsonRes.code = 200;
+                    jsonRes.message = "success";
+                    jsonRes.status = true;
+                    jsonRes.data = vehicle;
+                    return jsonRes;
+                }else{
+                    jsonRes.code = 400;
+                    jsonRes.message = "no existe";
+                    jsonRes.status = false;
+                    return jsonRes;
+                }
+
+            }).catch((err: any) => {
+                console.log(err)
+            });
+
         } else if (!res) {
             jsonRes.code = 400;
             jsonRes.message = "no existe";
@@ -762,8 +804,6 @@ sellerRouter.post('/getVehicleByType', async (req: Request, res: Response) => {
     const { type_vehicle } = req.body;
 
     const arrayVehicles = await vehicles.find({type_vehicle: type_vehicle, mechanicalFile: true, sold: false, id_seller_buyer: null});
-
-    console.log("arrayVehicles", arrayVehicles)
     
     if (arrayVehicles) {
         reponseJson.code = 200;
