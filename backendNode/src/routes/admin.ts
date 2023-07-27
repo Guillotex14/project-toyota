@@ -13,29 +13,22 @@ import brands from "../models/brands";
 const adminRouter = Router();
 
 adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
-    const ress = await Vehicles.find({sold: false}).then((res:any) => {
-        if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            jsonRes.data = res;
-            return jsonRes;
-        } else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    }).catch((err: any) => {
-        console.log(err)
-    });
-    res.json(ress);
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const listVehicles = await Vehicles.find({sold: false}).sort({date: -1});
+
+    if (listVehicles) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = listVehicles;
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
+
+    res.json(jsonRes);
 });
 
 adminRouter.get("/allSellers", async (req: Request, res: Response) => {

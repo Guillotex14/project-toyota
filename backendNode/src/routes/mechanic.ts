@@ -16,7 +16,7 @@ mechanicRouter.post("/inspections", async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_mechanic} = req.body;
 
-    const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false});
+    const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false}).sort({date: -1});
     if(vehiclesList.length > 0){
         reponseJson.code = 200;
         reponseJson.status = true;
