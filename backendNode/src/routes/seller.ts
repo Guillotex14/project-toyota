@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import moment from "moment";
+import multer from 'multer';
 
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
@@ -97,14 +98,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
         console.log(err)
     });
 
-    await Sellers.findOne({_id: id_seller}).then((res:any) => {
-        if (res) {
-            infoSeller = res;
-        }
-    }).catch((err: any) => {
-        console.log(err)
-    });
-    
+    infoSeller = await Sellers.findOne({_id: id_seller})
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -118,7 +112,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
         from: 'Toyousado',
         to: emailmechanic,
         subject: 'Revisión de vehiculo',
-        text: 'El vendedor ' + infoSeller.fullName +' del concesionario ' + infoSeller.concesionary + ' de la ciudad de ' + infoSeller.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
+        text: 'El vendedor ' + infoSeller!.fullName +' del concesionario ' + infoSeller!.concesionary + ' de la ciudad de ' + infoSeller!.city + ' ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo',
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -309,7 +303,7 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
     const {id} = req.body;
 
     const ress = await vehicles.findOne({_id: id}).then(async (res:any) => {
-        console.log(res)
+        
         if (res) {
             await mechanicalsFiles.findOne({id_vehicle: res._id}).then((res2:any) => {
                 if (res2) {
@@ -871,6 +865,7 @@ function saveImage(img: any,imgname: any) {
     return imgname + "." + type;
 
 }
+
 
 // public function uploadBase64($image, $name)
 //     {
