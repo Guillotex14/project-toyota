@@ -127,8 +127,6 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
             reponseJson.data = data;
         }
 
-
-
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;

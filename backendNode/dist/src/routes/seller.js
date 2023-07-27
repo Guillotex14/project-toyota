@@ -91,13 +91,9 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     })).catch((err) => {
         console.log(err);
     });
-    yield Sellers_1.default.findOne({ _id: id_seller }).then((res) => {
-        if (res) {
-            infoSeller = res;
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
+    infoSeller = yield Sellers_1.default.findOne({ _id: id_seller });
+    console.log(infoSeller);
+    return;
     const transporter = nodemailer_1.default.createTransport({
         service: 'gmail',
         auth: {
@@ -239,7 +235,6 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
     const ress = yield Vehicles_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(res);
         if (res) {
             yield mechanicalsFiles_1.default.findOne({ id_vehicle: res._id }).then((res2) => {
                 if (res2) {
