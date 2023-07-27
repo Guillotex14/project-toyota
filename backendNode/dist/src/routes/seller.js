@@ -76,7 +76,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, type_vehicle, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
     yield newVehicle.save();
     yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
@@ -92,8 +92,6 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         console.log(err);
     });
     infoSeller = yield Sellers_1.default.findOne({ _id: id_seller });
-    console.log(infoSeller);
-    return;
     const transporter = nodemailer_1.default.createTransport({
         service: 'gmail',
         auth: {
