@@ -249,7 +249,7 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
     const {id_seller} = req.body;
     
-    const ress = await vehicles.find({mechanicalFile:true,sold:false,id_seller:{$ne: id_seller}}).then((res:any) => {
+    const ress = await vehicles.find({mechanicalFile:true,sold:false,id_seller:{$ne: id_seller},price:{$ne:null}}).sort({date:-1}).then((res:any) => {
         console.log("carros a la venta", res)
         if (res) {
             jsonRes.code = 200;
@@ -710,7 +710,7 @@ sellerRouter.post('/getNotifications', async (req: Request, res: Response) => {
 
     const { id_user } = req.body;
 
-    const notificationsUser = await notifications.find({id_user: id_user, status: false});
+    const notificationsUser = await notifications.find({id_user: id_user, status: false}).sort({date: -1});
 
     if (notificationsUser) {
         reponseJson.code = 200;

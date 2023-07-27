@@ -353,7 +353,7 @@ mechanicRouter.post('/getVehicles', async (req: Request, res: Response) => {
 
     const { id_mechanic } = req.body;
 
-    const vehiclesMechanic = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile:true}).sort({date: -1});
+    const vehiclesMechanic = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile:true,price:{$ne:null}}).sort({date: -1});
 
     if(vehiclesMechanic){
         reponseJson.code = 200;
@@ -375,7 +375,7 @@ mechanicRouter.post('/getNotifications', async (req: Request, res: Response) => 
 
     const { id_user } = req.body;
 
-    const notificationsUser = await notifications.find({id_user: id_user, status: false});
+    const notificationsUser = await notifications.find({id_user: id_user, status: false}).sort({date: -1});
 
     if (notificationsUser) {
         reponseJson.code = 200;

@@ -15,7 +15,7 @@ const adminRouter = Router();
 adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 
-    const listVehicles = await Vehicles.find({sold: false}).sort({date: -1});
+    const listVehicles = await Vehicles.find({sold: false,price:{$ne:null}}).sort({date: -1});
 
     if (listVehicles) {
         jsonRes.code = 200;
@@ -36,7 +36,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
     let arraySellers: any[] = [];
     let infoSellers: any[] = [];
 
-    const ress = await Users.find({type_user: "seller"}).then(async (res:any) => {
+    const ress = await Users.find({type_user: "seller"}).sort({date_created:-1}).then(async (res:any) => {
         if (res) {
 
             jsonRes.code = 200;
