@@ -77,9 +77,9 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     let infoSeller: any = {};
     let dateNow = moment().format('DD/MM/YYYY');
 
-    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price,id_seller, id_mechanic, type_vehicle,images} = req.body;
+    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price, id_seller, id_mechanic, type_vehicle, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price:null,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
     
     await newVehicle.save()
 
