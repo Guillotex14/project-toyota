@@ -353,7 +353,7 @@ mechanicRouter.post('/getVehicles', async (req: Request, res: Response) => {
 
     const { id_mechanic } = req.body;
 
-    const vehiclesMechanic = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile:true});
+    const vehiclesMechanic = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile:true}).sort({date: -1});
 
     if(vehiclesMechanic){
         reponseJson.code = 200;
