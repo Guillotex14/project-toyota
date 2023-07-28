@@ -296,48 +296,63 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             }
         });
         
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: mailSeller,
+            subject: 'Ficha mecanica creada',
+            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
+        };
 
-        if (general_condition === "malo") {
-            const mailOptions = {
-                from: 'Toyousado Notifications',
-                to: mailSeller,
-                subject: 'Ficha mecanica Rechazada',
-                text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`,
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
             };
+        });
 
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                };
-            });
 
-            messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}, para mas informacion contacta con el mecanico`;
-            title = "Ficha mecanica Rechazada";
-        }
+        // if (general_condition === "malo") {
+        //     const mailOptions = {
+        //         from: 'Toyousado Notifications',
+        //         to: mailSeller,
+        //         subject: 'Ficha mecanica Rechazada',
+        //         text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`,
+        //     };
 
-        if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
-            const mailOptions = {
-                from: 'Toyousado Notifications',
-                to: mailSeller,
-                subject: 'Ficha mecanica creada',
-                text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`,
-            };
+        //     transporter.sendMail(mailOptions, function(error, info){
+        //         if (error) {
+        //             console.log(error);
+        //         } else {
+        //             console.log('Email sent: ' + info.response);
+        //         };
+        //     });
+
+        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`;
+        //     title = "Ficha mecanica Rechazada";
+        // }
+
+        // if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
+        //     const mailOptions = {
+        //         from: 'Toyousado Notifications',
+        //         to: mailSeller,
+        //         subject: 'Ficha mecanica creada',
+        //         text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
+        //     };
     
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                };
-            });
+        //     transporter.sendMail(mailOptions, function(error, info){
+        //         if (error) {
+        //             console.log(error);
+        //         } else {
+        //             console.log('Email sent: ' + info.response);
+        //         };
+        //     });
 
-            messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`;
-            title = "Ficha mecanica creada";
-        }
+        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`;
+        //     title = "Ficha mecanica creada";
+        // }
 
-        sendNotification(vehicle!.id_seller?.toString()!, messageNotification, title);
+        sendNotification(vehicle!.id_seller?.toString()!, mailOptions.text, mailOptions.subject);
 
     }else{
         reponseJson.code = 400;
