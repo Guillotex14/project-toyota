@@ -244,6 +244,34 @@ sellerRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
     res.json(reponseJson);
 });
 
+sellerRouter.post("/updateVehicle", async (req: Request, res: Response) => {
+    const reponseJson:ResponseModel = new ResponseModel();
+
+    const { id_vehicle, price, images} = req.body;
+
+    const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{price: price});
+
+    if (images) {
+        if(images.length > 0){
+            // const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{images: images});
+        }
+    }
+
+    if(vehicleUpdated){
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Vehiculo actualizado correctamente";
+        reponseJson.data = vehicleUpdated;
+    }else{
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se pudo actualizar el vehiculo";
+    }
+
+    res.json(reponseJson);
+
+});
+
 sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 
