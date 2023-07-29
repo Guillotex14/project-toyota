@@ -183,10 +183,32 @@ sellerRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, 
     }
     res.json(reponseJson);
 }));
+sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, price, images } = req.body;
+    const vehicleUpdated = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { price: price });
+    if (images) {
+        if (images.length > 0) {
+            // const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{images: images});
+        }
+    }
+    if (vehicleUpdated) {
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Vehiculo actualizado correctamente";
+        reponseJson.data = vehicleUpdated;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se pudo actualizar el vehiculo";
+    }
+    res.json(reponseJson);
+}));
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, sold: false, id_seller: { $ne: id_seller } }).then((res) => {
+    const ress = yield Vehicles_1.default.find({ mechanicalFile: true, sold: false, id_seller: { $ne: id_seller }, price: { $ne: null } }).sort({ date: -1 }).then((res) => {
         console.log("carros a la venta", res);
         if (res) {
             jsonRes.code = 200;
@@ -578,7 +600,7 @@ sellerRouter.post('/rejectBuyVehicle', (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post('/getNotifications', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
-    const notificationsUser = yield notifications_1.default.find({ id_user: id_user, status: false });
+    const notificationsUser = yield notifications_1.default.find({ id_user: id_user, status: false }).sort({ date: -1 });
     if (notificationsUser) {
         reponseJson.code = 200;
         reponseJson.message = "success";

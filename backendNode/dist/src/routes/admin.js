@@ -23,36 +23,26 @@ const moment_1 = __importDefault(require("moment"));
 const brands_1 = __importDefault(require("../models/brands"));
 const adminRouter = (0, express_1.Router)();
 adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = {
-        code: 0,
-        data: {},
-        message: "",
-        status: false,
-    };
-    const ress = yield Vehicles_1.default.find({ sold: false }).then((res) => {
-        if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            jsonRes.data = res;
-            return jsonRes;
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
+    const jsonRes = new Response_1.ResponseModel();
+    const listVehicles = yield Vehicles_1.default.find({ sold: false, price: { $ne: null } }).sort({ date: -1 });
+    if (listVehicles) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = listVehicles;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
 }));
 adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     let arraySellers = [];
     let infoSellers = [];
-    const ress = yield Users_1.default.find({ type_user: "seller" }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ress = yield Users_1.default.find({ type_user: "seller" }).sort({ date_created: -1 }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             jsonRes.code = 200;
             jsonRes.message = "success";
