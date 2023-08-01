@@ -67,7 +67,7 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
                 titles: vehicle.titles,
                 fuel: vehicle.fuel,
                 transmission: vehicle.transmission,
-                transmission_2: vehicle.transmission_2,
+                traction: vehicle.traction,
                 city: vehicle.city,
                 dealer: vehicle.dealer,
                 concesionary: vehicle.concesionary,
@@ -102,7 +102,7 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
                 titles: vehicle.titles,
                 fuel: vehicle.fuel,
                 transmission: vehicle.transmission,
-                transmission_2: vehicle.transmission_2,
+                transmission_2: vehicle.traction,
                 city: vehicle.city,
                 dealer: vehicle.dealer,
                 concesionary: vehicle.concesionary,
@@ -240,7 +240,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic.fullName} de la concesionaria ${mechanic.concesionary} de la ciudad de ${mechanic.city}`,
+            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullName} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`,
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {

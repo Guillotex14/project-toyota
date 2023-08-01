@@ -79,9 +79,9 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     let infoSeller: any = {};
     let dateNow = moment().format('DD/MM/YYYY');
 
-    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, price, id_seller, id_mechanic, type_vehicle, images} = req.body;
+    const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,traction,city,dealer,concesionary,traction_control,performance,comfort,technology, id_seller, id_mechanic, type_vehicle, images} = req.body;
 
-    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,transmission_2,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price:null,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
+    const newVehicle =  new vehicles({model,year,brand,displacement,km,engine_model,titles,fuel,transmission,traction,city,dealer,concesionary,traction_control,performance,comfort,technology, mechanicalFile: false, sold: false,date:dateNow,price:null,id_seller, id_mechanic, id_seller_buyer: null, type_vehicle});
     
     await newVehicle.save()
 
@@ -1035,29 +1035,51 @@ sellerRouter.post('/getVehicleByType', async (req: Request, res: Response) => {
 sellerRouter.post('/filterVehiclesWithMongo', async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
+    let query: any = {};
     //aqui declaramos las variables que vamos a recibir
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, } = req.body;
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle} = req.body;
 
-    //creando la query $gte es mayor o igual que y $lte si viene la variable
+    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
 
-    //aqui declaramos la query
+    if(minYear === 0 && maxYear === 0){
+        query.year = {$gte: 0};
+    }else if(minYear !== 0 && maxYear === 0){
+        query.year = {$gte: minYear};
+    }else if(minYear === 0 && maxYear !== 0){
+        query.year = {$lte: maxYear};
+    }else{
+        query.year = {$gte: minYear, $lte: maxYear};
+    }
 
-    const query = { 
-        
-        city: {$regex: ubication, $options: 'i'},
-        brand: {$regex: brand, $options: 'i'},
-        model: {$regex: model, $options: 'i'},
-        // year: {$gte: minYear, $lte: maxYear},
-        // km: {$gte: minKm, $lte: maxKm},
-        // price: {$gte: minPrice, $lte: maxPrice},
-        mechanicalFile: true,
-        sold: false,
-        id_seller_buyer: null
-    };
-    
-    //aqui hacemos la query
-    console.log(query);
-    const vehiclesFiltered = await vehicles.find(query);
+    if(minKm === 0 && maxKm === 0){
+        query.km = {$gte: 0};
+    }else if(minKm !== 0 && maxKm === 0){
+        query.km = {$gte: minKm};
+    }else if(minKm === 0 && maxKm !== 0){
+        query.km = {$lte: maxKm};
+    }else{
+        query.km = {$gte: minKm, $lte: maxKm};
+    }
+
+    if(minPrice === 0 && maxPrice === 0){
+        query.price = {$gte: 0, $ne:null};
+    }else if(minPrice !== 0 && maxPrice === 0){
+        query.price = {$gte: minPrice, $ne:null};
+    }else if(minPrice === 0 && maxPrice !== 0){
+        query.price = {$lte: maxPrice, $ne:null};
+    }else{
+        query.price = {$gte: minPrice, $lte: maxPrice};
+    }
+
+    query.city = {$regex: ubication, $options: 'i'};
+    query.brand = {$regex: brand, $options: 'i'};
+    query.model = {$regex: model, $options: 'i'};
+    query.type_vehicle = {$regex: type_vehicle, $options: 'i'};
+    query.mechanicalFile = true;
+    query.sold = false;
+    query.id_seller_buyer = null;
+
+    const vehiclesFiltered = await vehicles.find(query).sort({date:-1});
 
     if (vehiclesFiltered) {
 
@@ -1075,7 +1097,7 @@ sellerRouter.post('/filterVehiclesWithMongo', async (req: Request, res: Response
     }
 
     res.json(reponseJson);
-    
+
 });
 
 const sendNotification = async (id_seller:string, message: string, title: string) => {
@@ -1127,7 +1149,7 @@ const saveBse64ImageInPublicDirectory = async (image: any, name: any) => {
 
     const imgBin = Buffer.from(base64Data, "base64");
 
-    fs.writeFile("public/images/vehicle"+ name+"."+type,imgBin, (err) => {
+    fs.writeFile("public/images/vehicle/"+ name+"."+type,imgBin, (err) => {
         if (err) {
         console.log(err);
         } else {
@@ -1147,7 +1169,7 @@ const saveBse64ImageInPublicDirectoryUser = async (image: any, name: any) => {
 
     const imgBin = Buffer.from(base64Data, "base64");
 
-    fs.writeFile("public/images/users"+ name+"."+type,imgBin, (err) => {
+    fs.writeFile("public/images/users/"+ name+"."+type,imgBin, (err) => {
         if (err) {
         console.log(err);
         } else {
@@ -1161,7 +1183,7 @@ const saveBse64ImageInPublicDirectoryUser = async (image: any, name: any) => {
 const delBse64ImageInPublicDirectory = async (name: any) => {
     let del = false;
     
-    fs.unlink("public/images/vehicle"+ name, (err) => {
+    fs.unlink("public/images/vehicles/"+ name, (err) => {
         if (err) {
         console.log(err);
         del = false;
