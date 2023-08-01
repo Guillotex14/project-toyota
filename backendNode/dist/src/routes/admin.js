@@ -21,22 +21,85 @@ const Response_1 = require("../models/Response");
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const moment_1 = __importDefault(require("moment"));
 const brands_1 = __importDefault(require("../models/brands"));
+const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const adminRouter = (0, express_1.Router)();
-adminRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = new Response_1.ResponseModel();
-    const listVehicles = yield Vehicles_1.default.find({ sold: false, price: { $ne: null } }).sort({ date: -1 });
-    if (listVehicles) {
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
-        jsonRes.data = listVehicles;
+// adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
+//     const jsonRes: ResponseModel = new ResponseModel();
+//     const listVehicles = await Vehicles.find({sold: false,price:{$ne:null}}).sort({date: -1});
+//     if (listVehicles) {
+//         jsonRes.code = 200;
+//         jsonRes.message = "success";
+//         jsonRes.status = true;
+//         jsonRes.data = listVehicles;
+//     }else{
+//         jsonRes.code = 400;
+//         jsonRes.message = "no existe";
+//         jsonRes.status = false;
+//     }
+//     res.json(jsonRes);
+// });
+adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //aqui declaramos las respuestas
+    const reponseJson = new Response_1.ResponseModel();
+    let query = {};
+    //aqui declaramos las variables que vamos a recibir
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
+    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    if (minYear === 0 && maxYear === 0) {
+        query.year = { $gte: 0 };
+    }
+    else if (minYear !== 0 && maxYear === 0) {
+        query.year = { $gte: minYear };
+    }
+    else if (minYear === 0 && maxYear !== 0) {
+        query.year = { $lte: maxYear };
     }
     else {
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
+        query.year = { $gte: minYear, $lte: maxYear };
     }
-    res.json(jsonRes);
+    if (minKm === 0 && maxKm === 0) {
+        query.km = { $gte: 0 };
+    }
+    else if (minKm !== 0 && maxKm === 0) {
+        query.km = { $gte: minKm };
+    }
+    else if (minKm === 0 && maxKm !== 0) {
+        query.km = { $lte: maxKm };
+    }
+    else {
+        query.km = { $gte: minKm, $lte: maxKm };
+    }
+    if (minPrice === 0 && maxPrice === 0) {
+        query.price = { $gte: 0, $ne: null };
+    }
+    else if (minPrice !== 0 && maxPrice === 0) {
+        query.price = { $gte: minPrice, $ne: null };
+    }
+    else if (minPrice === 0 && maxPrice !== 0) {
+        query.price = { $lte: maxPrice, $ne: null };
+    }
+    else {
+        query.price = { $gte: minPrice, $lte: maxPrice, $en: null };
+    }
+    query.city = { $regex: ubication, $options: 'i' };
+    query.brand = { $regex: brand, $options: 'i' };
+    query.model = { $regex: model, $options: 'i' };
+    query.type_vehicle = { $regex: type_vehicle, $options: 'i' };
+    query.sold = false;
+    query.id_seller_buyer = null;
+    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date: -1 });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
 }));
 adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -225,7 +288,7 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
                         titles: res.titles,
                         fuel: res.fuel,
                         transmission: res.transmission,
-                        transmission_2: res.transmission_2,
+                        traction: res.traction,
                         city: res.city,
                         dealer: res.dealer,
                         concesionary: res.concesionary,
@@ -298,6 +361,45 @@ adminRouter.post("/addBrand", (req, res) => __awaiter(void 0, void 0, void 0, fu
     jsonRes.message = "Marca agregada exitosamente";
     jsonRes.status = true;
     jsonRes.data = "";
+    res.json(jsonRes);
+}));
+adminRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const brand = yield brands_1.default.find().then((res) => {
+        if (res) {
+            jsonResponse.code = 200;
+            jsonResponse.message = "success";
+            jsonResponse.status = true;
+            jsonResponse.data = res;
+            return jsonResponse;
+        }
+        else {
+            jsonResponse.code = 400;
+            jsonResponse.message = "no existe";
+            jsonResponse.status = false;
+            return jsonResponse;
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+    res.json(jsonResponse);
+}));
+adminRouter.post("/addModelVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { model, brand, type_vehicle } = req.body;
+    const newModel = new modelVehicle_1.default({ model: model, brand: brand, type_vehicle: type_vehicle });
+    yield newModel.save();
+    if (newModel) {
+        jsonRes.code = 200;
+        jsonRes.message = "Modelo agregado exitosamente";
+        jsonRes.status = true;
+        // jsonRes.data = "";
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
     res.json(jsonRes);
 }));
 exports.default = adminRouter;

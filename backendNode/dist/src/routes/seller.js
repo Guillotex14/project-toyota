@@ -78,8 +78,8 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format('DD/MM/YYYY');
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, price, id_seller, id_mechanic, type_vehicle, images } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, transmission_2, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images } = req.body;
+    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle });
     yield newVehicle.save();
     yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
@@ -853,24 +853,54 @@ sellerRouter.post('/getVehicleByType', (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post('/filterVehiclesWithMongo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
+    let query = {};
     //aqui declaramos las variables que vamos a recibir
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, } = req.body;
-    //creando la query $gte es mayor o igual que y $lte si viene la variable
-    //aqui declaramos la query
-    const query = {
-        city: { $regex: ubication, $options: 'i' },
-        brand: { $regex: brand, $options: 'i' },
-        model: { $regex: model, $options: 'i' },
-        // year: {$gte: minYear, $lte: maxYear},
-        // km: {$gte: minKm, $lte: maxKm},
-        // price: {$gte: minPrice, $lte: maxPrice},
-        mechanicalFile: true,
-        sold: false,
-        id_seller_buyer: null
-    };
-    //aqui hacemos la query
-    console.log(query);
-    const vehiclesFiltered = yield Vehicles_1.default.find(query);
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
+    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    if (minYear === 0 && maxYear === 0) {
+        query.year = { $gte: 0 };
+    }
+    else if (minYear !== 0 && maxYear === 0) {
+        query.year = { $gte: minYear };
+    }
+    else if (minYear === 0 && maxYear !== 0) {
+        query.year = { $lte: maxYear };
+    }
+    else {
+        query.year = { $gte: minYear, $lte: maxYear };
+    }
+    if (minKm === 0 && maxKm === 0) {
+        query.km = { $gte: 0 };
+    }
+    else if (minKm !== 0 && maxKm === 0) {
+        query.km = { $gte: minKm };
+    }
+    else if (minKm === 0 && maxKm !== 0) {
+        query.km = { $lte: maxKm };
+    }
+    else {
+        query.km = { $gte: minKm, $lte: maxKm };
+    }
+    if (minPrice === 0 && maxPrice === 0) {
+        query.price = { $gte: 0, $ne: null };
+    }
+    else if (minPrice !== 0 && maxPrice === 0) {
+        query.price = { $gte: minPrice, $ne: null };
+    }
+    else if (minPrice === 0 && maxPrice !== 0) {
+        query.price = { $lte: maxPrice, $ne: null };
+    }
+    else {
+        query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+    query.city = { $regex: ubication, $options: 'i' };
+    query.brand = { $regex: brand, $options: 'i' };
+    query.model = { $regex: model, $options: 'i' };
+    query.type_vehicle = { $regex: type_vehicle, $options: 'i' };
+    query.mechanicalFile = true;
+    query.sold = false;
+    query.id_seller_buyer = null;
+    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date: -1 });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
         reponseJson.message = "success";
@@ -919,7 +949,7 @@ const saveBse64ImageInPublicDirectory = (image, name) => __awaiter(void 0, void 
     const type = mime_type.split('/')[1];
     const base64Data = image.replace(/^data:image\/png;base64,/, "");
     const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/vehicle" + name + "." + type, imgBin, (err) => {
+    fs_1.default.writeFile("public/images/vehicle/" + name + "." + type, imgBin, (err) => {
         if (err) {
             console.log(err);
         }
@@ -936,7 +966,7 @@ const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, v
     const type = mime_type.split('/')[1];
     const base64Data = image.replace(/^data:image\/png;base64,/, "");
     const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/users" + name + "." + type, imgBin, (err) => {
+    fs_1.default.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
         if (err) {
             console.log(err);
         }
@@ -948,7 +978,7 @@ const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, v
 });
 const delBse64ImageInPublicDirectory = (name) => __awaiter(void 0, void 0, void 0, function* () {
     let del = false;
-    fs_1.default.unlink("public/images/vehicle" + name, (err) => {
+    fs_1.default.unlink("public/images/vehicles/" + name, (err) => {
         if (err) {
             console.log(err);
             del = false;
