@@ -254,10 +254,12 @@ sellerRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { id_user, image, old_image } = req.body;
     const delImag = yield delBse64ImageInPublicDirectoryUser(old_image);
-    if (delImag) {
+    const delImg = yield imgUser_1.default.findOneAndDelete({ img: old_image });
+    if (delImg) {
         const filename = yield saveBse64ImageInPublicDirectoryUser(image, `${id_user}`);
-        const newImage = yield imgUser_1.default.findOneAndUpdate({ id_user: id_user }, { img: filename });
+        const newImage = new imgUser_1.default({ img: filename, id_user: id_user });
         if (newImage) {
+            console.log("Imagen actualizada correctamente");
             reponseJson.code = 200;
             reponseJson.message = "Imagen actualizada exitosamente";
             reponseJson.status = true;
@@ -331,6 +333,68 @@ sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se pudo actualizar el vehiculo";
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/addImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, images } = req.body;
+    if (images) {
+        if (images.length > 0) {
+            for (let i = 0; i < images.length; i++) {
+                let filename = saveBse64ImageInPublicDirectory(images[i].img, `${id_vehicle}` + i);
+                const newImage = new ImgVehicle_1.default({
+                    img: filename,
+                    id_vehicle: id_vehicle,
+                });
+                yield newImage.save();
+            }
+        }
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se pudo agregar la imagen";
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/deleteImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, image } = req.body;
+    const delImag = yield delBse64ImageInPublicDirectory(image);
+    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ img: image, id_vehicle: id_vehicle });
+    if (delImg) {
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen eliminada exitosamente";
+        reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo eliminar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, image, old_image } = req.body;
+    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ img: old_image, id_vehicle: id_vehicle });
+    const delImag = yield delBse64ImageInPublicDirectory(old_image);
+    if (delImg) {
+        let filename = saveBse64ImageInPublicDirectory(image, `${id_vehicle}` + 1);
+        const newImage = new ImgVehicle_1.default({
+            img: filename,
+            id_vehicle: id_vehicle,
+        });
+        yield newImage.save();
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen actualizada exitosamente";
+        reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo actualizar la imagen";
+        reponseJson.status = false;
     }
     res.json(reponseJson);
 }));
@@ -1178,18 +1242,15 @@ const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, v
     return name + "." + type;
 });
 const delBse64ImageInPublicDirectory = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    let del = false;
     fs_1.default.unlink("public/images/vehicles/" + name, (err) => {
+        let del = false;
         if (err) {
             console.log(err);
-            del = false;
         }
         else {
             console.log("Imagen eliminada");
-            del = true;
         }
     });
-    return del;
 });
 const getNameMonth = (date) => {
     const partsDate = date.split("/");
@@ -1210,18 +1271,14 @@ const getNameMonth = (date) => {
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
 const delBse64ImageInPublicDirectoryUser = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    let del = false;
-    fs_1.default.unlink("public/images/users" + name, (err) => {
+    yield fs_1.default.unlink("public/images/users/" + name, (err) => {
         if (err) {
             console.log(err);
-            del = false;
         }
         else {
             console.log("Imagen eliminada");
-            del = true;
         }
     });
-    return del;
 });
 const generateString = (length) => __awaiter(void 0, void 0, void 0, function* () {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -1232,21 +1289,5 @@ const generateString = (length) => __awaiter(void 0, void 0, void 0, function* (
     }
     return result;
 });
-// async function createBucketIfNotExists() {
-//   const [buckets] = await storage.getBuckets();
-//   const bucketName = 'mi-bucket'; // Reemplaza con el nombre del bucket que desees
-//   if (!buckets.find((bucket) => bucket.name === bucketName)) {
-//     await storage.createBucket(bucketName);
-//   }
-// }
-// const createFolderIfNotExists = async () => {
-//   const [buckets] = await this.storage.getBuckets();
-//   console.log(buckets)
-//   // const bucketName = 'vehiculos';
-//   // if (!buckets.find((bucket) => bucket.name === bucketName)) {
-//   //   await storage.createBucket(bucketName);
-//   // }
-//   // Reemplaza con el nombre del bucket que desees
-// }
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map
