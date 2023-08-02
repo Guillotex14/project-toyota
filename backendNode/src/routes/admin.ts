@@ -78,7 +78,7 @@ adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
     query.sold = false;
     query.id_seller_buyer = null;
 
-    const vehiclesFiltered = await Vehicles.find(query).sort({date:-1});
+    const vehiclesFiltered = await Vehicles.find(query).sort({date_create:-1});
 
     if (vehiclesFiltered) {
 
@@ -334,7 +334,7 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
                         technology: res.technology,
                         mechanicalFile: res.mechanicalFile,
                         sold: res.sold,
-                        date: res.date,
+                        date_create: res.date_create,
                         type_vehicle: res.type_vehicle,
                         id_seller: res.id_seller,
                         id_mechanic: res.id_mechanic,

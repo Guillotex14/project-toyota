@@ -87,7 +87,7 @@ adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0,
     query.type_vehicle = { $regex: type_vehicle, $options: 'i' };
     query.sold = false;
     query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date: -1 });
+    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
         reponseJson.message = "success";
@@ -299,7 +299,7 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
                         technology: res.technology,
                         mechanicalFile: res.mechanicalFile,
                         sold: res.sold,
-                        date: res.date,
+                        date_create: res.date_create,
                         type_vehicle: res.type_vehicle,
                         id_seller: res.id_seller,
                         id_mechanic: res.id_mechanic,
