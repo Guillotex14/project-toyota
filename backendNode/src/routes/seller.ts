@@ -1100,6 +1100,25 @@ sellerRouter.post('/filterVehiclesWithMongo', async (req: Request, res: Response
 
 });
 
+sellerRouter.get('/filterGraphySell', async(req:Request,res:Response)=>{
+    const reponseJson: ResponseModel = new ResponseModel();
+    let query: any = {};
+
+    if (true) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = [];
+    }else{
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+})
+
+
 const sendNotification = async (id_seller:string, message: string, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
 
