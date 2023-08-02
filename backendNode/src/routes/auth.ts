@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 
-//modelss
+//models
 import Users from "../models/Users";
 import { ResponseModel } from "../models/Response";
 import sellers from "../models/Sellers";
