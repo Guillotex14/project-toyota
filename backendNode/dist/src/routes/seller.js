@@ -900,6 +900,7 @@ sellerRouter.post('/filterVehiclesWithMongo', (req, res) => __awaiter(void 0, vo
     query.mechanicalFile = true;
     query.sold = false;
     query.id_seller_buyer = null;
+    console.log(query);
     const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date: -1 });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
