@@ -16,7 +16,7 @@ mechanicRouter.post("/inspections", async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_mechanic} = req.body;
 
-    const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false}).sort({date: -1});
+    const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false}).sort({date_create: -1});
     if(vehiclesList.length > 0){
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -77,7 +77,7 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
                 technology: vehicle.technology,
                 mechanicalFile: vehicle.mechanicalFile,
                 sold: vehicle.sold,
-                date: vehicle.date,
+                date_create: vehicle.date_create,
                 type_vehicle: vehicle.type_vehicle,
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
@@ -113,7 +113,7 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
                 technology: vehicle.technology,
                 mechanicalFile: vehicle.mechanicalFile,
                 sold: vehicle.sold,
-                date: vehicle.date,
+                date_create: vehicle.date_create,
                 type_vehicle: vehicle.type_vehicle,
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
@@ -251,7 +251,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         dealer_maintenance,
         headlights_lights,
         general_condition,
-        date: dateNow,
+        date_create: dateNow,
         id_vehicle,
         id_mechanic
     });
@@ -281,12 +281,13 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
 
         //obteniendo la informacion del mecanico
         const mechanic = await mechanics.findOne({_id: id_mechanic});
-
+        console.log("infomacion del mecanico en el const", mechanic)
         if(mechanic){
             infoMechanic.fullname = mechanic.fullName;
             infoMechanic.concesionary = mechanic.concesionary;
             infoMechanic.city = mechanic.city;
         }
+        console.log("informacion del mecanico en el json", infoMechanic)
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -300,7 +301,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullName} de la concesionaria ${infoMechanic!.concesionary} de la ciudad de ${infoMechanic!.city}`,
+            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} de la concesionaria ${infoMechanic!.concesionary} de la ciudad de ${infoMechanic!.city}`,
         };
 
         transporter.sendMail(mailOptions, function(error, info){
