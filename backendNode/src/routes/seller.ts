@@ -296,66 +296,66 @@ sellerRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/addImgProfile", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
+// sellerRouter.post("/addImgProfile", async (req: Request, res: Response) => {
+//   const reponseJson: ResponseModel = new ResponseModel();
 
-  const { id_user, image } = req.body;
+//   const { id_user, image } = req.body;
 
-  const filename = await saveBse64ImageInPublicDirectory(image, `${id_user}`);
+//   const filename = await saveBse64ImageInPublicDirectory(image, `${id_user}`);
 
-  const newImage = new imgUser({ img: filename, id_user: id_user });
+//   const newImage = new imgUser({ img: filename, id_user: id_user });
 
-  await newImage.save();
+//   await newImage.save();
 
-  if (newImage) {
-    reponseJson.code = 200;
-    reponseJson.message = "Imagen agregada exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = newImage;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "No se pudo agregar la imagen";
-    reponseJson.status = false;
-  }
+//   if (newImage) {
+//     reponseJson.code = 200;
+//     reponseJson.message = "Imagen agregada exitosamente";
+//     reponseJson.status = true;
+//     reponseJson.data = newImage;
+//   } else {
+//     reponseJson.code = 400;
+//     reponseJson.message = "No se pudo agregar la imagen";
+//     reponseJson.status = false;
+//   }
 
-  res.json(reponseJson);
-});
+//   res.json(reponseJson);
+// });
 
-sellerRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
+// sellerRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
+//   const reponseJson: ResponseModel = new ResponseModel();
 
-  const { id_user, image, old_image } = req.body;
+//   const { id_user, image, old_image } = req.body;
 
-  const delImag = await delBse64ImageInPublicDirectoryUser(old_image);
+//   const delImag = await delBse64ImageInPublicDirectoryUser(old_image);
 
-  const delImg = await imgUser.findOneAndDelete({ img: old_image });
+//   const delImg = await imgUser.findOneAndDelete({ img: old_image });
 
-  if (delImg ) {
-    const filename = await saveBse64ImageInPublicDirectoryUser(
-      image,
-      `${id_user}`
-    );
-    const newImage = new imgUser({ img: filename, id_user: id_user });
+//   if (delImg ) {
+//     const filename = await saveBse64ImageInPublicDirectoryUser(
+//       image,
+//       `${id_user}`
+//     );
+//     const newImage = new imgUser({ img: filename, id_user: id_user });
 
-    if (newImage) {
-      console.log("Imagen actualizada correctamente")
-      reponseJson.code = 200;
-      reponseJson.message = "Imagen actualizada exitosamente";
-      reponseJson.status = true;
-      reponseJson.data = newImage;
-    } else {
-      reponseJson.code = 400;
-      reponseJson.message = "No se pudo actualizar la imagen";
-      reponseJson.status = false;
-    }
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "No se pudo eliminar la imagen";
-    reponseJson.status = false;
-  }
+//     if (newImage) {
+//       console.log("Imagen actualizada correctamente")
+//       reponseJson.code = 200;
+//       reponseJson.message = "Imagen actualizada exitosamente";
+//       reponseJson.status = true;
+//       reponseJson.data = newImage;
+//     } else {
+//       reponseJson.code = 400;
+//       reponseJson.message = "No se pudo actualizar la imagen";
+//       reponseJson.status = false;
+//     }
+//   } else {
+//     reponseJson.code = 400;
+//     reponseJson.message = "No se pudo eliminar la imagen";
+//     reponseJson.status = false;
+//   }
 
-  res.json(reponseJson);
-});
+//   res.json(reponseJson);
+// });
 
 sellerRouter.post("/updateVehicle", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
