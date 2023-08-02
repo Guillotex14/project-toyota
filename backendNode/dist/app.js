@@ -32,8 +32,8 @@ class App {
         this.app.use("/admin", admin_1.default);
         this.app.use("/seller", seller_1.default);
         this.app.use("/mechanic", mechanic_1.default);
-        this.app.use("/public", express_1.default.static(path_1.default.join(__dirname, "public")));
-        this.app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+        this.app.use("/public", express_1.default.static("public"));
+        this.app.use(express_1.default.static("public"));
     }
     start() {
         this.app.listen(config_1.port, () => {

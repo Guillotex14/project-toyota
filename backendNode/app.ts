@@ -32,8 +32,8 @@ export class App {
         this.app.use("/admin", adminRouter );
         this.app.use("/seller", sellerRouter);
         this.app.use("/mechanic", mechanicRouter)
-        this.app.use("/public", Express.static(path.join(__dirname, "public")));
-        this.app.use(Express.static(path.join(__dirname, "public")));
+        this.app.use("/public", Express.static("public"));
+        this.app.use(Express.static("public"));
     }
 
     start(): void {
