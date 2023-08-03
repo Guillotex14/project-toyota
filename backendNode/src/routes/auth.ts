@@ -8,6 +8,7 @@ import mechanics from "../models/Mechanics";
 import bcrypt from 'bcrypt';
 import fs from "fs";
 import imgUser from "../models/imgUser";
+import { uploadImageUser, deleteImageUser } from '../../cloudinaryMetods';
 
 const authRouter = Router();
 
@@ -40,7 +41,7 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                                 email: res.email,
                                 username: res.username,
                                 type_user: res.type_user,
-                                img: userImg ? userImg?.img : ""
+                                img: userImg ? userImg : null
                             }
                             jsonRes.data = seller;
                         }
@@ -60,7 +61,7 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                                 email: res.email,
                                 username: res.username,
                                 type_user: res.type_user,
-                                img: userImg ? userImg?.img : ""
+                                img: userImg ? userImg : null
                             }
 
                             jsonRes.data = mechanic;
@@ -98,14 +99,10 @@ authRouter.post("/addImgProfile", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user, image } = req.body;
-    //creamos un ramdom para el nombre de la imagen
-    const random = Math.floor(Math.random() * 1000000);
 
-    const ramStr = await generateString(7);
+    const filename = await uploadImageUser(image);
 
-    const filename = await saveBse64ImageInPublicDirectoryUser(image, `${ramStr}${random}`);
-
-    const newImage = new imgUser({ img: filename, id_user: id_user });
+    const newImage = new imgUser({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
 
     await newImage.save();
 
@@ -113,7 +110,7 @@ authRouter.post("/addImgProfile", async (req: Request, res: Response) => {
     reponseJson.code = 200;
     reponseJson.message = "Imagen agregada exitosamente";
     reponseJson.status = true;
-    reponseJson.data = newImage.img;
+    reponseJson.data = newImage;
     } else {
     reponseJson.code = 400;
     reponseJson.message = "No se pudo agregar la imagen";
@@ -126,29 +123,22 @@ authRouter.post("/addImgProfile", async (req: Request, res: Response) => {
 authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
-    const { id_user, image, old_image } = req.body;
+    const { id_user, image, public_id } = req.body;
 
-    const random = Math.floor(Math.random() * 100000);
+    const delImg = await deleteImageUser(public_id);
 
-    const ramStr = await generateString(5);
+    const delImgdb = await imgUser.findOneAndDelete({ public_id: public_id });
 
-    const delImag = await delBse64ImageInPublicDirectoryUser(old_image);
-
-    const delImg = await imgUser.findOneAndDelete({ img: old_image });
-
-    if (delImg ) {
+    if (delImg.result == "ok" ) {
     
-    const filename = await saveBse64ImageInPublicDirectoryUser(
-        image,
-        `${ramStr}${random}`
-    );
+    const filename = await uploadImageUser(image);
 
-    const newImage = new imgUser({ img: filename, id_user: id_user });
+    const newImage = new imgUser({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
 
     if (newImage) {
         reponseJson.message = "Imagen actualizada exitosamente";
         reponseJson.status = true;
-        reponseJson.data = newImage.img;
+        reponseJson.data = newImage;
     } else {
         reponseJson.code = 400;
         reponseJson.message = "No se pudo actualizar la imagen";
@@ -162,48 +152,5 @@ authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
 
     res.json(reponseJson);
 });
-
-const saveBse64ImageInPublicDirectoryUser = async (image: any, name: any) => {
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-
-    const imgBin = Buffer.from(base64Data, "base64");
-
-    fs.writeFile("public/images/users/"+name+"."+type,imgBin, (err) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log("Imagen guardada");
-    }
-    });
-
-    return name + "." + type;
-};
-
-const delBse64ImageInPublicDirectoryUser = async (name: any) => {
-
-    await fs.unlink("public/images/users/" + name, (err) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log("Imagen eliminada")
-    }
-    });
-    
-};
-
-const generateString = async (length:any) => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += await characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
-}
 
 export default authRouter;

@@ -10,6 +10,7 @@ import mechanicalsFiles from "../models/mechanicalsFiles";
 import moment from "moment";
 import brands from "../models/brands";
 import modelVehicle from "../models/modelVehicle";
+import ImgVehicle from "../models/ImgVehicle";
 
 const adminRouter = Router();
 
@@ -306,68 +307,117 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
 
     const {id} = req.body;
 
-    const ress = await Vehicles.findOne({_id: id}).then(async (res:any) => {
+    const infoVehicle = await Vehicles.findOne({_id: id})
 
-        if (res) {
-            await mechanicalsFiles.findOne({id_vehicle: res._id}).then((res2:any) => {
-                if (res2) {
+    const imgsVehicle = await ImgVehicle.find({id_vehicle: id});
 
-                    let vehicle = {
-                        _id: res._id,
-                        model: res.model,
-                        year: res.year,
-                        brand: res.brand,
-                        displacement: res.displacement,
-                        km: res.km,
-                        engine_model: res.engine_model,
-                        titles: res.titles,
-                        fuel: res.fuel,
-                        transmission: res.transmission,
-                        traction: res.traction,
-                        city: res.city,
-                        dealer: res.dealer,
-                        concesionary: res.concesionary,
-                        traction_control: res.traction_control,
-                        performance: res.performance,
-                        price: res.price,
-                        comfort: res.comfort,
-                        technology: res.technology,
-                        mechanicalFile: res.mechanicalFile,
-                        sold: res.sold,
-                        date_create: res.date_create,
-                        type_vehicle: res.type_vehicle,
-                        id_seller: res.id_seller,
-                        id_mechanic: res.id_mechanic,
-                        id_seller_buyer: res.id_seller_buyer,
-                        general_condition: res2.general_condition
-                    }
+    const mechanicFile = await mechanicalsFiles.findOne({id_vehicle: id});
 
-                    jsonRes.code = 200;
-                    jsonRes.message = "success";
-                    jsonRes.status = true;
-                    jsonRes.data = vehicle;
-                    return jsonRes;
-                }else{
-                    jsonRes.code = 400;
-                    jsonRes.message = "no existe";
-                    jsonRes.status = false;
-                    return jsonRes;
-                }
+    if (infoVehicle) {
 
-            }).catch((err: any) => {
-                console.log(err)
-            });
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
 
-        } else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
+        jsonRes.data = {
+            _id: infoVehicle._id,
+            model: infoVehicle.model,
+            year: infoVehicle.year,
+            brand: infoVehicle.brand,
+            displacement: infoVehicle.displacement,
+            km: infoVehicle.km,
+            engine_model: infoVehicle.engine_model,
+            titles: infoVehicle.titles,
+            fuel: infoVehicle.fuel,
+            transmission: infoVehicle.transmission,
+            traction: infoVehicle.traction,
+            city: infoVehicle.city,
+            dealer: infoVehicle.dealer,
+            concesionary: infoVehicle.concesionary,
+            traction_control: infoVehicle.traction_control,
+            performance: infoVehicle.performance,
+            price: infoVehicle.price,
+            comfort: infoVehicle.comfort,
+            technology: infoVehicle.technology,
+            mechanicalFile: infoVehicle.mechanicalFile,
+            sold: infoVehicle.sold,
+            date_create: infoVehicle.date_create,
+            type_vehicle: infoVehicle.type_vehicle,
+            id_seller: infoVehicle.id_seller,
+            id_mechanic: infoVehicle.id_mechanic,
+            id_seller_buyer: infoVehicle.id_seller_buyer,
+            general_condition: mechanicFile!.general_condition,
+            images: imgsVehicle ? imgsVehicle : []
         }
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
     }
-    ).catch((err: any) => {
-        console.log(err)
-    });
+        
+
+    // const ress = await Vehicles.findOne({_id: id}).then(async (res:any) => {
+
+    //     if (res) {
+    //         await mechanicalsFiles.findOne({id_vehicle: res._id}).then((res2:any) => {
+    //             if (res2) {
+
+    //                 let vehicle = {
+    //                     _id: res._id,
+    //                     model: res.model,
+    //                     year: res.year,
+    //                     brand: res.brand,
+    //                     displacement: res.displacement,
+    //                     km: res.km,
+    //                     engine_model: res.engine_model,
+    //                     titles: res.titles,
+    //                     fuel: res.fuel,
+    //                     transmission: res.transmission,
+    //                     traction: res.traction,
+    //                     city: res.city,
+    //                     dealer: res.dealer,
+    //                     concesionary: res.concesionary,
+    //                     traction_control: res.traction_control,
+    //                     performance: res.performance,
+    //                     price: res.price,
+    //                     comfort: res.comfort,
+    //                     technology: res.technology,
+    //                     mechanicalFile: res.mechanicalFile,
+    //                     sold: res.sold,
+    //                     date_create: res.date_create,
+    //                     type_vehicle: res.type_vehicle,
+    //                     id_seller: res.id_seller,
+    //                     id_mechanic: res.id_mechanic,
+    //                     id_seller_buyer: res.id_seller_buyer,
+    //                     general_condition: res2.general_condition
+    //                 }
+
+    //                 jsonRes.code = 200;
+    //                 jsonRes.message = "success";
+    //                 jsonRes.status = true;
+    //                 jsonRes.data = vehicle;
+    //                 return jsonRes;
+    //             }else{
+    //                 jsonRes.code = 400;
+    //                 jsonRes.message = "no existe";
+    //                 jsonRes.status = false;
+    //                 return jsonRes;
+    //             }
+
+    //         }).catch((err: any) => {
+    //             console.log(err)
+    //         });
+
+    //     } else if (!res) {
+    //         jsonRes.code = 400;
+    //         jsonRes.message = "no existe";
+    //         jsonRes.status = false;
+    //         return jsonRes;
+    //     }
+    // }
+    // ).catch((err: any) => {
+    //     console.log(err)
+    // });
 
     res.json(jsonRes);
 });

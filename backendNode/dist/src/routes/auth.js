@@ -13,14 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-//modelss
+//models
 const Users_1 = __importDefault(require("../models/Users"));
 const Response_1 = require("../models/Response");
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const fs_1 = __importDefault(require("fs"));
 const imgUser_1 = __importDefault(require("../models/imgUser"));
+const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -45,7 +45,7 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                                 email: res.email,
                                 username: res.username,
                                 type_user: res.type_user,
-                                img: userImg ? userImg === null || userImg === void 0 ? void 0 : userImg.img : ""
+                                img: userImg ? userImg : null
                             };
                             jsonRes.data = seller;
                         }
@@ -65,7 +65,7 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                                 email: res.email,
                                 username: res.username,
                                 type_user: res.type_user,
-                                img: userImg ? userImg === null || userImg === void 0 ? void 0 : userImg.img : ""
+                                img: userImg ? userImg : null
                             };
                             jsonRes.data = mechanic;
                             // return jsonRes;
@@ -100,17 +100,14 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
 authRouter.post("/addImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user, image } = req.body;
-    //creamos un ramdom para el nombre de la imagen
-    const random = Math.floor(Math.random() * 1000000);
-    const ramStr = yield generateString(7);
-    const filename = yield saveBse64ImageInPublicDirectoryUser(image, `${ramStr}${random}`);
-    const newImage = new imgUser_1.default({ img: filename, id_user: id_user });
+    const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
+    const newImage = new imgUser_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
     yield newImage.save();
     if (newImage) {
         reponseJson.code = 200;
         reponseJson.message = "Imagen agregada exitosamente";
         reponseJson.status = true;
-        reponseJson.data = newImage.img;
+        reponseJson.data = newImage;
     }
     else {
         reponseJson.code = 400;
@@ -121,18 +118,16 @@ authRouter.post("/addImgProfile", (req, res) => __awaiter(void 0, void 0, void 0
 }));
 authRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { id_user, image, old_image } = req.body;
-    const random = Math.floor(Math.random() * 100000);
-    const ramStr = yield generateString(5);
-    const delImag = yield delBse64ImageInPublicDirectoryUser(old_image);
-    const delImg = yield imgUser_1.default.findOneAndDelete({ img: old_image });
-    if (delImg) {
-        const filename = yield saveBse64ImageInPublicDirectoryUser(image, `${ramStr}${random}`);
-        const newImage = new imgUser_1.default({ img: filename, id_user: id_user });
+    const { id_user, image, public_id } = req.body;
+    const delImg = yield (0, cloudinaryMetods_1.deleteImageUser)(public_id);
+    const delImgdb = yield imgUser_1.default.findOneAndDelete({ public_id: public_id });
+    if (delImg.result == "ok") {
+        const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
+        const newImage = new imgUser_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
         if (newImage) {
             reponseJson.message = "Imagen actualizada exitosamente";
             reponseJson.status = true;
-            reponseJson.data = newImage.img;
+            reponseJson.data = newImage;
         }
         else {
             reponseJson.code = 400;
@@ -147,41 +142,5 @@ authRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, voi
     }
     res.json(reponseJson);
 }));
-const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, void 0, void 0, function* () {
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-    const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen guardada");
-        }
-    });
-    return name + "." + type;
-});
-const delBse64ImageInPublicDirectoryUser = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    yield fs_1.default.unlink("public/images/users/" + name, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen eliminada");
-        }
-    });
-});
-const generateString = (length) => __awaiter(void 0, void 0, void 0, function* () {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += yield characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-});
 exports.default = authRouter;
 //# sourceMappingURL=auth.js.map

@@ -18,8 +18,6 @@ function connectToDB() {
             yield (0, mongoose_1.connect)(config_1.mongoDBUri);
             console.log("Connected to MongoDB");
             const collect = yield mongoose_1.connection.db.collection('Users').find().toArray();
-            // const { db } = mongoose.connection;
-            // const result = await db.collection('Users').find().toArray();
             console.log("DB Name:", collect);
         }
         catch (error) {

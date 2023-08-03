@@ -27,11 +27,9 @@ const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles")
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const brands_1 = __importDefault(require("../models/brands"));
 const notifications_1 = __importDefault(require("../models/notifications"));
-const imgUser_1 = __importDefault(require("../models/imgUser"));
 const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
-// const storage = new Storage({
-//   projectId: "toyoimage"
-// });
+const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
+const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -100,33 +98,28 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate } = req.body;
     const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date_create: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle, vin, vehicle_plate });
     yield newVehicle.save();
-    yield newVehicle.save();
-    yield Mechanics_1.default
-        .findOne({ _id: id_mechanic })
-        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
-            yield Users_1.default.findOne({ _id: res.id_user })
-                .then((res) => {
+            yield Users_1.default.findOne({ _id: res.id_user }).then((res) => {
                 if (res) {
                     emailmechanic = res.email;
                 }
-            })
-                .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
             });
         }
-    }))
-        .catch((err) => {
+    })).catch((err) => {
         console.log(err);
     });
     infoSeller = yield Sellers_1.default.findOne({ _id: id_seller });
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
-                const filename = yield saveBse64ImageInPublicDirectory(images[i].image, `${newVehicle._id}-${i}`);
+                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(images[i].image);
                 const imgVehi = new ImgVehicle_1.default({
-                    img: filename,
+                    img: filename.secure_url,
                     id_vehicle: newVehicle._id,
+                    public_id: filename.public_id,
                 });
                 yield imgVehi.save();
             }
@@ -231,98 +224,12 @@ sellerRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, 
     }
     res.json(reponseJson);
 }));
-sellerRouter.post("/addImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_user, image } = req.body;
-    const filename = yield saveBse64ImageInPublicDirectory(image, `${id_user}`);
-    const newImage = new imgUser_1.default({ img: filename, id_user: id_user });
-    yield newImage.save();
-    if (newImage) {
-        reponseJson.code = 200;
-        reponseJson.message = "Imagen agregada exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = newImage;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "No se pudo agregar la imagen";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
-sellerRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_user, image, old_image } = req.body;
-    const delImag = yield delBse64ImageInPublicDirectoryUser(old_image);
-    const delImg = yield imgUser_1.default.findOneAndDelete({ img: old_image });
-    if (delImg) {
-        const filename = yield saveBse64ImageInPublicDirectoryUser(image, `${id_user}`);
-        const newImage = new imgUser_1.default({ img: filename, id_user: id_user });
-        if (newImage) {
-            console.log("Imagen actualizada correctamente");
-            reponseJson.code = 200;
-            reponseJson.message = "Imagen actualizada exitosamente";
-            reponseJson.status = true;
-            reponseJson.data = newImage;
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "No se pudo actualizar la imagen";
-            reponseJson.status = false;
-        }
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "No se pudo eliminar la imagen";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
 sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle, price, images, old_image } = req.body;
+    const { id_vehicle, price } = req.body;
     const vehicleUpdated = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
         price: price,
     });
-    // if (images) {
-    //     if(images.length > 0){
-    //         // const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{images: images});
-    //     }
-    // }
-    if (old_image) {
-        if (old_image.length > 0) {
-            yield ImgVehicle_1.default.deleteMany({ id_vehicle: id_vehicle });
-            for (let i = 0; i < old_image.length; i++) {
-                delBse64ImageInPublicDirectory(old_image[i].img);
-            }
-            if (images) {
-                if (images.length > 0) {
-                    for (let i = 0; i < images.length; i++) {
-                        let filename = saveBse64ImageInPublicDirectory(images[i].img, `${id_vehicle}` + i);
-                        const newImage = new ImgVehicle_1.default({
-                            img: filename,
-                            id_vehicle: id_vehicle,
-                        });
-                        yield newImage.save();
-                    }
-                }
-            }
-        }
-    }
-    else {
-        if (images) {
-            if (images.length > 0) {
-                for (let i = 0; i < images.length; i++) {
-                    let filename = saveBse64ImageInPublicDirectory(images[i].img, `${id_vehicle}` + i);
-                    const newImage = new ImgVehicle_1.default({
-                        img: filename,
-                        id_vehicle: id_vehicle,
-                    });
-                    yield newImage.save();
-                }
-            }
-        }
-    }
     if (vehicleUpdated) {
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -338,31 +245,28 @@ sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void
 }));
 sellerRouter.post("/addImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle, images } = req.body;
-    if (images) {
-        if (images.length > 0) {
-            for (let i = 0; i < images.length; i++) {
-                let filename = saveBse64ImageInPublicDirectory(images[i].img, `${id_vehicle}` + i);
-                const newImage = new ImgVehicle_1.default({
-                    img: filename,
-                    id_vehicle: id_vehicle,
-                });
-                yield newImage.save();
-            }
-        }
+    const { id_vehicle, image } = req.body;
+    const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
+    const newImage = new ImgVehicle_1.default({ img: filename.secure_url, id_vehicle: id_vehicle, public_id: filename.public_id });
+    yield newImage.save();
+    if (newImage) {
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen agregada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = newImage;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.status = false;
         reponseJson.message = "No se pudo agregar la imagen";
+        reponseJson.status = false;
     }
     res.json(reponseJson);
 }));
 sellerRouter.post("/deleteImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle, image } = req.body;
-    const delImag = yield delBse64ImageInPublicDirectory(image);
-    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ img: image, id_vehicle: id_vehicle });
+    const { public_id } = req.body;
+    const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
+    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ public_id: public_id });
     if (delImg) {
         reponseJson.code = 200;
         reponseJson.message = "Imagen eliminada exitosamente";
@@ -377,18 +281,25 @@ sellerRouter.post("/deleteImgVehicle", (req, res) => __awaiter(void 0, void 0, v
 }));
 sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle, image, old_image } = req.body;
-    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ img: old_image, id_vehicle: id_vehicle });
-    const delImag = yield delBse64ImageInPublicDirectory(old_image);
+    const { id_vehicle, image, public_id } = req.body;
+    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ public_id: public_id });
+    const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
     if (delImg) {
-        let filename = saveBse64ImageInPublicDirectory(image, `${id_vehicle}` + 1);
+        let filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
         const newImage = new ImgVehicle_1.default({
-            img: filename,
+            img: filename.secure_url,
             id_vehicle: id_vehicle,
+            public_id: filename.public_id
         });
         yield newImage.save();
+        const arrayImages = yield ImgVehicle_1.default.find({ id_vehicle: id_vehicle });
+        let data = {
+            images: arrayImages,
+            imgEdit: newImage
+        };
         reponseJson.code = 200;
         reponseJson.message = "Imagen actualizada exitosamente";
+        reponseJson.data = data;
         reponseJson.status = true;
     }
     else {
@@ -442,13 +353,11 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
             jsonRes.message = "success";
             jsonRes.status = true;
             jsonRes.data = res;
-            return jsonRes;
         }
         else if (!res) {
             jsonRes.code = 400;
             jsonRes.message = "no existe";
             jsonRes.status = false;
-            return jsonRes;
         }
     })
         .catch((err) => {
@@ -459,158 +368,52 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
-    const ress = yield Vehicles_1.default
-        .findOne({ _id: id })
-        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            yield mechanicalsFiles_1.default
-                .findOne({ id_vehicle: res._id })
-                .then((res2) => __awaiter(void 0, void 0, void 0, function* () {
-                if (res2) {
-                    yield ImgVehicle_1.default.find({ id_vehicle: res._id })
-                        .then((res3) => {
-                        if (res3) {
-                            let vehicle = {
-                                _id: res._id,
-                                model: res.model,
-                                year: res.year,
-                                brand: res.brand,
-                                displacement: res.displacement,
-                                km: res.km,
-                                engine_model: res.engine_model,
-                                titles: res.titles,
-                                fuel: res.fuel,
-                                transmission: res.transmission,
-                                transmission_2: res.transmission_2,
-                                city: res.city,
-                                dealer: res.dealer,
-                                concesionary: res.concesionary,
-                                traction_control: res.traction_control,
-                                performance: res.performance,
-                                price: res.price,
-                                comfort: res.comfort,
-                                technology: res.technology,
-                                mechanicalFile: res.mechanicalFile,
-                                sold: res.sold,
-                                date: res.date,
-                                type_vehicle: res.type_vehicle,
-                                id_seller: res.id_seller,
-                                id_mechanic: res.id_mechanic,
-                                id_seller_buyer: res.id_seller_buyer,
-                                general_condition: res2.general_condition,
-                                images: res3,
-                                price_ofert: res.price_ofert,
-                            };
-                            jsonRes.code = 200;
-                            jsonRes.message = "success";
-                            jsonRes.status = true;
-                            jsonRes.data = vehicle;
-                            return jsonRes;
-                        }
-                        else {
-                            let vehicle = {
-                                _id: res._id,
-                                model: res.model,
-                                year: res.year,
-                                brand: res.brand,
-                                displacement: res.displacement,
-                                km: res.km,
-                                engine_model: res.engine_model,
-                                titles: res.titles,
-                                fuel: res.fuel,
-                                transmission: res.transmission,
-                                transmission_2: res.transmission_2,
-                                city: res.city,
-                                dealer: res.dealer,
-                                concesionary: res.concesionary,
-                                traction_control: res.traction_control,
-                                performance: res.performance,
-                                price: res.price,
-                                comfort: res.comfort,
-                                technology: res.technology,
-                                mechanicalFile: res.mechanicalFile,
-                                sold: res.sold,
-                                date: res.date,
-                                type_vehicle: res.type_vehicle,
-                                id_seller: res.id_seller,
-                                id_mechanic: res.id_mechanic,
-                                id_seller_buyer: res.id_seller_buyer,
-                                general_condition: res2.general_condition,
-                                images: [],
-                                price_ofert: res.price_ofert,
-                            };
-                            jsonRes.code = 200;
-                            jsonRes.message = "success";
-                            jsonRes.status = true;
-                            jsonRes.data = vehicle;
-                            return jsonRes;
-                        }
-                    })
-                        .catch((err) => {
-                        console.log(err);
-                    });
-                }
-                else {
-                    let vehicle = {
-                        _id: res._id,
-                        model: res.model,
-                        year: res.year,
-                        brand: res.brand,
-                        displacement: res.displacement,
-                        km: res.km,
-                        engine_model: res.engine_model,
-                        titles: res.titles,
-                        fuel: res.fuel,
-                        transmission: res.transmission,
-                        transmission_2: res.transmission_2,
-                        city: res.city,
-                        dealer: res.dealer,
-                        concesionary: res.concesionary,
-                        traction_control: res.traction_control,
-                        performance: res.performance,
-                        price: res.price,
-                        comfort: res.comfort,
-                        technology: res.technology,
-                        mechanicalFile: res.mechanicalFile,
-                        sold: res.sold,
-                        date: res.date,
-                        type_vehicle: res.type_vehicle,
-                        id_seller: res.id_seller,
-                        id_mechanic: res.id_mechanic,
-                        id_seller_buyer: res.id_seller_buyer,
-                        general_condition: "",
-                        images: [],
-                        price_ofert: res.price_ofert,
-                    };
-                    jsonRes.code = 200;
-                    jsonRes.message = "auto sin ficha mecanica";
-                    jsonRes.status = true;
-                    jsonRes.data = vehicle;
-                    return jsonRes;
-                }
-            }))
-                .catch((err) => {
-                console.log(err);
-            });
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe 1";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    }))
-        .catch((err) => {
-        console.log(err);
-    });
-    // const ress2 = await ImgVehicle.find({id_vehicle: id});
-    // console.log("imagenes", ress2)
-    // if (ress2){
-    //     jsonRes.data.images = ress2;
-    // }else{
-    //     jsonRes.data.images = [];
-    // }
-    // jsonRes.data.images = ress2;
+    const infoVehicle = yield Vehicles_1.default.findOne({ _id: id });
+    const imgsVehichle = yield ImgVehicle_1.default.find({ id_vehicle: id });
+    const mechanicalFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
+    if (infoVehicle) {
+        let data = {
+            _id: infoVehicle._id,
+            model: infoVehicle.model,
+            brand: infoVehicle.brand,
+            year: infoVehicle.year,
+            displacement: infoVehicle.displacement,
+            km: infoVehicle.km,
+            engine_model: infoVehicle.engine_model,
+            titles: infoVehicle.titles,
+            fuel: infoVehicle.fuel,
+            transmission: infoVehicle.transmission,
+            city: infoVehicle.city,
+            dealer: infoVehicle.dealer,
+            concesionary: infoVehicle.concesionary,
+            traction_control: infoVehicle.traction_control,
+            performance: infoVehicle.performance,
+            price: infoVehicle.price,
+            comfort: infoVehicle.comfort,
+            technology: infoVehicle.technology,
+            mechanicalFile: infoVehicle.mechanicalFile,
+            sold: infoVehicle.sold,
+            type_vehicle: infoVehicle.type_vehicle,
+            id_seller: infoVehicle.id_seller,
+            id_mechanic: infoVehicle.id_mechanic,
+            id_seller_buyer: infoVehicle.id_seller_buyer,
+            traction: infoVehicle.traction,
+            date_create: infoVehicle.date_create,
+            plate: infoVehicle.plate,
+            vin: infoVehicle.vin,
+            general_condition: mechanicalFile.general_condition,
+            images: imgsVehichle ? imgsVehichle : [],
+        };
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = data;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "No se pudo obtener la información del vehículo";
+        jsonRes.status = false;
+    }
     res.json(jsonRes);
 }));
 sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1179,6 +982,25 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     }
     res.json(reponseJson);
 }));
+sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const vehiclesFiltered = yield modelVehicle_1.default.find({
+        model: { $regex: search, $options: "i" },
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
 const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
@@ -1214,24 +1036,7 @@ const saveBse64ImageInPublicDirectory = (image, name) => __awaiter(void 0, void 
     const type = mime_type.split("/")[1];
     const base64Data = image.replace(/^data:image\/png;base64,/, "");
     const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/vehicle/" + name + "." + type, imgBin, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen guardada");
-        }
-    });
-    return name + "." + type;
-});
-const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, void 0, void 0, function* () {
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-    const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
+    fs_1.default.writeFile("public/images/vehicles/" + name + "." + type, imgBin, (err) => {
         if (err) {
             console.log(err);
         }
@@ -1243,7 +1048,6 @@ const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, v
 });
 const delBse64ImageInPublicDirectory = (name) => __awaiter(void 0, void 0, void 0, function* () {
     fs_1.default.unlink("public/images/vehicles/" + name, (err) => {
-        let del = false;
         if (err) {
             console.log(err);
         }
@@ -1270,6 +1074,15 @@ const getNameMonth = (date) => {
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+const generateString = (length) => __awaiter(void 0, void 0, void 0, function* () {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += yield characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+});
 const delBse64ImageInPublicDirectoryUser = (name) => __awaiter(void 0, void 0, void 0, function* () {
     yield fs_1.default.unlink("public/images/users/" + name, (err) => {
         if (err) {
@@ -1280,14 +1093,22 @@ const delBse64ImageInPublicDirectoryUser = (name) => __awaiter(void 0, void 0, v
         }
     });
 });
-const generateString = (length) => __awaiter(void 0, void 0, void 0, function* () {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = ' ';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += yield characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, void 0, void 0, function* () {
+    const posr = image.split(";")[0];
+    const base64 = image.split(";base64,").pop();
+    const mime_type = posr.split(":")[1];
+    const type = mime_type.split("/")[1];
+    const base64Data = image.replace(/^data:image\/png;base64,/, "");
+    const imgBin = Buffer.from(base64Data, "base64");
+    fs_1.default.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Imagen guardada");
+        }
+    });
+    return name + "." + type;
 });
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map
