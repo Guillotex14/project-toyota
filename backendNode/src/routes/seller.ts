@@ -1291,6 +1291,14 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     anioActual=yearSold;
   }
 
+  if (!month) {
+    month=1;
+  }
+
+  if (!rangMonths) {
+    rangMonths=12;
+  }
+
   let firtsMonth = new Date(anioActual, 0, 1);
   let last = new Date(anioActual, 11);
   let lastDayLasyMont=getLastDayOfMonth(anioActual,11);
