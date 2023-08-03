@@ -1,0 +1,442 @@
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" class="header">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
+          </ion-col>
+          <ion-col size="10" style="text-align: center;">
+            <p style="font-size: 30px; margin-top: 35px;">Ficha Mecanica</p>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-list>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-label>PARTE EXTERNA</ion-label>
+            </ion-item-divider>
+
+            <ion-label>Piezas completas-Emblemas completos</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.part_emblems_complete">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Cepillos limpia parabrisas-Ducha Limpia parabrisas</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.wiper_shower_brushes_windshield">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Golpes</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.hits">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Rayones</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.scratches">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Estado de la pintura</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.paint_condition">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-item-divider>
+              <ion-label>REVISION GENERAL DEL VEHICULO</ion-label>
+            </ion-item-divider>
+
+            <ion-label>Corneta-Accesorios</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.bugle_accessories">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Sistema de aire acondicionado</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.air_conditioning_system">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Radio reproductor</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.radio_player">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Luces de cortesia</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.courtesy_lights">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Estado de tapicería (Asientos techo, alfombras y tapiceria de puertas</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.upholstery_condition">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Revisión del sistema del vehiculo a traves de tester inteligente o GTS</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.gts">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Luces del tablero</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.board_lights">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Presión de los neumáticos</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.tire_pressure">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Vida util del neumático</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.tire_life">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Estado de la batería-Bornes</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.battery_status_terminals">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Correas transmisoras</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.transmitter_belts">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Aceite de motor</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.motor_oil">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Refrigerante del motor-Envase</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.engine_coolant_container">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Estado del radiador</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.radiator_status">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Tubo de escape y soporte</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.exhaust_pipe_bracket">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Condición del tanque de combustible, tapa tubos, mangueras y conexiones </ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.fuel_tank_cover_pipes_hoses_connections">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Correo de distribución </ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.distribution_mail">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Bujías-Filtro de aire-Filtro de gasolina-fitro anti polen </ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Sistema de combustible</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.fuel_system">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-item-divider>
+              <ion-label>SISTEMA DE FRENOS</ion-label>
+            </ion-item-divider>
+
+            <ion-label>Freno  de estacionamiento</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.parking_break">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Bandas de freno y tambores</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_bands_drums">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Pastillas de freno y discos</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_pads_discs">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Tubos y mangueras de freno</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_pipes_hoses">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Bomba de freno</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.master_cylinder">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Fluido de frenos</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_fluid">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-item-divider>
+              <ion-label>TREN DELANTERO</ion-label>
+            </ion-item-divider>
+
+            <ion-label>Bujes y mesetas</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.bushings_plateaus">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Muñones</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.stumps">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Terminales</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.terminals">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Barra estabilizadora</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.stabilizer_bar">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Rodamientos</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.bearings">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Tripoides y gomas</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.tripoids_rubbe_bands">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Amortiguadores y Espirales</ion-label>
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.shock_absorbers_coils">
+                <ion-radio value="malo" labelPlacement="end">Malo</ion-radio>
+                <ion-radio value="regular" labelPlacement="end">Regular</ion-radio>
+                <ion-radio value="bueno" labelPlacement="end">Bueno</ion-radio>
+                <ion-radio value="Excelente" labelPlacement="end">Excelente</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-item-divider>
+              <ion-label>Mantenimiento en el concesionario</ion-label>
+            </ion-item-divider>
+
+            <ion-list style="text-align: center;">
+              <ion-radio-group [(ngModel)]="newMechanicalFile.dealer_maintenance">
+                <ion-radio value="si" labelPlacement="end" justify="start" style="font-size: 20px !important;">Si</ion-radio>
+                <ion-radio value="no" labelPlacement="end" justify="end" style="font-size: 20px !important;">No</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+          </ion-item-group>
+
+        </ion-list>
+      </ion-col>
+
+      <!-- <ion-col size="12">
+        <ion-button expand="block" shape="round" class="btnSaveRed" (click)="saveMechanicalFile()">
+          Cargar
+        </ion-button>
+      </ion-col> -->
+
+      <ion-col size="12">
+        <ion-button expand="block" shape="round" class="btnSaveRed" (click)="saveMechanicalFile()" style="margin: 15px auto !important">
+          Aprobar
+        </ion-button>
+
+        <ion-button expand="block" shape="round" class="btnSaveRed" (click)="rejectMechanicalFile()" style="margin: 15px auto !important">
+          Rechazar
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="12">
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

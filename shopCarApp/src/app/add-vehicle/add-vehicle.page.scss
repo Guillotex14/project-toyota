@@ -1,0 +1,156 @@
+.header{
+  background-color: black;
+  color: white;
+}
+
+.colSearchBar{
+z-index: 9999;
+margin-top: -45px;
+position: absolute;
+left: 2px;
+}
+
+.btnClear{
+  --background: #EB0A1E !important;
+  color: #EB0A1E !important;
+  --color: #EB0A1E !important;
+}
+
+.fondoim{
+  height: 47%;
+}
+
+.imgperfil{
+  object-fit: cover;
+  width: 90%!important;
+  height: 100%!important;
+  border-radius: 25px;
+  margin: auto;
+  object-fit: cover;
+}
+
+.boto{
+  width: 100%;
+  display: flex;
+  margin-bottom: -55px;
+}
+
+.bt1{
+  width: 50%;
+  text-align: start;
+}
+.bt2{
+  width: 50%;
+  text-align: end;
+}
+
+.editar{
+  border-radius: 38px;
+  width: 20px;
+  height: 20px;
+  margin-top: 20px;
+  right: 35px;
+  // position: absolute;
+  padding: 15px;
+  background: #fff;
+  padding: 15px 12px 15px 18px;
+  z-index: 2;
+}
+.eliminar{
+  border-radius: 38px;
+  width: 20px;
+  height: 20px;
+  margin-top: 20px;
+  left: 35px;
+  // position: absolute;
+  padding: 15px;
+  background: #fff;
+  padding: 15px 12px 15px 18px;
+  z-index: 2;
+}
+.center {
+  text-align: center;
+}
+
+.full {
+  width: 100%;
+}
+
+.icinp{
+  width: 25px;
+  height: 20px;
+  padding: 3px;
+
+}
+
+ion-card{
+text-align: center !important;
+box-shadow: none !important;
+background: #F8F8F8;
+}
+
+ion-search-bar{
+--border-radius: 30px !important;
+}
+
+hr{
+border: 0.5px solid #E9E9E9;
+width: 100%;
+margin: 10px 0px 10px 0px;
+}
+
+ion-input{
+--background: #F9F9F9 !important;
+--border-radius: 15px !important;
+--color: #1c1c1d !important;
+
+}
+
+ion-checkbox{
+  margin: auto !important;
+  --checked-background: #EB0A1E !important;
+  --border-color: #EB0A1E !important;
+  --border-color-checked: #EB0A1E !important;
+  --checkbox-background-checked: #EB0A1E !important;
+  --checkmark-color: #fff !important;
+}
+
+ion-avatar{
+  margin: 5% auto !important;
+  width: 100px !important;
+  height: 100px !important;
+  border: 1px solid !important;
+}
+
+ion-search-bar{
+  --border-radius: 30px !important;
+}
+
+.card{
+  background-color: #F9F9F9 !important;
+  color: #1c1c1d !important;
+  width: 100% !important;
+  height: 130px !important;
+  border-radius: 15px !important;
+  text-align: left !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  line-height: 5px !important;
+  margin: 10px auto !important;
+}
+
+.listModels{
+  margin-top: 15px !important;
+  position: absolute !important;
+  z-index: 9999 !important;
+  border-radius: 20px !important;
+  border: solid 1px #1c1c1d;
+  width: 100% !important;
+}
+
+ion-item::parte(native){
+  background: #E9E9E9 !important;
+  color: #1c1c1d !important;
+  border-radius: 20px !important;
+  width: 100% !important;
+}
