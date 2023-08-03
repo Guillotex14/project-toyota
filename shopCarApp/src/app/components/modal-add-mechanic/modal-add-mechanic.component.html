@@ -1,0 +1,69 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Crear Mecanico</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [strong]="true" (click)="addMechanic()">Guadar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" style="margin-top: 20px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Nombre Completo</ion-label>
+        <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.fullName"></ion-input>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Correo Electronico</ion-label>
+        <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.email"></ion-input>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Nombre de Usurio</ion-label>
+        <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.username"></ion-input>
+      </ion-col>
+
+      <ion-col size="6" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">contraseña</ion-label>
+        <ion-input type="password" fill="outline" [(ngModel)]="newMechanic.password"></ion-input>
+      </ion-col>
+
+      <ion-col size="6" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Repetir contraseña</ion-label>
+        <ion-input type="password" fill="outline" [(ngModel)]="newMechanic.password_confirm"></ion-input>
+      </ion-col>
+
+      <ion-col size="6" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Estado</ion-label>
+          <ion-select value="" placeholder="Estado" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.city">
+            <ion-select-option value="">Todos</ion-select-option>
+            <ion-select-option *ngFor="let city of arrayCities" [value]="city.estado">{{city.estado}}</ion-select-option>
+          </ion-select>
+      </ion-col>
+
+      <ion-col size="6" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Tipo Usuario</ion-label>
+        <ion-input type="text" fill="outline" disabled value="Mecanico" style="opacity: 1 !important;"></ion-input>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 15px;">
+        <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Concesionario</ion-label>
+        <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.concesionary"></ion-input>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 20px;">
+        <ion-button expand="block" shape="round" (click)="addMechanic()" class="btnSaveRed">
+          Guardar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

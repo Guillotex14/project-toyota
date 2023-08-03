@@ -1,0 +1,92 @@
+.header{
+  background-color: black;
+  color: white;
+}
+
+.colSearchBar{
+  z-index: 9999;
+  margin-top: -45px;
+  position: absolute;
+  left: 2px;
+}
+
+ion-card{
+  background-color: #1c1c1d;
+  color: white;
+  span{
+    color: #EB0A1E;
+  }
+  p{
+    font-size: 16px;
+    font-weight: 900;
+  }
+  ion-card-subtitle{
+    font-size: 10px;
+    font-weight: 900;
+  }
+}
+
+ion-search-bar{
+  --border-radius: 30px !important;
+}
+.cardVehicles{
+  background-color: #F9F9F9 !important;
+  color: #1c1c1d !important;
+  // height: 180px !important;
+  ion-img{
+    width: 80%;
+    height: 60%;
+    margin: auto !important
+  }
+
+  p{
+    font-size: 10px;
+    font-weight: 900;
+  }
+  span{
+    font-size: 10px;
+    font-weight: 900;
+    color: #1c1c1d;
+  }
+  ion-button{
+    --border-radius: 30px !important;
+    --background: #EB0A1E !important;
+    --color: white !important;
+    font-size: 10px;
+    font-weight: 900;
+    width: 70%;
+    height: 20px;
+    margin: auto auto 10px auto!important;
+    text-transform: capitalize !important;
+  }
+
+}
+
+ion-input{
+  --border-radius: 15px !important;
+  --background: #F9F9F9 !important;
+  --color: #585858 !important;
+  width: 95%;
+  height: 5px !important;
+  margin: auto !important;
+  font-weight: 700;
+}
+
+ion-select{
+  width: 100%;
+  --border-radius: 15px !important;
+  --background: #F9F9F9 !important;
+  margin: auto !important;
+}
+
+ion-col{
+  margin: 3px auto !important;
+}
+
+ion-label{
+  color: #7D7D7D;
+  font-size: 14px;
+}
+#inputPasss{
+  min-height: 30px !important;
+}

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Agregar mecanico</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [strong]="true" (click)="addMechanic()">Agregar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="12">
+
+        <ion-searchbar placeholder="Buscar mecanico" [debounce]="250" showCancelButton="never" showClearButton="never"></ion-searchbar>
+
+      </ion-col>
+
+      <ion-col size="12" class="card" *ngFor="let mechanic of arrayMechanics" (click)="selectMechanic(mechanic.id_mechanic)">
+        <ion-row>
+          <ion-col size="6">
+            <ion-avatar >
+              <img src="assets/images/carro/sedan.png" />
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="6" style="text-align: center;">
+            <p style="margin-top: 25px !important;">{{mechanic.fullName}}</p>
+            <p style="margin-top: 15px !important;">{{mechanic.city}}</p>
+            <p style="margin-top: 15px !important;">{{mechanic.concesionary}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12">
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

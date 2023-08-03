@@ -1,0 +1,539 @@
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="12" class="header">
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
+            </ion-col>
+            <ion-col size="8" style="text-align: center;">
+              <ion-img src="assets/images/logo/logo_toyota.png" style="width: 80px;height: 80px; margin: 15px auto auto auto;"></ion-img>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="menu-outline" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="openMenu()"></ion-icon>
+            </ion-col>
+          </ion-row>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12" style="font-size: 22px;font-weight: bold;">
+              <p>Detalles del vehiculo</p>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="!editCar" style="text-align: center !important">
+              
+              <ion-col size="12" *ngIf="arrayImages.length === 0">
+                <ion-icon name="information-circle" style="font-size: 150px;" ></ion-icon>
+                <br>
+                <span style="font-size: 20px;">
+                  El vehiculo no posee imagenes cargadas
+                </span>
+              </ion-col>
+
+              <ion-col size="12" *ngIf="arrayImages.length > 0">
+                <swiper-container [loop]="true" [pagination]="true">
+                  <swiper-slide *ngFor="let image of arrayImages; let i = index">
+                    <ion-row>
+                      <ion-col size="12">
+                        <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
+                      </ion-col>
+                    </ion-row>
+                  </swiper-slide>
+                  <div class="swiper-pagination"></div>
+                </swiper-container>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="12" style="text-align: center;" *ngIf="typeConection === false && editCar">
+              <ion-row>
+                <ion-col size="12" *ngIf="arrayImages.length > 0">
+                  <swiper-container [loop]="true" [pagination]="true">
+                    <swiper-slide *ngFor="let image of arrayImages; let i = index">
+                      <ion-row>
+                        <ion-col size="4">
+                          <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImage(i,image)">
+                            <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col size="4">
+  
+                        </ion-col>
+                        <ion-col size="4">
+                          <ion-button expand="block" shape="round" (click)="editImage(i,image.public_id)" class="btnRed">
+                            <ion-icon name="create" style="font-size: 30px;"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col size="12">
+                          <img [src]="image.img" style="width: 100%;height: 200px;">
+                        </ion-col>
+                      </ion-row>
+                    </swiper-slide>
+                    <div class="swiper-pagination"></div>
+                  </swiper-container>
+                  <ion-button (click)="addImage()" expand="block" shape="round" style="margin-top: 20px;" class="btnSaveRed">
+                    Agregar imagen
+                  </ion-button>
+                </ion-col>
+                <ion-col size="12" *ngIf="arrayImages.length === 0"(click)="addImage()">
+                  <ion-icon name="image" style="font-size: 150px;" ></ion-icon>
+                  <br>
+                  <span style="font-size: 20px;">Cargar imágenes</span>
+                  <br>
+                  <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehiculo (Delantera, trasera. ambos lados e interna)</span>
+                </ion-col>
+              </ion-row>
+  
+              <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
+              <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)">
+            </ion-col>
+  
+            <ion-col size="12" style="text-align: center;" *ngIf="typeConection === true && editCar">
+              <ion-row>
+                <ion-col size="12" *ngIf="arrayImages.length === 0">
+                  <ion-icon name="image" style="font-size: 150px;" id="open-action-sheet"></ion-icon>
+                  <br>
+                  <span style="font-size: 20px;">Cargar imágenes</span>
+                  <br>
+                  <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehiculo (Delantera, trasera. ambos lados e interna)</span>
+                </ion-col>
+  
+                <ion-col size="12" *ngIf="arrayImages.length > 0">
+                  <swiper-container [loop]="true" [pagination]="true">
+                    <swiper-slide *ngFor="let image of arrayImages; let i = index">
+                      <ion-row>
+                        <ion-col size="4">
+                          <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImage(i,image)">
+                            <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col size="4">
+  
+                        </ion-col>
+                        <ion-col size="4">
+                          <ion-button expand="block" shape="round"(click)="editImage(i,image.public_id)" class="btnRed">
+                            <ion-icon name="create" style="font-size: 30px;"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
+                        </ion-col>
+                      </ion-row>
+                      <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheetEdit(i)">
+                        Agregar imagen
+                      </ion-button>
+                    </swiper-slide>
+                    <div class="swiper-pagination"></div>
+                  </swiper-container>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
+            <ion-col size="12" >
+              <ion-col size="12">
+                <span class="spanLabel" style="margin-left: 25px !important;">Modelo</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText" style="margin-left: 30px !important;">{{carDetail.model}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel" class="spanLabel">Marca</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">
+                  {{carDetail.brand}}
+                </p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel" class="spanLabel">Motor</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.engine_model}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel" class="spanLabel">Año</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">
+                  {{carDetail.year}}
+                </p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Km</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{setDot(carDetail.km)}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Cilindrada</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.displacement}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Combustible</span>
+              </ion-col>
+              <ion-col size="12" >
+                <p class="pText" style="margin-top: -10px !important;margin-bottom: 0px !important;">{{carDetail.fuel}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Titulos</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.titles}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Transmición</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.traction}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="4" style="text-align: center !important;">
+              <ion-col size="12">
+                <span class="spanLabel">Transmisión</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.transmission}}</p>
+              </ion-col>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-card>
+                <ion-card-content style="text-align: center !important;">
+                  <ion-row>
+
+                    <ion-col size="6">
+                      <ion-row>
+                        
+                        <ion-col size="12" >
+                          <span class="spanLabel" style="font-size: 15px !important;">Estado</span>
+                        </ion-col>
+                        <ion-col size="12" >
+                          <ion-row>
+                            <!-- <ion-col size="3" style="text-align: center !important;" style="text-align: right !important;">
+                              <ion-icon name="navigate-sharp" style="color: #787878; font-size: 25px;"></ion-icon>
+                            </ion-col> -->
+                            <ion-col size="12" style="text-align: left !important;">
+                              <span style="font-size: 14px;color: #575757; ">{{carDetail.city}}</span>
+                            </ion-col>
+                          </ion-row>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+
+                    <ion-col size="6">
+                      <ion-row>
+                        <ion-col size="12">
+                          <span class="spanLabel" style="font-size: 15px !important;">Concesionario</span>
+                        </ion-col>
+                        <ion-col size="12">
+                          <span style="font-size: 15px;">{{carDetail.concesionary}}</span>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+
+                    <ion-col size="12" *ngIf="carDetail.price !== null && carDetail.id_seller !== myId">
+                      <ion-row>
+                        <ion-col size="12" >
+                          <span class="spanLabel" style="font-size: 15px;">Precio</span>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-icon name="logo-usd" style="font-size: 20px;"></ion-icon>
+                          <span style="font-size: 18px;">{{setDot(carDetail.price)}}</span>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId" style="text-align: center !important;">
+              <ion-row>
+                <ion-col size="12">
+                  <span class="spanLabel" style="font-size: 18px;">Precio</span>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-col size="6">
+                    <ion-row style="border: 1px solid #b3b3b3 !important; border-radius: 15px !important;height: 50px !important; width: 180px !important; margin: auto !important;">
+                      <ion-col size="3" style="text-align: center;">
+                        <ion-icon name="logo-usd" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                      </ion-col>
+                      <ion-col size="9">
+                        <ion-input type="text" [value]="priceAux" (ionInput)="dotPrice($event.target)" style="height: 30px !important;" id="inputPasss" [disabled]="!editCar"></ion-input>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-card>
+                <ion-card-content>
+                  <ion-row>
+                    <ion-col size="6" *ngIf="carDetail.traction_control === 'true'">
+                      <ion-img src="assets/images/logo/traccion.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
+                      <p style="font-size: 15px; font-weight: bold;">Control de tracción</p>
+                      <span style="font-size: 10px; color: #898989">Estable y seguro</span>
+                    </ion-col>
+
+                    <ion-col size="6" *ngIf="carDetail.technology === 'true'">
+                      <ion-img src="assets/images/logo/tecnologia.png" style="width: 29% !important;margin: 5px 0px !important"></ion-img>
+                      <p style="font-size: 15px; font-weight: bold;">Tecnología</p>
+                      <span style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</span>
+                    </ion-col>
+
+                    <ion-col size="6" *ngIf="carDetail.performance === 'true'">
+                      <ion-img src="assets/images/logo/performance.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
+                      <p style="font-size: 15px; font-weight: bold;">Performance</p>
+                      <span style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
+                    </ion-col>
+
+                    <ion-col size="6" *ngIf="carDetail.comfort === 'true'">
+                      <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
+                      <p style="font-size: 15px; font-weight: bold;">Confort</p>
+                      <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y ecologico</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.mechanicalFile">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="12" style="text-align: center;">
+                    <p>Ficha Mecanica</p>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-row>
+                      <ion-col size="12">
+                        
+                        <ion-row *ngIf="carDetail.general_condition ==='excelente'">
+                          <ion-col size="12">
+                            <span style="font-size: 12px !important;font-weight: bold;">Condicion del vehiculo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="shield-checkmark-outline" style="font-size: 30px !important; color: #11D800 !important;margin-top: 5px !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 16px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">Excelente</p>
+                          </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="carDetail.general_condition ==='bueno'">
+                          <ion-col size="12">
+                            <span style="font-size: 12px !important;font-weight: bold;">Condicion del vehiculo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="shield-checkmark-outline" style="font-size: 30px !important; color: #F9D616 !important;margin-top: 5px !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 16px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">Bueno</p>
+                          </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="carDetail.general_condition ==='regular'">
+                          <ion-col size="12">
+                            <span style="font-size: 12px !important;font-weight: bold;">Condicion del vehiculo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="infomation-circle-outline" style="font-size: 30px !important; color: #F7941D !important;margin-top: 5px !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 16px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">Regular</p>
+                          </ion-col>
+                        </ion-row>
+                
+                        <ion-row *ngIf="carDetail.general_condition ==='malo'">
+                          <ion-col size="12">
+                            <span style="font-size: 12px !important;font-weight: bold;">Condicion del vehiculo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="close-circle-outline" style="font-size: 30px !important; color: #EB0A1E !important;margin-top: 5px !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 16px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">Malo</p>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size="6" style="text-align: center; margin: auto;">
+                    <ion-button (click)="openFile(carDetail._id)" expand="block" shape="round" color="success">
+                      Ver ficha
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-button expand="block" shape="round" color="success" (click)="editVehicle()" *ngIf="!editCar">
+                      Editar
+                    </ion-button>
+                    <ion-button expand="block" shape="round" color="success" (click)="updateVehicle()" *ngIf="editCar">
+                      guardar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null ">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-button expand="block" shape="round" color="success" (click)="openModalBuy()">
+                      Comprar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+
+            <!-- <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null && carDetail.id_seller === myId ||carDetail.id_seller_buyer==='null' && carDetail.price !== null && carDetail.id_seller === myId || carDetail.id_seller_buyer==='' && carDetail.price !== null && carDetail.id_seller === myId ">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-button expand="block" shape="round" color="success" (click)="buyVehicle()">
+                      Comprar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col> -->
+
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId && carDetail.price_ofert !== null" style="text-align: center !important;">
+              <p class="pText">Tienes una oferta por tu vehiculo de ${{setDot(carDetail.price_ofert)}}</p>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer
+            !==null && carDetail.id_seller===myId">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-button expand="block" shape="round" (click)="approveBuyVehicle()" class="btnRed">
+                      Aprobar
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-button expand="block" shape="round" (click)="rejectBuyVehicle()" class="btnRed">
+                      Rechazar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal #modalBuy>
+    <!-- (willDismiss)="onWillDismiss($event)" -->
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Completar formulario</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+      
+        <ion-grid fixed>
+          <ion-row>
+            
+            <ion-col size="12" style="text-align: center !important;">
+              <ion-label>Ofertar por vehiculo</ion-label>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Precio</ion-label>
+              <ion-input type="tel" fill="outline" [value]="priceOfertAux" (ionInput)="dotPriceOfert($event.target)"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Nombre Completo</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="fullName"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Cedula</ion-label>
+
+              <ion-row>
+                <ion-col size="4">
+                  <ion-select [(ngModel)]="typeDni" interface="action-sheet" placeholder="tipo de vehiculo" fill="outline" id="typeSelect">
+                    <ion-select-option value="V">V</ion-select-option>
+                    <ion-select-option value="E">E</ion-select-option>
+                    <ion-select-option value="J">J</ion-select-option>
+                    <ion-select-option value="G">G</ion-select-option>
+                    <ion-select-option value="P">P</ion-select-option>
+                  </ion-select>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input type="text" fill="outline" [(ngModel)]="dni"></ion-input>
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Telefono</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="phone"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Correo electronico</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="email"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="margin-top: 50px !important">
+              <ion-button  expand="block" shape="round" class="btnSaveRed" (click)="buyVehicle()">
+                Ofertar
+              </ion-button>
+            </ion-col>
+          
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+

@@ -1,0 +1,7 @@
+{
+  "name": "shopCarApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
