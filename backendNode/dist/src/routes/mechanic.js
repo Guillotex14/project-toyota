@@ -22,6 +22,7 @@ const Users_1 = __importDefault(require("../models/Users"));
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const notifications_1 = __importDefault(require("../models/notifications"));
+const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const mechanicRouter = (0, express_1.Router)();
 mechanicRouter.post("/inspections", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -54,6 +55,7 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
     const { id } = req.body;
     const vehicle = yield Vehicles_1.default.findOne({ _id: id });
     const mechanicFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
+    const imgVehicle = yield ImgVehicle_1.default.find({ id_vehicle: id });
     if (vehicle) {
         if (mechanicFile) {
             let data = {
@@ -83,7 +85,8 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
                 id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: mechanicFile.general_condition
+                general_condition: mechanicFile.general_condition,
+                images: imgVehicle ? imgVehicle : []
             };
             reponseJson.code = 200;
             reponseJson.status = true;

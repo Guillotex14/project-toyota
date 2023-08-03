@@ -9,6 +9,7 @@ import users from '../models/Users';
 import mechanicalsFiles from '../models/mechanicalsFiles';
 import nodemailer from 'nodemailer';
 import notifications from '../models/notifications';
+import ImgVehicle from '../models/ImgVehicle';
 
 const mechanicRouter = Router();
 
@@ -51,6 +52,7 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
 
     const vehicle = await vehicles.findOne({_id: id});
     const mechanicFile = await mechanicalsFiles.findOne({id_vehicle: id});
+    const imgVehicle = await ImgVehicle.find({id_vehicle: id});
     if(vehicle){
         
         if (mechanicFile) {
@@ -82,7 +84,8 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
                 id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: mechanicFile.general_condition
+                general_condition: mechanicFile.general_condition,
+                images: imgVehicle ? imgVehicle : []
             }
 
             reponseJson.code = 200;
