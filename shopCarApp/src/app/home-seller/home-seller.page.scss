@@ -155,3 +155,19 @@ ion-item::part(native){
     color: #fff !important;
   }
 }
+
+ion-chip{
+  position: fixed !important;
+  bottom: 25px !important;
+  margin: 5px !important;
+  --background: #ebc90a !important;
+  --color: #000;
+  font-size: 13px;
+  font-weight: 900;
+  width: 65% !important;
+  height: 20px !important;
+  text-transform: capitalize !important;
+  ion-label {
+    // margin: 0px 6px !important;
+  }
+}

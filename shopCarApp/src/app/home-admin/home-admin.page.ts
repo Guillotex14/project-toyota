@@ -4,6 +4,7 @@ import { MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { AdminService } from '../services/admin/admin.service';
 import { VehicleList } from 'src/models/sellet';
+import { states } from 'src/assets/json/states';
 
 @Component({
   selector: 'app-home-admin',
@@ -36,8 +37,11 @@ export class HomeAdminPage implements OnInit {
   maxKmsAux: string = "";
 
   constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController) { 
-
+    this.arrayUbication = states;
     this.getVehicles();
+    this.getBrands();
+    this.getModels();
+    
   }
 
   ngOnInit() {
@@ -52,6 +56,16 @@ export class HomeAdminPage implements OnInit {
     });
   }
 
+  public getModels(){
+    this.adminSrv.allModels().subscribe((res: any) => {
+      this.arrayModels = res.data;
+
+    }, (err: any) => {
+      console.log(err);
+    });
+    
+  }
+
   public openMenu() {
     this.utils.setLogin(true);
     this.menu.open();
@@ -62,6 +76,11 @@ export class HomeAdminPage implements OnInit {
   }
 
   public dismissModal(){
+    this.modalCtrl.dismiss();
+  }
+
+  public applyFilter(){
+    this.getVehicles()
     this.modalCtrl.dismiss();
   }
 

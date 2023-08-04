@@ -540,26 +540,34 @@ sellerRouter.get("/allConcesionaries", (req, res) => __awaiter(void 0, void 0, v
 }));
 sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const brand = yield brands_1.default
-        .find()
-        .then((res) => {
-        if (res) {
-            jsonResponse.code = 200;
-            jsonResponse.message = "success";
-            jsonResponse.status = true;
-            jsonResponse.data = res;
-            return jsonResponse;
-        }
-        else {
-            jsonResponse.code = 400;
-            jsonResponse.message = "no existe";
-            jsonResponse.status = false;
-            return jsonResponse;
-        }
-    })
-        .catch((err) => {
-        console.log(err);
-    });
+    const brand = yield brands_1.default.find();
+    if (brand) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "success";
+        jsonResponse.status = true;
+        jsonResponse.data = brand;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no existe";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+}));
+sellerRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const model = yield modelVehicle_1.default.find();
+    if (model) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "todos los modelos";
+        jsonResponse.status = true;
+        jsonResponse.data = model;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no hay modelos";
+        jsonResponse.status = false;
+    }
     res.json(jsonResponse);
 }));
 sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -820,13 +828,56 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.mechanicalFile = true;
     query.sold = false;
-    query.id_seller_buyer = null;
+    // query.id_seller_buyer = null;
     const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
+        let arrayVehicles = [];
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
+            let data = {
+                name_new_owner: vehiclesFiltered[i].name_new_owner,
+                dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+                phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+                email_new_owner: vehiclesFiltered[i].email_new_owner,
+                price_ofert: vehiclesFiltered[i].price_ofert,
+                final_price_sold: vehiclesFiltered[i].final_price_sold,
+                _id: vehiclesFiltered[i]._id,
+                model: vehiclesFiltered[i].model,
+                brand: vehiclesFiltered[i].brand,
+                year: vehiclesFiltered[i].year,
+                displacement: vehiclesFiltered[i].displacement,
+                km: vehiclesFiltered[i].km,
+                engine_model: vehiclesFiltered[i].engine_model,
+                titles: vehiclesFiltered[i].titles,
+                fuel: vehiclesFiltered[i].fuel,
+                transmission: vehiclesFiltered[i].transmission,
+                city: vehiclesFiltered[i].city,
+                dealer: vehiclesFiltered[i].dealer,
+                concesionary: vehiclesFiltered[i].concesionary,
+                traction_control: vehiclesFiltered[i].traction_control,
+                performance: vehiclesFiltered[i].performance,
+                comfort: vehiclesFiltered[i].comfort,
+                technology: vehiclesFiltered[i].technology,
+                id_seller: vehiclesFiltered[i].id_seller,
+                id_mechanic: vehiclesFiltered[i].id_mechanic,
+                __v: vehiclesFiltered[i].__v,
+                price: vehiclesFiltered[i].price,
+                mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+                id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+                sold: vehiclesFiltered[i].sold,
+                type_vehicle: vehiclesFiltered[i].type_vehicle,
+                traction: vehiclesFiltered[i].traction,
+                date_sell: vehiclesFiltered[i].date_sell,
+                date_create: vehiclesFiltered[i].date_create,
+                plate: vehiclesFiltered[i].plate,
+                vin: vehiclesFiltered[i].vin,
+                image: (yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+            };
+            arrayVehicles.push(data);
+        }
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
+        reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
