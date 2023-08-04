@@ -1056,36 +1056,90 @@ sellerRouter.post("/filterVehiclesWithMongo", async (req: Request, res: Response
 
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
-  let { month, amount }: any = req.query;
+  let { month, yearSold, rangMonths, yearCar, brandCar, modelCar }: any =req.query;
+
+  //   yearSold = 2023; // A de venta
+  //   rangMonths = 12; // Rango de meses
+  //   month = 1; // Mes donde comienza el rango
+
+  // yearCar = 2010; // Año del vehículo
+  // brandCar = "Toyota"; // Marca del vehículo
+  // modelCar = "TkT"; // Modelo del vehículo
+
   let now = new Date();
   let anioActual = now.getFullYear();
+  if (yearSold) {
+    anioActual=yearSold;
+  }
+
+  if (!month) {
+    month=1;
+  }
+
+  if (!rangMonths) {
+    rangMonths=12;
+  }
+
   let firtsMonth = new Date(anioActual, 0, 1);
-  let lastMonth = new Date(anioActual, 11, 31);
-  let from = `${
-    firtsMonth.getDate() < 10
-      ? "0" + firtsMonth.getDate()
-      : firtsMonth.getDate()
-  }/${
-    firtsMonth.getMonth() + 1 < 10
-      ? "0" + (firtsMonth.getMonth() + 1)
-      : firtsMonth.getMonth() + 1
-  }/${firtsMonth.getFullYear()}`;
-  let to = `${
-    lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()
-  }/${
-    firtsMonth.getMonth() + 1 < 10
-      ? "0" + (firtsMonth.getMonth() + 1)
-      : firtsMonth.getMonth() + 1
-  }/${lastMonth.getFullYear()}`;
+  let last = new Date(anioActual, 11);
+  let lastDayLasyMont=getLastDayOfMonth(anioActual,11);
+  let lastMonth = new Date(anioActual, 11,lastDayLasyMont.getDate());
+  let rangArrayMonth: any[] = [];
+
+  if (rangMonths &&  rangMonths < 12) {
+    rangArrayMonth = getMonthRange(month, rangMonths);
+    firtsMonth = new Date(anioActual, (month - 1), 1);
+    if (rangArrayMonth.length > 0) {
+      last = new Date(anioActual, (rangArrayMonth.length - 1));
+      lastDayLasyMont=getLastDayOfMonth(anioActual,(rangArrayMonth.length - 1));   
+      lastMonth = new Date(anioActual,(rangArrayMonth.length - 1),lastDayLasyMont.getDate());
+    } else {
+      last = new Date(anioActual, (month - 1));
+      lastDayLasyMont=getLastDayOfMonth(anioActual,(month - 1));   
+      lastMonth = new Date(anioActual,(month - 1),lastDayLasyMont.getDate());
+    }
+  }
+
+
+  let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10 ? "0" + (firtsMonth.getMonth() + 1): firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10? "0" + firtsMonth.getDate(): firtsMonth.getDate()}`;
+  let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10 ? "0" + (lastMonth.getMonth() + 1): lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10? "0" + lastMonth.getDate(): lastMonth.getDate()}`;
+
+  let mongQuery:any={
+    date_sell: {
+      $gte: from, // Filtrar documentos a partir del 1 de enero del año
+      $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
+    },
+    sold: true, // Campo de búsqueda adicional
+
+  };
+  
+
+  if (yearCar) {
+    mongQuery={
+      ...mongQuery,
+        year:parseInt(yearCar)
+    }
+  }
+
+  if (brandCar) {
+    mongQuery={
+      ...mongQuery,
+        brand:{ $regex: brandCar, $options: "i" }
+    }
+  }
+
+  if (modelCar) {
+    mongQuery={
+      ...mongQuery,
+      model: { $regex: modelCar, $options: "i" }
+    }
+  }
+
+  console.log(mongQuery)
+  
   const vehiclesFiltered = await vehicles.aggregate([
     {
-      $match: {
-        date_sell: {
-          $gte: from, // Filtrar documentos a partir del 1 de enero del año
-          $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
-        },
-        sold: true, // Campo de búsqueda adicional
-      },
+      $match: mongQuery
     },
     {
       $group: {
@@ -1192,8 +1246,45 @@ const sendNotificationMechanic = async (
   }
 };
 
+function getMonthRange(startMonth: any, rangeMonths: any) {
+  const months = [
+    { month: "Enero", index: 1 },
+    { month: "Febrero", index: 2 },
+    { month: "Marzo", index: 3 },
+    { month: "Abril", index: 4 },
+    { month: "Mayo", index: 5 },
+    { month: "Junio", index: 6 },
+    { month: "Julio", index: 7 },
+    { month: "Agosto", index: 8 },
+    { month: "Septiembre", index: 9 },
+    { month: "Octubre", index: 10 },
+    { month: "Noviembre", index: 11 },
+    { month: "Diciembre", index: 12 },
+  ];
+
+  const startMonthIndex = startMonth - 1;
+  const endMonthIndex = Math.min(startMonthIndex + rangeMonths - 1, 11);
+
+  const monthRange = months.slice(startMonthIndex, endMonthIndex + 1);
+
+  return monthRange;
+}
+
+function getLastDayOfMonth(year:any, month:any) {
+  // Ajustar el mes para que sea el siguiente
+  const nextMonth = month + 1;
+  
+  // Crear una nueva fecha con el primer día del mes siguiente
+  const firstDayOfNextMonth = new Date(year, nextMonth, 1);
+  
+  // Restar un día para obtener el último día del mes actual
+  const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - (24 * 60 * 60 * 1000));
+  
+  return lastDayOfMonth;
+}
+
 const getNameMonth = (date: any) => {
-  const partsDate = date.split("/");
+  const partsDate = date.split("-");
   const months = [
     { month: "Enero", index: 1 },
     { month: "Febrero", index: 2 },
