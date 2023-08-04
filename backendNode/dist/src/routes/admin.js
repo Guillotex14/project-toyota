@@ -317,63 +317,6 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
         jsonRes.message = "no existe";
         jsonRes.status = false;
     }
-    // const ress = await Vehicles.findOne({_id: id}).then(async (res:any) => {
-    //     if (res) {
-    //         await mechanicalsFiles.findOne({id_vehicle: res._id}).then((res2:any) => {
-    //             if (res2) {
-    //                 let vehicle = {
-    //                     _id: res._id,
-    //                     model: res.model,
-    //                     year: res.year,
-    //                     brand: res.brand,
-    //                     displacement: res.displacement,
-    //                     km: res.km,
-    //                     engine_model: res.engine_model,
-    //                     titles: res.titles,
-    //                     fuel: res.fuel,
-    //                     transmission: res.transmission,
-    //                     traction: res.traction,
-    //                     city: res.city,
-    //                     dealer: res.dealer,
-    //                     concesionary: res.concesionary,
-    //                     traction_control: res.traction_control,
-    //                     performance: res.performance,
-    //                     price: res.price,
-    //                     comfort: res.comfort,
-    //                     technology: res.technology,
-    //                     mechanicalFile: res.mechanicalFile,
-    //                     sold: res.sold,
-    //                     date_create: res.date_create,
-    //                     type_vehicle: res.type_vehicle,
-    //                     id_seller: res.id_seller,
-    //                     id_mechanic: res.id_mechanic,
-    //                     id_seller_buyer: res.id_seller_buyer,
-    //                     general_condition: res2.general_condition
-    //                 }
-    //                 jsonRes.code = 200;
-    //                 jsonRes.message = "success";
-    //                 jsonRes.status = true;
-    //                 jsonRes.data = vehicle;
-    //                 return jsonRes;
-    //             }else{
-    //                 jsonRes.code = 400;
-    //                 jsonRes.message = "no existe";
-    //                 jsonRes.status = false;
-    //                 return jsonRes;
-    //             }
-    //         }).catch((err: any) => {
-    //             console.log(err)
-    //         });
-    //     } else if (!res) {
-    //         jsonRes.code = 400;
-    //         jsonRes.message = "no existe";
-    //         jsonRes.status = false;
-    //         return jsonRes;
-    //     }
-    // }
-    // ).catch((err: any) => {
-    //     console.log(err)
-    // });
     res.json(jsonRes);
 }));
 adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

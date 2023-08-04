@@ -1,9 +1,10 @@
 import { v2 as cloudinary, ConfigOptions } from 'cloudinary';
+import { ENV_API_KEY_CLOUDINARY, ENV_API_SECRET_CLOUDINARY, ENV_CLOUD_NAME_CLOUDINARY } from './enviroments';
 
 cloudinary.config({
-    cloud_name: "dopy0eoxs",
-    api_key: "812629755952768",
-    api_secret: "KNT_x2aCuDt7GXH0-I4r5FUdLLQ"
+    cloud_name: ENV_CLOUD_NAME_CLOUDINARY,
+    api_key: ENV_API_KEY_CLOUDINARY,
+    api_secret: ENV_API_SECRET_CLOUDINARY
 });
 
 export const uploadImageUser = async (file: any) => {

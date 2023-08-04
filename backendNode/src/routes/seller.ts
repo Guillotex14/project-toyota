@@ -1,8 +1,6 @@
 import { Router, Request, Response, json } from "express";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 import moment from "moment";
-import fs from "fs";
 
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
@@ -14,11 +12,10 @@ import mechanicalsFiles from "../models/mechanicalsFiles";
 import Sellers from "../models/Sellers";
 import brands from "../models/brands";
 import notifications from "../models/notifications";
-import imgUser from "../models/imgUser";
 import ImgVehicle from "../models/ImgVehicle";
 import modelVehicle from "../models/modelVehicle";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
-
+import { sendEmail } from '../../nodemailer';
 
 const sellerRouter = Router();
 
@@ -54,14 +51,6 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
 
   await newMechanic.save();
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "jefersonmujica@gmail.com",
-      pass: "qtthfkossxcahyzo",
-    },
-  });
-
   const mailOptions = {
     from: "Toyousado",
     to: email,
@@ -74,13 +63,7 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
       "",
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "Mecanico agregado exitosamente";
@@ -134,14 +117,6 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     }
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "jefersonmujica@gmail.com",
-      pass: "qtthfkossxcahyzo",
-    },
-  });
-
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic,
@@ -156,13 +131,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
       " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  await sendEmail(mailOptions);
 
   sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
 
@@ -724,14 +693,6 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
 
   const emailBuyer = await Users.findById(infoBuyer!.id_user);
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "jefersonmujica@gmail.com",
-      pass: "qtthfkossxcahyzo",
-    },
-  });
-
   const mailOptions = {
     from: "Toyousado Notifications",
     to: email!.email,
@@ -743,13 +704,7 @@ sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
     } o al numero telefono ${infoBuyer!.phone}`,
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  await sendEmail(mailOptions);
 
   sendNotification(
     infoSeller!._id.toString(),
@@ -786,14 +741,6 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
     reponseJson.status = true;
     reponseJson.data = vehicle;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "jefersonmujica@gmail.com",
-        pass: "qtthfkossxcahyzo",
-      },
-    });
-
     const mailOptions = {
       from: "Toyousado Notifications",
       to: userbuyer!.email,
@@ -805,13 +752,7 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
       } o al numero telefono ${infoSeller!.phone}`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    await sendEmail(mailOptions);
 
     sendNotification(
       userbuyer!._id.toString(),
@@ -851,28 +792,14 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
         reponseJson.status = true;
         reponseJson.data = vehicle;
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'jefersonmujica@gmail.com',
-                pass: 'qtthfkossxcahyzo',
-            },
-        });
-    
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: userbuyer!.email,
             subject: 'Oferta de vehiculo aprobada',
             text: `Tu oferta del vehiculo ${vehicle!.model} del concesionario ${vehicle!.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller!.email} o al numero telefono ${infoSeller!.phone}`,
         }
-    
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            };
-        });
+        
+        await sendEmail(mailOptions);
 
         sendNotification(userbuyer!._id.toString(), mailOptions.text, mailOptions.subject)
 
@@ -906,14 +833,6 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
     reponseJson.status = true;
     reponseJson.data = vehicle;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "jefersonmujica@gmail.com",
-        pass: "qtthfkossxcahyzo",
-      },
-    });
-
     const mailOptions = {
       from: "Toyousado Notifications",
       to: userbuyer!.email,
@@ -925,13 +844,7 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
       } o al numero telefono ${infoSeller!.phone}`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    await sendEmail(mailOptions);
 
     sendNotification(
       userbuyer!._id.toString(),
@@ -1279,38 +1192,6 @@ const sendNotificationMechanic = async (
   }
 };
 
-const saveBse64ImageInPublicDirectory = async (image: any, name: any) => {
-  const posr = image.split(";")[0];
-  const base64 = image.split(";base64,").pop();
-  const mime_type = posr.split(":")[1];
-  const type = mime_type.split("/")[1];
-  const base64Data = image.replace(/^data:image\/png;base64,/, "");
-
-  const imgBin = Buffer.from(base64Data, "base64");
-
-  fs.writeFile("public/images/vehicles/" + name + "." + type, imgBin, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Imagen guardada");
-    }
-  });
-
-  return name + "." + type;
-};
-
-const delBse64ImageInPublicDirectory = async (name: any) => {
-
-  fs.unlink("public/images/vehicles/" + name, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Imagen eliminada");
-    }
-  });
-
-};
-
 const getNameMonth = (date: any) => {
   const partsDate = date.split("/");
   const months = [
@@ -1330,50 +1211,5 @@ const getNameMonth = (date: any) => {
 
   return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
-
-
-const generateString = async (length:any) => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-      result += await characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
-  }
-  
-  const delBse64ImageInPublicDirectoryUser = async (name: any) => {
-  
-    await fs.unlink("public/images/users/" + name, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Imagen eliminada")
-      }
-    });
-    
-  };
-
-  const saveBse64ImageInPublicDirectoryUser = async (image: any, name: any) => {
-  
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-  
-    const imgBin = Buffer.from(base64Data, "base64");
-  
-    fs.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Imagen guardada");
-      }
-    });
-  
-    return name + "." + type;
-  };
 
 export default sellerRouter;

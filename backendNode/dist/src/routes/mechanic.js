@@ -20,9 +20,9 @@ const Mechanics_1 = __importDefault(require("../models/Mechanics"));
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const Users_1 = __importDefault(require("../models/Users"));
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
 const notifications_1 = __importDefault(require("../models/notifications"));
 const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
+const nodemailer_1 = require("../../nodemailer");
 const mechanicRouter = (0, express_1.Router)();
 mechanicRouter.post("/inspections", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -159,8 +159,6 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     let mailSeller = "";
     let infoMechanic = {};
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    let messageNotification = "";
-    let title = "";
     const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, Stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
     const newMechanicFile = new mechanicalsFiles_1.default({
         part_emblems_complete,
@@ -227,35 +225,18 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         }
         //obteniendo la informacion del mecanico
         const mechanic = yield Mechanics_1.default.findOne({ _id: id_mechanic });
-        console.log("infomacion del mecanico en el const", mechanic);
         if (mechanic) {
             infoMechanic.fullname = mechanic.fullName;
             infoMechanic.concesionary = mechanic.concesionary;
             infoMechanic.city = mechanic.city;
         }
-        console.log("informacion del mecanico en el json", infoMechanic);
-        const transporter = nodemailer_1.default.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'jefersonmujica@gmail.com',
-                pass: 'qtthfkossxcahyzo',
-            }
-        });
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
             text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`,
         };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('Email sent: ' + info.response);
-            }
-            ;
-        });
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
         // if (general_condition === "malo") {
         //     const mailOptions = {
         //         from: 'Toyousado Notifications',
@@ -263,15 +244,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         //         subject: 'Ficha mecanica Rechazada',
         //         text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`,
         //     };
-        //     transporter.sendMail(mailOptions, function(error, info){
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log('Email sent: ' + info.response);
-        //         };
-        //     });
-        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`;
-        //     title = "Ficha mecanica Rechazada";
+        //       await sendEmail(mailOptions);
         // }
         // if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
         //     const mailOptions = {
@@ -280,15 +253,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         //         subject: 'Ficha mecanica creada',
         //         text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
         //     };
-        //     transporter.sendMail(mailOptions, function(error, info){
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log('Email sent: ' + info.response);
-        //         };
-        //     });
-        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`;
-        //     title = "Ficha mecanica creada";
+        //      await sendEmail(mailOptions);
         // }
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
     }

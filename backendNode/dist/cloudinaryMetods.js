@@ -11,10 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteImageVehicle = exports.uploadImageVehicle = exports.deleteImageUser = exports.uploadImageUser = void 0;
 const cloudinary_1 = require("cloudinary");
+const enviroments_1 = require("./enviroments");
 cloudinary_1.v2.config({
-    cloud_name: "dopy0eoxs",
-    api_key: "812629755952768",
-    api_secret: "KNT_x2aCuDt7GXH0-I4r5FUdLLQ"
+    cloud_name: enviroments_1.ENV_CLOUD_NAME_CLOUDINARY,
+    api_key: enviroments_1.ENV_API_KEY_CLOUDINARY,
+    api_secret: enviroments_1.ENV_API_SECRET_CLOUDINARY
 });
 const uploadImageUser = (file) => __awaiter(void 0, void 0, void 0, function* () {
     return yield cloudinary_1.v2.uploader.upload(file, {
