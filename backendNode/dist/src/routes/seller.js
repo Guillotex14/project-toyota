@@ -14,9 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
 const moment_1 = __importDefault(require("moment"));
-const fs_1 = __importDefault(require("fs"));
 const Users_1 = __importDefault(require("../models/Users"));
 const Vehicles_1 = __importDefault(require("../models/Vehicles"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
@@ -30,6 +28,7 @@ const notifications_1 = __importDefault(require("../models/notifications"));
 const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
+const nodemailer_1 = require("../../nodemailer");
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -59,13 +58,6 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
         console.log(err);
     });
     yield newMechanic.save();
-    const transporter = nodemailer_1.default.createTransport({
-        service: "gmail",
-        auth: {
-            user: "jefersonmujica@gmail.com",
-            pass: "qtthfkossxcahyzo",
-        },
-    });
     const mailOptions = {
         from: "Toyousado",
         to: email,
@@ -76,14 +68,7 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
             password +
             "",
     };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log("Email sent: " + info.response);
-        }
-    });
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     reponseJson.code = 200;
     reponseJson.message = "Mecanico agregado exitosamente";
     reponseJson.status = true;
@@ -125,13 +110,6 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             }
         }
     }
-    const transporter = nodemailer_1.default.createTransport({
-        service: "gmail",
-        auth: {
-            user: "jefersonmujica@gmail.com",
-            pass: "qtthfkossxcahyzo",
-        },
-    });
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic,
@@ -144,14 +122,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             infoSeller.city +
             " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
     };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log("Email sent: " + info.response);
-        }
-    });
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
     reponseJson.code = 200;
     reponseJson.message = "Vehiculo agregado exitosamente";
@@ -600,27 +571,13 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
     const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
     const email = yield Users_1.default.findById(infoSeller.id_user);
     const emailBuyer = yield Users_1.default.findById(infoBuyer.id_user);
-    const transporter = nodemailer_1.default.createTransport({
-        service: "gmail",
-        auth: {
-            user: "jefersonmujica@gmail.com",
-            pass: "qtthfkossxcahyzo",
-        },
-    });
     const mailOptions = {
         from: "Toyousado Notifications",
         to: email.email,
         subject: "Compra de vehiculo",
         text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al numero telefono ${infoBuyer.phone}`,
     };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log("Email sent: " + info.response);
-        }
-    });
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
     responseJson.code = 200;
     responseJson.message =
@@ -641,27 +598,13 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
         reponseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        const transporter = nodemailer_1.default.createTransport({
-            service: "gmail",
-            auth: {
-                user: "jefersonmujica@gmail.com",
-                pass: "qtthfkossxcahyzo",
-            },
-        });
         const mailOptions = {
             from: "Toyousado Notifications",
             to: userbuyer.email,
             subject: "Compra de vehiculo aprobada",
             text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aprobada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
         };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log("Email sent: " + info.response);
-            }
-        });
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
@@ -686,28 +629,13 @@ sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, 
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        const transporter = nodemailer_1.default.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'jefersonmujica@gmail.com',
-                pass: 'qtthfkossxcahyzo',
-            },
-        });
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: userbuyer.email,
             subject: 'Oferta de vehiculo aprobada',
             text: `Tu oferta del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
         };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('Email sent: ' + info.response);
-            }
-            ;
-        });
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
@@ -730,27 +658,13 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        const transporter = nodemailer_1.default.createTransport({
-            service: "gmail",
-            auth: {
-                user: "jefersonmujica@gmail.com",
-                pass: "qtthfkossxcahyzo",
-            },
-        });
         const mailOptions = {
             from: "Toyousado Notifications",
             to: userbuyer.email,
             subject: "Compra de vehiculo rechazada",
             text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
         };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log("Email sent: " + info.response);
-            }
-        });
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
@@ -1029,33 +943,6 @@ const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void
         yield notify.save();
     }
 });
-const saveBse64ImageInPublicDirectory = (image, name) => __awaiter(void 0, void 0, void 0, function* () {
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-    const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/vehicles/" + name + "." + type, imgBin, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen guardada");
-        }
-    });
-    return name + "." + type;
-});
-const delBse64ImageInPublicDirectory = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    fs_1.default.unlink("public/images/vehicles/" + name, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen eliminada");
-        }
-    });
-});
 const getNameMonth = (date) => {
     const partsDate = date.split("/");
     const months = [
@@ -1074,41 +961,5 @@ const getNameMonth = (date) => {
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
-const generateString = (length) => __awaiter(void 0, void 0, void 0, function* () {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += yield characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-});
-const delBse64ImageInPublicDirectoryUser = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    yield fs_1.default.unlink("public/images/users/" + name, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen eliminada");
-        }
-    });
-});
-const saveBse64ImageInPublicDirectoryUser = (image, name) => __awaiter(void 0, void 0, void 0, function* () {
-    const posr = image.split(";")[0];
-    const base64 = image.split(";base64,").pop();
-    const mime_type = posr.split(":")[1];
-    const type = mime_type.split("/")[1];
-    const base64Data = image.replace(/^data:image\/png;base64,/, "");
-    const imgBin = Buffer.from(base64Data, "base64");
-    fs_1.default.writeFile("public/images/users/" + name + "." + type, imgBin, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Imagen guardada");
-        }
-    });
-    return name + "." + type;
-});
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map

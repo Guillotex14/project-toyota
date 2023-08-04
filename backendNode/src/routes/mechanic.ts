@@ -7,9 +7,9 @@ import mechanics from '../models/Mechanics';
 import sellers from '../models/Sellers';
 import users from '../models/Users';
 import mechanicalsFiles from '../models/mechanicalsFiles';
-import nodemailer from 'nodemailer';
 import notifications from '../models/notifications';
 import ImgVehicle from '../models/ImgVehicle';
+import { sendEmail } from '../../nodemailer';
 
 const mechanicRouter = Router();
 
@@ -165,8 +165,6 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     let mailSeller = "";
     let infoMechanic:any = {};
     let dateNow = moment().format('YYYY-MM-DD');
-    let messageNotification = "";
-    let title = "";
 
     const {
         part_emblems_complete,
@@ -281,25 +279,15 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
                 }
             }
         }
-
         //obteniendo la informacion del mecanico
         const mechanic = await mechanics.findOne({_id: id_mechanic});
-        console.log("infomacion del mecanico en el const", mechanic)
+
         if(mechanic){
             infoMechanic.fullname = mechanic.fullName;
             infoMechanic.concesionary = mechanic.concesionary;
             infoMechanic.city = mechanic.city;
         }
-        console.log("informacion del mecanico en el json", infoMechanic)
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'jefersonmujica@gmail.com',
-                pass: 'qtthfkossxcahyzo',
-            }
-        });
-        
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: mailSeller,
@@ -307,14 +295,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} de la concesionaria ${infoMechanic!.concesionary} de la ciudad de ${infoMechanic!.city}`,
         };
 
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            };
-        });
-
+        await sendEmail(mailOptions);
 
         // if (general_condition === "malo") {
         //     const mailOptions = {
@@ -324,16 +305,8 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         //         text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`,
         //     };
 
-        //     transporter.sendMail(mailOptions, function(error, info){
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log('Email sent: ' + info.response);
-        //         };
-        //     });
+        //       await sendEmail(mailOptions);
 
-        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`;
-        //     title = "Ficha mecanica Rechazada";
         // }
 
         // if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
@@ -344,16 +317,8 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         //         text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
         //     };
     
-        //     transporter.sendMail(mailOptions, function(error, info){
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log('Email sent: ' + info.response);
-        //         };
-        //     });
+        //      await sendEmail(mailOptions);
 
-        //     messageNotification = `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`;
-        //     title = "Ficha mecanica creada";
         // }
 
         sendNotification(vehicle!.id_seller?.toString()!, mailOptions.text, mailOptions.subject);
