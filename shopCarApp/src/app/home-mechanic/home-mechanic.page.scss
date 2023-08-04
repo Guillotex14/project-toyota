@@ -5,9 +5,44 @@
 
 .colSearchBar{
   z-index: 9999;
-  margin-top: -45px;
+  margin-top: 28% !important;
   position: absolute;
   left: 2px;
+}
+
+.colFilter{
+  background-color: #E3E3E3;
+  // padding-top: 30px !important;
+  .colResultFilter{
+    margin-top: 10%;
+    text-align: left !important;
+    span{
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .colIconFilter{
+    ion-icon{
+      font-size: 25px;
+      margin: -5px 10px;
+    }
+    span{
+      font-size: 14px;
+      font-weight: 600;
+    }
+    margin-top: 10%;
+    text-align: right !important;
+  }
+}
+
+.filterOptions{
+  ion-row{
+    ion-col{
+      font-size: 12px;
+      color: #1c1c1d !important;
+      font-weight: 700
+    }
+  }
 }
 
 ion-card{
@@ -76,3 +111,39 @@ ion-search-bar{
 
 }
 
+ion-list{
+  ion-item::part(native){
+    background: #FFF !important;
+    color: #000 !important;
+    ion-label{
+      color: #000 !important;
+    }
+  }
+}
+
+
+ion-item::part(native){
+  color: #fff !important;
+  background: #EB0A1E !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  ion-icon{
+    color: #fff !important;
+  }
+}
+
+ion-chip{
+  position: fixed !important;
+  bottom: 25px !important;
+  margin: 5px !important;
+  --background: #ebc90a !important;
+  --color: #000;
+  font-size: 13px;
+  font-weight: 900;
+  width: 65% !important;
+  height: 20px !important;
+  text-transform: capitalize !important;
+  ion-label {
+    // margin: 0px 6px !important;
+  }
+}

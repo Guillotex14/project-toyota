@@ -26,7 +26,8 @@
                   <ion-grid fixed>
                     <ion-row>
                       <ion-col size="12">
-                        <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                        <ion-img [src]="inspect.image.img" *ngIf="inspect.image !==''"></ion-img>
+                        <ion-img src="assets/images/carro/toyota1.png" *ngIf="inspect.image ===''"></ion-img>
                       </ion-col>
                       <ion-col size="12">
                         <ion-row>
@@ -93,36 +94,6 @@
                   </ion-grid>
                 </ion-card-content>
               </ion-card>
-              <!-- <ion-card *ngFor="let inspect of arrayInspections">
-                <ion-card-content>
-                  <ion-grid fixed>
-                    <ion-row>
-                      <ion-col size="6">
-                        <ion-img src="assets/images/carro/toyota1.png"></ion-img>
-                      </ion-col>
-                      <ion-col size="6">
-                        <ion-row>
-                          <ion-col size="12" style="text-align: right;">
-                            <ion-icon name="navigate-sharp" style="color: #787878; font-size: 20px;"></ion-icon>
-                            <span style="font-size: 13px;color: #575757; ">{{inspect.city}}</span>
-                          </ion-col>
-                        </ion-row>
-                      </ion-col>
-                      <ion-col size="6">
-                        <p style="font-size: 15px; font-weight: 900;">{{inspect.model}}</p>
-                        <p style="font-size: 15px; font-weight: 900;">{{inspect.year}}</p>
-                        <ion-button shape="round" (click)="goTo(inspect._id)">
-                          Revisar
-                        </ion-button>
-                      </ion-col>
-                      <ion-col size="6" style="text-align: right;">
-                        <p style="font-size: 10px; color: #EB0A1E; margin-top: 15%;">El vehículo requiere la inspección mecánica</p>
-                        <p style="color: #575757;">{{inspect.date}}</p>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </ion-card-content>
-              </ion-card> -->
             </ion-col>
 
           </ion-row>

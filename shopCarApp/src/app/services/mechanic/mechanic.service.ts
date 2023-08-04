@@ -52,4 +52,12 @@ export class MechanicService {
   public notificationById(data:any){
     return this.http.post(global.urlBase+'mechanic/notificationById', data);
   }
+
+  public allBrands(){
+    return this.http.get(global.urlBase+'mechanic/allBrands');
+  }
+
+  public allModels(){
+    return this.http.get(global.urlBase+'mechanic/allModels');
+  }
 }

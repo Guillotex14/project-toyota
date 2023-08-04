@@ -101,12 +101,21 @@ export class SellerService {
     return this.http.post(global.urlBase+'seller/updateImgVehicle', data);
   }
   
-
   public deleteImageVehicle(data:any){
     return this.http.post(global.urlBase+'seller/deleteImgVehicle', data);
   }
 
+  public allModels(){
+    return this.http.get(global.urlBase+'seller/allModels');
+  }
+
   public autoComplete(data:any){
     return this.http.post(global.urlBase+'seller/autocompleteModels', data);
+  }
+
+  public getGrafic(data:any){
+    // return this.http.get(global.urlBase+'seller/filterGraphySell?'+data.month+'&'+data.yearSold+'&'+data.brandCar+'&'+data.modelCar+'&'+data.yearCar+'&'+data.rangMonths);
+    
+    return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&rangMonths=${data.rangMonths}`);
   }
 }

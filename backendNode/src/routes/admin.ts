@@ -14,25 +14,6 @@ import ImgVehicle from "../models/ImgVehicle";
 
 const adminRouter = Router();
 
-// adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
-//     const jsonRes: ResponseModel = new ResponseModel();
-
-//     const listVehicles = await Vehicles.find({sold: false,price:{$ne:null}}).sort({date: -1});
-
-//     if (listVehicles) {
-//         jsonRes.code = 200;
-//         jsonRes.message = "success";
-//         jsonRes.status = true;
-//         jsonRes.data = listVehicles;
-//     }else{
-//         jsonRes.code = 400;
-//         jsonRes.message = "no existe";
-//         jsonRes.status = false;
-//     }
-
-//     res.json(jsonRes);
-// });
-
 adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
@@ -82,11 +63,55 @@ adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
     const vehiclesFiltered = await Vehicles.find(query).sort({date_create:-1});
 
     if (vehiclesFiltered) {
+        let arrayVehicles: any[] = [];
+
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
+            let data = {
+                name_new_owner: vehiclesFiltered[i].name_new_owner,
+                dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+                phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+                email_new_owner: vehiclesFiltered[i].email_new_owner,
+                price_ofert: vehiclesFiltered[i].price_ofert,
+                final_price_sold: vehiclesFiltered[i].final_price_sold,
+                _id: vehiclesFiltered[i]._id,
+                model: vehiclesFiltered[i].model,
+                brand: vehiclesFiltered[i].brand,
+                year: vehiclesFiltered[i].year,
+                displacement: vehiclesFiltered[i].displacement,
+                km: vehiclesFiltered[i].km,
+                engine_model: vehiclesFiltered[i].engine_model,
+                titles: vehiclesFiltered[i].titles,
+                fuel: vehiclesFiltered[i].fuel,
+                transmission: vehiclesFiltered[i].transmission,
+                city: vehiclesFiltered[i].city,
+                dealer: vehiclesFiltered[i].dealer,
+                concesionary: vehiclesFiltered[i].concesionary,
+                traction_control: vehiclesFiltered[i].traction_control,
+                performance: vehiclesFiltered[i].performance,
+                comfort: vehiclesFiltered[i].comfort,
+                technology: vehiclesFiltered[i].technology,
+                id_seller: vehiclesFiltered[i].id_seller,
+                id_mechanic: vehiclesFiltered[i].id_mechanic,
+                __v: vehiclesFiltered[i].__v,
+                price: vehiclesFiltered[i].price,
+                mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+                id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+                sold: vehiclesFiltered[i].sold,
+                type_vehicle: vehiclesFiltered[i].type_vehicle,
+                traction: vehiclesFiltered[i].traction,
+                date_sell: vehiclesFiltered[i].date_sell,
+                date_create: vehiclesFiltered[i].date_create,
+                plate: vehiclesFiltered[i].plate,
+                vin: vehiclesFiltered[i].vin,
+                image: await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+            }
+            arrayVehicles.push(data);
+        }
 
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
+        reponseJson.data = arrayVehicles;
 
     }else{
 
@@ -423,6 +448,25 @@ adminRouter.get("/allBrands", async (req: Request, res: Response) => {
 
     res.json(jsonResponse);
 
+});
+
+adminRouter.get("/allModels", async (req: Request, res: Response) => {
+    const jsonRes: ResponseModel = new ResponseModel();
+
+    const models = await modelVehicle.find();
+
+    if (models) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = models;
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
+
+    res.json(jsonRes);
 });
 
 adminRouter.post("/addModelVehicle", async (req: Request, res: Response) => {

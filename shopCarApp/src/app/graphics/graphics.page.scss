@@ -55,3 +55,28 @@ ion-card{
   font-weight: 900;
   color: #1c1c1d;
 }
+
+canvas{
+  // position: relative;
+  // height: 330;
+  // width: 312px;
+  // display: block;
+  // box-sizing: border-box;
+}
+
+.cardChart{
+  position: relative;
+  height: 355px;
+  width: 335px;
+  display: block;
+  box-sizing: border-box;
+  margin: 20px auto;
+}
+
+.styleChart{
+  position: relative;
+  height: 328px;
+  width: 302px;
+  display: block;
+  box-sizing: border-box;
+}

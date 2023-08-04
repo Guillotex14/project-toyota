@@ -165,7 +165,7 @@ export class ImageAddVehicle{
 
 export class VehicleList{
   public _id!: string;
-  public image!: string;
+  public image!: any;
   public model!: string;
   public year!: number;
   public id_seller_buyer!: string;

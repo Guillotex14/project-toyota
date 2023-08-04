@@ -653,27 +653,43 @@ sellerRouter.get("/allConcesionaries", async (req: Request, res: Response) => {
 sellerRouter.get("/allBrands", async (req: Request, res: Response) => {
   const jsonResponse: ResponseModel = new ResponseModel();
 
-  const brand = await brands
-    .find()
-    .then((res: any) => {
-      if (res) {
-        jsonResponse.code = 200;
-        jsonResponse.message = "success";
-        jsonResponse.status = true;
-        jsonResponse.data = res;
-        return jsonResponse;
-      } else {
-        jsonResponse.code = 400;
-        jsonResponse.message = "no existe";
-        jsonResponse.status = false;
-        return jsonResponse;
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+  const brand = await brands.find()
+
+  if (brand) {
+
+    jsonResponse.code = 200;
+    jsonResponse.message = "success";
+    jsonResponse.status = true;
+    jsonResponse.data = brand;
+    
+  } else {
+    jsonResponse.code = 400;
+    jsonResponse.message = "no existe";
+    jsonResponse.status = false;
+    
+  }
 
   res.json(jsonResponse);
+});
+
+sellerRouter.get("/allModels", async (req: Request, res: Response) => {
+  const jsonResponse: ResponseModel = new ResponseModel();
+
+  const model = await modelVehicle.find();
+
+  if (model) {
+    jsonResponse.code = 200;
+    jsonResponse.message = "todos los modelos";
+    jsonResponse.status = true;
+    jsonResponse.data = model;
+  }else{
+    jsonResponse.code = 400;
+    jsonResponse.message = "no hay modelos";
+    jsonResponse.status = false;
+  }
+
+  res.json(jsonResponse);
+
 });
 
 sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
@@ -1035,15 +1051,60 @@ sellerRouter.post("/filterVehiclesWithMongo", async (req: Request, res: Response
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.mechanicalFile = true;
     query.sold = false;
-    query.id_seller_buyer = null;
+    // query.id_seller_buyer = null;
 
     const vehiclesFiltered = await vehicles.find(query).sort({date_create:-1});
 
     if (vehiclesFiltered) {
-      reponseJson.code = 200;
-      reponseJson.message = "success";
-      reponseJson.status = true;
-      reponseJson.data = vehiclesFiltered;
+      let arrayVehicles: any[] = [];
+
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
+            let data = {
+                name_new_owner: vehiclesFiltered[i].name_new_owner,
+                dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+                phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+                email_new_owner: vehiclesFiltered[i].email_new_owner,
+                price_ofert: vehiclesFiltered[i].price_ofert,
+                final_price_sold: vehiclesFiltered[i].final_price_sold,
+                _id: vehiclesFiltered[i]._id,
+                model: vehiclesFiltered[i].model,
+                brand: vehiclesFiltered[i].brand,
+                year: vehiclesFiltered[i].year,
+                displacement: vehiclesFiltered[i].displacement,
+                km: vehiclesFiltered[i].km,
+                engine_model: vehiclesFiltered[i].engine_model,
+                titles: vehiclesFiltered[i].titles,
+                fuel: vehiclesFiltered[i].fuel,
+                transmission: vehiclesFiltered[i].transmission,
+                city: vehiclesFiltered[i].city,
+                dealer: vehiclesFiltered[i].dealer,
+                concesionary: vehiclesFiltered[i].concesionary,
+                traction_control: vehiclesFiltered[i].traction_control,
+                performance: vehiclesFiltered[i].performance,
+                comfort: vehiclesFiltered[i].comfort,
+                technology: vehiclesFiltered[i].technology,
+                id_seller: vehiclesFiltered[i].id_seller,
+                id_mechanic: vehiclesFiltered[i].id_mechanic,
+                __v: vehiclesFiltered[i].__v,
+                price: vehiclesFiltered[i].price,
+                mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+                id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+                sold: vehiclesFiltered[i].sold,
+                type_vehicle: vehiclesFiltered[i].type_vehicle,
+                traction: vehiclesFiltered[i].traction,
+                date_sell: vehiclesFiltered[i].date_sell,
+                date_create: vehiclesFiltered[i].date_create,
+                plate: vehiclesFiltered[i].plate,
+                vin: vehiclesFiltered[i].vin,
+                image: await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+            }
+            arrayVehicles.push(data);
+        }
+
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = arrayVehicles;
     } else {
       reponseJson.code = 400;
       reponseJson.message = "no existe";
@@ -1102,6 +1163,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
 
   let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10 ? "0" + (firtsMonth.getMonth() + 1): firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10? "0" + firtsMonth.getDate(): firtsMonth.getDate()}`;
+  
   let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10 ? "0" + (lastMonth.getMonth() + 1): lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10? "0" + lastMonth.getDate(): lastMonth.getDate()}`;
 
   let mongQuery:any={

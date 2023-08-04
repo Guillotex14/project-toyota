@@ -53,6 +53,10 @@ export class AdminService {
     return this.http.get(global.urlBase+"admin/allBrands");
   }
 
+  public allModels() {
+    return this.http.get(global.urlBase+"admin/allModels");
+  }
+
   public addModel(model: any) {
     return this.http.post(global.urlBase+"admin/addModelVehicle",model);
   }

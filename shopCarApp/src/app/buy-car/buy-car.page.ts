@@ -186,4 +186,8 @@ export class BuyCarPage implements OnInit {
       input.value = input.value.replace(/[^\d\.]*/g,'');
     }
   }
+
+  public deleteArray(i:any){
+    this.arrayVehicles.splice(i, 1);
+  }
 }

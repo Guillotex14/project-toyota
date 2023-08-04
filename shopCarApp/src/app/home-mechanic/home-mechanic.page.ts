@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, MenuController } from '@ionic/angular';
+import { IonModal, MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { NotificationById } from 'src/models/sellet';
+import { states } from 'src/assets/json/states';
 
 @Component({
   selector: 'app-home-mechanic',
@@ -18,14 +19,35 @@ export class HomeMechanicPage implements OnInit {
   id_user: string = "";
   arrayVehicles: any = [];
   auxVehicles: any = [];
+  arrayModels: any[]=[];
+  arrayUbication: any[]=[];
+  arrayBrands: any[]=[];
+
+  minYear: string = "";
+  maxYear: string = "";
+  minPrice: string = "";
+  maxPrice: string = "";
+  minKms: string = "";
+  maxKms: string = "";
+  brand: string = "";
+  model: string = "";
+  ubication: string = "";
+  type_vehicle: string = "";
+  minYearAux: string = "";
+  maxYearAux: string = "";
+  minPriceAux: string = "";
+  maxPriceAux: string = "";
+  minKmsAux: string = "";
+  maxKmsAux: string = "";
+
 
   arrayNotifies: any[] = [];
   notificationById: NotificationById = new NotificationById();
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
-
-  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService) { 
-
+  
+  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController) { 
+    this.arrayUbication = states;
     let data = localStorage.getItem('me');
 
     if(data){
@@ -38,6 +60,8 @@ export class HomeMechanicPage implements OnInit {
     this.getvehicles();
     this.getNotifies();
     this.getCountNotifies();
+    this.getBrands();
+    this.getModels();
   }
 
   ngOnInit() {
@@ -50,6 +74,22 @@ export class HomeMechanicPage implements OnInit {
   public openMenu() {
     this.utils.setLogin(true);
     this.menu.open();
+  }
+
+  public getBrands(){
+    this.mechanicSrv.allBrands().subscribe((res: any) => {
+      this.arrayBrands = res.data;
+    }, (err: any) => {
+      console.log(err);
+    });
+  }
+
+  public getModels(){
+    this.mechanicSrv.allModels().subscribe((res: any) => {
+      this.arrayModels = res.data;
+    }, (err: any) => {
+      console.log(err);
+    });
   }
 
   public goDetail(id: any){
@@ -80,6 +120,16 @@ export class HomeMechanicPage implements OnInit {
   public getvehicles(){
 
     let data = {
+      brand: this.brand,
+      model: this.model,
+      ubication: this.ubication,
+      type_vehicle: this.type_vehicle,
+      minYear: parseInt(this.minYear) > 0 ? parseInt(this.minYear) : 0,
+      maxYear: parseInt(this.maxYear) > 0 ? parseInt(this.maxYear) : 0,
+      minPrice: parseInt(this.minPrice) > 0 ? parseInt(this.minPrice) : 0,
+      maxPrice: parseInt(this.maxPrice) > 0 ? parseInt(this.maxPrice) : 0,
+      minKm: parseInt(this.minKms) > 0 ? parseInt(this.minKms) : 0,
+      maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0,
       id_mechanic: this.id_mechanic
     }
 
@@ -198,6 +248,103 @@ export class HomeMechanicPage implements OnInit {
       }
 
     })
+  }
+
+  public dotMinYear(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.minYearAux = num;
+      this.minYear = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  public dotMaxYear(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.maxYearAux = num;
+      this.maxYear = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  public dotMinKm(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.minKmsAux = num;
+      this.minKms = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  public dotMaxKm(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.maxKmsAux = num;
+      this.maxKms = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  public dotMinPrice(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.minPriceAux = num;
+      this.minPrice = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  public dotMaxPrice(input:any){
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.maxPriceAux = num;
+      this.maxPrice = input.value.replace(/\./g,'');
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+  }
+
+  // public deleteArray(i:any){
+  //   this.arrayVehicles.splice(i, 1);
+  // }
+
+  public dismissModal(){
+    this.modalCtrl.dismiss();
+  }
+
+  public applyFilter(){
+    this.getvehicles();
+    this.modalCtrl.dismiss();
   }
 
 }

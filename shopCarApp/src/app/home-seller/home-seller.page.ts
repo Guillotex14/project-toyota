@@ -45,7 +45,6 @@ export class HomeSellerPage implements OnInit {
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
 
   constructor(private router: Router, private utils: UtilsService, private menu: MenuController, private sellerSrv: SellerService, private modalCtrl: ModalController) {
-    this.arrayModels = models;
     this.arrayUbication = states;
 
     this.notificationById._id = "";
@@ -64,6 +63,7 @@ export class HomeSellerPage implements OnInit {
     }
     
     this.getBrands();
+    this.getModels()
     this.getNotifies();
     this.getCountNotifies();
     this.getVehicles();
@@ -78,6 +78,14 @@ export class HomeSellerPage implements OnInit {
     this.sellerSrv.allBrands().subscribe((res: any) => {
       this.arrayBrands = res.data;
 
+    }, (err: any) => {
+      console.log(err);
+    });
+  }
+
+  public getModels(){
+    this.sellerSrv.allModels().subscribe((res: any) => {
+      this.arrayModels = res.data;
     }, (err: any) => {
       console.log(err);
     });
