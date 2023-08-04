@@ -1307,22 +1307,22 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   if (rangMonths &&  rangMonths < 12) {
     rangArrayMonth = getMonthRange(month, rangMonths);
+
     firtsMonth = new Date(anioActual, (month - 1), 1);
-    if (rangArrayMonth.length > 0) {
+    if (rangArrayMonth.length > 1) {
       last = new Date(anioActual, (rangArrayMonth.length - 1));
       lastDayLasyMont=getLastDayOfMonth(anioActual,(rangArrayMonth.length - 1));   
       lastMonth = new Date(anioActual,(rangArrayMonth.length - 1),lastDayLasyMont.getDate());
     } else {
+      
       last = new Date(anioActual, (month - 1));
       lastDayLasyMont=getLastDayOfMonth(anioActual,(month - 1));   
       lastMonth = new Date(anioActual,(month - 1),lastDayLasyMont.getDate());
     }
   }
 
-
   let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10 ? "0" + (firtsMonth.getMonth() + 1): firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10? "0" + firtsMonth.getDate(): firtsMonth.getDate()}`;
   let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10 ? "0" + (lastMonth.getMonth() + 1): lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10? "0" + lastMonth.getDate(): lastMonth.getDate()}`;
-
   let mongQuery:any={
     date_sell: {
       $gte: from, // Filtrar documentos a partir del 1 de enero del año
@@ -1354,7 +1354,6 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     }
   }
 
-  console.log(mongQuery)
   
   const vehiclesFiltered = await vehicles.aggregate([
     {
@@ -1368,19 +1367,38 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     },
     { $sort: { _id: 1 } },
   ]);
+let datos:any={};
+let cantMonth=calcularMeses(from,to);
 
+if(cantMonth==1){
+  let groupByWeek=[];
+  let groupByOneMonth=[];
 
+  groupByWeek= agruparPorSemana(vehiclesFiltered);
 
+  groupByOneMonth= agruparPorWeek(groupByWeek);
 
+  const labels = groupByOneMonth.map(item => item.semana);
+  const montos = groupByOneMonth.map(item => item.monto);
+  datos = {
+    labels: labels, // Meses en el eje x
+    datasets: [
+      {
+        label: "Montos Mensuales",
+        data: montos, // Montos en el eje y
+      },
+    ],
+  };
+
+}else{
   const labels = vehiclesFiltered.map((dato) => dato._id);
   let nameArray = [];
   for (let i = 0; i < labels.length; i++) {
     nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
   }
-
+  
   const montos = vehiclesFiltered.map((dato) => dato.monto);
-
-  const datos = {
+   datos = {
     labels: nameArray, // Meses en el eje x
     datasets: [
       {
@@ -1389,6 +1407,13 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
       },
     ],
   };
+}
+
+
+
+
+
+
 
   if (true) {
     reponseJson.code = 200;
@@ -1403,6 +1428,64 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 });
+
+const calcularMeses=(fechaInicial:any, fechaFinal:any) =>{
+  const inicio = new Date(fechaInicial);
+  const fin = new Date(fechaFinal);
+  
+  const diferenciaMeses = (fin.getFullYear() - inicio.getFullYear()) * 12 + (fin.getMonth() - inicio.getMonth());
+  
+  return diferenciaMeses;
+}
+
+const agruparPorSemana=(datos:any)=> {
+  const semanas = [];
+  
+  for (const dato of datos) {
+    const fecha = new Date(dato._id);
+    const semana = getWeekNumber(fecha);
+    if (semanas[semana]) {
+      semanas[semana] += dato.monto;
+    } else {
+      semanas[semana] = dato.monto;
+    }
+  }
+  
+  const result = [];
+  for (const semana in semanas) {
+    result.push({ semana: Number(semana), monto: semanas[semana] });
+  }
+  
+  return result;
+}
+
+// Función para obtener el número de semana de una fecha
+const getWeekNumber=(date:any) =>{
+  const onejan:any = new Date(date.getFullYear(), 0, 1);
+  const week = Math.ceil((((date - onejan) / 86400000) + onejan.getDay()) / 7);
+  return week;
+}
+
+
+const agruparPorWeek=(datos:any)=> {
+  const semanas = []
+  let contador = 1;
+  
+  for (const dato of datos) {
+    if (!semanas[contador]) {
+      semanas[contador] = 0;
+    }
+    semanas[contador] += dato.monto;
+    contador++;
+  }
+  
+  const result = [];
+  for (const semana in semanas) {
+    result.push({ semana: Number(semana), monto: semanas[semana] });
+  }
+  
+  return result;
+}
 
 const sendNotification = async (
   id_seller: string,
@@ -1521,10 +1604,8 @@ function getMonthRange(startMonth: any, rangeMonths: any) {
   ];
 
   const startMonthIndex = startMonth - 1;
-  const endMonthIndex = Math.min(startMonthIndex + rangeMonths - 1, 11);
-
+  const endMonthIndex = Math.min(startMonthIndex + parseInt(rangeMonths) - 1, 11);
   const monthRange = months.slice(startMonthIndex, endMonthIndex + 1);
-
   return monthRange;
 }
 
