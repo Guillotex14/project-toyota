@@ -1410,11 +1410,6 @@ if(cantMonth==1){
 }
 
 
-
-
-
-
-
   if (true) {
     reponseJson.code = 200;
     reponseJson.message = "success";
