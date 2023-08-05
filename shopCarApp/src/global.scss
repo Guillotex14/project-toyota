@@ -1,0 +1,80 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import '@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+*{
+  font-family: 'Poppins', sans-serif;
+}
+// .colInputPass{
+//   ion-input{
+//     width: 90%;
+//     margin: auto !important;
+//     font-size: 25px;
+//     .has-focus {
+//       border: 2px solid red !important;
+//     }
+//   }
+// }
+.btnRed{
+  --background: #EB0A1E !important;
+  --color: white !important;
+}
+
+.btnSaveRed{
+  --background: #EB0A1E !important;
+  --color: white !important;
+  width: 80%;
+  height: 50px;
+  margin: auto;
+}
+
+.btnOutlineRed{
+  --border-color: #EB0A1E !important;
+  --color: #EB0A1E !important;
+  // --background: white !important;
+  width: 80% !important;
+  height: 50px !important;
+  margin: 15px auto auto auto !important;
+}
+
+.iconRed{
+  color: #EB0A1E !important;
+}
+
+.radioRed{
+  --color-checked: #EB0A1E !important;
+  --color-unchecked: #EB0A1E !important;
+  --color: #EB0A1E !important;
+  // --inner-border-radius
+}
+
+#searchbarHome{
+  --border-radius: 30px !important;
+}
+
+#searchbarUserlist{
+  --border-radius: 30px !important;
+}

@@ -1,0 +1,130 @@
+.header{
+  background-color: black;
+  color: white;
+}
+
+.spanLabel{
+  font-size: 15px;
+  color: #787878;
+  margin-bottom: 10px;
+}
+
+.pText{
+  font-size: 15px;
+  font-weight: 900;
+  color: #1c1c1d;
+}
+
+ion-card{
+  background-color: #F9F9F9 !important;
+  color: #1c1c1d !important;
+  // height: 180px !important;
+  ion-img{
+    // width: 80%;
+    // height: 60%;
+    margin: auto !important
+  }
+
+  p{
+    font-size: 10px;
+    font-weight: 900;
+  }
+  span{
+    font-size: 10px;
+    font-weight: 900;
+    color: #1c1c1d;
+  }
+
+  ion-button{
+    --border-radius: 30px !important;
+    --background: #EB0A1E !important;
+    --color: white !important;
+    font-size: 10px;
+    font-weight: 900;
+    width: 70%;
+    height: 20px;
+    margin: auto auto 10px auto!important;
+    text-transform: capitalize !important;
+  }
+
+
+}
+
+ion-radio{
+  font-size: 13px !important;
+}
+
+ion-label {
+  font-size: 15px !important;
+  margin: 15px auto !important;
+}
+
+ion-segment-button {
+  ion-label {
+    font-size: 12px !important;
+  }
+  --color-checked: #EB0A1E !important;
+  --color: #000 !important;
+  font-weight: bold;
+  --background-checked: rgb(235, 10, 30,0.1);
+  opacity: 1 !important;
+}
+
+
+ion-segment {
+  // margin-left: -20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+ion-item-divider{
+  margin: 15px auto !important;
+  ion-label{
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    margin: auto !important;
+  }
+}
+
+.mLeft{
+  margin-left: -20px !important;
+}
+
+ion-radio {
+  --color: #000;
+  --color-checked: #EB0A1E;
+  --inner-border-radius: 2px;
+  font-weight: bold;
+  margin: auto 3px !important;
+}
+
+ion-radio::part(container) {
+  width: 25px;
+  height: 25px;
+
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+ion-radio::part(mark) {
+  background: none;
+  transition: none;
+  transform: none;
+  border-radius: 0;
+}
+
+ion-radio.radio-checked::part(container) {
+  background: #EB0A1E;
+  border-color: transparent;
+}
+
+ion-radio.radio-checked::part(mark) {
+  width: 6px;
+  height: 10px;
+
+  border-width: 0px 2px 2px 0px;
+  border-style: solid;
+  border-color: #fff;
+
+  transform: rotate(45deg);
+}

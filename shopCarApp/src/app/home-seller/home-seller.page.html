@@ -1,0 +1,374 @@
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+
+      <!-- Header -->
+      <ion-col size="12" class="header">
+        <ion-grid fixed >
+          <ion-row>
+            <ion-col size="2">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-img src="assets/images/logo/flag_vzla.png" style="width: 30px;height: 30px;margin: auto !important;"></ion-img>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-img src="assets/images/logo/logo_toyota_blanco.png" style="width: 45px;"></ion-img>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' ">
+              <p style="font-size: 28px;margin-top: 40px;">Toyousados</p>
+            </ion-col>
+            <ion-col size="2" *ngIf="arrayNotifies.length > 0">
+              <ion-badge mode="ios" style="position: absolute !important;top: 30% !important;right: 22% !important;" *ngIf="countNotifies>0">{{countNotifies}}</ion-badge>
+              <ion-icon name="notifications" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0"></ion-icon>
+              <!-- -->
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="menu-outline" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" (click)="openMenu()"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+
+      <!-- searchbar -->
+      <ion-col size="12" class="colSearchBar">
+        <ion-searchbar [debounce]="250" showCancelButton="never" show-clear-button="never" id="searchbarHome"></ion-searchbar>
+      </ion-col>
+
+      <!-- filtro -->
+      <ion-col size="12" class="colFilter">
+        <ion-row>
+
+          <ion-col size="4" class="colResultFilter">
+            <span>
+              Resultados {{arrayVehicles.length}}
+            </span>
+          </ion-col>
+          <ion-col size="4">
+          </ion-col>
+
+          <ion-col size="4" class="colIconFilter" id="openFilters">
+            <ion-icon name="list-outline"></ion-icon>
+            <span>
+              Filtro
+            </span>
+          </ion-col>
+
+        </ion-row>
+      </ion-col>
+      
+      <ion-col size="12">
+        <ion-grid fixed>
+          <ion-row>
+
+            <ion-col size="12" style="margin-top: 20px;">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Presiona si quieres comparar precio  de tu vehículo</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content>
+                  <ion-grid fixed>
+                    <ion-row>
+
+                      <ion-col size="12">
+                        <ion-row>
+                          <ion-col size="8">
+                            ¿Cuánto vale mi vehículo?
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="car-sport" size="large"></ion-icon>
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="arrow-forward-circle" size="large" class="iconRed" (click)="goTo('how-much-vehicle')"></ion-icon>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                      <hr>
+                      <ion-col size="12">
+                        <ion-card-subtitle>Presiona vender para cargar nuevos vehículos</ion-card-subtitle>
+                        <ion-row>
+                          <ion-col size="8">
+                            Vender
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="logo-usd" size="large"></ion-icon>
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="arrow-forward-circle" size="large" class="iconRed" (click)="goTo('add-vehicle')"></ion-icon>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                      <hr>
+                      <ion-col size="12">
+                        <ion-card-subtitle>Presiona Comprar para explorar nuevos vehículos</ion-card-subtitle>
+                        <ion-row>
+                          <ion-col size="8">
+                            Comprar
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="cash-outline" size="large"></ion-icon>
+                          </ion-col>
+                          <ion-col size="2">
+                            <ion-icon name="arrow-forward-circle" size="large" class="iconRed" (click)="goTo('buy-car')"></ion-icon>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="12" style="text-align: left;">
+              <span>Todos los modelos</span>
+            </ion-col>
+
+            <ion-col size="6" *ngFor="let vehicle of arrayVehicles; let i = index">
+
+              <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
+                <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img>
+                <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !==''"></ion-img>
+                <ion-card-content>
+                  <p>
+                    {{vehicle.model}}
+                  </p>
+                  <span>
+                    {{vehicle.year}}
+                  </span>
+                </ion-card-content>
+                <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
+                  <ion-label>Negociación</ion-label>
+                </ion-chip>
+                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" style="margin-top: 15px;">
+                  ver detalle
+                </ion-button>
+                <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
+                  X
+                </ion-button>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal #modalNotifications>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Notificaciones</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="closeModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item button *ngFor="let notis of arrayNotifies" (click)="openDetailNotification(notis._id)">
+            <ion-label>{{notis.title}}</ion-label>
+            <ion-icon slot="end" name="ellipse" *ngIf="!notis.status" class="iconRed"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalDetailNotification>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Notificación</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="closeModalDetail()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-row>
+          <ion-col size="12" style="text-align: center !important; margin-top: 30px;">
+            <ion-title>{{notificationById.title}}</ion-title>
+          </ion-col>
+          <ion-col size="12" style="text-align: center !important; margin-top: 15px;">
+            <span>{{notificationById.message}}</span>
+          </ion-col>
+          <ion-col size="12" style="margin-top: 15px;">
+            {{notificationById.date}}
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal trigger="openFilters">
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Opciones filtro</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="applyFilter()">Filtrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding">
+        <ion-accordion-group expand="inset" [value]="['brand']">
+
+          <ion-accordion value="brand">
+            <ion-item slot="header">
+              <ion-label>Marca</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="brand">
+                    <ion-item>
+                      <ion-label>Todos</ion-label>
+                      <ion-radio value=""></ion-radio>
+                    </ion-item>
+                  <ion-item *ngFor="let brand of arrayBrands">
+                    <ion-label>{{brand.name}}</ion-label>
+                    <ion-radio [value]="brand.name"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+      
+          <ion-accordion value="model">
+            <ion-item slot="header">
+              <ion-label>Modelo</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="model">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item *ngFor="let model of arrayModels">
+                    <ion-label>{{model.model}}</ion-label>
+                    <ion-radio [value]="model.model"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          
+          <ion-accordion value="type_vehicle">
+            <ion-item slot="header">
+              <ion-label>Tipo de vehiculo</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="type_vehicle">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Pick-up y carga</ion-label>
+                    <ion-radio value="pickup"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>SUV</ion-label>
+                    <ion-radio value="suv"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Sedan</ion-label>
+                    <ion-radio value="sedan"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Hatchback</ion-label>
+                    <ion-radio value="hatchback"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="ubication">
+            <ion-item slot="header">
+              <ion-label>Ubicación</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="ubication">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item *ngFor="let state of arrayUbication">
+                    <ion-label>{{state.estado}}</ion-label>
+                    <ion-radio [value]="state.estado"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="year">
+            <ion-item slot="header">
+              <ion-label>Año</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinYear($event.target)" [value]="minYearAux"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxYear($event.target)" [value]="maxYearAux"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="kms">
+            <ion-item slot="header">
+              <ion-label>Kilometros</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinKm($event.target)" [value]="minKmsAux"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxKm($event.target)" [value]="maxKmsAux"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          
+          <ion-accordion value="price">
+            <ion-item slot="header">
+              <ion-label>Precio</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinPrice($event.target)" [value]="minPriceAux"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxPrice($event.target)" [value]="maxPriceAux"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
+        </ion-accordion-group>
+      
+      </ion-content>
+      
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

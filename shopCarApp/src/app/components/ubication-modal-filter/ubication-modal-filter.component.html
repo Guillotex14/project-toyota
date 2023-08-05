@@ -1,0 +1,8 @@
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let state of arrayUbication">
+      <ion-label>{{state.estado}}</ion-label>
+      <ion-checkbox slot="start" [value]="state.estado"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

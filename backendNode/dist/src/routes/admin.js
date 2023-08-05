@@ -22,22 +22,8 @@ const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles")
 const moment_1 = __importDefault(require("moment"));
 const brands_1 = __importDefault(require("../models/brands"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
+const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const adminRouter = (0, express_1.Router)();
-// adminRouter.get("/allVehicles", async (req: Request, res: Response) => {
-//     const jsonRes: ResponseModel = new ResponseModel();
-//     const listVehicles = await Vehicles.find({sold: false,price:{$ne:null}}).sort({date: -1});
-//     if (listVehicles) {
-//         jsonRes.code = 200;
-//         jsonRes.message = "success";
-//         jsonRes.status = true;
-//         jsonRes.data = listVehicles;
-//     }else{
-//         jsonRes.code = 400;
-//         jsonRes.message = "no existe";
-//         jsonRes.status = false;
-//     }
-//     res.json(jsonRes);
-// });
 adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
@@ -87,12 +73,55 @@ adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0,
     query.type_vehicle = { $regex: type_vehicle, $options: 'i' };
     query.sold = false;
     query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date: -1 });
+    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
+        let arrayVehicles = [];
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
+            let data = {
+                name_new_owner: vehiclesFiltered[i].name_new_owner,
+                dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+                phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+                email_new_owner: vehiclesFiltered[i].email_new_owner,
+                price_ofert: vehiclesFiltered[i].price_ofert,
+                final_price_sold: vehiclesFiltered[i].final_price_sold,
+                _id: vehiclesFiltered[i]._id,
+                model: vehiclesFiltered[i].model,
+                brand: vehiclesFiltered[i].brand,
+                year: vehiclesFiltered[i].year,
+                displacement: vehiclesFiltered[i].displacement,
+                km: vehiclesFiltered[i].km,
+                engine_model: vehiclesFiltered[i].engine_model,
+                titles: vehiclesFiltered[i].titles,
+                fuel: vehiclesFiltered[i].fuel,
+                transmission: vehiclesFiltered[i].transmission,
+                city: vehiclesFiltered[i].city,
+                dealer: vehiclesFiltered[i].dealer,
+                concesionary: vehiclesFiltered[i].concesionary,
+                traction_control: vehiclesFiltered[i].traction_control,
+                performance: vehiclesFiltered[i].performance,
+                comfort: vehiclesFiltered[i].comfort,
+                technology: vehiclesFiltered[i].technology,
+                id_seller: vehiclesFiltered[i].id_seller,
+                id_mechanic: vehiclesFiltered[i].id_mechanic,
+                __v: vehiclesFiltered[i].__v,
+                price: vehiclesFiltered[i].price,
+                mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+                id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+                sold: vehiclesFiltered[i].sold,
+                type_vehicle: vehiclesFiltered[i].type_vehicle,
+                traction: vehiclesFiltered[i].traction,
+                date_sell: vehiclesFiltered[i].date_sell,
+                date_create: vehiclesFiltered[i].date_create,
+                plate: vehiclesFiltered[i].plate,
+                vin: vehiclesFiltered[i].vin,
+                image: (yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+            };
+            arrayVehicles.push(data);
+        }
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
+        reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
@@ -273,64 +302,49 @@ adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0
 adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
-    const ress = yield Vehicles_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            yield mechanicalsFiles_1.default.findOne({ id_vehicle: res._id }).then((res2) => {
-                if (res2) {
-                    let vehicle = {
-                        _id: res._id,
-                        model: res.model,
-                        year: res.year,
-                        brand: res.brand,
-                        displacement: res.displacement,
-                        km: res.km,
-                        engine_model: res.engine_model,
-                        titles: res.titles,
-                        fuel: res.fuel,
-                        transmission: res.transmission,
-                        traction: res.traction,
-                        city: res.city,
-                        dealer: res.dealer,
-                        concesionary: res.concesionary,
-                        traction_control: res.traction_control,
-                        performance: res.performance,
-                        price: res.price,
-                        comfort: res.comfort,
-                        technology: res.technology,
-                        mechanicalFile: res.mechanicalFile,
-                        sold: res.sold,
-                        date: res.date,
-                        type_vehicle: res.type_vehicle,
-                        id_seller: res.id_seller,
-                        id_mechanic: res.id_mechanic,
-                        id_seller_buyer: res.id_seller_buyer,
-                        general_condition: res2.general_condition
-                    };
-                    jsonRes.code = 200;
-                    jsonRes.message = "success";
-                    jsonRes.status = true;
-                    jsonRes.data = vehicle;
-                    return jsonRes;
-                }
-                else {
-                    jsonRes.code = 400;
-                    jsonRes.message = "no existe";
-                    jsonRes.status = false;
-                    return jsonRes;
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    })).catch((err) => {
-        console.log(err);
-    });
+    const infoVehicle = yield Vehicles_1.default.findOne({ _id: id });
+    const imgsVehicle = yield ImgVehicle_1.default.find({ id_vehicle: id });
+    const mechanicFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
+    if (infoVehicle) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = {
+            _id: infoVehicle._id,
+            model: infoVehicle.model,
+            year: infoVehicle.year,
+            brand: infoVehicle.brand,
+            displacement: infoVehicle.displacement,
+            km: infoVehicle.km,
+            engine_model: infoVehicle.engine_model,
+            titles: infoVehicle.titles,
+            fuel: infoVehicle.fuel,
+            transmission: infoVehicle.transmission,
+            traction: infoVehicle.traction,
+            city: infoVehicle.city,
+            dealer: infoVehicle.dealer,
+            concesionary: infoVehicle.concesionary,
+            traction_control: infoVehicle.traction_control,
+            performance: infoVehicle.performance,
+            price: infoVehicle.price,
+            comfort: infoVehicle.comfort,
+            technology: infoVehicle.technology,
+            mechanicalFile: infoVehicle.mechanicalFile,
+            sold: infoVehicle.sold,
+            date_create: infoVehicle.date_create,
+            type_vehicle: infoVehicle.type_vehicle,
+            id_seller: infoVehicle.id_seller,
+            id_mechanic: infoVehicle.id_mechanic,
+            id_seller_buyer: infoVehicle.id_seller_buyer,
+            general_condition: mechanicFile.general_condition,
+            images: imgsVehicle ? imgsVehicle : []
+        };
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
     res.json(jsonRes);
 }));
 adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -383,6 +397,22 @@ adminRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, fu
         console.log(err);
     });
     res.json(jsonResponse);
+}));
+adminRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const models = yield modelVehicle_1.default.find();
+    if (models) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = models;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
 }));
 adminRouter.post("/addModelVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();

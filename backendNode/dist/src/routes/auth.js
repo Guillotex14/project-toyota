@@ -13,12 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-//modelss
+//models
 const Users_1 = __importDefault(require("../models/Users"));
 const Response_1 = require("../models/Response");
 const Sellers_1 = __importDefault(require("../models/Sellers"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const imgUser_1 = __importDefault(require("../models/imgUser"));
+const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -30,6 +32,7 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                 jsonRes.code = 200;
                 jsonRes.message = "login success";
                 jsonRes.status = true;
+                const userImg = yield imgUser_1.default.findOne({ id_user: res._id });
                 if (res.type_user == "seller") {
                     yield Sellers_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
                         if (res2) {
@@ -41,10 +44,10 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                                 concesionary: res2.concesionary,
                                 email: res.email,
                                 username: res.username,
-                                type_user: res.type_user
+                                type_user: res.type_user,
+                                img: userImg ? userImg : null
                             };
                             jsonRes.data = seller;
-                            // return jsonRes;
                         }
                     })).catch((err) => {
                         console.log(err);
@@ -61,7 +64,8 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                                 concesionary: res2.concesionary,
                                 email: res.email,
                                 username: res.username,
-                                type_user: res.type_user
+                                type_user: res.type_user,
+                                img: userImg ? userImg : null
                             };
                             jsonRes.data = mechanic;
                             // return jsonRes;
@@ -92,6 +96,51 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
         console.log(err);
     });
     res.json(jsonRes);
+}));
+authRouter.post("/addImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user, image } = req.body;
+    const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
+    const newImage = new imgUser_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+    yield newImage.save();
+    if (newImage) {
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen agregada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = newImage;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo agregar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+authRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user, image, public_id } = req.body;
+    const delImg = yield (0, cloudinaryMetods_1.deleteImageUser)(public_id);
+    const delImgdb = yield imgUser_1.default.findOneAndDelete({ public_id: public_id });
+    if (delImg.result == "ok") {
+        const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
+        const newImage = new imgUser_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+        if (newImage) {
+            reponseJson.message = "Imagen actualizada exitosamente";
+            reponseJson.status = true;
+            reponseJson.data = newImage;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "No se pudo actualizar la imagen";
+            reponseJson.status = false;
+        }
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo eliminar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
 }));
 exports.default = authRouter;
 //# sourceMappingURL=auth.js.map
