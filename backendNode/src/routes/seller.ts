@@ -1210,6 +1210,28 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     },
     { $sort: { _id: 1 } },
   ]);
+
+  const cards = await vehicles.find(mongQuery);
+
+  const cardsgroup = await vehicles.aggregate([
+    {
+      $match: mongQuery
+    },
+    {
+      $group: {
+        _id: null,
+        minPrice: { $min: "$price" },
+        medPrice: { $avg: "$price" },
+        maxPrice: { $max: "$price" },
+      }
+    }
+  ]);
+
+  let cardPriceGroup:any;
+
+  cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
+
+
 let datos:any={};
 let cantMonth=calcularMeses(from,to);
 
@@ -1231,6 +1253,7 @@ if(cantMonth==1){
         data: montos, // Montos en el eje y
       },
     ],
+    grupocard:cardPriceGroup
   };
 
 }else{
@@ -1241,6 +1264,7 @@ if(cantMonth==1){
   }
   
   const montos = vehiclesFiltered.map((dato) => dato.monto);
+
    datos = {
     labels: nameArray, // Meses en el eje x
     datasets: [
@@ -1249,18 +1273,20 @@ if(cantMonth==1){
         data: montos, // Montos en el eje y
       },
     ],
+    // vehicles:cards,
+    grupocard:cardPriceGroup
   };
 }
 
 
-  if (true) {
+  if (datos) {
     reponseJson.code = 200;
     reponseJson.message = "success";
     reponseJson.status = true;
     reponseJson.data = datos;
   } else {
-    reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.code = 200;
+    reponseJson.message = "sin resultado";
     reponseJson.status = false;
   }
 
@@ -1289,7 +1315,41 @@ sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => 
 
   res.json(reponseJson);
 
+
+
+
 })
+
+const gruopCardPrice=(listCar:any[],groupPrice:any)=>{
+    let caray:any={
+      minPrice:{
+        value:groupPrice.minPrice,
+        cars:[]
+      },
+      medPrice:{
+        value:groupPrice.medPrice,
+        cars:[]
+      },
+      maxPrice:{
+        value:groupPrice.maxPrice,
+        cars:[]
+      },
+    };
+    listCar.map(car=>{
+      car.price= car.price ? car.price:0;
+      if (car.price<=groupPrice.minPrice) {
+          caray.minPrice.cars.push(car);
+        }
+        if (car.price>groupPrice.minPrice && car.price<=groupPrice.medPrice) {
+          caray.medPrice.cars.push(car);
+        }
+        if (car.price>groupPrice.medPrice && car.price<=groupPrice.maxPrice) {
+          caray.maxPrice.cars.push(car);
+        }
+    })
+
+    return caray;
+}
 
 
 const calcularMeses=(fechaInicial:any, fechaFinal:any) =>{

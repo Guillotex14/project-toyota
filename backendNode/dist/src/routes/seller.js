@@ -955,6 +955,22 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         },
         { $sort: { _id: 1 } },
     ]);
+    const cards = yield Vehicles_1.default.find(mongQuery);
+    const cardsgroup = yield Vehicles_1.default.aggregate([
+        {
+            $match: mongQuery
+        },
+        {
+            $group: {
+                _id: null,
+                minPrice: { $min: "$price" },
+                medPrice: { $avg: "$price" },
+                maxPrice: { $max: "$price" },
+            }
+        }
+    ]);
+    let cardPriceGroup;
+    cardPriceGroup = gruopCardPrice(cards, cardsgroup[0]);
     let datos = {};
     let cantMonth = calcularMeses(from, to);
     if (cantMonth == 1) {
@@ -972,6 +988,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                     data: montos, // Montos en el eje y
                 },
             ],
+            grupocard: cardPriceGroup
         };
     }
     else {
@@ -989,13 +1006,34 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                     data: montos, // Montos en el eje y
                 },
             ],
+            // vehicles:cards,
+            grupocard: cardPriceGroup
         };
     }
-    if (true) {
+    if (datos) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = datos;
+    }
+    else {
+        reponseJson.code = 200;
+        reponseJson.message = "sin resultado";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const vehiclesFiltered = yield modelVehicle_1.default.find({
+        model: { $regex: search, $options: "i" },
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
@@ -1004,7 +1042,35 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     }
     res.json(reponseJson);
 }));
-<<<<<<< HEAD
+const gruopCardPrice = (listCar, groupPrice) => {
+    let caray = {
+        minPrice: {
+            value: groupPrice.minPrice,
+            cars: []
+        },
+        medPrice: {
+            value: groupPrice.medPrice,
+            cars: []
+        },
+        maxPrice: {
+            value: groupPrice.maxPrice,
+            cars: []
+        },
+    };
+    listCar.map(car => {
+        car.price = car.price ? car.price : 0;
+        if (car.price <= groupPrice.minPrice) {
+            caray.minPrice.cars.push(car);
+        }
+        if (car.price > groupPrice.minPrice && car.price <= groupPrice.medPrice) {
+            caray.medPrice.cars.push(car);
+        }
+        if (car.price > groupPrice.medPrice && car.price <= groupPrice.maxPrice) {
+            caray.maxPrice.cars.push(car);
+        }
+    });
+    return caray;
+};
 const calcularMeses = (fechaInicial, fechaFinal) => {
     const inicio = new Date(fechaInicial);
     const fin = new Date(fechaFinal);
@@ -1051,27 +1117,6 @@ const agruparPorWeek = (datos) => {
     }
     return result;
 };
-=======
-sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { search } = req.body;
-    const vehiclesFiltered = yield modelVehicle_1.default.find({
-        model: { $regex: search, $options: "i" },
-    });
-    if (vehiclesFiltered) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
->>>>>>> e31cb1516c0c15f936204bd02280f31b0f40a07d
 const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
