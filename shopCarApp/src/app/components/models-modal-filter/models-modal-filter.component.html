@@ -1,0 +1,8 @@
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let model of arrayModels">
+      <ion-label>{{model.modelo}}</ion-label>
+      <ion-checkbox slot="start" [value]="model.modelo"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

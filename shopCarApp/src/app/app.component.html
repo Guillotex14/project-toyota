@@ -1,0 +1,144 @@
+<ion-menu contentId="main-content" side="end">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="12">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10" style="text-align: center;">
+                  <ion-img src="assets/images/logo/logo_toyota.png" style="width: 40%; height: 60%; margin: 20px auto auto auto ;"></ion-img>
+                </ion-col>
+                <ion-col size="2">
+                  <ion-icon name="close-circle-sharp" style="font-size: 40px;" (click)="closeMenu()" class="bntCloseMenu"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+          <ion-col size="12">
+            <ion-row>
+              <ion-col size="8">
+                <p style="font-size: 20px; margin: 20px auto auto 20px;">{{username}}</p>
+                <p style="font-size: 15px; color: #EB0A1E;margin: 0px auto auto 25px;">
+                  <span *ngIf="typeUser === 'admin'">Administrador</span>
+                  <span *ngIf="typeUser === 'seller'">Vendedor</span>
+                  <span *ngIf="typeUser === 'mechanic'">Mecánico</span>
+                </p>
+              </ion-col>
+
+              <ion-col size="4" *ngIf="typeConection">
+                <ion-avatar *ngIf="image !==null">
+                  <img [src]="image.img" />
+                </ion-avatar>
+
+                <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite"></ion-icon>
+
+              </ion-col>
+
+              <ion-col size="4" *ngIf="!typeConection">
+                <ion-avatar *ngIf="image !==null" (click)="editImage()">
+                  <img [src]="image.img" />
+                </ion-avatar>
+
+                <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite" (click)="addImage()"></ion-icon>
+
+                <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
+                <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)">
+              </ion-col>
+            </ion-row>
+            
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <!-- buttons seller -->
+      <ion-item button (click)="goTo('add-vehicle')" *ngIf="typeUser === 'seller'">
+        <ion-label>Vender</ion-label>
+        <ion-icon slot="end" name="logo-usd"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('buy-car')">
+        <ion-label>Comprar</ion-label>
+        <ion-icon slot="end" name="cash-outline"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('my-vehicles')">
+        <ion-label>Mis Vehiculos</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
+      <ion-item button (click)="goTo('how-much-vehicle')" *ngIf="typeUser === 'seller'">
+        <ion-label>¿Cuanto vale mi vehiculo?</ion-label>
+        <ion-icon slot="end" name="car-sport"></ion-icon>
+      </ion-item>
+      <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
+        <ion-label>Graficas</ion-label>
+        <ion-icon name="stats-chart"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('sells-history')">
+        <ion-label>Historial de ventas</ion-label>
+        <ion-icon name="time-outline"></ion-icon>
+        </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('add-mechanic')">
+        <ion-label>Añadir mecánico</ion-label>
+        <ion-icon name="construct-outline"></ion-icon>
+      </ion-item>
+
+      <!-- buttons mechanics -->
+      <ion-item button *ngIf="typeUser === 'mechanic'" (click)="goTo('mechanic')">
+        <ion-label>Inicio</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'mechanic'" (click)="goTo('inspections')">
+        <ion-label>Inspecciones</ion-label>
+        <ion-icon name="create"></ion-icon>
+      </ion-item>
+
+      <!-- buttons admin -->
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('home-admin')">
+        <ion-label>Inicio</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-user-admin')">
+        <ion-label>Lista de usuarios</ion-label>
+        <ion-icon name="create"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('create-user-admin')">
+        <ion-label>Crear Usuario</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-brand')">
+        <ion-label>Crear Marca</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-model-vehicle')">
+        <ion-label>Crear Modelo vehicular</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('graphics-admin')">
+        <ion-label>Graficas</ion-label>
+        <ion-icon name="stats-chart"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('sells-history')">
+        <ion-label>Historial de ventas</ion-label>
+        <ion-icon name="time"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+  <ion-footer>
+    <ion-list>
+      <ion-item button (click)="logout()">
+        <ion-label>Cerrar Sesion</ion-label>
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-footer>
+</ion-menu>
+
+<ion-action-sheet trigger="open-action-sheet" header="Opciones" [buttons]="actionSheetButtons"></ion-action-sheet>
+  <ion-action-sheet [isOpen]="openASEdit" header="Opciones" [buttons]="actionSheetButtonsEdit" (didDismiss)="!openASEdit" #ActionSheetEdit></ion-action-sheet>
+
+<ion-app>
+  <ion-router-outlet id ="main-content"></ion-router-outlet>
+</ion-app>

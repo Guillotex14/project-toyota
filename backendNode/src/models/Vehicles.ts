@@ -19,12 +19,46 @@ const vehicleSchema = new Schema({
     price: Number,
     comfort: String,
     technology: String,
-    mechanicalFile: Boolean,
-    sold: Boolean,
-    date: String,
     date_create: String,
-    date_sell: String,
     type_vehicle: String,
+    vin: String,
+    plate: String,
+    mechanicalFile: {
+        type: Boolean,
+        default: false
+    },
+    sold: {
+        type: Boolean,
+        default: false
+    },
+    date_sell: {
+        type: String,
+        default: null
+    },
+    name_new_owner: {
+        type: String,
+        default: null
+    },
+    dni_new_owner: {
+        type: String,
+        default: null        
+    },
+    phone_new_owner: {
+        type: String,
+        default: null
+    },
+    email_new_owner: {
+        type: String,
+        default: null
+    },
+    price_ofert: {
+        type: Number,
+        default: null
+    },
+    final_price_sold: {
+        type: Number,
+        default: null
+    },
     id_seller: {
         type: Schema.Types.ObjectId
     },

@@ -1,0 +1,28 @@
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="colImage">
+        <ion-img src="assets/images/logo/logo_toyousado_negro.jpg"></ion-img>
+      </ion-col>
+
+      <ion-col size="12" class="colInputUser">
+        <ion-label style="margin: 10px 30px !important;">Correo electronico</ion-label>
+        <ion-input type="email" shape="round" id="inputEmail" fill="outline" [(ngModel)]="newLogin.email"></ion-input>
+      </ion-col>
+      <ion-col size="12" class="colInputPass" style="margin-top: 15px;">
+        <ion-label style="margin: 10px 30px !important;">Contraseña</ion-label>
+        <ion-input type="password" shape="round" id="inputPass" fill="outline" [(ngModel)]="newLogin.password"></ion-input>
+      </ion-col>
+
+      <ion-col size="12" class="colButtonLogin">
+        <ion-button expand="block" shape="round" (click)="login()">Iniciar sesion</ion-button>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 15px !important;">
+        <ion-img src="assets/images/logo/flag_vzla.png" style="width: 60px;height: 60px;margin: auto;"></ion-img>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

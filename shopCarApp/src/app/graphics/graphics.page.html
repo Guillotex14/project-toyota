@@ -1,0 +1,343 @@
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="12" class="header">
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
+            </ion-col>
+            <ion-col size="8" style="text-align: center;">
+              <ion-img src="assets/images/logo/logo_toyota.png" style="width: 70px;height: 70px; margin: 15px auto auto auto;"></ion-img>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="menu-outline" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="openMenu()"></ion-icon>
+            </ion-col>
+          </ion-row>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card class="cardChart">
+          <ion-card-content>
+            <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-button expand="block" shape="round" class="btnRed" id="open-filter">
+          filtro
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
+                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-row>
+                        <ion-col size="6">
+                          <ion-card-subtitle>
+                            28-04-23
+                          </ion-card-subtitle>
+                        </ion-col>
+                        <ion-col size="6">
+                          <ion-card-title style="font-weight: bold; color: green;">
+                            38.000$
+                          </ion-card-title>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
+                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-row>
+                        <ion-col size="6">
+                          <ion-card-subtitle>
+                            28-04-23
+                          </ion-card-subtitle>
+                        </ion-col>
+                        <ion-col size="6">
+                          <ion-card-title style="font-weight: bold; color: green;">
+                            38.000$
+                          </ion-card-title>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
+                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-row>
+                        <ion-col size="6">
+                          <ion-card-subtitle>
+                            28-04-23
+                          </ion-card-subtitle>
+                        </ion-col>
+                        <ion-col size="6">
+                          <ion-card-title style="font-weight: bold; color: green;">
+                            38.000$
+                          </ion-card-title>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
+                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-row>
+                        <ion-col size="6">
+                          <ion-card-subtitle>
+                            28-04-23
+                          </ion-card-subtitle>
+                        </ion-col>
+                        <ion-col size="6">
+                          <ion-card-title style="font-weight: bold; color: green;">
+                            38.000$
+                          </ion-card-title>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal trigger="open-filter">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="closeModal()" [strong]="true">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Opciones filtro</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="applyFilter()">Filtrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding">
+        <ion-accordion-group expand="inset" [value]="['brand']">
+
+          <ion-accordion value="brand">
+            <ion-item slot="header">
+              <ion-label>Marca</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="brandCar">
+                    <ion-item>
+                      <ion-label>Todos</ion-label>
+                      <ion-radio value=""></ion-radio>
+                    </ion-item>
+                  <ion-item *ngFor="let brand of arrayBrands">
+                    <ion-label>{{brand.name}}</ion-label>
+                    <ion-radio [value]="brand.name"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+      
+          <ion-accordion value="model">
+            <ion-item slot="header">
+              <ion-label>Modelo</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="modelCar">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item *ngFor="let model of arrayModels">
+                    <ion-label>{{model.model}}</ion-label>
+                    <ion-radio [value]="model.model"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          
+          <!-- <ion-accordion value="type_vehicle">
+            <ion-item slot="header">
+              <ion-label>Tipo de vehiculo</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="type_vehicle">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Pick-up y carga</ion-label>
+                    <ion-radio value="pickup"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>SUV</ion-label>
+                    <ion-radio value="suv"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Sedan</ion-label>
+                    <ion-radio value="sedan"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Hatchback</ion-label>
+                    <ion-radio value="hatchback"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion> -->
+
+          <!-- <ion-accordion value="ubication">
+            <ion-item slot="header">
+              <ion-label>Ubicación</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="ubication">
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item *ngFor="let state of arrayUbication">
+                    <ion-label>{{state.estado}}</ion-label>
+                    <ion-radio [value]="state.estado"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion> -->
+
+          <ion-accordion value="year">
+            <ion-item slot="header">
+              <ion-label>Año del vehiculo</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Año" labelPlacement="stacked" (ionInput)="dotMinYear($event.target)" [value]="yearCarAux"></ion-input>
+                </ion-item>
+                <!-- <ion-item> -->
+                  <!-- <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxYear($event.target)" [value]="maxYearAux"></ion-input> -->
+                <!-- </ion-item> -->
+              </ion-list>
+            </div>
+          </ion-accordion>
+
+          <!-- <ion-accordion value="kms">
+            <ion-item slot="header">
+              <ion-label>Kilometros</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinKm($event.target)" [value]="minKmsAux"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxKm($event.target)" [value]="maxKmsAux"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion> -->
+          
+          <!-- <ion-accordion value="price">
+            <ion-item slot="header">
+              <ion-label>Precio</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinPrice($event.target)" [value]="minPriceAux"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxPrice($event.target)" [value]="maxPriceAux"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion> -->
+
+        </ion-accordion-group>
+      
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+

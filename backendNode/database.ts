@@ -6,8 +6,6 @@ export async function connectToDB() {
         await connect(mongoDBUri);
         console.log("Connected to MongoDB");
         const collect = await connection.db.collection('Users').find().toArray();
-        // const { db } = mongoose.connection;
-        // const result = await db.collection('Users').find().toArray();
         console.log("DB Name:", collect);
 
 
