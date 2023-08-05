@@ -16,7 +16,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   month: number = 1;
   yearSold: number = new Date().getFullYear();
   rangMonths: number = 12;
-  yearCar: number = 0;
+  yearCar: string="";
   yearCarAux: string = '';
   brandCar: string = '';
   modelCar: string = '';
