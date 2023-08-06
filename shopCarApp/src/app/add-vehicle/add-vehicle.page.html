@@ -23,53 +23,13 @@
             <p style="font-weight: bold; font-size: 25px;">Cargar vehiculo</p>
           </ion-col>
 
-          <ion-col size="12" style="text-align: center;" *ngIf="typeConection === false">
+          <!-- <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
+          <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)"> -->
+
+          <ion-col size="12" style="text-align: center;">
             <ion-row>
-              <ion-col size="12" *ngIf="arrayImages.length > 0">
-                <swiper-container [loop]="true" [pagination]="true">
-                  <swiper-slide *ngFor="let image of arrayImages; let i = index">
-                    <ion-row>
-                      <ion-col size="4">
-                        <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImage(i)">
-                          <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                      <ion-col size="4">
-
-                      </ion-col>
-                      <ion-col size="4">
-                        <ion-button expand="block" shape="round" (click)="editImage(i)" class="btnRed">
-                          <ion-icon name="create" style="font-size: 30px;"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                      <ion-col size="12">
-                        <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
-                      </ion-col>
-                    </ion-row>
-                  </swiper-slide>
-                  <div class="swiper-pagination"></div>
-                </swiper-container>
-                <ion-button (click)="addImage()" expand="block" shape="round" style="margin-top: 20px;" class="btnSaveRed">
-                  Agregar imagen
-                </ion-button>
-              </ion-col>
-              <ion-col size="12" *ngIf="arrayImages.length === 0"(click)="addImage()">
-                <ion-icon name="image" style="font-size: 150px;" ></ion-icon>
-                <br>
-                <span style="font-size: 20px;">Cargar imágenes</span>
-                <br>
-                <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehiculo (Delantera, trasera. ambos lados e interna)</span>
-              </ion-col>
-            </ion-row>
-
-            <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
-            <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)">
-          </ion-col>
-
-          <ion-col size="12" style="text-align: center;" *ngIf="typeConection === true">
-            <ion-row>
-              <ion-col size="12" *ngIf="arrayImages.length === 0">
-                <ion-icon name="image" style="font-size: 150px;" id="open-action-sheet"></ion-icon>
+              <ion-col size="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
+                <ion-icon name="image" style="font-size: 150px;" (click)="openActionSheet()"></ion-icon>
                 <br>
                 <span style="font-size: 20px;">Cargar imágenes</span>
                 <br>
@@ -89,7 +49,7 @@
 
                       </ion-col>
                       <ion-col size="4">
-                        <ion-button expand="block" shape="round" (click)="editImage(i)" class="btnRed">
+                        <ion-button expand="block" shape="round" (click)="openActionSheetEdit(i)" class="btnRed">
                           <ion-icon name="create" style="font-size: 30px;"></ion-icon>
                         </ion-button>
                       </ion-col>
@@ -97,12 +57,15 @@
                         <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
                       </ion-col>
                     </ion-row>
-                    <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheetEdit(i)">
+                    <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
                       Agregar imagen
                     </ion-button>
                   </swiper-slide>
                   <div class="swiper-pagination"></div>
                 </swiper-container>
+                <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
+                  Agregar imagen
+                </ion-button>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -365,7 +328,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-action-sheet trigger="open-action-sheet" header="Opciones" [buttons]="actionSheetButtons"></ion-action-sheet>
+  <ion-action-sheet [isOpen]="openAS" (didDismiss)="!openAS" header="Opciones" [buttons]="actionSheetButtons" #ActionSheetEdit></ion-action-sheet>
   <ion-action-sheet [isOpen]="openASEdit" header="Opciones" [buttons]="actionSheetButtonsEdit" (didDismiss)="!openASEdit" #ActionSheetEdit></ion-action-sheet>
 
   <ion-modal (willDismiss)="onWillDismiss($event)" #modalMechanic>

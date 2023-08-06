@@ -21,7 +21,7 @@ const sellerRouter = Router();
 
 sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
-  const date_created = moment().format("DD/MM/YYYY");
+  const date_created = moment().format("YYYY-MM-DD");
   const { email, password, username, fullName, city, concesionary } = req.body;
   const hash = await bcrypt.hash(password, 10);
 
@@ -77,7 +77,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let emailmechanic = "";
   let infoSeller: any = {};
-  let dateNow = moment().format("DD/MM/YYYY");
+  let dateNow = moment().format("YYYY-MM-DD");
 
   const {model,brand,year,displacement,km,engine_model,titles,fuel,transmission,traction,city,dealer,concesionary,traction_control,performance,comfort,technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate} = req.body;
 
@@ -787,12 +787,12 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
 
 sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
-    const date_sell = moment().format('DD-MM-YYYY');
+    const date_sell = moment().format('YYYY-MM-DD');
     const { id_vehicle } = req.body;
 
     const infoVehicle = await vehicles.findById(id_vehicle);
 
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {sold: true, price_ofert: infoVehicle!.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle!.price_ofert});
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {price_ofert: infoVehicle!.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle!.price_ofert});
 
     const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
 
@@ -1149,23 +1149,23 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   if (rangMonths &&  rangMonths < 12) {
     rangArrayMonth = getMonthRange(month, rangMonths);
+
     firtsMonth = new Date(anioActual, (month - 1), 1);
-    if (rangArrayMonth.length > 0) {
+    if (rangArrayMonth.length > 1) {
       last = new Date(anioActual, (rangArrayMonth.length - 1));
       lastDayLasyMont=getLastDayOfMonth(anioActual,(rangArrayMonth.length - 1));   
       lastMonth = new Date(anioActual,(rangArrayMonth.length - 1),lastDayLasyMont.getDate());
     } else {
+      
       last = new Date(anioActual, (month - 1));
       lastDayLasyMont=getLastDayOfMonth(anioActual,(month - 1));   
       lastMonth = new Date(anioActual,(month - 1),lastDayLasyMont.getDate());
     }
   }
 
-
   let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10 ? "0" + (firtsMonth.getMonth() + 1): firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10? "0" + firtsMonth.getDate(): firtsMonth.getDate()}`;
   
   let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10 ? "0" + (lastMonth.getMonth() + 1): lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10? "0" + lastMonth.getDate(): lastMonth.getDate()}`;
-
   let mongQuery:any={
     date_sell: {
       $gte: from, // Filtrar documentos a partir del 1 de enero del año
@@ -1197,7 +1197,6 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     }
   }
 
-  console.log(mongQuery)
   
   const vehiclesFiltered = await vehicles.aggregate([
     {
@@ -1212,15 +1211,61 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     { $sort: { _id: 1 } },
   ]);
 
+  const cards = await vehicles.find(mongQuery);
+
+  const cardsgroup = await vehicles.aggregate([
+    {
+      $match: mongQuery
+    },
+    {
+      $group: {
+        _id: null,
+        minPrice: { $min: "$price" },
+        medPrice: { $avg: "$price" },
+        maxPrice: { $max: "$price" },
+      }
+    }
+  ]);
+
+  let cardPriceGroup:any;
+
+  cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
+
+
+let datos:any={};
+let cantMonth=calcularMeses(from,to);
+
+if(cantMonth==1){
+  let groupByWeek=[];
+  let groupByOneMonth=[];
+
+  groupByWeek= agruparPorSemana(vehiclesFiltered);
+
+  groupByOneMonth= agruparPorWeek(groupByWeek);
+
+  const labels = groupByOneMonth.map(item => item.semana);
+  const montos = groupByOneMonth.map(item => item.monto);
+  datos = {
+    labels: labels, // Meses en el eje x
+    datasets: [
+      {
+        label: "Montos Mensuales",
+        data: montos, // Montos en el eje y
+      },
+    ],
+    grupocard:cardPriceGroup
+  };
+
+}else{
   const labels = vehiclesFiltered.map((dato) => dato._id);
   let nameArray = [];
   for (let i = 0; i < labels.length; i++) {
     nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
   }
-
+  
   const montos = vehiclesFiltered.map((dato) => dato.monto);
 
-  const datos = {
+  datos = {
     labels: nameArray, // Meses en el eje x
     datasets: [
       {
@@ -1228,16 +1273,20 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
         data: montos, // Montos en el eje y
       },
     ],
+    // vehicles:cards,
+    grupocard:cardPriceGroup
   };
+}
 
-  if (true) {
+
+  if (datos) {
     reponseJson.code = 200;
     reponseJson.message = "success";
     reponseJson.status = true;
     reponseJson.data = datos;
   } else {
-    reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.code = 200;
+    reponseJson.message = "sin resultado";
     reponseJson.status = false;
   }
 
@@ -1266,10 +1315,105 @@ sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => 
 
   res.json(reponseJson);
 
+
+
+
 })
 
-const sendNotification = async (id_seller:string, message: string, title: string) => {
-    // const jsonRes: ResponseModel = new ResponseModel();
+const gruopCardPrice=(listCar:any[],groupPrice:any)=>{
+    let caray:any={
+      minPrice:{
+        value:groupPrice.minPrice,
+        cars:[]
+      },
+      medPrice:{
+        value:groupPrice.medPrice,
+        cars:[]
+      },
+      maxPrice:{
+        value:groupPrice.maxPrice,
+        cars:[]
+      },
+    };
+    listCar.map(car=>{
+      car.price= car.price ? car.price:0;
+      if (car.price<=groupPrice.minPrice) {
+          caray.minPrice.cars.push(car);
+        }
+        if (car.price>groupPrice.minPrice && car.price<=groupPrice.medPrice) {
+          caray.medPrice.cars.push(car);
+        }
+        if (car.price>groupPrice.medPrice && car.price<=groupPrice.maxPrice) {
+          caray.maxPrice.cars.push(car);
+        }
+    })
+
+    return caray;
+}
+
+const calcularMeses=(fechaInicial:any, fechaFinal:any) =>{
+  const inicio = new Date(fechaInicial);
+  const fin = new Date(fechaFinal);
+  
+  const diferenciaMeses = (fin.getFullYear() - inicio.getFullYear()) * 12 + (fin.getMonth() - inicio.getMonth());
+  
+  return diferenciaMeses;
+}
+
+const agruparPorSemana=(datos:any)=> {
+  const semanas = [];
+  
+  for (const dato of datos) {
+    const fecha = new Date(dato._id);
+    const semana = getWeekNumber(fecha);
+    if (semanas[semana]) {
+      semanas[semana] += dato.monto;
+    } else {
+      semanas[semana] = dato.monto;
+    }
+  }
+  
+  const result = [];
+  for (const semana in semanas) {
+    result.push({ semana: Number(semana), monto: semanas[semana] });
+  }
+  
+  return result;
+}
+
+// Función para obtener el número de semana de una fecha
+const getWeekNumber=(date:any) =>{
+  const onejan:any = new Date(date.getFullYear(), 0, 1);
+  const week = Math.ceil((((date - onejan) / 86400000) + onejan.getDay()) / 7);
+  return week;
+}
+
+const agruparPorWeek=(datos:any)=> {
+  const semanas = []
+  let contador = 1;
+  
+  for (const dato of datos) {
+    if (!semanas[contador]) {
+      semanas[contador] = 0;
+    }
+    semanas[contador] += dato.monto;
+    contador++;
+  }
+  
+  const result = [];
+  for (const semana in semanas) {
+    result.push({ semana: Number(semana), monto: semanas[semana] });
+  }
+  
+  return result;
+}
+
+const sendNotification = async (
+  id_seller: string,
+  message: string,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
 
   const userInfo = await Sellers.findOne({ _id: id_seller });
 
@@ -1325,10 +1469,8 @@ function getMonthRange(startMonth: any, rangeMonths: any) {
   ];
 
   const startMonthIndex = startMonth - 1;
-  const endMonthIndex = Math.min(startMonthIndex + rangeMonths - 1, 11);
-
+  const endMonthIndex = Math.min(startMonthIndex + parseInt(rangeMonths) - 1, 11);
   const monthRange = months.slice(startMonthIndex, endMonthIndex + 1);
-
   return monthRange;
 }
 

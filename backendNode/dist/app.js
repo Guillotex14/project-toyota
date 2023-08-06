@@ -25,7 +25,8 @@ class App {
     middlewares() {
         this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)());
-        this.app.use(express_1.default.urlencoded({ extended: false }));
+        this.app.use(express_1.default.json({ limit: '256mb' }));
+        this.app.use(express_1.default.urlencoded({ limit: '256mb' }));
     }
     routes() {
         this.app.use("/auth", auth_1.default);

@@ -32,7 +32,7 @@ const nodemailer_1 = require("../../nodemailer");
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const date_created = (0, moment_1.default)().format("DD/MM/YYYY");
+    const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
     const { email, password, username, fullName, city, concesionary } = req.body;
     const hash = yield bcrypt_1.default.hash(password, 10);
     const newUser = new Users_1.default({
@@ -79,7 +79,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const reponseJson = new Response_1.ResponseModel();
     let emailmechanic = "";
     let infoSeller = {};
-    let dateNow = (0, moment_1.default)().format("DD/MM/YYYY");
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate } = req.body;
     const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date_create: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle, vin, vehicle_plate });
     yield newVehicle.save();
@@ -624,10 +624,10 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
 }));
 sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format('DD-MM-YYYY');
+    const date_sell = (0, moment_1.default)().format('YYYY-MM-DD');
     const { id_vehicle } = req.body;
     const infoVehicle = yield Vehicles_1.default.findById(id_vehicle);
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { sold: true, price_ofert: infoVehicle.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle.price_ofert });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle.price_ofert });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
     const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
@@ -914,7 +914,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     if (rangMonths && rangMonths < 12) {
         rangArrayMonth = getMonthRange(month, rangMonths);
         firtsMonth = new Date(anioActual, (month - 1), 1);
-        if (rangArrayMonth.length > 0) {
+        if (rangArrayMonth.length > 1) {
             last = new Date(anioActual, (rangArrayMonth.length - 1));
             lastDayLasyMont = getLastDayOfMonth(anioActual, (rangArrayMonth.length - 1));
             lastMonth = new Date(anioActual, (rangArrayMonth.length - 1), lastDayLasyMont.getDate());
@@ -943,7 +943,6 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     if (modelCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
-    console.log(mongQuery);
     const vehiclesFiltered = yield Vehicles_1.default.aggregate([
         {
             $match: mongQuery
@@ -956,30 +955,70 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         },
         { $sort: { _id: 1 } },
     ]);
-    const labels = vehiclesFiltered.map((dato) => dato._id);
-    let nameArray = [];
-    for (let i = 0; i < labels.length; i++) {
-        nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
+    const cards = yield Vehicles_1.default.find(mongQuery);
+    const cardsgroup = yield Vehicles_1.default.aggregate([
+        {
+            $match: mongQuery
+        },
+        {
+            $group: {
+                _id: null,
+                minPrice: { $min: "$price" },
+                medPrice: { $avg: "$price" },
+                maxPrice: { $max: "$price" },
+            }
+        }
+    ]);
+    let cardPriceGroup;
+    cardPriceGroup = gruopCardPrice(cards, cardsgroup[0]);
+    let datos = {};
+    let cantMonth = calcularMeses(from, to);
+    if (cantMonth == 1) {
+        let groupByWeek = [];
+        let groupByOneMonth = [];
+        groupByWeek = agruparPorSemana(vehiclesFiltered);
+        groupByOneMonth = agruparPorWeek(groupByWeek);
+        const labels = groupByOneMonth.map(item => item.semana);
+        const montos = groupByOneMonth.map(item => item.monto);
+        datos = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Montos Mensuales",
+                    data: montos, // Montos en el eje y
+                },
+            ],
+            grupocard: cardPriceGroup
+        };
     }
-    const montos = vehiclesFiltered.map((dato) => dato.monto);
-    const datos = {
-        labels: nameArray,
-        datasets: [
-            {
-                label: "Montos Mensuales",
-                data: montos, // Montos en el eje y
-            },
-        ],
-    };
-    if (true) {
+    else {
+        const labels = vehiclesFiltered.map((dato) => dato._id);
+        let nameArray = [];
+        for (let i = 0; i < labels.length; i++) {
+            nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
+        }
+        const montos = vehiclesFiltered.map((dato) => dato.monto);
+        datos = {
+            labels: nameArray,
+            datasets: [
+                {
+                    label: "Montos Mensuales",
+                    data: montos, // Montos en el eje y
+                },
+            ],
+            // vehicles:cards,
+            grupocard: cardPriceGroup
+        };
+    }
+    if (datos) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = datos;
     }
     else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.code = 200;
+        reponseJson.message = "sin resultado";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1003,6 +1042,81 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
     }
     res.json(reponseJson);
 }));
+const gruopCardPrice = (listCar, groupPrice) => {
+    let caray = {
+        minPrice: {
+            value: groupPrice.minPrice,
+            cars: []
+        },
+        medPrice: {
+            value: groupPrice.medPrice,
+            cars: []
+        },
+        maxPrice: {
+            value: groupPrice.maxPrice,
+            cars: []
+        },
+    };
+    listCar.map(car => {
+        car.price = car.price ? car.price : 0;
+        if (car.price <= groupPrice.minPrice) {
+            caray.minPrice.cars.push(car);
+        }
+        if (car.price > groupPrice.minPrice && car.price <= groupPrice.medPrice) {
+            caray.medPrice.cars.push(car);
+        }
+        if (car.price > groupPrice.medPrice && car.price <= groupPrice.maxPrice) {
+            caray.maxPrice.cars.push(car);
+        }
+    });
+    return caray;
+};
+const calcularMeses = (fechaInicial, fechaFinal) => {
+    const inicio = new Date(fechaInicial);
+    const fin = new Date(fechaFinal);
+    const diferenciaMeses = (fin.getFullYear() - inicio.getFullYear()) * 12 + (fin.getMonth() - inicio.getMonth());
+    return diferenciaMeses;
+};
+const agruparPorSemana = (datos) => {
+    const semanas = [];
+    for (const dato of datos) {
+        const fecha = new Date(dato._id);
+        const semana = getWeekNumber(fecha);
+        if (semanas[semana]) {
+            semanas[semana] += dato.monto;
+        }
+        else {
+            semanas[semana] = dato.monto;
+        }
+    }
+    const result = [];
+    for (const semana in semanas) {
+        result.push({ semana: Number(semana), monto: semanas[semana] });
+    }
+    return result;
+};
+// Función para obtener el número de semana de una fecha
+const getWeekNumber = (date) => {
+    const onejan = new Date(date.getFullYear(), 0, 1);
+    const week = Math.ceil((((date - onejan) / 86400000) + onejan.getDay()) / 7);
+    return week;
+};
+const agruparPorWeek = (datos) => {
+    const semanas = [];
+    let contador = 1;
+    for (const dato of datos) {
+        if (!semanas[contador]) {
+            semanas[contador] = 0;
+        }
+        semanas[contador] += dato.monto;
+        contador++;
+    }
+    const result = [];
+    for (const semana in semanas) {
+        result.push({ semana: Number(semana), monto: semanas[semana] });
+    }
+    return result;
+};
 const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
@@ -1047,7 +1161,7 @@ function getMonthRange(startMonth, rangeMonths) {
         { month: "Diciembre", index: 12 },
     ];
     const startMonthIndex = startMonth - 1;
-    const endMonthIndex = Math.min(startMonthIndex + rangeMonths - 1, 11);
+    const endMonthIndex = Math.min(startMonthIndex + parseInt(rangeMonths) - 1, 11);
     const monthRange = months.slice(startMonthIndex, endMonthIndex + 1);
     return monthRange;
 }

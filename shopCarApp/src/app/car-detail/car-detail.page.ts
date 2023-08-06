@@ -1,11 +1,10 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonModal, MenuController } from '@ionic/angular';
+import { IonActionSheet, IonModal, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
-import * as global from '../../models/global';
 
 @Component({
   selector: 'app-car-detail',
@@ -21,6 +20,7 @@ export class CarDetailPage implements OnInit {
   priceOfertAux: string = "";
   theCartegory: string = "";
   editCar: boolean = false;
+  openAS: boolean = false;
   arrayImages: any[] = [];
   priceOfert: number = 0;
   idImgEdit: string = "";
@@ -35,10 +35,10 @@ export class CarDetailPage implements OnInit {
   dni: string = "";
   id: string = "";
   aux: number = 0;
-  urlImg: string = global.urlImgvehicles;
 
 
-  @ViewChild('ActionSheetEdit') ActionSheetEdit: any;
+  @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
+  @ViewChild('actionSheet') actionSheet!: IonActionSheet;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('modalBuy') modal!: IonModal;
@@ -92,6 +92,8 @@ export class CarDetailPage implements OnInit {
     }
 
     this.getVehicleById();
+    this.buttonsActionSheet();
+    this.buttonsActionSheetEdit();
 
   }
 
@@ -132,6 +134,7 @@ export class CarDetailPage implements OnInit {
           this.price = this.carDetail.price;
           this.priceOfert = this.carDetail.price;
           this.priceOfertAux = this.setDot(this.carDetail.price);
+          this.priceAux = this.setDot(this.carDetail.price);
         }
 
         if(this.carDetail.images.length > 0){
@@ -338,93 +341,80 @@ export class CarDetailPage implements OnInit {
   }
 
   public async takePhoto(){
-    console.log("entro")
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera,
-    }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
-    })
-  }
-
-  public async takePhotoGalery(){
-    console.log("entro")
+    this.utils.presentLoading("Cargando imagen...");
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // this.arrayImages[this.aux].image = base64;
-      // this.utils.dismissLoading();
+      this.addNewImage(imageData.dataUrl);
     },
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
-    }
+    })
+    this.utils.dismissLoading();
+  }
 
-    )
-
+  public async takePhotoGalery(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then((imageData)=>{
+      this.addNewImage(imageData.dataUrl);
+    },
+    (err)=>{
+      console.log(err)
+    })
+    this.utils.dismissLoading();
   }
 
   public async editTakePhoto(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
       quality: 90,
-      // allowEditing: false,
-      // resultType: CameraResultType.DataUrl,
-      // source: CameraSource.Photos,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
-
-      // this.utils.dismissLoading();
-    } ,
+      this.editImgVehicle(imageData.dataUrl);
+    },
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
     })
+
+    this.utils.dismissLoading();
   }
 
   public async editTakePhotoGalery(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
       quality: 90,
-
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // this.arrayImages[this.aux].image = base64;
-      // this.utils.dismissLoading();
-    } ,
+      this.editImgVehicle(imageData.dataUrl);
+    },
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
     })
 
+    this.utils.dismissLoading();
   }
 
-  public openActionSheetEdit(index:any){
-    console.log(index)
-    this.openASEdit = true;
+  public openActionSheetEdit(index:any, image:any){
+
+    this.idImgEdit = image.public_id;
     this.aux = index;
-    // this.ActionSheetEdit.open();
+    this.actionSheetEdit.present();
+  }
+
+  public openActionSheet(){
+    this.actionSheet.present();
   }
   
   public addNewImage(image:any){
@@ -508,6 +498,55 @@ export class CarDetailPage implements OnInit {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
+  }
+
+  public buttonsActionSheet(){
+    this.actionSheetButtons = [
+      {
+        text: 'Camara',
+        icon: 'camera',
+        handler: () => {
+          this.takePhoto();
+        }
+      },
+      {
+        text: 'Galeria',
+        icon: 'image',
+        handler: () => {
+          this.takePhotoGalery();
+        }
+      },
+      {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
+  }
+
+  public buttonsActionSheetEdit(){
+
+    this.actionSheetButtonsEdit = [
+      {
+        text: 'Camara',
+        icon: 'camera',
+        handler: () => {
+          this.editTakePhoto();
+        }
+      },
+      {
+        text: 'Galeria',
+        icon: 'image',
+        handler: () => {
+          this.editTakePhotoGalery();
+        }
+      },
+      {
+        text: 'Salir',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
   }
   
 }

@@ -18,8 +18,8 @@ import { OverlayEventDetail } from '@ionic/core/components';
 export class AddVehiclePage implements OnInit {
 
   newVehicle: AddVehicle = new AddVehicle();
-  typeConection: boolean = false;
   openASEdit: boolean = false;
+  openAS: boolean = false;
   showAutoComplete = false;
   aux: number = 0;
   km: string = '';
@@ -43,6 +43,7 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheetEdit') ActionSheetEdit: any;
+  @ViewChild('ActionSheet') ActionSheet: any;
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
@@ -71,10 +72,6 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.type_vehicle = '';
     this.newVehicle.vin = '';
     this.newVehicle.vehicle_plate = '';
-
-    if (this.utils.isApp()) {
-      this.typeConection = true;
-    }
 
     let data = localStorage.getItem('me');
 
@@ -243,43 +240,44 @@ export class AddVehiclePage implements OnInit {
     this.arrayImages.splice(index,1)
   }
 
-  public addImage() {
-    this.fileInput.nativeElement.click();
-  }
+  // public addImage() {
+  //   this.fileInput.nativeElement.click();
+  // }
 
-  public getImage(file:FileList){
-    this.utils.presentLoading("Cargando imagen...");
-    let reader = new FileReader();
-    reader.onload = (e:any)=>{
-      let info = e.target["result"];
-      let split = info.split("base64");
-      let split2 = split[0].split("/");
-      let type = split2[1];
+  // public getImage(file:FileList){
+  //   this.utils.presentLoading("Cargando imagen...");
+  //   let reader = new FileReader();
+  //   reader.onload = (e:any)=>{
+  //     let info = e.target["result"];
+  //     let split = info.split("base64");
+  //     let split2 = split[0].split("/");
+  //     let type = split2[1];
 
-      let img = {
-        image:e.target["result"],
-      }
-      this.arrayImages.push(img);
-      this.utils.dismissLoading();
-    }
-    reader.readAsDataURL(file[0]);
-  }
+  //     let img = {
+  //       image:e.target["result"],
+  //     }
+  //     this.arrayImages.push(img);
+  //     this.utils.dismissLoading();
+  //   }
+  //   reader.readAsDataURL(file[0]);
+  // }
 
-  public getImage2(file:FileList){
-    this.utils.presentLoading("Cargando imagen...");
-    let reader = new FileReader();
-    console.log(this.aux);
-    reader.onload = (e:any)=>{
-      this.arrayImages[this.aux].image = +e.target["result"];
-      this.utils.dismissLoading();
-      console.log(this.arrayImages)
-    }
-    reader.readAsDataURL(file[0]);
-  }
+  // public getImage2(file:FileList){
+  //   this.utils.presentLoading("Cargando imagen...");
+  //   let reader = new FileReader();
+  //   console.log(this.aux);
+  //   reader.onload = (e:any)=>{
+  //     this.arrayImages[this.aux].image = +e.target["result"];
+  //     this.utils.dismissLoading();
+  //     console.log(this.arrayImages)
+  //   }
+  //   reader.readAsDataURL(file[0]);
+  // }
 
   public editImage(index:any){
     this.aux = index;
-    this.fileInput2.nativeElement.click();
+    // this.fileInput2.nativeElement.click();
+    this.editTakePhotoGalery();
   }
 
   public emptyForm(){
@@ -328,93 +326,92 @@ export class AddVehiclePage implements OnInit {
   }
 
   public async takePhoto(){
-    console.log("entro")
-    // this.utils.presentLoading("Cargando imagen...");
+    
+    this.utils.presentLoading("Cargando imagen...");
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
-    })
+      let img = {
+        image: imageData.dataUrl,
+      }
+      this.arrayImages.push(img);
+    },
+    (err)=>{
+      console.log(err)
+    });
+    this.utils.dismissLoading();
   }
 
   public async takePhotoGalery(){
-    console.log("entro")
+    this.utils.presentLoading("Cargando imagen...");
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos,
-    }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // this.arrayImages[this.aux].image = base64;
+    }).then(async (imageData) => {
+      let img = {
+        image: imageData.dataUrl,
+      }
+      this.arrayImages.push(img);
       // this.utils.dismissLoading();
-    },
+    } ,
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
-    }
-
-    )
-
+      this.utils.dismissLoading();
+    });
+    this.utils.dismissLoading();
   }
 
   public async editTakePhoto(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
       quality: 90,
-      // allowEditing: false,
-      // resultType: CameraResultType.DataUrl,
-      // source: CameraSource.Photos,
-    }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
-
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then (async (imageData) => {
+      this.arrayImages[this.aux].image = imageData.dataUrl;
       // this.utils.dismissLoading();
     } ,
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
-    })
+    });
+    this.utils.dismissLoading();
   }
 
   public async editTakePhotoGalery(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
       quality: 90,
-
-    }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // this.arrayImages[this.aux].image = base64;
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then (async (imageData) => {
+      this.arrayImages[this.aux].image = imageData.dataUrl;
       // this.utils.dismissLoading();
     } ,
     (err)=>{
       console.log(err)
       // this.utils.dismissLoading();
-    })
+    });
+
+
+    // this.arrayImages[this.aux].image = camera.dataUrl;
+    this.utils.dismissLoading();
 
   }
-
+  
   public openActionSheetEdit(index:any){
-    console.log(index)
     this.openASEdit = true;
     this.aux = index;
-    // this.ActionSheetEdit.open();
+  }
+
+  public openActionSheet(){
+    this.openAS = true;
   }
 
   public buttonsActionSheet(){
