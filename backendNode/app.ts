@@ -1,4 +1,5 @@
 import  Express  from "express";
+import  bodyParser  from "body-parser";
 import { port } from "./config";
 import cors from "cors";
 import authRouter from "./src/routes/auth";
@@ -24,7 +25,8 @@ export class App {
     middlewares() {
         this.app.use(Express.json());
         this.app.use(cors())
-        this.app.use(Express.urlencoded({ extended: false }));
+        this.app.use(Express.json({limit: '256mb'}));
+        this.app.use(Express.urlencoded({limit: '256mb'}));
     }
 
     routes() {

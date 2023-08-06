@@ -18,8 +18,8 @@
 
       <ion-col size="12">
         <ion-card class="cardChart">
-          <ion-card-content>
-            <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+          <ion-card-content >
+            <canvas #lineCanvas style="position: relative; height:20vh!important; width:40vw!important"></canvas>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -31,6 +31,42 @@
       </ion-col>
 
       <ion-col size="12">
+        <!-- <ion-card>
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
+                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-row>
+                        <ion-col size="6">
+                          <ion-card-subtitle>
+                            28-04-23
+                          </ion-card-subtitle>
+                        </ion-col>
+                        <ion-col size="6">
+                          <ion-card-title style="font-weight: bold; color: green;">
+                            38.000$
+                          </ion-card-title>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card> -->
+      </ion-col>
+
+      <!-- <ion-col size="12">
         <ion-card>
           <ion-card-content>
             <ion-grid fixed>
@@ -136,43 +172,7 @@
             </ion-grid>
           </ion-card-content>
         </ion-card>
-      </ion-col>
-
-      <ion-col size="12">
-        <ion-card>
-          <ion-card-content>
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="4">
-                  <ion-img src="assets/images/carro/toyota1.png"></ion-img>
-                </ion-col>
-                <ion-col size="8">
-                  <ion-row>
-                    <ion-col size="12">
-                      <ion-card-title style="font-weight: bold;">Land cruiser 300</ion-card-title>
-                      <ion-card-subtitle>Vendida en Caracas</ion-card-subtitle>
-                    </ion-col>
-                    <ion-col size="12">
-                      <ion-row>
-                        <ion-col size="6">
-                          <ion-card-subtitle>
-                            28-04-23
-                          </ion-card-subtitle>
-                        </ion-col>
-                        <ion-col size="6">
-                          <ion-card-title style="font-weight: bold; color: green;">
-                            38.000$
-                          </ion-card-title>
-                        </ion-col>
-                      </ion-row>
-                    </ion-col>
-                  </ion-row>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+      </ion-col> -->
 
     </ion-row>
   </ion-grid>
@@ -234,57 +234,33 @@
             </div>
           </ion-accordion>
           
-          <!-- <ion-accordion value="type_vehicle">
+          <ion-accordion value="type_vehicle">
             <ion-item slot="header">
-              <ion-label>Tipo de vehiculo</ion-label>
+              <ion-label>Rango de meses</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
               <ion-list>
-                <ion-radio-group [(ngModel)]="type_vehicle">
+                <ion-radio-group [(ngModel)]="rangMonths">
                   <ion-item>
-                    <ion-label>Todos</ion-label>
-                    <ion-radio value=""></ion-radio>
+                    <ion-label>12 meses</ion-label>
+                    <ion-radio [value]="12"></ion-radio>
                   </ion-item>
                   <ion-item>
-                    <ion-label>Pick-up y carga</ion-label>
-                    <ion-radio value="pickup"></ion-radio>
+                    <ion-label>6 meses</ion-label>
+                    <ion-radio [value]="6"></ion-radio>
                   </ion-item>
                   <ion-item>
-                    <ion-label>SUV</ion-label>
-                    <ion-radio value="suv"></ion-radio>
+                    <ion-label>3 meses</ion-label>
+                    <ion-radio [value]="3"></ion-radio>
                   </ion-item>
                   <ion-item>
-                    <ion-label>Sedan</ion-label>
-                    <ion-radio value="sedan"></ion-radio>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label>Hatchback</ion-label>
-                    <ion-radio value="hatchback"></ion-radio>
+                    <ion-label>1 mes</ion-label>
+                    <ion-radio [value]="1"></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>
             </div>
-          </ion-accordion> -->
-
-          <!-- <ion-accordion value="ubication">
-            <ion-item slot="header">
-              <ion-label>Ubicación</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <ion-list>
-                <ion-radio-group [(ngModel)]="ubication">
-                  <ion-item>
-                    <ion-label>Todos</ion-label>
-                    <ion-radio value=""></ion-radio>
-                  </ion-item>
-                  <ion-item *ngFor="let state of arrayUbication">
-                    <ion-label>{{state.estado}}</ion-label>
-                    <ion-radio [value]="state.estado"></ion-radio>
-                  </ion-item>
-                </ion-radio-group>
-              </ion-list>
-            </div>
-          </ion-accordion> -->
+          </ion-accordion>
 
           <ion-accordion value="year">
             <ion-item slot="header">
@@ -295,44 +271,9 @@
                 <ion-item>
                   <ion-input label="Año" labelPlacement="stacked" (ionInput)="dotMinYear($event.target)" [value]="yearCarAux"></ion-input>
                 </ion-item>
-                <!-- <ion-item> -->
-                  <!-- <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxYear($event.target)" [value]="maxYearAux"></ion-input> -->
-                <!-- </ion-item> -->
               </ion-list>
             </div>
           </ion-accordion>
-
-          <!-- <ion-accordion value="kms">
-            <ion-item slot="header">
-              <ion-label>Kilometros</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <ion-list>
-                <ion-item>
-                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinKm($event.target)" [value]="minKmsAux"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxKm($event.target)" [value]="maxKmsAux"></ion-input>
-                </ion-item>
-              </ion-list>
-            </div>
-          </ion-accordion> -->
-          
-          <!-- <ion-accordion value="price">
-            <ion-item slot="header">
-              <ion-label>Precio</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <ion-list>
-                <ion-item>
-                  <ion-input label="Minimo" labelPlacement="stacked" (ionInput)="dotMinPrice($event.target)" [value]="minPriceAux"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Maximo" labelPlacement="stacked" (ionInput)="dotMaxPrice($event.target)" [value]="maxPriceAux"></ion-input>
-                </ion-item>
-              </ion-list>
-            </div>
-          </ion-accordion> -->
 
         </ion-accordion-group>
       

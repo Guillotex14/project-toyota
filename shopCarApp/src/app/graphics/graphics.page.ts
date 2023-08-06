@@ -4,6 +4,8 @@ import { IonModal, MenuController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
+import { AgGridAngular } from 'ag-grid-angular';
+import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
 
 @Component({
   selector: 'app-graphics',
@@ -16,7 +18,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   month: number = 1;
   yearSold: number = new Date().getFullYear();
   rangMonths: number = 12;
-  yearCar: number = 0;
+  yearCar: string="";
   yearCarAux: string = '';
   brandCar: string = '';
   modelCar: string = '';
@@ -25,9 +27,78 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayBrands: any[] = [];
   arrayModels: any[] = [];
   arrayData: any = {};
+  columnsDefs: ColDef[] = [
+    { headerName: 'Marca', field: 'brand', sortable: true, filter: true, checkboxSelection: true },
+    { headerName: 'Modelo', field: 'model', sortable: true, filter: true },
+    { headerName: 'Año', field: 'year', sortable: true, filter: true },
+    { headerName: 'Precio', field: 'price', sortable: true, filter: true },
+    { headerName: 'Kilometraje', field: 'mileage', sortable: true, filter: true },
+    { headerName: 'Color', field: 'color', sortable: true, filter: true },
+    { headerName: 'Transmisión', field: 'transmission', sortable: true, filter: true },
+    { headerName: 'Combustible', field: 'fuel', sortable: true, filter: true },
+    { headerName: 'Cilindraje', field: 'cylinder', sortable: true, filter: true },
+    { headerName: 'Tracción', field: 'traction', sortable: true, filter: true },
+    { headerName: 'Puertas', field: 'doors', sortable: true, filter: true },
+    { headerName: 'Asientos', field: 'seats', sortable: true, filter: true },
+    { headerName: 'Placa', field: 'plate', sortable: true, filter: true },
+    { headerName: 'Estado', field: 'status', sortable: true, filter: true },
+    { headerName: 'Fecha de creación', field: 'createdAt', sortable: true, filter: true },
+    { headerName: 'Fecha de actualización', field: 'updatedAt', sortable: true, filter: true },
+  ];
+
+  defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+  };
+
+  rowData: any[] = [
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    },
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    },
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    },
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    },
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    },
+    {
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: '2019',
+      price: '100000000',
+      mileage: '10000',
+    }
+  ];
 
   @ViewChild(IonModal) modal!: IonModal;
-  
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
     Chart.register(...registerables);
 
