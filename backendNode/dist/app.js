@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
 const express_1 = __importDefault(require("express"));
+// import  bodyParser  from "body-parser";
 const config_1 = require("./config");
 const cors_1 = __importDefault(require("cors"));
 const auth_1 = __importDefault(require("./src/routes/auth"));
@@ -25,8 +26,9 @@ class App {
     middlewares() {
         this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)());
-        this.app.use(express_1.default.json({ limit: '256mb' }));
-        this.app.use(express_1.default.urlencoded({ limit: '256mb' }));
+        this.app.use(express_1.default.json({ limit: '50mb' }));
+        this.app.use(express_1.default.urlencoded({ limit: '50mb' }));
+        this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {
         this.app.use("/auth", auth_1.default);
