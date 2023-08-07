@@ -38,16 +38,16 @@ export class AddBrandPage implements OnInit {
 
     this.adminSrv.addBrand(data).subscribe((res:any) => {
       
-      if (res.success) {
+      if (res.status) {
         this.utils.presentToast('Marca agregada correctamente');
         this.router.navigate(['home-admin']);
         this.brandName = '';
       }else{
-        this.utils.presentToast(res.error.message);
+        this.utils.presentToast(res.message);
       }
     
     }, (err:any) => {
-      this.utils.presentToast(err.error.message);
+      this.utils.presentToast(err.message);
     });
   }
 }
