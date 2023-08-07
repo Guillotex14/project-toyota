@@ -971,6 +971,36 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     ]);
     let cardPriceGroup;
     cardPriceGroup = gruopCardPrice(cards, cardsgroup[0]);
+    let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
+    const countMechanicaFile = yield Vehicles_1.default.aggregate([
+        {
+            $match: otherQuery
+        },
+        {
+            $lookup: {
+                from: "mechanicalfiles",
+                localField: "_id",
+                foreignField: "id_vehicle",
+                as: "mechanicalfiles"
+            }
+        },
+        {
+            $unwind: {
+                path: "$mechanicalfiles"
+            }
+        },
+        {
+            $match: {
+                "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
+            }
+        },
+        {
+            $group: {
+                _id: "$mechanicalfiles.general_condition",
+                count: { $sum: 1 }
+            }
+        }
+    ]);
     let datos = {};
     let cantMonth = calcularMeses(from, to);
     if (cantMonth == 1) {
@@ -988,7 +1018,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                     data: montos, // Montos en el eje y
                 },
             ],
-            grupocard: cardPriceGroup
+            grupocard: cardPriceGroup,
+            mechanicaFiles: countMechanicaFile
         };
     }
     else {
@@ -1007,7 +1038,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                 },
             ],
             // vehicles:cards,
-            grupocard: cardPriceGroup
+            grupocard: cardPriceGroup,
+            mechanicaFiles: countMechanicaFile
         };
     }
     if (datos) {
@@ -1046,15 +1078,15 @@ const gruopCardPrice = (listCar, groupPrice) => {
     let caray = {
         minPrice: {
             value: groupPrice.minPrice,
-            cars: []
+            cars: [],
         },
         medPrice: {
             value: groupPrice.medPrice,
-            cars: []
+            cars: [],
         },
         maxPrice: {
             value: groupPrice.maxPrice,
-            cars: []
+            cars: [],
         },
     };
     listCar.map(car => {

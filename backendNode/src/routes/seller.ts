@@ -1230,6 +1230,44 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   let cardPriceGroup:any;
 
   cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
+  let otherQuery={
+    ...mongQuery,
+    mechanicalFile:true
+  }
+
+  
+
+  const countMechanicaFile = await vehicles.aggregate([
+    {
+      $match:otherQuery
+    },
+    {
+      $lookup: {
+        from: "mechanicalfiles",
+        localField: "_id",
+        foreignField: "id_vehicle",
+        as: "mechanicalfiles"
+      }
+    },
+    {
+      $unwind: {
+        path: "$mechanicalfiles"
+      }
+    },
+    {
+      $match: {
+        "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
+      }
+    },
+    {
+      $group: {
+        _id: "$mechanicalfiles.general_condition",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+
 
 
 let datos:any={};
@@ -1253,7 +1291,8 @@ if(cantMonth==1){
         data: montos, // Montos en el eje y
       },
     ],
-    grupocard:cardPriceGroup
+    grupocard:cardPriceGroup,
+    mechanicaFiles:countMechanicaFile
   };
 
 }else{
@@ -1274,7 +1313,9 @@ if(cantMonth==1){
       },
     ],
     // vehicles:cards,
-    grupocard:cardPriceGroup
+    grupocard:cardPriceGroup,
+    mechanicaFiles:countMechanicaFile
+
   };
 }
 
@@ -1324,15 +1365,15 @@ const gruopCardPrice=(listCar:any[],groupPrice:any)=>{
     let caray:any={
       minPrice:{
         value:groupPrice.minPrice,
-        cars:[]
+        cars:[],
       },
       medPrice:{
         value:groupPrice.medPrice,
-        cars:[]
+        cars:[],
       },
       maxPrice:{
         value:groupPrice.maxPrice,
-        cars:[]
+        cars:[],
       },
     };
     listCar.map(car=>{
