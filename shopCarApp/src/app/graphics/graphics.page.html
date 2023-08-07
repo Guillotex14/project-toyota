@@ -25,12 +25,61 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-button expand="block" shape="round" class="btnRed" id="open-filter">
+        <ion-button expand="block" shape="round" class="btnRed" id="open-filter" style="width: 90% !important; margin: auto !important;">
           filtro
         </ion-button>
       </ion-col>
 
       <ion-col size="12">
+        <ion-accordion-group expand="inset" value="general_condition">
+
+          <ion-accordion value="model">
+            <ion-item slot="header">
+              <ion-label>Estado General</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list style="margin: 10px auto !important;">
+                <ion-item style="text-align: center !important;">
+                  <ion-label>Condicion</ion-label>
+                  <ion-label>Cantidad</ion-label>
+                </ion-item>
+                <ion-item *ngFor="let cond of genCondCar" style="text-align: center !important;">
+                  <ion-label style="text-transform: capitalize;">{{cond._id}}</ion-label>
+                  <ion-label style="text-transform: capitalize;">{{cond.count}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          <ion-accordion value="type_vehicle" style="display: none;">
+            <ion-item slot="header">
+              <ion-label>Rango de meses</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="rangMonths">
+                  <ion-item>
+                    <ion-label>12 meses</ion-label>
+                    <ion-radio [value]="12"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>6 meses</ion-label>
+                    <ion-radio [value]="6"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>3 meses</ion-label>
+                    <ion-radio [value]="3"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>1 mes</ion-label>
+                    <ion-radio [value]="1"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          
+        </ion-accordion-group>
+        
         <!-- <ion-card>
           <ion-card-content>
             <ion-grid fixed>

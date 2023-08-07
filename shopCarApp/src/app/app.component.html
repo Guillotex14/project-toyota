@@ -55,6 +55,10 @@
   <ion-content class="ion-padding">
     <ion-list>
       <!-- buttons seller -->
+      <ion-item button (click)="goTo('seller')" *ngIf="typeUser === 'seller'">
+        <ion-label>Inicio</ion-label>
+        <ion-icon slot="end" name="home"></ion-icon>
+      </ion-item>
       <ion-item button (click)="goTo('add-vehicle')" *ngIf="typeUser === 'seller'">
         <ion-label>Vender</ion-label>
         <ion-icon slot="end" name="logo-usd"></ion-icon>
@@ -67,10 +71,10 @@
         <ion-label>Mis Vehiculos</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
-      <ion-item button (click)="goTo('how-much-vehicle')" *ngIf="typeUser === 'seller'">
+      <!-- <ion-item button (click)="goTo('how-much-vehicle')" *ngIf="typeUser === 'seller'">
         <ion-label>¿Cuanto vale mi vehiculo?</ion-label>
         <ion-icon slot="end" name="car-sport"></ion-icon>
-      </ion-item>
+      </ion-item> -->
       <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
         <ion-label>Graficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>

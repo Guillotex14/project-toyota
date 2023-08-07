@@ -40,6 +40,7 @@ export class CarDetailSeller{
   public vin!: string;
   public vehicle_plate!: string;
   public price_ofert!: number;
+  public final_price_sold!: number;
 }
 
 export class CarDetailMechanicalFile{

@@ -114,8 +114,14 @@ export class SellerService {
   }
 
   public getGrafic(data:any){
-    // return this.http.get(global.urlBase+'seller/filterGraphySell?'+data.month+'&'+data.yearSold+'&'+data.brandCar+'&'+data.modelCar+'&'+data.yearCar+'&'+data.rangMonths);
-    
     return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&rangMonths=${data.rangMonths}`);
+  }
+
+  public dispatched(data:any){
+    return this.http.post(global.urlBase+'seller/dispatchedCar', data);
+  }
+
+  public repost(data:any){
+    return this.http.post(global.urlBase+'seller/repost', data);
   }
 }

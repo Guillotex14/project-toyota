@@ -273,7 +273,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.id_mechanic === "" || this.newMechanicalFile.id_mechanic === undefined){
-      this.utils.presentToast("El campo id del mecanico es requerido")
+      this.utils.presentToast("El campo id del tecnico es requerido")
       return;
     }
 

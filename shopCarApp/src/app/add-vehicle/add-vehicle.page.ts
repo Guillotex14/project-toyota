@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController, ModalController,IonModal, IonPopover } from '@ionic/angular';
+import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet } from '@ionic/angular';
 import { AddVehicle } from 'src/models/sellet';
 import { SellerService } from '../services/seller/seller.service';
 import { UtilsService } from '../services/utils/utils.service';
@@ -42,8 +42,8 @@ export class AddVehiclePage implements OnInit {
 
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
-  @ViewChild('ActionSheetEdit') ActionSheetEdit: any;
-  @ViewChild('ActionSheet') ActionSheet: any;
+  @ViewChild('ActionSheetEdit') ActionSheetEdit!: IonActionSheet;
+  @ViewChild('ActionSheet') ActionSheet!: IonActionSheet;
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
@@ -117,7 +117,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public getMechanics(){
-    this.utils.presentLoading('Cargando mecanicos...');
+    this.utils.presentLoading('Cargando tecnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
       console.log(data)
       if (data.status) {
@@ -127,7 +127,7 @@ export class AddVehiclePage implements OnInit {
       }
     }, error => {
       this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los mecanicos, intente nuevamente');
+      this.utils.presentToast('Error al cargar los tecnicos, intente nuevamente');
     });
   }
 
@@ -406,12 +406,12 @@ export class AddVehiclePage implements OnInit {
   }
   
   public openActionSheetEdit(index:any){
-    this.openASEdit = true;
+    this.ActionSheetEdit.present();
     this.aux = index;
   }
 
   public openActionSheet(){
-    this.openAS = true;
+    this.ActionSheet.present();
   }
 
   public buttonsActionSheet(){
@@ -510,7 +510,7 @@ export class AddVehiclePage implements OnInit {
   public onWillDismiss(event: any) {
     console.log(event.detail.data);
     if (event.detail.role === 'confirm') {
-      this.utils.presentToast(`Mecanico seleccionado correctamente ${event.detail.data.mechanic.fullName}`);
+      this.utils.presentToast(`Tecnico seleccionado correctamente ${event.detail.data.mechanic.fullName}`);
       this.newVehicle.id_mechanic = event.detail.data.mechanic._id;
       this.mechanicName = event.detail.data.mechanic.fullName;
       this.mechanicCity = event.detail.data.mechanic.city;
@@ -538,7 +538,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public selectMechanic(id_mechanic: string){
-    // this.utils.presentLoading('Seleccionando mecanico...');
+    // this.utils.presentLoading('Seleccionando Tecnico...');
     console.log(id_mechanic)
     this.modalCtrl.dismiss({
       mechanic: id_mechanic
