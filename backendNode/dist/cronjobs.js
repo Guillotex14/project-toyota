@@ -18,6 +18,10 @@ const Vehicles_1 = __importDefault(require("./src/models/Vehicles"));
 const moment_1 = __importDefault(require("moment"));
 function cronInit() {
     //creando cronjob para que sea cada 7 dias
+    //cronjob cada 24 horas
+    // cron.schedule('0 0 * * *',  async() => {
+    //     await cronJobs();
+    // });
     node_cron_1.default.schedule('0 0 * * 0', () => __awaiter(this, void 0, void 0, function* () {
         yield cronJobs();
     }));

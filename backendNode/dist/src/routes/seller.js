@@ -372,6 +372,8 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
             date_create: infoVehicle.date_create,
             plate: infoVehicle.plate,
             vin: infoVehicle.vin,
+            price_ofert: infoVehicle.price_ofert,
+            final_price_sold: infoVehicle.final_price_sold,
             general_condition: mechanicalFile.general_condition,
             images: imgsVehichle ? imgsVehichle : [],
         };
@@ -971,6 +973,36 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     ]);
     let cardPriceGroup;
     cardPriceGroup = gruopCardPrice(cards, cardsgroup[0]);
+    let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
+    const countMechanicaFile = yield Vehicles_1.default.aggregate([
+        {
+            $match: otherQuery
+        },
+        {
+            $lookup: {
+                from: "mechanicalfiles",
+                localField: "_id",
+                foreignField: "id_vehicle",
+                as: "mechanicalfiles"
+            }
+        },
+        {
+            $unwind: {
+                path: "$mechanicalfiles"
+            }
+        },
+        {
+            $match: {
+                "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
+            }
+        },
+        {
+            $group: {
+                _id: "$mechanicalfiles.general_condition",
+                count: { $sum: 1 }
+            }
+        }
+    ]);
     let datos = {};
     let cantMonth = calcularMeses(from, to);
     if (cantMonth == 1) {
@@ -988,7 +1020,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                     data: montos, // Montos en el eje y
                 },
             ],
-            grupocard: cardPriceGroup
+            grupocard: cardPriceGroup,
+            mechanicaFiles: countMechanicaFile
         };
     }
     else {
@@ -1007,7 +1040,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                 },
             ],
             // vehicles:cards,
-            grupocard: cardPriceGroup
+            grupocard: cardPriceGroup,
+            mechanicaFiles: countMechanicaFile
         };
     }
     if (datos) {
@@ -1042,19 +1076,53 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
     }
     res.json(reponseJson);
 }));
+sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id, final_price_sold } = req.body;
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: false, price_ofert: null, final_price_sold: null, name_new_owner: null, dni_new_owner: null, phone_new_owner: null, email_new_owner: null, date_sell: null, id_seller_buyer: null });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
 const gruopCardPrice = (listCar, groupPrice) => {
     let caray = {
         minPrice: {
             value: groupPrice.minPrice,
-            cars: []
+            cars: [],
         },
         medPrice: {
             value: groupPrice.medPrice,
-            cars: []
+            cars: [],
         },
         maxPrice: {
             value: groupPrice.maxPrice,
-            cars: []
+            cars: [],
         },
     };
     listCar.map(car => {

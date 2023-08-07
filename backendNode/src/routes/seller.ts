@@ -469,6 +469,8 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
       date_create:infoVehicle.date_create,
       plate:  infoVehicle.plate,
       vin: infoVehicle.vin,
+      price_ofert: infoVehicle.price_ofert,
+      final_price_sold: infoVehicle.final_price_sold,
       general_condition: mechanicalFile!.general_condition,
       images: imgsVehichle ? imgsVehichle : [],
     }
@@ -1230,6 +1232,44 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   let cardPriceGroup:any;
 
   cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
+  let otherQuery={
+    ...mongQuery,
+    mechanicalFile:true
+  }
+
+  
+
+  const countMechanicaFile = await vehicles.aggregate([
+    {
+      $match:otherQuery
+    },
+    {
+      $lookup: {
+        from: "mechanicalfiles",
+        localField: "_id",
+        foreignField: "id_vehicle",
+        as: "mechanicalfiles"
+      }
+    },
+    {
+      $unwind: {
+        path: "$mechanicalfiles"
+      }
+    },
+    {
+      $match: {
+        "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
+      }
+    },
+    {
+      $group: {
+        _id: "$mechanicalfiles.general_condition",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+
 
 
 let datos:any={};
@@ -1253,7 +1293,8 @@ if(cantMonth==1){
         data: montos, // Montos en el eje y
       },
     ],
-    grupocard:cardPriceGroup
+    grupocard:cardPriceGroup,
+    mechanicaFiles:countMechanicaFile
   };
 
 }else{
@@ -1274,7 +1315,9 @@ if(cantMonth==1){
       },
     ],
     // vehicles:cards,
-    grupocard:cardPriceGroup
+    grupocard:cardPriceGroup,
+    mechanicaFiles:countMechanicaFile
+
   };
 }
 
@@ -1318,21 +1361,65 @@ sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => 
 
 
 
-})
+});
+
+sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id, final_price_sold } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate({ _id: id },{ sold: true,price: final_price_sold });
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "success";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  }else{
+    reponseJson.code = 400;
+    reponseJson.message = "no existe";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+
+});
+
+sellerRouter.post("/repost", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate({ _id: id },{ sold: false, price_ofert: null, final_price_sold: null,name_new_owner: null, dni_new_owner: null, phone_new_owner: null, email_new_owner: null, date_sell: null, id_seller_buyer: null });
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "success";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  }else{
+    reponseJson.code = 400;
+    reponseJson.message = "no existe";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+
+});
 
 const gruopCardPrice=(listCar:any[],groupPrice:any)=>{
     let caray:any={
       minPrice:{
         value:groupPrice.minPrice,
-        cars:[]
+        cars:[],
       },
       medPrice:{
         value:groupPrice.medPrice,
-        cars:[]
+        cars:[],
       },
       maxPrice:{
         value:groupPrice.maxPrice,
-        cars:[]
+        cars:[],
       },
     };
     listCar.map(car=>{
