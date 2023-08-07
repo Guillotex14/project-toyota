@@ -13,7 +13,6 @@ import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
   styleUrls: ['./graphics.page.scss'],
 })
 export class GraphicsPage implements AfterViewInit, OnInit {
-  @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
   lineChart: any;
   month: number = 1;
   yearSold: number = new Date().getFullYear();
@@ -26,78 +25,11 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayLabels: any[] = [];
   arrayBrands: any[] = [];
   arrayModels: any[] = [];
+  genCondCar: any[] = [];
   arrayData: any = {};
-  columnsDefs: ColDef[] = [
-    { headerName: 'Marca', field: 'brand', sortable: true, filter: true, checkboxSelection: true },
-    { headerName: 'Modelo', field: 'model', sortable: true, filter: true },
-    { headerName: 'Año', field: 'year', sortable: true, filter: true },
-    { headerName: 'Precio', field: 'price', sortable: true, filter: true },
-    { headerName: 'Kilometraje', field: 'mileage', sortable: true, filter: true },
-    { headerName: 'Color', field: 'color', sortable: true, filter: true },
-    { headerName: 'Transmisión', field: 'transmission', sortable: true, filter: true },
-    { headerName: 'Combustible', field: 'fuel', sortable: true, filter: true },
-    { headerName: 'Cilindraje', field: 'cylinder', sortable: true, filter: true },
-    { headerName: 'Tracción', field: 'traction', sortable: true, filter: true },
-    { headerName: 'Puertas', field: 'doors', sortable: true, filter: true },
-    { headerName: 'Asientos', field: 'seats', sortable: true, filter: true },
-    { headerName: 'Placa', field: 'plate', sortable: true, filter: true },
-    { headerName: 'Estado', field: 'status', sortable: true, filter: true },
-    { headerName: 'Fecha de creación', field: 'createdAt', sortable: true, filter: true },
-    { headerName: 'Fecha de actualización', field: 'updatedAt', sortable: true, filter: true },
-  ];
-
-  defaultColDef: ColDef = {
-    sortable: true,
-    filter: true,
-  };
-
-  rowData: any[] = [
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    },
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    },
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    },
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    },
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    },
-    {
-      brand: 'Toyota',
-      model: 'Corolla',
-      year: '2019',
-      price: '100000000',
-      mileage: '10000',
-    }
-  ];
-
+  
   @ViewChild(IonModal) modal!: IonModal;
-  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+  @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
 
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
     Chart.register(...registerables);
@@ -108,7 +40,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.getChatGrafic();
+    this.getChartGrafic();
     this.getBrands();
     this.getModels();
   }
@@ -180,7 +112,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     });
   }
 
-  public getChatGrafic(){
+  public getChartGrafic(){
     let data = {
       month: this.month,
       yearSold: this.yearSold,
@@ -192,11 +124,18 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
+          console.log(res)
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
+          this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
           console.log(this.arrayLabels);
           console.log(this.arrayData);
+
+          for (let i = 0; i < this.genCondCar.length; i++) {
+            console.log(this.genCondCar[i]._id)
+            
+          }
         }
     } , (err:any)=>{
       console.log(err);
@@ -214,7 +153,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       this.lineChart.destroy();
     }
 
-    this.getChatGrafic();
+    this.getChartGrafic();
     this.modal.dismiss();
   }
 

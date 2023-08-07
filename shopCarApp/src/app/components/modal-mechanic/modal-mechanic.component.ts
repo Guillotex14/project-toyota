@@ -29,7 +29,7 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   public getMechanics(){
-    this.utils.presentLoading('Cargando mecanicos...');
+    this.utils.presentLoading('Cargando tecnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
       console.log(data)
       if (data.status) {
@@ -38,7 +38,7 @@ export class ModalMechanicComponent  implements OnInit {
       }
     }, error => {
       this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los mecanicos, intente nuevamente');
+      this.utils.presentToast('Error al cargar los tecnicos, intente nuevamente');
     });
   }
 
@@ -62,7 +62,7 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   public selectMechanic(id_mechanic: string){
-    this.utils.presentLoading('Seleccionando mecanico...');
+    this.utils.presentLoading('Seleccionando tecnico...');
     this.modalCtrl.dismiss({
       id_mechanic: id_mechanic
     });

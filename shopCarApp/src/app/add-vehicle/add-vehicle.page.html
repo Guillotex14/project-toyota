@@ -57,9 +57,9 @@
                         <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
                       </ion-col>
                     </ion-row>
-                    <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
+                    <!-- <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
                       Agregar imagen
-                    </ion-button>
+                    </ion-button> -->
                   </swiper-slide>
                   <div class="swiper-pagination"></div>
                 </swiper-container>
@@ -292,7 +292,7 @@
                 <ion-card-subtitle style="color:darkgoldenrod;">en espera</ion-card-subtitle>
 
                 <ion-button expand="block" shape="round" class="btnSaveRed" (click)="openModal()" style="height: 30px !important; margin-top: 15px !important;">
-                  Asignar Mecanico
+                  Asignar Tecnico
                 </ion-button>
               </ion-card-header>
 
@@ -328,8 +328,8 @@
     </ion-row>
   </ion-grid>
 
-  <ion-action-sheet [isOpen]="openAS" (didDismiss)="!openAS" header="Opciones" [buttons]="actionSheetButtons" #ActionSheetEdit></ion-action-sheet>
-  <ion-action-sheet [isOpen]="openASEdit" header="Opciones" [buttons]="actionSheetButtonsEdit" (didDismiss)="!openASEdit" #ActionSheetEdit></ion-action-sheet>
+  <ion-action-sheet header="Opciones" [buttons]="actionSheetButtons" #ActionSheet></ion-action-sheet>
+  <ion-action-sheet header="Opciones" [buttons]="actionSheetButtonsEdit" #ActionSheetEdit></ion-action-sheet>
 
   <ion-modal (willDismiss)="onWillDismiss($event)" #modalMechanic>
     <ng-template>
@@ -338,7 +338,7 @@
           <ion-buttons slot="start">
             <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
           </ion-buttons>
-          <ion-title>Agregar mecanico</ion-title>
+          <ion-title>Agregar Tecnico</ion-title>
           <ion-buttons slot="end">
             <ion-button [strong]="true" (click)="addMechanic()">Agregar</ion-button>
           </ion-buttons>
@@ -351,7 +351,7 @@
       
             <ion-col size="12">
       
-              <ion-searchbar placeholder="Buscar mecanico" [debounce]="250" showCancelButton="never" showClearButton="never"></ion-searchbar>
+              <ion-searchbar placeholder="Buscar tecnico" [debounce]="250" showCancelButton="never" showClearButton="never"></ion-searchbar>
       
             </ion-col>
       

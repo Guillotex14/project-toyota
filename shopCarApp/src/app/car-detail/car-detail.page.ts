@@ -254,7 +254,6 @@ export class CarDetailPage implements OnInit {
   
   public editVehicle(){
     this.editCar=!this.editCar;
-    
   }
 
   public updateVehicle(){
@@ -548,5 +547,51 @@ export class CarDetailPage implements OnInit {
       }
     ]
   }
+
+  public dispatched(){
+    this.utils.presentLoading("Actualizando vehiculo...");
+    let data = {
+      id: this.id,
+      final_price_sold: this.carDetail.final_price_sold,
+    }
+      this.sellerSrv.dispatched(data).subscribe((data:any)=>{
+
+        if (data.status) {
+          this.utils.presentToast("Vehiculo entregado");
+          this.utils.dismissLoading();
+        }else{
+          this.utils.presentToast("Error al entregar vehiculo");
+          this.utils.dismissLoading();
+        }
+    }
+    ,(err)=>{
+      console.log(err)
+      this.utils.presentToast("Error al entregar vehiculo");
+      this.utils.dismissLoading();
+    })
+  }
+
+  public repost(){
+    this.utils.presentLoading("Actualizando vehiculo...");
+    let data = {
+      id: this.id,
+    }
+
+    this.sellerSrv.repost(data).subscribe((data:any)=>{
+      if (data.status) {
+        this.utils.presentToast("Vehiculo publicado Exitosamente");
+        this.utils.dismissLoading();
+      }else{
+        this.utils.presentToast("Error al publicar vehiculo");
+        this.utils.dismissLoading();
+      }
+    }
+    ,(err)=>{
+      console.log(err)
+      this.utils.presentToast("Error al publicar vehiculo");
+      this.utils.dismissLoading();
+    })
+  }
+
   
 }
