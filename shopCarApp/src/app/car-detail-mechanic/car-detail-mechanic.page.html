@@ -38,7 +38,7 @@
                   <swiper-slide *ngFor="let image of carDetail.images; let i = index">
                     <ion-row>
                       <ion-col size="12">
-                        <ion-img [src]="urlImg+image.img" style="width: 100%;height: 200px;"></ion-img>
+                        <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
                       </ion-col>
                     </ion-row>
                   </swiper-slide>
