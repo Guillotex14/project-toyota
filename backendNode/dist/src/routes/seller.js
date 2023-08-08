@@ -315,26 +315,37 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const ress = yield Vehicles_1.default
-        .find({ id_seller: id_seller })
-        .then((res) => {
-        console.log("carros a la venta", res);
-        if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            jsonRes.data = res;
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-        }
-    })
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
+    // const ress = await vehicles
+    //   .find({ id_seller: id_seller })
+    //   .then((res: any) => {
+    //     console.log("carros a la venta", res);
+    //     if (res) {
+    //       jsonRes.code = 200;
+    //       jsonRes.message = "success";
+    //       jsonRes.status = true;
+    //       jsonRes.data = res;
+    //     } else if (!res) {
+    //       jsonRes.code = 400;
+    //       jsonRes.message = "no existe";
+    //       jsonRes.status = false;
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
+    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller });
+    if (myVehicles) {
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        jsonRes.data = myVehicles;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "no existe";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
 }));
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -374,7 +385,7 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
             vin: infoVehicle.vin,
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
-            general_condition: mechanicalFile.general_condition,
+            general_condition: mechanicalFile ? mechanicalFile.general_condition : "",
             images: imgsVehichle ? imgsVehichle : [],
         };
         jsonRes.code = 200;
@@ -629,7 +640,7 @@ sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, 
     const date_sell = (0, moment_1.default)().format('YYYY-MM-DD');
     const { id_vehicle } = req.body;
     const infoVehicle = yield Vehicles_1.default.findById(id_vehicle);
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle.price_ofert });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle.price_ofert, sold: true });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
     const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
