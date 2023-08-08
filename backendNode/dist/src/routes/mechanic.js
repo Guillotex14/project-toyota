@@ -167,7 +167,8 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
                 id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: ""
+                general_condition: "",
+                images: imgVehicle ? imgVehicle : []
             };
             reponseJson.code = 200;
             reponseJson.status = true;
