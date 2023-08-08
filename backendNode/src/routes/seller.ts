@@ -2,6 +2,7 @@ import { Router, Request, Response, json } from "express";
 import bcrypt from "bcrypt";
 import moment from "moment";
 
+
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
 import mechanics from "../models/Mechanics";
@@ -1138,14 +1139,6 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let { month, yearSold, rangMonths, yearCar, brandCar, modelCar }: any =req.query;
 
-  //   yearSold = 2023; // A de venta
-  //   rangMonths = 12; // Rango de meses
-  //   month = 1; // Mes donde comienza el rango
-
-  // yearCar = 2010; // Año del vehículo
-  // brandCar = "Toyota"; // Marca del vehículo
-  // modelCar = "TkT"; // Modelo del vehículo
-
   let now = new Date();
   let anioActual = now.getFullYear();
   if (yearSold) {
@@ -1230,31 +1223,54 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     { $sort: { _id: 1 } },
   ]);
 
-  const cards = await vehicles.find(mongQuery);
 
-  const cardsgroup = await vehicles.aggregate([
+
+
+  delete mongQuery.date_sell;
+  delete mongQuery.sold;
+
+
+  // const cards = await vehicles.find(mongQuery);
+
+  // const cardsgroup = await vehicles.aggregate([
+  //   {
+  //     $match: mongQuery
+  //   },
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       minPrice: { $min: "$price" },
+  //       medPrice: { $avg: "$price" },
+  //       maxPrice: { $max: "$price" },
+  //     }
+  //   }
+  // ]);
+
+  // let cardPriceGroup:any;
+
+  // cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
+
+  const cardsgroupmodel = await vehicles.aggregate([
     {
       $match: mongQuery
     },
     {
       $group: {
-        _id: null,
-        minPrice: { $min: "$price" },
-        medPrice: { $avg: "$price" },
-        maxPrice: { $max: "$price" },
+        _id: '$model',
+        minPrice: { $min: '$price' },
+        avgPrice: { $avg: '$price' },
+        maxPrice: { $max: '$price' },
+        vehicles: { $push: '$$ROOT' }
       }
     }
   ]);
 
-  let cardPriceGroup:any;
 
-  cardPriceGroup= gruopCardPrice(cards,cardsgroup[0]);
   let otherQuery={
     ...mongQuery,
     mechanicalFile:true
   }
 
-  
 
   const countMechanicaFile = await vehicles.aggregate([
     {
@@ -1310,7 +1326,7 @@ if(cantMonth==1){
         data: montos, // Montos en el eje y
       },
     ],
-    grupocard:cardPriceGroup,
+    grupocard:cardsgroupmodel,
     mechanicaFiles:countMechanicaFile
   };
 
@@ -1332,7 +1348,7 @@ if(cantMonth==1){
       },
     ],
     // vehicles:cards,
-    grupocard:cardPriceGroup,
+    grupocard:cardsgroupmodel,
     mechanicaFiles:countMechanicaFile
 
   };
@@ -1355,6 +1371,7 @@ if(cantMonth==1){
 
 sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
+  
 
   const { search } = req.body;
 
@@ -1379,6 +1396,229 @@ sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => 
 
 
 });
+
+sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  let { month, yearSold, rangMonths, yearCar, brandCar, modelCar }: any =req.query;
+  const ExcelJS = require('exceljs');
+  let now = new Date();
+ 
+  let mongQuery:any={};
+  
+
+  if (yearCar) {
+    mongQuery={
+      ...mongQuery,
+        year:parseInt(yearCar)
+    }
+  }
+
+  if (brandCar) {
+    mongQuery={
+      ...mongQuery,
+        brand:{ $regex: brandCar, $options: "i" }
+    }
+  }
+
+  if (modelCar) {
+    mongQuery={
+      ...mongQuery,
+      model: { $regex: modelCar, $options: "i" }
+    }
+  }
+
+  
+  const cardsgroupmodel = await vehicles.aggregate([
+    {
+      $match: mongQuery
+    },
+    {
+      $group: {
+        _id: '$model',
+        minPrice: { $min: '$price' },
+        avgPrice: { $avg: '$price' },
+        maxPrice: { $max: '$price' },
+        vehicles: { $push: '$$ROOT' }
+      }
+    },
+    {
+      $sort: {
+        _id: 1
+      }
+    }
+  ]);
+
+
+  let otherQuery={
+    ...mongQuery,
+    mechanicalFile:true
+  }
+
+
+  const countMechanicaFile = await vehicles.aggregate([
+    {
+      $match:otherQuery
+    },
+    {
+      $lookup: {
+        from: "mechanicalfiles",
+        localField: "_id",
+        foreignField: "id_vehicle",
+        as: "mechanicalfiles"
+      }
+    },
+    {
+      $unwind: {
+        path: "$mechanicalfiles"
+      }
+    },
+    {
+      $match: {
+        "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
+      }
+    },
+    {
+      $group: {
+        _id: "$mechanicalfiles.general_condition",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  let datos:any={};
+  datos = {
+    grupocard:cardsgroupmodel,
+    mechanicaFiles:countMechanicaFile
+  };
+
+
+  // Crear un nuevo archivo Excel
+const workbook = new ExcelJS.Workbook();
+
+// Establecer el estilo para el encabezado
+const headerStyle = {
+  font: { bold: true },
+};
+
+// Establecer el estilo para el pie de página
+const footerStyle = {
+  font: { bold: true, color: { argb: 'FFFFFFFF' } }, // Texto en blanco
+  fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF000000' } }, // Fondo negro
+};
+
+
+datos.grupocard.forEach((grupo:any) => {
+  const worksheet = workbook.addWorksheet(grupo._id);
+
+// Agregar los encabezados de las columnas
+worksheet.columns = [
+  { header: 'ID', key: 'id', width: 30 , style: headerStyle },
+  { header: 'Modelo', key: 'modelo', width: 15 , style: headerStyle },
+  { header: 'Marca', key: 'marca', width: 15 , style: headerStyle },
+  { header: 'Año', key: 'anhio', width: 15, style: headerStyle  },
+  { header: 'Precio', key: 'precio', width: 15, style: headerStyle  },
+  { header: 'Fecha', key: 'fecha', width: 15, style: headerStyle  },
+  { header: 'Fecha de venta', key: 'fecha_venta', width: 15, style: headerStyle  },
+  { header: 'Desplazamiento', key: 'desplazamiento', width: 15, style: headerStyle  },
+  { header: 'KM', key: 'km', width: 15, style: headerStyle  },
+  { header: 'Modelo de motor', key: 'modelo_motor', width: 15, style: headerStyle  },
+  { header: 'Titulo', key: 'titulo', width: 15, style: headerStyle  },
+  { header: 'Combustible', key: 'combustible', width: 15, style: headerStyle  },
+  { header: 'Transmisión', key: 'transmision', width: 15, style: headerStyle  },
+  { header: 'Ciudad', key: 'ciudad', width: 15, style: headerStyle  },
+  { header: 'Concesionario', key: 'concesionario', width: 30, style: headerStyle  },
+  { header: 'Control de tracción', key: 'control_traccion', width: 30, style: headerStyle  },
+  { header: 'Tipo de vehiculo', key: 'tipo_de_vehiculo', width: 30, style: headerStyle  },
+  { header: 'Tracción', key: 'traccion', width: 15, style: headerStyle  },
+  { header: 'Lamina', key: 'lamina', width: 15, style: headerStyle  },
+  { header: 'Vino', key: 'vino', width: 15, style: headerStyle  },
+];
+
+// Agregar los datos de los vehículos del grupo
+grupo.vehicles.forEach((vehiculo:any) => {
+  worksheet.addRow({
+    id: vehiculo._id,
+    modelo: vehiculo.model,
+    marca: vehiculo.brand,
+    anhio: vehiculo.year,
+    precio: vehiculo.price,
+    fecha: vehiculo.date_create,
+    fecha_venta: vehiculo.date_sell,
+    desplazamiento: vehiculo.displacement,
+    km: vehiculo.km,
+    modelo_motor: vehiculo.engine_model,
+    titulo: vehiculo.title,
+    combustible: vehiculo.fuel,
+    transmision: vehiculo.transmission,
+    ciudad: vehiculo.city,
+    concesionario: vehiculo.concesionary,
+    control_traccion: vehiculo.traction,
+    tipo_de_vehiculo: vehiculo.type_vehicle,
+    traccion: vehiculo.traction,
+    lamina: vehiculo.plate,
+    vino: vehiculo.vin,
+
+  });
+});
+
+ // Separar las secciones de los datos
+ worksheet.addRow({}); // Línea vacía
+ worksheet.addRow({}); // Línea vacía
+
+// Agregar las secciones del mínimo, medio y máximo precio
+worksheet.addRow({ modelo: 'Mínimo Precio', precio: grupo.minPrice , style: footerStyle});
+worksheet.addRow({ modelo: 'Promedio Precio', precio: grupo.avgPrice, style: footerStyle });
+worksheet.addRow({ modelo: 'Máximo Precio', precio: grupo.maxPrice, style: footerStyle });
+});
+
+const filePath = './public/pdf/'+now.getTime()+'.xlsx';
+
+// workbook.xlsx.writeFile(filePath)
+//   .then(() => {
+//     // Envía la ruta del archivo al frontend para su descarga
+//     // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+//     console.log('Archivo Excel generado:', filePath);
+//   })
+//   .catch((error:any) => {
+//     console.log('Error al generar el archivo Excel:', error);
+//   })
+
+
+// if (datos) {
+//   reponseJson.code = 200;
+//   reponseJson.message = "success";
+//   reponseJson.status = true;
+//   reponseJson.data = filePath;
+// }else{
+//   reponseJson.code = 400;
+//   reponseJson.message = "no existe";
+//   reponseJson.status = false;
+// }
+//   res.json(reponseJson);
+
+
+workbook.xlsx.writeBuffer().then(async (buffer:any) => {
+  // Convertir el buffer en base64
+  const base64 = buffer.toString('base64');
+
+  // Crear un objeto de respuesta con el archivo base64
+  const response = {
+    fileName: now.getTime()+'.xlsx',
+    base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
+  };
+
+  // Enviar la respuesta al front-end
+  res.json(response);
+  })
+  .catch((error:any) => {
+    console.log('Error al generar el archivo Excel:', error);
+  })
+
+
+
+});
+
+
 
 sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
