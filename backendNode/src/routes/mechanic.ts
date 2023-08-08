@@ -105,7 +105,7 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
     if(vehicle){
         
         if (mechanicFile) {
-
+            
             let data = {
                 _id: vehicle._id,
                 model: vehicle.model,
@@ -170,7 +170,8 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
                 id_seller: vehicle.id_seller,
                 id_mechanic: vehicle.id_mechanic,
                 id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: ""
+                general_condition: "",
+                images: imgVehicle ? imgVehicle : []
             }
 
             reponseJson.code = 200;

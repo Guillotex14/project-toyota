@@ -9,6 +9,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { states } from 'src/assets/json/states';
 import { concesionaries } from 'src/assets/json/concesionaries';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { ModalAddMechanicComponent } from '../components/modal-add-mechanic/modal-add-mechanic.component';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -526,14 +527,14 @@ export class AddVehiclePage implements OnInit {
 
   public async addMechanic(){
 
-    // this.dismissModal();
+    this.dismissModal();
 
-    // const addMechanic = await this.modalCtrl.create({
-    //   component: ModalAddMechanicComponent,
-    //   cssClass: 'modal-add-mechanic'
-    // });
+    const addMechanic = await this.modalCtrl.create({
+      component: ModalAddMechanicComponent,
+      cssClass: 'modal-add-mechanic'
+    });
 
-    // await addMechanic.present();
+    await addMechanic.present();
 
   }
 
