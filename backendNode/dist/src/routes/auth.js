@@ -75,7 +75,14 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
                     });
                 }
                 else {
-                    jsonRes.data = res;
+                    let mechanic = {
+                        id: res._id,
+                        email: res.email,
+                        username: res.username,
+                        type_user: res.type_user,
+                        img: null
+                    };
+                    jsonRes.data = mechanic;
                 }
                 return jsonRes;
             }

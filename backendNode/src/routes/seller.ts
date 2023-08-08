@@ -405,26 +405,43 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const { id_seller } = req.body;
 
-  const ress = await vehicles
-    .find({ id_seller: id_seller })
-    .then((res: any) => {
-      console.log("carros a la venta", res);
-      if (res) {
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
-        jsonRes.data = res;
-      } else if (!res) {
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+  // const ress = await vehicles
+  //   .find({ id_seller: id_seller })
+  //   .then((res: any) => {
+  //     console.log("carros a la venta", res);
+  //     if (res) {
+  //       jsonRes.code = 200;
+  //       jsonRes.message = "success";
+  //       jsonRes.status = true;
+  //       jsonRes.data = res;
+  //     } else if (!res) {
+  //       jsonRes.code = 400;
+  //       jsonRes.message = "no existe";
+  //       jsonRes.status = false;
+  //     }
+  //   })
+  //   .catch((err: any) => {
+  //     console.log(err);
+  //   });
 
-  res.json(ress);
+  const myVehicles = await vehicles.find({id_seller: id_seller});
+
+  if(myVehicles){
+
+    jsonRes.code = 200;
+    jsonRes.message = "success";
+    jsonRes.status = true;
+    jsonRes.data = myVehicles;
+
+  }else{
+    jsonRes.code = 400;
+    jsonRes.message = "no existe";
+    jsonRes.status = false;
+
+  }
+
+
+  res.json(jsonRes);
 });
 
 sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
@@ -471,7 +488,7 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
       vin: infoVehicle.vin,
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
-      general_condition: mechanicalFile!.general_condition,
+      general_condition: mechanicalFile! ? mechanicalFile.general_condition : "",
       images: imgsVehichle ? imgsVehichle : [],
     }
 
@@ -794,7 +811,7 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
 
     const infoVehicle = await vehicles.findById(id_vehicle);
 
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {price_ofert: infoVehicle!.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle!.price_ofert});
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle!.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle!.price_ofert, sold: true });
 
     const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
 
