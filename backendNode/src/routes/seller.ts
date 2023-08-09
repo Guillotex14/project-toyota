@@ -1246,6 +1246,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     brandCar,
     modelCar,
     id_user,
+    concesionary
   }: any = req.query;
 
   let now = new Date();
