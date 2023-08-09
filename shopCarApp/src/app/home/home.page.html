@@ -10,9 +10,18 @@
         <ion-label style="margin: 10px 30px !important;">Correo electronico</ion-label>
         <ion-input type="email" shape="round" id="inputEmail" fill="outline" [(ngModel)]="newLogin.email"></ion-input>
       </ion-col>
+
       <ion-col size="12" class="colInputPass" style="margin-top: 15px;">
         <ion-label style="margin: 10px 30px !important;">Contraseña</ion-label>
-        <ion-input type="password" shape="round" id="inputPass" fill="outline" [(ngModel)]="newLogin.password"></ion-input>
+        <ion-row style="border: 1px solid #b3b3b3; border-radius: 30px !important;height: 60px !important;width: 90% !important;margin: auto !important;">
+          <ion-col size="9">
+            <ion-input [type]="showPass" [(ngModel)]="newLogin.password" style="height: 50px !important;" id="inputPasss"></ion-input>
+          </ion-col>
+          <ion-col size="3" style="text-align: center;">
+            <ion-icon name="eye-outline" *ngIf="showPass==='password'" (click)="showPassword()" style="font-size: 25px !important; margin: 13px auto !important"></ion-icon>
+            <ion-icon name="eye-off-outline" *ngIf="showPass==='text'" (click)="showPassword()" style="font-size: 25px !important; margin: 13px auto !important"></ion-icon>
+          </ion-col>
+        </ion-row>
       </ion-col>
 
       <ion-col size="12" class="colButtonLogin">
