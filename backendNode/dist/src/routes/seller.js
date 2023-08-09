@@ -968,7 +968,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
 }));
 sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, } = req.query;
+    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary } = req.query;
     let now = new Date();
     let anioActual = now.getFullYear();
     if (yearSold) {
@@ -1022,6 +1022,18 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     }
     if (modelCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
+    }
+    let seller = null;
+    if (id_user) {
+        seller = yield Sellers_1.default.findOne({ id_user: id_user });
+        if (seller) {
+            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
+        }
+        else {
+            if (concesionary) {
+                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
+            }
+        }
     }
     const vehiclesFiltered = yield Vehicles_1.default.aggregate([
         {
@@ -1268,7 +1280,8 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     datos.grupocard.forEach((grupo) => {
         const worksheet = workbook.addWorksheet(grupo._id);
         // Agregar los encabezados de las columnas
-        worksheet.columns = [
+        let columns = [];
+        columns = [
             { header: "Modelo", key: "modelo", width: 15, style: headerStyle },
             { header: "Marca", key: "marca", width: 15, style: headerStyle },
             { header: "Año", key: "anhio", width: 15, style: headerStyle },
@@ -1331,8 +1344,10 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             { header: "Vino", key: "vino", width: 15, style: headerStyle },
         ];
         if (seller) {
-            worksheet.columns.splice(4, 1);
+            columns.splice(4, 1);
         }
+        console.log(columns);
+        worksheet.columns = columns;
         // Agregar los datos de los vehículos del grupo
         grupo.vehicles.forEach((vehiculo) => {
             let dataRow = {
@@ -1346,7 +1361,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
                 desplazamiento: vehiculo.displacement,
                 km: vehiculo.km,
                 modelo_motor: vehiculo.engine_model,
-                titulo: vehiculo.title,
+                titulo: vehiculo.titles,
                 combustible: vehiculo.fuel,
                 transmision: vehiculo.transmission,
                 ciudad: vehiculo.city,
