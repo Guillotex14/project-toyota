@@ -360,7 +360,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null">
+            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null&&!carDetail.sold">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">
@@ -375,7 +375,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null ">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null&&!carDetail.sold">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">
@@ -399,11 +399,11 @@
               </ion-grid>
             </ion-col> -->
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId && carDetail.price_ofert !== null" style="text-align: center !important;">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId && carDetail.price_ofert !== null&&!carDetail.sold" style="text-align: center !important;">
               <p class="pText">Tienes una oferta por tu vehiculo de ${{setDot(carDetail.price_ofert ? carDetail.price_ofert : 0)}}</p>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&&carDetail.price_ofert !== null&& carDetail.final_price_sold === null">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&&carDetail.price_ofert !== null&& carDetail.final_price_sold === null&&!carDetail.sold">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="6">
@@ -420,7 +420,7 @@
               </ion-grid>
             </ion-col>
             
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&& carDetail.price_ofert !== null&& carDetail.final_price_sold !== null">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&& carDetail.price_ofert !== null&& carDetail.final_price_sold !== null&&!carDetail.sold">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">

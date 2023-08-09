@@ -15,10 +15,15 @@ import * as global from '../../models/global';
 export class CarDetailAdminPage implements OnInit {
   id: string = "";
   urlImg = global.urlImgvehicles;
+  theRoute: string = "";
   carDetail: CarDetailSeller = new CarDetailSeller();
   
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute:ActivatedRoute, private sellerSrv: SellerService, private adminSrv: AdminService) {
     this.id = this.actRoute.snapshot.params['id'];
+    this.theRoute = this.actRoute.snapshot.params['route'];
+    this.carDetail.images = [];
+
+
     this.getVehicleById();
   }
 
@@ -26,9 +31,12 @@ export class CarDetailAdminPage implements OnInit {
   }
 
   goBack(){
-    this.router.navigate(['home-admin']);
+    if (this.theRoute=="home-admin") {
+      this.router.navigate(['home-admin']);
+    }else if(this.theRoute=="graphics-admin"){
+      this.router.navigate(['graphics-admin']);
+    }
   }
-
   public openMenu(){
     this.utils.setLogin(true);
     this.menu.open();
@@ -52,13 +60,20 @@ export class CarDetailAdminPage implements OnInit {
     });
   }
 
-  public openFile(id_vehicle:any){
-    this.router.navigate(['mechanical-file-detail-admin/'+id_vehicle]);
+  public openFile(){
+    this.router.navigate(['mechanical-file-detail-admin/'+this.id+'/'+this.theRoute]);
   }
 
   public setDot(numb:any){
-    var str = numb.toString().split(".");
-    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return str.join(".");
+
+    if (numb==null) {
+      return "0";
+    }else{
+      var str = numb.toString().split(".");
+      str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return str.join(".");
+    }
+      
+
   }
 }

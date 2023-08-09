@@ -341,7 +341,7 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
             id_seller: infoVehicle.id_seller,
             id_mechanic: infoVehicle.id_mechanic,
             id_seller_buyer: infoVehicle.id_seller_buyer,
-            general_condition: mechanicFile.general_condition,
+            general_condition: mechanicFile ? mechanicFile.general_condition : "",
             images: imgsVehicle ? imgsVehicle : []
         };
     }

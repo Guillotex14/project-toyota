@@ -91,20 +91,53 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate } = req.body;
-    const newVehicle = new Vehicles_1.default({ model, year, brand, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, mechanicalFile: false, sold: false, date_create: dateNow, price: null, id_seller, id_mechanic, id_seller_buyer: null, type_vehicle, vin, vehicle_plate });
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, } = req.body;
+    const newVehicle = new Vehicles_1.default({
+        model,
+        year,
+        brand,
+        displacement,
+        km,
+        engine_model,
+        titles,
+        fuel,
+        transmission,
+        traction,
+        city,
+        dealer,
+        concesionary,
+        traction_control,
+        performance,
+        comfort,
+        technology,
+        mechanicalFile: false,
+        sold: false,
+        date_create: dateNow,
+        price: null,
+        id_seller,
+        id_mechanic,
+        id_seller_buyer: null,
+        type_vehicle,
+        vin,
+        vehicle_plate,
+    });
     yield newVehicle.save();
-    yield Mechanics_1.default.findOne({ _id: id_mechanic }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Mechanics_1.default
+        .findOne({ _id: id_mechanic })
+        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
-            yield Users_1.default.findOne({ _id: res.id_user }).then((res) => {
+            yield Users_1.default.findOne({ _id: res.id_user })
+                .then((res) => {
                 if (res) {
                     emailmechanic = res.email;
                 }
-            }).catch((err) => {
+            })
+                .catch((err) => {
                 console.log(err);
             });
         }
-    })).catch((err) => {
+    }))
+        .catch((err) => {
         console.log(err);
     });
     infoSeller = yield Sellers_1.default.findOne({ _id: id_seller });
@@ -164,7 +197,11 @@ sellerRouter.post("/addImgVehicle", (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, image } = req.body;
     const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
-    const newImage = new ImgVehicle_1.default({ img: filename.secure_url, id_vehicle: id_vehicle, public_id: filename.public_id });
+    const newImage = new ImgVehicle_1.default({
+        img: filename.secure_url,
+        id_vehicle: id_vehicle,
+        public_id: filename.public_id,
+    });
     yield newImage.save();
     if (newImage) {
         reponseJson.code = 200;
@@ -206,13 +243,13 @@ sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, v
         const newImage = new ImgVehicle_1.default({
             img: filename.secure_url,
             id_vehicle: id_vehicle,
-            public_id: filename.public_id
+            public_id: filename.public_id,
         });
         yield newImage.save();
         const arrayImages = yield ImgVehicle_1.default.find({ id_vehicle: id_vehicle });
         let data = {
             images: arrayImages,
-            imgEdit: newImage
+            imgEdit: newImage,
         };
         reponseJson.code = 200;
         reponseJson.message = "Imagen actualizada exitosamente";
@@ -251,6 +288,24 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
+    // const ress = await vehicles
+    //   .find({ id_seller: id_seller })
+    //   .then((res: any) => {
+    //     console.log("carros a la venta", res);
+    //     if (res) {
+    //       jsonRes.code = 200;
+    //       jsonRes.message = "success";
+    //       jsonRes.status = true;
+    //       jsonRes.data = res;
+    //     } else if (!res) {
+    //       jsonRes.code = 400;
+    //       jsonRes.message = "no existe";
+    //       jsonRes.status = false;
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
     const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller });
     if (myVehicles) {
         jsonRes.code = 200;
@@ -303,7 +358,9 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
             vin: infoVehicle.vin,
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
-            general_condition: mechanicalFile ? mechanicalFile.general_condition : "",
+            general_condition: mechanicalFile
+                ? mechanicalFile.general_condition
+                : "",
             images: imgsVehichle ? imgsVehichle : [],
         };
         jsonRes.code = 200;
@@ -501,10 +558,18 @@ sellerRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
     res.json(jsonResponse);
 }));
-sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format('YYYY-MM-DD');
-    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert } = req.body;
+    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+        id_seller_buyer: id_seller,
+        name_new_owner: name_new_owner,
+        dni_new_owner: dni_new_owner,
+        phone_new_owner: phone_new_owner,
+        email_new_owner: email_new_owner,
+        price_ofert: price_ofert,
+    });
     const sameIdSeller = yield Vehicles_1.default.findById(id_vehicle);
     if (sameIdSeller.id_seller === id_seller) {
         const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller, name_new_owner: name_new_owner, dni_new_owner: dni_new_owner, phone_new_owner: phone_new_owner, email_new_owner: email_new_owner, price_ofert: price_ofert, price: price_ofert, sold: true, date_sell: date_sell, final_price_sold: price_ofert, dispatched: true });
@@ -541,30 +606,45 @@ sellerRouter.post('/buyVehicle', (req, res) => __awaiter(void 0, void 0, void 0,
     }
     res.json(responseJson);
 }));
-sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format('YYYY-MM-DD');
+    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle } = req.body;
     const infoVehicle = yield Vehicles_1.default.findById(id_vehicle);
-    console.log(infoVehicle);
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle.price_ofert, sold: true });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+        price_ofert: infoVehicle.price_ofert,
+        date_sell: date_sell,
+        final_price_sold: infoVehicle.price_ofert,
+        sold: true,
+    });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
     const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
     const userSeller = yield Users_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
-        reponseJson.message = "aprobacion de oferta exitosa";
+        reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        const mailOptions = {
-            from: 'Toyousado Notifications',
-            to: userbuyer.email,
-            subject: 'Oferta de vehiculo aprobada',
-            text: `Tu oferta del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
+        if (vehicle) {
+            reponseJson.code = 200;
+            reponseJson.message = "aprobacion de oferta exitosa";
+            reponseJson.status = true;
+            reponseJson.data = vehicle;
+            const mailOptions = {
+                from: "Toyousado Notifications",
+                to: userbuyer.email,
+                subject: "Oferta de vehiculo aprobada",
+                text: `Tu oferta del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+            };
+            yield (0, nodemailer_1.sendEmail)(mailOptions);
+            sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
     }
     else {
         reponseJson.code = 400;
@@ -576,7 +656,16 @@ sellerRouter.post('/approveBuyVehicle', (req, res) => __awaiter(void 0, void 0, 
 sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: null, sold: false, price_ofert: null, date_sell: null, name_new_owner: null, dni_new_owner: null, phone_new_owner: null, email_new_owner: null });
+    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+        id_seller_buyer: null,
+        sold: false,
+        price_ofert: null,
+        date_sell: null,
+        name_new_owner: null,
+        dni_new_owner: null,
+        phone_new_owner: null,
+        email_new_owner: null,
+    });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
     const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
@@ -749,7 +838,9 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     query.mechanicalFile = true;
     query.sold = false;
     // query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_1.default.find(query).sort({ date_create: -1 });
+    const vehiclesFiltered = yield Vehicles_1.default
+        .find(query)
+        .sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -790,7 +881,11 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
                 date_create: vehiclesFiltered[i].date_create,
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
-                image: (yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+                image: (yield ImgVehicle_1.default.findOne({
+                    id_vehicle: vehiclesFiltered[i]._id,
+                }))
+                    ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+                    : "",
             };
             arrayVehicles.push(data);
         }
@@ -808,13 +903,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
 }));
 sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar } = req.query;
-    //   yearSold = 2023; // A de venta
-    //   rangMonths = 12; // Rango de meses
-    //   month = 1; // Mes donde comienza el rango
-    // yearCar = 2010; // Año del vehículo
-    // brandCar = "Toyota"; // Marca del vehículo
-    // modelCar = "TkT"; // Modelo del vehículo
+    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary } = req.query;
     let now = new Date();
     let anioActual = now.getFullYear();
     if (yearSold) {
@@ -833,20 +922,26 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     let rangArrayMonth = [];
     if (rangMonths && rangMonths < 12) {
         rangArrayMonth = getMonthRange(month, rangMonths);
-        firtsMonth = new Date(anioActual, (month - 1), 1);
+        firtsMonth = new Date(anioActual, month - 1, 1);
         if (rangArrayMonth.length > 1) {
-            last = new Date(anioActual, (rangArrayMonth.length - 1));
-            lastDayLasyMont = getLastDayOfMonth(anioActual, (rangArrayMonth.length - 1));
-            lastMonth = new Date(anioActual, (rangArrayMonth.length - 1), lastDayLasyMont.getDate());
+            last = new Date(anioActual, rangArrayMonth.length - 1);
+            lastDayLasyMont = getLastDayOfMonth(anioActual, rangArrayMonth.length - 1);
+            lastMonth = new Date(anioActual, rangArrayMonth.length - 1, lastDayLasyMont.getDate());
         }
         else {
-            last = new Date(anioActual, (month - 1));
-            lastDayLasyMont = getLastDayOfMonth(anioActual, (month - 1));
-            lastMonth = new Date(anioActual, (month - 1), lastDayLasyMont.getDate());
+            last = new Date(anioActual, month - 1);
+            lastDayLasyMont = getLastDayOfMonth(anioActual, month - 1);
+            lastMonth = new Date(anioActual, month - 1, lastDayLasyMont.getDate());
         }
     }
-    let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10 ? "0" + (firtsMonth.getMonth() + 1) : firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10 ? "0" + firtsMonth.getDate() : firtsMonth.getDate()}`;
-    let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10 ? "0" + (lastMonth.getMonth() + 1) : lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()}`;
+    let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10
+        ? "0" + (firtsMonth.getMonth() + 1)
+        : firtsMonth.getMonth() + 1}-${firtsMonth.getDate() < 10
+        ? "0" + firtsMonth.getDate()
+        : firtsMonth.getDate()}`;
+    let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10
+        ? "0" + (lastMonth.getMonth() + 1)
+        : lastMonth.getMonth() + 1}-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()}`;
     let mongQuery = {
         date_sell: {
             $gte: from,
@@ -863,9 +958,21 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     if (modelCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
+    let seller = null;
+    if (id_user) {
+        seller = yield Sellers_1.default.findOne({ id_user: id_user });
+        if (seller) {
+            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
+        }
+        else {
+            if (concesionary) {
+                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
+            }
+        }
+    }
     const vehiclesFiltered = yield Vehicles_1.default.aggregate([
         {
-            $match: mongQuery
+            $match: mongQuery,
         },
         {
             $group: {
@@ -875,52 +982,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         },
         { $sort: { _id: 1 } },
     ]);
-    const cards = yield Vehicles_1.default.find(mongQuery);
-    const cardsgroup = yield Vehicles_1.default.aggregate([
-        {
-            $match: mongQuery
-        },
-        {
-            $group: {
-                _id: null,
-                minPrice: { $min: "$price" },
-                medPrice: { $avg: "$price" },
-                maxPrice: { $max: "$price" },
-            }
-        }
-    ]);
-    let cardPriceGroup;
-    cardPriceGroup = gruopCardPrice(cards, cardsgroup[0]);
-    let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
-    const countMechanicaFile = yield Vehicles_1.default.aggregate([
-        {
-            $match: otherQuery
-        },
-        {
-            $lookup: {
-                from: "mechanicalfiles",
-                localField: "_id",
-                foreignField: "id_vehicle",
-                as: "mechanicalfiles"
-            }
-        },
-        {
-            $unwind: {
-                path: "$mechanicalfiles"
-            }
-        },
-        {
-            $match: {
-                "mechanicalfiles.general_condition": { $in: ["bueno", "malo", "regular", "excelente"] }
-            }
-        },
-        {
-            $group: {
-                _id: "$mechanicalfiles.general_condition",
-                count: { $sum: 1 }
-            }
-        }
-    ]);
+    delete mongQuery.date_sell;
+    delete mongQuery.sold;
     let datos = {};
     let cantMonth = calcularMeses(from, to);
     if (cantMonth == 1) {
@@ -928,8 +991,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         let groupByOneMonth = [];
         groupByWeek = agruparPorSemana(vehiclesFiltered);
         groupByOneMonth = agruparPorWeek(groupByWeek);
-        const labels = groupByOneMonth.map(item => item.semana);
-        const montos = groupByOneMonth.map(item => item.monto);
+        const labels = groupByOneMonth.map((item) => item.semana);
+        const montos = groupByOneMonth.map((item) => item.monto);
         datos = {
             labels: labels,
             datasets: [
@@ -938,8 +1001,6 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                     data: montos, // Montos en el eje y
                 },
             ],
-            grupocard: cardPriceGroup,
-            mechanicaFiles: countMechanicaFile
         };
     }
     else {
@@ -958,8 +1019,6 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
                 },
             ],
             // vehicles:cards,
-            grupocard: cardPriceGroup,
-            mechanicaFiles: countMechanicaFile
         };
     }
     if (datos) {
@@ -983,13 +1042,469 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
     });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados";
+        reponseJson.message = "success";
         reponseJson.status = true;
         reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos";
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let { dateTo, dateFrom, yearCar, brandCar, modelCar, concesionary, id_user } = req.query;
+    const ExcelJS = require("exceljs");
+    let now = new Date();
+    let from_at = `${now.getFullYear()}-01-01`;
+    let to_at = `${now.getFullYear()}-12-31`;
+    let mongQuery = {
+        date_sell: {
+            $gte: from_at,
+            $lte: to_at,
+        },
+    };
+    if (dateFrom && dateTo) {
+        let from = new Date(dateFrom).toISOString().substr(0, 10);
+        let to = new Date(dateTo).toISOString().substr(0, 10);
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { date_sell: {
+                $gte: from,
+                $lte: to,
+            } });
+    }
+    if (yearCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(yearCar) });
+    }
+    if (brandCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { brand: { $regex: brandCar, $options: "i" } });
+    }
+    if (modelCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
+    }
+    let seller = null;
+    if (id_user) {
+        seller = yield Sellers_1.default.findOne({ id_user: id_user });
+        if (seller) {
+            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
+        }
+        else {
+            if (concesionary) {
+                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
+            }
+        }
+    }
+    let cardsgroupmodel = [];
+    if (!seller) {
+        cardsgroupmodel = yield Vehicles_1.default.aggregate([
+            {
+                $match: mongQuery,
+            },
+            {
+                $lookup: {
+                    from: "mechanicalfiles",
+                    localField: "_id",
+                    foreignField: "id_vehicle",
+                    as: "mechanicalfiles",
+                },
+            },
+            {
+                $unwind: "$mechanicalfiles",
+            },
+            {
+                $group: {
+                    _id: "$model",
+                    minPrice: { $min: "$price" },
+                    avgPrice: { $avg: "$price" },
+                    maxPrice: { $max: "$price" },
+                    statusMalo: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$mechanicalfiles.general_condition", "malo"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                    statusRegular: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$mechanicalfiles.general_condition", "regular"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                    statusBueno: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$mechanicalfiles.general_condition", "bueno"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                    statusExcelente: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$mechanicalfiles.general_condition", "excelente"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                    vehicles: {
+                        $push: {
+                            $mergeObjects: [
+                                "$$ROOT",
+                                { general_condition: "$mechanicalfiles.general_condition" },
+                            ],
+                        },
+                    },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ]);
+        for (let i = 0; i < cardsgroupmodel.length; i++) {
+            for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
+                delete cardsgroupmodel[i].vehicles[j].mechanicalfiles;
+            }
+        }
+    }
+    else {
+        cardsgroupmodel = yield Vehicles_1.default.aggregate([
+            {
+                $match: mongQuery,
+            },
+            {
+                $group: {
+                    _id: "$model",
+                    minPrice: { $min: "$price" },
+                    avgPrice: { $avg: "$price" },
+                    maxPrice: { $max: "$price" },
+                    vehicles: { $push: "$$ROOT" },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ]);
+    }
+    let datos = {};
+    datos = {
+        grupocard: cardsgroupmodel,
+    };
+    // Crear un nuevo archivo Excel
+    const workbook = new ExcelJS.Workbook();
+    // Establecer el estilo para el encabezado
+    const headerStyle = {
+        font: { bold: true },
+    };
+    // Establecer el estilo para el pie de página
+    const footerStyle = {
+        font: { bold: true, color: { argb: "FFFFFFFF" } },
+        fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FF000000" } }, // Fondo negro
+    };
+    datos.grupocard.forEach((grupo) => {
+        const worksheet = workbook.addWorksheet(grupo._id);
+        // Agregar los encabezados de las columnas
+        let columns = [];
+        columns = [
+            { header: "Modelo", key: "modelo", width: 15, style: headerStyle },
+            { header: "Marca", key: "marca", width: 15, style: headerStyle },
+            { header: "Año", key: "anhio", width: 15, style: headerStyle },
+            { header: "Precio", key: "precio", width: 15, style: headerStyle },
+            { header: "Ficha mecanica", key: "ficha_mecanica", width: 15, style: headerStyle },
+            { header: "Fecha", key: "fecha", width: 15, style: headerStyle },
+            {
+                header: "Fecha de venta",
+                key: "fecha_venta",
+                width: 15,
+                style: headerStyle,
+            },
+            {
+                header: "Desplazamiento",
+                key: "desplazamiento",
+                width: 15,
+                style: headerStyle,
+            },
+            { header: "KM", key: "km", width: 15, style: headerStyle },
+            {
+                header: "Modelo de motor",
+                key: "modelo_motor",
+                width: 15,
+                style: headerStyle,
+            },
+            { header: "Titulo", key: "titulo", width: 15, style: headerStyle },
+            {
+                header: "Combustible",
+                key: "combustible",
+                width: 15,
+                style: headerStyle,
+            },
+            {
+                header: "Transmisión",
+                key: "transmision",
+                width: 15,
+                style: headerStyle,
+            },
+            { header: "Ciudad", key: "ciudad", width: 15, style: headerStyle },
+            {
+                header: "Concesionario",
+                key: "concesionario",
+                width: 30,
+                style: headerStyle,
+            },
+            {
+                header: "Control de tracción",
+                key: "control_traccion",
+                width: 30,
+                style: headerStyle,
+            },
+            {
+                header: "Tipo de vehiculo",
+                key: "tipo_de_vehiculo",
+                width: 30,
+                style: headerStyle,
+            },
+            { header: "Tracción", key: "traccion", width: 15, style: headerStyle },
+            { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
+            { header: "Vino", key: "vino", width: 15, style: headerStyle },
+        ];
+        if (seller) {
+            columns.splice(4, 1);
+        }
+        console.log(columns);
+        worksheet.columns = columns;
+        // Agregar los datos de los vehículos del grupo
+        grupo.vehicles.forEach((vehiculo) => {
+            let dataRow = {
+                modelo: vehiculo.model,
+                marca: vehiculo.brand,
+                anhio: vehiculo.year,
+                precio: vehiculo.price,
+                ficha_mecanica: vehiculo.general_condition,
+                fecha: vehiculo.date_create,
+                fecha_venta: vehiculo.date_sell,
+                desplazamiento: vehiculo.displacement,
+                km: vehiculo.km,
+                modelo_motor: vehiculo.engine_model,
+                titulo: vehiculo.titles,
+                combustible: vehiculo.fuel,
+                transmision: vehiculo.transmission,
+                ciudad: vehiculo.city,
+                concesionario: vehiculo.concesionary,
+                control_traccion: vehiculo.traction,
+                tipo_de_vehiculo: vehiculo.type_vehicle,
+                traccion: vehiculo.traction,
+                lamina: vehiculo.plate,
+                vino: vehiculo.vin,
+            };
+            if (seller) {
+                delete dataRow.ficha_mecanica;
+            }
+            worksheet.addRow(dataRow);
+        });
+        // Separar las secciones de los datos
+        worksheet.addRow({}); // Línea vacía
+        worksheet.addRow({}); // Línea vacía
+        // Agregar las secciones del mínimo, medio y máximo precio
+        worksheet.addRow({
+            modelo: "Mínimo Precio",
+            precio: grupo.minPrice,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Promedio Precio",
+            precio: grupo.avgPrice,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Máximo Precio",
+            precio: grupo.maxPrice,
+            style: footerStyle,
+        });
+        if (!seller) {
+            worksheet.addRow({}); // Línea vacía
+            worksheet.addRow({}); // Línea vacía
+            // Agregar las secciones del mínimo, medio y máximo precio
+            worksheet.addRow({
+                modelo: "Condición general - Malo",
+                precio: grupo.statusMalo,
+                style: footerStyle,
+            });
+            worksheet.addRow({
+                modelo: "Condición general - Regular",
+                precio: grupo.statusRegular,
+                style: footerStyle,
+            });
+            worksheet.addRow({
+                modelo: "Condición general - Bueno",
+                precio: grupo.statusBueno,
+                style: footerStyle,
+            });
+            worksheet.addRow({
+                modelo: "Condición general - Excelente",
+                precio: grupo.statusExcelente,
+                style: footerStyle,
+            });
+        }
+    });
+    const filePath = "./public/pdf/" + now.getTime() + ".xlsx";
+    workbook.xlsx
+        .writeFile(filePath)
+        .then(() => {
+        // Envía la ruta del archivo al frontend para su descarga
+        // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+        console.log("Archivo Excel generado:", filePath);
+    })
+        .catch((error) => {
+        console.log("Error al generar el archivo Excel:", error);
+    });
+    if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = datos;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+    // workbook.xlsx.writeBuffer().then(async (buffer:any) => {
+    //   // Convertir el buffer en base64
+    //   const base64 = buffer.toString('base64');
+    //   // Crear un objeto de respuesta con el archivo base64
+    //   const response = {
+    //     fileName: now.getTime()+'.xlsx',
+    //     base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
+    //   };
+    //   // Enviar la respuesta al front-end
+    //   res.json(response);
+    //   })
+    //   .catch((error:any) => {
+    //     console.log('Error al generar el archivo Excel:', error);
+    //   })
+}));
+sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let { dateTo, dateFrom, yearCar, brandCar, modelCar, concesionary, id_user, } = req.query;
+    let now = new Date();
+    let from_at = `${now.getFullYear()}-01-01`;
+    let to_at = `${now.getFullYear()}-12-31`;
+    let mongQuery = {
+        date_sell: {
+            $gte: from_at,
+            $lte: to_at,
+        },
+    };
+    if (dateFrom && dateTo) {
+        let from = new Date(dateFrom).toISOString().substr(0, 10);
+        let to = new Date(dateTo).toISOString().substr(0, 10);
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { date_sell: {
+                $gte: from,
+                $lte: to,
+            } });
+    }
+    if (yearCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(yearCar) });
+    }
+    if (brandCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { brand: { $regex: brandCar, $options: "i" } });
+    }
+    if (modelCar) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
+    }
+    let seller = null;
+    if (id_user) {
+        seller = yield Sellers_1.default.findOne({ id_user: id_user });
+        console.log(seller);
+        if (seller) {
+            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
+        }
+        else {
+            if (concesionary) {
+                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
+            }
+        }
+    }
+    const cardsgroupmodel = yield Vehicles_1.default.aggregate([
+        {
+            $match: mongQuery,
+        },
+        {
+            $group: {
+                _id: "$model",
+                minPrice: { $min: "$price" },
+                avgPrice: { $avg: "$price" },
+                maxPrice: { $max: "$price" },
+                vehicles: { $push: "$$ROOT" },
+            },
+        },
+        {
+            $sort: {
+                _id: 1,
+            },
+        },
+    ]);
+    let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
+    let countMechanicaFile = [];
+    if (!seller) {
+        countMechanicaFile = yield Vehicles_1.default.aggregate([
+            {
+                $match: otherQuery,
+            },
+            {
+                $lookup: {
+                    from: "mechanicalfiles",
+                    localField: "_id",
+                    foreignField: "id_vehicle",
+                    as: "mechanicalfiles",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$mechanicalfiles",
+                },
+            },
+            {
+                $match: {
+                    "mechanicalfiles.general_condition": {
+                        $in: ["bueno", "malo", "regular", "excelente"],
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: "$mechanicalfiles.general_condition",
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+    }
+    let datos = {};
+    datos = {
+        grupocard: cardsgroupmodel,
+        mechanicaFiles: countMechanicaFile,
+    };
+    if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = datos;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -997,7 +1512,7 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
 sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispached: true });
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
         reponseJson.message = "vehiculo entregado exitosamente";
@@ -1014,7 +1529,17 @@ sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void
 sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: false, price_ofert: null, final_price_sold: null, name_new_owner: null, dni_new_owner: null, phone_new_owner: null, email_new_owner: null, date_sell: null, id_seller_buyer: null });
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, {
+        sold: false,
+        price_ofert: null,
+        final_price_sold: null,
+        name_new_owner: null,
+        dni_new_owner: null,
+        phone_new_owner: null,
+        email_new_owner: null,
+        date_sell: null,
+        id_seller_buyer: null,
+    });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
         reponseJson.message = "vehiculo publicado exitosamente";
@@ -1043,7 +1568,7 @@ const gruopCardPrice = (listCar, groupPrice) => {
             cars: [],
         },
     };
-    listCar.map(car => {
+    listCar.map((car) => {
         car.price = car.price ? car.price : 0;
         if (car.price <= groupPrice.minPrice) {
             caray.minPrice.cars.push(car);
@@ -1060,7 +1585,8 @@ const gruopCardPrice = (listCar, groupPrice) => {
 const calcularMeses = (fechaInicial, fechaFinal) => {
     const inicio = new Date(fechaInicial);
     const fin = new Date(fechaFinal);
-    const diferenciaMeses = (fin.getFullYear() - inicio.getFullYear()) * 12 + (fin.getMonth() - inicio.getMonth());
+    const diferenciaMeses = (fin.getFullYear() - inicio.getFullYear()) * 12 +
+        (fin.getMonth() - inicio.getMonth());
     return diferenciaMeses;
 };
 const agruparPorSemana = (datos) => {
@@ -1084,7 +1610,7 @@ const agruparPorSemana = (datos) => {
 // Función para obtener el número de semana de una fecha
 const getWeekNumber = (date) => {
     const onejan = new Date(date.getFullYear(), 0, 1);
-    const week = Math.ceil((((date - onejan) / 86400000) + onejan.getDay()) / 7);
+    const week = Math.ceil(((date - onejan) / 86400000 + onejan.getDay()) / 7);
     return week;
 };
 const agruparPorWeek = (datos) => {
@@ -1157,7 +1683,7 @@ function getLastDayOfMonth(year, month) {
     // Crear una nueva fecha con el primer día del mes siguiente
     const firstDayOfNextMonth = new Date(year, nextMonth, 1);
     // Restar un día para obtener el último día del mes actual
-    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - (24 * 60 * 60 * 1000));
+    const lastDayOfMonth = new Date(firstDayOfNextMonth.getTime() - 24 * 60 * 60 * 1000);
     return lastDayOfMonth;
 }
 const getNameMonth = (date) => {
