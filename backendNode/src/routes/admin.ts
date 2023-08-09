@@ -158,7 +158,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
                 for (let k = 0; k < infoSellers.length; k++) {
                     if (res[j]._id.toString() == infoSellers[k].id_user.toString()) {
                         let seller = {
-                            id: res[j]._id,
+                            _id: res[j]._id,
                             id_seller: infoSellers[k]._id,
                             fullName: infoSellers[k].fullName,
                             city: infoSellers[k].city,

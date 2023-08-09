@@ -13,7 +13,7 @@ import { LoginModel } from 'src/models/auth';
 export class HomePage {
 
   newLogin: LoginModel = new LoginModel();
-
+  showPass: string = 'password';
   constructor(private router: Router, private utils:UtilsService, private authSrv:AuthService) {
     this.newLogin.email = '';
     this.newLogin.password = '';
@@ -74,7 +74,14 @@ export class HomePage {
       }
     });
 
+  }
 
+  public showPassword(){
+    if (this.showPass == 'password') {
+      this.showPass = 'text';
+    }else{
+      this.showPass = 'password';
+    }
   }
 
 }
