@@ -88,14 +88,14 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
             }
             else {
                 jsonRes.code = 400;
-                jsonRes.message = "password incorrecto";
+                jsonRes.message = "Contraseña incorrecto";
                 jsonRes.status = false;
                 return jsonRes;
             }
         }
         else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "ususario no registrado";
             jsonRes.status = false;
             return jsonRes;
         }

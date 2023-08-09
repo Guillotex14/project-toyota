@@ -31,6 +31,10 @@ const vehicleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    dispatched: {
+        type: Boolean,
+        default: false
+    },
     date_sell: {
         type: String,
         default: null

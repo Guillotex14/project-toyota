@@ -119,13 +119,13 @@ adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0,
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "Vehiuclos encontrados";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "No se encontraron vehiculos";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -137,7 +137,7 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
     const ress = yield Users_1.default.find({ type_user: "seller" }).sort({ date_created: -1 }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             jsonRes.code = 200;
-            jsonRes.message = "success";
+            jsonRes.message = "Vendedores encontrados";
             jsonRes.status = true;
             for (let i = 0; i < res.length; i++) {
                 yield Sellers_1.default.find({ id_user: res[i]._id }).then((res2) => {
@@ -176,7 +176,7 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
         }
         else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "No se encontraron vendedores";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -190,79 +190,84 @@ adminRouter.post("/addSeller", (req, res) => __awaiter(void 0, void 0, void 0, f
     const date_created = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     const reqAdd = req.body;
     const hash = yield bcrypt_1.default.hash(reqAdd.password, 10);
-    const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
-    const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone });
-    yield newUser.save().then((res) => {
-        if (res) {
-            newSeller.id_user = res._id;
+    const exist = yield Users_1.default.findOne({ email: reqAdd.email });
+    if (exist) {
+        reponseJson.code = 400;
+        reponseJson.message = "El usuario se encuentra registrado";
+        reponseJson.status = false;
+        reponseJson.data = "";
+    }
+    else {
+        const newUser = new Users_1.default({ email: reqAdd.email, password: hash, username: reqAdd.username, type_user: "seller" });
+        const newSeller = new Sellers_1.default({ fullName: reqAdd.fullName, city: reqAdd.city, concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone });
+        yield newUser.save();
+        if (newUser) {
+            newSeller.id_user = newUser._id;
+            yield newSeller.save();
         }
-    }).catch((err) => {
-        console.log(err);
-    });
-    yield newSeller.save();
-    reponseJson.code = 200;
-    reponseJson.message = "Vendedor agregado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = "";
+        if (newSeller && newUser) {
+            reponseJson.code = 200;
+            reponseJson.message = "Vendedor agregado exitosamente";
+            reponseJson.status = true;
+            reponseJson.data = "";
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "Error al agregar vendedor";
+            reponseJson.status = false;
+            reponseJson.data = "";
+        }
+    }
     res.json(reponseJson);
 }));
 adminRouter.post("/sellerById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
-    let infoSeller = {};
-    const ress = yield Users_1.default.findOne({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            yield Sellers_1.default.findOne({ id_user: res._id }).then((res2) => {
-                if (res2) {
-                    infoSeller.id = res._id;
-                    infoSeller.id_seller = res2._id;
-                    infoSeller.fullName = res2.fullName;
-                    infoSeller.city = res2.city;
-                    infoSeller.concesionary = res2.concesionary;
-                    infoSeller.username = res.username;
-                    infoSeller.email = res.email;
-                    infoSeller.type_user = res.type_user;
-                }
-                else if (!res2) {
-                    infoSeller = {};
-                    return res2;
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-            jsonRes.data = infoSeller;
-            return jsonRes;
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    })).catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
+    const seller = yield Sellers_1.default.findOne({ id_user: id });
+    const userSeller = yield Users_1.default.findOne({ _id: seller.id_user });
+    if (seller) {
+        let data = {
+            _id: seller._id,
+            fullName: seller.fullName,
+            city: seller.city,
+            concesionary: seller.concesionary,
+            phone: seller.phone,
+            date_created: seller.date_created,
+            id_user: userSeller._id,
+            username: userSeller.username,
+            email: userSeller.email,
+            type_user: userSeller.type_user,
+        };
+        jsonRes.code = 200;
+        jsonRes.message = "Usuario encontrado";
+        jsonRes.status = true;
+        jsonRes.data = data;
+    }
+    else if (!seller) {
+        jsonRes.code = 400;
+        jsonRes.message = "Usuario no registrado";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
 }));
 adminRouter.post("/updateSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
-    const { id, email, username, fullName, city, concesionary, id_seller, password } = req.body;
-    const _id = { _id: id };
-    const seller = { _id: id_seller };
-    const sellerUpdate = { fullName: fullName, city: city, concesionary: concesionary };
+    const { _id, email, username, fullName, city, concesionary, password, id_user, phone } = req.body;
+    console.log(req.body);
+    const seller = { _id: _id };
+    const user = { _id: id_user };
+    const sellerUpdate = { fullName: fullName, city: city, concesionary: concesionary, phone: phone };
     if (password != "") {
         const hash = yield bcrypt_1.default.hash(password, 10);
         const userUpdate = { email: email, username: username, password: hash };
-        yield Users_1.default.findOneAndUpdate(_id, userUpdate);
+        yield Users_1.default.findOneAndUpdate(user, userUpdate);
     }
     else {
         const userUpdate = { email: email, username: username };
-        yield Users_1.default.findOneAndUpdate(_id, userUpdate);
+        yield Users_1.default.findOneAndUpdate(user, userUpdate);
     }
     yield Sellers_1.default.findOneAndUpdate(seller, sellerUpdate);
+    console.log("seller", Sellers_1.default);
     jsonRes.code = 200;
     jsonRes.message = "Vendedor actualizado exitosamente";
     jsonRes.status = true;
@@ -274,7 +279,7 @@ adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0
     const ress = yield Users_1.default.findOneAndDelete({ _id: id }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             jsonRes.code = 200;
-            jsonRes.message = "success";
+            jsonRes.message = "usuario eliminado exitosamente";
             jsonRes.status = true;
             yield Sellers_1.default.findOneAndDelete({ id_user: res._id }).then((res2) => {
                 if (res2) {
@@ -290,7 +295,7 @@ adminRouter.post("/deleteSeller", (req, res) => __awaiter(void 0, void 0, void 0
         }
         else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "No se encontro el usuario";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -307,7 +312,7 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
     const mechanicFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "Vehiculo encontrado exitosamente";
         jsonRes.status = true;
         jsonRes.data = {
             _id: infoVehicle._id,
@@ -342,7 +347,7 @@ adminRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0,
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "no se encontro el vehiculo";
         jsonRes.status = false;
     }
     res.json(jsonRes);
@@ -353,14 +358,14 @@ adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, v
     const ress = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "ficha mecanica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "no se encontro la ficha mecanica";
         jsonRes.status = false;
         return jsonRes;
     }
@@ -369,33 +374,43 @@ adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, v
 adminRouter.post("/addBrand", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { name } = req.body;
-    const newBrand = new brands_1.default({ name: name });
-    yield newBrand.save();
-    jsonRes.code = 200;
-    jsonRes.message = "Marca agregada exitosamente";
-    jsonRes.status = true;
-    jsonRes.data = "";
+    const exist = yield brands_1.default.findOne({ name: name });
+    if (exist) {
+        jsonRes.code = 400;
+        jsonRes.message = "La marca ya existe";
+        jsonRes.status = false;
+    }
+    else {
+        const newBrand = new brands_1.default({ name: name });
+        yield newBrand.save();
+        if (newBrand) {
+            jsonRes.code = 200;
+            jsonRes.message = "Marca agregada exitosamente";
+            jsonRes.status = true;
+            jsonRes.data = "";
+        }
+        else {
+            jsonRes.code = 400;
+            jsonRes.message = "Error al agregar marca";
+            jsonRes.status = false;
+        }
+    }
     res.json(jsonRes);
 }));
 adminRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const brand = yield brands_1.default.find().then((res) => {
-        if (res) {
-            jsonResponse.code = 200;
-            jsonResponse.message = "success";
-            jsonResponse.status = true;
-            jsonResponse.data = res;
-            return jsonResponse;
-        }
-        else {
-            jsonResponse.code = 400;
-            jsonResponse.message = "no existe";
-            jsonResponse.status = false;
-            return jsonResponse;
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
+    const allBrands = yield brands_1.default.find();
+    if (allBrands) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "Todas las marcas";
+        jsonResponse.status = true;
+        jsonResponse.data = allBrands;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "No hay marcas";
+        jsonResponse.status = false;
+    }
     res.json(jsonResponse);
 }));
 adminRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -403,13 +418,13 @@ adminRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, fu
     const models = yield modelVehicle_1.default.find();
     if (models) {
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "Modelos encontrados exitosamente";
         jsonRes.status = true;
         jsonRes.data = models;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "No se encontraron modelos";
         jsonRes.status = false;
     }
     res.json(jsonRes);
@@ -417,18 +432,26 @@ adminRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, fu
 adminRouter.post("/addModelVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { model, brand, type_vehicle } = req.body;
-    const newModel = new modelVehicle_1.default({ model: model, brand: brand, type_vehicle: type_vehicle });
-    yield newModel.save();
-    if (newModel) {
-        jsonRes.code = 200;
-        jsonRes.message = "Modelo agregado exitosamente";
-        jsonRes.status = true;
-        // jsonRes.data = "";
+    const exist = yield modelVehicle_1.default.findOne({ model: model });
+    if (exist) {
+        jsonRes.code = 400;
+        jsonRes.message = "El modelo ya existe";
+        jsonRes.status = false;
     }
     else {
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
+        const newModel = new modelVehicle_1.default({ model: model, brand: brand, type_vehicle: type_vehicle });
+        yield newModel.save();
+        if (newModel) {
+            jsonRes.code = 200;
+            jsonRes.message = "Modelo agregado exitosamente";
+            jsonRes.status = true;
+            // jsonRes.data = "";
+        }
+        else {
+            jsonRes.code = 400;
+            jsonRes.message = "Error al agregar el modelo";
+            jsonRes.status = false;
+        }
     }
     res.json(jsonRes);
 }));

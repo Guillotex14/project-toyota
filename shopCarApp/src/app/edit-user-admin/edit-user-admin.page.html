@@ -56,11 +56,11 @@
                     <ion-label>Confirmar Contraseña</ion-label>
                     <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
                       <ion-col size="9">
-                        <ion-input [type]="typeInput" [(ngModel)]="password_confirm" style="height: 30px !important;" id="inputPasss"></ion-input>
+                        <ion-input [type]="typeInputConfirm" [(ngModel)]="password_confirm" style="height: 30px !important;" id="inputPasss"></ion-input>
                       </ion-col>
                       <ion-col size="3" style="text-align: center;">
-                        <ion-icon name="eye-outline" *ngIf="typeInput === 'password'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
-                        <ion-icon name="eye-off-outline" *ngIf="typeInput === 'text'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-outline" *ngIf="typeInputConfirm === 'password'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-off-outline" *ngIf="typeInputConfirm === 'text'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
                       </ion-col>
                     </ion-row>
                   </ion-col>

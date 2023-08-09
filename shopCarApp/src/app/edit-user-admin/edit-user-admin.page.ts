@@ -28,9 +28,9 @@ export class EditUserAdminPage implements OnInit {
 
     this.id.id = this.actRoute.snapshot.params['id'];
     this.sellerById();
-    this.seller.id = this.id.id;
+    this.seller._id = this.id.id;
     this.seller.type_user = "Vendedor";
-    this.seller.id_seller = "";
+    this.seller.id_user = "";
     this.seller.email = "";
     this.seller.username = "";
     this.seller.fullName = "";
@@ -140,7 +140,7 @@ export class EditUserAdminPage implements OnInit {
 
   public deleteSeller() {
     this.utils.presentLoading("Eliminando...");
-    let data = { id: this.seller.id };
+    let data = { id: this.seller._id };
     this.adminSrv.deleteSeller(data).subscribe((res: any) => {
       if (res.status) {
         // this.sellerById();

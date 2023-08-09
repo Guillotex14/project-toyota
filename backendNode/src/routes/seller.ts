@@ -25,50 +25,66 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
   const { email, password, username, fullName, city, concesionary } = req.body;
   const hash = await bcrypt.hash(password, 10);
 
-  const newUser = new Users({
-    email,
-    password: hash,
-    username,
-    type_user: "mechanic",
-  });
-  const newMechanic = new mechanics({
-    fullName,
-    city,
-    concesionary,
-    date_created,
-  });
+  const exist = await Users.findOne({ email: email });
 
-  await newUser
-    .save()
-    .then((res: any) => {
-      if (res) {
-        newMechanic.id_user = res._id;
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
+  if (exist) {
+    reponseJson.code = 400;
+    reponseJson.message = "El usuario se encuentra registrado";
+    reponseJson.status = false;
+    reponseJson.data = "";
+  }else{
+
+    const newUser = new Users({
+      email,
+      password: hash,
+      username,
+      type_user: "mechanic",
     });
 
-  await newMechanic.save();
+    const newMechanic = new mechanics({
+      fullName,
+      city,
+      concesionary,
+      date_created,
+    });
 
-  const mailOptions = {
-    from: "Toyousado",
-    to: email,
-    subject: "Bienvenido",
-    text:
-      "Bienvenido a Toyousado, tu usuario es: " +
-      email +
-      " y tu contraseña es: " +
-      password +
-      "",
-  };
+    await newUser.save();
 
-  await sendEmail(mailOptions);
+    if (newUser) {
+      newMechanic.id_user = newUser._id;
+    }
 
-  reponseJson.code = 200;
-  reponseJson.message = "Mecanico agregado exitosamente";
-  reponseJson.status = true;
-  reponseJson.data = "";
+    await newMechanic.save();
+
+    if (newMechanic && newUser) {
+
+      const mailOptions = {
+        from: "Toyousado",
+        to: email,
+        subject: "Bienvenido",
+        text:
+          "Bienvenido a Toyousado, tu usuario es: " +
+          email +
+          " y tu contraseña es: " +
+          password +
+          "",
+      };
+
+      await sendEmail(mailOptions);
+
+      reponseJson.code = 200;
+      reponseJson.message = "Mecanico agregado exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = "";
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "Error al agregar mecanico";
+      reponseJson.status = false;
+      reponseJson.data = "";
+      
+    }
+    
+  }
 
   res.json(reponseJson);
 });
@@ -126,7 +142,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
       infoSeller!.fullName +
       " del concesionario " +
       infoSeller!.concesionary +
-      " de la ciudad de " +
+      " del estado" +
       infoSeller!.city +
       " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
   };
@@ -139,118 +155,6 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   reponseJson.message = "Vehiculo agregado exitosamente";
   reponseJson.status = true;
   reponseJson.data = "";
-
-  res.json(reponseJson);
-});
-
-sellerRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const {
-    part_emblems_complete,
-    wiper_shower_brushes_windshield,
-    hits,
-    scratches,
-    paint_condition,
-    bugle_accessories,
-    air_conditioning_system,
-    radio_player,
-    courtesy_lights,
-    upholstery_condition,
-    gts,
-    board_lights,
-    tire_pressure,
-    tire_life,
-    battery_status_terminals,
-    transmitter_belts,
-    motor_oil,
-    engine_coolant_container,
-    radiator_status,
-    exhaust_pipe_bracket,
-    fuel_tank_cover_pipes_hoses_connections,
-    distribution_mail,
-    spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-    fuel_system,
-    parking_break,
-    brake_bands_drums,
-    brake_pads_discs,
-    brake_pipes_hoses,
-    master_cylinder,
-    brake_fluid,
-    bushings_plateaus,
-    stumps,
-    terminals,
-    Stabilizer_bar,
-    bearings,
-    tripoids_rubbe_bands,
-    shock_absorbers_coils,
-    dealer_maintenance,
-    id_vehicle,
-    id_mechanic,
-  } = req.body;
-
-  const newMechanicFile = new mechanicalsFiles({
-    part_emblems_complete,
-    wiper_shower_brushes_windshield,
-    hits,
-    scratches,
-    paint_condition,
-    bugle_accessories,
-    air_conditioning_system,
-    radio_player,
-    courtesy_lights,
-    upholstery_condition,
-    gts,
-    board_lights,
-    tire_pressure,
-    tire_life,
-    battery_status_terminals,
-    transmitter_belts,
-    motor_oil,
-    engine_coolant_container,
-    radiator_status,
-    exhaust_pipe_bracket,
-    fuel_tank_cover_pipes_hoses_connections,
-    distribution_mail,
-    spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-    fuel_system,
-    parking_break,
-    brake_bands_drums,
-    brake_pads_discs,
-    brake_pipes_hoses,
-    master_cylinder,
-    brake_fluid,
-    bushings_plateaus,
-    stumps,
-    terminals,
-    Stabilizer_bar,
-    bearings,
-    tripoids_rubbe_bands,
-    shock_absorbers_coils,
-    dealer_maintenance,
-    approve: false,
-    reject: false,
-    edit: false,
-    id_vehicle,
-    id_mechanic,
-  });
-
-  const newMechanicFileSaved = await newMechanicFile.save();
-
-  const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle, {
-    mechanicalFile: true,
-  });
-
-  if (newMechanicFileSaved) {
-    reponseJson.code = 200;
-    reponseJson.status = true;
-    reponseJson.message = "Ficha mecanica creada correctamente";
-    reponseJson.data = newMechanicFileSaved;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.status = false;
-    reponseJson.message = "No se pudo crear la Ficha mecanica";
-  }
 
   res.json(reponseJson);
 });
@@ -371,71 +275,43 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
   const { id_seller } = req.body;
 
-  const ress = await vehicles
-    .find({
-      mechanicalFile: true,
-      sold: false,
-      id_seller: { $ne: id_seller },
-      price: { $ne: null },
-    })
-    .sort({ date: -1 })
-    .then((res: any) => {
-      console.log("carros a la venta", res);
-      if (res) {
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
-        jsonRes.data = res;
-        return jsonRes;
-      } else if (!res) {
-        jsonRes.code = 400;
-        jsonRes.message = "no existe";
-        jsonRes.status = false;
-        return jsonRes;
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+  const vehiclesArray = await vehicles.find({
+    mechanicalFile: true,
+    sold: false,
+    id_seller: { $ne: id_seller },
+    price: { $ne: null },
+  }).sort({ date_create: -1 });
 
-  res.json(ress);
+  if (vehiclesArray) {
+    jsonRes.code = 200;
+    jsonRes.message = "vehiculos encontrados";
+    jsonRes.status = true;
+    jsonRes.data = vehiclesArray;
+  } else {
+    jsonRes.code = 400;
+    jsonRes.message = "no se encontraron vehiculos";
+    jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
 });
 
 sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const { id_seller } = req.body;
 
-  // const ress = await vehicles
-  //   .find({ id_seller: id_seller })
-  //   .then((res: any) => {
-  //     console.log("carros a la venta", res);
-  //     if (res) {
-  //       jsonRes.code = 200;
-  //       jsonRes.message = "success";
-  //       jsonRes.status = true;
-  //       jsonRes.data = res;
-  //     } else if (!res) {
-  //       jsonRes.code = 400;
-  //       jsonRes.message = "no existe";
-  //       jsonRes.status = false;
-  //     }
-  //   })
-  //   .catch((err: any) => {
-  //     console.log(err);
-  //   });
-
   const myVehicles = await vehicles.find({id_seller: id_seller});
 
   if(myVehicles){
 
     jsonRes.code = 200;
-    jsonRes.message = "success";
+    jsonRes.message = "Vehicleos encontrados";
     jsonRes.status = true;
     jsonRes.data = myVehicles;
 
   }else{
     jsonRes.code = 400;
-    jsonRes.message = "no existe";
+    jsonRes.message = "No se encontraron vehiculos";
     jsonRes.status = false;
 
   }
@@ -535,7 +411,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
     .then(async (res: any) => {
       if (res) {
         responseJson.code = 200;
-        responseJson.message = "success";
+        responseJson.message = "mecanicos encontrados";
         responseJson.status = true;
 
         for (let i = 0; i < res.length; i++) {
@@ -578,7 +454,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
         return responseJson;
       } else {
         responseJson.code = 400;
-        responseJson.message = "no existe";
+        responseJson.message = "no se encontraron mecanicos";
         responseJson.status = false;
         return responseJson;
       }
@@ -599,13 +475,13 @@ sellerRouter.post("/mechanicByConcesionary", async (req: Request, res: Response)
       .then((res: any) => {
         if (res) {
           jsonResponse.code = 200;
-          jsonResponse.message = "success";
+          jsonResponse.message = "mecanicos encontrados";
           jsonResponse.status = true;
           jsonResponse.data = res;
           return jsonResponse;
         } else if (!res) {
           jsonResponse.code = 400;
-          jsonResponse.message = "no existe";
+          jsonResponse.message = "no se encontraron mecanicos";
           jsonResponse.status = false;
           return jsonResponse;
         }
@@ -625,13 +501,13 @@ sellerRouter.get("/allZones", async (req: Request, res: Response) => {
     .then((res: any) => {
       if (res) {
         jsonResponse.code = 200;
-        jsonResponse.message = "success";
+        jsonResponse.message = "zonas encontradas";
         jsonResponse.status = true;
         jsonResponse.data = res;
         return jsonResponse;
       } else if (!res) {
         jsonResponse.code = 400;
-        jsonResponse.message = "no existe";
+        jsonResponse.message = "no se encontraron zonas";
         jsonResponse.status = false;
         return jsonResponse;
       }
@@ -651,13 +527,13 @@ sellerRouter.get("/allConcesionaries", async (req: Request, res: Response) => {
       console.log(res);
       if (res) {
         jsonResponse.code = 200;
-        jsonResponse.message = "success";
+        jsonResponse.message = "concesionarias encontradas";
         jsonResponse.status = true;
         jsonResponse.data = res;
         return jsonResponse;
       } else if (!res) {
         jsonResponse.code = 400;
-        jsonResponse.message = "no existe";
+        jsonResponse.message = "no se encontraron concesionarias";
         jsonResponse.status = false;
         return jsonResponse;
       }
@@ -677,13 +553,13 @@ sellerRouter.get("/allBrands", async (req: Request, res: Response) => {
   if (brand) {
 
     jsonResponse.code = 200;
-    jsonResponse.message = "success";
+    jsonResponse.message = "marcas encontradas";
     jsonResponse.status = true;
     jsonResponse.data = brand;
     
   } else {
     jsonResponse.code = 400;
-    jsonResponse.message = "no existe";
+    jsonResponse.message = "no se encontraron marcas";
     jsonResponse.status = false;
     
   }
@@ -712,97 +588,67 @@ sellerRouter.get("/allModels", async (req: Request, res: Response) => {
 });
 
 sellerRouter.post('/buyVehicle', async (req: Request, res: Response) => {
-    const responseJson: ResponseModel = new ResponseModel();
-    
-    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert } = req.body;
+  const responseJson: ResponseModel = new ResponseModel();
+  const date_sell = moment().format('YYYY-MM-DD');
 
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller, name_new_owner:name_new_owner, dni_new_owner:dni_new_owner, phone_new_owner:phone_new_owner, email_new_owner:email_new_owner, price_ofert:price_ofert})
+  const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert } = req.body;
 
-  const getVehicle = await vehicles.findById(id_vehicle);
+  const sameIdSeller = await vehicles.findById(id_vehicle);
 
-  const infoBuyer = await Sellers.findById(id_seller);
+  if (sameIdSeller!.id_seller === id_seller) {
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller, name_new_owner:name_new_owner, dni_new_owner:dni_new_owner, phone_new_owner:phone_new_owner, email_new_owner:email_new_owner, price_ofert:price_ofert, price:price_ofert, sold:true, date_sell:date_sell, final_price_sold:price_ofert, dispatched:true})
 
-  const infoSeller = await Sellers.findById(getVehicle!.id_seller);
+    if (vehicle) {
+      responseJson.code = 200;
+      responseJson.message = "vehiculo comprado exitosamente";
+      responseJson.status = true;
+      responseJson.data = vehicle;
+    }else{
+      responseJson.code = 400;
+      responseJson.message = "no se pudo comprar el vehiculo";
+      responseJson.status = false;
+    }
 
-  const email = await Users.findById(infoSeller!.id_user);
+  }else{
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller, name_new_owner:name_new_owner, dni_new_owner:dni_new_owner, phone_new_owner:phone_new_owner, email_new_owner:email_new_owner, price_ofert:price_ofert, sold: false})
 
-  const emailBuyer = await Users.findById(infoBuyer!.id_user);
+    const getVehicle = await vehicles.findById(id_vehicle);
 
-  const mailOptions = {
-    from: "Toyousado Notifications",
-    to: email!.email,
-    subject: "Compra de vehiculo",
-    text: `el vendedor ${
-      infoBuyer!.fullName
-    } quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${
-      emailBuyer!.email
-    } o al numero telefono ${infoBuyer!.phone}`,
-  };
+    const infoBuyer = await Sellers.findById(id_seller);
 
-  await sendEmail(mailOptions);
+    const infoSeller = await Sellers.findById(getVehicle!.id_seller);
 
-  sendNotification(
-    infoSeller!._id.toString(),
-    mailOptions.text,
-    mailOptions.subject
-  );
+    const email = await Users.findById(infoSeller!.id_user);
 
-  responseJson.code = 200;
-  responseJson.message =
-    "Compra realizada, esperar confirmación o rechazo del vendedor";
-  responseJson.status = true;
-
-  res.json(responseJson);
-});
-
-sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id_vehicle } = req.body;
-
-  const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, { sold: true });
-
-  const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
-
-  const userbuyer = await Users.findById(infoBuyer!.id_user);
-
-  const infoSeller = await Sellers.findById(vehicle!.id_seller);
-
-  const userSeller = await Users.findById(infoSeller!.id_user);
-
-  if (vehicle) {
-    reponseJson.code = 200;
-    reponseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
-    reponseJson.status = true;
-    reponseJson.data = vehicle;
+    const emailBuyer = await Users.findById(infoBuyer!.id_user);
 
     const mailOptions = {
       from: "Toyousado Notifications",
-      to: userbuyer!.email,
-      subject: "Compra de vehiculo aprobada",
-      text: `Tu compra del vehiculo ${vehicle!.model} del concesionario ${
-        vehicle!.concesionary
-      } ha sido aprobada, para mas información comunicate con el vendedor al correo ${
-        userSeller!.email
-      } o al numero telefono ${infoSeller!.phone}`,
+      to: email!.email,
+      subject: "Compra de vehiculo",
+      text: `el vendedor ${
+        infoBuyer!.fullName
+      } quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${
+        emailBuyer!.email
+      } o al numero telefono ${infoBuyer!.phone}`,
     };
 
     await sendEmail(mailOptions);
 
     sendNotification(
-      userbuyer!._id.toString(),
+      infoSeller!._id.toString(),
       mailOptions.text,
       mailOptions.subject
     );
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "no existe";
-    reponseJson.status = false;
+
+    responseJson.code = 200;
+    responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
+    responseJson.status = true;
   }
 
-    res.json(reponseJson);
 
-})
+  res.json(responseJson);
+});
 
 sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
@@ -810,7 +656,8 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
     const { id_vehicle } = req.body;
 
     const infoVehicle = await vehicles.findById(id_vehicle);
-
+    console.log(infoVehicle)
+    
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, { price_ofert: infoVehicle!.price_ofert, date_sell: date_sell, final_price_sold: infoVehicle!.price_ofert, sold: true });
 
     const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);
@@ -823,7 +670,7 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
 
     if (vehicle) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "aprobacion de oferta exitosa";
         reponseJson.status = true;
         reponseJson.data = vehicle;
 
@@ -840,7 +687,7 @@ sellerRouter.post('/approveBuyVehicle', async (req: Request, res: Response) => {
 
     }else{
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "error al aprobar la oferta";
         reponseJson.status = false;
     }
 
@@ -864,7 +711,7 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
 
   if (vehicle) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "oferta rechazada exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehicle;
 
@@ -888,7 +735,7 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
     );
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "error al rechazar la oferta";
     reponseJson.status = false;
   }
 
@@ -906,12 +753,12 @@ sellerRouter.post("/getNotifications", async (req: Request, res: Response) => {
 
   if (notificationsUser) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "notificaciones obtenidas exitosamente";
     reponseJson.status = true;
     reponseJson.data = notificationsUser;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "no se encontraron notificaciones";
     reponseJson.status = false;
   }
 
@@ -929,12 +776,12 @@ sellerRouter.post("/updateNotification", async (req: Request, res: Response) => 
 
     if (notificationsUser) {
       reponseJson.code = 200;
-      reponseJson.message = "success";
+      reponseJson.message = "notificacion actualizada exitosamente";
       reponseJson.status = true;
       reponseJson.data = notificationsUser;
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "no existe";
+      reponseJson.message = "error al actualizar notificacion";
       reponseJson.status = false;
     }
 
@@ -951,12 +798,12 @@ sellerRouter.post("/notificationById", async (req: Request, res: Response) => {
 
   if (notificationsUser) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "notificacion encontrada exitosamente";
     reponseJson.status = true;
     reponseJson.data = notificationsUser;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "no se encontro notificacion";
     reponseJson.status = false;
   }
 
@@ -975,12 +822,12 @@ sellerRouter.post("/countNotifications", async (req: Request, res: Response) => 
 
     if (countNotifies) {
       reponseJson.code = 200;
-      reponseJson.message = "success";
+      reponseJson.message = "conteo de notificaciones exitoso";
       reponseJson.status = true;
       reponseJson.data = countNotifies;
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "no existe";
+      reponseJson.message = "no se encontro notificacion";
       reponseJson.status = false;
     }
 
@@ -1002,12 +849,12 @@ sellerRouter.post("/getVehicleByType", async (req: Request, res: Response) => {
 
   if (arrayVehicles) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "vehiculos encontrados exitosamente";
     reponseJson.status = true;
     reponseJson.data = arrayVehicles;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "no se encontraron vehiculos";
     reponseJson.status = false;
   }
 
@@ -1121,12 +968,12 @@ sellerRouter.post("/filterVehiclesWithMongo", async (req: Request, res: Response
         }
 
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "vehiculos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "no existe";
+      reponseJson.message = "no se encontraron vehiculos con los filtros seleccionados";
       reponseJson.status = false;
     }
 
@@ -1364,12 +1211,12 @@ sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => 
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "vehiculos encontrados";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "no se encontraron vehiculos";
     reponseJson.status = false;
   }
 
@@ -1385,16 +1232,16 @@ sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
 
   const { id, final_price_sold } = req.body;
 
-  const vehiclesFiltered = await vehicles.findOneAndUpdate({ _id: id },{ sold: true,price: final_price_sold });
+  const vehiclesFiltered = await vehicles.findOneAndUpdate({ _id: id },{ sold: true,price: final_price_sold, dispached: true });
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "vehiculo entregado exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
   }else{
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "erroe al entregar vehiculo";
     reponseJson.status = false;
   }
 
@@ -1411,12 +1258,12 @@ sellerRouter.post("/repost", async (req: Request, res: Response) => {
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
-    reponseJson.message = "success";
+    reponseJson.message = "vehiculo publicado exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
   }else{
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "erroe al publicar vehiculo";
     reponseJson.status = false;
   }
 

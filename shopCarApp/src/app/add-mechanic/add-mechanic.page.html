@@ -72,10 +72,11 @@
 
           <ion-col size="6" style="margin-top: 15px;">
             <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Estado</ion-label>
-              <ion-select value="" placeholder="Estado" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.city" (ionChange)="filterConces($event)">
+            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.city" disabled style="opacity: 1 !important;"></ion-input>
+              <!-- <ion-select value="" placeholder="Estado" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.city" (ionChange)="filterConces($event)">
                 <ion-select-option value="">Estado</ion-select-option>
                 <ion-select-option *ngFor="let city of arrayCities" [value]="city.estado">{{city.estado}}</ion-select-option>
-              </ion-select>
+              </ion-select> -->
           </ion-col>
 
           <ion-col size="6" style="margin-top: 15px;">
@@ -85,10 +86,11 @@
 
           <ion-col size="12" style="margin-top: 15px;">
             <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Concesionario</ion-label>
-            <ion-select value="" placeholder="Concesionario" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.concesionary">
+            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.concesionary" disabled style="opacity: 1 !important;"></ion-input>
+            <!-- <ion-select value="" placeholder="Concesionario" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.concesionary">
               <ion-select-option value="">Concesionario</ion-select-option>
               <ion-select-option *ngFor="let conces of auxConces" [value]="conces.name">{{conces.name}}</ion-select-option>
-            </ion-select>
+            </ion-select> -->
           </ion-col>
 
           <ion-col size="12">
