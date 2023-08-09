@@ -1652,7 +1652,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     const worksheet = workbook.addWorksheet(grupo._id);
 
     // Agregar los encabezados de las columnas
-    worksheet.columns = [
+    let columns:any[]=[]
+    columns=[
       { header: "Modelo", key: "modelo", width: 15, style: headerStyle },
       { header: "Marca", key: "marca", width: 15, style: headerStyle },
       { header: "Año", key: "anhio", width: 15, style: headerStyle },
@@ -1713,12 +1714,15 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Tracción", key: "traccion", width: 15, style: headerStyle },
       { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
       { header: "Vino", key: "vino", width: 15, style: headerStyle },
-    ];
-
-
+    ]
     if (seller) {
-      worksheet.columns.splice(4,1)
+      columns.splice(4,1)
     }
+    console.log(columns)
+    worksheet.columns = columns;
+
+
+
 
     // Agregar los datos de los vehículos del grupo
     grupo.vehicles.forEach((vehiculo: any) => {
@@ -1734,7 +1738,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         desplazamiento: vehiculo.displacement,
         km: vehiculo.km,
         modelo_motor: vehiculo.engine_model,
-        titulo: vehiculo.title,
+        titulo: vehiculo.titles,
         combustible: vehiculo.fuel,
         transmision: vehiculo.transmission,
         ciudad: vehiculo.city,
