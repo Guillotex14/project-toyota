@@ -107,8 +107,10 @@ export class CarDetailPage implements OnInit {
       this.router.navigate(['seller']);
     }else if(this.theRoute == "myvehicles"){
       this.router.navigate(['my-vehicles']);
+    }else if (this.theRoute == "graphics") {
+      this.router.navigate(['graphics']);
     }else{
-      this.router.navigate(['buy-car/'+this.theCartegory]);
+      this.router.navigate(['buy-car']);
     }
 
   }

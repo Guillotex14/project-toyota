@@ -72,7 +72,7 @@ export class HomeAdminPage implements OnInit {
   }
 
   public detailVehicle(id: any) {
-    this.router.navigate(['car-detail-admin/'+id]);
+    this.router.navigate(['car-detail-admin/'+id+'/home-admin']);
   }
 
   public dismissModal(){

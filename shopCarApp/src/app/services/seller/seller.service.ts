@@ -113,10 +113,6 @@ export class SellerService {
     return this.http.post(global.urlBase+'seller/autocompleteModels', data);
   }
 
-  public getGrafic(data:any){
-    return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&rangMonths=${data.rangMonths}`);
-  }
-
   public dispatched(data:any){
     return this.http.post(global.urlBase+'seller/dispatchedCar', data);
   }
@@ -124,4 +120,18 @@ export class SellerService {
   public repost(data:any){
     return this.http.post(global.urlBase+'seller/repost', data);
   }
+
+  public getGrafic(data:any){
+    return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&rangMonths=${data.rangMonths}`);
+  }
+
+  public getListCars(data:any){
+    return this.http.get(`${global.urlBase}seller/listVehiclesSell?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}&yearCar=${data.yearCar}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&concesionary=${data.concesionary}&id_user=${data.id_user}`);
+  }
+
+  public exportExcel(data:any){
+    return this.http.get(`${global.urlBase}seller/exportExcel?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}&yearCar=${data.yearCar}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&concesionary=${data.concesionary}&id_user=${data.id_user}`);
+  }
+
+  
 }

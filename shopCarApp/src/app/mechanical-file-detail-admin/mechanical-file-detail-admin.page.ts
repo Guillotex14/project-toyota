@@ -18,10 +18,12 @@ export class MechanicalFileDetailAdminPage implements OnInit {
   web: boolean = false;
   backToTop: boolean = false;
   id: string = "";
+  theRoute: string = "";
   mechanicalFile: CarDetailMechanicalFile = new CarDetailMechanicalFile();
   @ViewChild(IonContent) content!: IonContent;
   constructor(private route:Router,  private platform:Platform, private actRoute:ActivatedRoute, private sellerSrv: SellerService, private utils: UtilsService) {
     this.id = this.actRoute.snapshot.params['id'];
+    this.theRoute = this.actRoute.snapshot.params['route'];
     if(this.platform.is('android')){
       this.android = true;
     } else if(this.platform.is('ios')){
@@ -80,7 +82,7 @@ export class MechanicalFileDetailAdminPage implements OnInit {
   }
 
   public goBack(){
-    this.route.navigate(['car-detail-admin/'+this.id]);
+    this.route.navigate(['car-detail-admin/'+this.id+'/'+this.theRoute]);
   }
 
   public getMechanicFile(){

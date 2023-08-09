@@ -104,11 +104,11 @@ const routes: Routes = [
     loadChildren: () => import('./mechanical-file-detail-mechanic/mechanical-file-detail-mechanic.module').then( m => m.MechanicalFileDetailMechanicPageModule)
   },
   {
-    path: 'car-detail-admin/:id',
+    path: 'car-detail-admin/:id/:route',
     loadChildren: () => import('./car-detail-admin/car-detail-admin.module').then( m => m.CarDetailAdminPageModule)
   },
   {
-    path: 'mechanical-file-detail-admin/:id',
+    path: 'mechanical-file-detail-admin/:id/:route',
     loadChildren: () => import('./mechanical-file-detail-admin/mechanical-file-detail-admin.module').then( m => m.MechanicalFileDetailAdminPageModule)
   },
   {
