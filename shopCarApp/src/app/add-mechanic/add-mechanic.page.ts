@@ -32,6 +32,13 @@ export class AddMechanicPage implements OnInit {
     this.newMechanic.username = "";
     this.newMechanic.phone = "";
 
+    let data = JSON.parse(localStorage.getItem("me")!);
+
+    if (data != null) {
+      this.newMechanic.city = data.city;
+      this.newMechanic.concesionary = data.concesionary;
+    }
+
   }
 
   ngOnInit() {

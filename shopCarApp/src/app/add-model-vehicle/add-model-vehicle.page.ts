@@ -61,7 +61,7 @@ export class AddModelVehiclePage implements OnInit {
           this.brand = "";
         }else{
           this.utils.dismissLoading();
-          this.utils.presentToast("Error al agregar el modelo");
+          this.utils.presentToast(res.message);
         }
       }, err => {
         console.error(err);

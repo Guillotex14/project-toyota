@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import fs from "fs";
 import imgUser from "../models/imgUser";
 import { uploadImageUser, deleteImageUser } from '../../cloudinaryMetods';
+import Vehicles from "../models/Vehicles";
 
 const authRouter = Router();
 
@@ -86,13 +87,13 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                 return jsonRes;
             } else {
                 jsonRes.code = 400;
-                jsonRes.message = "password incorrecto";
+                jsonRes.message = "Contraseña incorrecto";
                 jsonRes.status = false;
                 return jsonRes;
             }
         } else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "ususario no registrado";
             jsonRes.status = false;
             return jsonRes;
         }

@@ -44,3 +44,9 @@ ion-select{
   // margin: auto !important;
 }
 
+#inputPasss{
+  min-height: 35px !important;
+  --highlight-color-focused: trasparent !important;
+  --highlight-color-invalid: trasparent !important;
+  --highlight-color-valid: trasparent !important;
+}

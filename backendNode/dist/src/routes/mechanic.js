@@ -103,78 +103,40 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
     const mechanicFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
     const imgVehicle = yield ImgVehicle_1.default.find({ id_vehicle: id });
     if (vehicle) {
-        if (mechanicFile) {
-            let data = {
-                _id: vehicle._id,
-                model: vehicle.model,
-                year: vehicle.year,
-                brand: vehicle.brand,
-                displacement: vehicle.displacement,
-                km: vehicle.km,
-                engine_model: vehicle.engine_model,
-                titles: vehicle.titles,
-                fuel: vehicle.fuel,
-                transmission: vehicle.transmission,
-                traction: vehicle.traction,
-                city: vehicle.city,
-                dealer: vehicle.dealer,
-                concesionary: vehicle.concesionary,
-                traction_control: vehicle.traction_control,
-                performance: vehicle.performance,
-                price: vehicle.price,
-                comfort: vehicle.comfort,
-                technology: vehicle.technology,
-                mechanicalFile: vehicle.mechanicalFile,
-                sold: vehicle.sold,
-                date_create: vehicle.date_create,
-                type_vehicle: vehicle.type_vehicle,
-                id_seller: vehicle.id_seller,
-                id_mechanic: vehicle.id_mechanic,
-                id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: mechanicFile.general_condition,
-                images: imgVehicle ? imgVehicle : []
-            };
-            reponseJson.code = 200;
-            reponseJson.status = true;
-            reponseJson.message = "Vehiculo encontrado";
-            reponseJson.data = data;
-        }
-        else {
-            let data = {
-                _id: vehicle._id,
-                model: vehicle.model,
-                year: vehicle.year,
-                brand: vehicle.brand,
-                displacement: vehicle.displacement,
-                km: vehicle.km,
-                engine_model: vehicle.engine_model,
-                titles: vehicle.titles,
-                fuel: vehicle.fuel,
-                transmission: vehicle.transmission,
-                transmission_2: vehicle.traction,
-                city: vehicle.city,
-                dealer: vehicle.dealer,
-                concesionary: vehicle.concesionary,
-                traction_control: vehicle.traction_control,
-                performance: vehicle.performance,
-                price: vehicle.price,
-                comfort: vehicle.comfort,
-                technology: vehicle.technology,
-                mechanicalFile: vehicle.mechanicalFile,
-                sold: vehicle.sold,
-                date_create: vehicle.date_create,
-                type_vehicle: vehicle.type_vehicle,
-                id_seller: vehicle.id_seller,
-                id_mechanic: vehicle.id_mechanic,
-                id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: "",
-                images: imgVehicle ? imgVehicle : []
-            };
-            reponseJson.code = 200;
-            reponseJson.status = true;
-            reponseJson.message = "Vehiculo encontrado";
-            reponseJson.data = data;
-        }
+        let data = {
+            _id: vehicle._id,
+            model: vehicle.model,
+            year: vehicle.year,
+            brand: vehicle.brand,
+            displacement: vehicle.displacement,
+            km: vehicle.km,
+            engine_model: vehicle.engine_model,
+            titles: vehicle.titles,
+            fuel: vehicle.fuel,
+            transmission: vehicle.transmission,
+            traction: vehicle.traction,
+            city: vehicle.city,
+            dealer: vehicle.dealer,
+            concesionary: vehicle.concesionary,
+            traction_control: vehicle.traction_control,
+            performance: vehicle.performance,
+            price: vehicle.price,
+            comfort: vehicle.comfort,
+            technology: vehicle.technology,
+            mechanicalFile: vehicle.mechanicalFile,
+            sold: vehicle.sold,
+            date_create: vehicle.date_create,
+            type_vehicle: vehicle.type_vehicle,
+            id_seller: vehicle.id_seller,
+            id_mechanic: vehicle.id_mechanic,
+            id_seller_buyer: vehicle.id_seller_buyer,
+            general_condition: mechanicFile ? mechanicFile.general_condition : "",
+            images: imgVehicle ? imgVehicle : []
+        };
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Vehiculo encontrado";
+        reponseJson.data = data;
     }
     else {
         reponseJson.code = 400;
@@ -206,7 +168,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     let mailSeller = "";
     let infoMechanic = {};
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, Stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
+    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
     const newMechanicFile = new mechanicalsFiles_1.default({
         part_emblems_complete,
         wiper_shower_brushes_windshield,
@@ -241,7 +203,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         bushings_plateaus,
         stumps,
         terminals,
-        Stabilizer_bar,
+        stabilizer_bar,
         bearings,
         tripoids_rubbe_bands,
         shock_absorbers_coils,
@@ -281,27 +243,9 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} de la concesionaria ${infoMechanic.concesionary} de la ciudad de ${infoMechanic.city}`,
+            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
-        // if (general_condition === "malo") {
-        //     const mailOptions = {
-        //         from: 'Toyousado Notifications',
-        //         to: mailSeller,
-        //         subject: 'Ficha mecanica Rechazada',
-        //         text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`,
-        //     };
-        //       await sendEmail(mailOptions);
-        // }
-        // if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
-        //     const mailOptions = {
-        //         from: 'Toyousado Notifications',
-        //         to: mailSeller,
-        //         subject: 'Ficha mecanica creada',
-        //         text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
-        //     };
-        //      await sendEmail(mailOptions);
-        // }
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
@@ -406,13 +350,13 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "Vehicleos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontraron vehiculos";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -423,13 +367,13 @@ mechanicRouter.post('/getNotifications', (req, res) => __awaiter(void 0, void 0,
     const notificationsUser = yield notifications_1.default.find({ id_user: id_user, status: false }).sort({ date: -1 });
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notificaciones encontradas exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontraron notificaciones";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -440,13 +384,13 @@ mechanicRouter.post('/updateNotification', (req, res) => __awaiter(void 0, void 
     const notificationsUser = yield notifications_1.default.findByIdAndUpdate(id, { status: true });
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notification actualizada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "error al actualizar notificacion";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -457,13 +401,13 @@ mechanicRouter.post('/notificationById', (req, res) => __awaiter(void 0, void 0,
     const notificationsUser = yield notifications_1.default.findById(id);
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notificacion encontrada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -474,13 +418,13 @@ mechanicRouter.post('/countNotifications', (req, res) => __awaiter(void 0, void 
     const countNotifies = yield notifications_1.default.countDocuments({ id_user: id_user, status: false });
     if (countNotifies) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "conteo de notificaciones";
         reponseJson.status = true;
         reponseJson.data = countNotifies;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -490,13 +434,13 @@ mechanicRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0,
     const brand = yield brands_1.default.find();
     if (brand) {
         jsonResponse.code = 200;
-        jsonResponse.message = "success";
+        jsonResponse.message = "Marcas encontradas exitosamente";
         jsonResponse.status = true;
         jsonResponse.data = brand;
     }
     else {
         jsonResponse.code = 400;
-        jsonResponse.message = "no existe";
+        jsonResponse.message = "no se encontraron marcas";
         jsonResponse.status = false;
     }
     res.json(jsonResponse);

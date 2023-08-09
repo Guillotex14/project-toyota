@@ -109,14 +109,14 @@ adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
         }
 
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "Vehiuclos encontrados";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
 
     }else{
 
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "No se encontraron vehiculos";
         reponseJson.status = false;
 
     }
@@ -134,7 +134,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
         if (res) {
 
             jsonRes.code = 200;
-            jsonRes.message = "success";
+            jsonRes.message = "Vendedores encontrados";
             jsonRes.status = true;
 
             for (let i = 0; i < res.length; i++) {
@@ -178,7 +178,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
             return jsonRes;
         } else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "No se encontraron vendedores";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -201,23 +201,38 @@ adminRouter.post("/addSeller", async (req: Request, res: Response) => {
 
     const hash = await bcrypt.hash(reqAdd.password, 10);
 
-    const newUser = new Users({email:reqAdd.email, password:hash, username:reqAdd.username, type_user: "seller"});
-    const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone});
+    const exist = await Users.findOne({email: reqAdd.email});
 
-    await newUser.save().then((res:any) => {
-        if (res) {
-            newSeller.id_user = res._id;
+    if (exist) {
+        reponseJson.code = 400;
+        reponseJson.message = "El usuario se encuentra registrado";
+        reponseJson.status = false;
+        reponseJson.data = "";
+    }else{
+
+        const newUser = new Users({email:reqAdd.email, password:hash, username:reqAdd.username, type_user: "seller"});
+        const newSeller = new sellers({fullName: reqAdd.fullName,city: reqAdd.city,concesionary: reqAdd.concesionary, date_created: date_created, phone: reqAdd.phone});
+
+        await newUser.save()
+
+        if (newUser) {
+            newSeller.id_user = newUser._id;
+            await newSeller.save();
         }
-    }).catch((err: any) => {
-        console.log(err)
-    });
 
-    await newSeller.save()
 
-    reponseJson.code = 200;
-    reponseJson.message = "Vendedor agregado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = "";
+        if (newSeller && newUser) {
+            reponseJson.code = 200;
+            reponseJson.message = "Vendedor agregado exitosamente";
+            reponseJson.status = true;
+            reponseJson.data = "";
+        }else{
+            reponseJson.code = 400;
+            reponseJson.message = "Error al agregar vendedor";
+            reponseJson.status = false;
+            reponseJson.data = "";
+        }
+    }
 
     res.json(reponseJson);
 });
@@ -225,65 +240,58 @@ adminRouter.post("/addSeller", async (req: Request, res: Response) => {
 adminRouter.post("/sellerById", async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
     const {id} = req.body;
-    let infoSeller:any={};
-    const ress = await Users.findOne({_id: id}).then(async (res:any) => {
-        if (res) {
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
 
-            await sellers.findOne({id_user: res._id}).then((res2:any) => {
-                if (res2) {
-                    infoSeller.id = res._id;
-                    infoSeller.id_seller = res2._id;
-                    infoSeller.fullName = res2.fullName;
-                    infoSeller.city = res2.city;
-                    infoSeller.concesionary = res2.concesionary;
-                    infoSeller.username = res.username;
-                    infoSeller.email = res.email;
-                    infoSeller.type_user = res.type_user;
-                } else if (!res2) {
-                    infoSeller= {};
-                    return res2;
-                }
-            }).catch((err: any) => {
-                console.log(err)
-            });
+    const seller = await sellers.findOne({id_user: id});
 
-            jsonRes.data = infoSeller;
+    const userSeller = await Users.findOne({_id: seller!.id_user});
+    if (seller) {
 
-            return jsonRes;
-        } else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "no existe";
-            jsonRes.status = false;
-            return jsonRes;
+        let data = {
+            _id: seller!._id,
+            fullName: seller!.fullName,
+            city: seller!.city,
+            concesionary: seller!.concesionary,
+            phone: seller!.phone,
+            date_created: seller!.date_created,
+            id_user: userSeller!._id,
+            username: userSeller!.username,
+            email: userSeller!.email,
+            type_user: userSeller!.type_user,
         }
-    }).catch((err: any) => {
-        console.log(err)
-    });
 
-    res.json(ress);
+        jsonRes.code = 200;
+        jsonRes.message = "Usuario encontrado";
+        jsonRes.status = true;
+        jsonRes.data = data;
+    } else if (!seller) {
+        jsonRes.code = 400;
+        jsonRes.message = "Usuario no registrado";
+        jsonRes.status = false;
+    }
+
+    res.json(jsonRes);
 });
 
 adminRouter.post("/updateSeller", async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
-    const {id, email, username, fullName, city, concesionary,id_seller,password} = req.body;
-    
-    const _id = {_id:id};
-    const seller = {_id: id_seller}
-    const sellerUpdate = { fullName:fullName,city:city,concesionary:concesionary}
+    const {_id, email, username, fullName, city, concesionary,password, id_user, phone} = req.body;
+    console.log(req.body)
+    const seller = {_id: _id}
+    const user = {_id: id_user}
+    const sellerUpdate = { fullName:fullName, city:city,concesionary:concesionary, phone:phone}
 
     if (password != "") {
         const hash = await bcrypt.hash(password, 10);
         const userUpdate = {email:email,username:username,password:hash};
-        await Users.findOneAndUpdate(_id,userUpdate);
+        await Users.findOneAndUpdate(user,userUpdate);
     }else{
         const userUpdate = {email:email,username:username};
-        await Users.findOneAndUpdate(_id,userUpdate);
+        await Users.findOneAndUpdate(user,userUpdate);
     }
 
     await sellers.findOneAndUpdate(seller,sellerUpdate);
+
+    console.log("seller",sellers)
 
     jsonRes.code = 200;
     jsonRes.message = "Vendedor actualizado exitosamente"
@@ -298,7 +306,7 @@ adminRouter.post("/deleteSeller", async (req: Request, res: Response) => {
     const ress = await Users.findOneAndDelete({_id: id}).then(async (res:any) => {
         if (res) {
             jsonRes.code = 200;
-            jsonRes.message = "success";
+            jsonRes.message = "usuario eliminado exitosamente";
             jsonRes.status = true;
 
             await sellers.findOneAndDelete({id_user: res._id}).then((res2:any) => {
@@ -314,7 +322,7 @@ adminRouter.post("/deleteSeller", async (req: Request, res: Response) => {
             return jsonRes;
         } else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "no existe";
+            jsonRes.message = "No se encontro el usuario";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -341,7 +349,7 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
     if (infoVehicle) {
 
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "Vehiculo encontrado exitosamente";
         jsonRes.status = true;
 
         jsonRes.data = {
@@ -376,7 +384,7 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
         }
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "no se encontro el vehiculo";
         jsonRes.status = false;
     }
 
@@ -392,13 +400,13 @@ adminRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respons
 
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "ficha mecanica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "no se encontro la ficha mecanica";
         jsonRes.status = false;
         return jsonRes;
     }
@@ -413,14 +421,31 @@ adminRouter.post("/addBrand", async (req: Request, res: Response) => {
 
     const {name} = req.body;
 
-    const newBrand = new brands({name: name});
+    const exist = await brands.findOne({name: name});
 
-    await newBrand.save();
 
-    jsonRes.code = 200;
-    jsonRes.message = "Marca agregada exitosamente";
-    jsonRes.status = true;
-    jsonRes.data = "";
+    if (exist) {
+        jsonRes.code = 400;
+        jsonRes.message = "La marca ya existe";
+        jsonRes.status = false;
+    }else{
+
+        const newBrand = new brands({name: name});
+    
+        await newBrand.save();
+        
+        if (newBrand) {
+            
+            jsonRes.code = 200;
+            jsonRes.message = "Marca agregada exitosamente";
+            jsonRes.status = true;
+            jsonRes.data = "";
+        }else{
+            jsonRes.code = 400;
+            jsonRes.message = "Error al agregar marca";
+            jsonRes.status = false;
+        }
+    }
 
     res.json(jsonRes);
 
@@ -429,22 +454,18 @@ adminRouter.post("/addBrand", async (req: Request, res: Response) => {
 adminRouter.get("/allBrands", async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
-    const brand = await brands.find().then((res:any) => {
-        if (res) {
-            jsonResponse.code = 200;
-            jsonResponse.message = "success";
-            jsonResponse.status = true;
-            jsonResponse.data = res;
-            return jsonResponse;
-        } else {
-            jsonResponse.code = 400;
-            jsonResponse.message = "no existe";
-            jsonResponse.status = false;
-            return jsonResponse;
-        }
-    }).catch((err: any) => {
-        console.log(err)
-    });
+    const allBrands = await brands.find() 
+
+    if (allBrands) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "Todas las marcas";
+        jsonResponse.status = true;
+        jsonResponse.data = allBrands;
+    }else{
+        jsonResponse.code = 400;
+        jsonResponse.message = "No hay marcas";
+        jsonResponse.status = false;
+    }
 
     res.json(jsonResponse);
 
@@ -457,12 +478,12 @@ adminRouter.get("/allModels", async (req: Request, res: Response) => {
 
     if (models) {
         jsonRes.code = 200;
-        jsonRes.message = "success";
+        jsonRes.message = "Modelos encontrados exitosamente";
         jsonRes.status = true;
         jsonRes.data = models;
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "No se encontraron modelos";
         jsonRes.status = false;
     }
 
@@ -474,20 +495,33 @@ adminRouter.post("/addModelVehicle", async (req: Request, res: Response) => {
 
     const {model, brand, type_vehicle} = req.body;
 
-    const newModel = new modelVehicle({model: model, brand: brand, type_vehicle: type_vehicle});
 
-    await newModel.save();
-    
-    if (newModel) {
-        jsonRes.code = 200;
-        jsonRes.message = "Modelo agregado exitosamente";
-        jsonRes.status = true;
-        // jsonRes.data = "";
-    }else{
+    const exist = await modelVehicle.findOne({model: model});
+
+
+    if (exist) {
         jsonRes.code = 400;
-        jsonRes.message = "no existe";
+        jsonRes.message = "El modelo ya existe";
         jsonRes.status = false;
+    }else{
+    
+        const newModel = new modelVehicle({model: model, brand: brand, type_vehicle: type_vehicle});
+    
+        await newModel.save();
+        
+        if (newModel) {
+            jsonRes.code = 200;
+            jsonRes.message = "Modelo agregado exitosamente";
+            jsonRes.status = true;
+            // jsonRes.data = "";
+        }else{
+            jsonRes.code = 400;
+            jsonRes.message = "Error al agregar el modelo";
+            jsonRes.status = false;
+        }
     }
+
+    
 
     res.json(jsonRes);
 

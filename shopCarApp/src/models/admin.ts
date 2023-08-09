@@ -10,8 +10,8 @@ export class CreateSeller {
 }
 
 export class SellersList{
-  public id!: string;
-  public id_seller!: string;
+  public _id!: string;
+  public id_user!: string;
   public email!: string;
   public username!: string;
   public fullName!: string;

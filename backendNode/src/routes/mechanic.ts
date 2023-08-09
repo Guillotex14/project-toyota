@@ -103,82 +103,40 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
     const mechanicFile = await mechanicalsFiles.findOne({id_vehicle: id});
     const imgVehicle = await ImgVehicle.find({id_vehicle: id});
     if(vehicle){
-        
-        if (mechanicFile) {
-            
-            let data = {
-                _id: vehicle._id,
-                model: vehicle.model,
-                year: vehicle.year,
-                brand: vehicle.brand,
-                displacement: vehicle.displacement,
-                km: vehicle.km,
-                engine_model: vehicle.engine_model,
-                titles: vehicle.titles,
-                fuel: vehicle.fuel,
-                transmission: vehicle.transmission,
-                traction: vehicle.traction,
-                city: vehicle.city,
-                dealer: vehicle.dealer,
-                concesionary: vehicle.concesionary,
-                traction_control: vehicle.traction_control,
-                performance: vehicle.performance,
-                price: vehicle.price,
-                comfort: vehicle.comfort,
-                technology: vehicle.technology,
-                mechanicalFile: vehicle.mechanicalFile,
-                sold: vehicle.sold,
-                date_create: vehicle.date_create,
-                type_vehicle: vehicle.type_vehicle,
-                id_seller: vehicle.id_seller,
-                id_mechanic: vehicle.id_mechanic,
-                id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: mechanicFile.general_condition,
-                images: imgVehicle ? imgVehicle : []
-            }
-
-            reponseJson.code = 200;
-            reponseJson.status = true;
-            reponseJson.message = "Vehiculo encontrado";
-            reponseJson.data = data;
-
-        }else{
-            let data = {
-                _id: vehicle._id,
-                model: vehicle.model,
-                year: vehicle.year,
-                brand: vehicle.brand,
-                displacement: vehicle.displacement,
-                km: vehicle.km,
-                engine_model: vehicle.engine_model,
-                titles: vehicle.titles,
-                fuel: vehicle.fuel,
-                transmission: vehicle.transmission,
-                transmission_2: vehicle.traction,
-                city: vehicle.city,
-                dealer: vehicle.dealer,
-                concesionary: vehicle.concesionary,
-                traction_control: vehicle.traction_control,
-                performance: vehicle.performance,
-                price: vehicle.price,
-                comfort: vehicle.comfort,
-                technology: vehicle.technology,
-                mechanicalFile: vehicle.mechanicalFile,
-                sold: vehicle.sold,
-                date_create: vehicle.date_create,
-                type_vehicle: vehicle.type_vehicle,
-                id_seller: vehicle.id_seller,
-                id_mechanic: vehicle.id_mechanic,
-                id_seller_buyer: vehicle.id_seller_buyer,
-                general_condition: "",
-                images: imgVehicle ? imgVehicle : []
-            }
-
-            reponseJson.code = 200;
-            reponseJson.status = true;
-            reponseJson.message = "Vehiculo encontrado";
-            reponseJson.data = data;
+        let data = {
+            _id: vehicle._id,
+            model: vehicle.model,
+            year: vehicle.year,
+            brand: vehicle.brand,
+            displacement: vehicle.displacement,
+            km: vehicle.km,
+            engine_model: vehicle.engine_model,
+            titles: vehicle.titles,
+            fuel: vehicle.fuel,
+            transmission: vehicle.transmission,
+            traction: vehicle.traction,
+            city: vehicle.city,
+            dealer: vehicle.dealer,
+            concesionary: vehicle.concesionary,
+            traction_control: vehicle.traction_control,
+            performance: vehicle.performance,
+            price: vehicle.price,
+            comfort: vehicle.comfort,
+            technology: vehicle.technology,
+            mechanicalFile: vehicle.mechanicalFile,
+            sold: vehicle.sold,
+            date_create: vehicle.date_create,
+            type_vehicle: vehicle.type_vehicle,
+            id_seller: vehicle.id_seller,
+            id_mechanic: vehicle.id_mechanic,
+            id_seller_buyer: vehicle.id_seller_buyer,
+            general_condition: mechanicFile ? mechanicFile.general_condition : "",
+            images: imgVehicle ? imgVehicle : []
         }
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Vehiculo encontrado";
+        reponseJson.data = data;
 
     }else{
         reponseJson.code = 400;
@@ -250,7 +208,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         bushings_plateaus,
         stumps,
         terminals,
-        Stabilizer_bar,
+        stabilizer_bar,
         bearings,
         tripoids_rubbe_bands,
         shock_absorbers_coils,
@@ -295,7 +253,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         bushings_plateaus,
         stumps,
         terminals,
-        Stabilizer_bar,
+        stabilizer_bar,
         bearings,
         tripoids_rubbe_bands,
         shock_absorbers_coils,
@@ -342,34 +300,10 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} de la concesionaria ${infoMechanic!.concesionary} de la ciudad de ${infoMechanic!.city}`,
+            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
         };
 
         await sendEmail(mailOptions);
-
-        // if (general_condition === "malo") {
-        //     const mailOptions = {
-        //         from: 'Toyousado Notifications',
-        //         to: mailSeller,
-        //         subject: 'Ficha mecanica Rechazada',
-        //         text: `La ficha mecanica de tu vehiculo ha sido Rechazada, la ficha mecanica fue rechazada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}, para mas informacion contacta con el mecanico`,
-        //     };
-
-        //       await sendEmail(mailOptions);
-
-        // }
-
-        // if (general_condition === "bueno" || general_condition === "excelente" || general_condition === "regular") {     
-        //     const mailOptions = {
-        //         from: 'Toyousado Notifications',
-        //         to: mailSeller,
-        //         subject: 'Ficha mecanica creada',
-        //         text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${mechanic!.fullName} de la concesionaria ${mechanic!.concesionary} de la ciudad de ${mechanic!.city}`,
-        //     };
-    
-        //      await sendEmail(mailOptions);
-
-        // }
 
         sendNotification(vehicle!.id_seller?.toString()!, mailOptions.text, mailOptions.subject);
 
@@ -490,12 +424,12 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
         }
 
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "Vehicleos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     } else {
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontraron vehiculos";
         reponseJson.status = false;
     }
 
@@ -512,12 +446,12 @@ mechanicRouter.post('/getNotifications', async (req: Request, res: Response) => 
 
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notificaciones encontradas exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }else{
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontraron notificaciones";
         reponseJson.status = false;
     }
 
@@ -533,12 +467,12 @@ mechanicRouter.post('/updateNotification', async (req: Request, res: Response) =
 
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notification actualizada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }else{
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "error al actualizar notificacion";
         reponseJson.status = false;
     }
 
@@ -554,12 +488,12 @@ mechanicRouter.post('/notificationById', async (req: Request, res: Response) => 
 
     if (notificationsUser) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "notificacion encontrada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
     }else{
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
 
@@ -575,13 +509,13 @@ mechanicRouter.post('/countNotifications', async (req: Request, res: Response) =
 
     if (countNotifies) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "conteo de notificaciones";
         reponseJson.status = true;
         reponseJson.data = countNotifies;
     }else{
 
         reponseJson.code = 400;
-        reponseJson.message = "no existe";
+        reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
 
@@ -597,13 +531,13 @@ mechanicRouter.get("/allBrands", async (req: Request, res: Response) => {
     if (brand) {
 
     jsonResponse.code = 200;
-    jsonResponse.message = "success";
+    jsonResponse.message = "Marcas encontradas exitosamente";
     jsonResponse.status = true;
     jsonResponse.data = brand;
     
     } else {
     jsonResponse.code = 400;
-    jsonResponse.message = "no existe";
+    jsonResponse.message = "no se encontraron marcas";
     jsonResponse.status = false;
     
     }
