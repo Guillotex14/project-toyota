@@ -1262,6 +1262,8 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     rangMonths = 12;
   }
 
+  
+
   let firtsMonth = new Date(anioActual, 0, 1);
   let last = new Date(anioActual, 11);
   let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
@@ -1334,6 +1336,24 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
       ...mongQuery,
       model: { $regex: modelCar, $options: "i" },
     };
+  }
+
+  let seller:any=null;
+  if (id_user) {
+    seller = await Sellers.findOne({ id_user: id_user })
+    if (seller) {
+      mongQuery = {
+        ...mongQuery,
+        concesionary: { $regex: seller.concesionary, $options: "i" },
+      };
+    }else{
+      if (concesionary) {
+        mongQuery = {
+          ...mongQuery,
+          concesionary:  { $regex: concesionary, $options: "i" },
+        };
+      }
+    }
   }
 
   const vehiclesFiltered = await vehicles.aggregate([
