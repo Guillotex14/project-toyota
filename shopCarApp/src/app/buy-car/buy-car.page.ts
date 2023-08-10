@@ -94,12 +94,19 @@ export class BuyCarPage implements OnInit {
       maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0
     }
 
-    console.log(data)
-    // return;
+    this.utils.presentLoading("Cargando vehiculos");
     this.sellerSrv.getListByFilter(data).subscribe((data:any)=>{
       if (data.status) {
+        this.utils.dismissLoading();
         this.arrayVehicles = data.data;
+      }else{
+        this.utils.dismissLoading();
+        this.utils.presentToast(data.message);
       }
+    },
+    (error:any)=>{
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     })
   }
 

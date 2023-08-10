@@ -101,12 +101,11 @@ export class MechanicalFileDetailPage implements OnInit {
     this.sellerSrv.mechanicFile(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
-        
         this.mechanicalFile = data.data;
         this.utils.dismissLoading();
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
     }, error => {

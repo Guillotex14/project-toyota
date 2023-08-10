@@ -232,7 +232,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
                 }
             }
         }
-        //obteniendo la informacion del mecanico
+        //obteniendo la informacion del tecnico
         const mechanic = yield Mechanics_1.default.findOne({ _id: id_mechanic });
         if (mechanic) {
             infoMechanic.fullname = mechanic.fullName;

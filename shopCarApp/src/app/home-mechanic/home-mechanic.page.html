@@ -114,14 +114,14 @@
                   </span>
                 </ion-card-content>
                 <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
-                  <ion-label>Negociación</ion-label>
+                  <ion-label>En negociación</ion-label>
                 </ion-chip>
-                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)">
+                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" style="margin-top: 15px;">
                   ver detalle
                 </ion-button>
-                <!-- <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
+                <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
                   X
-                </ion-button> -->
+                </ion-button>
               </ion-card>
 
             </ion-col>

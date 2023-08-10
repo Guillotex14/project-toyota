@@ -73,12 +73,12 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
       await sendEmail(mailOptions);
 
       reponseJson.code = 200;
-      reponseJson.message = "Mecanico agregado exitosamente";
+      reponseJson.message = "Técnico agregado exitosamente";
       reponseJson.status = true;
       reponseJson.data = "";
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "Error al agregar mecanico";
+      reponseJson.message = "Error al agregar técnico";
       reponseJson.status = false;
       reponseJson.data = "";
       
@@ -192,15 +192,15 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic,
-    subject: "Revisión de vehiculo",
+    subject: "Revisión de vehículo",
     text:
       "El vendedor " +
       infoSeller!.fullName +
       " del concesionario " +
       infoSeller!.concesionary +
-      " del estado" +
+      " del estado " +
       infoSeller!.city +
-      " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
+      " ha agregado un vehículo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
   };
 
   await sendEmail(mailOptions);
@@ -208,7 +208,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
 
   reponseJson.code = 200;
-  reponseJson.message = "Vehiculo agregado exitosamente";
+  reponseJson.message = "Vehículo agregado exitosamente";
   reponseJson.status = true;
   reponseJson.data = "";
 
@@ -227,12 +227,12 @@ sellerRouter.post("/updateVehicle", async (req: Request, res: Response) => {
   if (vehicleUpdated) {
     reponseJson.code = 200;
     reponseJson.status = true;
-    reponseJson.message = "Vehiculo actualizado correctamente";
+    reponseJson.message = "Vehículo actualizado correctamente";
     reponseJson.data = vehicleUpdated;
   } else {
     reponseJson.code = 400;
     reponseJson.status = false;
-    reponseJson.message = "No se pudo actualizar el vehiculo";
+    reponseJson.message = "No se pudo actualizar el vehículo";
   }
 
   res.json(reponseJson);
@@ -342,12 +342,12 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
   if (vehiclesArray) {
     jsonRes.code = 200;
-    jsonRes.message = "vehiculos encontrados";
+    jsonRes.message = "vehículos encontrados";
     jsonRes.status = true;
     jsonRes.data = vehiclesArray;
   } else {
     jsonRes.code = 400;
-    jsonRes.message = "no se encontraron vehiculos";
+    jsonRes.message = "no se encontraron vehículos";
     jsonRes.status = false;
   }
 
@@ -356,37 +356,67 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
 sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
+  let arrayVehicles: any[] = [];
   const { id_seller } = req.body;
-
-  // const ress = await vehicles
-  //   .find({ id_seller: id_seller })
-  //   .then((res: any) => {
-  //     console.log("carros a la venta", res);
-  //     if (res) {
-  //       jsonRes.code = 200;
-  //       jsonRes.message = "success";
-  //       jsonRes.status = true;
-  //       jsonRes.data = res;
-  //     } else if (!res) {
-  //       jsonRes.code = 400;
-  //       jsonRes.message = "no existe";
-  //       jsonRes.status = false;
-  //     }
-  //   })
-  //   .catch((err: any) => {
-  //     console.log(err);
-  //   });
 
   const myVehicles = await vehicles.find({ id_seller: id_seller });
 
   if (myVehicles) {
+
+    for (let i = 0; i < myVehicles.length; i++) {
+      
+      let data = {
+        name_new_owner: myVehicles[i].name_new_owner,
+        dni_new_owner: myVehicles[i].dni_new_owner,
+        phone_new_owner: myVehicles[i].phone_new_owner,
+        email_new_owner: myVehicles[i].email_new_owner,
+        price_ofert: myVehicles[i].price_ofert,
+        final_price_sold: myVehicles[i].final_price_sold,
+        _id: myVehicles[i]._id,
+        model: myVehicles[i].model,
+        brand: myVehicles[i].brand,
+        year: myVehicles[i].year,
+        displacement: myVehicles[i].displacement,
+        km: myVehicles[i].km,
+        engine_model: myVehicles[i].engine_model,
+        titles: myVehicles[i].titles,
+        fuel: myVehicles[i].fuel,
+        transmission: myVehicles[i].transmission,
+        city: myVehicles[i].city,
+        dealer: myVehicles[i].dealer,
+        concesionary: myVehicles[i].concesionary,
+        traction_control: myVehicles[i].traction_control,
+        performance: myVehicles[i].performance,
+        comfort: myVehicles[i].comfort,
+        technology: myVehicles[i].technology,
+        id_seller: myVehicles[i].id_seller,
+        id_mechanic: myVehicles[i].id_mechanic,
+        price: myVehicles[i].price,
+        mechanicalFile: myVehicles[i].mechanicalFile,
+        id_seller_buyer: myVehicles[i].id_seller_buyer,
+        sold: myVehicles[i].sold,
+        type_vehicle: myVehicles[i].type_vehicle,
+        traction: myVehicles[i].traction,
+        date_sell: myVehicles[i].date_sell,
+        date_create: myVehicles[i].date_create,
+        plate:  myVehicles[i].plate,
+        vin: myVehicles[i].vin,
+        dispatched:myVehicles[i].dispatched,
+        images: await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }) : "",
+      }
+
+      arrayVehicles.push(data);
+      
+    }
+
+
     jsonRes.code = 200;
     jsonRes.message = "Vehicleos encontrados";
     jsonRes.status = true;
-    jsonRes.data = myVehicles;
+    jsonRes.data = arrayVehicles;
   } else {
     jsonRes.code = 400;
-    jsonRes.message = "No se encontraron vehiculos";
+    jsonRes.message = "No se encontraron vehículos";
     jsonRes.status = false;
   }
 
@@ -484,7 +514,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
     .then(async (res: any) => {
       if (res) {
         responseJson.code = 200;
-        responseJson.message = "mecanicos encontrados";
+        responseJson.message = "Técnicos encontrados";
         responseJson.status = true;
 
         for (let i = 0; i < res.length; i++) {
@@ -527,7 +557,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
         return responseJson;
       } else {
         responseJson.code = 400;
-        responseJson.message = "no se encontraron mecanicos";
+        responseJson.message = "no se encontraron técnicos";
         responseJson.status = false;
         return responseJson;
       }
@@ -548,13 +578,13 @@ sellerRouter.post("/mechanicByConcesionary",async (req: Request, res: Response) 
       .then((res: any) => {
         if (res) {
           jsonResponse.code = 200;
-          jsonResponse.message = "mecanicos encontrados";
+          jsonResponse.message = "Técnicos encontrados";
           jsonResponse.status = true;
           jsonResponse.data = res;
           return jsonResponse;
         } else if (!res) {
           jsonResponse.code = 400;
-          jsonResponse.message = "no se encontraron mecanicos";
+          jsonResponse.message = "no se encontraron Técnicos";
           jsonResponse.status = false;
           return jsonResponse;
         }
@@ -685,12 +715,12 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
 
     if (vehicle) {
       responseJson.code = 200;
-      responseJson.message = "vehiculo comprado exitosamente";
+      responseJson.message = "vehículo comprado exitosamente";
       responseJson.status = true;
       responseJson.data = vehicle;
     }else{
       responseJson.code = 400;
-      responseJson.message = "no se pudo comprar el vehiculo";
+      responseJson.message = "no se pudo comprar el vehículo";
       responseJson.status = false;
     }
 
@@ -710,12 +740,12 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     const mailOptions = {
       from: "Toyousado Notifications",
       to: email!.email,
-      subject: "Compra de vehiculo",
-      text: `el vendedor ${
+      subject: "Compra de vehículo",
+      text: `El vendedor ${
         infoBuyer!.fullName
-      } quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${
+      } quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${
         emailBuyer!.email
-      } o al numero telefono ${infoBuyer!.phone}`,
+      } o al número telefono ${infoBuyer!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -771,12 +801,12 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
     const mailOptions = {
       from: "Toyousado Notifications",
       to: userbuyer!.email,
-      subject: "Oferta de vehiculo aprobada",
-      text: `Tu oferta del vehiculo ${vehicle!.model} del concesionario ${
+      subject: "Oferta de vehículo aprobada",
+      text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
       } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
         userSeller!.email
-      } o al numero telefono ${infoSeller!.phone}`,
+      } o al número telefono ${infoSeller!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -834,12 +864,12 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
     const mailOptions = {
       from: "Toyousado Notifications",
       to: userbuyer!.email,
-      subject: "Compra de vehiculo rechazada",
-      text: `Tu compra del vehiculo ${vehicle!.model} del concesionario ${
+      subject: "Compra de vehículo rechazada",
+      text: `Tu compra del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
       } fue rechazada, para mas información comunicate con el vendedor al correo ${
         userSeller!.email
-      } o al numero telefono ${infoSeller!.phone}`,
+      } o al número telefono ${infoSeller!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -965,12 +995,12 @@ sellerRouter.post("/getVehicleByType", async (req: Request, res: Response) => {
 
   if (arrayVehicles) {
     reponseJson.code = 200;
-    reponseJson.message = "vehiculos encontrados exitosamente";
+    reponseJson.message = "vehículos encontrados exitosamente";
     reponseJson.status = true;
     reponseJson.data = arrayVehicles;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no se encontraron vehiculos";
+    reponseJson.message = "no se encontraron vehículos";
     reponseJson.status = false;
   }
 
@@ -995,7 +1025,7 @@ sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response)
       type_vehicle,
     } = req.body;
 
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
     if (minYear === 0 && maxYear === 0) {
       query.year = { $gte: 0 };
@@ -1090,12 +1120,12 @@ sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response)
       }
 
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "no se encontraron vehiculos con los filtros seleccionados";
+      reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
       reponseJson.status = false;
     }
 
@@ -1876,12 +1906,12 @@ sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
-    reponseJson.message = "vehiculo entregado exitosamente";
+    reponseJson.message = "vehículo entregado exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
   }else{
     reponseJson.code = 400;
-    reponseJson.message = "erroe al entregar vehiculo";
+    reponseJson.message = "erroe al entregar vehículo";
     reponseJson.status = false;
   }
 
@@ -1911,12 +1941,12 @@ sellerRouter.post("/repost", async (req: Request, res: Response) => {
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
-    reponseJson.message = "vehiculo publicado exitosamente";
+    reponseJson.message = "vehículo publicado exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "erroe al publicar vehiculo";
+    reponseJson.message = "erroe al publicar vehículo";
     reponseJson.status = false;
   }
 

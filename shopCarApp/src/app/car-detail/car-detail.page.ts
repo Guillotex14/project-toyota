@@ -128,7 +128,6 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.vehicleById(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
         this.carDetail = data.data;
         this.utils.dismissLoading();
         
@@ -144,8 +143,12 @@ export class CarDetailPage implements OnInit {
         }
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
+    },
+    (error:any) => {
+      console.log(error);
     });
   }
 
@@ -476,7 +479,6 @@ export class CarDetailPage implements OnInit {
       this.priceAux = num;
       this.price = input.value.replace(/\./g,'');
     }else{ 
-      
       input.value = input.value.replace(/[^\d\.]*/g,'');
     }
   }

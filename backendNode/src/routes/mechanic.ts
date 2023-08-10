@@ -88,7 +88,7 @@ mechanicRouter.post("/countInspections", async (req: Request, res: Response) => 
 
     reponseJson.code = 200;
     reponseJson.status = true;
-    reponseJson.message = "Cantidad de vehiculos";
+    reponseJson.message = "Cantidad de vehículos";
     reponseJson.data = vehiclesList;
     
     res.json(reponseJson);
@@ -135,13 +135,13 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
         }
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Vehiculo encontrado";
+        reponseJson.message = "Vehículo encontrado";
         reponseJson.data = data;
 
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro el vehiculo";
+        reponseJson.message = "No se encontro el vehículo";
     }
 
     res.json(reponseJson);
@@ -287,7 +287,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
                 }
             }
         }
-        //obteniendo la informacion del mecanico
+        //obteniendo la informacion del tecnico
         const mechanic = await mechanics.findOne({_id: id_mechanic});
 
         if(mechanic){
@@ -300,7 +300,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
+            text: `La ficha mecanica de tu vehículo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
         };
 
         await sendEmail(mailOptions);
@@ -335,7 +335,7 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
     id_mechanic
     } = req.body;
 
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
     if (minYear === 0 && maxYear === 0) {
     query.year = { $gte: 0 };
@@ -429,7 +429,7 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
         reponseJson.data = arrayVehicles;
     } else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos";
+        reponseJson.message = "no se encontraron vehículos";
         reponseJson.status = false;
     }
 

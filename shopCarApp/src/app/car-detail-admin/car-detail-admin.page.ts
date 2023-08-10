@@ -53,10 +53,14 @@ export class CarDetailAdminPage implements OnInit {
         console.log(data);
         this.carDetail = data.data;
         this.utils.dismissLoading();
-
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
+    },
+    (err:any) => {
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     });
   }
 
