@@ -29,6 +29,7 @@ export class MyvehiclesPage implements OnInit {
   }
 
 public openMenu() {
+  this.utils.setLogin(true);
   this.menuCtrl.open();
 }
 

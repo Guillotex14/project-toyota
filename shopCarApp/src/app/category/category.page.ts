@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { UtilsService } from '../services/utils/utils.service';
 
 @Component({
   selector: 'app-category',
@@ -9,12 +10,13 @@ import { MenuController } from '@ionic/angular';
 })
 export class CategoryPage implements OnInit {
 
-  constructor(private menu:MenuController, private router:Router) { }
+  constructor(private menu:MenuController, private router:Router, private utils: UtilsService) { }
 
   ngOnInit() {
   }
 
   public openMenu(){
+    this.utils.setLogin(true);
     this.menu.open();
   }
 

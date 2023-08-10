@@ -60,6 +60,7 @@ export class BuyCarPage implements OnInit {
   }
 
   public openMenu() {
+    this.utils.setLogin(true);
     this.menu.open();
   }
 

@@ -98,6 +98,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public openMenu() {
+    this.utils.setLogin(true);
     this.menu.open();
   }
 
