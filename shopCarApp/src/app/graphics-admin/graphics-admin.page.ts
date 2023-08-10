@@ -1,10 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, MenuController } from '@ionic/angular';
+import { IonModal, MenuController, Platform } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { Chart, registerables } from 'chart.js';
 import * as moment from 'moment';
 import { SellerService } from '../services/seller/seller.service';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+
 @Component({
   selector: 'app-graphics-admin',
   templateUrl: './graphics-admin.page.html',
@@ -16,7 +24,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   month: number = 1;
   yearSold: number = new Date().getFullYear();
   rangMonths: number = 12;
-  yearCar: string="";
+  yearCar: string = '';
   yearCarAux: string = '';
   brandCar: string = '';
   modelCar: string = '';
@@ -31,19 +39,24 @@ export class GraphicsAdminPage implements AfterViewInit {
   concesionary2: string = '';
   id_user: string = '';
 
-
   arrayLabels: any[] = [];
   arrayBrands: any[] = [];
   arrayModels: any[] = [];
   genCondCar: any[] = [];
   arrayData: any = {};
   arrayListCars: any[] = [];
-  
+
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
 
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
+  constructor(
+    private router: Router,
+    private menu: MenuController,
+    private utils: UtilsService,
+    private sellerSrv: SellerService,
+    private platform: Platform
+  ) {
     Chart.register(...registerables);
     this.genCondCar = [];
 
@@ -61,34 +74,39 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.getCarList();
   }
 
-
-  public goBack(){
+  public goBack() {
     this.router.navigate(['home-admin']);
   }
 
-  public openMenu(){
+  public openMenu() {
     this.utils.setLogin(true);
     this.menu.open();
   }
 
-  public getBrands(){
-    this.sellerSrv.allBrands().subscribe((res:any)=>{
-      if (res.status) {
-        this.arrayBrands = res.data;
+  public getBrands() {
+    this.sellerSrv.allBrands().subscribe(
+      (res: any) => {
+        if (res.status) {
+          this.arrayBrands = res.data;
+        }
+      },
+      (err: any) => {
+        console.log(err);
       }
-    } , (err:any)=>{
-      console.log(err);
-    });
+    );
   }
 
-  public getModels(){
-    this.sellerSrv.allModels().subscribe((res:any)=>{
-      if (res.status) {
-        this.arrayModels = res.data;
+  public getModels() {
+    this.sellerSrv.allModels().subscribe(
+      (res: any) => {
+        if (res.status) {
+          this.arrayModels = res.data;
+        }
+      },
+      (err: any) => {
+        console.log(err);
       }
-    } , (err:any)=>{
-      console.log(err);
-    });
+    );
   }
 
   public openFile() {
@@ -122,14 +140,13 @@ export class GraphicsAdminPage implements AfterViewInit {
             pointHitRadius: 10,
             data: this.arrayData.data,
             spanGaps: false,
-          }
-        ]
-      }
-
+          },
+        ],
+      },
     });
   }
 
-  public getChartGrafic(){
+  public getChartGrafic() {
     let data = {
       month: this.month,
       yearSold: this.yearSold,
@@ -137,24 +154,26 @@ export class GraphicsAdminPage implements AfterViewInit {
       yearCar: this.yearCar,
       brandCar: this.brandCar,
       modelCar: this.modelCar,
-    }
+    };
 
-    this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
+    this.sellerSrv.getGrafic(data).subscribe(
+      (res: any) => {
         if (res.status) {
-          console.log(res)
+          console.log(res);
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
           // this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
         }
-    } , (err:any)=>{
-      console.log(err);
-    });
-  
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   }
 
-  getCarList(){
-    console.log(this.id_user)
+  getCarList() {
+    console.log(this.id_user);
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -163,20 +182,19 @@ export class GraphicsAdminPage implements AfterViewInit {
       modelCar: this.modelCar2,
       concesionary: this.concesionary2,
       id_user: this.id_user,
-    }
-    this.sellerSrv.getListCars(data).subscribe((res:any)=>{
-      console.log(res)
-      if (res.status) {
-        this.arrayListCars = res.data.grupocard;
-      }
-    }
-    , (err:any)=>{
-
-    });
-
+    };
+    this.sellerSrv.getListCars(data).subscribe(
+      (res: any) => {
+        console.log(res);
+        if (res.status) {
+          this.arrayListCars = res.data.grupocard;
+        }
+      },
+      (err: any) => {}
+    );
   }
 
-  public exportExcel(){
+  public exportExcel() {
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -185,22 +203,67 @@ export class GraphicsAdminPage implements AfterViewInit {
       modelCar: this.modelCar2,
       concesionary: this.concesionary2,
       id_user: this.id_user,
-    }
-    this.sellerSrv.exportExcel(data).subscribe((res:any)=>{
-      if (res.status) {
-        console.log(res)
-      }
-    } , (err:any)=>{
-      console.log(err);
+    };
+
+    this.utils.showLoading().then((_) => {
+      this.sellerSrv.exportExcel(data).subscribe(
+        (res: any) => {
+          this.utils.dismissLoading2();
+          if (res.status) {
+            this.platform.ready().then(async (d) => {
+              if (this.platform.is('mobile')) {
+                const directorioDescargas = await Filesystem.getUri({
+                  directory: Directory.Documents,
+                  path: res.data.fileName,
+                });
+
+                const rutaArchivo = directorioDescargas.uri;
+
+                try {
+                  await Filesystem.mkdir({
+                    path: rutaArchivo, // Ruta de la carpeta donde se guardará el archivo
+                    directory: Directory.Documents,
+                    recursive: true, // Crea la carpeta de forma recursiva si no existe
+                  });
+
+                  await Filesystem.writeFile({
+                    path: `${rutaArchivo}/${res.data.fileName}`, // Ruta completa del archivo
+                    data: res.data.base64Data, // Contenido del archivo en base64
+                    directory: Directory.Documents,
+                  });
+
+                  this.utils.presentToast(
+                    'Archivo PDF guardado con éxito en esta ruta: ' +
+                      rutaArchivo
+                  );
+                  console.log('Archivo PDF guardado con éxito');
+                } catch (error) {
+                  this.utils.presentToast(
+                    'Error al descargar el archivo: ' + error
+                  );
+                  console.error('Error al descargar el archivo:', error);
+                }
+              } else {
+                const downloadLink = document.createElement('a');
+                downloadLink.href = res.data.base64Data;
+                downloadLink.download = res.data.fileName;
+                downloadLink.click();
+              }
+            });
+          }
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
     });
   }
 
-  public closeModal(){
+  public closeModal() {
     this.modal.dismiss();
   }
 
-  public applyFilter(){
-
+  public applyFilter() {
     if (this.lineChart) {
       this.lineChart.destroy();
     }
@@ -209,44 +272,52 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.modal.dismiss();
   }
 
-  public openModalVehicle(){
+  public openModalVehicle() {
     this.modalVehicle.present();
   }
 
-  public closeModal2(){
+  public closeModal2() {
     this.modalVehicle.dismiss();
   }
 
-  public applyFilter2(){
+  public applyFilter2() {
     this.getCarList();
     this.modalVehicle.dismiss();
   }
 
-  public dotMinYear(input:any){
-    var num = input.value.replace(/\./g,'');
-    if(!isNaN(num)){
-      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+  public dotMinYear(input: any) {
+    var num = input.value.replace(/\./g, '');
+    if (!isNaN(num)) {
+      num = num
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/, '');
       input.value = num;
       this.yearCarAux = num;
-      this.yearCar = input.value.replace(/\./g,'');
-    }else{ 
-      
-      input.value = input.value.replace(/[^\d\.]*/g,'');
+      this.yearCar = input.value.replace(/\./g, '');
+    } else {
+      input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }
 
-  public dotMinYear2(input:any){
-    var num = input.value.replace(/\./g,'');
-    if(!isNaN(num)){
-      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+  public dotMinYear2(input: any) {
+    var num = input.value.replace(/\./g, '');
+    if (!isNaN(num)) {
+      num = num
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/, '');
       input.value = num;
       this.yearCarAux2 = num;
-      this.yearCar2 = input.value.replace(/\./g,'');
-    }else{ 
-      
-      input.value = input.value.replace(/[^\d\.]*/g,'');
+      this.yearCar2 = input.value.replace(/\./g, '');
+    } else {
+      input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }
   // public dotMaxYear(input:any){
@@ -257,21 +328,21 @@ export class GraphicsAdminPage implements AfterViewInit {
   //     input.value = num;
   //     this.maxYearAux = num;
   //     this.maxYear = input.value.replace(/\./g,'');
-  //   }else{ 
-      
+  //   }else{
+
   //     input.value = input.value.replace(/[^\d\.]*/g,'');
   //   }
   // }
 
-  public detailCar(id:any){
-    this.router.navigate(['car-detail-admin/'+id+'/graphics-admin']);
+  public detailCar(id: any) {
+    this.router.navigate(['car-detail-admin/' + id + '/graphics-admin']);
   }
 
-  public onDateFromChange(event:any){
+  public onDateFromChange(event: any) {
     this.dateFrom = moment(event.detail.value).format('YYYY-MM-DD');
   }
 
-  public onDateToChange(event:any){
+  public onDateToChange(event: any) {
     this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
   }
 }

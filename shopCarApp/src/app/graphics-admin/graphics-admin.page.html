@@ -40,8 +40,9 @@
       </ion-col>
 
       <ion-col size="12" style="margin-top: 50px !important;">
-        <ion-list-header>
-          <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehiculos</ion-label>
+        <ion-list-header class="headerList">
+          <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" id="">Exportar</ion-button>
+          <ion-label style="font-size: 16px; color: black; font-weight: 600;">Lista de vehiculos</ion-label>
           <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles">Filtro</ion-button>
         </ion-list-header>
         <ion-list *ngFor="let modelCar of arrayListCars">
