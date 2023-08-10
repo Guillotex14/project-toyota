@@ -9,10 +9,6 @@ cloudinary.config({
 
 export const uploadImageUser = async (file: any) => {
     return await cloudinary.uploader.upload(file,{
-        transformation: [
-            { width: 115, height: 80, crop: "limit" },
-            {quality:"auto:low", fetch_format: "auto"}
-        ],
         folder: "users"
     });
 }
@@ -23,10 +19,6 @@ export const deleteImageUser = async (public_id: string) => {
 
 export const uploadImageVehicle = async (file: any) => {
     return await cloudinary.uploader.upload(file,{
-        transformation: [
-            { width: 115, height: 80, crop: "limit" },
-            {quality:"auto:low", fetch_format: "auto"}
-        ],
         folder: "vehicles"
     });
 }

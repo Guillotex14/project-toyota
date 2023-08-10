@@ -21,6 +21,7 @@ const Mechanics_1 = __importDefault(require("../models/Mechanics"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const imgUser_1 = __importDefault(require("../models/imgUser"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
+const sharp_1 = __importDefault(require("sharp"));
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -149,5 +150,26 @@ authRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, voi
     }
     res.json(reponseJson);
 }));
+authRouter.post("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { image } = req.body;
+    if (image.length > 0) {
+        for (let i = 0; i < image.length; i++) {
+            // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
+            const imgResult = yield desgloseImg(image[i].image);
+            const img2 = imgResult.toString('base64');
+            const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(img2);
+            console.log(filename);
+        }
+    }
+}));
+const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
+    let posr = image.split(";")[0];
+    let base64 = image.split(";base64");
+    let mime_type = posr.split(":")[1];
+    let type = mime_type.split("/")[0];
+    const sharpImg = yield (0, sharp_1.default)(Buffer.from(base64[1], 'base64')).resize(150, 80).toBuffer();
+    return sharpImg;
+});
 exports.default = authRouter;
 //# sourceMappingURL=auth.js.map

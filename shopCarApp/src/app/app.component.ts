@@ -55,20 +55,14 @@ export class AppComponent implements  OnInit{
       this.typeConection = true;
     }
 
-    // this.getLogin();
-    // this.buttonsActionSheet();
-    // this.buttonsActionSheetEdit();
+    this.getLogin();
+    this.buttonsActionSheet();
+    this.buttonsActionSheetEdit();
   }
 
 
   ngOnInit(): void {
 
-  }
-
-  ionViewWillEnter() {
-    this.getLogin();
-    this.buttonsActionSheet();
-    this.buttonsActionSheetEdit();
   }
 
   public closeMenu() {
@@ -78,14 +72,20 @@ export class AppComponent implements  OnInit{
   public getLogin() {
     this.utils.getLogin().subscribe((data) => {
       console.log(data)
-      if (data) {
-        let type = localStorage.getItem('typeUser')!
+      if (data === true) {
 
-        ;
-        this.typeUser = type;
+        let me = localStorage.getItem('me')!;
+        let meJson = JSON.parse(me);
+        
+        this.username = meJson.fullName;
+        this.image = meJson.img;
+        this.idUser = meJson.id;
+        this.typeUser = meJson.type_user;
       }else{
-        let type = localStorage.getItem('typeUser')!;
-        this.typeUser = type;
+        this.username = "";
+        this.image = null;
+        this.idUser = "";
+        this.typeUser = "";
       }
     });
   }
