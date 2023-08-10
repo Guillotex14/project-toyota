@@ -22,7 +22,6 @@ const Users_1 = __importDefault(require("../models/Users"));
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const notifications_1 = __importDefault(require("../models/notifications"));
 const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
-const nodemailer_1 = require("../../nodemailer");
 const brands_1 = __importDefault(require("../models/brands"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const mechanicRouter = (0, express_1.Router)();
@@ -245,7 +244,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
             subject: 'Ficha mecanica creada',
             text: `La ficha mecanica de tu vehículo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
+        // await sendEmail(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
     }
     else {

@@ -1489,6 +1489,14 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
                 _id: 1,
             },
         },
+        {
+            $lookup: {
+                from: "imgvehicles",
+                localField: "vehicles._id",
+                foreignField: "id_vehicle",
+                as: "vehiclesWithImages",
+            },
+        },
     ]);
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
