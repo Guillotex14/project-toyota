@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, MenuController } from '@ionic/angular';
+import { IonModal, MenuController,Platform } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import * as moment from 'moment';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-graphics',
@@ -44,7 +45,10 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
 
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
+  constructor(
+    private platform: Platform
+    ,
+    private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
     Chart.register(...registerables);
     this.genCondCar = [];
 
@@ -189,7 +193,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
   }
 
-  public exportExcel(){
+  public exportExcel() {
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -198,15 +202,62 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       modelCar: this.modelCar2,
       concesionary: this.concesionary2,
       id_user: this.id_user,
-    }
-    this.sellerSrv.exportExcel(data).subscribe((res:any)=>{
-      if (res.status) {
-        console.log(res)
-      }
-    } , (err:any)=>{
-      console.log(err);
+    };
+
+    this.utils.showLoading().then((_) => {
+      this.sellerSrv.exportExcel(data).subscribe(
+        (res: any) => {
+          this.utils.dismissLoading2();
+          if (res.status) {
+            this.platform.ready().then(async (d) => {
+              if (this.platform.is('mobile')) {
+                const directorioDescargas = await Filesystem.getUri({
+                  directory: Directory.Documents,
+                  path: res.data.fileName,
+                });
+
+                const rutaArchivo = directorioDescargas.uri;
+
+                try {
+                  await Filesystem.mkdir({
+                    path: rutaArchivo, // Ruta de la carpeta donde se guardará el archivo
+                    directory: Directory.Documents,
+                    recursive: true, // Crea la carpeta de forma recursiva si no existe
+                  });
+
+                  await Filesystem.writeFile({
+                    path: `${rutaArchivo}/${res.data.fileName}`, // Ruta completa del archivo
+                    data: res.data.base64Data, // Contenido del archivo en base64
+                    directory: Directory.Documents,
+                  });
+
+                  this.utils.presentToast(
+                    'Archivo PDF guardado con éxito en esta ruta: ' +
+                      rutaArchivo
+                  );
+                  console.log('Archivo PDF guardado con éxito');
+                } catch (error) {
+                  this.utils.presentToast(
+                    'Error al descargar el archivo: ' + error
+                  );
+                  console.error('Error al descargar el archivo:', error);
+                }
+              } else {
+                const downloadLink = document.createElement('a');
+                downloadLink.href = res.data.base64Data;
+                downloadLink.download = res.data.fileName;
+                downloadLink.click();
+              }
+            });
+          }
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
     });
   }
+
 
   public closeModal(){
     this.modal.dismiss();

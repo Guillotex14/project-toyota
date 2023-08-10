@@ -130,7 +130,7 @@ export class SellerService {
   }
 
   public exportExcel(data:any){
-    return this.http.get(`${global.urlBase}seller/exportExcel?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}&yearCar=${data.yearCar}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&concesionary=${data.concesionary}&id_user=${data.id_user}`);
+    return this.http.get(`${global.urlBase}seller/exportExcell?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}&yearCar=${data.yearCar}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&concesionary=${data.concesionary}&id_user=${data.id_user}`);
   }
 
   
