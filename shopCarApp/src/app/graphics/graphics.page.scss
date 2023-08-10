@@ -106,3 +106,13 @@ ion-item::part(native){
 //   border-bottom-right-radius: 8px !important;
 //   margin: 5px auto !important;
 // }
+
+.headerList{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  ion-label{
+    text-align: center;
+  }
+}

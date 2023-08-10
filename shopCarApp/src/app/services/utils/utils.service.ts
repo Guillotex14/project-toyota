@@ -8,8 +8,12 @@ import { Observable, Subject } from 'rxjs';
 export class UtilsService {
   isLoged: Subject<boolean>;
   isLogin: Subject<boolean>;
+  loading: any;
 
-  constructor( private toastCtrl: ToastController, private loadCtrl: LoadingController, private alertController: AlertController, private platform: Platform) {
+  constructor( 
+    private toastController: ToastController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController, private loadCtrl: LoadingController, private alertController: AlertController, private platform: Platform) {
     this.isLoged = new Subject();
     this.isLogin = new Subject<boolean>();
   }
@@ -33,6 +37,20 @@ export class UtilsService {
 
   setLogin(value: boolean) {
     this.isLogin.next(value);
+  }
+  
+
+  async showLoading() {
+    this.loading = await this.loadingCtrl.create({
+      message: 'Cargando',
+      duration: 5000,
+    });
+
+    return await this.loading.present();
+  }
+
+  dismissLoading2() {
+    this.loading.dismiss();
   }
 
   //////************ plataforma ***********/////

@@ -55,3 +55,12 @@ ion-card{
   font-weight: 900;
   color: #1c1c1d;
 }
+.headerList{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  ion-label{
+    text-align: center;
+  }
+}
