@@ -16,6 +16,10 @@
           </ion-row>
       </ion-col>
 
+      <ion-col size="12" style="text-align: left; margin: 10px auto !important;">
+        <ion-title>Grafica de ventas</ion-title>
+      </ion-col>
+
       <ion-col size="12">
         <ion-card class="cardChart">
           <ion-card-content >
@@ -23,17 +27,30 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
+      
 
       <ion-col size="12">
-        <ion-button expand="block" shape="round" class="btnRed" id="open-filter" style="width: 90% !important; margin: auto !important;">
-          filtro
+        <ion-button expand="block" shape="round" class="btnRed" id="open-filter" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
+          filtro de grafica
         </ion-button>
       </ion-col>
 
-      <ion-col size="12" style="margin-top: 50px !important;">
-        <ion-list-header>
-          <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehiculos</ion-label>
-          <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles">Filtro</ion-button>
+      <ion-col size="12" style="border-bottom: 1px solid black !important;margin-top: 20px !important;">
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 20px !important;">
+        <ion-title >Lista de vehiculos</ion-title>
+        <ion-list-header class="headerList">
+          <ion-col size="4">
+            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;">Exportar</ion-button>
+          </ion-col>
+          <ion-col size="2">
+            
+          </ion-col>
+          <ion-col size="6">
+            <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;">Filtro de Vehiculos</ion-button>
+          </ion-col>
+          <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehiculos</ion-label> -->
         </ion-list-header>
         <ion-list *ngFor="let modelCar of arrayListCars">
           <ion-item-divider >

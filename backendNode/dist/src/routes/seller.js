@@ -157,19 +157,19 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic,
-        subject: "Revisión de vehiculo",
+        subject: "Revisión de vehículo",
         text: "El vendedor " +
             infoSeller.fullName +
             " del concesionario " +
             infoSeller.concesionary +
             " del estado " +
             infoSeller.city +
-            " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
+            " ha agregado un vehículo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
     reponseJson.code = 200;
-    reponseJson.message = "Vehiculo agregado exitosamente";
+    reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
     reponseJson.data = "";
     res.json(reponseJson);
@@ -183,13 +183,13 @@ sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void
     if (vehicleUpdated) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Vehiculo actualizado correctamente";
+        reponseJson.message = "Vehículo actualizado correctamente";
         reponseJson.data = vehicleUpdated;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo actualizar el vehiculo";
+        reponseJson.message = "No se pudo actualizar el vehículo";
     }
     res.json(reponseJson);
 }));
@@ -274,13 +274,13 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     }).sort({ date_create: -1 });
     if (vehiclesArray) {
         jsonRes.code = 200;
-        jsonRes.message = "vehiculos encontrados";
+        jsonRes.message = "vehículos encontrados";
         jsonRes.status = true;
         jsonRes.data = vehiclesArray;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no se encontraron vehiculos";
+        jsonRes.message = "no se encontraron vehículos";
         jsonRes.status = false;
     }
     res.json(jsonRes);
@@ -340,7 +340,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "No se encontraron vehiculos";
+        jsonRes.message = "No se encontraron vehículos";
         jsonRes.status = false;
     }
     res.json(jsonRes);
@@ -600,13 +600,13 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller, name_new_owner: name_new_owner, dni_new_owner: dni_new_owner, phone_new_owner: phone_new_owner, email_new_owner: email_new_owner, price_ofert: price_ofert, price: price_ofert, sold: true, date_sell: date_sell, final_price_sold: price_ofert, dispatched: true });
         if (vehicle) {
             responseJson.code = 200;
-            responseJson.message = "vehiculo comprado exitosamente";
+            responseJson.message = "vehículo comprado exitosamente";
             responseJson.status = true;
             responseJson.data = vehicle;
         }
         else {
             responseJson.code = 400;
-            responseJson.message = "no se pudo comprar el vehiculo";
+            responseJson.message = "no se pudo comprar el vehículo";
             responseJson.status = false;
         }
     }
@@ -620,8 +620,8 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         const mailOptions = {
             from: "Toyousado Notifications",
             to: email.email,
-            subject: "Compra de vehiculo",
-            text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al numero telefono ${infoBuyer.phone}`,
+            subject: "Compra de vehículo",
+            text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al número telefono ${infoBuyer.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
@@ -659,8 +659,8 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
             const mailOptions = {
                 from: "Toyousado Notifications",
                 to: userbuyer.email,
-                subject: "Oferta de vehiculo aprobada",
-                text: `Tu oferta del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+                subject: "Oferta de vehículo aprobada",
+                text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
             };
             yield (0, nodemailer_1.sendEmail)(mailOptions);
             sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -703,8 +703,8 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
         const mailOptions = {
             from: "Toyousado Notifications",
             to: userbuyer.email,
-            subject: "Compra de vehiculo rechazada",
-            text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+            subject: "Compra de vehículo rechazada",
+            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -802,13 +802,13 @@ sellerRouter.post("/getVehicleByType", (req, res) => __awaiter(void 0, void 0, v
     });
     if (arrayVehicles) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos";
+        reponseJson.message = "no se encontraron vehículos";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -819,7 +819,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     let query = {};
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
     }
@@ -915,13 +915,32 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos con los filtros seleccionados";
+        reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const vehiclesFiltered = yield modelVehicle_1.default.find({
+        model: { $regex: search, $options: "i" },
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1055,25 +1074,6 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     else {
         reponseJson.code = 200;
         reponseJson.message = "sin resultado";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
-sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { search } = req.body;
-    const vehiclesFiltered = yield modelVehicle_1.default.find({
-        model: { $regex: search, $options: "i" },
-    });
-    if (vehiclesFiltered) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1383,42 +1383,51 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         }
     });
     const filePath = "./public/pdf/" + now.getTime() + ".xlsx";
-    workbook.xlsx
-        .writeFile(filePath)
-        .then(() => {
-        // Envía la ruta del archivo al frontend para su descarga
-        // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
-        console.log("Archivo Excel generado:", filePath);
-    })
+    // workbook.xlsx
+    //   .writeFile(filePath)
+    //   .then(() => {
+    //     // Envía la ruta del archivo al frontend para su descarga
+    //     // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+    //     console.log("Archivo Excel generado:", filePath);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log("Error al generar el archivo Excel:", error);
+    //   });
+    // if (datos) {
+    //   reponseJson.code = 200;
+    //   reponseJson.message = "success";
+    //   reponseJson.status = true;
+    //   reponseJson.data = datos;
+    // } else {
+    //   reponseJson.code = 400;
+    //   reponseJson.message = "no existe";
+    //   reponseJson.status = false;
+    // }
+    // res.json(reponseJson);
+    workbook.xlsx.writeBuffer().then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
+        // Convertir el buffer en base64
+        const base64 = buffer.toString('base64');
+        // Crear un objeto de respuesta con el archivo base64
+        const datos = {
+            fileName: now.getTime() + '.xlsx',
+            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + base64
+        };
+        if (datos) {
+            reponseJson.code = 200;
+            reponseJson.message = "success";
+            reponseJson.status = true;
+            reponseJson.data = datos;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
+        res.json(reponseJson);
+    }))
         .catch((error) => {
-        console.log("Error al generar el archivo Excel:", error);
+        console.log('Error al generar el archivo Excel:', error);
     });
-    if (datos) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = datos;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-    // workbook.xlsx.writeBuffer().then(async (buffer:any) => {
-    //   // Convertir el buffer en base64
-    //   const base64 = buffer.toString('base64');
-    //   // Crear un objeto de respuesta con el archivo base64
-    //   const response = {
-    //     fileName: now.getTime()+'.xlsx',
-    //     base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
-    //   };
-    //   // Enviar la respuesta al front-end
-    //   res.json(response);
-    //   })
-    //   .catch((error:any) => {
-    //     console.log('Error al generar el archivo Excel:', error);
-    //   })
 }));
 sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -1540,13 +1549,13 @@ sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void
     const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculo entregado exitosamente";
+        reponseJson.message = "vehículo entregado exitosamente";
         reponseJson.status = true;
         reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "erroe al entregar vehiculo";
+        reponseJson.message = "erroe al entregar vehículo";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1567,13 +1576,13 @@ sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, fun
     });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculo publicado exitosamente";
+        reponseJson.message = "vehículo publicado exitosamente";
         reponseJson.status = true;
         reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "erroe al publicar vehiculo";
+        reponseJson.message = "erroe al publicar vehículo";
         reponseJson.status = false;
     }
     res.json(reponseJson);

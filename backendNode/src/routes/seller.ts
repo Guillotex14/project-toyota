@@ -1133,6 +1133,30 @@ sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response)
   }
 );
 
+sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { search } = req.body;
+
+    const vehiclesFiltered = await modelVehicle.find({
+      model: { $regex: search, $options: "i" },
+    });
+
+    if (vehiclesFiltered) {
+      reponseJson.code = 200;
+      reponseJson.message = "success";
+      reponseJson.status = true;
+      reponseJson.data = vehiclesFiltered;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "no existe";
+      reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+  }
+);
+
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let {
@@ -1328,30 +1352,6 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 });
-
-sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
-
-    const { search } = req.body;
-
-    const vehiclesFiltered = await modelVehicle.find({
-      model: { $regex: search, $options: "i" },
-    });
-
-    if (vehiclesFiltered) {
-      reponseJson.code = 200;
-      reponseJson.message = "success";
-      reponseJson.status = true;
-      reponseJson.data = vehiclesFiltered;
-    } else {
-      reponseJson.code = 400;
-      reponseJson.message = "no existe";
-      reponseJson.status = false;
-    }
-
-    res.json(reponseJson);
-  }
-);
 
 sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -1702,16 +1702,38 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
 
   const filePath = "./public/pdf/" + now.getTime() + ".xlsx";
 
-  workbook.xlsx
-    .writeFile(filePath)
-    .then(() => {
-      // Envía la ruta del archivo al frontend para su descarga
-      // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
-      console.log("Archivo Excel generado:", filePath);
-    })
-    .catch((error: any) => {
-      console.log("Error al generar el archivo Excel:", error);
-    });
+  // workbook.xlsx
+  //   .writeFile(filePath)
+  //   .then(() => {
+  //     // Envía la ruta del archivo al frontend para su descarga
+  //     // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+  //     console.log("Archivo Excel generado:", filePath);
+  //   })
+  //   .catch((error: any) => {
+  //     console.log("Error al generar el archivo Excel:", error);
+  //   });
+
+  // if (datos) {
+  //   reponseJson.code = 200;
+  //   reponseJson.message = "success";
+  //   reponseJson.status = true;
+  //   reponseJson.data = datos;
+  // } else {
+  //   reponseJson.code = 400;
+  //   reponseJson.message = "no existe";
+  //   reponseJson.status = false;
+  // }
+  // res.json(reponseJson);
+
+  workbook.xlsx.writeBuffer().then(async (buffer:any) => {
+    // Convertir el buffer en base64
+    const base64 = buffer.toString('base64');
+
+    // Crear un objeto de respuesta con el archivo base64
+    const datos = {
+      fileName: now.getTime()+'.xlsx',
+      base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
+    };
 
   if (datos) {
     reponseJson.code = 200;
@@ -1725,22 +1747,10 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   }
   res.json(reponseJson);
 
-  // workbook.xlsx.writeBuffer().then(async (buffer:any) => {
-  //   // Convertir el buffer en base64
-  //   const base64 = buffer.toString('base64');
-
-  //   // Crear un objeto de respuesta con el archivo base64
-  //   const response = {
-  //     fileName: now.getTime()+'.xlsx',
-  //     base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
-  //   };
-
-  //   // Enviar la respuesta al front-end
-  //   res.json(response);
-  //   })
-  //   .catch((error:any) => {
-  //     console.log('Error al generar el archivo Excel:', error);
-  //   })
+    })
+    .catch((error:any) => {
+      console.log('Error al generar el archivo Excel:', error);
+    })
 });
 
 sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
