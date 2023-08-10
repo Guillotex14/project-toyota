@@ -26,16 +26,16 @@
                 </p>
               </ion-col>
 
-              <ion-col size="4" *ngIf="typeConection">
-                <ion-avatar *ngIf="image !==null">
+              <ion-col size="4">
+                <ion-avatar *ngIf="image !==null" (click)="openActionSheetEdit()">
                   <img [src]="image.img" />
                 </ion-avatar>
 
-                <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite"></ion-icon>
+                <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite" (click)="openActionSheet()"></ion-icon>
 
               </ion-col>
 
-              <ion-col size="4" *ngIf="!typeConection">
+              <!-- <ion-col size="4" *ngIf="!typeConection">
                 <ion-avatar *ngIf="image !==null" (click)="editImage()">
                   <img [src]="image.img" />
                 </ion-avatar>
@@ -44,7 +44,7 @@
 
                 <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
                 <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)">
-              </ion-col>
+              </ion-col> -->
             </ion-row>
             
           </ion-col>
@@ -79,10 +79,10 @@
         <ion-label>Graficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('sells-history')">
+      <!-- <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('sells-history')">
         <ion-label>Historial de ventas</ion-label>
         <ion-icon name="time-outline"></ion-icon>
-        </ion-item>
+        </ion-item> -->
       <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('add-mechanic')">
         <ion-label>Añadir tecnico</ion-label>
         <ion-icon name="construct-outline"></ion-icon>
@@ -140,8 +140,8 @@
   </ion-footer>
 </ion-menu>
 
-<ion-action-sheet trigger="open-action-sheet" header="Opciones" [buttons]="actionSheetButtons"></ion-action-sheet>
-  <ion-action-sheet [isOpen]="openASEdit" header="Opciones" [buttons]="actionSheetButtonsEdit" (didDismiss)="!openASEdit" #ActionSheetEdit></ion-action-sheet>
+<ion-action-sheet trigger="open-action-sheet" header="Opciones" [buttons]="actionSheetButtons" #ActionSheet></ion-action-sheet>
+<ion-action-sheet  header="Opciones" [buttons]="actionSheetButtonsEdit" #ActionSheetEdit></ion-action-sheet>
 
 <ion-app>
   <ion-router-outlet id ="main-content"></ion-router-outlet>

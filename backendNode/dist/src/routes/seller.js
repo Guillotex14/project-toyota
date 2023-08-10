@@ -73,13 +73,13 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
             };
             yield (0, nodemailer_1.sendEmail)(mailOptions);
             reponseJson.code = 200;
-            reponseJson.message = "Mecanico agregado exitosamente";
+            reponseJson.message = "Técnico agregado exitosamente";
             reponseJson.status = true;
             reponseJson.data = "";
         }
         else {
             reponseJson.code = 400;
-            reponseJson.message = "Error al agregar mecanico";
+            reponseJson.message = "Error al agregar técnico";
             reponseJson.status = false;
             reponseJson.data = "";
         }
@@ -162,7 +162,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             infoSeller.fullName +
             " del concesionario " +
             infoSeller.concesionary +
-            " del estado" +
+            " del estado " +
             infoSeller.city +
             " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
     };
@@ -287,31 +287,56 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
+    let arrayVehicles = [];
     const { id_seller } = req.body;
-    // const ress = await vehicles
-    //   .find({ id_seller: id_seller })
-    //   .then((res: any) => {
-    //     console.log("carros a la venta", res);
-    //     if (res) {
-    //       jsonRes.code = 200;
-    //       jsonRes.message = "success";
-    //       jsonRes.status = true;
-    //       jsonRes.data = res;
-    //     } else if (!res) {
-    //       jsonRes.code = 400;
-    //       jsonRes.message = "no existe";
-    //       jsonRes.status = false;
-    //     }
-    //   })
-    //   .catch((err: any) => {
-    //     console.log(err);
-    //   });
     const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller });
     if (myVehicles) {
+        for (let i = 0; i < myVehicles.length; i++) {
+            let data = {
+                name_new_owner: myVehicles[i].name_new_owner,
+                dni_new_owner: myVehicles[i].dni_new_owner,
+                phone_new_owner: myVehicles[i].phone_new_owner,
+                email_new_owner: myVehicles[i].email_new_owner,
+                price_ofert: myVehicles[i].price_ofert,
+                final_price_sold: myVehicles[i].final_price_sold,
+                _id: myVehicles[i]._id,
+                model: myVehicles[i].model,
+                brand: myVehicles[i].brand,
+                year: myVehicles[i].year,
+                displacement: myVehicles[i].displacement,
+                km: myVehicles[i].km,
+                engine_model: myVehicles[i].engine_model,
+                titles: myVehicles[i].titles,
+                fuel: myVehicles[i].fuel,
+                transmission: myVehicles[i].transmission,
+                city: myVehicles[i].city,
+                dealer: myVehicles[i].dealer,
+                concesionary: myVehicles[i].concesionary,
+                traction_control: myVehicles[i].traction_control,
+                performance: myVehicles[i].performance,
+                comfort: myVehicles[i].comfort,
+                technology: myVehicles[i].technology,
+                id_seller: myVehicles[i].id_seller,
+                id_mechanic: myVehicles[i].id_mechanic,
+                price: myVehicles[i].price,
+                mechanicalFile: myVehicles[i].mechanicalFile,
+                id_seller_buyer: myVehicles[i].id_seller_buyer,
+                sold: myVehicles[i].sold,
+                type_vehicle: myVehicles[i].type_vehicle,
+                traction: myVehicles[i].traction,
+                date_sell: myVehicles[i].date_sell,
+                date_create: myVehicles[i].date_create,
+                plate: myVehicles[i].plate,
+                vin: myVehicles[i].vin,
+                dispatched: myVehicles[i].dispatched,
+                images: (yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id }) : "",
+            };
+            arrayVehicles.push(data);
+        }
         jsonRes.code = 200;
         jsonRes.message = "Vehicleos encontrados";
         jsonRes.status = true;
-        jsonRes.data = myVehicles;
+        jsonRes.data = arrayVehicles;
     }
     else {
         jsonRes.code = 400;
@@ -400,7 +425,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             responseJson.code = 200;
-            responseJson.message = "mecanicos encontrados";
+            responseJson.message = "Técnicos encontrados";
             responseJson.status = true;
             for (let i = 0; i < res.length; i++) {
                 yield Mechanics_1.default
@@ -442,7 +467,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
         }
         else {
             responseJson.code = 400;
-            responseJson.message = "no se encontraron mecanicos";
+            responseJson.message = "no se encontraron técnicos";
             responseJson.status = false;
             return responseJson;
         }
@@ -460,14 +485,14 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
         .then((res) => {
         if (res) {
             jsonResponse.code = 200;
-            jsonResponse.message = "mecanicos encontrados";
+            jsonResponse.message = "Técnicos encontrados";
             jsonResponse.status = true;
             jsonResponse.data = res;
             return jsonResponse;
         }
         else if (!res) {
             jsonResponse.code = 400;
-            jsonResponse.message = "no se encontraron mecanicos";
+            jsonResponse.message = "no se encontraron Técnicos";
             jsonResponse.status = false;
             return jsonResponse;
         }

@@ -21,7 +21,7 @@ adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle} = req.body;
 
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
     if(minYear === 0 && maxYear === 0){
         query.year = {$gte: 0};
@@ -116,7 +116,7 @@ adminRouter.post('/allVehicles', async (req: Request, res: Response) => {
     }else{
 
         reponseJson.code = 400;
-        reponseJson.message = "No se encontraron vehiculos";
+        reponseJson.message = "No se encontraron vehículos";
         reponseJson.status = false;
 
     }
@@ -166,6 +166,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
                             username: res[j].username,
                             email: res[j].email,
                             type_user: res[j].type_user,
+                            date_created: infoSellers[k].date_created,
                         }
                         arraySellers.push(seller);
                     }
@@ -349,7 +350,7 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
     if (infoVehicle) {
 
         jsonRes.code = 200;
-        jsonRes.message = "Vehiculo encontrado exitosamente";
+        jsonRes.message = "Vehículo encontrado exitosamente";
         jsonRes.status = true;
 
         jsonRes.data = {
@@ -384,7 +385,7 @@ adminRouter.post("/vehicleById", async (req: Request, res: Response) => {
         }
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no se encontro el vehiculo";
+        jsonRes.message = "no se encontro el vehículo";
         jsonRes.status = false;
     }
 

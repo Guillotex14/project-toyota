@@ -143,23 +143,28 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
     }
-
+    this.utils.presentLoading('Cargando datos');
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
-          console.log(res)
+          this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
-          // this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
+        }else{
+          this.utils.dismissLoading();
+          this.utils.presentToast(res.message);
         }
     } , (err:any)=>{
+
       console.log(err);
+      this.utils.dismissLoading();
+      this.utils.presentToast('Error de servidor');
     });
   
   }
 
-  getCarList(){
-    console.log(this.id_user)
+  public getCarList(){
+    
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -173,10 +178,13 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       console.log(res)
       if (res.status) {
         this.arrayListCars = res.data.grupocard;
+      }else{
+        this.utils.presentToast(res.message);
       }
     }
     , (err:any)=>{
-
+      console.log(err);
+      this.utils.presentToast('Error de servidor');
     });
 
   }

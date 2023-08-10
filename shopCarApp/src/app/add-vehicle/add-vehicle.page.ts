@@ -133,7 +133,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public addVehicle() {
-    this.utils.presentLoading("Agregando vehículo...");
+    // this.utils.presentLoading("Agregando vehículo...");
     this.newVehicle.images = this.arrayImages;
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.utils.dismissLoading();
@@ -221,7 +221,7 @@ export class AddVehiclePage implements OnInit {
     }
 
     this.newVehicle.year = parseInt(this.year);
-    this.newVehicle.km = parseInt(this.km);
+    this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
 
     this.sellerSrv.addVehicle(this.newVehicle).subscribe((resp:any) => {
       if(resp.status){
@@ -234,7 +234,11 @@ export class AddVehiclePage implements OnInit {
         this.utils.dismissLoading();
         this.utils.presentToast("Error al agregar vehículo");
       }
-    })
+    },
+    (err:any) => {
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
+    });
   }
 
   public deleteImage(index:any){
@@ -559,7 +563,6 @@ export class AddVehiclePage implements OnInit {
       num = num.split('').reverse().join('').replace(/^[\.]/,'');
       input.value = num;
       this.km = num;
-      this.newVehicle.km = input.value.replace(/\./g,'');
     }else{ 
       
       input.value = input.value.replace(/[^\d\.]*/g,'');

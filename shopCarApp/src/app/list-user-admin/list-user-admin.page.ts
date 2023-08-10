@@ -35,14 +35,21 @@ export class ListUserAdminPage implements OnInit {
   }
 
   public getSellers() {
-    console.log("getSellers")
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getSellers().subscribe((res: any) => {
       if (res.status) {
         this.arraySellers = res.data;
         this.auxSellers = res.data;
         this.utils.dismissLoading();
+      }else{
+        this.utils.dismissLoading();
+        this.utils.presentToast("Sin vendedores registrados");
       }
+    },
+    (error) => {
+      console.log(error);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     });
   }
 

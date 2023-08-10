@@ -166,6 +166,7 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
                             username: res[j].username,
                             email: res[j].email,
                             type_user: res[j].type_user,
+                            date_created: infoSellers[k].date_created,
                         };
                         arraySellers.push(seller);
                     }

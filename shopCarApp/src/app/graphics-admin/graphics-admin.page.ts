@@ -75,9 +75,13 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.sellerSrv.allBrands().subscribe((res:any)=>{
       if (res.status) {
         this.arrayBrands = res.data;
+      }else{
+        console.log(res)
+        this.utils.presentToast(res.message);
       }
     } , (err:any)=>{
       console.log(err);
+      this.utils.presentToast("Error de servidor");
     });
   }
 
@@ -138,22 +142,27 @@ export class GraphicsAdminPage implements AfterViewInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
     }
-
+    this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
           console.log(res)
+          this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
-          // this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
+        }else{
+          this.utils.dismissLoading();
+          this.utils.presentToast(res.message);
         }
     } , (err:any)=>{
       console.log(err);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     });
   
   }
 
-  getCarList(){
+  public getCarList(){
     console.log(this.id_user)
     let data = {
       dateTo: this.dateTo,
@@ -168,10 +177,12 @@ export class GraphicsAdminPage implements AfterViewInit {
       console.log(res)
       if (res.status) {
         this.arrayListCars = res.data.grupocard;
+      }else{
+        this.utils.presentToast(res.message);
       }
     }
     , (err:any)=>{
-
+      this.utils.presentToast("Error de servidor");
     });
 
   }
@@ -249,19 +260,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       input.value = input.value.replace(/[^\d\.]*/g,'');
     }
   }
-  // public dotMaxYear(input:any){
-  //   var num = input.value.replace(/\./g,'');
-  //   if(!isNaN(num)){
-  //     num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-  //     num = num.split('').reverse().join('').replace(/^[\.]/,'');
-  //     input.value = num;
-  //     this.maxYearAux = num;
-  //     this.maxYear = input.value.replace(/\./g,'');
-  //   }else{ 
-      
-  //     input.value = input.value.replace(/[^\d\.]*/g,'');
-  //   }
-  // }
+
 
   public detailCar(id:any){
     this.router.navigate(['car-detail-admin/'+id+'/graphics-admin']);

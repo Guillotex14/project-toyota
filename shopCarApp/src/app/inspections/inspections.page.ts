@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
@@ -8,7 +8,7 @@ import { MechanicService } from '../services/mechanic/mechanic.service';
   templateUrl: './inspections.page.html',
   styleUrls: ['./inspections.page.scss'],
 })
-export class InspectionsPage implements OnInit {
+export class InspectionsPage implements OnInit, AfterViewInit {
 
   id_mechanic: string = "";
   arrayInspections: any[] = [];
@@ -23,17 +23,22 @@ export class InspectionsPage implements OnInit {
       this.id_mechanic = me.id_mechanic;
     }
 
-    this.getInspections();
+    // this.getInspections();
   }
 
   ngOnInit() {
+    // this.getInspections();
   }
 
-  goBack(){
+  ngAfterViewInit(){
+    this.getInspections();
+  }
+
+  public goBack(){
     this.router.navigate(['mechanic']);
   }
 
-  goTo(id:any){
+  public goTo(id:any){
     this.router.navigate(['car-detail-mechanic/'+id+'/inspections']);
   }
 
@@ -50,14 +55,14 @@ export class InspectionsPage implements OnInit {
           this.utils.dismissLoading();
         }else{
           this.utils.dismissLoading();
-          this.utils.presentToast("Error No se pudo obtener las inspecciones");
+          this.utils.presentToast("Sin inspecciones para realizar");
         }
 
       },
       (error) => {
         console.log(error);
         this.utils.dismissLoading();
-        this.utils.presentToast("Error No se pudo obtener las inspecciones");
+        this.utils.presentToast("Error de servidor");
       }
     )
 

@@ -58,10 +58,15 @@ export class HomeAdminPage implements OnInit {
 
   public getModels(){
     this.adminSrv.allModels().subscribe((res: any) => {
-      this.arrayModels = res.data;
+      if(res.status){
+        this.arrayModels = res.data;
+      }else{
+        this.utils.presentToast(res.message)
+      }
 
     }, (err: any) => {
       console.log(err);
+      this.utils.presentToast("Error de servidor")
     });
     
   }
@@ -98,11 +103,19 @@ export class HomeAdminPage implements OnInit {
       maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0
     }
 
-    // return;
+    this.utils.presentLoading("Cargando vehiculos");
     this.adminSrv.getVehicles(data).subscribe((data:any)=>{
       if (data.status) {
+        this.utils.dismissLoading();
         this.arrayVehicles = data.data;
+      }else{
+        this.utils.dismissLoading();
+        this.utils.presentToast(data.message);
       }
+    },
+    (err:any)=>{
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     })
   }
 

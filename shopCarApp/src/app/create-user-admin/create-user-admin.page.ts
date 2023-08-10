@@ -95,15 +95,31 @@ export class CreateUserAdminPage implements OnInit {
       return;      
     }
 
+    this.utils.presentLoading("Registrando vendedor");
+
     this.adminSrv.addSeller(this.newSeller).subscribe((res: any) => {
 
       if (res.status == true) {
-
+        this.utils.dismissLoading();
         this.utils.presentToast(res.message);
+        this.newSeller.fullName = "";
+        this.newSeller.email = "";
+        this.newSeller.username = "";
+        this.newSeller.password = "";
+        this.newSeller.password_confirm = "";
+        this.newSeller.city = "";
+        this.newSeller.phone = "";
+        this.newSeller.concesionary = "";
         this.router.navigate(['home-admin']);
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(res.message);
       }
+    }
+    ,(error:any)=>{
+      console.log(error);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     });
   }
 

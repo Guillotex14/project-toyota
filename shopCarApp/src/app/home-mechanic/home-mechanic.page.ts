@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal, MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
@@ -11,7 +11,7 @@ import { states } from 'src/assets/json/states';
   templateUrl: './home-mechanic.page.html',
   styleUrls: ['./home-mechanic.page.scss'],
 })
-export class HomeMechanicPage implements OnInit {
+export class HomeMechanicPage implements OnInit, AfterViewInit {
 
   countInspections: number = 0;
   countNotifies: number = 0;
@@ -59,12 +59,15 @@ export class HomeMechanicPage implements OnInit {
     this.getCountInspections();
     this.getvehicles();
     this.getNotifies();
-    this.getCountNotifies();
     this.getBrands();
     this.getModels();
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(){
+    this.getCountNotifies();
   }
 
   public goTo(){
@@ -86,9 +89,15 @@ export class HomeMechanicPage implements OnInit {
 
   public getModels(){
     this.mechanicSrv.allModels().subscribe((res: any) => {
-      this.arrayModels = res.data;
+      if(res.status){
+        this.arrayModels = res.data;
+      }else{
+        this.utils.presentToast(res.message)
+      }
+
     }, (err: any) => {
       console.log(err);
+      this.utils.presentToast("Error de servidor")
     });
   }
 
@@ -108,10 +117,15 @@ export class HomeMechanicPage implements OnInit {
 
     this.mechanicSrv.getCountInspections(id_mechanic).subscribe(
       (res: any) => {
-        this.countInspections = res.data;
+        if (res.status) {
+          this.countInspections = res.data;
+        }else{
+          this.utils.presentToast(res.message);
+        }
       },
       (error: any) => {
         console.log(error);
+        this.utils.presentToast("Error de servidor");
       }
     )
 
@@ -137,12 +151,20 @@ export class HomeMechanicPage implements OnInit {
 
     this.mechanicSrv.getVehicles(data).subscribe(
       (res: any) => {
-        console.log(res);
-        this.arrayVehicles = res.data;
-        this.auxVehicles = res.data;
+        if (res.status) {
+          this.arrayVehicles = res.data;
+          this.auxVehicles = res.data;
+          this.utils.dismissLoading();
+        }else{
+          this.utils.dismissLoading();
+          this.utils.presentToast(res.message);
+        }
+
+      },
+      (error: any) => {
+        console.log(error);
         this.utils.dismissLoading();
-      }
-    )
+      })
   }
 
   public searchVehicle(event: any){
@@ -334,9 +356,9 @@ export class HomeMechanicPage implements OnInit {
     }
   }
 
-  // public deleteArray(i:any){
-  //   this.arrayVehicles.splice(i, 1);
-  // }
+  public deleteArray(i:any){
+    this.arrayVehicles.splice(i, 1);
+  }
 
   public dismissModal(){
     this.modalCtrl.dismiss();

@@ -19,6 +19,7 @@ export class SellersList{
   public city!: string;
   public concesionary!: string;
   public phone!: string;
+  public date_created!: string;
   public type_user: string = "seller";
 }
 

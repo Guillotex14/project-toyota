@@ -97,9 +97,14 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
       if (res.status) {
         this.mechanicalFileDetail = res.data;
         this.utils.dismissLoading();
+      }else{
+        this.utils.dismissLoading()
+        this.utils.presentToast(res.message)
       }
     }, (err:any)=>{
       console.log(err)
+      this.utils.dismissLoading()
+        this.utils.presentToast("Error de servidor")
     })
   }
 

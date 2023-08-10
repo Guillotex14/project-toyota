@@ -98,9 +98,15 @@ export class MechanicalFileDetailAdminPage implements OnInit {
         this.utils.dismissLoading();
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
-    });
+  },
+  (error: any) => {
+    console.log(error);
+    this.utils.dismissLoading();
+    this.utils.presentToast("Error de servidor")
+  });
   }
 
   public getScrollPos(pos: any) {
