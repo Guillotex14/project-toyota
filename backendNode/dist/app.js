@@ -24,11 +24,9 @@ class App {
         this.app.set("views", path_1.default.join(__dirname, "views"));
     }
     middlewares() {
-        this.app.use(express_1.default.json());
-        this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json({ limit: '512mb' }));
         this.app.use(express_1.default.urlencoded({ limit: '512mb', extended: true }));
-        // this.app.use(Express.urlencoded({  }));
+        this.app.use((0, cors_1.default)());
     }
     routes() {
         this.app.use("/auth", auth_1.default);

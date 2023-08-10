@@ -289,7 +289,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     const jsonRes = new Response_1.ResponseModel();
     let arrayVehicles = [];
     const { id_seller } = req.body;
-    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller });
+    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller }).sort({ date_create: -1 });
     if (myVehicles) {
         for (let i = 0; i < myVehicles.length; i++) {
             let data = {

@@ -11,7 +11,7 @@ import { states } from 'src/assets/json/states';
   templateUrl: './home-mechanic.page.html',
   styleUrls: ['./home-mechanic.page.scss'],
 })
-export class HomeMechanicPage implements OnInit, AfterViewInit {
+export class HomeMechanicPage implements OnInit {
 
   countInspections: number = 0;
   countNotifies: number = 0;
@@ -56,6 +56,17 @@ export class HomeMechanicPage implements OnInit, AfterViewInit {
       this.id_user = me.id;
     }
 
+    // this.getCountInspections();
+    // this.getvehicles();
+    // this.getNotifies();
+    // this.getBrands();
+    // this.getModels();
+  }
+
+  ngOnInit() {
+  }
+
+  ionViewWillEnter(){
     this.getCountInspections();
     this.getvehicles();
     this.getNotifies();
@@ -63,12 +74,6 @@ export class HomeMechanicPage implements OnInit, AfterViewInit {
     this.getModels();
   }
 
-  ngOnInit() {
-  }
-
-  ngAfterViewInit(){
-    this.getCountNotifies();
-  }
 
   public goTo(){
     this.router.navigate(['inspections']);

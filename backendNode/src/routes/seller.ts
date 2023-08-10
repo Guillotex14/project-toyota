@@ -359,7 +359,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   let arrayVehicles: any[] = [];
   const { id_seller } = req.body;
 
-  const myVehicles = await vehicles.find({ id_seller: id_seller });
+  const myVehicles = await vehicles.find({ id_seller: id_seller }).sort({date_create:-1});
 
   if (myVehicles) {
 

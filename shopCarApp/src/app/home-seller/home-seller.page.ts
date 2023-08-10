@@ -62,12 +62,20 @@ export class HomeSellerPage implements OnInit {
       this.id_user = me.id;
     }
     
+    // this.getBrands();
+    // this.getModels()
+    // this.getNotifies();
+    // this.getCountNotifies();
+    // this.getVehicles();
+
+  }
+
+  ionViewWillEnter(){
     this.getBrands();
     this.getModels()
     this.getNotifies();
     this.getCountNotifies();
     this.getVehicles();
-
   }
 
   ngOnInit() {

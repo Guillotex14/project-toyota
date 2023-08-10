@@ -23,11 +23,13 @@ export class CarDetailAdminPage implements OnInit {
     this.theRoute = this.actRoute.snapshot.params['route'];
     this.carDetail.images = [];
 
-
-    this.getVehicleById();
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.getVehicleById();
   }
 
   goBack(){

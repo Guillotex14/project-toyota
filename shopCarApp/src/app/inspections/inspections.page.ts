@@ -8,7 +8,7 @@ import { MechanicService } from '../services/mechanic/mechanic.service';
   templateUrl: './inspections.page.html',
   styleUrls: ['./inspections.page.scss'],
 })
-export class InspectionsPage implements OnInit, AfterViewInit {
+export class InspectionsPage implements OnInit {
 
   id_mechanic: string = "";
   arrayInspections: any[] = [];
@@ -23,14 +23,12 @@ export class InspectionsPage implements OnInit, AfterViewInit {
       this.id_mechanic = me.id_mechanic;
     }
 
-    // this.getInspections();
   }
 
   ngOnInit() {
-    // this.getInspections();
   }
-
-  ngAfterViewInit(){
+  
+  ionViewWillEnter(){
     this.getInspections();
   }
 
