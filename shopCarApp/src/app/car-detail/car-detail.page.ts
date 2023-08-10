@@ -91,14 +91,20 @@ export class CarDetailPage implements OnInit {
       this.myId = dataJson.id_sell;
     }
 
-    this.getVehicleById();
-    this.buttonsActionSheet();
-    this.buttonsActionSheetEdit();
+    // this.getVehicleById();
+    // this.buttonsActionSheet();
+    // this.buttonsActionSheetEdit();
 
   }
 
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.getVehicleById();
+    this.buttonsActionSheet();
+    this.buttonsActionSheetEdit();
   }
 
   goBack(){

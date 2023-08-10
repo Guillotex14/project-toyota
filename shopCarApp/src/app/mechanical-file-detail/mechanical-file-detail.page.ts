@@ -75,11 +75,16 @@ export class MechanicalFileDetailPage implements OnInit {
     this.mechanicalFile.headlights_lights= "";
     this.mechanicalFile.general_condition= "";
 
-    this.getMechanicFile();
+    // this.getMechanicFile();
   }
 
   ngOnInit() {
   }
+
+  ionViewWillEnter(){
+    this.getMechanicFile();
+  }
+
 
   public getScrollPos(pos: any) {
     if (pos.detail.scrollTop > this.platform.height()) {

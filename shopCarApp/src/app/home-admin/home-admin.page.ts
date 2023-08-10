@@ -38,13 +38,19 @@ export class HomeAdminPage implements OnInit {
 
   constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController) { 
     this.arrayUbication = states;
-    this.getVehicles();
-    this.getBrands();
-    this.getModels();
+    // this.getVehicles();
+    // this.getBrands();
+    // this.getModels();
     
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.getVehicles();
+    this.getBrands();
+    this.getModels();
   }
 
   public getBrands(){

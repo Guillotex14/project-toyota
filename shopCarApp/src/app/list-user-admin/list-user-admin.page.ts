@@ -18,12 +18,14 @@ export class ListUserAdminPage implements OnInit {
 
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) {
     
-    this.getSellers();
   }
   
   ngOnInit() {
   }
-
+  
+  ionViewWillEnter(){
+    this.getSellers();
+  }
 
   public goTo(){
     this.router.navigate(['home-admin']);

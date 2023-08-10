@@ -82,6 +82,10 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillEnter(){
+    this.getMechanicalFile();
+  }
+
   public goBack(){
     this.route.navigate(['car-detail-mechanic/'+this.id+'/'+this.theRoute]);
   }
