@@ -775,7 +775,7 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
     price_ofert: infoVehicle!.price_ofert,
     date_sell: date_sell,
     final_price_sold: infoVehicle!.price_ofert,
-    sold: true,
+    sold: false,
   });
 
   const infoBuyer = await Sellers.findById(vehicle!.id_seller_buyer);

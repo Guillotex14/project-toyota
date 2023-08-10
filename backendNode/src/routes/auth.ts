@@ -6,10 +6,9 @@ import { ResponseModel } from "../models/Response";
 import sellers from "../models/Sellers";
 import mechanics from "../models/Mechanics";
 import bcrypt from 'bcrypt';
-import fs from "fs";
 import imgUser from "../models/imgUser";
-import { uploadImageUser, deleteImageUser } from '../../cloudinaryMetods';
-import Vehicles from "../models/Vehicles";
+import { uploadImageUser, deleteImageUser, uploadImageVehicle } from '../../cloudinaryMetods';
+import  Sharp  from "sharp";
 
 const authRouter = Router();
 
@@ -161,5 +160,41 @@ authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
 
     res.json(reponseJson);
 });
+
+authRouter.post("/sharpMetods", async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { image } = req.body;
+
+    if (image.length > 0) {
+
+        for (let i = 0; i < image.length; i++) {
+            
+            // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
+            const imgResult = await desgloseImg(image[i].image);
+
+            const img2 = imgResult.toString('base64');
+            const filename = await uploadImageVehicle(img2);
+            
+            console.log(filename)
+            
+        }
+    }
+
+
+});
+
+
+const desgloseImg = async (image: any) => {
+    let posr = image.split(";")[0];
+    let base64 = image.split(";base64");
+    let mime_type = posr.split(":")[1];
+    let type = mime_type.split("/")[0];
+
+    const sharpImg = await Sharp(Buffer.from(base64[1],'base64')).resize(150, 80).toBuffer();
+
+    return sharpImg;
+
+}
 
 export default authRouter;

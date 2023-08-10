@@ -640,7 +640,7 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
         price_ofert: infoVehicle.price_ofert,
         date_sell: date_sell,
         final_price_sold: infoVehicle.price_ofert,
-        sold: true,
+        sold: false,
     });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);

@@ -569,6 +569,7 @@ export class CarDetailPage implements OnInit {
         if (data.status) {
           this.utils.presentToast("Vehiculo entregado");
           this.utils.dismissLoading();
+          this.getVehicleById();
         }else{
           this.utils.presentToast("Error al entregar vehiculo");
           this.utils.dismissLoading();
