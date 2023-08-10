@@ -1103,6 +1103,31 @@ sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response)
   }
 );
 
+
+sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+
+    const { search } = req.body;
+
+    const vehiclesFiltered = await modelVehicle.find({
+      model: { $regex: search, $options: "i" },
+    });
+
+    if (vehiclesFiltered) {
+      reponseJson.code = 200;
+      reponseJson.message = "success";
+      reponseJson.status = true;
+      reponseJson.data = vehiclesFiltered;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "no existe";
+      reponseJson.status = false;
+    }
+
+    res.json(reponseJson);
+  }
+);
+
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let {
@@ -1299,29 +1324,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
 
-    const { search } = req.body;
-
-    const vehiclesFiltered = await modelVehicle.find({
-      model: { $regex: search, $options: "i" },
-    });
-
-    if (vehiclesFiltered) {
-      reponseJson.code = 200;
-      reponseJson.message = "success";
-      reponseJson.status = true;
-      reponseJson.data = vehiclesFiltered;
-    } else {
-      reponseJson.code = 400;
-      reponseJson.message = "no existe";
-      reponseJson.status = false;
-    }
-
-    res.json(reponseJson);
-  }
-);
 
 sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
