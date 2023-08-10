@@ -8,7 +8,6 @@ import { ModalMechanicComponent } from '../components/modal-mechanic/modal-mecha
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { states } from 'src/assets/json/states';
 import { concesionaries } from 'src/assets/json/concesionaries';
-import { OverlayEventDetail } from '@ionic/core/components';
 import { ModalAddMechanicComponent } from '../components/modal-add-mechanic/modal-add-mechanic.component';
 
 @Component({
