@@ -173,8 +173,8 @@ authRouter.post("/sharpMetods", async (req: Request, res: Response) => {
             // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
             const imgResult = await desgloseImg(image[i].image);
 
-            const img2 = imgResult.toString('base64');
-            const filename = await uploadImageVehicle(img2);
+            // const img2 = imgResult.toString('base64');
+            const filename = await uploadImageVehicle(imgResult);
             
             console.log(filename)
             
@@ -186,14 +186,17 @@ authRouter.post("/sharpMetods", async (req: Request, res: Response) => {
 
 
 const desgloseImg = async (image: any) => {
-    let posr = image.split(";")[0];
-    let base64 = image.split(";base64");
-    let mime_type = posr.split(":")[1];
-    let type = mime_type.split("/")[0];
+    let posr = image.split(";base64").pop();
+    let imgBuff = Buffer.from(posr, 'base64');
 
-    const sharpImg = await Sharp(Buffer.from(base64[1],'base64')).resize(150, 80).toBuffer();
+    const resize = await Sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
+        return data;
+    }).catch((err) => {
+        console.log("error",err)
+        return "";
+    })
 
-    return sharpImg;
+    return 'data:image/jpeg;base64,'+resize.toString('base64');
 
 }
 

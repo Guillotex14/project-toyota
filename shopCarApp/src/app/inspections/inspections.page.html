@@ -27,7 +27,8 @@
                     <ion-row>
                       <ion-col size="12">
                         <ion-img [src]="inspect.image.img" *ngIf="inspect.image !==''"></ion-img>
-                        <ion-img src="assets/images/carro/toyota1.png" *ngIf="inspect.image ===''"></ion-img>
+                        <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="inspect.image ===''"></ion-img> -->
+                        <ion-icon name="image" *ngIf="inspect.image ===''" style="font-size: 90px !important; margin: 16px 0px 0px 20px !important;"></ion-icon>
                       </ion-col>
                       <ion-col size="12">
                         <ion-row>

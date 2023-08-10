@@ -33,9 +33,9 @@ export class CarDetailAdminPage implements OnInit {
   }
 
   goBack(){
-    if (this.theRoute=="home-admin") {
+    if (this.theRoute==="home-admin") {
       this.router.navigate(['home-admin']);
-    }else if(this.theRoute=="graphics-admin"){
+    }else if(this.theRoute==="graphics-admin"){
       this.router.navigate(['graphics-admin']);
     }
   }

@@ -18,6 +18,7 @@ export class AddBrandPage implements OnInit {
   }
 
   public openMenu() {
+    this.utils.setLogin(true);
     this.menu.open();
   }
 

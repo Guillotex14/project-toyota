@@ -1,6 +1,7 @@
 import { Router, Request, Response, json } from "express";
 import bcrypt from "bcrypt";
 import moment from "moment";
+import sharp from "sharp";
 
 import Users from "../models/Users";
 import vehicles from "../models/Vehicles";
@@ -177,7 +178,10 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   if (images) {
     if (images.length > 0) {
       for (let i = 0; i < images.length; i++) {
-        const filename = await uploadImageVehicle(images[i].image);
+
+        const imgResize = await sharp(images[i].image)
+
+        const filename = await uploadImageVehicle(imgResize);
 
         const imgVehi = new ImgVehicle({
           img: filename.secure_url,
@@ -2164,5 +2168,20 @@ const getNameMonth = (date: any) => {
 
   return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+
+const desgloseImg = async (image: any) => {
+  let posr = image.split(";base64").pop();
+  let imgBuff = Buffer.from(posr, 'base64');
+
+  const resize = await sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
+      return data;
+  }).catch((err) => {
+      console.log("error",err)
+      return "";
+  })
+
+  return 'data:image/jpeg;base64,'+resize.toString('base64');
+
+}
 
 export default sellerRouter;
