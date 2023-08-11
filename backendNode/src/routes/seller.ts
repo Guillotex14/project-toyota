@@ -18,6 +18,8 @@ import modelVehicle from "../models/modelVehicle";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import { sendEmail } from "../../nodemailer";
 import imgUser from "../models/imgUser";
+import * as global from '../global'
+
 
 const sellerRouter = Router();
 
@@ -1835,60 +1837,90 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     }
   });
 
-  const filePath = "./public/pdf/" + now.getTime() + ".xlsx";
-
-  // workbook.xlsx
-  //   .writeFile(filePath)
-  //   .then(() => {
-  //     // Envía la ruta del archivo al frontend para su descarga
-  //     // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
-  //     console.log("Archivo Excel generado:", filePath);
-  //   })
-  //   .catch((error: any) => {
-  //     console.log("Error al generar el archivo Excel:", error);
-  //   });
-
-  // if (datos) {
-  //   reponseJson.code = 200;
-  //   reponseJson.message = "success";
-  //   reponseJson.status = true;
-  //   reponseJson.data = datos;
-  // } else {
-  //   reponseJson.code = 400;
-  //   reponseJson.message = "no existe";
-  //   reponseJson.status = false;
-  // }
-  // res.json(reponseJson);
+  const fileName =now.getTime() + ".xlsx";
+  const filePath = "./public/pdf/" + fileName;
+  const sendUrl = global.urlBase+'public/pdf/'+fileName;
 
   workbook.xlsx
-    .writeBuffer()
-    .then(async (buffer: any) => {
-      // Convertir el buffer en base64
-      const base64 = buffer.toString("base64");
-
-      // Crear un objeto de respuesta con el archivo base64
-      const datos = {
-        fileName: now.getTime() + ".xlsx",
-        base64Data:
-          "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
-          base64,
-      };
-
-      if (datos) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = datos;
-      } else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-      }
-      res.json(reponseJson);
+    .writeFile(filePath)
+    .then(() => {
+      // Envía la ruta del archivo al frontend para su descarga
+      // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+      console.log("Archivo Excel generado:", filePath);
     })
     .catch((error: any) => {
       console.log("Error al generar el archivo Excel:", error);
     });
+   let sendUser:any = await Users.findOne({ _id: id_user });
+   if (sendUser) {
+     
+         const mailOptions = {
+           from: "Toyousado",
+           to: sendUser.email,
+           subject: "Exportar excell",
+           text:"puede descargar el excell "+fileName,
+           attachments: [
+             {
+               filename: fileName, // nombre del archivo adjunto
+               path: sendUrl, // ruta completa del archivo a adjuntar
+             },
+           ],
+         };
+         await sendEmail(mailOptions);
+    
+   }
+
+
+    const fs = require('fs');
+
+// ...
+
+fs.unlinkSync(filePath);
+
+  if (datos) {
+    reponseJson.code = 200;
+    reponseJson.message = "success";
+    reponseJson.status = true;
+    reponseJson.data = {
+      url:sendUrl,
+      fileName:fileName
+    };
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "no existe";
+    reponseJson.status = false;
+  }
+  res.json(reponseJson);
+
+  // workbook.xlsx
+  //   .writeBuffer()
+  //   .then(async (buffer: any) => {
+  //     // Convertir el buffer en base64
+  //     const base64 = buffer.toString("base64");
+
+  //     // Crear un objeto de respuesta con el archivo base64
+  //     const datos = {
+  //       fileName: now.getTime() + ".xlsx",
+  //       base64Data:
+  //         "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+  //         base64,
+  //     };
+
+  //     if (datos) {
+  //       reponseJson.code = 200;
+  //       reponseJson.message = "success";
+  //       reponseJson.status = true;
+  //       reponseJson.data = datos;
+  //     } else {
+  //       reponseJson.code = 400;
+  //       reponseJson.message = "no existe";
+  //       reponseJson.status = false;
+  //     }
+  //     res.json(reponseJson);
+  //   })
+  //   .catch((error: any) => {
+  //     console.log("Error al generar el archivo Excel:", error);
+  //   });
 });
 
 sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
