@@ -17,7 +17,7 @@
       </ion-col>
 
       <ion-col size="12" style="text-align: left; margin: 10px auto !important;">
-        <ion-title>Grafica de ventas</ion-title>
+        <ion-title class="titlePage">Grafica de ventas</ion-title>
       </ion-col>
 
       <ion-col size="12">
@@ -37,18 +37,19 @@
 
       <ion-col size="12" style="border-bottom: 1px solid black !important;margin-top: 20px !important;">
       </ion-col>
-
+      <ion-col size="12" style="text-align: left; margin: 30px auto auto auto !important;">
+        <ion-title class="titlePage">Lista de vehículos</ion-title>
+      </ion-col>
       <ion-col size="12" style="margin-top: 20px !important;">
-        <ion-title >Lista de vehículos</ion-title>
         <ion-list-header class="headerList">
           <ion-col size="4">
-            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;">Exportar</ion-button>
+            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;" >Exportar</ion-button>
           </ion-col>
           <ion-col size="2">
             
           </ion-col>
           <ion-col size="6">
-            <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;">Filtro de Vehículos</ion-button>
+            <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;" >Filtro de Vehículos</ion-button>
           </ion-col>
           <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
         </ion-list-header>
@@ -77,24 +78,24 @@
                 <ion-grid fixed>
                   <ion-row>
                     <ion-col size="4">
-                      <ion-icon name="image" *ngIf="vehicle.image ===''" style="font-size: 90px !important; margin: 16px 0px 0px 0px !important;"></ion-icon>
+                      <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
                       <ion-img [src]="vehicle.image" *ngIf="vehicle.image !== ''"></ion-img>
                     </ion-col>
                     <ion-col size="8">
                       <ion-row>
                         <ion-col size="12">
-                          <ion-card-title style="font-weight: bold;">{{vehicle.model}}</ion-card-title>
-                          <ion-card-subtitle style="font-size: 13px;font-weight: 600;color: black;">Vendida en <br>{{vehicle.city}}</ion-card-subtitle>
+                          <ion-card-title style="font-weight: bold;" class="modelCar">{{vehicle.model}}</ion-card-title>
+                          <ion-card-subtitle class="cityCar">Vendida en <br>{{vehicle.city}}</ion-card-subtitle>
                         </ion-col>
                         <ion-col size="12" style="text-align: center !important;">
                           <ion-row>
                             <ion-col size="7">
-                              <ion-card-subtitle style="color: black; font-weight: 600; font-size: 13px;">
+                              <ion-card-subtitle class="dateCar">
                                 {{vehicle.date_sell}}
                               </ion-card-subtitle>
                             </ion-col>
                             <ion-col size="5">
-                              <ion-card-title style="font-weight: bold; color: green; font-size: 15px;">
+                              <ion-card-title  class="priceCar">
                                 <!-- {{vehicle.price | currency:'USD':true:'1.0-0'}} -->
                                 ${{vehicle.price ? vehicle.price : 0}}
                               </ion-card-title>

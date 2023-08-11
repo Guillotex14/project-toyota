@@ -105,20 +105,38 @@ ion-search-bar{
   }
 
 }
-ion-chip{
-  position: fixed !important;
-  bottom: 25px !important;
-  margin: 5px auto !important;
-  --background: #ebc90a !important;
-  --color: #000;
+
+hr{
+  border: 0.5px solid #E9E9E9;
+  width: 100%;
+  margin: 10px 0px 10px 0px;
+}
+
+.badge {
+  display: inline-block;
   font-size: 11px;
-  font-weight: 900;
-  width: 70% !important;
-  height: 20px !important;
-  text-transform: capitalize !important;
-  ion-label {
-    // margin: 0px 6px !important;
-  }
+  font-weight: 600;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  min-width: 10px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 99999px
+}
+
+.badge.badge-warning {
+  background-color: #FFD600
+}
+.iconCard{
+  font-size: 90px !important; 
+  margin: 16px 0px 0px 20px !important;
+}
+ion-badge{
+  --background: #EB0A1E !important;
+  --color: white !important;
 }
 
 ion-list{
@@ -142,9 +160,76 @@ ion-item::part(native){
   }
 }
 
+ion-chip{
+  position: fixed !important;
+  bottom: 25px !important;
+  margin: 5px auto !important;
+  --background: #ebc90a !important;
+  --color: #000;
+  font-size: 11px;
+  font-weight: 900;
+  width: 70% !important;
+  height: 20px !important;
+  text-transform: capitalize !important;
+  ion-label {
+    // margin: 0px 6px !important;
+  }
+}
+
 ion-radio {
-  // --border-radius: 8px;
+  --border-radius: 8px;
   --color: #EB0A1E;
   --color-checked: #EB0A1E;
-  // --inner-border-radius: 2px
+  --inner-border-radius: 2px
+}
+
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  .cardVehicles{
+
+    ion-img{
+      width: 130px !important;
+      height: 60px !important;
+      margin: 17px 0px 0px 0px !important;
+      img{
+        width: 95% !important;
+      }
+    }
+
+    p{
+      font-size: 11px !important;
+      // font-weight: 900;
+    }
+  }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 20px 0px 0px 18px !important;
+  }
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+
 }
