@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -31,6 +54,7 @@ const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const nodemailer_1 = require("../../nodemailer");
 const imgUser_1 = __importDefault(require("../models/imgUser"));
+const global = __importStar(require("../global"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -146,11 +170,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
-<<<<<<< HEAD
                 const imgResize = yield desgloseImg(images[i].image);
-=======
-                const imgResize = yield (0, sharp_1.default)(images[i].image);
->>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
                 const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
@@ -971,18 +991,13 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-<<<<<<< HEAD
         reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
-=======
-        reponseJson.message =
-            "no se encontraron vehiculos con los filtros seleccionados";
->>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1019,7 +1034,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     }
     if (!rangMonths) {
         rangMonths = 1;
-    }
+    } //
     let firtsMonth = new Date(anioActual, month - 1, 1);
     let last = new Date(anioActual, 11);
     let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
@@ -1448,55 +1463,61 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             });
         }
     });
-    const filePath = "./public/pdf/" + now.getTime() + ".xlsx";
+    const fileName = now.getTime() + ".xlsx";
+    const filePath = "./public/pdf/" + fileName;
+    const sendUrl = global.urlBase + 'public/pdf/' + fileName;
+    workbook.xlsx
+        .writeFile(filePath)
+        .then(() => {
+        // Envía la ruta del archivo al frontend para su descarga
+        // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
+        console.log("Archivo Excel generado:", filePath);
+    })
+        .catch((error) => {
+        console.log("Error al generar el archivo Excel:", error);
+    });
+    if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = {
+            url: sendUrl,
+            fileName: fileName
+        };
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
     // workbook.xlsx
-    //   .writeFile(filePath)
-    //   .then(() => {
-    //     // Envía la ruta del archivo al frontend para su descarga
-    //     // (esto dependerá de cómo implementes la comunicación con tu aplicación Ionic)
-    //     console.log("Archivo Excel generado:", filePath);
+    //   .writeBuffer()
+    //   .then(async (buffer: any) => {
+    //     // Convertir el buffer en base64
+    //     const base64 = buffer.toString("base64");
+    //     // Crear un objeto de respuesta con el archivo base64
+    //     const datos = {
+    //       fileName: now.getTime() + ".xlsx",
+    //       base64Data:
+    //         "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+    //         base64,
+    //     };
+    //     if (datos) {
+    //       reponseJson.code = 200;
+    //       reponseJson.message = "success";
+    //       reponseJson.status = true;
+    //       reponseJson.data = datos;
+    //     } else {
+    //       reponseJson.code = 400;
+    //       reponseJson.message = "no existe";
+    //       reponseJson.status = false;
+    //     }
+    //     res.json(reponseJson);
     //   })
     //   .catch((error: any) => {
     //     console.log("Error al generar el archivo Excel:", error);
     //   });
-    // if (datos) {
-    //   reponseJson.code = 200;
-    //   reponseJson.message = "success";
-    //   reponseJson.status = true;
-    //   reponseJson.data = datos;
-    // } else {
-    //   reponseJson.code = 400;
-    //   reponseJson.message = "no existe";
-    //   reponseJson.status = false;
-    // }
-    // res.json(reponseJson);
-    workbook.xlsx
-        .writeBuffer()
-        .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
-        // Convertir el buffer en base64
-        const base64 = buffer.toString("base64");
-        // Crear un objeto de respuesta con el archivo base64
-        const datos = {
-            fileName: now.getTime() + ".xlsx",
-            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
-                base64,
-        };
-        if (datos) {
-            reponseJson.code = 200;
-            reponseJson.message = "success";
-            reponseJson.status = true;
-            reponseJson.data = datos;
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "no existe";
-            reponseJson.status = false;
-        }
-        res.json(reponseJson);
-    }))
-        .catch((error) => {
-        console.log("Error al generar el archivo Excel:", error);
-    });
 }));
 sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
