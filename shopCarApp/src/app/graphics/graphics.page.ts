@@ -5,7 +5,8 @@ import { UtilsService } from '../services/utils/utils.service';
 import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import * as moment from 'moment';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem, Directory, FilesystemDirectory, FilesystemEncoding } from '@capacitor/filesystem';
+import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-graphics',
@@ -240,46 +241,52 @@ export class GraphicsPage implements AfterViewInit, OnInit {
         (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
-            this.platform.ready().then(async (d) => {
-              if (this.platform.is('mobile')) {
-                const directorioDescargas = await Filesystem.getUri({
-                  directory: Directory.Data,
-                  path: res.data.fileName,
-                });
+            // this.platform.ready().then(async (d) => {
+            //   if (this.platform.is('mobile')) {
+            //     const directorioDescargas = await Filesystem.getUri({
+            //       directory: Directory.External,
+            //       path: res.data.fileName,
+            //     });
 
-                const rutaArchivo = directorioDescargas.uri;
+            //     const rutaArchivo = directorioDescargas.uri;
 
-                try {
-                  await Filesystem.mkdir({
-                    path: rutaArchivo, // Ruta de la carpeta donde se guardará el archivo
-                    directory: Directory.Data,
-                    recursive: true, // Crea la carpeta de forma recursiva si no existe
-                  });
+            //     try {
+            //       await Filesystem.mkdir({
+            //         path: rutaArchivo, // Ruta de la carpeta donde se guardará el archivo
+            //         directory: Directory.External,
+            //         recursive: true, // Crea la carpeta de forma recursiva si no existe
+            //       });
 
-                  await Filesystem.writeFile({
-                    path: `${rutaArchivo}/${res.data.fileName}`, // Ruta completa del archivo
-                    data: res.data.base64Data, // Contenido del archivo en base64
-                    directory: Directory.Data,
-                  });
+            //       await Filesystem.writeFile({
+            //         path: `${rutaArchivo}/${res.data.fileName}`, // Ruta completa del archivo
+            //         data: res.data.base64Data, // Contenido del archivo en base64
+            //         directory: Directory.External,
+            //       });
+
+            //       this.utils.presentToast(
+            //         'Archivo PDF guardado con éxito en esta ruta: ' +
+            //           rutaArchivo
+            //       );
+            //       console.log('Archivo PDF guardado con éxito');
+            //     } catch (error) {
+            //       this.utils.presentToast(
+            //         'Error al descargar el archivo: ' + error
+            //       );
+            //       console.error('Error al descargar el archivo:', error);
+            //     }
+            //   } else {
+            //     const downloadLink = document.createElement('a');
+            //     downloadLink.href = res.data.base64Data;
+            //     downloadLink.download = res.data.fileName;
+            //     downloadLink.click();
+            //   }
+            // });
+
 
                   this.utils.presentToast(
-                    'Archivo PDF guardado con éxito en esta ruta: ' +
-                      rutaArchivo
+                    'Se mandado un correo de la exportación del excel ' +res.data.fileName
+                      
                   );
-                  console.log('Archivo PDF guardado con éxito');
-                } catch (error) {
-                  this.utils.presentToast(
-                    'Error al descargar el archivo: ' + error
-                  );
-                  console.error('Error al descargar el archivo:', error);
-                }
-              } else {
-                const downloadLink = document.createElement('a');
-                downloadLink.href = res.data.base64Data;
-                downloadLink.download = res.data.fileName;
-                downloadLink.click();
-              }
-            });
           }
         },
         (err: any) => {

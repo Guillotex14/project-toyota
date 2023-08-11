@@ -73,7 +73,7 @@ export class UtilsService {
     const toast = await this.toastCtrl.create({
       message,
       duration: 2000,
-      position: 'top',
+      position: 'middle',
       color: 'dark'
     });
     toast.present();
