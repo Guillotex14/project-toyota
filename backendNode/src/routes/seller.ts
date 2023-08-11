@@ -1227,6 +1227,63 @@ sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
   }
 );
 
+sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id, final_price_sold } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate(
+    { _id: id },
+    { sold: true, price: final_price_sold, dispatched: true }
+  );
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "vehículo entregado exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "erroe al entregar vehículo";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+});
+
+sellerRouter.post("/repost", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate(
+    { _id: id },
+    {
+      sold: false,
+      price_ofert: null,
+      final_price_sold: null,
+      name_new_owner: null,
+      dni_new_owner: null,
+      phone_new_owner: null,
+      email_new_owner: null,
+      date_sell: null,
+      id_seller_buyer: null,
+    }
+  );
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "vehículo publicado exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "erroe al publicar vehículo";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+});
 
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -1995,95 +2052,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id, final_price_sold } = req.body;
-
-  const vehiclesFiltered = await vehicles.findOneAndUpdate(
-    { _id: id },
-    { sold: true, price: final_price_sold, dispatched: true }
-  );
-
-  if (vehiclesFiltered) {
-    reponseJson.code = 200;
-    reponseJson.message = "vehículo entregado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = vehiclesFiltered;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "erroe al entregar vehículo";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-});
-
-sellerRouter.post("/repost", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id } = req.body;
-
-  const vehiclesFiltered = await vehicles.findOneAndUpdate(
-    { _id: id },
-    {
-      sold: false,
-      price_ofert: null,
-      final_price_sold: null,
-      name_new_owner: null,
-      dni_new_owner: null,
-      phone_new_owner: null,
-      email_new_owner: null,
-      date_sell: null,
-      id_seller_buyer: null,
-    }
-  );
-
-  if (vehiclesFiltered) {
-    reponseJson.code = 200;
-    reponseJson.message = "vehículo publicado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = vehiclesFiltered;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "erroe al publicar vehículo";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-});
-
-const gruopCardPrice = (listCar: any[], groupPrice: any) => {
-  let caray: any = {
-    minPrice: {
-      value: groupPrice.minPrice,
-      cars: [],
-    },
-    medPrice: {
-      value: groupPrice.medPrice,
-      cars: [],
-    },
-    maxPrice: {
-      value: groupPrice.maxPrice,
-      cars: [],
-    },
-  };
-  listCar.map((car) => {
-    car.price = car.price ? car.price : 0;
-    if (car.price <= groupPrice.minPrice) {
-      caray.minPrice.cars.push(car);
-    }
-    if (car.price > groupPrice.minPrice && car.price <= groupPrice.medPrice) {
-      caray.medPrice.cars.push(car);
-    }
-    if (car.price > groupPrice.medPrice && car.price <= groupPrice.maxPrice) {
-      caray.maxPrice.cars.push(car);
-    }
-  });
-
-  return caray;
-};
-
 function getMonthlyTotals(data: any) {
   const monthlyTotals: any = [];
   for (let i = 0; i < data.length; i++) {
@@ -2161,49 +2129,6 @@ const agruparPorWeek = (datos: any) => {
   return result;
 };
 
-const sendNotification = async (
-  id_seller: string,
-  message: string,
-  title: string
-) => {
-  // const jsonRes: ResponseModel = new ResponseModel();
-
-  const userInfo = await Sellers.findOne({ _id: id_seller });
-
-  if (userInfo) {
-    const notify = new notifications({
-      id_user: userInfo.id_user,
-      title: title,
-      message: message,
-      date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      status: false,
-    });
-
-    await notify.save();
-  }
-};
-
-const sendNotificationMechanic = async (
-  id_mechanic: string,
-  message: string,
-  title: string
-) => {
-  // const jsonRes: ResponseModel = new ResponseModel();
-
-  const userInfo = await mechanics.findOne({ _id: id_mechanic });
-
-  if (userInfo) {
-    const notify = new notifications({
-      id_user: userInfo.id_user,
-      title: title,
-      message: message,
-      date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      status: false,
-    });
-
-    await notify.save();
-  }
-};
 
 function getMonthRange(startMonth: any, rangeMonths: any) {
   const months = [
@@ -2279,5 +2204,47 @@ const desgloseImg = async (image: any) => {
   return 'data:image/jpeg;base64,'+resize.toString('base64');
 
 }
+const sendNotification = async (
+  id_seller: string,
+  message: string,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
 
+  const userInfo = await Sellers.findOne({ _id: id_seller });
+
+  if (userInfo) {
+    const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      message: message,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+    });
+
+    await notify.save();
+  }
+};
+
+const sendNotificationMechanic = async (
+  id_mechanic: string,
+  message: string,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
+
+  const userInfo = await mechanics.findOne({ _id: id_mechanic });
+
+  if (userInfo) {
+    const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      message: message,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+    });
+
+    await notify.save();
+  }
+};
 export default sellerRouter;
