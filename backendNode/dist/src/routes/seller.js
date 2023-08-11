@@ -956,7 +956,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         month = 1;
     }
     if (!rangMonths) {
-        rangMonths = 12;
+        rangMonths = 1;
     }
     let firtsMonth = new Date(anioActual, month - 1, 1);
     let last = new Date(anioActual, 11);
