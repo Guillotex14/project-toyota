@@ -253,7 +253,7 @@ export class GraphicsAdminPage implements AfterViewInit {
             this.platform.ready().then(async (d) => {
               if (this.platform.is('mobile')) {
                 const directorioDescargas = await Filesystem.getUri({
-                  directory: Directory.Documents,
+                  directory: Directory.Data,
                   path: res.data.fileName,
                 });
 
@@ -262,14 +262,14 @@ export class GraphicsAdminPage implements AfterViewInit {
                 try {
                   await Filesystem.mkdir({
                     path: rutaArchivo, // Ruta de la carpeta donde se guardará el archivo
-                    directory: Directory.Documents,
+                    directory: Directory.Data,
                     recursive: true, // Crea la carpeta de forma recursiva si no existe
                   });
 
                   await Filesystem.writeFile({
                     path: `${rutaArchivo}/${res.data.fileName}`, // Ruta completa del archivo
                     data: res.data.base64Data, // Contenido del archivo en base64
-                    directory: Directory.Documents,
+                    directory: Directory.Data,
                   });
 
                   this.utils.presentToast(
