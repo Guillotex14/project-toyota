@@ -208,9 +208,9 @@ ion-radio {
   }
 
   .cardVehicles{
-
+    margin: auto !important;
     ion-img{
-      width: 130px !important;
+      width: 117px !important;
       height: 60px !important;
       margin: 17px 0px 0px 0px !important;
       img{
@@ -231,7 +231,11 @@ ion-radio {
 }
 
 @media screen and (width:360px){
-
+  .cardVehicles{
+    ion-card{
+      margin: auto !important;
+    }
+  }
 }
 
 @media screen and (width:320px){

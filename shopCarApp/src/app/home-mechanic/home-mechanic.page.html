@@ -100,7 +100,7 @@
               <span class="pText">Todos los modelos</span>
             </ion-col>
 
-            <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" *ngFor="let vehicle of arrayVehicles; let i = index">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img> -->
@@ -117,7 +117,7 @@
                 <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
-                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" style="margin-top: 15px;">
+                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">
                   ver detalle
                 </ion-button>
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
