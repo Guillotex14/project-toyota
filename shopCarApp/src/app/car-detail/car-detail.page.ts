@@ -170,27 +170,27 @@ export class CarDetailPage implements OnInit {
     }
 
     if(this.fullName == "" || this.fullName == null || this.fullName == undefined){
-      this.utils.presentToast("Ingrese su nombre del nuevo propierario");
+      this.utils.presentToast("Ingrese su nombre del comprador");
       return;
     }
       
     if(this.typeDni == "" || this.typeDni == null || this.typeDni == undefined){
-      this.utils.presentToast("Seleccione un tipo de cedula");
+      this.utils.presentToast("Seleccione un tipo de cédula");
       return;
     }
     
     if(this.dni == "" || this.dni == null || this.dni == undefined){
-      this.utils.presentToast("Ingrese numero de cedula del nuevo propierario");
+      this.utils.presentToast("Ingrese numero de cédula del comprador");
       return;
     }
 
     if(this.phone == "" || this.phone == null || this.phone == undefined){
-      this.utils.presentToast("Ingrese numero de telefono del nuevo propierario");
+      this.utils.presentToast("Ingrese numero de teléfono del comprador");
       return; 
     }
 
     if(this.email == "" || this.email == null || this.email == undefined){
-      this.utils.presentToast("Ingrese correo electronico del nuevo propierario");
+      this.utils.presentToast("Ingrese correo electrónico del comprador");
       return;
     }
 
@@ -559,7 +559,7 @@ export class CarDetailPage implements OnInit {
   }
 
   public dispatched(){
-    this.utils.presentLoading("Actualizando vehiculo...");
+    this.utils.presentLoading("Actualizando vehículo...");
     let data = {
       id: this.id,
       final_price_sold: this.carDetail.final_price_sold,
@@ -567,39 +567,39 @@ export class CarDetailPage implements OnInit {
       this.sellerSrv.dispatched(data).subscribe((data:any)=>{
 
         if (data.status) {
-          this.utils.presentToast("Vehiculo entregado");
+          this.utils.presentToast("Vehículo entregado");
           this.utils.dismissLoading();
           this.getVehicleById();
         }else{
-          this.utils.presentToast("Error al entregar vehiculo");
+          this.utils.presentToast("Error al entregar vehículo");
           this.utils.dismissLoading();
         }
     }
     ,(err)=>{
       console.log(err)
-      this.utils.presentToast("Error al entregar vehiculo");
+      this.utils.presentToast("Error al entregar vehículo");
       this.utils.dismissLoading();
     })
   }
 
   public repost(){
-    this.utils.presentLoading("Actualizando vehiculo...");
+    this.utils.presentLoading("Actualizando vehículo...");
     let data = {
       id: this.id,
     }
 
     this.sellerSrv.repost(data).subscribe((data:any)=>{
       if (data.status) {
-        this.utils.presentToast("Vehiculo publicado Exitosamente");
+        this.utils.presentToast("Vehículo publicado Exitosamente");
         this.utils.dismissLoading();
       }else{
-        this.utils.presentToast("Error al publicar vehiculo");
+        this.utils.presentToast("Error al publicar vehículo");
         this.utils.dismissLoading();
       }
     }
     ,(err)=>{
       console.log(err)
-      this.utils.presentToast("Error al publicar vehiculo");
+      this.utils.presentToast("Error al publicar vehículo");
       this.utils.dismissLoading();
     })
   }

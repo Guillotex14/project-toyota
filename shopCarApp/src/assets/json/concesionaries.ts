@@ -137,7 +137,7 @@ export const concesionaries = [
     },
     {
         "id": 28,
-        "name": "TOYOCENTRO VENTA DE VEHICULOS Y REPUESTOS, C.A.",
+        "name": "TOYOCENTRO VENTA DE VEHCULOS Y REPUESTOS, C.A.",
         "estado": "Distrito Capital"
     },
     {
