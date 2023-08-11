@@ -62,12 +62,20 @@ export class HomeSellerPage implements OnInit {
       this.id_user = me.id;
     }
     
+    // this.getBrands();
+    // this.getModels()
+    // this.getNotifies();
+    // this.getCountNotifies();
+    // this.getVehicles();
+
+  }
+
+  ionViewWillEnter(){
     this.getBrands();
     this.getModels()
     this.getNotifies();
     this.getCountNotifies();
     this.getVehicles();
-
   }
 
   ngOnInit() {
@@ -85,9 +93,15 @@ export class HomeSellerPage implements OnInit {
 
   public getModels(){
     this.sellerSrv.allModels().subscribe((res: any) => {
-      this.arrayModels = res.data;
+      if(res.status){
+        this.arrayModels = res.data;
+      }else{
+        this.utils.presentToast(res.message)
+      }
+
     }, (err: any) => {
       console.log(err);
+      this.utils.presentToast("Error de servidor")
     });
   }
 
@@ -210,12 +224,19 @@ export class HomeSellerPage implements OnInit {
       maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0
     }
 
-    console.log(data)
-    // return;
+    this.utils.presentLoading("Cargando vehiculos");
     this.sellerSrv.getListByFilter(data).subscribe((data:any)=>{
       if (data.status) {
         this.arrayVehicles = data.data;
+        this.utils.dismissLoading();
+      }else{
+        this.utils.dismissLoading();
+        this.utils.presentToast(data.message);
       }
+    },
+    (err:any)=>{
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     })
   }
 

@@ -45,6 +45,7 @@ export class AddMechanicPage implements OnInit {
   }
 
   public openMenu() {
+    this.utils.setLogin(true);
     this.menu.open();
   }
 
@@ -53,7 +54,7 @@ export class AddMechanicPage implements OnInit {
   }
 
   public addMechanic(){
-
+    this.utils.presentLoading("Registrando mecánico");
     if (this.newMechanic.email != "" && this.newMechanic.password != "" && this.newMechanic.password_confirm != "" && this.newMechanic.city != "" && this.newMechanic.concesionary != "" && this.newMechanic.fullName != "" && this.newMechanic.username != "" && this.newMechanic.phone != "") {
       this.sellerSrv.addMechanic(this.newMechanic).subscribe((data:any)=>{
         if (data.status) {
@@ -65,56 +66,69 @@ export class AddMechanicPage implements OnInit {
           this.newMechanic.concesionary = "";
           this.newMechanic.fullName = "";
           this.newMechanic.username = "";
+          this.router.navigate(['seller']);
         }else{
           this.utils.presentToast(data.message);
+          this.utils.dismissLoading();
         }
 
       }
       ,(error:any)=>{
         console.log(error);
+        this.utils.dismissLoading();
+        this.utils.presentToast("Error de servidor");
       });
     }else{
       if (this.newMechanic.email == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("El email es obligatorio");
         return;
       }
 
       if (this.newMechanic.password == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("La contraseña es obligatoria");
-        return
+        return;
       }
 
       if (this.newMechanic.password_confirm == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("La confirmación de la contraseña es obligatoria");
-        return
+        return;
       }
 
       if (this.newMechanic.password != this.newMechanic.password_confirm) {
+        this.utils.dismissLoading();
         this.utils.presentToast("Las contraseñas no coinciden");
-        return
+        return;
       }
 
       if (this.newMechanic.city == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("La estado es obligatoria");
         return
       }
 
       if (this.newMechanic.concesionary == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("La concesionaria es obligatoria");
         return
       }
 
       if (this.newMechanic.fullName == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("El nombre completo es obligatorio");
         return
       }
 
       if (this.newMechanic.username == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("El nombre de usuario es obligatorio");
         return
       }
 
       if (this.newMechanic.phone == "") {
+        this.utils.dismissLoading();
         this.utils.presentToast("El numero teléfonico es obligatorio");
         return
       }

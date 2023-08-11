@@ -22,7 +22,7 @@ const cronJobs = async () => {
     //captando de mongo todolos los vehiculos que tienen una oferta activa
     const dateNow = moment().format('YYYY-MM-DD');
 
-    const info = await Vehicles.find({id_seller_buyer:{$ne:null},sold:true, date_sell: { $ne: null },price_ofert:{$ne:null},final_price_sold:{$ne:null}, dispatched: false});
+    const info = await Vehicles.find({id_seller_buyer:{$ne:null},sold:false, date_sell: { $ne: null },price_ofert:{$ne:null},final_price_sold:{$ne:null}, dispatched: false});
 
     // for para comparar la fecha actual sea mayor a la fecha de venta
     for (let i = 0; i < info.length; i++) {

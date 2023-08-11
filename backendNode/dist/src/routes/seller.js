@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const moment_1 = __importDefault(require("moment"));
+const sharp_1 = __importDefault(require("sharp"));
 const Users_1 = __importDefault(require("../models/Users"));
 const Vehicles_1 = __importDefault(require("../models/Vehicles"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
@@ -73,13 +74,13 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
             };
             yield (0, nodemailer_1.sendEmail)(mailOptions);
             reponseJson.code = 200;
-            reponseJson.message = "Mecanico agregado exitosamente";
+            reponseJson.message = "Técnico agregado exitosamente";
             reponseJson.status = true;
             reponseJson.data = "";
         }
         else {
             reponseJson.code = 400;
-            reponseJson.message = "Error al agregar mecanico";
+            reponseJson.message = "Error al agregar técnico";
             reponseJson.status = false;
             reponseJson.data = "";
         }
@@ -144,7 +145,8 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
-                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(images[i].image);
+                const imgResize = yield (0, sharp_1.default)(images[i].image);
+                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
                     id_vehicle: newVehicle._id,
@@ -157,19 +159,19 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic,
-        subject: "Revisión de vehiculo",
+        subject: "Revisión de vehículo",
         text: "El vendedor " +
             infoSeller.fullName +
             " del concesionario " +
             infoSeller.concesionary +
-            " del estado" +
+            " del estado " +
             infoSeller.city +
-            " ha agregado un vehiculo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
+            " ha agregado un vehículo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
     reponseJson.code = 200;
-    reponseJson.message = "Vehiculo agregado exitosamente";
+    reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
     reponseJson.data = "";
     res.json(reponseJson);
@@ -183,13 +185,13 @@ sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void
     if (vehicleUpdated) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Vehiculo actualizado correctamente";
+        reponseJson.message = "Vehículo actualizado correctamente";
         reponseJson.data = vehicleUpdated;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo actualizar el vehiculo";
+        reponseJson.message = "No se pudo actualizar el vehículo";
     }
     res.json(reponseJson);
 }));
@@ -276,48 +278,73 @@ sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         .sort({ date_create: -1 });
     if (vehiclesArray) {
         jsonRes.code = 200;
-        jsonRes.message = "vehiculos encontrados";
+        jsonRes.message = "vehículos encontrados";
         jsonRes.status = true;
         jsonRes.data = vehiclesArray;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no se encontraron vehiculos";
+        jsonRes.message = "no se encontraron vehículos";
         jsonRes.status = false;
     }
     res.json(jsonRes);
 }));
 sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
+    let arrayVehicles = [];
     const { id_seller } = req.body;
-    // const ress = await vehicles
-    //   .find({ id_seller: id_seller })
-    //   .then((res: any) => {
-    //     console.log("carros a la venta", res);
-    //     if (res) {
-    //       jsonRes.code = 200;
-    //       jsonRes.message = "success";
-    //       jsonRes.status = true;
-    //       jsonRes.data = res;
-    //     } else if (!res) {
-    //       jsonRes.code = 400;
-    //       jsonRes.message = "no existe";
-    //       jsonRes.status = false;
-    //     }
-    //   })
-    //   .catch((err: any) => {
-    //     console.log(err);
-    //   });
-    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller });
+    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller }).sort({ date_create: -1 });
     if (myVehicles) {
+        for (let i = 0; i < myVehicles.length; i++) {
+            let data = {
+                name_new_owner: myVehicles[i].name_new_owner,
+                dni_new_owner: myVehicles[i].dni_new_owner,
+                phone_new_owner: myVehicles[i].phone_new_owner,
+                email_new_owner: myVehicles[i].email_new_owner,
+                price_ofert: myVehicles[i].price_ofert,
+                final_price_sold: myVehicles[i].final_price_sold,
+                _id: myVehicles[i]._id,
+                model: myVehicles[i].model,
+                brand: myVehicles[i].brand,
+                year: myVehicles[i].year,
+                displacement: myVehicles[i].displacement,
+                km: myVehicles[i].km,
+                engine_model: myVehicles[i].engine_model,
+                titles: myVehicles[i].titles,
+                fuel: myVehicles[i].fuel,
+                transmission: myVehicles[i].transmission,
+                city: myVehicles[i].city,
+                dealer: myVehicles[i].dealer,
+                concesionary: myVehicles[i].concesionary,
+                traction_control: myVehicles[i].traction_control,
+                performance: myVehicles[i].performance,
+                comfort: myVehicles[i].comfort,
+                technology: myVehicles[i].technology,
+                id_seller: myVehicles[i].id_seller,
+                id_mechanic: myVehicles[i].id_mechanic,
+                price: myVehicles[i].price,
+                mechanicalFile: myVehicles[i].mechanicalFile,
+                id_seller_buyer: myVehicles[i].id_seller_buyer,
+                sold: myVehicles[i].sold,
+                type_vehicle: myVehicles[i].type_vehicle,
+                traction: myVehicles[i].traction,
+                date_sell: myVehicles[i].date_sell,
+                date_create: myVehicles[i].date_create,
+                plate: myVehicles[i].plate,
+                vin: myVehicles[i].vin,
+                dispatched: myVehicles[i].dispatched,
+                images: (yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id }) : "",
+            };
+            arrayVehicles.push(data);
+        }
         jsonRes.code = 200;
         jsonRes.message = "Vehicleos encontrados";
         jsonRes.status = true;
-        jsonRes.data = myVehicles;
+        jsonRes.data = arrayVehicles;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "No se encontraron vehiculos";
+        jsonRes.message = "No se encontraron vehículos";
         jsonRes.status = false;
     }
     res.json(jsonRes);
@@ -402,7 +429,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             responseJson.code = 200;
-            responseJson.message = "mecanicos encontrados";
+            responseJson.message = "Técnicos encontrados";
             responseJson.status = true;
             for (let i = 0; i < res.length; i++) {
                 yield Mechanics_1.default
@@ -444,7 +471,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
         }
         else {
             responseJson.code = 400;
-            responseJson.message = "no se encontraron mecanicos";
+            responseJson.message = "no se encontraron técnicos";
             responseJson.status = false;
             return responseJson;
         }
@@ -462,14 +489,14 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
         .then((res) => {
         if (res) {
             jsonResponse.code = 200;
-            jsonResponse.message = "mecanicos encontrados";
+            jsonResponse.message = "Técnicos encontrados";
             jsonResponse.status = true;
             jsonResponse.data = res;
             return jsonResponse;
         }
         else if (!res) {
             jsonResponse.code = 400;
-            jsonResponse.message = "no se encontraron mecanicos";
+            jsonResponse.message = "no se encontraron Técnicos";
             jsonResponse.status = false;
             return jsonResponse;
         }
@@ -589,13 +616,13 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         });
         if (vehicle) {
             responseJson.code = 200;
-            responseJson.message = "vehiculo comprado exitosamente";
+            responseJson.message = "vehículo comprado exitosamente";
             responseJson.status = true;
             responseJson.data = vehicle;
         }
         else {
             responseJson.code = 400;
-            responseJson.message = "no se pudo comprar el vehiculo";
+            responseJson.message = "no se pudo comprar el vehículo";
             responseJson.status = false;
         }
     }
@@ -617,8 +644,8 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         const mailOptions = {
             from: "Toyousado Notifications",
             to: email.email,
-            subject: "Compra de vehiculo",
-            text: `el vendedor ${infoBuyer.fullName} quiere comprar tu vehiculo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al numero telefono ${infoBuyer.phone}`,
+            subject: "Compra de vehículo",
+            text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al número telefono ${infoBuyer.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
@@ -638,7 +665,7 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
         price_ofert: infoVehicle.price_ofert,
         date_sell: date_sell,
         final_price_sold: infoVehicle.price_ofert,
-        sold: true,
+        sold: false,
     });
     const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
     const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
@@ -657,8 +684,8 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
             const mailOptions = {
                 from: "Toyousado Notifications",
                 to: userbuyer.email,
-                subject: "Oferta de vehiculo aprobada",
-                text: `Tu oferta del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+                subject: "Oferta de vehículo aprobada",
+                text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
             };
             yield (0, nodemailer_1.sendEmail)(mailOptions);
             sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -701,8 +728,8 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
         const mailOptions = {
             from: "Toyousado Notifications",
             to: userbuyer.email,
-            subject: "Compra de vehiculo rechazada",
-            text: `Tu compra del vehiculo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al numero telefono ${infoSeller.phone}`,
+            subject: "Compra de vehículo rechazada",
+            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -800,13 +827,13 @@ sellerRouter.post("/getVehicleByType", (req, res) => __awaiter(void 0, void 0, v
     });
     if (arrayVehicles) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos";
+        reponseJson.message = "no se encontraron vehículos";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -817,7 +844,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     let query = {};
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
     }
@@ -1564,13 +1591,13 @@ sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void
     const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculo entregado exitosamente";
+        reponseJson.message = "vehículo entregado exitosamente";
         reponseJson.status = true;
         reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "erroe al entregar vehiculo";
+        reponseJson.message = "erroe al entregar vehículo";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1591,13 +1618,13 @@ sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, fun
     });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
-        reponseJson.message = "vehiculo publicado exitosamente";
+        reponseJson.message = "vehículo publicado exitosamente";
         reponseJson.status = true;
         reponseJson.data = vehiclesFiltered;
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "erroe al publicar vehiculo";
+        reponseJson.message = "erroe al publicar vehículo";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1771,5 +1798,16 @@ const getNameMonth = (date) => {
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
+    let posr = image.split(";base64").pop();
+    let imgBuff = Buffer.from(posr, 'base64');
+    const resize = yield (0, sharp_1.default)(imgBuff).resize(150, 80).toBuffer().then((data) => {
+        return data;
+    }).catch((err) => {
+        console.log("error", err);
+        return "";
+    });
+    return 'data:image/jpeg;base64,' + resize.toString('base64');
+});
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map

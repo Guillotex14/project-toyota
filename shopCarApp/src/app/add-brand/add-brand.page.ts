@@ -18,6 +18,7 @@ export class AddBrandPage implements OnInit {
   }
 
   public openMenu() {
+    this.utils.setLogin(true);
     this.menu.open();
   }
 
@@ -26,27 +27,31 @@ export class AddBrandPage implements OnInit {
   }
 
   public addBrand() {
-
+    this.utils.presentLoading('Agregando marca');
     let data= {
       name: this.brandName,
     }
 
     if (this.brandName == '') {
       this.utils.presentToast('Debe ingresar el nombre de la marca');
+      this.utils.dismissLoading();
       return;
     }
 
     this.adminSrv.addBrand(data).subscribe((res:any) => {
       
       if (res.status) {
+        this.utils.dismissLoading();
         this.utils.presentToast('Marca agregada correctamente');
         this.router.navigate(['home-admin']);
         this.brandName = '';
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(res.message);
       }
     
     }, (err:any) => {
+      this.utils.dismissLoading();
       this.utils.presentToast(err.message);
     });
   }

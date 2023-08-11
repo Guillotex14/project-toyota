@@ -116,14 +116,6 @@ const routes: Routes = [
     loadChildren: () => import('./add-brand/add-brand.module').then( m => m.AddBrandPageModule)
   },
   {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
-  },
-  {
-    path: 'detail-notification',
-    loadChildren: () => import('./detail-notification/detail-notification.module').then( m => m.DetailNotificationPageModule)
-  },
-  {
     path: 'add-model-vehicle',
     loadChildren: () => import('./add-model-vehicle/add-model-vehicle.module').then( m => m.AddModelVehiclePageModule)
   }

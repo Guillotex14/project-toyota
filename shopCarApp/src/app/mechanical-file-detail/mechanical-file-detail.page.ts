@@ -75,11 +75,16 @@ export class MechanicalFileDetailPage implements OnInit {
     this.mechanicalFile.headlights_lights= "";
     this.mechanicalFile.general_condition= "";
 
-    this.getMechanicFile();
+    // this.getMechanicFile();
   }
 
   ngOnInit() {
   }
+
+  ionViewWillEnter(){
+    this.getMechanicFile();
+  }
+
 
   public getScrollPos(pos: any) {
     if (pos.detail.scrollTop > this.platform.height()) {
@@ -101,12 +106,11 @@ export class MechanicalFileDetailPage implements OnInit {
     this.sellerSrv.mechanicFile(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
-        
         this.mechanicalFile = data.data;
         this.utils.dismissLoading();
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
     }, error => {

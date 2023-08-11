@@ -172,19 +172,19 @@
 
             <ion-col size="4" style="text-align: center !important;">
               <ion-col size="12">
-                <span class="spanLabel">Transmición</span>
+                <span class="spanLabel">Transmisión</span>
               </ion-col>
               <ion-col size="12">
-                <p class="pText">{{carDetail.traction}}</p>
+                <p class="pText">{{carDetail.transmission}}</p>
               </ion-col>
             </ion-col>
 
             <ion-col size="4" style="text-align: center !important;">
               <ion-col size="12">
-                <span class="spanLabel">Transmisión</span>
+                <span class="spanLabel">Tracción</span>
               </ion-col>
               <ion-col size="12">
-                <p class="pText">{{carDetail.transmission}}</p>
+                <p class="pText">{{carDetail.traction}}</p>
               </ion-col>
             </ion-col>
 
@@ -204,8 +204,8 @@
                             <!-- <ion-col size="3" style="text-align: center !important;" style="text-align: right !important;">
                               <ion-icon name="navigate-sharp" style="color: #787878; font-size: 25px;"></ion-icon>
                             </ion-col> -->
-                            <ion-col size="12" style="text-align: left !important;">
-                              <span style="font-size: 14px;color: #575757; ">{{carDetail.city}}</span>
+                            <ion-col size="12" style="text-align: center !important;">
+                              <span style="font-size: 14px;color: #575757;" >{{carDetail.city}}</span>
                             </ion-col>
                           </ion-row>
                         </ion-col>
@@ -360,7 +360,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null&&!carDetail.sold">
+            <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null&& carDetail.sold===false">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">
@@ -375,7 +375,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null&&!carDetail.sold">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null&& carDetail.sold===false">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">
@@ -399,11 +399,11 @@
               </ion-grid>
             </ion-col> -->
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId && carDetail.price_ofert !== null&&!carDetail.sold" style="text-align: center !important;">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId && carDetail.price_ofert !== null&&carDetail.sold===false" style="text-align: center !important;">
               <p class="pText">Tienes una oferta por tu vehiculo de ${{setDot(carDetail.price_ofert ? carDetail.price_ofert : 0)}}</p>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&&carDetail.price_ofert !== null&& carDetail.final_price_sold === null&&!carDetail.sold">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&&carDetail.price_ofert !== null&& carDetail.final_price_sold === null&&carDetail.sold===false">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="6">
@@ -420,7 +420,7 @@
               </ion-grid>
             </ion-col>
             
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&& carDetail.price_ofert !== null&& carDetail.final_price_sold !== null&&!carDetail.sold">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null && carDetail.id_seller===myId&& carDetail.price_ofert !== null&& carDetail.final_price_sold !== null&& carDetail.sold===false">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">
@@ -467,12 +467,12 @@
             </ion-col>
 
             <ion-col size="12">
-              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Nombre Completo</ion-label>
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Nombre del comprador</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="fullName"></ion-input>
             </ion-col>
 
             <ion-col size="12">
-              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Cedula</ion-label>
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Cedula del comprador</ion-label>
 
               <ion-row>
                 <ion-col size="4">
@@ -492,12 +492,12 @@
             </ion-col>
 
             <ion-col size="12">
-              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Telefono</ion-label>
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Telefono del comprador</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="phone"></ion-input>
             </ion-col>
 
             <ion-col size="12">
-              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Correo electronico</ion-label>
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Correo electronico del comprador</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="email"></ion-input>
             </ion-col>
 

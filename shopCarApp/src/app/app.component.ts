@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { MenuController, Platform } from '@ionic/angular';
+import { IonActionSheet, MenuController, Platform } from '@ionic/angular';
 import { UtilsService } from './services/utils/utils.service';
 import { Router } from '@angular/router';
 
@@ -27,8 +27,8 @@ export class AppComponent implements  OnInit{
   
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
-  @ViewChild('actionSheet') actionSheet: any;
-  @ViewChild('actionSheetEdit') actionSheetEdit: any;
+  @ViewChild('ActionSheet') actionSheet!: IonActionSheet;
+  @ViewChild('ActionSheetEdit') actionSheetEdit!: IonActionSheet;
 
   constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService) {
 
@@ -39,7 +39,17 @@ export class AppComponent implements  OnInit{
       this.username = me.fullName;
       this.image = me.img;
       this.idUser = me.id;
+
+      // if(me.type_user == "admin"){
+      //   this.router.navigate(['home-admin']);
+      // }else if(me.type_user == "seller"){
+      //   this.router.navigate(['seller']);
+      // }else if(me.type_user == "mechanic"){
+      //   this.router.navigate(['mechanic']);
+      // }
+
     }
+
 
     if (this.utils.isApp()) {
       this.typeConection = true;
@@ -61,12 +71,21 @@ export class AppComponent implements  OnInit{
 
   public getLogin() {
     this.utils.getLogin().subscribe((data) => {
-      if (data) {
-        let type = localStorage.getItem('typeUser')!;
-        this.typeUser = type;
+      console.log(data)
+      if (data === true) {
+
+        let me = localStorage.getItem('me')!;
+        let meJson = JSON.parse(me);
+        
+        this.username = meJson.fullName;
+        this.image = meJson.img;
+        this.idUser = meJson.id;
+        this.typeUser = meJson.type_user;
       }else{
-        let type = localStorage.getItem('typeUser')!;
-        this.typeUser = type;
+        this.username = "";
+        this.image = null;
+        this.idUser = "";
+        this.typeUser = "";
       }
     });
   }
@@ -242,86 +261,82 @@ export class AppComponent implements  OnInit{
   }
 
   public async takePhoto(){
-    console.log("entro")
-    // this.utils.presentLoading("Cargando imagen...");
+    
+    this.utils.presentLoading("Cargando imagen...");
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
+      this.saveImageDB(imageData.dataUrl);
     })
+    this.utils.dismissLoading();
   }
 
   public async takePhotoGalery(){
-    console.log("entro")
+    this.utils.presentLoading("Cargando imagen...");
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData.dataUrl;
-      // this.arrayImages[this.aux].image = base64;
-      // this.utils.dismissLoading();
+      this.saveImageDB(imageData.dataUrl);
+
     },
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
-    }
+    })
 
-    )
+    this.utils.dismissLoading();
 
   }
 
   public async editTakePhoto(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    
+    const camera = await Camera.getPhoto({
       quality: 90,
-      // allowEditing: false,
-      // resultType: CameraResultType.DataUrl,
-      // source: CameraSource.Photos,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
     }).then((imageData)=>{
-      console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // let img = {
-      //   image: base64,
-      // }
-      // this.arrayImages.push(img);
-
-      // this.utils.dismissLoading();
+      this.updateImgDB(imageData.dataUrl);
     } ,
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
     })
+
+    this.utils.dismissLoading();
   }
 
   public async editTakePhotoGalery(){
-    console.log(this.aux);
-    // this.utils.presentLoading("Cargando imagen...");
-    const camera = await Camera.pickImages({
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
       quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
 
     }).then((imageData)=>{
       console.log(imageData)
-      // let base64 = 'data:image/jpeg;base64,'+imageData;
-      // this.arrayImages[this.aux].image = base64;
-      // this.utils.dismissLoading();
+      this.updateImgDB(imageData.dataUrl);
     } ,
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
     })
+    this.utils.dismissLoading();
 
+  }
+
+  public openActionSheet(){
+    this.actionSheet.present();
+    this.closeMenu()
+  }
+
+  public openActionSheetEdit(){
+    this.actionSheetEdit.present();
+    this.closeMenu()
   }
 
 }

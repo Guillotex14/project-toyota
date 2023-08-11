@@ -92,7 +92,7 @@ mechanicRouter.post("/countInspections", (req, res) => __awaiter(void 0, void 0,
     const vehiclesList = yield Vehicles_1.default.countDocuments({ id_mechanic: id_mechanic, mechanicalFile: false });
     reponseJson.code = 200;
     reponseJson.status = true;
-    reponseJson.message = "Cantidad de vehiculos";
+    reponseJson.message = "Cantidad de vehículos";
     reponseJson.data = vehiclesList;
     res.json(reponseJson);
 }));
@@ -135,13 +135,13 @@ mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, v
         };
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Vehiculo encontrado";
+        reponseJson.message = "Vehículo encontrado";
         reponseJson.data = data;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro el vehiculo";
+        reponseJson.message = "No se encontro el vehículo";
     }
     res.json(reponseJson);
 }));
@@ -232,7 +232,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
                 }
             }
         }
-        //obteniendo la informacion del mecanico
+        //obteniendo la informacion del tecnico
         const mechanic = yield Mechanics_1.default.findOne({ _id: id_mechanic });
         if (mechanic) {
             infoMechanic.fullname = mechanic.fullName;
@@ -243,7 +243,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehiculo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
+            text: `La ficha mecanica de tu vehículo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
@@ -261,7 +261,7 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
     let query = {};
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_mechanic } = req.body;
-    //aqui creamos las condiciones para el filtro de los vehiculos y las querys
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
     }
@@ -356,7 +356,7 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos";
+        reponseJson.message = "no se encontraron vehículos";
         reponseJson.status = false;
     }
     res.json(reponseJson);

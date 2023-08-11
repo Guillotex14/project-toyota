@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SellerService } from '../services/seller/seller.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilsService } from '../services/utils/utils.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-myvehicles',
@@ -12,7 +13,7 @@ export class MyvehiclesPage implements OnInit {
   id: string = "";
   arrayVehicles: any[] = [];
   
-  constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService) {
+  constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) {
     
     let data = localStorage.getItem('me');
 
@@ -28,7 +29,8 @@ export class MyvehiclesPage implements OnInit {
   }
 
 public openMenu() {
-
+  this.utils.setLogin(true);
+  this.menuCtrl.open();
 }
 
   public goBack() {
@@ -48,9 +50,15 @@ public openMenu() {
         this.utils.dismissLoading();
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
-    });
+    },
+      (error: any) => {
+        console.log(error);
+        this.utils.dismissLoading();
+        this.utils.presentToast("Error de servidor");
+      });
   }
 
   public goDetail(id_vehicle:any){

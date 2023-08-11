@@ -64,3 +64,24 @@ ion-card{
     text-align: center;
   }
 }
+
+ion-list{
+  ion-item::part(native){
+    background: #FFF !important;
+    color: #000 !important;
+    ion-label{
+      color: #000 !important;
+    }
+  }
+}
+
+
+ion-item::part(native){
+  color: #fff !important;
+  background: #EB0A1E !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  ion-icon{
+    color: #fff !important;
+  }
+}
