@@ -56,7 +56,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel" class="spanLabel">Marca</span>
               </ion-col>
@@ -67,7 +67,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel" class="spanLabel">Motor</span>
               </ion-col>
@@ -76,7 +76,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel" class="spanLabel">Año</span>
               </ion-col>
@@ -87,7 +87,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Km</span>
               </ion-col>
@@ -96,7 +96,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Cilindrada</span>
               </ion-col>
@@ -105,7 +105,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Combustible</span>
               </ion-col>
@@ -114,7 +114,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Títulos</span>
               </ion-col>
@@ -123,7 +123,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Transmisión</span>
               </ion-col>
@@ -132,7 +132,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
                 <span class="spanLabel">Tracción</span>
               </ion-col>
@@ -163,7 +163,7 @@
                             <!-- <ion-col size="4" style="text-align: center !important;" style="text-align: right !important;">
                               <ion-icon name="navigate-sharp" style="color: #787878; font-size: 25px;"></ion-icon>
                             </ion-col> -->
-                            <ion-col size="12" style="text-align: left !important;">
+                            <ion-col size="12" style="text-align: center !important;">
                               <span class="spanLabel2">{{carDetail.city}}</span>
                             </ion-col>
                           </ion-row>
@@ -190,25 +190,25 @@
               <ion-card>
                 <ion-card-content>
                   <ion-row>
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="carDetail.traction_control === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.traction_control === 'true'">
                       <ion-img src="assets/images/logo/traccion.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Control de tracción</p>
                       <span style="font-size: 10px; color: #898989">Estable y seguro</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="carDetail.technology === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.technology === 'true'">
                       <ion-img src="assets/images/logo/tecnologia.png" style="width: 29% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Tecnología</p>
                       <span style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="carDetail.performance === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.performance === 'true'">
                       <ion-img src="assets/images/logo/performance.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Performance</p>
                       <span style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="carDetail.comfort === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === 'true'">
                       <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Confort</p>
                       <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y ecologico</span>
