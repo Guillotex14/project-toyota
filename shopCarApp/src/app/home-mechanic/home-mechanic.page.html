@@ -39,15 +39,15 @@
       <ion-col size="12" class="colFilter">
         <ion-row>
 
-          <ion-col size="4" class="colResultFilter">
+          <ion-col sizeXl="5" sizeLg="5" sizeMd="5" sizeSm="5" sizeXs="5" class="colResultFilter">
             <span>
               Resultados {{arrayVehicles.length}}
             </span>
           </ion-col>
-          <ion-col size="4">
+          <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
           </ion-col>
 
-          <ion-col size="4" class="colIconFilter" id="openFilters">
+          <ion-col sizeXl="5" sizeLg="5" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" id="openFilters">
             <ion-icon name="list-outline"></ion-icon>
             <span>
               Filtro
@@ -100,7 +100,7 @@
               <span class="pText">Todos los modelos</span>
             </ion-col>
 
-            <ion-col size="6" *ngFor="let vehicle of arrayVehicles; let i = index">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" *ngFor="let vehicle of arrayVehicles; let i = index">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img> -->

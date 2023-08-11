@@ -356,7 +356,7 @@ export class CarDetailPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos,
+      source: CameraSource.Camera,
     }).then((imageData)=>{
       this.addNewImage(imageData.dataUrl);
     },
@@ -388,7 +388,7 @@ export class CarDetailPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos,
+      source: CameraSource.Camera,
     }).then((imageData)=>{
       this.editImgVehicle(imageData.dataUrl);
     },

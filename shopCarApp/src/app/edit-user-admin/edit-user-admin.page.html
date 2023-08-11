@@ -21,26 +21,26 @@
       <ion-col size="12">
         <ion-grid fixed>
           <ion-row>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Nombre Completo</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="seller.fullName"></ion-input>
             </ion-col>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Correo Electrónico</ion-label>
               <ion-input type="email" fill="outline" [(ngModel)]="seller.email"></ion-input>
             </ion-col>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Numero telefonico</ion-label>
               <ion-input type="email" fill="outline" [(ngModel)]="seller.phone"></ion-input>
             </ion-col>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Nombre de Usuario</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="seller.username"></ion-input>
             </ion-col>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-grid fixed>
                 <ion-row>
-                  <ion-col size="6">
+                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
                     <ion-label class="labelForm">Contraseña</ion-label>
                     <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
                       <ion-col size="9">
@@ -52,7 +52,7 @@
                       </ion-col>
                     </ion-row>
                   </ion-col>
-                  <ion-col size="6">
+                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
                     <ion-label class="labelForm">Confirmar Contraseña</ion-label>
                     <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
                       <ion-col size="9">
@@ -67,19 +67,19 @@
                 </ion-row>
               </ion-grid>
             </ion-col>
-            <ion-col size="12">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Estado</ion-label>
               <ion-select interface="action-sheet" fill="outline" [(ngModel)]="seller.city" placeholder="Seleccione Estado" (ionChange)="filterConces($event)"> 
                 <ion-select-option *ngFor="let city of arrayCities" [value]="city.estado">{{city.estado}}</ion-select-option>
               </ion-select>
             </ion-col>
-            <ion-col size="12" >
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" >
               <ion-label class="labelForm">Concesionario</ion-label>
               <ion-select interface="action-sheet" fill="outline" [(ngModel)]="seller.concesionary" placeholder="Seleccione concesionario"> 
                 <ion-select-option *ngFor="let conces of auxConces" [value]="conces.name">{{conces.name}}</ion-select-option>
               </ion-select>
             </ion-col>
-            <ion-col size="12" style="margin: 15px auto;">
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="margin: 15px auto;">
               <ion-button expand="block" shape="round" class="btnSaveRed" (click)="updateProfile()">
                 Editar
                 <ion-icon name="create" slot="end" style="color: white !important;"></ion-icon>
