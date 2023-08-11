@@ -33,23 +33,31 @@ ion-card{
 ion-search-bar{
   --border-radius: 30px !important;
 }
+
 .cardVehicles{
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  background-position-x: right;
   background-color: #F9F9F9 !important;
   color: #1c1c1d !important;
-  // height: 180px !important;
+  box-shadow: none !important;
+  width: 160px !important;
   ion-img{
-    width: 80%;
-    height: 60%;
-    margin: auto !important
+    width: 130px;
+    height: 70px;
+    margin: 18px 0px 0px 0px !important;
+    img{
+      width: 95% !important;
+    }
   }
 
-
   p{
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 900;
   }
   span{
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 900;
     color: #1c1c1d;
   }
@@ -61,7 +69,6 @@ ion-search-bar{
     font-weight: 900;
     width: 70%;
     height: 20px;
-    margin: auto auto 10px auto!important;
     text-transform: capitalize !important;
   }
 

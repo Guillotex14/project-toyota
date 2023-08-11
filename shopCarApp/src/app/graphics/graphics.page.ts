@@ -346,7 +346,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   public detailCar(id:any){
-    this.router.navigate(['car-detail-admin/'+id+'/graphics']);
+    this.router.navigate(['car-detail/'+id+'/graphics']);
   }
 
   public onDateFromChange(event:any){

@@ -154,3 +154,23 @@ ion-item::parte(native){
   border-radius: 20px !important;
   width: 100% !important;
 }
+
+ion-card{
+  text-align: center !important;
+  box-shadow: none !important;
+  background: #F8F8F8;
+}
+
+#inputPasss{
+  min-height: 35px !important;
+  --highlight-color-focused: trasparent !important;
+  --highlight-color-invalid: trasparent !important;
+  --highlight-color-valid: trasparent !important;
+}
+
+.iconBlack{
+  color: gray !important;
+  font-size: 100px !important;
+  margin: auto !important;
+  text-align: center !important;
+}

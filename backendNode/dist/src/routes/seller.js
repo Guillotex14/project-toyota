@@ -30,6 +30,7 @@ const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const nodemailer_1 = require("../../nodemailer");
+const imgUser_1 = __importDefault(require("../models/imgUser"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -145,7 +146,11 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
+<<<<<<< HEAD
+                const imgResize = yield desgloseImg(images[i].image);
+=======
                 const imgResize = yield (0, sharp_1.default)(images[i].image);
+>>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
                 const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
@@ -461,6 +466,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
                             email: res[j].email,
                             username: res[j].username,
                             type_user: res[j].type_user,
+                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id })) ? yield imgUser_1.default.findOne({ id_user: res[j]._id }) : "",
                         };
                         arrayMechanics.push(mechanic);
                     }
@@ -484,27 +490,52 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
 sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const { concesionary } = req.body;
-    const ress = yield Mechanics_1.default
-        .find({ concesionary: concesionary })
-        .then((res) => {
-        if (res) {
-            jsonResponse.code = 200;
-            jsonResponse.message = "Técnicos encontrados";
-            jsonResponse.status = true;
-            jsonResponse.data = res;
-            return jsonResponse;
+    let arrayMechanics = [];
+    const mecByConcesionary = yield Mechanics_1.default.find({ concesionary: concesionary });
+    if (mecByConcesionary) {
+        for (let i = 0; i < mecByConcesionary.length; i++) {
+            let mechanic = {
+                _id: mecByConcesionary[i]._id,
+                fullName: mecByConcesionary[i].fullName,
+                city: mecByConcesionary[i].city,
+                concesionary: mecByConcesionary[i].concesionary,
+                id_user: mecByConcesionary[i].id_user,
+                date_create: mecByConcesionary[i].date_created,
+                image: (yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user })) ? yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user }) : "",
+            };
+            arrayMechanics.push(mechanic);
         }
-        else if (!res) {
-            jsonResponse.code = 400;
-            jsonResponse.message = "no se encontraron Técnicos";
-            jsonResponse.status = false;
-            return jsonResponse;
-        }
-    })
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
+        jsonResponse.code = 200;
+        jsonResponse.message = "Técnicos encontrados";
+        jsonResponse.status = true;
+        jsonResponse.data = arrayMechanics;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no se encontraron Técnicos";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+    // const ress = await mechanics
+    //   .find({ concesionary: concesionary })
+    //   .then((res: any) => {
+    //     if (res) {
+    //       for
+    //       jsonResponse.code = 200;
+    //       jsonResponse.message = "Técnicos encontrados";
+    //       jsonResponse.status = true;
+    //       jsonResponse.data = res;
+    //       return jsonResponse;
+    //     } else if (!res) {
+    //       jsonResponse.code = 400;
+    //       jsonResponse.message = "no se encontraron Técnicos";
+    //       jsonResponse.status = false;
+    //       return jsonResponse;
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
 }));
 sellerRouter.get("/allZones", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
@@ -946,8 +977,12 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     }
     else {
         reponseJson.code = 400;
+<<<<<<< HEAD
+        reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
+=======
         reponseJson.message =
             "no se encontraron vehiculos con los filtros seleccionados";
+>>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
         reponseJson.status = false;
     }
     res.json(reponseJson);

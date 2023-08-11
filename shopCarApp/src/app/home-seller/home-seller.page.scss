@@ -79,9 +79,9 @@ ion-search-bar{
   box-shadow: none !important;
   width: 160px !important;
   ion-img{
-    width: 74%;
-    height: 65%;
-    margin-top: 20px;
+    width: 130px;
+    height: 70px;
+    margin: 18px 0px 0px 0px !important;
     img{
       width: 95% !important;
     }
@@ -174,4 +174,11 @@ ion-chip{
   ion-label {
     // margin: 0px 6px !important;
   }
+}
+
+ion-radio {
+  --border-radius: 8px;
+  --color: #EB0A1E;
+  --color-checked: #EB0A1E;
+  --inner-border-radius: 2px
 }

@@ -57,7 +57,7 @@ export class CreateUserAdminPage implements OnInit {
     }
 
     if (this.newSeller.email == null || this.newSeller.email == "") {
-      this.utils.presentToast("El correo electronico es requerido");
+      this.utils.presentToast("El correo electrónico es requerido");
       return;
     }
 
@@ -92,11 +92,11 @@ export class CreateUserAdminPage implements OnInit {
     }
 
     if (this.newSeller.phone == null || this.newSeller.phone == "") {
-      this.utils.presentToast("el campo del telefono es requerido");
+      this.utils.presentToast("el campo del teléfono es requerido");
       return;      
     }
 
-    this.utils.presentLoading("Registrando vendedor");
+    this.utils.presentLoading("Registrando véndedor");
 
     this.adminSrv.addSeller(this.newSeller).subscribe((res: any) => {
 

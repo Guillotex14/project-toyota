@@ -25,6 +25,7 @@ export class CarDetailMechanic{
     public vin!: string;
     public vehicle_plate!: string;
     public images!: any[]
+    public id_seller_buyer!: string;
 }
 
 export class MechanicalFileDetail{
