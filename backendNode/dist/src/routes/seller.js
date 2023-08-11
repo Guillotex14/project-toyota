@@ -266,12 +266,14 @@ sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const vehiclesArray = yield Vehicles_1.default.find({
+    const vehiclesArray = yield Vehicles_1.default
+        .find({
         mechanicalFile: true,
         sold: false,
         id_seller: { $ne: id_seller },
         price: { $ne: null },
-    }).sort({ date_create: -1 });
+    })
+        .sort({ date_create: -1 });
     if (vehiclesArray) {
         jsonRes.code = 200;
         jsonRes.message = "vehiculos encontrados";
@@ -560,7 +562,7 @@ sellerRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format('YYYY-MM-DD');
+    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: id_seller,
@@ -572,7 +574,19 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     });
     const sameIdSeller = yield Vehicles_1.default.findById(id_vehicle);
     if (sameIdSeller.id_seller === id_seller) {
-        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller, name_new_owner: name_new_owner, dni_new_owner: dni_new_owner, phone_new_owner: phone_new_owner, email_new_owner: email_new_owner, price_ofert: price_ofert, price: price_ofert, sold: true, date_sell: date_sell, final_price_sold: price_ofert, dispatched: true });
+        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+            id_seller_buyer: id_seller,
+            name_new_owner: name_new_owner,
+            dni_new_owner: dni_new_owner,
+            phone_new_owner: phone_new_owner,
+            email_new_owner: email_new_owner,
+            price_ofert: price_ofert,
+            price: price_ofert,
+            sold: true,
+            date_sell: date_sell,
+            final_price_sold: price_ofert,
+            dispatched: true,
+        });
         if (vehicle) {
             responseJson.code = 200;
             responseJson.message = "vehiculo comprado exitosamente";
@@ -586,7 +600,15 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         }
     }
     else {
-        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, { id_seller_buyer: id_seller, name_new_owner: name_new_owner, dni_new_owner: dni_new_owner, phone_new_owner: phone_new_owner, email_new_owner: email_new_owner, price_ofert: price_ofert, sold: false });
+        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+            id_seller_buyer: id_seller,
+            name_new_owner: name_new_owner,
+            dni_new_owner: dni_new_owner,
+            phone_new_owner: phone_new_owner,
+            email_new_owner: email_new_owner,
+            price_ofert: price_ofert,
+            sold: false,
+        });
         const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
         const infoBuyer = yield Sellers_1.default.findById(id_seller);
         const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
@@ -601,7 +623,8 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
         responseJson.code = 200;
-        responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
+        responseJson.message =
+            "Compra realizada, esperar confirmación o rechazo del vendedor";
         responseJson.status = true;
     }
     res.json(responseJson);
@@ -896,7 +919,8 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehiculos con los filtros seleccionados";
+        reponseJson.message =
+            "no se encontraron vehiculos con los filtros seleccionados";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -922,7 +946,7 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
 }));
 sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary } = req.query;
+    let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary, } = req.query;
     let now = new Date();
     let anioActual = now.getFullYear();
     if (yearSold) {
@@ -934,12 +958,12 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     if (!rangMonths) {
         rangMonths = 12;
     }
-    let firtsMonth = new Date(anioActual, 0, 1);
+    let firtsMonth = new Date(anioActual, month - 1, 1);
     let last = new Date(anioActual, 11);
     let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
     let lastMonth = new Date(anioActual, 11, lastDayLasyMont.getDate());
     let rangArrayMonth = [];
-    if (rangMonths && rangMonths < 12) {
+    if (rangMonths < 12) {
         rangArrayMonth = getMonthRange(month, rangMonths);
         firtsMonth = new Date(anioActual, month - 1, 1);
         if (rangArrayMonth.length > 1) {
@@ -1003,7 +1027,6 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     ]);
     let sendData = [];
     sendData = getMonthlyTotals(vehiclesFiltered);
-    console.log(mongQuery);
     let datos = {};
     let cantMonth = calcularMeses(from, to);
     if (cantMonth == 1) {
@@ -1056,7 +1079,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
 }));
 sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-    let { dateTo, dateFrom, yearCar, brandCar, modelCar, concesionary, id_user } = req.query;
+    let { dateTo, dateFrom, yearCar, brandCar, modelCar, concesionary, id_user, } = req.query;
     const ExcelJS = require("exceljs");
     let now = new Date();
     let from_at = `${now.getFullYear()}-01-01`;
@@ -1222,7 +1245,12 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             { header: "Marca", key: "marca", width: 15, style: headerStyle },
             { header: "Año", key: "anhio", width: 15, style: headerStyle },
             { header: "Precio", key: "precio", width: 15, style: headerStyle },
-            { header: "Ficha mecanica", key: "ficha_mecanica", width: 15, style: headerStyle },
+            {
+                header: "Ficha mecanica",
+                key: "ficha_mecanica",
+                width: 15,
+                style: headerStyle,
+            },
             { header: "Fecha", key: "fecha", width: 15, style: headerStyle },
             {
                 header: "Fecha de venta",
@@ -1380,13 +1408,16 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     //   reponseJson.status = false;
     // }
     // res.json(reponseJson);
-    workbook.xlsx.writeBuffer().then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
+    workbook.xlsx
+        .writeBuffer()
+        .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
         // Convertir el buffer en base64
-        const base64 = buffer.toString('base64');
+        const base64 = buffer.toString("base64");
         // Crear un objeto de respuesta con el archivo base64
         const datos = {
-            fileName: now.getTime() + '.xlsx',
-            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + base64
+            fileName: now.getTime() + ".xlsx",
+            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+                base64,
         };
         if (datos) {
             reponseJson.code = 200;
@@ -1402,7 +1433,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         res.json(reponseJson);
     }))
         .catch((error) => {
-        console.log('Error al generar el archivo Excel:', error);
+        console.log("Error al generar el archivo Excel:", error);
     });
 }));
 sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1614,7 +1645,7 @@ function getMonthlyTotals(data) {
     }
     const result = [];
     for (const month in monthlyTotals) {
-        result.push({ _id: month + '-01', monto: monthlyTotals[month] }); // Convierte el objeto en un array
+        result.push({ _id: month + "-01", monto: monthlyTotals[month] }); // Convierte el objeto en un array
     }
     return result;
 }
