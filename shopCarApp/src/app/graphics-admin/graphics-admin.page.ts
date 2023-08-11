@@ -155,6 +155,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       yearCar: this.yearCar,
       brandCar: this.brandCar,
       modelCar: this.modelCar,
+      concesionary: this.concesionary2,
     }
     this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{

@@ -122,7 +122,7 @@ export class SellerService {
   }
 
   public getGrafic(data:any){
-    return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&rangMonths=${data.rangMonths}`);
+    return this.http.get(`${global.urlBase}seller/filterGraphySell?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&concesionary=${data.concesionary}&rangMonths=${data.rangMonths}`);
   }
 
   public getListCars(data:any){
