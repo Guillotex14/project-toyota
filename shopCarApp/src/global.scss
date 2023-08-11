@@ -190,6 +190,10 @@
   color: #353535 !important; 
 }
 
+.titleCardHome{
+  font-size: 13px !important;
+}
+
 #searchbarHome{
   --border-radius: 30px !important;
 }
@@ -246,6 +250,10 @@ ion-segment {
   }
   .pText{
     font-size: 14px !important;
+  }
+  .titleHeader{
+    font-size: 21px !important;
+    margin-top: 37px !important;
   }
 }
 
