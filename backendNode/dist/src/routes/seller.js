@@ -146,7 +146,11 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
+<<<<<<< HEAD
                 const imgResize = yield desgloseImg(images[i].image);
+=======
+                const imgResize = yield (0, sharp_1.default)(images[i].image);
+>>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
                 const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
@@ -967,13 +971,18 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "vehículos encontrados exitosamente";
+        reponseJson.message = "vehiculos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
+<<<<<<< HEAD
         reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
+=======
+        reponseJson.message =
+            "no se encontraron vehiculos con los filtros seleccionados";
+>>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1009,7 +1018,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         month = 1;
     }
     if (!rangMonths) {
-        rangMonths = 12;
+        rangMonths = 1;
     }
     let firtsMonth = new Date(anioActual, month - 1, 1);
     let last = new Date(anioActual, 11);
