@@ -21,14 +21,16 @@
       <ion-col size="12">
         <ion-grid fixed>
           <ion-row>
-            <ion-col size="12">
+            <!-- <ion-col size="12">
               <ion-input type="text" placeholder="Buscar" fill="outline" (ionInput)="searchUser($event)"></ion-input>
-            </ion-col>
-            <ion-col >
+            </ion-col> -->
+            <ion-col size="12">
               <ion-grid fixed size="12" class="card" *ngFor="let seller of auxSellers">
                 <ion-row>
                   <ion-col size="3">
-                    <ion-img src="assets/images/logo/logo_toyota.png" style="margin: 50px auto auto auto;"></ion-img>
+                    <!-- <ion-img src="assets/images/logo/logo_toyota.png" style="margin: 50px auto auto auto;"></ion-img> -->
+                    <ion-img [src]="seller.image.img" style="margin: 50px auto auto auto;" *ngIf="seller.image !==''" ></ion-img>
+                    <ion-icon name="person-circle" *ngIf="seller.image ===''" class="iconListUser"></ion-icon>
                   </ion-col>
                   <ion-col size="9">
                     <ion-grid fixed>
@@ -44,13 +46,13 @@
                         <ion-col size="6">
 
                           <ion-col size="12">
-                            <ion-button shape="round" style="text-transform: lowercase; font-size: 15px; width: 80px; height: 25px;" fill="outline" color="dark" (click)="editSeller(seller._id)">
+                            <ion-button shape="round" fill="outline" color="dark" (click)="editSeller(seller._id)" class=btnOutlineBlack>
                               <ion-icon name="create" style="font-size: 20px;" color="dark"></ion-icon>
                             </ion-button>
                           </ion-col>
                           <ion-col size="12">
-                            <ion-button shape="round" style="text-transform: lowercase; font-size: 15px; width: 80px !important; height: 25px !important; " fill="outline" class="btnOutlineRed" (click)="presentAlert(seller._id)">
-                              <ion-icon name="trash" class="iconRed" style="font-size: 20px;" ></ion-icon>
+                            <ion-button shape="round" fill="outline" class="btnOutlineRed" (click)="presentAlert(seller._id)">
+                              <ion-icon name="trash" class="iconRed"  ></ion-icon>
                             </ion-button>
                           </ion-col>
                         </ion-col>

@@ -12,6 +12,7 @@ import { Chart, registerables } from 'chart.js';
 import * as moment from 'moment';
 import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { concesionaries } from 'src/assets/json/concesionaries';
 
 @Component({
   selector: 'app-graphics-admin',
@@ -45,6 +46,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   genCondCar: any[] = [];
   arrayData: any = {};
   arrayListCars: any[] = [];
+  arrayConcesionary: any[] = []
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
@@ -59,7 +61,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   ) {
     Chart.register(...registerables);
     this.genCondCar = [];
-
+    this.arrayConcesionary = concesionaries;
     let data = JSON.parse(localStorage.getItem('me')!);
 
     if (data) {

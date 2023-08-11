@@ -134,7 +134,10 @@ hr{
 .badge.badge-warning {
   background-color: #FFD600
 }
-
+.iconCard{
+  font-size: 90px !important; 
+  margin: 16px 0px 0px 20px !important;
+}
 ion-badge{
   --background: #EB0A1E !important;
   --color: white !important;
@@ -202,7 +205,28 @@ ion-radio {
 
   .titleCardHome{
     font-size: 11px !important;
+  }
 
+  .cardVehicles{
+
+    ion-img{
+      width: 130px !important;
+      height: 60px !important;
+      margin: 17px 0px 0px 0px !important;
+      img{
+        width: 95% !important;
+      }
+    }
+
+    p{
+      font-size: 11px !important;
+      // font-weight: 900;
+    }
+  }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 20px 0px 0px 18px !important;
   }
 }
 

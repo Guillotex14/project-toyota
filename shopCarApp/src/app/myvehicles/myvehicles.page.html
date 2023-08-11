@@ -29,7 +29,7 @@
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.images ===''"></ion-img> -->
-                <ion-icon name="image" *ngIf="vehicle.images ===''" style="font-size: 90px !important; margin: 16px 0px 0px 20px !important;"></ion-icon>
+                <ion-icon name="image" *ngIf="vehicle.images ===''" class="iconCard"></ion-icon>
                 <ion-img [src]="vehicle.images.img" *ngIf="vehicle.images !==''"></ion-img>
                 <ion-card-content>
                   <p>

@@ -46,5 +46,54 @@ ion-card{
       margin: auto !important
   }
 
+
+
+}
+.iconInspect{
+  font-size: 120px !important; 
+  
+}
+.spanData{
+  font-size: 13px;color: #575757;
 }
 
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 14px !important; 
+
+    }
+
+    ion-label {
+      font-size: 13px !important;
+    }
+
+    .spanData{
+      font-size: 11px;color: #575757;
+    }
+  }
+
+
+  .titlePage{
+    font-size: 17px !important; 
+  }
+
+  
+
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+
+}

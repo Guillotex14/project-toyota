@@ -31,57 +31,145 @@ ion-search-bar{
 }
 
 .cardVehicles{
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: contain;
-    background-position-x: right;
-    background-color: #F9F9F9 !important;
-    color: #1c1c1d !important;
-    box-shadow: none !important;
-    width: 160px !important;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  background-position-x: right;
+  background-color: #F9F9F9 !important;
+  color: #1c1c1d !important;
+  box-shadow: none !important;
+  width: 160px !important;
+  ion-img{
+    width: 130px;
+    height: 70px;
+    margin: 18px 0px 0px 0px !important;
+    img{
+      width: 95% !important;
+    }
+  }
+
+  p{
+    font-size: 12px;
+    font-weight: 900;
+  }
+  span{
+    font-size: 12px;
+    font-weight: 900;
+    color: #1c1c1d;
+  }
+  ion-button{
+    --border-radius: 30px !important;
+    --background: #EB0A1E !important;
+    --color: white !important;
+    font-size: 10px;
+    font-weight: 900;
+    width: 70%;
+    height: 20px;
+    text-transform: capitalize !important;
+  }
+
+}
+
+.iconCard{
+  font-size: 90px !important; 
+  margin: 16px 0px 0px 20px !important;
+}
+ion-badge{
+  --background: #EB0A1E !important;
+  --color: white !important;
+}
+
+ion-list{
+  ion-item::part(native){
+    background: #FFF !important;
+    color: #000 !important;
+    ion-label{
+      color: #000 !important;
+    }
+  }
+}
+
+
+ion-item::part(native){
+  color: #fff !important;
+  background: #EB0A1E !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  ion-icon{
+    color: #fff !important;
+  }
+}
+
+ion-chip{
+  position: fixed !important;
+  bottom: 25px !important;
+  margin: 5px auto !important;
+  --background: #ebc90a !important;
+  --color: #000;
+  font-size: 11px;
+  font-weight: 900;
+  width: 70% !important;
+  height: 20px !important;
+  text-transform: capitalize !important;
+  ion-label {
+    // margin: 0px 6px !important;
+  }
+}
+
+ion-radio {
+  --border-radius: 8px;
+  --color: #EB0A1E;
+  --color-checked: #EB0A1E;
+  --inner-border-radius: 2px
+}
+
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  .cardVehicles{
+
     ion-img{
-      width: 130px;
-      height: 70px;
-      margin: 18px 0px 0px 0px !important;
+      width: 130px !important;
+      height: 60px !important;
+      margin: 17px 0px 0px 0px !important;
       img{
         width: 95% !important;
       }
     }
-  
+
     p{
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px !important;
+      // font-weight: 900;
     }
-    span{
-      font-size: 12px;
-      font-weight: 900;
-      color: #1c1c1d;
-    }
-    ion-button{
-      --border-radius: 30px !important;
-      --background: #EB0A1E !important;
-      --color: white !important;
-      font-size: 10px;
-      font-weight: 900;
-      width: 70%;
-      height: 20px;
-      text-transform: capitalize !important;
-    }
-  
   }
 
-ion-chip{
-    position: fixed !important;
-    bottom: 25px !important;
-    margin: 5px auto !important;
-    --background: #ebc90a !important;
-    --color: #000;
-    font-size: 11px;
-    font-weight: 900;
-    width: 70% !important;
-    height: 20px !important;
-    text-transform: capitalize !important;
-    ion-label {
-      // margin: 0px 6px !important;
-    }
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 20px 0px 0px 18px !important;
+  }
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+
 }
