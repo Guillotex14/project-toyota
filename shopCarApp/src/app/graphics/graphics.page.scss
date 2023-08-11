@@ -45,17 +45,6 @@ ion-card{
 
 }
 
-.spanLabel{
-  font-size: 15px;
-  color: #787878;
-}
-
-.pText{
-  font-size: 15px;
-  font-weight: 900;
-  color: #1c1c1d;
-}
-
 canvas {
   width: 315px!important;
   height: 330px!important;
@@ -115,4 +104,11 @@ ion-item::part(native){
   ion-label{
     text-align: center;
   }
+}
+
+ion-radio {
+  // --border-radius: 8px;
+  --color: #EB0A1E;
+  --color-checked: #EB0A1E;
+  // --inner-border-radius: 2px
 }

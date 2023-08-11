@@ -7,7 +7,7 @@
             <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
           </ion-col>
           <ion-col size="10" style="text-align: center;">
-            <p style="font-size: 30px; margin-top: 35px;">Ficha Mécanica</p>
+            <p style="font-size: 30px; margin-top: 35px;">Ficha Mecanica</p>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -15,7 +15,7 @@
       <ion-col size="12" style="text-align: center; margin-top: 15px !important;">
         <ion-row *ngIf="mechanicalFile.general_condition ==='excelente'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #11D800 !important"></ion-icon>
@@ -26,7 +26,7 @@
         </ion-row>
         <ion-row *ngIf="mechanicalFile.general_condition ==='bueno'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #F9D616 !important"></ion-icon>
@@ -37,7 +37,7 @@
         </ion-row>
         <ion-row *ngIf="mechanicalFile.general_condition ==='regular'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="help-circle-outline" style="font-size: 45px !important; color: #F7941D !important"></ion-icon>
@@ -49,7 +49,7 @@
 
         <ion-row *ngIf="mechanicalFile.general_condition ==='malo'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="close-circle-outline" style="font-size: 45px !important; color: #EB0A1E !important"></ion-icon>
@@ -60,20 +60,19 @@
         </ion-row>
       </ion-col>
 
-
       <ion-col size="12">
         <ion-list>
-          <ion-item-group>
+          <ion-item-group class="itemGroupSegment">
             <ion-item-divider>
               <ion-label>PARTE EXTERNA</ion-label>
             </ion-item-divider>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Piezas completas-Emblemas completos</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.part_emblems_complete" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.part_emblems_complete ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -92,12 +91,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Cepillos limpia parabrisas-Ducha Limpia parabrisas</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.wiper_shower_brushes_windshield" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.wiper_shower_brushes_windshield ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -116,12 +115,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Golpes</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.hits" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.hits ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -140,12 +139,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Rayones</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.scratches" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.scratches ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -164,12 +163,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Estado de la pintura</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.paint_condition" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.paint_condition ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -188,12 +187,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Faros-Luces</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.headlights_lights" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.headlights_lights ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -213,15 +212,15 @@
             </ion-item>
 
             <ion-item-divider>
-              <ion-label>REVISION GENERAL DEL VEHÍCULO</ion-label>
+              <ion-label>REVISION GENERAL DEL VEHICULO</ion-label>
             </ion-item-divider>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Corneta-Accesorios</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.bugle_accessories" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.bugle_accessories ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -240,12 +239,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Sistema de aire acondicionado</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.air_conditioning_system" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.air_conditioning_system ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -264,12 +263,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Radio reproductor</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.radio_player" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.radio_player ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -288,12 +287,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Luces de cortesia</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.courtesy_lights" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.courtesy_lights ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -312,12 +311,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Estado de tapicería (Asientos techo, alfombras <br> y tapiceria de puertas</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.upholstery_condition" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.upholstery_condition ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -336,12 +335,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Revisión del sistema del vehículo a traves de <br> tester inteligente o GTS</ion-label>
+                  <ion-label>Revisión del sistema del vehiculo a traves de <br> tester inteligente o GTS</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.gts" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.gts ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -360,12 +359,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Luces del tablero</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.board_lights" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.board_lights ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -384,12 +383,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Presión de los neumáticos</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.tire_pressure" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.tire_pressure ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -408,12 +407,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Vida util del neumático</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.tire_life" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.tire_life ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -432,12 +431,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Estado de la batería-Bornes</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.battery_status_terminals" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.battery_status_terminals ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -456,12 +455,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Correas transmisoras</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.transmitter_belts" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.transmitter_belts ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -480,12 +479,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Aceite de motor</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.motor_oil" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.motor_oil ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -504,12 +503,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Refrigerante del motor-Envase</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.engine_coolant_container" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.engine_coolant_container ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -528,12 +527,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Estado del radiador</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.radiator_status" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.radiator_status ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -552,12 +551,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Tubo de escape y soporte</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.exhaust_pipe_bracket" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.exhaust_pipe_bracket ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -576,12 +575,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Condición del tanque de combustible, tapa tubos, <br> mangueras y conexiones</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.fuel_tank_cover_pipes_hoses_connections" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.fuel_tank_cover_pipes_hoses_connections ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -600,12 +599,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Correo de distribución </ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.distribution_mail" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.distribution_mail ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -624,12 +623,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Bujías-Filtro de aire-Filtro de gasolina-fitro <br> anti polen</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -648,12 +647,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Sistema de combustible</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.fuel_system" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.fuel_system ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -676,12 +675,12 @@
               <ion-label>SISTEMA DE FRENOS</ion-label>
             </ion-item-divider>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Freno estacionamiento</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.parking_break" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.parking_break ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -700,12 +699,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Bandas de freno y tambores</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.brake_bands_drums" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.brake_bands_drums ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -724,12 +723,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Pastillas de freno y discos</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.brake_pads_discs" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.brake_pads_discs ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -748,12 +747,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Tubos y mangueras de freno</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.brake_pipes_hoses" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.brake_pipes_hoses ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -772,12 +771,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Bomba de freno</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.master_cylinder" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.master_cylinder ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -796,12 +795,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Fluido de frenos</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.brake_fluid" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.brake_fluid ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -824,12 +823,12 @@
               <ion-label>TREN DELANTERO</ion-label>
             </ion-item-divider>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Bujes y mesetas</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.bushings_plateaus" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.bushings_plateaus ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -848,12 +847,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Muñones</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.stumps" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.stumps ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -872,12 +871,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Terminales</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.terminals" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.terminals ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -896,12 +895,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Barra estabilizadora</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.stabilizer_bar" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.stabilizer_bar ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -920,12 +919,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Rodamientos</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.bearings" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.bearings ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -944,12 +943,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Tripoides y gomas</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.tripoids_rubbe_bands" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.tripoids_rubbe_bands ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -968,12 +967,12 @@
               </ion-row>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Amortiguadores y Espirales</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.shock_absorbers_coils" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.shock_absorbers_coils ==='malo'">
                       <ion-label>Malo</ion-label>
@@ -996,7 +995,7 @@
               <ion-label>Mantenimiento en el concesionario</ion-label>
             </ion-item-divider>
 
-            <ion-item>
+            <ion-item class="itemSegment">
               <ion-segment [value]="mechanicalFile.dealer_maintenance" [class.mLeft]="android === true || web === true" disabled="true">
                 <ion-segment-button value="no" [class.segment-red]="mechanicalFile.dealer_maintenance ==='no'">
                   <ion-label>No</ion-label>
@@ -1007,12 +1006,12 @@
               </ion-segment>
             </ion-item>
 
-            <ion-item>
-              <ion-row>
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Estado general del vehículo</ion-label>
+                  <ion-label>Estado general del vehiculo</ion-label>
                 </ion-col>
-                <ion-col size="12">
+                <ion-col size="12" class="colSegment">
                   <ion-segment [value]="mechanicalFile.general_condition" [class.mLeft]="android === true || web === true" disabled="true">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFile.general_condition ==='malo'">
                       <ion-label>Malo</ion-label>

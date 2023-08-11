@@ -175,3 +175,10 @@ ion-chip{
     // margin: 0px 6px !important;
   }
 }
+
+ion-radio {
+  --border-radius: 8px;
+  --color: #EB0A1E;
+  --color-checked: #EB0A1E;
+  --inner-border-radius: 2px
+}
