@@ -146,11 +146,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
-<<<<<<< HEAD
                 const imgResize = yield desgloseImg(images[i].image);
-=======
-                const imgResize = yield (0, sharp_1.default)(images[i].image);
->>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
                 const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
@@ -971,18 +967,13 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "vehiculos encontrados exitosamente";
+        reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
-<<<<<<< HEAD
         reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
-=======
-        reponseJson.message =
-            "no se encontraron vehiculos con los filtros seleccionados";
->>>>>>> bbc4d8f9aa24056452bd39aef6f8e38cd0d60a92
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1006,6 +997,50 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
     }
     res.json(reponseJson);
 }));
+sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id, final_price_sold } = req.body;
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "vehículo entregado exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "erroe al entregar vehículo";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
+sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, {
+        sold: false,
+        price_ofert: null,
+        final_price_sold: null,
+        name_new_owner: null,
+        dni_new_owner: null,
+        phone_new_owner: null,
+        email_new_owner: null,
+        date_sell: null,
+        id_seller_buyer: null,
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "vehículo publicado exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "erroe al publicar vehículo";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+}));
 sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary, } = req.query;
@@ -1019,7 +1054,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     }
     if (!rangMonths) {
         rangMonths = 1;
-    }
+    } //
     let firtsMonth = new Date(anioActual, month - 1, 1);
     let last = new Date(anioActual, 11);
     let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
@@ -1620,79 +1655,6 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     }
     res.json(reponseJson);
 }));
-sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id, final_price_sold } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
-    if (vehiclesFiltered) {
-        reponseJson.code = 200;
-        reponseJson.message = "vehículo entregado exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "erroe al entregar vehículo";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
-sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, {
-        sold: false,
-        price_ofert: null,
-        final_price_sold: null,
-        name_new_owner: null,
-        dni_new_owner: null,
-        phone_new_owner: null,
-        email_new_owner: null,
-        date_sell: null,
-        id_seller_buyer: null,
-    });
-    if (vehiclesFiltered) {
-        reponseJson.code = 200;
-        reponseJson.message = "vehículo publicado exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "erroe al publicar vehículo";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-}));
-const gruopCardPrice = (listCar, groupPrice) => {
-    let caray = {
-        minPrice: {
-            value: groupPrice.minPrice,
-            cars: [],
-        },
-        medPrice: {
-            value: groupPrice.medPrice,
-            cars: [],
-        },
-        maxPrice: {
-            value: groupPrice.maxPrice,
-            cars: [],
-        },
-    };
-    listCar.map((car) => {
-        car.price = car.price ? car.price : 0;
-        if (car.price <= groupPrice.minPrice) {
-            caray.minPrice.cars.push(car);
-        }
-        if (car.price > groupPrice.minPrice && car.price <= groupPrice.medPrice) {
-            caray.medPrice.cars.push(car);
-        }
-        if (car.price > groupPrice.medPrice && car.price <= groupPrice.maxPrice) {
-            caray.maxPrice.cars.push(car);
-        }
-    });
-    return caray;
-};
 function getMonthlyTotals(data) {
     const monthlyTotals = [];
     for (let i = 0; i < data.length; i++) {
@@ -1758,34 +1720,6 @@ const agruparPorWeek = (datos) => {
     }
     return result;
 };
-const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
-    // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
-    if (userInfo) {
-        const notify = new notifications_1.default({
-            id_user: userInfo.id_user,
-            title: title,
-            message: message,
-            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
-            status: false,
-        });
-        yield notify.save();
-    }
-});
-const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void 0, void 0, void 0, function* () {
-    // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Mechanics_1.default.findOne({ _id: id_mechanic });
-    if (userInfo) {
-        const notify = new notifications_1.default({
-            id_user: userInfo.id_user,
-            title: title,
-            message: message,
-            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
-            status: false,
-        });
-        yield notify.save();
-    }
-});
 function getMonthRange(startMonth, rangeMonths) {
     const months = [
         { month: "Enero", index: 1 },
@@ -1843,6 +1777,34 @@ const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
         return "";
     });
     return 'data:image/jpeg;base64,' + resize.toString('base64');
+});
+const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
+    // const jsonRes: ResponseModel = new ResponseModel();
+    const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
+    if (userInfo) {
+        const notify = new notifications_1.default({
+            id_user: userInfo.id_user,
+            title: title,
+            message: message,
+            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
+            status: false,
+        });
+        yield notify.save();
+    }
+});
+const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void 0, void 0, void 0, function* () {
+    // const jsonRes: ResponseModel = new ResponseModel();
+    const userInfo = yield Mechanics_1.default.findOne({ _id: id_mechanic });
+    if (userInfo) {
+        const notify = new notifications_1.default({
+            id_user: userInfo.id_user,
+            title: title,
+            message: message,
+            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
+            status: false,
+        });
+        yield notify.save();
+    }
 });
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map
