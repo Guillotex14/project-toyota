@@ -1476,6 +1476,25 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         .catch((error) => {
         console.log("Error al generar el archivo Excel:", error);
     });
+    let sendUser = yield Users_1.default.findOne({ _id: id_user });
+    if (sendUser) {
+        const mailOptions = {
+            from: "Toyousado",
+            to: sendUser.email,
+            subject: "Exportar excell",
+            text: "puede descargar el excell " + fileName,
+            attachments: [
+                {
+                    filename: fileName,
+                    path: sendUrl, // ruta completa del archivo a adjuntar
+                },
+            ],
+        };
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
+    }
+    const fs = require('fs');
+    // ...
+    fs.unlinkSync(filePath);
     if (datos) {
         reponseJson.code = 200;
         reponseJson.message = "success";
