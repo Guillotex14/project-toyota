@@ -1261,20 +1261,21 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     },
     { $sort: { _id: 1 } },
   ]);
-
-  delete mongQuery.date_sell;
-  delete mongQuery.sold;
-
-
+  
+  let sendData=[];
+  
+  sendData=getMonthlyTotals(vehiclesFiltered);
+  
 
   let datos: any = {};
   let cantMonth = calcularMeses(from, to);
+
 
   if (cantMonth == 1) {
     let groupByWeek = [];
     let groupByOneMonth = [];
 
-    groupByWeek = agruparPorSemana(vehiclesFiltered);
+    groupByWeek = agruparPorSemana(sendData);
 
     groupByOneMonth = agruparPorWeek(groupByWeek);
 
@@ -1290,13 +1291,14 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
       ],
     };
   } else {
-    const labels = vehiclesFiltered.map((dato) => dato._id);
+    const labels = sendData.map((dato) => dato._id);
+
     let nameArray = [];
     for (let i = 0; i < labels.length; i++) {
       nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
     }
 
-    const montos = vehiclesFiltered.map((dato) => dato.monto);
+    const montos = sendData.map((dato) => dato.monto);
 
     datos = {
       labels: nameArray, // Meses en el eje x
@@ -1323,6 +1325,8 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 });
+
+
 
 
 
@@ -1974,6 +1978,24 @@ const gruopCardPrice = (listCar: any[], groupPrice: any) => {
 
   return caray;
 };
+
+function getMonthlyTotals(data:any) {
+  const monthlyTotals:any = [];
+  for (let i = 0; i < data.length; i++) {
+    const document = data[i];
+    const month = document._id.substring(0, 7); // Extrae el año y mes de la fecha
+    if (monthlyTotals[month]) {
+      monthlyTotals[month] += document.monto; // Si el mes ya existe en el objeto, acumula el monto
+    } else {
+      monthlyTotals[month] = document.monto; // Si el mes no existe en el objeto, crea la propiedad y asigna el monto
+    }
+  }
+  const result = [];
+  for (const month in monthlyTotals) {
+    result.push({ _id: month+'-01', monto: monthlyTotals[month] }); // Convierte el objeto en un array
+  }
+  return result;
+}
 
 const calcularMeses = (fechaInicial: any, fechaFinal: any) => {
   const inicio = new Date(fechaInicial);
