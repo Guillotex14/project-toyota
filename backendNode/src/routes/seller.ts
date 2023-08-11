@@ -34,8 +34,7 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
     reponseJson.message = "El usuario se encuentra registrado";
     reponseJson.status = false;
     reponseJson.data = "";
-  }else{
-
+  } else {
     const newUser = new Users({
       email,
       password: hash,
@@ -59,7 +58,6 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
     await newMechanic.save();
 
     if (newMechanic && newUser) {
-
       const mailOptions = {
         from: "Toyousado",
         to: email,
@@ -83,9 +81,7 @@ sellerRouter.post("/addMechanic", async (req: Request, res: Response) => {
       reponseJson.message = "Error al agregar técnico";
       reponseJson.status = false;
       reponseJson.data = "";
-      
     }
-    
   }
 
   res.json(reponseJson);
@@ -338,12 +334,14 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 
   const { id_seller } = req.body;
 
-  const vehiclesArray = await vehicles.find({
-    mechanicalFile: true,
-    sold: false,
-    id_seller: { $ne: id_seller },
-    price: { $ne: null },
-  }).sort({ date_create: -1 });
+  const vehiclesArray = await vehicles
+    .find({
+      mechanicalFile: true,
+      sold: false,
+      id_seller: { $ne: id_seller },
+      price: { $ne: null },
+    })
+    .sort({ date_create: -1 });
 
   if (vehiclesArray) {
     jsonRes.code = 200;
@@ -490,7 +488,9 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
   res.json(jsonRes);
 });
 
-sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/mechanicalFileByIdVehicle",
+  async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
 
@@ -575,7 +575,9 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
   res.json(ress);
 });
 
-sellerRouter.post("/mechanicByConcesionary",async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/mechanicByConcesionary",
+  async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const { concesionary } = req.body;
     let arrayMechanics: any[] = []; 
@@ -729,7 +731,7 @@ sellerRouter.get("/allModels", async (req: Request, res: Response) => {
 
 sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
   const responseJson: ResponseModel = new ResponseModel();
-  const date_sell = moment().format('YYYY-MM-DD');
+  const date_sell = moment().format("YYYY-MM-DD");
   const {
     id_vehicle,
     id_seller,
@@ -752,21 +754,40 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
   const sameIdSeller = await vehicles.findById(id_vehicle);
 
   if (sameIdSeller!.id_seller === id_seller) {
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller, name_new_owner:name_new_owner, dni_new_owner:dni_new_owner, phone_new_owner:phone_new_owner, email_new_owner:email_new_owner, price_ofert:price_ofert, price:price_ofert, sold:true, date_sell:date_sell, final_price_sold:price_ofert, dispatched:true})
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+      id_seller_buyer: id_seller,
+      name_new_owner: name_new_owner,
+      dni_new_owner: dni_new_owner,
+      phone_new_owner: phone_new_owner,
+      email_new_owner: email_new_owner,
+      price_ofert: price_ofert,
+      price: price_ofert,
+      sold: true,
+      date_sell: date_sell,
+      final_price_sold: price_ofert,
+      dispatched: true,
+    });
 
     if (vehicle) {
       responseJson.code = 200;
       responseJson.message = "vehículo comprado exitosamente";
       responseJson.status = true;
       responseJson.data = vehicle;
-    }else{
+    } else {
       responseJson.code = 400;
       responseJson.message = "no se pudo comprar el vehículo";
       responseJson.status = false;
     }
-
-  }else{
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {id_seller_buyer: id_seller, name_new_owner:name_new_owner, dni_new_owner:dni_new_owner, phone_new_owner:phone_new_owner, email_new_owner:email_new_owner, price_ofert:price_ofert, sold: false})
+  } else {
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+      id_seller_buyer: id_seller,
+      name_new_owner: name_new_owner,
+      dni_new_owner: dni_new_owner,
+      phone_new_owner: phone_new_owner,
+      email_new_owner: email_new_owner,
+      price_ofert: price_ofert,
+      sold: false,
+    });
 
     const getVehicle = await vehicles.findById(id_vehicle);
 
@@ -798,7 +819,8 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     );
 
     responseJson.code = 200;
-    responseJson.message = "Compra realizada, esperar confirmación o rechazo del vendedor";
+    responseJson.message =
+      "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
   }
 
@@ -850,26 +872,25 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
       } o al número telefono ${infoSeller!.phone}`,
     };
 
-    await sendEmail(mailOptions);
+      await sendEmail(mailOptions);
 
-    sendNotification(
-      userbuyer!._id.toString(),
-      mailOptions.text,
-      mailOptions.subject
-    );
+      sendNotification(
+        userbuyer!._id.toString(),
+        mailOptions.text,
+        mailOptions.subject
+      );
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "no existe";
+      reponseJson.status = false;
+    }
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "no existe";
+    reponseJson.message = "error al aprobar la oferta";
     reponseJson.status = false;
   }
 
-    }else{
-        reponseJson.code = 400;
-        reponseJson.message = "error al aprobar la oferta";
-        reponseJson.status = false;
-    }
-
-    res.json(reponseJson);
+  res.json(reponseJson);
 });
 
 sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
@@ -952,7 +973,9 @@ sellerRouter.post("/getNotifications", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/updateNotification",  async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/updateNotification",
+  async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id } = req.body;
@@ -997,7 +1020,9 @@ sellerRouter.post("/notificationById", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/countNotifications",  async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/countNotifications",
+  async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user } = req.body;
@@ -1048,7 +1073,9 @@ sellerRouter.post("/getVehicleByType", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/filterVehiclesWithMongo",
+  async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
     let query: any = {};
@@ -1208,7 +1235,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     brandCar,
     modelCar,
     id_user,
-    concesionary
+    concesionary,
   }: any = req.query;
 
   let now = new Date();
@@ -1225,18 +1252,17 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     rangMonths = 12;
   }
 
-  
-
-  let firtsMonth = new Date(anioActual, 0, 1);
+  let firtsMonth = new Date(anioActual,  month - 1, 1);
   let last = new Date(anioActual, 11);
   let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
   let lastMonth = new Date(anioActual, 11, lastDayLasyMont.getDate());
   let rangArrayMonth: any[] = [];
 
-  if (rangMonths && rangMonths < 12) {
+  if (rangMonths < 12) {
     rangArrayMonth = getMonthRange(month, rangMonths);
 
     firtsMonth = new Date(anioActual, month - 1, 1);
+    
     if (rangArrayMonth.length > 1) {
       last = new Date(anioActual, rangArrayMonth.length - 1);
       lastDayLasyMont = getLastDayOfMonth(
@@ -1247,8 +1273,8 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
         anioActual,
         rangArrayMonth.length - 1,
         lastDayLasyMont.getDate()
-      );
-    } else {
+        );
+      } else {
       last = new Date(anioActual, month - 1);
       lastDayLasyMont = getLastDayOfMonth(anioActual, month - 1);
       lastMonth = new Date(anioActual, month - 1, lastDayLasyMont.getDate());
@@ -1301,19 +1327,19 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     };
   }
 
-  let seller:any=null;
+  let seller: any = null;
   if (id_user) {
-    seller = await Sellers.findOne({ id_user: id_user })
+    seller = await Sellers.findOne({ id_user: id_user });
     if (seller) {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
       };
-    }else{
+    } else {
       if (concesionary) {
         mongQuery = {
           ...mongQuery,
-          concesionary:  { $regex: concesionary, $options: "i" },
+          concesionary: { $regex: concesionary, $options: "i" },
         };
       }
     }
@@ -1332,10 +1358,9 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     { $sort: { _id: 1 } },
   ]);
 
-  delete mongQuery.date_sell;
-  delete mongQuery.sold;
+  let sendData = [];
 
-
+  sendData = getMonthlyTotals(vehiclesFiltered);
 
   let datos: any = {};
   let cantMonth = calcularMeses(from, to);
@@ -1344,7 +1369,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     let groupByWeek = [];
     let groupByOneMonth = [];
 
-    groupByWeek = agruparPorSemana(vehiclesFiltered);
+    groupByWeek = agruparPorSemana(sendData);
 
     groupByOneMonth = agruparPorWeek(groupByWeek);
 
@@ -1360,13 +1385,14 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
       ],
     };
   } else {
-    const labels = vehiclesFiltered.map((dato) => dato._id);
+    const labels = sendData.map((dato) => dato._id);
+
     let nameArray = [];
     for (let i = 0; i < labels.length; i++) {
       nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
     }
 
-    const montos = vehiclesFiltered.map((dato) => dato.monto);
+    const montos = sendData.map((dato) => dato.monto);
 
     datos = {
       labels: nameArray, // Meses en el eje x
@@ -1396,8 +1422,15 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
 sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
-  let { dateTo, dateFrom, yearCar, brandCar, modelCar, concesionary, id_user }: any =
-    req.query;
+  let {
+    dateTo,
+    dateFrom,
+    yearCar,
+    brandCar,
+    modelCar,
+    concesionary,
+    id_user,
+  }: any = req.query;
   const ExcelJS = require("exceljs");
   let now = new Date();
 
@@ -1444,26 +1477,26 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     };
   }
-  let seller:any=null;
+  let seller: any = null;
   if (id_user) {
-    seller = await Sellers.findOne({ id_user: id_user })
+    seller = await Sellers.findOne({ id_user: id_user });
     if (seller) {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
       };
-    }else{
+    } else {
       if (concesionary) {
         mongQuery = {
           ...mongQuery,
-          concesionary:  { $regex: concesionary, $options: "i" },
+          concesionary: { $regex: concesionary, $options: "i" },
         };
       }
     }
   }
- let cardsgroupmodel:any[]=[];
+  let cardsgroupmodel: any[] = [];
   if (!seller) {
-     cardsgroupmodel = await vehicles.aggregate([
+    cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
       },
@@ -1536,14 +1569,14 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         },
       },
     ]);
-  
+
     for (let i = 0; i < cardsgroupmodel.length; i++) {
       for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
         delete cardsgroupmodel[i].vehicles[j].mechanicalfiles;
       }
     }
-  }else{
-     cardsgroupmodel = await vehicles.aggregate([
+  } else {
+    cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
       },
@@ -1563,7 +1596,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       },
     ]);
   }
-
 
   let datos: any = {};
   datos = {
@@ -1588,13 +1620,18 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     const worksheet = workbook.addWorksheet(grupo._id);
 
     // Agregar los encabezados de las columnas
-    let columns:any[]=[]
-    columns=[
+    let columns: any[] = [];
+    columns = [
       { header: "Modelo", key: "modelo", width: 15, style: headerStyle },
       { header: "Marca", key: "marca", width: 15, style: headerStyle },
       { header: "Año", key: "anhio", width: 15, style: headerStyle },
       { header: "Precio", key: "precio", width: 15, style: headerStyle },
-      { header: "Ficha mecanica", key: "ficha_mecanica", width: 15, style: headerStyle },
+      {
+        header: "Ficha mecanica",
+        key: "ficha_mecanica",
+        width: 15,
+        style: headerStyle,
+      },
       { header: "Fecha", key: "fecha", width: 15, style: headerStyle },
       {
         header: "Fecha de venta",
@@ -1650,20 +1687,16 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Tracción", key: "traccion", width: 15, style: headerStyle },
       { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
       { header: "Vino", key: "vino", width: 15, style: headerStyle },
-    ]
+    ];
     if (seller) {
-      columns.splice(4,1)
+      columns.splice(4, 1);
     }
-    console.log(columns)
+    console.log(columns);
     worksheet.columns = columns;
-
-
-
 
     // Agregar los datos de los vehículos del grupo
     grupo.vehicles.forEach((vehiculo: any) => {
-
-      let dataRow={
+      let dataRow = {
         modelo: vehiculo.model,
         marca: vehiculo.brand,
         anhio: vehiculo.year,
@@ -1684,10 +1717,10 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         traccion: vehiculo.traction,
         lamina: vehiculo.plate,
         vino: vehiculo.vin,
-}
-    if (seller) {
-      delete dataRow.ficha_mecanica;
-    }
+      };
+      if (seller) {
+        delete dataRow.ficha_mecanica;
+      }
 
       worksheet.addRow(dataRow);
     });
@@ -1713,10 +1746,10 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       style: footerStyle,
     });
 
-    if(!seller){
+    if (!seller) {
       worksheet.addRow({}); // Línea vacía
       worksheet.addRow({}); // Línea vacía
-  
+
       // Agregar las secciones del mínimo, medio y máximo precio
       worksheet.addRow({
         modelo: "Condición general - Malo",
@@ -1766,32 +1799,35 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   // }
   // res.json(reponseJson);
 
-  workbook.xlsx.writeBuffer().then(async (buffer:any) => {
-    // Convertir el buffer en base64
-    const base64 = buffer.toString('base64');
+  workbook.xlsx
+    .writeBuffer()
+    .then(async (buffer: any) => {
+      // Convertir el buffer en base64
+      const base64 = buffer.toString("base64");
 
-    // Crear un objeto de respuesta con el archivo base64
-    const datos = {
-      fileName: now.getTime()+'.xlsx',
-      base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+base64
-    };
+      // Crear un objeto de respuesta con el archivo base64
+      const datos = {
+        fileName: now.getTime() + ".xlsx",
+        base64Data:
+          "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+          base64,
+      };
 
-  if (datos) {
-    reponseJson.code = 200;
-    reponseJson.message = "success";
-    reponseJson.status = true;
-    reponseJson.data = datos;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "no existe";
-    reponseJson.status = false;
-  }
-  res.json(reponseJson);
-
+      if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = datos;
+      } else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+      }
+      res.json(reponseJson);
     })
-    .catch((error:any) => {
-      console.log('Error al generar el archivo Excel:', error);
-    })
+    .catch((error: any) => {
+      console.log("Error al generar el archivo Excel:", error);
+    });
 });
 
 sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
@@ -1816,7 +1852,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       $lte: to_at,
     },
   };
-  
 
   if (dateFrom && dateTo) {
     let from = new Date(dateFrom).toISOString().substr(0, 10);
@@ -1851,20 +1886,20 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     };
   }
-let seller:any=null;
+  let seller: any = null;
   if (id_user) {
-      seller= await Sellers.findOne({ id_user: id_user })
-      console.log(seller);
+    seller = await Sellers.findOne({ id_user: id_user });
+    console.log(seller);
     if (seller) {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
       };
-    }else{
+    } else {
       if (concesionary) {
         mongQuery = {
           ...mongQuery,
-          concesionary:  { $regex: concesionary, $options: "i" },
+          concesionary: { $regex: concesionary, $options: "i" },
         };
       }
     }
@@ -1902,39 +1937,39 @@ let seller:any=null;
     ...mongQuery,
     mechanicalFile: true,
   };
-  let countMechanicaFile:any[]=[];
+  let countMechanicaFile: any[] = [];
   if (!seller) {
     countMechanicaFile = await vehicles.aggregate([
-     {
-       $match: otherQuery,
-     },
-     {
-       $lookup: {
-         from: "mechanicalfiles",
-         localField: "_id",
-         foreignField: "id_vehicle",
-         as: "mechanicalfiles",
-       },
-     },
-     {
-       $unwind: {
-         path: "$mechanicalfiles",
-       },
-     },
-     {
-       $match: {
-         "mechanicalfiles.general_condition": {
-           $in: ["bueno", "malo", "regular", "excelente"],
-         },
-       },
-     },
-     {
-       $group: {
-         _id: "$mechanicalfiles.general_condition",
-         count: { $sum: 1 },
-       },
-     },
-   ]);
+      {
+        $match: otherQuery,
+      },
+      {
+        $lookup: {
+          from: "mechanicalfiles",
+          localField: "_id",
+          foreignField: "id_vehicle",
+          as: "mechanicalfiles",
+        },
+      },
+      {
+        $unwind: {
+          path: "$mechanicalfiles",
+        },
+      },
+      {
+        $match: {
+          "mechanicalfiles.general_condition": {
+            $in: ["bueno", "malo", "regular", "excelente"],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$mechanicalfiles.general_condition",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
   }
 
   let datos: any = {};
@@ -1961,21 +1996,23 @@ sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
 
   const { id, final_price_sold } = req.body;
 
-  const vehiclesFiltered = await vehicles.findOneAndUpdate({ _id: id },{ sold: true,price: final_price_sold, dispatched: true });
+  const vehiclesFiltered = await vehicles.findOneAndUpdate(
+    { _id: id },
+    { sold: true, price: final_price_sold, dispatched: true }
+  );
 
   if (vehiclesFiltered) {
     reponseJson.code = 200;
     reponseJson.message = "vehículo entregado exitosamente";
     reponseJson.status = true;
     reponseJson.data = vehiclesFiltered;
-  }else{
+  } else {
     reponseJson.code = 400;
     reponseJson.message = "erroe al entregar vehículo";
     reponseJson.status = false;
   }
 
   res.json(reponseJson);
-
 });
 
 sellerRouter.post("/repost", async (req: Request, res: Response) => {
@@ -2042,6 +2079,24 @@ const gruopCardPrice = (listCar: any[], groupPrice: any) => {
 
   return caray;
 };
+
+function getMonthlyTotals(data: any) {
+  const monthlyTotals: any = [];
+  for (let i = 0; i < data.length; i++) {
+    const document = data[i];
+    const month = document._id.substring(0, 7); // Extrae el año y mes de la fecha
+    if (monthlyTotals[month]) {
+      monthlyTotals[month] += document.monto; // Si el mes ya existe en el objeto, acumula el monto
+    } else {
+      monthlyTotals[month] = document.monto; // Si el mes no existe en el objeto, crea la propiedad y asigna el monto
+    }
+  }
+  const result = [];
+  for (const month in monthlyTotals) {
+    result.push({ _id: month + "-01", monto: monthlyTotals[month] }); // Convierte el objeto en un array
+  }
+  return result;
+}
 
 const calcularMeses = (fechaInicial: any, fechaFinal: any) => {
   const inicio = new Date(fechaInicial);
