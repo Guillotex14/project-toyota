@@ -23,7 +23,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   lineChart: any;
   month: number = 1;
   yearSold: number = new Date().getFullYear();
-  rangMonths: number = 12;
+  rangMonths: any = '';
   yearCar: string = '';
   yearCarAux: string = '';
   brandCar: string = '';
