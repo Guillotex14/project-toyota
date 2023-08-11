@@ -1227,6 +1227,7 @@ sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
   }
 );
 
+
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let {
@@ -1421,6 +1422,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 });
+
 
 sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
