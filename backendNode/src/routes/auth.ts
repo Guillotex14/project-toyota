@@ -86,13 +86,13 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                 return jsonRes;
             } else {
                 jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecto";
+                jsonRes.message = "Contraseña incorrecta";
                 jsonRes.status = false;
                 return jsonRes;
             }
         } else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "ususario no registrado";
+            jsonRes.message = "Ususario no registrado";
             jsonRes.status = false;
             return jsonRes;
         }
