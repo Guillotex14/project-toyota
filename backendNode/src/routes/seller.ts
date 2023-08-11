@@ -872,6 +872,8 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
       } o al número telefono ${infoSeller!.phone}`,
     };
 
+
+
       await sendEmail(mailOptions);
 
       sendNotification(
@@ -1249,8 +1251,8 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   }
 
   if (!rangMonths) {
-    rangMonths = 12;
-  }
+    rangMonths = 1;
+  }//
 
   let firtsMonth = new Date(anioActual,  month - 1, 1);
   let last = new Date(anioActual, 11);
@@ -2267,7 +2269,7 @@ const desgloseImg = async (image: any) => {
 
   const resize = await sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
       return data;
-  }).catch((err) => {
+  }).catch((err:any) => {
       console.log("error",err)
       return "";
   })
