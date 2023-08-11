@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const moment_1 = __importDefault(require("moment"));
+const sharp_1 = __importDefault(require("sharp"));
 const Users_1 = __importDefault(require("../models/Users"));
 const Vehicles_1 = __importDefault(require("../models/Vehicles"));
 const Mechanics_1 = __importDefault(require("../models/Mechanics"));
@@ -29,6 +30,7 @@ const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const nodemailer_1 = require("../../nodemailer");
+const imgUser_1 = __importDefault(require("../models/imgUser"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -144,7 +146,8 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
-                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(images[i].image);
+                const imgResize = yield desgloseImg(images[i].image);
+                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
                 const imgVehi = new ImgVehicle_1.default({
                     img: filename.secure_url,
                     id_vehicle: newVehicle._id,
@@ -457,6 +460,7 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
                             email: res[j].email,
                             username: res[j].username,
                             type_user: res[j].type_user,
+                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id })) ? yield imgUser_1.default.findOne({ id_user: res[j]._id }) : "",
                         };
                         arrayMechanics.push(mechanic);
                     }
@@ -480,27 +484,52 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
 sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const { concesionary } = req.body;
-    const ress = yield Mechanics_1.default
-        .find({ concesionary: concesionary })
-        .then((res) => {
-        if (res) {
-            jsonResponse.code = 200;
-            jsonResponse.message = "Técnicos encontrados";
-            jsonResponse.status = true;
-            jsonResponse.data = res;
-            return jsonResponse;
+    let arrayMechanics = [];
+    const mecByConcesionary = yield Mechanics_1.default.find({ concesionary: concesionary });
+    if (mecByConcesionary) {
+        for (let i = 0; i < mecByConcesionary.length; i++) {
+            let mechanic = {
+                _id: mecByConcesionary[i]._id,
+                fullName: mecByConcesionary[i].fullName,
+                city: mecByConcesionary[i].city,
+                concesionary: mecByConcesionary[i].concesionary,
+                id_user: mecByConcesionary[i].id_user,
+                date_create: mecByConcesionary[i].date_created,
+                image: (yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user })) ? yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user }) : "",
+            };
+            arrayMechanics.push(mechanic);
         }
-        else if (!res) {
-            jsonResponse.code = 400;
-            jsonResponse.message = "no se encontraron Técnicos";
-            jsonResponse.status = false;
-            return jsonResponse;
-        }
-    })
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
+        jsonResponse.code = 200;
+        jsonResponse.message = "Técnicos encontrados";
+        jsonResponse.status = true;
+        jsonResponse.data = arrayMechanics;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no se encontraron Técnicos";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+    // const ress = await mechanics
+    //   .find({ concesionary: concesionary })
+    //   .then((res: any) => {
+    //     if (res) {
+    //       for
+    //       jsonResponse.code = 200;
+    //       jsonResponse.message = "Técnicos encontrados";
+    //       jsonResponse.status = true;
+    //       jsonResponse.data = res;
+    //       return jsonResponse;
+    //     } else if (!res) {
+    //       jsonResponse.code = 400;
+    //       jsonResponse.message = "no se encontraron Técnicos";
+    //       jsonResponse.status = false;
+    //       return jsonResponse;
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
 }));
 sellerRouter.get("/allZones", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
@@ -1746,5 +1775,16 @@ const getNameMonth = (date) => {
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
+    let posr = image.split(";base64").pop();
+    let imgBuff = Buffer.from(posr, 'base64');
+    const resize = yield (0, sharp_1.default)(imgBuff).resize(150, 80).toBuffer().then((data) => {
+        return data;
+    }).catch((err) => {
+        console.log("error", err);
+        return "";
+    });
+    return 'data:image/jpeg;base64,' + resize.toString('base64');
+});
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map

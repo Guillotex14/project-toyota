@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet } from '@ionic/angular';
-import { AddVehicle } from 'src/models/sellet';
+import { AddVehicle, CreateMechanic } from 'src/models/sellet';
 import { SellerService } from '../services/seller/seller.service';
 import { UtilsService } from '../services/utils/utils.service';
 import { ModalMechanicComponent } from '../components/modal-mechanic/modal-mechanic.component';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { states } from 'src/assets/json/states';
 import { concesionaries } from 'src/assets/json/concesionaries';
-import { ModalAddMechanicComponent } from '../components/modal-add-mechanic/modal-add-mechanic.component';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -40,11 +39,19 @@ export class AddVehiclePage implements OnInit {
   mechanicCity: string = '';
   mechanicConcesionary: string = '';
 
+  newMechanic: CreateMechanic = new CreateMechanic();
+  // arrayCities: any[] = states;
+  auxConces: any[] = concesionaries;
+  typeInput: string = "password";
+  typeInputConfirm: string = "password";
+
+
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheetEdit') ActionSheetEdit!: IonActionSheet;
   @ViewChild('ActionSheet') ActionSheet!: IonActionSheet;
   @ViewChild('modalMechanic') modal!: IonModal;
+  @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
   constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController) {
@@ -73,6 +80,14 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.vin = '';
     this.newVehicle.vehicle_plate = '';
 
+    this.newMechanic.email = "";
+    this.newMechanic.password = "";
+    this.newMechanic.password_confirm = "";
+    this.newMechanic.city = "";
+    this.newMechanic.concesionary = "";
+    this.newMechanic.fullName = "";
+    this.newMechanic.username = "";
+
     let data = localStorage.getItem('me');
 
     if (data) {
@@ -80,6 +95,8 @@ export class AddVehiclePage implements OnInit {
       this.newVehicle.id_seller = me.id_sell;
       this.newVehicle.city = me.city;
       this.newVehicle.concesionary = me.concesionary;
+      this.newMechanic.city = me.city;
+      this.newMechanic.concesionary = me.concesionary;
     }else{
       this.newVehicle.id_seller = '';
       this.newVehicle.city = '';
@@ -118,7 +135,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public getMechanics(){
-    this.utils.presentLoading('Cargando tecnicos...');
+    this.utils.presentLoading('Cargando técnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
       console.log(data)
       if (data.status) {
@@ -128,7 +145,7 @@ export class AddVehiclePage implements OnInit {
       }
     }, error => {
       this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los tecnicos, intente nuevamente');
+      this.utils.presentToast('Error al cargar los técnicos, intente nuevamente');
     });
   }
 
@@ -515,7 +532,7 @@ export class AddVehiclePage implements OnInit {
   public onWillDismiss(event: any) {
     console.log(event.detail.data);
     if (event.detail.role === 'confirm') {
-      this.utils.presentToast(`Tecnico seleccionado correctamente ${event.detail.data.mechanic.fullName}`);
+      this.utils.presentToast(`Técnico seleccionado correctamente ${event.detail.data.mechanic.fullName}`);
       this.newVehicle.id_mechanic = event.detail.data.mechanic._id;
       this.mechanicName = event.detail.data.mechanic.fullName;
       this.mechanicCity = event.detail.data.mechanic.city;
@@ -529,21 +546,17 @@ export class AddVehiclePage implements OnInit {
     }, "cancel");
   }
 
+  public dismissModalCreateMechanic(){
+    this.modalAddMechanic.dismiss();
+    this.modal.present();
+  }
+
   public async addMechanic(){
-
-    this.dismissModal();
-
-    const addMechanic = await this.modalCtrl.create({
-      component: ModalAddMechanicComponent,
-      cssClass: 'modal-add-mechanic'
-    });
-
-    await addMechanic.present();
-
+    this.modalAddMechanic.present();
   }
 
   public selectMechanic(id_mechanic: string){
-    // this.utils.presentLoading('Seleccionando Tecnico...');
+    // this.utils.presentLoading('Seleccionando Técnico...');
     console.log(id_mechanic)
     this.modalCtrl.dismiss({
       mechanic: id_mechanic
@@ -595,4 +608,92 @@ export class AddVehiclePage implements OnInit {
     this.arrayAutoComplete = [];
     this.showAutoComplete = false;
   }
+
+  public createMechanic(){
+
+    if (this.newMechanic.email != "" && this.newMechanic.password != "" && this.newMechanic.password_confirm != "" && this.newMechanic.city != "" && this.newMechanic.concesionary != "" && this.newMechanic.fullName != "" && this.newMechanic.username != "" && this.newMechanic.phone != "") {
+      this.sellerSrv.addMechanic(this.newMechanic).subscribe((data:any)=>{
+        if (data.status) {
+          this.utils.presentToast(data.message);
+          this.newMechanic.email = "";
+          this.newMechanic.password = "";
+          this.newMechanic.password_confirm = "";
+          this.newMechanic.city = "";
+          this.newMechanic.concesionary = "";
+          this.newMechanic.fullName = "";
+          this.newMechanic.username = "";
+          this.filterMechanic();
+          this.dismissModalCreateMechanic();
+        }else{
+          this.utils.presentToast(data.message);
+        }
+
+      }
+      ,(error:any)=>{
+        console.log(error);
+      });
+    }else{
+      if (this.newMechanic.email == "") {
+        this.utils.presentToast("El email es obligatorio");
+        return;
+      }
+
+      if (this.newMechanic.password == "") {
+        this.utils.presentToast("La contraseña es obligatoria");
+        return
+      }
+
+      if (this.newMechanic.password_confirm == "") {
+        this.utils.presentToast("La confirmación de la contraseña es obligatoria");
+        return
+      }
+
+      if (this.newMechanic.password != this.newMechanic.password_confirm) {
+        this.utils.presentToast("Las contraseñas no coinciden");
+        return
+      }
+
+      if (this.newMechanic.city == "") {
+        this.utils.presentToast("La estado es obligatoria");
+        return
+      }
+
+      if (this.newMechanic.concesionary == "") {
+        this.utils.presentToast("La concesionaria es obligatoria");
+        return
+      }
+
+      if (this.newMechanic.fullName == "") {
+        this.utils.presentToast("El nombre completo es obligatorio");
+        return
+      }
+
+      if (this.newMechanic.username == "") {
+        this.utils.presentToast("El nombre de usuario es obligatorio");
+        return
+      }
+
+      if (this.newMechanic.phone == "") {
+        this.utils.presentToast("El numero teléfonico es obligatorio");
+        return
+      }
+    }
+  }
+
+public showPassword() {
+    if (this.typeInput == "password") {
+      this.typeInput = "text";
+    } else {
+      this.typeInput = "password";
+    }
+  }
+
+  public showPasswordConfirm() {
+    if (this.typeInputConfirm == "password") {
+      this.typeInputConfirm = "text";
+    } else {
+      this.typeInputConfirm = "password";
+    }
+  }
+
 }

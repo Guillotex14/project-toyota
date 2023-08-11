@@ -92,13 +92,13 @@ export class CarDetailMechanicPage implements OnInit {
           this.utils.dismissLoading();
         }else{
           this.utils.dismissLoading();
-          this.utils.presentToast("Error al cargar el vehiculo");
+          this.utils.presentToast("Error al cargar el vehículo");
         }
       },
       (err) => {
         console.log(err);
         this.utils.dismissLoading();
-        this.utils.presentToast("Error al cargar el vehiculo");
+        this.utils.presentToast("Error al cargar el vehículo");
       }
     );
   }

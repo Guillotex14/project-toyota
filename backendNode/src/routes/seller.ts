@@ -17,6 +17,7 @@ import ImgVehicle from "../models/ImgVehicle";
 import modelVehicle from "../models/modelVehicle";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import { sendEmail } from "../../nodemailer";
+import imgUser from "../models/imgUser";
 
 const sellerRouter = Router();
 
@@ -179,7 +180,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     if (images.length > 0) {
       for (let i = 0; i < images.length; i++) {
 
-        const imgResize = await sharp(images[i].image)
+        const imgResize = await desgloseImg(images[i].image)
 
         const filename = await uploadImageVehicle(imgResize);
 
@@ -551,6 +552,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
                 email: res[j].email,
                 username: res[j].username,
                 type_user: res[j].type_user,
+                image: await imgUser.findOne({ id_user: res[j]._id }) ? await imgUser.findOne({ id_user: res[j]._id }) : "",
               };
               arrayMechanics.push(mechanic);
             }
@@ -576,28 +578,63 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
 sellerRouter.post("/mechanicByConcesionary",async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const { concesionary } = req.body;
+    let arrayMechanics: any[] = []; 
 
-    const ress = await mechanics
-      .find({ concesionary: concesionary })
-      .then((res: any) => {
-        if (res) {
-          jsonResponse.code = 200;
-          jsonResponse.message = "Técnicos encontrados";
-          jsonResponse.status = true;
-          jsonResponse.data = res;
-          return jsonResponse;
-        } else if (!res) {
-          jsonResponse.code = 400;
-          jsonResponse.message = "no se encontraron Técnicos";
-          jsonResponse.status = false;
-          return jsonResponse;
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    const mecByConcesionary  = await mechanics.find({concesionary:concesionary})
 
-    res.json(ress);
+    if(mecByConcesionary){
+
+      for (let i = 0; i < mecByConcesionary.length; i++) {
+        let mechanic = {
+              _id: mecByConcesionary[i]._id,
+              fullName: mecByConcesionary[i].fullName,
+              city: mecByConcesionary[i].city,
+              concesionary: mecByConcesionary[i].concesionary,
+              id_user: mecByConcesionary[i].id_user,
+              date_create: mecByConcesionary[i].date_created,
+              image: await imgUser.findOne({ id_user: mecByConcesionary[i].id_user }) ? await imgUser.findOne({ id_user: mecByConcesionary[i].id_user }) : "",
+          }
+          arrayMechanics.push(mechanic);
+      }
+
+      jsonResponse.code = 200;
+      jsonResponse.message = "Técnicos encontrados";
+      jsonResponse.status = true;
+      jsonResponse.data = arrayMechanics;
+
+    } else{
+      jsonResponse.code = 400;
+      jsonResponse.message = "no se encontraron Técnicos";
+      jsonResponse.status = false;
+    }
+
+
+    res.json(jsonResponse);
+
+    // const ress = await mechanics
+    //   .find({ concesionary: concesionary })
+    //   .then((res: any) => {
+    //     if (res) {
+
+    //       for
+
+
+    //       jsonResponse.code = 200;
+    //       jsonResponse.message = "Técnicos encontrados";
+    //       jsonResponse.status = true;
+    //       jsonResponse.data = res;
+    //       return jsonResponse;
+    //     } else if (!res) {
+    //       jsonResponse.code = 400;
+    //       jsonResponse.message = "no se encontraron Técnicos";
+    //       jsonResponse.status = false;
+    //       return jsonResponse;
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
+
   }
 );
 

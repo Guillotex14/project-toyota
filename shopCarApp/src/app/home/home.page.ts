@@ -41,7 +41,7 @@ export class HomePage {
   public login(){
 
     if (this.newLogin.email == '') {
-      this.utils.presentToast('el campo correo electronico es obligatorio');
+      this.utils.presentToast('el campo correo electrónico es obligatorio');
       return;
     }
 

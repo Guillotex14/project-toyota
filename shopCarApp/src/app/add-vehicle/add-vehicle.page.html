@@ -20,7 +20,7 @@
         <ion-row>
 
           <ion-col size="12" style="text-align: center; font-size: 18px;" >
-            <p style="font-weight: bold; font-size: 25px;">Cargar vehiculo</p>
+            <p style="font-weight: bold; font-size: 25px;">Cargar vehículo</p>
           </ion-col>
 
           <!-- <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
@@ -33,7 +33,7 @@
                 <br>
                 <span style="font-size: 20px;">Cargar imágenes</span>
                 <br>
-                <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehiculo (Delantera, trasera. ambos lados e interna)</span>
+                <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehículo (Delantera, trasera. ambos lados e interna)</span>
               </ion-col>
 
               <ion-col size="12" *ngIf="arrayImages.length > 0">
@@ -95,8 +95,8 @@
           </ion-col>
 
           <ion-col size="6">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehiculo</ion-label>
-            <ion-select [(ngModel)]="newVehicle.type_vehicle" interface="action-sheet" placeholder="tipo de vehiculo" fill="outline" id="typeSelect">
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehículo</ion-label>
+            <ion-select [(ngModel)]="newVehicle.type_vehicle" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option value="pickup">Pick-up y carga</ion-select-option>
               <ion-select-option value="suv">SUV</ion-select-option>
@@ -107,7 +107,7 @@
 
           <ion-col size="6">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
-            <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehiculo" fill="outline" id="typeSelect">
+            <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
               
@@ -125,7 +125,7 @@
           </ion-col>
 
           <ion-col size="6">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Placa del vehiculo</ion-label>
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Placa del vehículo</ion-label>
             <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.vehicle_plate"></ion-input>
           </ion-col>
 
@@ -145,7 +145,7 @@
           </ion-col>
 
           <ion-col size="6">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Titulos</ion-label>
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Títulos</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.titles"></ion-input> -->
             <ion-select [(ngModel)]="newVehicle.titles" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="1-1">1-1</ion-select-option>
@@ -176,7 +176,7 @@
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmision</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission"></ion-input> -->
             <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
-              <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="automanica">Automatica</ion-select-option>
+              <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="autománica">Automática</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="manual">Manual</ion-select-option>
             </ion-select>
           </ion-col>
@@ -288,16 +288,16 @@
           <ion-col size="12">
             <ion-card>
               <ion-card-header>
-                <ion-card-title style="font-weight: bold;">Ficha mecanica</ion-card-title>
+                <ion-card-title style="font-weight: bold;">Ficha mécanica</ion-card-title>
                 <ion-card-subtitle style="color:darkgoldenrod;">en espera</ion-card-subtitle>
 
                 <ion-button expand="block" shape="round" class="btnSaveRed" (click)="openModal()" style="height: 30px !important; margin-top: 15px !important;">
-                  Asignar Tecnico
+                  Asignar Técnico
                 </ion-button>
               </ion-card-header>
 
               <ion-card-content>
-                <ion-card-subtitle style="color: #898989;">El vehiculo no sera publicado hasta que se apruebe la ficha mecanica</ion-card-subtitle>
+                <ion-card-subtitle style="color: #898989;">El vehículo no sera publicado hasta que se apruebe la ficha mécanica</ion-card-subtitle>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -338,7 +338,7 @@
           <ion-buttons slot="start">
             <ion-button color="medium" (click)="dismissModal()">Cancelar</ion-button>
           </ion-buttons>
-          <ion-title>Agregar Tecnico</ion-title>
+          <ion-title>Agregar Técnico</ion-title>
           <ion-buttons slot="end">
             <ion-button [strong]="true" (click)="addMechanic()">Agregar</ion-button>
           </ion-buttons>
@@ -351,7 +351,7 @@
       
             <!-- <ion-col size="12">
       
-              <ion-searchbar placeholder="Buscar tecnico" [debounce]="250" showCancelButton="never" showClearButton="never"></ion-searchbar>
+              <ion-searchbar placeholder="Buscar técnico" [debounce]="250" showCancelButton="never" showClearButton="never"></ion-searchbar>
       
             </ion-col> -->
       
@@ -359,7 +359,8 @@
               <ion-row>
                 <ion-col size="6">
                   <ion-avatar >
-                    <img src="assets/images/carro/sedan.png" />
+                    <img [src]="mechanic.image.img" *ngIf="mechanic.image !==''"/>
+                    <ion-icon name="person-circle" *ngIf="mechanic.image ===''" class="iconBlack" (click)="openActionSheet()"></ion-icon>
                   </ion-avatar>
                 </ion-col>
                 <ion-col size="6" style="text-align: center; font-size: 16px !important;">
@@ -372,6 +373,105 @@
           </ion-row>
         </ion-grid>
       </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalAddMechanic>
+    <ng-template>
+      
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="dismissModalCreateMechanic()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Crear Técnico</ion-title>
+          <!-- <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="addMechanic()">Guadar</ion-button>
+          </ion-buttons> -->
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12" style="margin-top: 20px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Nombre Completo</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.fullName"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Correo Electrónico</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.email"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Número Telefonico</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.phone"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Nombre de Usuario</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.username"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label style="font-size: 13px !important;">Contraseña</ion-label>
+                    <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
+                      <ion-col size="9">
+                        <ion-input [type]="typeInput" [(ngModel)]="newMechanic.password" style="height: 30px !important;" id="inputPasss"></ion-input>
+                      </ion-col>
+                      <ion-col size="3" style="text-align: center;">
+                        <ion-icon name="eye-outline" *ngIf="typeInput === 'password'" (click)="showPassword()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-off-outline" *ngIf="typeInput === 'text'" (click)="showPassword()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-label style="font-size: 13px !important;">Confirmar Contraseña</ion-label>
+                    <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
+                      <ion-col size="9">
+                        <ion-input [type]="typeInputConfirm" [(ngModel)]="newMechanic.password_confirm" style="height: 30px !important;" id="inputPasss"></ion-input>
+                      </ion-col>
+                      <ion-col size="3" style="text-align: center;">
+                        <ion-icon name="eye-outline" *ngIf="typeInputConfirm === 'password'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-off-outline" *ngIf="typeInputConfirm === 'text'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+
+            <ion-col size="6" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Estado</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.city" disabled style="opacity: 1 !important;"></ion-input>
+            </ion-col>
+
+            <ion-col size="6" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Tipo Usuario</ion-label>
+              <ion-input type="text" fill="outline" disabled value="Técnico" style="opacity: 1 !important;"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" style="margin-top: 15px;">
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Concesionario</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.concesionary" disabled style="opacity: 1 !important;"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-button expand="block" shape="round" (click)="createMechanic()" class="btnSaveRed" style="margin: 25px auto !important;">
+                Guardar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+
+      </ion-content>
+
     </ng-template>
   </ion-modal>
 

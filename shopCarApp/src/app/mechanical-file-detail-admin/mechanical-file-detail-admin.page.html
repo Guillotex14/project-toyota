@@ -7,7 +7,7 @@
             <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
           </ion-col>
           <ion-col size="10" style="text-align: center;">
-            <p style="font-size: 30px; margin-top: 35px;">Ficha Mecanica</p>
+            <p style="font-size: 30px; margin-top: 35px;">Ficha Mécanica</p>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -15,7 +15,7 @@
       <ion-col size="12" style="text-align: center; margin-top: 15px !important;">
         <ion-row *ngIf="mechanicalFile.general_condition ==='excelente'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #11D800 !important"></ion-icon>
@@ -26,7 +26,7 @@
         </ion-row>
         <ion-row *ngIf="mechanicalFile.general_condition ==='bueno'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #F9D616 !important"></ion-icon>
@@ -37,7 +37,7 @@
         </ion-row>
         <ion-row *ngIf="mechanicalFile.general_condition ==='regular'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="help-circle-outline" style="font-size: 45px !important; color: #F7941D !important"></ion-icon>
@@ -49,7 +49,7 @@
 
         <ion-row *ngIf="mechanicalFile.general_condition ==='malo'">
           <ion-col size="12">
-            <span style="font-size: 22px !important;font-weight: bold;">Condicion del vehiculo:</span>
+            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
           <ion-col size="5" style="text-align: right !important;">
             <ion-icon name="close-circle-outline" style="font-size: 45px !important; color: #EB0A1E !important"></ion-icon>
@@ -213,7 +213,7 @@
             </ion-item>
 
             <ion-item-divider>
-              <ion-label>REVISION GENERAL DEL VEHICULO</ion-label>
+              <ion-label>REVISION GENERAL DEL VEHÍCULO</ion-label>
             </ion-item-divider>
 
             <ion-item>
@@ -339,7 +339,7 @@
             <ion-item>
               <ion-row>
                 <ion-col size="12">
-                  <ion-label>Revisión del sistema del vehiculo a traves de <br> tester inteligente o GTS</ion-label>
+                  <ion-label>Revisión del sistema del vehículo a traves de <br> tester inteligente o GTS</ion-label>
                 </ion-col>
                 <ion-col size="12">
                   <ion-segment [value]="mechanicalFile.gts" [class.mLeft]="android === true || web === true" disabled="true">
@@ -1010,7 +1010,7 @@
             <ion-item>
               <ion-row>
                 <ion-col size="12">
-                  <ion-label>Estado general del vehiculo</ion-label>
+                  <ion-label>Estado general del vehículo</ion-label>
                 </ion-col>
                 <ion-col size="12">
                   <ion-segment [value]="mechanicalFile.general_condition" [class.mLeft]="android === true || web === true" disabled="true">

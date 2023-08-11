@@ -165,7 +165,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.gts === "" || this.newMechanicalFile.gts === undefined){
-      this.utils.presentToast("El campo Revisión del sistema del vehiculo a traves de tester inteligente o GTS requerido")
+      this.utils.presentToast("El campo Revisión del sistema del vehículo a traves de tester inteligente o GTS requerido")
       return;
     }
 
@@ -270,27 +270,27 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.id_mechanic === "" || this.newMechanicalFile.id_mechanic === undefined){
-      this.utils.presentToast("El campo id del Tecnico es requerido")
+      this.utils.presentToast("El campo id del Técnico es requerido")
       return;
     }
 
     if(this.newMechanicalFile.id_vehicle === "" || this.newMechanicalFile.id_vehicle === undefined){
 
-      this.utils.presentToast("El campo id del vehiculo es requerido")
+      this.utils.presentToast("El campo id del vehículo es requerido")
       return;
     }
 
     if(this.newMechanicalFile.general_condition === "" || this.newMechanicalFile.general_condition === undefined){
 
-      this.utils.presentToast("El campo Condicion general es requerido")
+      this.utils.presentToast("El campo Condición general es requerido")
       return;
     }
 
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
-      this.utils.presentLoading("Creando ficha mecanica")
+      this.utils.presentLoading("Creando ficha mécanica")
       if (res.status) {
         this.utils.dismissLoading()
-        this.utils.presentToast("Se ha creado la ficha mecanica correctamente")
+        this.utils.presentToast("Se ha creado la ficha mécanica correctamente")
         this.goBack();
         this.newMechanicalFile.part_emblems_complete = "";
         this.newMechanicalFile.wiper_shower_brushes_windshield = "";
@@ -333,12 +333,12 @@ export class AddMechanicFilePage implements OnInit {
         this.newMechanicalFile.general_condition = "";
       }else{
         this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al crear la ficha mecanica")
+        this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
       }
     }
     ,(err) => {
       this.utils.dismissLoading()
-      this.utils.presentToast("Ha ocurrido un error al crear la ficha mecanica")
+      this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
     }
     )
 

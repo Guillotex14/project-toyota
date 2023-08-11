@@ -95,7 +95,7 @@ export class BuyCarPage implements OnInit {
       maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0
     }
 
-    this.utils.presentLoading("Cargando vehiculos");
+    this.utils.presentLoading("Cargando vehículos");
     this.sellerSrv.getListByFilter(data).subscribe((data:any)=>{
       if (data.status) {
         this.utils.dismissLoading();
