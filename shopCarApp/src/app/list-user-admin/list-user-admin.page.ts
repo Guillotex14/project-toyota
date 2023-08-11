@@ -18,12 +18,14 @@ export class ListUserAdminPage implements OnInit {
 
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) {
     
-    this.getSellers();
   }
   
   ngOnInit() {
   }
-
+  
+  ionViewWillEnter(){
+    this.getSellers();
+  }
 
   public goTo(){
     this.router.navigate(['home-admin']);
@@ -35,14 +37,21 @@ export class ListUserAdminPage implements OnInit {
   }
 
   public getSellers() {
-    console.log("getSellers")
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getSellers().subscribe((res: any) => {
       if (res.status) {
         this.arraySellers = res.data;
         this.auxSellers = res.data;
         this.utils.dismissLoading();
+      }else{
+        this.utils.dismissLoading();
+        this.utils.presentToast("Sin vendedores registrados");
       }
+    },
+    (error) => {
+      console.log(error);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
     });
   }
 

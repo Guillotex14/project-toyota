@@ -91,14 +91,20 @@ export class CarDetailPage implements OnInit {
       this.myId = dataJson.id_sell;
     }
 
-    this.getVehicleById();
-    this.buttonsActionSheet();
-    this.buttonsActionSheetEdit();
+    // this.getVehicleById();
+    // this.buttonsActionSheet();
+    // this.buttonsActionSheetEdit();
 
   }
 
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.getVehicleById();
+    this.buttonsActionSheet();
+    this.buttonsActionSheetEdit();
   }
 
   goBack(){
@@ -128,7 +134,6 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.vehicleById(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
         this.carDetail = data.data;
         this.utils.dismissLoading();
         
@@ -144,8 +149,12 @@ export class CarDetailPage implements OnInit {
         }
 
       }else{
+        this.utils.dismissLoading();
         this.utils.presentToast(data.message);
       }
+    },
+    (error:any) => {
+      console.log(error);
     });
   }
 
@@ -476,7 +485,6 @@ export class CarDetailPage implements OnInit {
       this.priceAux = num;
       this.price = input.value.replace(/\./g,'');
     }else{ 
-      
       input.value = input.value.replace(/[^\d\.]*/g,'');
     }
   }
@@ -561,6 +569,7 @@ export class CarDetailPage implements OnInit {
         if (data.status) {
           this.utils.presentToast("Vehiculo entregado");
           this.utils.dismissLoading();
+          this.getVehicleById();
         }else{
           this.utils.presentToast("Error al entregar vehiculo");
           this.utils.dismissLoading();

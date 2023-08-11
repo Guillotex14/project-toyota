@@ -23,11 +23,9 @@ export class App {
     }
 
     middlewares() {
-        this.app.use(Express.json());
-        this.app.use(cors())
         this.app.use(Express.json({limit: '512mb'}));
         this.app.use(Express.urlencoded({limit: '512mb', extended: true}));
-        // this.app.use(Express.urlencoded({  }));
+        this.app.use(cors())
     }
 
     routes() {

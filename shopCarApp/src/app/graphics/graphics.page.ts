@@ -147,23 +147,28 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
     }
-
+    this.utils.presentLoading('Cargando datos');
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
-          console.log(res)
+          this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
-          // this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
+        }else{
+          this.utils.dismissLoading();
+          this.utils.presentToast(res.message);
         }
     } , (err:any)=>{
+
       console.log(err);
+      this.utils.dismissLoading();
+      this.utils.presentToast('Error de servidor');
     });
   
   }
 
-  getCarList(){
-    console.log(this.id_user)
+  public getCarList(){
+    
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -176,11 +181,45 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
       console.log(res)
       if (res.status) {
+
+        if (res.data.grupocard.length > 0) {
+          for (let i = 0; i < res.data.grupocard.length; i++) {
+            if (res.data.grupocard[i].vehiclesWithImages.length > 0) {
+              for (let j = 0; j < res.data.grupocard[i].vehiclesWithImages.length; j++) {
+                if (res.data.grupocard[i].vehicles.length > 0){
+                  for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                    if (res.data.grupocard[i].vehiclesWithImages[j].id_vehicle == res.data.grupocard[i].vehicles[k]._id) {
+                      res.data.grupocard[i].vehicles[k].image = res.data.grupocard[i].vehiclesWithImages[j].img;
+                    }else{
+                      res.data.grupocard[i].vehicles[k].image ="";
+                    }
+                  }
+                }else{
+                  if (res.data.grupocard[i].vehicles.length > 0){
+                    for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                      res.data.grupocard[i].vehicles[k].image ="";
+                    }
+                  }
+                }
+              }
+            }else{
+              if (res.data.grupocard[i].vehicles.length > 0){
+                for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                  res.data.grupocard[i].vehicles[k].image ="";
+                }
+              }
+            }
+          }
+        }
+
         this.arrayListCars = res.data.grupocard;
+      }else{
+        this.utils.presentToast(res.message);
       }
     }
     , (err:any)=>{
-
+      console.log(err);
+      this.utils.presentToast('Error de servidor');
     });
 
   }

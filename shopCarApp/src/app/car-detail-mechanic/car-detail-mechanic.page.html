@@ -125,19 +125,19 @@
 
             <ion-col size="4" style="text-align: center !important;">
               <ion-col size="12">
-                <span class="spanLabel">Tracción</span>
+                <span class="spanLabel">Transmisión</span>
               </ion-col>
               <ion-col size="12">
-                <p class="pText">{{carDetail.traction}}</p>
+                <p class="pText">{{carDetail.transmission}}</p>
               </ion-col>
             </ion-col>
 
             <ion-col size="4" style="text-align: center !important;">
               <ion-col size="12">
-                <span class="spanLabel">Transmisión</span>
+                <span class="spanLabel">Tracción</span>
               </ion-col>
               <ion-col size="12">
-                <p class="pText">{{carDetail.transmission}}</p>
+                <p class="pText">{{carDetail.traction}}</p>
               </ion-col>
             </ion-col>
 
@@ -152,7 +152,7 @@
                         <ion-col size="12" >
                           <span class="spanLabel" style="font-size: 15px !important;">Estado</span>
                         </ion-col>
-                        <ion-col size="12" >
+                        <ion-col size="12" style="text-align: center !important;">
                           <ion-row>
                             <!-- <ion-col size="4" style="text-align: center !important;" style="text-align: right !important;">
                               <ion-icon name="navigate-sharp" style="color: #787878; font-size: 25px;"></ion-icon>
@@ -180,7 +180,7 @@
               </ion-card>
             </ion-col>
 
-            <ion-col size="12">
+            <ion-col size="12" *ngIf="carDetail.traction_control === 'true' || carDetail.technology === 'true' || carDetail.performance === 'true' || carDetail.comfort === 'true'">
               <ion-card>
                 <ion-card-content>
                   <ion-row>

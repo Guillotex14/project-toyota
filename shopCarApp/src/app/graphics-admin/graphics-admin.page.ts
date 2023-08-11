@@ -83,17 +83,18 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.menu.open();
   }
 
-  public getBrands() {
-    this.sellerSrv.allBrands().subscribe(
-      (res: any) => {
-        if (res.status) {
-          this.arrayBrands = res.data;
-        }
-      },
-      (err: any) => {
-        console.log(err);
+  public getBrands(){
+    this.sellerSrv.allBrands().subscribe((res:any)=>{
+      if (res.status) {
+        this.arrayBrands = res.data;
+      }else{
+        console.log(res)
+        this.utils.presentToast(res.message);
       }
-    );
+    } , (err:any)=>{
+      console.log(err);
+      this.utils.presentToast("Error de servidor");
+    });
   }
 
   public getModels() {
@@ -154,26 +155,29 @@ export class GraphicsAdminPage implements AfterViewInit {
       yearCar: this.yearCar,
       brandCar: this.brandCar,
       modelCar: this.modelCar,
-    };
-
-    this.sellerSrv.getGrafic(data).subscribe(
-      (res: any) => {
+    }
+    this.utils.presentLoading("Cargando datos...");
+    this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
-          console.log(res);
+          console.log(res)
+          this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
-          // this.genCondCar = res.data.mechanicaFiles
           this.lineChartMethod();
+        }else{
+          this.utils.dismissLoading();
+          this.utils.presentToast(res.message);
         }
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
+    } , (err:any)=>{
+      console.log(err);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Error de servidor");
+    });
+  
   }
 
-  getCarList() {
-    console.log(this.id_user);
+  public getCarList(){
+    console.log(this.id_user)
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -182,16 +186,49 @@ export class GraphicsAdminPage implements AfterViewInit {
       modelCar: this.modelCar2,
       concesionary: this.concesionary2,
       id_user: this.id_user,
-    };
-    this.sellerSrv.getListCars(data).subscribe(
-      (res: any) => {
-        console.log(res);
-        if (res.status) {
-          this.arrayListCars = res.data.grupocard;
+    }
+    this.sellerSrv.getListCars(data).subscribe((res:any)=>{
+      console.log(res)
+      if (res.status) {
+        if (res.data.grupocard.length > 0) {
+          for (let i = 0; i < res.data.grupocard.length; i++) {
+            if (res.data.grupocard[i].vehiclesWithImages.length > 0) {
+              for (let j = 0; j < res.data.grupocard[i].vehiclesWithImages.length; j++) {
+                if (res.data.grupocard[i].vehicles.length > 0){
+                  for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                    if (res.data.grupocard[i].vehiclesWithImages[j].id_vehicle == res.data.grupocard[i].vehicles[k]._id) {
+                      res.data.grupocard[i].vehicles[k].image = res.data.grupocard[i].vehiclesWithImages[j].img;
+                    }else{
+                      res.data.grupocard[i].vehicles[k].image ="";
+                    }
+                  }
+                }else{
+                  if (res.data.grupocard[i].vehicles.length > 0){
+                    for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                      res.data.grupocard[i].vehicles[k].image ="";
+                    }
+                  }
+                }
+              }
+            }else{
+              if (res.data.grupocard[i].vehicles.length > 0){
+                for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
+                  res.data.grupocard[i].vehicles[k].image ="";
+                }
+              }
+            }
+          }
         }
-      },
-      (err: any) => {}
-    );
+
+        this.arrayListCars = res.data.grupocard;
+      }else{
+        this.utils.presentToast(res.message);
+      }
+    }
+    , (err:any)=>{
+      this.utils.presentToast("Error de servidor");
+    });
+
   }
 
   public exportExcel() {
@@ -320,19 +357,6 @@ export class GraphicsAdminPage implements AfterViewInit {
       input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }
-  // public dotMaxYear(input:any){
-  //   var num = input.value.replace(/\./g,'');
-  //   if(!isNaN(num)){
-  //     num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-  //     num = num.split('').reverse().join('').replace(/^[\.]/,'');
-  //     input.value = num;
-  //     this.maxYearAux = num;
-  //     this.maxYear = input.value.replace(/\./g,'');
-  //   }else{
-
-  //     input.value = input.value.replace(/[^\d\.]*/g,'');
-  //   }
-  // }
 
   public detailCar(id: any) {
     this.router.navigate(['car-detail-admin/' + id + '/graphics-admin']);

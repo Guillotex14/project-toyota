@@ -40,10 +40,17 @@
       </ion-col>
 
       <ion-col size="12" style="margin-top: 50px !important;">
+        <ion-title >Lista de vehiculos</ion-title>
         <ion-list-header class="headerList">
-          <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" id="">Exportar</ion-button>
-          <ion-label style="font-size: 16px; color: black; font-weight: 600;">Lista de vehiculos</ion-label>
-          <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles">Filtro</ion-button>
+          <ion-col size="4">
+            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;">Exportar</ion-button>
+          </ion-col>
+          <ion-col size="2">
+            
+          </ion-col>
+          <ion-col size="6">
+            <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;">Filtro de Vehiculos</ion-button>
+          </ion-col>
         </ion-list-header>
         <ion-list *ngFor="let modelCar of arrayListCars">
           <ion-item-divider >
@@ -70,7 +77,8 @@
                 <ion-grid fixed>
                   <ion-row>
                     <ion-col size="4">
-                      <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                      <ion-icon name="image" *ngIf="vehicle.image ===''" style="font-size: 90px !important; margin: 16px 0px 0px 20px !important;"></ion-icon>
+                      <ion-img [src]="vehicle.image" *ngIf="vehicle.image !== ''"></ion-img>
                     </ion-col>
                     <ion-col size="8">
                       <ion-row>
@@ -122,6 +130,7 @@
       </ion-header>
       
       <ion-content class="ion-padding">
+        <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
         <ion-accordion-group expand="inset" [value]="['brand']">
 
           <ion-accordion value="brand">
@@ -286,6 +295,7 @@
       </ion-header>
       
       <ion-content class="ion-padding">
+        <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
         <ion-accordion-group expand="inset" [value]="['brand']">
 
           <ion-accordion value="brand">

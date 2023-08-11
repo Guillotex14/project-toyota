@@ -65,7 +65,8 @@
             <ion-col size="6" *ngFor="let vehicle of arrayVehicles; let i = index">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
-                <ion-img src="assets/images/carro/toyota1.png"></ion-img>
+                <ion-icon name="image" *ngIf="vehicle.image ===''" style="font-size: 90px !important; margin: 16px 0px 0px 20px !important;"></ion-icon>
+                <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !==''"></ion-img>
                 <ion-card-content>
                   <p>
                     {{vehicle.model}}
@@ -92,7 +93,7 @@
 
   <ion-modal trigger="openFilters">
     <ng-template>
-
+      
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -106,6 +107,9 @@
       </ion-header>
       
       <ion-content class="ion-padding">
+
+        <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
+
         <ion-accordion-group expand="inset" [value]="['brand']">
 
           <ion-accordion value="brand">

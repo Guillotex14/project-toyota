@@ -61,6 +61,7 @@ ion-input{
   font-size: 15px;
   font-weight: 900;
   color: #1c1c1d;
+  text-transform: capitalize;
 }
 
 #inputPasss{
@@ -79,4 +80,12 @@ ion-input{
   margin: auto 20px !important;
   // font-weight: 900;
   // color: #1c1c1d;
+}
+
+.textCenter{
+  text-align: center !important;
+}
+
+.textLeft{
+  text-align: left !important;
 }

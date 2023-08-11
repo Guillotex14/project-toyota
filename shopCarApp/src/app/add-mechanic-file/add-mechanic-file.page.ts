@@ -337,6 +337,7 @@ export class AddMechanicFilePage implements OnInit {
       }
     }
     ,(err) => {
+      this.utils.dismissLoading()
       this.utils.presentToast("Ha ocurrido un error al crear la ficha mecanica")
     }
     )

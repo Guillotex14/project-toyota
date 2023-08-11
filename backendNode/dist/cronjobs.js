@@ -32,7 +32,7 @@ exports.cronInit = cronInit;
 const cronJobs = () => __awaiter(void 0, void 0, void 0, function* () {
     //captando de mongo todolos los vehiculos que tienen una oferta activa
     const dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    const info = yield Vehicles_1.default.find({ id_seller_buyer: { $ne: null }, sold: true, date_sell: { $ne: null }, price_ofert: { $ne: null }, final_price_sold: { $ne: null }, dispatched: false });
+    const info = yield Vehicles_1.default.find({ id_seller_buyer: { $ne: null }, sold: false, date_sell: { $ne: null }, price_ofert: { $ne: null }, final_price_sold: { $ne: null }, dispatched: false });
     // for para comparar la fecha actual sea mayor a la fecha de venta
     for (let i = 0; i < info.length; i++) {
         const dateSell = (0, moment_1.default)(info[i].date_sell).format('YYYY-MM-DD');
