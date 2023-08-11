@@ -19,7 +19,7 @@ import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import { sendEmail } from "../../nodemailer";
 import imgUser from "../models/imgUser";
 import * as global from '../global'
-
+ 
 
 const sellerRouter = Router();
 
