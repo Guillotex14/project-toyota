@@ -168,7 +168,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.gts === "" || this.newMechanicalFile.gts === undefined){
-      this.utils.presentToast("El campo Revisión del sistema del vehiculo a traves de tester inteligente o GTS requerido")
+      this.utils.presentToast("El campo Revisión del sistema del vehículo a traves de tester inteligente o GTS requerido")
       return;
     }
 
@@ -273,21 +273,21 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.id_mechanic === "" || this.newMechanicalFile.id_mechanic === undefined){
-      this.utils.presentToast("El campo id del tecnico es requerido")
+      this.utils.presentToast("El campo id del técnico es requerido")
       return;
     }
 
     if(this.newMechanicalFile.id_vehicle === "" || this.newMechanicalFile.id_vehicle === undefined){
 
-      this.utils.presentToast("El campo id del vehiculo es requerido")
+      this.utils.presentToast("El campo id del vehículo es requerido")
       return;
     }
 
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
-      this.utils.presentLoading("Creando ficha mecanica")
+      this.utils.presentLoading("Creando ficha mécanica")
       if (res.data.status) {
         this.utils.dismissLoading()
-        this.utils.presentToast("Se ha creado la ficha mecanica correctamente")
+        this.utils.presentToast("Se ha creado la ficha mécanica correctamente")
         this.router.navigate(['mechanic'])
         this.newMechanicalFile.part_emblems_complete = "";
         this.newMechanicalFile.wiper_shower_brushes_windshield = "";
@@ -329,11 +329,11 @@ export class MechanicalFilePage implements OnInit {
         this.newMechanicalFile.dealer_maintenance = "";
       }else{
         this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al crear la ficha mecanica")
+        this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
       }
     }
     ,(err) => {
-      this.utils.presentToast("Ha ocurrido un error al crear la ficha mecanica")
+      this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
     }
     )
 
@@ -345,18 +345,18 @@ export class MechanicalFilePage implements OnInit {
     }
     
     this.mechanicSrv.rejectMechanicalFile(data).subscribe((res:any) => {
-      this.utils.presentLoading("Rechazando ficha mecanica")
+      this.utils.presentLoading("Rechazando ficha mécanica")
       if (res.data.status) {
         this.utils.dismissLoading()
-        this.utils.presentToast("Se ha rechazado la ficha mecanica correctamente")
+        this.utils.presentToast("Se ha rechazado la ficha mécanica correctamente")
         this.router.navigate(['mechanic'])
       }else{
         this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecanica")
+        this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mécanica")
       }
     }
     ,(err:any) => {
-      this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecanica")
+      this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mécanica")
     })
   }
 

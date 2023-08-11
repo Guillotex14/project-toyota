@@ -76,8 +76,9 @@ ion-search-bar{
   box-shadow: none !important;
   width: 160px !important;
   ion-img{
-    width: 77%;
-    height: 60%;
+    width: 130px;
+    height: 70px;
+    margin: 18px 0px 0px 0px !important;
     img{
       width: 95% !important;
     }
@@ -104,7 +105,6 @@ ion-search-bar{
   }
 
 }
-
 ion-chip{
   position: fixed !important;
   bottom: 25px !important;

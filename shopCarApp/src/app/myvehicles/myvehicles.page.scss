@@ -40,35 +40,35 @@ ion-search-bar{
     box-shadow: none !important;
     width: 160px !important;
     ion-img{
-        width: 74%;
-        height: 65%;
-        margin-top: 20px;
-        img{
+      width: 130px;
+      height: 70px;
+      margin: 18px 0px 0px 0px !important;
+      img{
         width: 95% !important;
-        }
+      }
     }
-
+  
     p{
-        font-size: 12px;
-        font-weight: 900;
+      font-size: 12px;
+      font-weight: 900;
     }
     span{
-        font-size: 12px;
-        font-weight: 900;
-        color: #1c1c1d;
+      font-size: 12px;
+      font-weight: 900;
+      color: #1c1c1d;
     }
     ion-button{
-        --border-radius: 30px !important;
-        --background: #EB0A1E !important;
-        --color: white !important;
-        font-size: 10px;
-        font-weight: 900;
-        width: 70%;
-        height: 20px;
-        text-transform: capitalize !important;
+      --border-radius: 30px !important;
+      --background: #EB0A1E !important;
+      --color: white !important;
+      font-size: 10px;
+      font-weight: 900;
+      width: 70%;
+      height: 20px;
+      text-transform: capitalize !important;
     }
-
-}
+  
+  }
 
 ion-chip{
     position: fixed !important;

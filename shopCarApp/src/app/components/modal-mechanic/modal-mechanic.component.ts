@@ -16,10 +16,8 @@ export class ModalMechanicComponent  implements OnInit {
   // concesionary: string = "";
   
   constructor(private modalCtrl: ModalController, private sellerSrv: SellerService, private utils: UtilsService, ) {
-    this.getMechanics();
-    // obteniendo input desde el modal
-    
-    console.log("concesionario que viene de add vehicle", this.data)
+    // this.getMechanics();
+
   }
 
   ngOnInit() {
@@ -28,8 +26,12 @@ export class ModalMechanicComponent  implements OnInit {
     // console.log("desde oninit", this.conce)
   }
 
+  ionViewDidEnter(){
+    this.getMechanics();
+  }
+
   public getMechanics(){
-    this.utils.presentLoading('Cargando tecnicos...');
+    this.utils.presentLoading('Cargando técnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
       console.log(data)
       if (data.status) {
@@ -38,7 +40,7 @@ export class ModalMechanicComponent  implements OnInit {
       }
     }, error => {
       this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los tecnicos, intente nuevamente');
+      this.utils.presentToast('Error al cargar los técnicos, intente nuevamente');
     });
   }
 
@@ -62,7 +64,7 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   public selectMechanic(id_mechanic: string){
-    this.utils.presentLoading('Seleccionando tecnico...');
+    this.utils.presentLoading('Seleccionando técnico...');
     this.modalCtrl.dismiss({
       id_mechanic: id_mechanic
     });

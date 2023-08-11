@@ -164,24 +164,15 @@ authRouter.post("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 }));
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
-    let pors = image.split(";base64").push();
-    // console.log("pors",pors)
     let posr = image.split(";base64").pop();
-    // console.log("posr",posr)
     let imgBuff = Buffer.from(posr, 'base64');
     const resize = yield (0, sharp_1.default)(imgBuff).resize(150, 80).toBuffer().then((data) => {
-        // console.log(".then",data)
         return data;
     }).catch((err) => {
         console.log("error", err);
         return "";
     });
     return 'data:image/jpeg;base64,' + resize.toString('base64');
-    // let base64 = image.split(";base64");
-    // let mime_type = posr.split(":")[1];
-    // let type = mime_type.split("/")[0];
-    // const sharpImg = await Sharp(Buffer.from(base64[1],'base64')).resize(150, 80).toBuffer();
-    // return sharpImg;
 });
 exports.default = authRouter;
 //# sourceMappingURL=auth.js.map

@@ -9,7 +9,7 @@
               <ion-icon name="arrow-back-circle-sharp" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 60%;" (click)="goBack()"></ion-icon>
             </ion-col>
             <ion-col size="8" style="text-align: center;">
-              <p style="font-size: 25px; margin-top: 30px;">Agregar Modelo de vehiculo</p>
+              <p style="font-size: 25px; margin-top: 30px;">Agregar Modelo de vehículo</p>
             </ion-col>
             <ion-col size="2">
               <ion-icon name="menu-outline" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 60%;" (click)="openMenu()"></ion-icon>
@@ -28,8 +28,8 @@
           </ion-col> 
 
           <ion-col size="12">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehiculo</ion-label>
-            <ion-select [(ngModel)]="type_vehicle" interface="action-sheet" placeholder="tipo de vehiculo" fill="outline" id="typeSelect">
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehículo</ion-label>
+            <ion-select [(ngModel)]="type_vehicle" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option value="pickup">Pick-up y carga</ion-select-option>
               <ion-select-option value="suv">SUV</ion-select-option>
@@ -40,7 +40,7 @@
 
           <ion-col size="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
-            <ion-select [(ngModel)]="brand" interface="action-sheet" placeholder="tipo de vehiculo" fill="outline" id="typeSelect">
+            <ion-select [(ngModel)]="brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
               
