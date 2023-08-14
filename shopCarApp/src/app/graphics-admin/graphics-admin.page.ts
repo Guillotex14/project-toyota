@@ -12,7 +12,7 @@ import { Chart, registerables } from 'chart.js';
 import * as moment from 'moment';
 import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-
+import { Browser } from '@capacitor/browser';
 @Component({
   selector: 'app-graphics-admin',
   templateUrl: './graphics-admin.page.html',
@@ -245,9 +245,21 @@ export class GraphicsAdminPage implements AfterViewInit {
 
     this.utils.showLoading().then((_) => {
       this.sellerSrv.exportExcel(data).subscribe(
-        (res: any) => {
+       async (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
+
+            try {
+              // Abrir una nueva ventana del navegador con el archivo
+              const url =  res.data.base64Data;
+              await Browser.open({ url });
+              this.utils.presentToast(
+                'Se mandado un correo de la exportación del excel ' +res.data.fileName
+                  
+              );
+            } catch (error) {
+              this.utils.presentToast('Error al descargar el archivo:'+error);
+            }
               // this.platform.ready().then(async (d) => {
             //   if (this.platform.is('mobile')) {
             //     const directorioDescargas = await Filesystem.getUri({
@@ -291,8 +303,7 @@ export class GraphicsAdminPage implements AfterViewInit {
 
 
             this.utils.presentToast(
-              'Se mandado un correo de la exportación del excel ' +res.data.fileName
-                
+              'Se mandado un correo de la exportación del excel ' +res.data.fileName               
             );
           }
         },
