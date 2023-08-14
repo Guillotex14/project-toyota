@@ -1185,9 +1185,11 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1495,20 +1497,6 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     const fs = require('fs');
     // ...
     fs.unlinkSync(filePath);
-    // if (datos) {
-    //   reponseJson.code = 200;
-    //   reponseJson.message = "success";
-    //   reponseJson.status = true;
-    //   reponseJson.data = {
-    //     url:sendUrl,
-    //     fileName:fileName
-    //   };
-    // } else {
-    //   reponseJson.code = 400;
-    //   reponseJson.message = "no existe";
-    //   reponseJson.status = false;
-    // }
-    // res.json(reponseJson);
     workbook.xlsx
         .writeBuffer()
         .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1567,10 +1555,11 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        console.log(seller);
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1579,6 +1568,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
             }
         }
     }
+    console.log(mongQuery);
     const cardsgroupmodel = yield Vehicles_1.default.aggregate([
         {
             $match: mongQuery,
