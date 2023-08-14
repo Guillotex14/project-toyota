@@ -1484,9 +1484,11 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     };
   }
   let seller: any = null;
+  let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user!="admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1888,6 +1890,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     };
   }
 
+
   if (yearCar) {
     mongQuery = {
       ...mongQuery,
@@ -1909,10 +1912,11 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     };
   }
   let seller: any = null;
+  let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    console.log(seller);
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user!="admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1926,6 +1930,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       }
     }
   }
+  console.log(mongQuery)
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
