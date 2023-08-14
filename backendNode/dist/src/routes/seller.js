@@ -1495,48 +1495,47 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     const fs = require('fs');
     // ...
     fs.unlinkSync(filePath);
-    if (datos) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = {
-            url: sendUrl,
-            fileName: fileName
+    // if (datos) {
+    //   reponseJson.code = 200;
+    //   reponseJson.message = "success";
+    //   reponseJson.status = true;
+    //   reponseJson.data = {
+    //     url:sendUrl,
+    //     fileName:fileName
+    //   };
+    // } else {
+    //   reponseJson.code = 400;
+    //   reponseJson.message = "no existe";
+    //   reponseJson.status = false;
+    // }
+    // res.json(reponseJson);
+    workbook.xlsx
+        .writeBuffer()
+        .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
+        // Convertir el buffer en base64
+        const base64 = buffer.toString("base64");
+        // Crear un objeto de respuesta con el archivo base64
+        const datos = {
+            fileName: now.getTime() + ".xlsx",
+            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+                base64,
         };
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-    // workbook.xlsx
-    //   .writeBuffer()
-    //   .then(async (buffer: any) => {
-    //     // Convertir el buffer en base64
-    //     const base64 = buffer.toString("base64");
-    //     // Crear un objeto de respuesta con el archivo base64
-    //     const datos = {
-    //       fileName: now.getTime() + ".xlsx",
-    //       base64Data:
-    //         "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
-    //         base64,
-    //     };
-    //     if (datos) {
-    //       reponseJson.code = 200;
-    //       reponseJson.message = "success";
-    //       reponseJson.status = true;
-    //       reponseJson.data = datos;
-    //     } else {
-    //       reponseJson.code = 400;
-    //       reponseJson.message = "no existe";
-    //       reponseJson.status = false;
-    //     }
-    //     res.json(reponseJson);
-    //   })
-    //   .catch((error: any) => {
-    //     console.log("Error al generar el archivo Excel:", error);
-    //   });
+        if (datos) {
+            reponseJson.code = 200;
+            reponseJson.message = "success";
+            reponseJson.status = true;
+            reponseJson.data = datos;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
+        res.json(reponseJson);
+    }))
+        .catch((error) => {
+        console.log("Error al generar el archivo Excel:", error);
+    });
 }));
 sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
