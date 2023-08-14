@@ -6,7 +6,7 @@ import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import * as moment from 'moment';
 import { Filesystem, Directory, FilesystemDirectory, FilesystemEncoding } from '@capacitor/filesystem';
-import { Plugins } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-graphics',
@@ -241,6 +241,8 @@ export class GraphicsPage implements AfterViewInit, OnInit {
         (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
+            this.descargarArchivo(res.data.fileName,res.data.base64Data)
+
             // this.platform.ready().then(async (d) => {
             //   if (this.platform.is('mobile')) {
             //     const directorioDescargas = await Filesystem.getUri({
@@ -294,6 +296,16 @@ export class GraphicsPage implements AfterViewInit, OnInit {
         }
       );
     });
+  }
+
+  async  descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
+    try {
+      // Abrir una nueva ventana del navegador con el archivo
+      const url=dataBase64;
+      await Browser.open({ url });
+    } catch (error) {
+      console.error('Error al descargar el archivo:', error);
+    }
   }
 
 
