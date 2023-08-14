@@ -67,6 +67,7 @@ export class AddMechanicPage implements OnInit {
           this.newMechanic.fullName = "";
           this.newMechanic.username = "";
           this.router.navigate(['seller']);
+          this.utils.dismissLoading();
         }else{
           this.utils.presentToast(data.message);
           this.utils.dismissLoading();
