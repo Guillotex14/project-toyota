@@ -29,7 +29,7 @@ export class EditUserAdminPage implements OnInit {
     this.id.id = this.actRoute.snapshot.params['id'];
     this.sellerById();
     this.seller._id = this.id.id;
-    this.seller.type_user = "Véndedor";
+    this.seller.type_user = "Vendedor";
     this.seller.id_user = "";
     this.seller.email = "";
     this.seller.username = "";
