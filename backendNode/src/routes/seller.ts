@@ -1496,6 +1496,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   let to_at = `${now.getFullYear()}-12-31`;
 
   let mongQuery: any = {
+    sold: true, // Campo de búsqueda adicional
+    dispatched: true,
     date_sell: {
       $gte: from_at,
       $lte: to_at,
@@ -1920,6 +1922,8 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   let to_at = `${now.getFullYear()}-12-31`;
 
   let mongQuery: any = {
+    sold: true, // Campo de búsqueda adicional
+    dispatched: true,
     date_sell: {
       $gte: from_at,
       $lte: to_at,
