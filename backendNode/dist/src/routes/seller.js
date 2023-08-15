@@ -318,7 +318,9 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     const jsonRes = new Response_1.ResponseModel();
     let arrayVehicles = [];
     const { id_seller } = req.body;
-    const myVehicles = yield Vehicles_1.default.find({ id_seller: id_seller }).sort({ date_create: -1 });
+    const myVehicles = yield Vehicles_1.default
+        .find({ id_seller: id_seller })
+        .sort({ date_create: -1 });
     if (myVehicles) {
         for (let i = 0; i < myVehicles.length; i++) {
             let data = {
@@ -358,7 +360,9 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
                 plate: myVehicles[i].plate,
                 vin: myVehicles[i].vin,
                 dispatched: myVehicles[i].dispatched,
-                images: (yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id })) ? yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id }) : "",
+                images: (yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id }))
+                    ? yield ImgVehicle_1.default.findOne({ id_vehicle: myVehicles[i]._id })
+                    : "",
             };
             arrayVehicles.push(data);
         }
@@ -486,7 +490,9 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
                             email: res[j].email,
                             username: res[j].username,
                             type_user: res[j].type_user,
-                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id })) ? yield imgUser_1.default.findOne({ id_user: res[j]._id }) : "",
+                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id }))
+                                ? yield imgUser_1.default.findOne({ id_user: res[j]._id })
+                                : "",
                         };
                         arrayMechanics.push(mechanic);
                     }
@@ -511,7 +517,9 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
     const jsonResponse = new Response_1.ResponseModel();
     const { concesionary } = req.body;
     let arrayMechanics = [];
-    const mecByConcesionary = yield Mechanics_1.default.find({ concesionary: concesionary });
+    const mecByConcesionary = yield Mechanics_1.default.find({
+        concesionary: concesionary,
+    });
     if (mecByConcesionary) {
         for (let i = 0; i < mecByConcesionary.length; i++) {
             let mechanic = {
@@ -521,7 +529,11 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
                 concesionary: mecByConcesionary[i].concesionary,
                 id_user: mecByConcesionary[i].id_user,
                 date_create: mecByConcesionary[i].date_created,
-                image: (yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user })) ? yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user }) : "",
+                image: (yield imgUser_1.default.findOne({
+                    id_user: mecByConcesionary[i].id_user,
+                }))
+                    ? yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
+                    : "",
             };
             arrayMechanics.push(mechanic);
         }
@@ -997,7 +1009,8 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     }
     else {
         reponseJson.code = 400;
-        reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
+        reponseJson.message =
+            "no se encontraron vehículos con los filtros seleccionados";
         reponseJson.status = false;
     }
     res.json(reponseJson);
@@ -1067,7 +1080,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
             $gte: from,
             $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
         },
-        sold: true, // Campo de búsqueda adicional
+        sold: true,
+        dispatched: true, // Campo de búsqueda adicional
     };
     if (yearCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(yearCar) });
@@ -1467,7 +1481,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     });
     const fileName = now.getTime() + ".xlsx";
     const filePath = "./public/pdf/" + fileName;
-    const sendUrl = global.urlBase + 'public/pdf/' + fileName;
+    const sendUrl = global.urlBase + "public/pdf/" + fileName;
     workbook.xlsx
         .writeFile(filePath)
         .then(() => {
@@ -1494,7 +1508,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
-    const fs = require('fs');
+    const fs = require("fs");
     // ...
     fs.unlinkSync(filePath);
     workbook.xlsx
@@ -1587,18 +1601,17 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
                 _id: 1,
             },
         },
-        {
-            $lookup: {
-                from: "imgvehicles",
-                localField: "vehicles._id",
-                foreignField: "id_vehicle",
-                as: "vehiclesWithImages",
-            },
-        },
     ]);
+    for (let i = 0; i < cardsgroupmodel.length; i++) {
+        cardsgroupmodel[i].vehicles.forEach((card) => __awaiter(void 0, void 0, void 0, function* () {
+            card.imgvehicles = null;
+            let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: card._id });
+            card.imgvehicles = imgvehicles;
+        }));
+    }
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
-    if (!seller) {
+    if (user.type_user == "admin") {
         countMechanicaFile = yield Vehicles_1.default.aggregate([
             {
                 $match: otherQuery,
@@ -1864,14 +1877,18 @@ const getNameMonth = (date) => {
 };
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
-    let imgBuff = Buffer.from(posr, 'base64');
-    const resize = yield (0, sharp_1.default)(imgBuff).resize(150, 80).toBuffer().then((data) => {
+    let imgBuff = Buffer.from(posr, "base64");
+    const resize = yield (0, sharp_1.default)(imgBuff)
+        .resize(150, 80)
+        .toBuffer()
+        .then((data) => {
         return data;
-    }).catch((err) => {
+    })
+        .catch((err) => {
         console.log("error", err);
         return "";
     });
-    return 'data:image/jpeg;base64,' + resize.toString('base64');
+    return "data:image/jpeg;base64," + resize.toString("base64");
 });
 exports.default = sellerRouter;
 //# sourceMappingURL=seller.js.map

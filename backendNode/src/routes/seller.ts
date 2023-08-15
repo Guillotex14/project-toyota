@@ -18,8 +18,7 @@ import modelVehicle from "../models/modelVehicle";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import { sendEmail } from "../../nodemailer";
 import imgUser from "../models/imgUser";
-import * as global from '../global'
-
+import * as global from "../global";
 
 const sellerRouter = Router();
 
@@ -177,8 +176,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   if (images) {
     if (images.length > 0) {
       for (let i = 0; i < images.length; i++) {
-
-        const imgResize = await desgloseImg(images[i].image)
+        const imgResize = await desgloseImg(images[i].image);
 
         const filename = await uploadImageVehicle(imgResize);
 
@@ -364,12 +362,12 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   let arrayVehicles: any[] = [];
   const { id_seller } = req.body;
 
-  const myVehicles = await vehicles.find({ id_seller: id_seller }).sort({date_create:-1});
+  const myVehicles = await vehicles
+    .find({ id_seller: id_seller })
+    .sort({ date_create: -1 });
 
   if (myVehicles) {
-
     for (let i = 0; i < myVehicles.length; i++) {
-      
       let data = {
         name_new_owner: myVehicles[i].name_new_owner,
         dni_new_owner: myVehicles[i].dni_new_owner,
@@ -404,16 +402,16 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
         traction: myVehicles[i].traction,
         date_sell: myVehicles[i].date_sell,
         date_create: myVehicles[i].date_create,
-        plate:  myVehicles[i].plate,
+        plate: myVehicles[i].plate,
         vin: myVehicles[i].vin,
-        dispatched:myVehicles[i].dispatched,
-        images: await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }) : "",
-      }
+        dispatched: myVehicles[i].dispatched,
+        images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
+          ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
+          : "",
+      };
 
       arrayVehicles.push(data);
-      
     }
-
 
     jsonRes.code = 200;
     jsonRes.message = "Vehicleos encontrados";
@@ -554,7 +552,9 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
                 email: res[j].email,
                 username: res[j].username,
                 type_user: res[j].type_user,
-                image: await imgUser.findOne({ id_user: res[j]._id }) ? await imgUser.findOne({ id_user: res[j]._id }) : "",
+                image: (await imgUser.findOne({ id_user: res[j]._id }))
+                  ? await imgUser.findOne({ id_user: res[j]._id })
+                  : "",
               };
               arrayMechanics.push(mechanic);
             }
@@ -582,36 +582,39 @@ sellerRouter.post(
   async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const { concesionary } = req.body;
-    let arrayMechanics: any[] = []; 
+    let arrayMechanics: any[] = [];
 
-    const mecByConcesionary  = await mechanics.find({concesionary:concesionary})
+    const mecByConcesionary = await mechanics.find({
+      concesionary: concesionary,
+    });
 
-    if(mecByConcesionary){
-
+    if (mecByConcesionary) {
       for (let i = 0; i < mecByConcesionary.length; i++) {
         let mechanic = {
-              _id: mecByConcesionary[i]._id,
-              fullName: mecByConcesionary[i].fullName,
-              city: mecByConcesionary[i].city,
-              concesionary: mecByConcesionary[i].concesionary,
-              id_user: mecByConcesionary[i].id_user,
-              date_create: mecByConcesionary[i].date_created,
-              image: await imgUser.findOne({ id_user: mecByConcesionary[i].id_user }) ? await imgUser.findOne({ id_user: mecByConcesionary[i].id_user }) : "",
-          }
-          arrayMechanics.push(mechanic);
+          _id: mecByConcesionary[i]._id,
+          fullName: mecByConcesionary[i].fullName,
+          city: mecByConcesionary[i].city,
+          concesionary: mecByConcesionary[i].concesionary,
+          id_user: mecByConcesionary[i].id_user,
+          date_create: mecByConcesionary[i].date_created,
+          image: (await imgUser.findOne({
+            id_user: mecByConcesionary[i].id_user,
+          }))
+            ? await imgUser.findOne({ id_user: mecByConcesionary[i].id_user })
+            : "",
+        };
+        arrayMechanics.push(mechanic);
       }
 
       jsonResponse.code = 200;
       jsonResponse.message = "Técnicos encontrados";
       jsonResponse.status = true;
       jsonResponse.data = arrayMechanics;
-
-    } else{
+    } else {
       jsonResponse.code = 400;
       jsonResponse.message = "no se encontraron Técnicos";
       jsonResponse.status = false;
     }
-
 
     res.json(jsonResponse);
 
@@ -621,7 +624,6 @@ sellerRouter.post(
     //     if (res) {
 
     //       for
-
 
     //       jsonResponse.code = 200;
     //       jsonResponse.message = "Técnicos encontrados";
@@ -638,7 +640,6 @@ sellerRouter.post(
     //   .catch((err: any) => {
     //     console.log(err);
     //   });
-
   }
 );
 
@@ -858,23 +859,21 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
     reponseJson.data = vehicle;
 
     if (vehicle) {
-        reponseJson.code = 200;
-        reponseJson.message = "aprobacion de oferta exitosa";
-        reponseJson.status = true;
-        reponseJson.data = vehicle;
-        
-    const mailOptions = {
-      from: "Toyousado Notifications",
-      to: userbuyer!.email,
-      subject: "Oferta de vehículo aprobada",
-      text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
-        vehicle!.concesionary
-      } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
-        userSeller!.email
-      } o al número telefono ${infoSeller!.phone}`,
-    };
+      reponseJson.code = 200;
+      reponseJson.message = "aprobacion de oferta exitosa";
+      reponseJson.status = true;
+      reponseJson.data = vehicle;
 
-
+      const mailOptions = {
+        from: "Toyousado Notifications",
+        to: userbuyer!.email,
+        subject: "Oferta de vehículo aprobada",
+        text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
+          vehicle!.concesionary
+        } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
+          userSeller!.email
+        } o al número telefono ${infoSeller!.phone}`,
+      };
 
       await sendEmail(mailOptions);
 
@@ -1191,13 +1190,14 @@ sellerRouter.post(
         arrayVehicles.push(data);
       }
 
-        reponseJson.code = 200;
-        reponseJson.message = "vehículos encontrados exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = arrayVehicles;
+      reponseJson.code = 200;
+      reponseJson.message = "vehículos encontrados exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = arrayVehicles;
     } else {
       reponseJson.code = 400;
-      reponseJson.message = "no se encontraron vehículos con los filtros seleccionados";
+      reponseJson.message =
+        "no se encontraron vehículos con los filtros seleccionados";
       reponseJson.status = false;
     }
 
@@ -1205,7 +1205,9 @@ sellerRouter.post(
   }
 );
 
-sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
+sellerRouter.post(
+  "/autocompleteModels",
+  async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { search } = req.body;
@@ -1228,7 +1230,6 @@ sellerRouter.post("/autocompleteModels",async (req: Request, res: Response) => {
     res.json(reponseJson);
   }
 );
-
 
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -1255,9 +1256,9 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   if (!rangMonths) {
     rangMonths = 1;
-  }//
+  } //
 
-  let firtsMonth = new Date(anioActual,  month - 1, 1);
+  let firtsMonth = new Date(anioActual, month - 1, 1);
   let last = new Date(anioActual, 11);
   let lastDayLasyMont = getLastDayOfMonth(anioActual, 11);
   let lastMonth = new Date(anioActual, 11, lastDayLasyMont.getDate());
@@ -1267,7 +1268,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
     rangArrayMonth = getMonthRange(month, rangMonths);
 
     firtsMonth = new Date(anioActual, month - 1, 1);
-    
+
     if (rangArrayMonth.length > 1) {
       last = new Date(anioActual, rangArrayMonth.length - 1);
       lastDayLasyMont = getLastDayOfMonth(
@@ -1278,8 +1279,8 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
         anioActual,
         rangArrayMonth.length - 1,
         lastDayLasyMont.getDate()
-        );
-      } else {
+      );
+    } else {
       last = new Date(anioActual, month - 1);
       lastDayLasyMont = getLastDayOfMonth(anioActual, month - 1);
       lastMonth = new Date(anioActual, month - 1, lastDayLasyMont.getDate());
@@ -1309,6 +1310,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
       $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
     },
     sold: true, // Campo de búsqueda adicional
+    dispatched: true, // Campo de búsqueda adicional
   };
 
   if (yearCar) {
@@ -1425,7 +1427,6 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-
 sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let {
@@ -1488,7 +1489,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
     user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user!="admin") {
+    if (seller && user.type_user != "admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1782,9 +1783,9 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     }
   });
 
-  const fileName =now.getTime() + ".xlsx";
+  const fileName = now.getTime() + ".xlsx";
   const filePath = "./public/pdf/" + fileName;
-  const sendUrl = global.urlBase+'public/pdf/'+fileName;
+  const sendUrl = global.urlBase + "public/pdf/" + fileName;
 
   workbook.xlsx
     .writeFile(filePath)
@@ -1796,32 +1797,28 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     .catch((error: any) => {
       console.log("Error al generar el archivo Excel:", error);
     });
-   let sendUser:any = await Users.findOne({ _id: id_user });
-   if (sendUser) {
-     
-         const mailOptions = {
-           from: "Toyousado",
-           to: sendUser.email,
-           subject: "Exportar excell",
-           text:"puede descargar el excell "+fileName,
-           attachments: [
-             {
-               filename: fileName, // nombre del archivo adjunto
-               path: sendUrl, // ruta completa del archivo a adjuntar
-             },
-           ],
-         };
-         await sendEmail(mailOptions);
-    
-   }
+  let sendUser: any = await Users.findOne({ _id: id_user });
+  if (sendUser) {
+    const mailOptions = {
+      from: "Toyousado",
+      to: sendUser.email,
+      subject: "Exportar excell",
+      text: "puede descargar el excell " + fileName,
+      attachments: [
+        {
+          filename: fileName, // nombre del archivo adjunto
+          path: sendUrl, // ruta completa del archivo a adjuntar
+        },
+      ],
+    };
+    await sendEmail(mailOptions);
+  }
 
+  const fs = require("fs");
 
-    const fs = require('fs');
+  // ...
 
-// ...
-
-fs.unlinkSync(filePath);
- 
+  // fs.unlinkSync(filePath);
 
   workbook.xlsx
     .writeBuffer()
@@ -1832,6 +1829,7 @@ fs.unlinkSync(filePath);
       // Crear un objeto de respuesta con el archivo base64
       const datos = {
         fileName: now.getTime() + ".xlsx",
+        path: sendUrl,
         base64Data:
           "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
           base64,
@@ -1890,7 +1888,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     };
   }
 
-
   if (yearCar) {
     mongQuery = {
       ...mongQuery,
@@ -1916,7 +1913,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
     user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user!="admin") {
+    if (seller && user.type_user != "admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1930,7 +1927,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       }
     }
   }
-  console.log(mongQuery)
+  console.log(mongQuery);
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
@@ -1950,22 +1947,21 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
         _id: 1,
       },
     },
-    {
-      $lookup: {
-        from: "imgvehicles",
-        localField: "vehicles._id",
-        foreignField: "id_vehicle",
-        as: "vehiclesWithImages",
-      },
-    },
   ]);
+  for (let i = 0; i < cardsgroupmodel.length; i++) {
+    cardsgroupmodel[i].vehicles.forEach(async (card: any) => {
+      card.imgvehicles = null;
+      let imgvehicles = await ImgVehicle.findOne({ id_vehicle: card._id });
+      card.imgvehicles = imgvehicles;
+    });
+  }
 
   let otherQuery = {
     ...mongQuery,
     mechanicalFile: true,
   };
   let countMechanicaFile: any[] = [];
-  if (!seller) {
+  if (user.type_user == "admin") {
     countMechanicaFile = await vehicles.aggregate([
       {
         $match: otherQuery,
@@ -2290,17 +2286,20 @@ const getNameMonth = (date: any) => {
 
 const desgloseImg = async (image: any) => {
   let posr = image.split(";base64").pop();
-  let imgBuff = Buffer.from(posr, 'base64');
+  let imgBuff = Buffer.from(posr, "base64");
 
-  const resize = await sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
+  const resize = await sharp(imgBuff)
+    .resize(150, 80)
+    .toBuffer()
+    .then((data) => {
       return data;
-  }).catch((err:any) => {
-      console.log("error",err)
+    })
+    .catch((err: any) => {
+      console.log("error", err);
       return "";
-  })
+    });
 
-  return 'data:image/jpeg;base64,'+resize.toString('base64');
-
-}
+  return "data:image/jpeg;base64," + resize.toString("base64");
+};
 
 export default sellerRouter;
