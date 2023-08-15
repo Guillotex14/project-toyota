@@ -185,7 +185,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: "Toyousado",
         to: emailmechanic,
         subject: "Revisión de vehículo",
-        text: "El vendedor " +
+        text: "El véndedor " +
             infoSeller.fullName +
             " del concesionario " +
             infoSeller.concesionary +
@@ -436,13 +436,13 @@ sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, 
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica encontrada";
+        reponseJson.message = "Ficha mécanica encontrada";
         reponseJson.data = mecFile;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro la ficha mecanica";
+        reponseJson.message = "No se encontro la ficha mécanica";
     }
     res.json(reponseJson);
 }));
@@ -696,13 +696,13 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             from: "Toyousado Notifications",
             to: email.email,
             subject: "Compra de vehículo",
-            text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${emailBuyer.email} o al número telefono ${infoBuyer.phone}`,
+            text: `El véndedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el véndedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
         responseJson.code = 200;
         responseJson.message =
-            "Compra realizada, esperar confirmación o rechazo del vendedor";
+            "Compra realizada, esperar confirmación o rechazo del véndedor";
         responseJson.status = true;
     }
     res.json(responseJson);
@@ -736,7 +736,7 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
                 from: "Toyousado Notifications",
                 to: userbuyer.email,
                 subject: "Oferta de vehículo aprobada",
-                text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
+                text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para más información comunicaté con el véndedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
             };
             yield (0, nodemailer_1.sendEmail)(mailOptions);
             sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -780,7 +780,7 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
             from: "Toyousado Notifications",
             to: userbuyer.email,
             subject: "Compra de vehículo rechazada",
-            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
+            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el véndedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -942,6 +942,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     const vehiclesFiltered = yield Vehicles_1.default
         .find(query)
         .sort({ date_create: -1 });
+    console.log(vehiclesFiltered);
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -1229,9 +1230,11 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1367,8 +1370,8 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             { header: "Año", key: "anhio", width: 15, style: headerStyle },
             { header: "Precio", key: "precio", width: 15, style: headerStyle },
             {
-                header: "Ficha mecanica",
-                key: "ficha_mecanica",
+                header: "Ficha mécanica",
+                key: "ficha_mécanica",
                 width: 15,
                 style: headerStyle,
             },
@@ -1440,7 +1443,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
                 marca: vehiculo.brand,
                 anhio: vehiculo.year,
                 precio: vehiculo.price,
-                ficha_mecanica: vehiculo.general_condition,
+                ficha_mécanica: vehiculo.general_condition,
                 fecha: vehiculo.date_create,
                 fecha_venta: vehiculo.date_sell,
                 desplazamiento: vehiculo.displacement,
@@ -1458,7 +1461,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
                 vino: vehiculo.vin,
             };
             if (seller) {
-                delete dataRow.ficha_mecanica;
+                delete dataRow.ficha_mécanica;
             }
             worksheet.addRow(dataRow);
         });
@@ -1539,48 +1542,33 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     const fs = require('fs');
     // ...
     fs.unlinkSync(filePath);
-    if (datos) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = {
-            url: sendUrl,
-            fileName: fileName
+    workbook.xlsx
+        .writeBuffer()
+        .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
+        // Convertir el buffer en base64
+        const base64 = buffer.toString("base64");
+        // Crear un objeto de respuesta con el archivo base64
+        const datos = {
+            fileName: now.getTime() + ".xlsx",
+            base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+                base64,
         };
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-    // workbook.xlsx
-    //   .writeBuffer()
-    //   .then(async (buffer: any) => {
-    //     // Convertir el buffer en base64
-    //     const base64 = buffer.toString("base64");
-    //     // Crear un objeto de respuesta con el archivo base64
-    //     const datos = {
-    //       fileName: now.getTime() + ".xlsx",
-    //       base64Data:
-    //         "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
-    //         base64,
-    //     };
-    //     if (datos) {
-    //       reponseJson.code = 200;
-    //       reponseJson.message = "success";
-    //       reponseJson.status = true;
-    //       reponseJson.data = datos;
-    //     } else {
-    //       reponseJson.code = 400;
-    //       reponseJson.message = "no existe";
-    //       reponseJson.status = false;
-    //     }
-    //     res.json(reponseJson);
-    //   })
-    //   .catch((error: any) => {
-    //     console.log("Error al generar el archivo Excel:", error);
-    //   });
+        if (datos) {
+            reponseJson.code = 200;
+            reponseJson.message = "success";
+            reponseJson.status = true;
+            reponseJson.data = datos;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
+        res.json(reponseJson);
+    }))
+        .catch((error) => {
+        console.log("Error al generar el archivo Excel:", error);
+    });
 }));
 sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -1612,10 +1600,11 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        console.log(seller);
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1624,6 +1613,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
             }
         }
     }
+    console.log(mongQuery);
     const cardsgroupmodel = yield Vehicles_1.default.aggregate([
         {
             $match: mongQuery,
@@ -1819,7 +1809,7 @@ const getNameMonth = (date) => {
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
     let imgBuff = Buffer.from(posr, 'base64');
-    const resize = yield (0, sharp_1.default)(imgBuff).resize(150, 80).toBuffer().then((data) => {
+    const resize = yield (0, sharp_1.default)(imgBuff).resize(300, 250).toBuffer().then((data) => {
         return data;
     }).catch((err) => {
         console.log("error", err);

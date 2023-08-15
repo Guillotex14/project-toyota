@@ -32,6 +32,65 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.header{
+  background-color: black;
+  color: white;
+  .flagVnzl{
+    width: 30px !important;
+    height: 30px !important;
+    margin: auto !important;
+  }
+
+  .logoWhite{
+    width: 45px !important;
+  }
+
+  .headerTitle{
+    font-size: 28px !important;
+    margin-top: 40px !important;
+  }
+
+  .badgeNotify{
+    position: absolute !important;
+    top: 30% !important;
+    right: 22% !important;
+  }
+
+  .iconNotify{
+    font-size: 35px !important; 
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-self: center !important;
+    margin-top: 85% !important;
+  }
+  .iconMenu{
+    font-size: 35px !important; 
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-self: center !important;
+    margin-top: 85% !important;
+  }
+  .iconBack{
+    color: white !important;  
+    font-size: 40px !important;  
+    margin: auto !important;
+    margin-top: 35px !important;
+  }
+  .logoRed{
+    width: 80px !important;
+    height: 80px !important; 
+    margin: 15px auto auto auto !important;
+  }
+  .iconMenu2{
+    color: white !important;  
+    font-size: 40px !important;  
+    margin: auto !important;
+    margin-top: 35px !important;
+  }
+}
+
 .btnRed{
   --background: #EB0A1E !important;
   --color: white !important;
@@ -200,6 +259,65 @@
   font-size: 13px !important;
 }
 
+.titleDatosPlus{
+  font-size: 20px !important;
+  color: #000 !important;
+  margin: 10px 0px !important;
+  font-weight: bold !important;
+}
+
+.datoPlusTitle{
+  font-size: 18px !important;
+  font-weight: bold !important;
+  }
+
+.datoPlusSubtitle{
+  font-size: 14px !important;
+  color: #898989 !important;
+}
+
+.datoPlusImg{
+  width: 60% !important;
+  margin: 20px 0px !important;
+}
+
+.sidebarUsename{
+  font-size: 20px !important; 
+  margin: 20px auto auto 20px !important;
+}
+.sidebarTypeuser{
+  font-size: 15px !important; 
+  color: #EB0A1E !important;
+  margin: 0px auto auto 25px !important;
+}
+
+.iconNoInfo{
+  font-size: 150px !important;
+  margin: 10% auto !important;
+  
+}
+
+.rowPassNewMec{
+  border: 1px solid #b3b3b3 !important; 
+  border-radius: 15px !important;
+  height: 50px !important;
+}
+
+.br280{
+  display: none !important;
+}
+
+.br360{
+  display: none !important;
+}
+
+.radioSmall{
+  margin: auto 3px !important;
+}
+.radioBig{
+  margin: auto 3px !important;
+}
+
 #searchbarHome{
   --border-radius: 30px !important;
 }
@@ -243,11 +361,109 @@ ion-segment {
 
 
 @media screen and (width:414px){
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+  .sidebarUsename{
+    font-size: 19px !important;
+    margin: 0px auto auto 15px !important;
+  }
 
+  .sidebarTypeuser{
+    margin: 0px auto auto 15px !important;
+  }
 }
 
 @media screen and (width:411px){
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+  
+}
 
+@media screen and (width:390px) {
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+
+  .sidebarUsename{
+    font-size: 18px !important;
+    margin: 0px auto auto 20px !important;
+  }
+
+  .sidebarTypeuser{
+    margin: 0px auto auto 20px !important;
+  }
+
+  app-add-mechanic-file{
+  
+    ion-label {
+      font-size: 15px !important;
+    }
+
+    ion-item-divider{
+      text-align: center !important;
+      ion-label{
+        font-size: 13px !important;
+
+      }
+    }
+
+    .radioSmall{
+      margin: auto 2px !important;
+    }
+    .radioBig{
+      margin: auto 2px !important;
+    }
+  }
+}
+
+@media screen and (width:393px) {
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+
+  .sidebarUsename{
+    font-size: 18px !important;
+    margin: 0px auto auto 20px !important;
+  }
+
+  .sidebarTypeuser{
+    margin: 0px auto auto 20px !important;
+  }
+
+  app-add-mechanic-file{
+  
+    ion-label {
+      font-size: 15px !important;
+    }
+
+
+  }
 }
 
 @media screen and (width:375px){
@@ -265,15 +481,311 @@ ion-segment {
     font-size: 15px !important;
   }
 
-  // .cardVehicles{
-  //   margin: auto !important;
-  // }
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+
+  .sidebarUsename{
+    font-size: 19px !important;
+  }
+
+  .sidebarTypeuser{
+    margin: 0px auto auto 20px !important;
+  }
+
+  app-add-mechanic-file{
+  
+    ion-label {
+      font-size: 14px !important;
+    }
+
+    ion-item-divider{
+      text-align: center !important;
+      ion-label{
+        font-size: 13px !important;
+
+      }
+    }
+
+    // .radioSmall{
+    //   margin: auto 15px !important;
+    // }
+    // .radioBig{
+    //   margin: auto 7px !important;
+    // }
+    
+    // .br280{
+    //   display: block !important;
+    // }
+    // .br280notDis{
+    //   display: none !important;
+    // }
+  }
 }
 
 @media screen and (width:360px){
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
 
+  app-add-mechanic-file{
+  
+    ion-label {
+      font-size: 14px !important;
+    }
+
+    ion-item-divider{
+      text-align: center !important;
+      ion-label{
+        font-size: 13px !important;
+      }
+    }
+
+    .radioSmall{
+      margin: auto 15px !important;
+    }
+    .radioBig{
+      margin: auto 13px !important;
+    }
+
+    .sidebarUsename{
+      font-size: 19px !important;
+    }
+  
+    .sidebarTypeuser{
+      margin: 0px auto auto 20px !important;
+    }
+
+  }
 }
 
 @media screen and (width:320px){
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+
+  .sidebarUsename{
+    font-size: 19px !important;
+    margin: 0px auto auto 15px !important;
+  }
+
+  .sidebarTypeuser{
+    margin: 0px auto auto 15px !important;
+  }
+}
+
+@media screen and (width: 280px){
+  ion-accordion-group{
+    width: 100% !important;
+    margin: 15px auto !important;
+  }
+
+  ion-header{
+    ion-toolbar{
+      ion-buttons{
+        ion-button{
+          font-size: 10px !important;
+        }
+      }
+      ion-title{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  .header{
+    .flagVnzl{
+      width: 30px !important;
+      height: 30px !important;
+      margin: auto !important;
+    }
+  
+    .logoWhite{
+      width: 30px !important;
+    }
+  
+    .headerTitle{
+      font-size: 20px !important;
+
+    }
+  
+    .badgeNotify{
+      position: absolute !important;
+      top: 30% !important;
+      right: 0% !important;
+      z-index: 999999999;
+    }
+  
+    .iconNotify{
+      font-size: 30px !important;
+      margin-top: 100% !important;
+    }
+
+    .iconMenu{
+      font-size: 30px !important;
+      margin-top: 100% !important;
+    }
+
+    .iconBack{
+      font-size: 35px !important;
+    }
+
+    .logoRed{
+      width: 60px !important;
+    }
+
+    .iconMenu2{
+      font-size: 35px !important;
+    }
+  }
+
+  app-add-vehicle{
+    ion-input{
+      min-height: 45px !important;
+    }
+
+    .titleDatosPlus{
+      font-size: 18px !important;
+    }
+
+    .datoPlusTitle{
+      font-size: 14px !important;
+    }
+
+    .datoPlusSubtitle{
+      font-size: 12px !important;
+    }
+    
+    .datoPlusImg{
+      width: 70% !important;
+    }
+
+    ion-card{
+      ion-card-title{
+        font-size: 16px !important;
+      }
+
+      ion-button{
+        font-size: 11px !important;
+      }
+
+      ion-card-content{
+        ion-card-title{
+          font-size: 11px !important;
+          font-weight: 600 !important;
+        }
+      }
+    }
+  }
+
+  .sidebarUsename{
+    font-size: 13px !important;
+  }
+  .sidebarTypeuser{
+    margin: 0px auto auto 20px !important;
+  }
+
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 18px !important;
+  }
+
+  #openFilterVehicles{
+    font-size: 11px !important;
+  }
+
+  .btnExcel{
+    font-size: 11px !important;
+  }
+
+  .filterGraphic{
+    ion-title{
+      font-size: 15px !important;
+    }
+  }
+
+  app-add-mechanic{
+    ion-input{
+      min-height: 45px !important;
+    }
+
+    .btnSaveRed{
+      height: 40px !important;
+      font-size: 13px !important;
+      margin: 15px auto !important;
+    }
+
+    .rowPassNewMec{
+      height: 45px !important;
+    }
+  }
+
+  app-add-mechanic-file{
+  
+    ion-label {
+      font-size: 13px !important;
+    }
+
+    ion-item-divider{
+      text-align: center !important;
+      ion-label{
+        font-size: 13px !important;
+
+      }
+    }
+
+      // ion-radio{
+      //   margin: auto 10px !important;
+      // }
+
+    .radioSmall{
+      margin: auto 15px !important;
+    }
+    .radioBig{
+      margin: auto 7px !important;
+    }
+    
+    .br280{
+      display: block !important;
+    }
+    .br280notDis{
+      display: none !important;
+    }
+
+    .btnSaveRed{
+      width: 70% !important;
+      height: 40px !important;
+      font-size: 13px !important;
+    }
+
+    ion-fab-button{
+      height: 50px !important;
+      width: 50px !important;
+    }
+
+  }
 
 }

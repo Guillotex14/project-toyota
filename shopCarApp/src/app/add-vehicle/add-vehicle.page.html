@@ -5,13 +5,13 @@
       <ion-col size="12" class="header">
         <ion-row>
           <ion-col size="2">
-            <ion-icon name="arrow-back-circle-sharp" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="goBack()"></ion-icon>
+            <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goBack()"></ion-icon>
           </ion-col>
           <ion-col size="8" style="text-align: center;">
-            <ion-img src="assets/images/logo/logo_toyota.png" style="width: 80px !important;height: 80px !important; margin: 15px auto auto auto !important;"></ion-img>
+            <ion-img src="assets/images/logo/logo_toyota.png" class="logoRed"></ion-img>
           </ion-col>
           <ion-col size="2">
-            <ion-icon name="menu-outline" style="color: white; font-size: 40px; margin: auto;margin-top: 35px;" (click)="openMenu()"></ion-icon>
+            <ion-icon name="menu-outline" (click)="openMenu()" class="iconMenu2"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -19,8 +19,8 @@
       <ion-col size="12">
         <ion-row>
 
-          <ion-col  sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center; font-size: 18px;" >
-            <p style="font-weight: bold; font-size: 25px;">Cargar vehículo</p>
+          <ion-col  sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center" >
+            <p class="titlePage">Cargar vehículo</p>
           </ion-col>
 
           <!-- <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
@@ -29,11 +29,11 @@
           <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
             <ion-row>
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
-                <ion-icon name="image" style="font-size: 150px;" (click)="openActionSheet()"></ion-icon>
+                <ion-icon name="image" (click)="openActionSheet()" class="noPhotoIcon" ></ion-icon>
                 <br>
-                <span style="font-size: 20px;">Cargar imágenes</span>
+                <span class="noPhotoTitle" >Cargar imágenes</span>
                 <br>
-                <span style="color: #5D5D5D; font-size: 12px;">Minimo 5 fotos del vehículo (Delantera, trasera. ambos lados e interna)</span>
+                <span class="noPhotoSubtitle" >Minimo 5 fotos del vehículo (Delantera, trasera. ambos lados e interna)</span>
               </ion-col>
 
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length > 0">
@@ -147,7 +147,7 @@
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Títulos</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.titles"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.titles" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.titles" interface="action-sheet" fill="outline" placeholder="seleccionar titulos" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="1-1">1-1</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="2-1">2-1</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="3-1">3-1</ion-select-option>
@@ -164,7 +164,7 @@
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Combustible</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.fuel"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="gasolina">Gasolina</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="diesel">Diesel</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="hibrido">Hibrido</ion-select-option>
@@ -175,7 +175,7 @@
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmision</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmición" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="automática">Automática</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="manual">Manual</ion-select-option>
             </ion-select>
@@ -184,7 +184,7 @@
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tracción</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission_2"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.traction" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.traction" interface="action-sheet" fill="outline" placeholder="seleccionar tracción" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x2">4x2</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 part time">4x4 Part Time</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 full time">4x4 Full Time</ion-select-option>
@@ -222,17 +222,17 @@
           </ion-col> -->
 
           <ion-col size="12" style="margin-top: 10px;">
-            <ion-label style="font-size: 20px; color: #000; margin: 10px 0px !important; font-weight: bold;">Datos plus</ion-label>
+            <ion-label class="titleDatosPlus" >Datos plus</ion-label>
           </ion-col>
 
           <ion-col size="12">
             <ion-row>
               <ion-col  sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
-                <p style="font-size: 18px; font-weight: bold;">Control de tracción</p>
-                <span style="font-size: 14px; color: #898989">Estable y seguro</span>
+                <p class="datoPlusTitle">Control de tracción</p>
+                <span class="datoPlusSubtitle">Estable y seguro</span>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
-                <ion-img src="assets/images/logo/traccion.png" style="width: 60% !important;margin: 20px 0px !important"></ion-img>
+                <ion-img src="assets/images/logo/traccion.png" class="datoPlusImg"></ion-img>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
                 <ion-checkbox [(ngModel)]="newVehicle.traction_control"></ion-checkbox>
@@ -243,11 +243,11 @@
           <ion-col size="12">
             <ion-row>
               <ion-col  sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
-                <p style="font-size: 18px; font-weight: bold;">Performance</p>
-                <span style="font-size: 14px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
+                <p class="datoPlusTitle">Performance</p>
+                <span class="datoPlusSubtitle">V6 Twin Turbo (V35A-FTS)</span>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
-                <ion-img src="assets/images/logo/performance.png" style="width: 60% !important;margin: 20px 0px !important"></ion-img>
+                <ion-img src="assets/images/logo/performance.png" class="datoPlusImg"></ion-img>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
                 <ion-checkbox [(ngModel)]="newVehicle.performance"></ion-checkbox>
@@ -258,11 +258,11 @@
           <ion-col size="12">
             <ion-row>
               <ion-col sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
-                <p style="font-size: 18px; font-weight: bold;">Confort</p>
-                <span style="font-size: 14px; color: #898989">Asientos tapizados en cuero natural y ecologico</span>
+                <p class="datoPlusTitle">Confort</p>
+                <span class="datoPlusSubtitle">Asientos tapizados en cuero natural y ecologico</span>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
-                <ion-img src="assets/images/logo/confort.png" style="width: 60% !important;margin: 20px 0px !important"></ion-img>
+                <ion-img src="assets/images/logo/confort.png" class="datoPlusImg"></ion-img>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
                 <ion-checkbox [(ngModel)]="newVehicle.comfort"></ion-checkbox>
@@ -273,11 +273,11 @@
           <ion-col size="12">
             <ion-row>
               <ion-col sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
-                <p style="font-size: 18px; font-weight: bold;">Tecnología</p>
-                <span style="font-size: 14px; color: #898989">Control de estabilidad(VSC)</span>
+                <p class="datoPlusTitle">Tecnología</p>
+                <span class="datoPlusSubtitle">Control de estabilidad(VSC)</span>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
-                  <ion-img src="assets/images/logo/tecnologia.png" style="width: 70% !important;margin: 20px 0px !important"></ion-img>
+                  <ion-img src="assets/images/logo/tecnologia.png" class="datoPlusImg"></ion-img>
               </ion-col>
               <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
                 <ion-checkbox [(ngModel)]="newVehicle.technology"></ion-checkbox>
@@ -285,7 +285,7 @@
             </ion-row>
           </ion-col>
 
-          <ion-col size="12">
+          <ion-col size="12" *ngIf="newVehicle.id_mechanic === ''">
             <ion-card>
               <ion-card-header>
                 <ion-card-title style="font-weight: bold;">Ficha mécanica</ion-card-title>
@@ -305,14 +305,15 @@
           <ion-col size="12" class="card" *ngIf="newVehicle.id_mechanic !== ''">
             <ion-row>
               <ion-col size="6">
-                <ion-avatar >
-                  <img src="assets/images/carro/sedan.png" />
+                <ion-avatar  class="mecAvatar">
+                  <img [src]="mechanicImg" *ngIf="mechanicImg !==''" />
+                    <ion-icon name="person-circle" *ngIf="mechanicImg ===''" class="iconBlack" ></ion-icon>
                 </ion-avatar>
               </ion-col>
               <ion-col size="6" style="text-align: center; font-size: 16px !important;">
-                <p style="margin-top: 25px !important;">{{mechanicName}}</p>
-                <p style="margin-top: 15px !important;">{{mechanicCity}}</p>
-                <p style="margin-top: 15px !important;">{{mechanicConcesionary}}</p>
+                <p style="margin-top: 25px !important;" class="mecFullname">{{mechanicName}}</p>
+                <p style="margin-top: 15px !important;" class="mecCity">{{mechanicCity}}</p>
+                <p style="margin-top: 15px !important;" class="mecConcesionary">{{mechanicConcesionary}}</p>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -358,15 +359,15 @@
             <ion-col size="12" class="card" *ngFor="let mechanic of arrayMechanics" (click)="selectMechanic(mechanic)">
               <ion-row>
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6">
-                  <ion-avatar >
-                    <img [src]="mechanic.image.img" *ngIf="mechanic.image !==''"/>
-                    <ion-icon name="person-circle" *ngIf="mechanic.image ===''" class="iconBlack" (click)="openActionSheet()"></ion-icon>
+                  <ion-avatar class="mecAvatar">
+                    <img [src]="mechanic.image.img" *ngIf="mechanic.image !==''" />
+                    <ion-icon name="person-circle" *ngIf="mechanic.image ===''" class="iconBlack" ></ion-icon>
                   </ion-avatar>
                 </ion-col>
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center; font-size: 16px !important;">
-                  <p style="margin-top: 25px !important;">{{mechanic.fullName}}</p>
-                  <p style="margin-top: 15px !important;">{{mechanic.city}}</p>
-                  <p style="margin-top: 15px !important;">{{mechanic.concesionary}}</p>
+                  <p style="margin-top: 25px !important;" class="mecFullname">{{mechanic.fullName}}</p>
+                  <p style="margin-top: 15px !important;" class="mecCity">{{mechanic.city}}</p>
+                  <p style="margin-top: 15px !important;" class="mecConcesionary">{{mechanic.concesionary}}</p>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -406,7 +407,7 @@
             </ion-col>
 
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="margin-top: 15px;">
-              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Número Telefonico</ion-label>
+              <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;">Número Telefónico</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.phone"></ion-input>
             </ion-col>
 
