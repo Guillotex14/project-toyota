@@ -1504,6 +1504,15 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     },
   };
 
+  let otherMong:any = {
+    sold: true, // Campo de búsqueda adicional
+    dispatched: true,
+    date_sell: {
+      $gte: from_at,
+      $lte: to_at,
+    },
+  };
+
   if (dateFrom && dateTo) {
     let from = new Date(dateFrom).toISOString().substr(0, 10);
     let to = new Date(dateTo).toISOString().substr(0, 10);
@@ -1515,6 +1524,14 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         $lte: to,
       },
     };
+
+    otherMong={
+      ...otherMong,
+      date_sell: {
+        $gte: from,
+        $lte: to,
+      },
+    }
   }
 
   if (yearCar) {
@@ -1522,6 +1539,12 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       ...mongQuery,
       year: parseInt(yearCar),
     };
+    otherMong={
+      ...otherMong,
+      year: parseInt(yearCar),
+
+    }
+
   }
 
   if (brandCar) {
@@ -1529,6 +1552,12 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       ...mongQuery,
       brand: { $regex: brandCar, $options: "i" },
     };
+    otherMong={
+      ...otherMong,
+      brand: { $regex: brandCar, $options: "i" },
+
+
+    }
   }
 
   if (modelCar) {
@@ -1536,7 +1565,12 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       ...mongQuery,
       model: { $regex: modelCar, $options: "i" },
     };
+    otherMong={
+      ...otherMong,
+      model: { $regex: modelCar, $options: "i" },
+    }
   }
+
   let seller: any = null;
   let user: any = null;
   if (id_user) {
@@ -1658,6 +1692,39 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       },
     ]);
   }
+  const cardsgroupNacional = await vehicles.aggregate([
+    {
+      $match: otherMong,
+    },
+    {
+      $group: {
+        _id: "$model",
+        minPriceGlobal: { $min: "$price" },
+        avgPriceGlobal: { $avg: "$price" },
+        maxPriceGlobal: { $max: "$price" },
+      },
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+  ]);
+  
+  for (let i = 0; i < cardsgroupmodel.length; i++) {
+    cardsgroupNacional.forEach((model: any) => {
+      if (cardsgroupmodel[i]._id == model._id) {
+        cardsgroupmodel[i] = {
+          ...cardsgroupmodel[i],
+          minPriceGlobal: model.minPriceGlobal,
+          avgPriceGlobal: model.avgPriceGlobal,
+          maxPriceGlobal: model.maxPriceGlobal,
+        };
+      }
+    });
+  }
+  
+
 
   let datos: any = {};
   datos = {
@@ -1753,7 +1820,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     if (seller) {
       columns.splice(4, 1);
     }
-    console.log(columns);
     worksheet.columns = columns;
 
     // Agregar los datos de los vehículos del grupo
@@ -1807,6 +1873,27 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       precio: grupo.maxPrice,
       style: footerStyle,
     });
+
+        // Separar las secciones de los datos
+        worksheet.addRow({}); // Línea vacía
+        worksheet.addRow({}); // Línea vacía
+    
+        // Agregar las secciones del mínimo, medio y máximo precio
+        worksheet.addRow({
+          modelo: "Mínimo Precio Global",
+          precio: grupo.minPriceGlobal,
+          style: footerStyle,
+        });
+        worksheet.addRow({
+          modelo: "Promedio Precio Global",
+          precio: grupo.avgPriceGlobal,
+          style: footerStyle,
+        });
+        worksheet.addRow({
+          modelo: "Máximo Precio Global",
+          precio: grupo.maxPriceGlobal,
+          style: footerStyle,
+        });
 
     if (user.type_user == "admin") {
       worksheet.addRow({}); // Línea vacía
@@ -2058,10 +2145,11 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   
   
   for (let i = 0; i < cardsgroupmodel.length; i++) {
-    cardsgroupmodel[i].vehicles.forEach(async (card: any) => {
-      let imgvehicles = await ImgVehicle.findOne({ id_vehicle: card._id });
-      card.imgVehicle = imgvehicles;
-    });
+   for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
+    let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
+    cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
+    
+   }
     
     cardsgroupNacional.forEach((model: any) => {
       if (cardsgroupmodel[i]._id == model._id) {

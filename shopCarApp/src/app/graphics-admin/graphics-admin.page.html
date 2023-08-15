@@ -65,15 +65,15 @@
           <ion-item>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Max.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPrice ? modelCar.maxPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPriceGlobal ? modelCar.maxPriceGlobal : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Prom.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPrice ? modelCar.avgPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPriceGlobal ? modelCar.avgPriceGlobal : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Min.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPrice ? modelCar.minPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPriceGlobal ? modelCar.minPriceGlobal : 0}}</ion-label>
             </ion-col>
           </ion-item>
           
@@ -83,8 +83,8 @@
                 <ion-grid fixed>
                   <ion-row>
                     <ion-col size="4">
-                      <ion-icon name="image" *ngIf="vehicle.imgvehicles ===null" class="iconCard"></ion-icon>
-                      <ion-img [src]="vehicle.imgvehicles.img" *ngIf="vehicle.imgvehicles !== null"></ion-img>
+                      <ion-icon name="image" *ngIf="!vehicle.imgVehicle" class="iconCard"></ion-icon>
+                      <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle"></ion-img>
                     </ion-col>
                     <ion-col size="8">
                       <ion-row>
