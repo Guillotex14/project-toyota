@@ -24,6 +24,10 @@ const vehicleSchema = new mongoose_1.Schema({
     type_vehicle: String,
     vin: String,
     plate: String,
+    child: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'imgVehicle' // nombre de la colección secundaria
+    },
     mechanicalFile: {
         type: Boolean,
         default: false
