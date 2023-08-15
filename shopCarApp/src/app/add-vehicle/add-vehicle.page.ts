@@ -19,7 +19,8 @@ export class AddVehiclePage implements OnInit {
   newVehicle: AddVehicle = new AddVehicle();
   openASEdit: boolean = false;
   openAS: boolean = false;
-  showAutoComplete = false;
+  showAutoComplete:boolean = false;
+  disabledSave: boolean = false;
   aux: number = 0;
   km: string = '';
   year: string = '';
@@ -41,7 +42,6 @@ export class AddVehiclePage implements OnInit {
   mechanicImg: string = '';
 
   newMechanic: CreateMechanic = new CreateMechanic();
-  // arrayCities: any[] = states;
   auxConces: any[] = concesionaries;
   typeInput: string = "password";
   typeInputConfirm: string = "password";
@@ -240,13 +240,14 @@ export class AddVehiclePage implements OnInit {
 
     this.newVehicle.year = parseInt(this.year);
     this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
-
+    this.disabledSave = true;
     this.sellerSrv.addVehicle(this.newVehicle).subscribe((resp:any) => {
       if(resp.status){
         this.utils.dismissLoading();
         this.utils.presentToast(resp.message);
         this.emptyForm();
         this.arrayImages = [];
+        this.disabledSave = false;
         this.router.navigate(['/seller']);
       }else{
         this.utils.dismissLoading();
