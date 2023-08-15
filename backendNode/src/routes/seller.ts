@@ -2097,10 +2097,11 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   
   
   for (let i = 0; i < cardsgroupmodel.length; i++) {
-    cardsgroupmodel[i].vehicles.forEach(async (card: any) => {
-      let imgvehicles = await ImgVehicle.findOne({ id_vehicle: card._id });
-      card.imgVehicle = imgvehicles;
-    });
+   for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
+    let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
+    cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
+    
+   }
     
     cardsgroupNacional.forEach((model: any) => {
       if (cardsgroupmodel[i]._id == model._id) {

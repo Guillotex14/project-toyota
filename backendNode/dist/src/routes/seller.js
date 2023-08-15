@@ -1700,10 +1700,10 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         },
     ]);
     for (let i = 0; i < cardsgroupmodel.length; i++) {
-        cardsgroupmodel[i].vehicles.forEach((card) => __awaiter(void 0, void 0, void 0, function* () {
-            let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: card._id });
-            card.imgVehicle = imgvehicles;
-        }));
+        for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
+            let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
+            cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
+        }
         cardsgroupNacional.forEach((model) => {
             if (cardsgroupmodel[i]._id == model._id) {
                 cardsgroupmodel[i] = Object.assign(Object.assign({}, cardsgroupmodel[i]), { minPriceGlobal: model.minPriceGlobal, avgPriceGlobal: model.avgPriceGlobal, maxPriceGlobal: model.maxPriceGlobal });
