@@ -83,8 +83,8 @@
                 <ion-grid fixed>
                   <ion-row>
                     <ion-col size="4">
-                      <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
-                      <ion-img [src]="vehicle.image" *ngIf="vehicle.image !== ''"></ion-img>
+                      <ion-icon name="image" *ngIf="vehicle.imgvehicles ===null" class="iconCard"></ion-icon>
+                      <ion-img [src]="vehicle.image.img" *ngIf="vehicle.imgvehicles !== null"></ion-img>
                     </ion-col>
                     <ion-col size="8">
                       <ion-row>

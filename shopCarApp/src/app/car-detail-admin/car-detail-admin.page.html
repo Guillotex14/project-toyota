@@ -162,7 +162,7 @@
                         </ion-col>
                       </ion-row>
                     </ion-col>
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: right;">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: right;" class="colPriceCar">
                       <ion-row>
                         <ion-col size="12">
                           <span class="spanLabel" style="font-size: 15px;">Precio</span>
@@ -186,7 +186,7 @@
             </ion-col> -->
 
             <ion-col size="12" *ngIf="carDetail.traction_control === 'true' || carDetail.technology === 'true' || carDetail.performance === 'true' || carDetail.comfort === 'true'">
-              <ion-card>
+              <ion-card class="cardDataPlus">
                 <ion-card-content>
                   <ion-row>
                     <ion-col size="6" *ngIf="carDetail.traction_control === 'true'">
@@ -223,7 +223,7 @@
                   <ion-col size="12" style="text-align: center;">
                     <p>Ficha Mécanica</p>
                   </ion-col>
-                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" >
+                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" class="colGenCon">
                     <ion-row>
                       <ion-col size="12">
                         
