@@ -169,7 +169,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   public getCarList(){
-    
+    console.log("buscando......")
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,

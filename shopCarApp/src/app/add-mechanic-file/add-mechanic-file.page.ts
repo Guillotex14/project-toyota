@@ -288,8 +288,8 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
     this.disabledSave = true;
+    this.utils.presentLoading("Creando ficha mécanica")
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
-      this.utils.presentLoading("Creando ficha mécanica")
       if (res.status) {
         this.utils.dismissLoading()
         this.utils.presentToast("Se ha creado la ficha mécanica correctamente")

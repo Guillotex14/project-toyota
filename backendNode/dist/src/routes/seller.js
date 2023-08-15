@@ -185,7 +185,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: "Toyousado",
         to: emailmechanic,
         subject: "Revisión de vehículo",
-        text: "El véndedor " +
+        text: "El vendedor " +
             infoSeller.fullName +
             " del concesionario " +
             infoSeller.concesionary +
@@ -708,13 +708,13 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             from: "Toyousado Notifications",
             to: email.email,
             subject: "Compra de vehículo",
-            text: `El véndedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el véndedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
+            text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
         responseJson.code = 200;
         responseJson.message =
-            "Compra realizada, esperar confirmación o rechazo del véndedor";
+            "Compra realizada, esperar confirmación o rechazo del vendedor";
         responseJson.status = true;
     }
     res.json(responseJson);
@@ -736,28 +736,17 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
     const userSeller = yield Users_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
-        reponseJson.message = "success";
+        reponseJson.message = "aprobacion de oferta exitosa";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        if (vehicle) {
-            reponseJson.code = 200;
-            reponseJson.message = "aprobacion de oferta exitosa";
-            reponseJson.status = true;
-            reponseJson.data = vehicle;
-            const mailOptions = {
-                from: "Toyousado Notifications",
-                to: userbuyer.email,
-                subject: "Oferta de vehículo aprobada",
-                text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para más información comunicaté con el véndedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
-            };
-            yield (0, nodemailer_1.sendEmail)(mailOptions);
-            sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "no existe";
-            reponseJson.status = false;
-        }
+        const mailOptions = {
+            from: "Toyousado Notifications",
+            to: userbuyer.email,
+            subject: "Oferta de vehículo aprobada",
+            text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
+        };
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
+        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
         reponseJson.code = 400;
@@ -792,7 +781,7 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
             from: "Toyousado Notifications",
             to: userbuyer.email,
             subject: "Compra de vehículo rechazada",
-            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el véndedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
+            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el vendedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
@@ -1138,9 +1127,11 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1165,7 +1156,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     sendData = getMonthlyTotals(vehiclesFiltered);
     let datos = {};
     let cantMonth = calcularMeses(from, to);
-    if (cantMonth == 1) {
+    if (cantMonth == 1 || sendData.length == 1) {
         let groupByWeek = [];
         let groupByOneMonth = [];
         groupByWeek = agruparPorSemana(sendData);
@@ -1258,7 +1249,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         }
     }
     let cardsgroupmodel = [];
-    if (!seller) {
+    if (user.type_user == "admin") {
         cardsgroupmodel = yield Vehicles_1.default.aggregate([
             {
                 $match: mongQuery,
@@ -1498,7 +1489,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             precio: grupo.maxPrice,
             style: footerStyle,
         });
-        if (!seller) {
+        if (user.type_user == "admin") {
             worksheet.addRow({}); // Línea vacía
             worksheet.addRow({}); // Línea vacía
             // Agregar las secciones del mínimo, medio y máximo precio
@@ -1555,7 +1546,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     }
     const fs = require("fs");
     // ...
-    fs.unlinkSync(filePath);
+    // fs.unlinkSync(filePath);
     workbook.xlsx
         .writeBuffer()
         .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1564,6 +1555,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         // Crear un objeto de respuesta con el archivo base64
         const datos = {
             fileName: now.getTime() + ".xlsx",
+            path: sendUrl,
             base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
                 base64,
         };
@@ -1651,9 +1643,11 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         cardsgroupmodel[i].vehicles.forEach((card) => __awaiter(void 0, void 0, void 0, function* () {
             card.imgvehicles = null;
             let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: card._id });
+            // console.log(imgvehicles);
             card.imgvehicles = imgvehicles;
         }));
     }
+    console.log(cardsgroupmodel[0].vehicles[0]);
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
     if (user.type_user == "admin") {
@@ -1821,16 +1815,8 @@ const getNameMonth = (date) => {
 };
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
-<<<<<<< HEAD
-    let imgBuff = Buffer.from(posr, 'base64');
-    const resize = yield (0, sharp_1.default)(imgBuff).resize(300, 250).toBuffer().then((data) => {
-=======
     let imgBuff = Buffer.from(posr, "base64");
-    const resize = yield (0, sharp_1.default)(imgBuff)
-        .resize(150, 80)
-        .toBuffer()
-        .then((data) => {
->>>>>>> 6068d9982a90ded966c4c7b8c3e07706ecb003af
+    const resize = yield (0, sharp_1.default)(imgBuff).resize(300, 250).toBuffer().then((data) => {
         return data;
     })
         .catch((err) => {

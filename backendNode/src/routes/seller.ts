@@ -195,7 +195,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     to: emailmechanic,
     subject: "Revisión de vehículo",
     text:
-      "El véndedor " +
+      "El vendedor " +
       infoSeller!.fullName +
       " del concesionario " +
       infoSeller!.concesionary +
@@ -806,9 +806,9 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       from: "Toyousado Notifications",
       to: email!.email,
       subject: "Compra de vehículo",
-      text: `El véndedor ${
+      text: `El vendedor ${
         infoBuyer!.fullName
-      } quiere comprar tu vehículo, para mas información comunicaté con el véndedor al correo ${
+      } quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${
         emailBuyer!.email
       } o al número de teléfono ${infoBuyer!.phone}`,
     };
@@ -823,7 +823,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
 
     responseJson.code = 200;
     responseJson.message =
-      "Compra realizada, esperar confirmación o rechazo del véndedor";
+      "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
   }
 
@@ -922,7 +922,7 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
       subject: "Compra de vehículo rechazada",
       text: `Tu compra del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
-      } fue rechazada, para más información comunicaté con el véndedor al correo ${
+      } fue rechazada, para más información comunicaté con el vendedor al correo ${
         userSeller!.email
       } o al número de teléfono ${infoSeller!.phone}`,
     };
@@ -1383,9 +1383,12 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   }
 
   let seller: any = null;
+  let user: any = null;
+
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user != "admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1420,7 +1423,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   let datos: any = {};
   let cantMonth = calcularMeses(from, to);
 
-  if (cantMonth == 1) {
+  if (cantMonth == 1 || sendData.length==1) {
     let groupByWeek = [];
     let groupByOneMonth = [];
 
@@ -1552,7 +1555,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     }
   }
   let cardsgroupmodel: any[] = [];
-  if (!seller) {
+  if (user.type_user == "admin") {
     cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1803,7 +1806,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       style: footerStyle,
     });
 
-    if (!seller) {
+    if (user.type_user == "admin") {
       worksheet.addRow({}); // Línea vacía
       worksheet.addRow({}); // Línea vacía
 
