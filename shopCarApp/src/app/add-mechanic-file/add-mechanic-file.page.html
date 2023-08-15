@@ -438,7 +438,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-button expand="block" shape="round" class="btnSaveRed" (click)="saveMechanicalFile()" style="margin: auto 6px !important;">
+        <ion-button expand="block" shape="round" class="btnSaveRed" (click)="saveMechanicalFile()" style="margin: auto 6px !important;" [disabled]="disabledSave">
           Cargar
         </ion-button>
       </ion-col>

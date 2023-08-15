@@ -20,6 +20,7 @@ export class AddMechanicFilePage implements OnInit {
   id_vehicle: string = "";
   theRoute: string = "";
   backToTop: boolean = false;
+  disabledSave: boolean = false;
   @ViewChild(IonContent) content!: IonContent;
   
   constructor(private router: Router, private platform: Platform, private actRoute: ActivatedRoute, private mechanicSrv: MechanicService, private utils: UtilsService) { 
@@ -80,6 +81,7 @@ export class AddMechanicFilePage implements OnInit {
 
   goBack(){
     this.router.navigate(['/car-detail-mechanic/'+this.id_vehicle+'/'+this.theRoute]);
+    this.disabledSave = false;
   }
 
   public saveMechanicalFile(){
@@ -285,7 +287,7 @@ export class AddMechanicFilePage implements OnInit {
       this.utils.presentToast("El campo Condición general es requerido")
       return;
     }
-
+    this.disabledSave = true;
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
       this.utils.presentLoading("Creando ficha mécanica")
       if (res.status) {
