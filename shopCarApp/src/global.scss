@@ -378,6 +378,76 @@ ion-segment {
   .sidebarTypeuser{
     margin: 0px auto auto 15px !important;
   }
+
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+}
+
+@media screen and (width:412px) {
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 
 @media screen and (width:411px){
@@ -389,6 +459,23 @@ ion-segment {
   
   .titleNoInfo{
     font-size: 23px !important;
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
   }
   
 }
@@ -434,6 +521,40 @@ ion-segment {
       margin: auto 2px !important;
     }
   }
+
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 
 @media screen and (width:393px) {
@@ -461,8 +582,40 @@ ion-segment {
     ion-label {
       font-size: 15px !important;
     }
+  }
 
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
 
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
   }
 }
 
@@ -527,6 +680,40 @@ ion-segment {
     //   display: none !important;
     // }
   }
+
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 
 @media screen and (width:360px){
@@ -569,6 +756,40 @@ ion-segment {
     }
 
   }
+
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 
 @media screen and (width:320px){
@@ -589,6 +810,23 @@ ion-segment {
 
   .sidebarTypeuser{
     margin: 0px auto auto 15px !important;
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
   }
 }
 
@@ -788,4 +1026,37 @@ ion-segment {
 
   }
 
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 13px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 11px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 13px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 11px !important;
+      }
+    }
+  }
 }
