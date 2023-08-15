@@ -151,7 +151,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   public addVehicle() {
-    // this.utils.presentLoading("Agregando vehículo...");
+    this.utils.presentLoading("Agregando vehículo...");
     this.newVehicle.images = this.arrayImages;
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.utils.dismissLoading();
