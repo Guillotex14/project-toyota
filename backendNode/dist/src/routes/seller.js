@@ -1212,6 +1212,8 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     let from_at = `${now.getFullYear()}-01-01`;
     let to_at = `${now.getFullYear()}-12-31`;
     let mongQuery = {
+        sold: true,
+        dispatched: true,
         date_sell: {
             $gte: from_at,
             $lte: to_at,
@@ -1583,6 +1585,8 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     let from_at = `${now.getFullYear()}-01-01`;
     let to_at = `${now.getFullYear()}-12-31`;
     let mongQuery = {
+        sold: true,
+        dispatched: true,
         date_sell: {
             $gte: from_at,
             $lte: to_at,
@@ -1643,11 +1647,9 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         cardsgroupmodel[i].vehicles.forEach((card) => __awaiter(void 0, void 0, void 0, function* () {
             card.imgvehicles = null;
             let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: card._id });
-            // console.log(imgvehicles);
             card.imgvehicles = imgvehicles;
         }));
     }
-    console.log(cardsgroupmodel[0].vehicles[0]);
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
     if (user.type_user == "admin") {
