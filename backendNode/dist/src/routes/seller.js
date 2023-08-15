@@ -1093,9 +1093,11 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
+    let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        if (seller) {
+        user = yield Users_1.default.findOne({ _id: id_user });
+        if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
         else {
@@ -1119,8 +1121,9 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     let sendData = [];
     sendData = getMonthlyTotals(vehiclesFiltered);
     let datos = {};
+    console.log(sendData);
     let cantMonth = calcularMeses(from, to);
-    if (cantMonth == 1) {
+    if (cantMonth == 1 || sendData.length == 1) {
         let groupByWeek = [];
         let groupByOneMonth = [];
         groupByWeek = agruparPorSemana(sendData);
@@ -1213,7 +1216,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         }
     }
     let cardsgroupmodel = [];
-    if (!seller) {
+    if (user.type_user == "admin") {
         cardsgroupmodel = yield Vehicles_1.default.aggregate([
             {
                 $match: mongQuery,
@@ -1453,7 +1456,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             precio: grupo.maxPrice,
             style: footerStyle,
         });
-        if (!seller) {
+        if (user.type_user == "admin") {
             worksheet.addRow({}); // Línea vacía
             worksheet.addRow({}); // Línea vacía
             // Agregar las secciones del mínimo, medio y máximo precio
@@ -1510,7 +1513,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     }
     const fs = require("fs");
     // ...
-    fs.unlinkSync(filePath);
+    // fs.unlinkSync(filePath);
     workbook.xlsx
         .writeBuffer()
         .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1519,6 +1522,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         // Crear un objeto de respuesta con el archivo base64
         const datos = {
             fileName: now.getTime() + ".xlsx",
+            path: sendUrl,
             base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
                 base64,
         };

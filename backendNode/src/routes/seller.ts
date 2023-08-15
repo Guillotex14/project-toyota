@@ -1335,9 +1335,12 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   }
 
   let seller: any = null;
+  let user: any = null;
+
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user != "admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1372,7 +1375,7 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   let datos: any = {};
   let cantMonth = calcularMeses(from, to);
 
-  if (cantMonth == 1) {
+  if (cantMonth == 1 || sendData.length==1) {
     let groupByWeek = [];
     let groupByOneMonth = [];
 
@@ -1504,7 +1507,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     }
   }
   let cardsgroupmodel: any[] = [];
-  if (!seller) {
+  if (user.type_user == "admin") {
     cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1755,7 +1758,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       style: footerStyle,
     });
 
-    if (!seller) {
+    if (user.type_user == "admin") {
       worksheet.addRow({}); // Línea vacía
       worksheet.addRow({}); // Línea vacía
 
