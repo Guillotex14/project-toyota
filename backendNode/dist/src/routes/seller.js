@@ -1185,6 +1185,14 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             $lte: to_at,
         },
     };
+    let otherMong = {
+        sold: true,
+        dispatched: true,
+        date_sell: {
+            $gte: from_at,
+            $lte: to_at,
+        },
+    };
     if (dateFrom && dateTo) {
         let from = new Date(dateFrom).toISOString().substr(0, 10);
         let to = new Date(dateTo).toISOString().substr(0, 10);
@@ -1192,15 +1200,22 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
                 $gte: from,
                 $lte: to,
             } });
+        otherMong = Object.assign(Object.assign({}, otherMong), { date_sell: {
+                $gte: from,
+                $lte: to,
+            } });
     }
     if (yearCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(yearCar) });
+        otherMong = Object.assign(Object.assign({}, otherMong), { year: parseInt(yearCar) });
     }
     if (brandCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { brand: { $regex: brandCar, $options: "i" } });
+        otherMong = Object.assign(Object.assign({}, otherMong), { brand: { $regex: brandCar, $options: "i" } });
     }
     if (modelCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
+        otherMong = Object.assign(Object.assign({}, otherMong), { model: { $regex: modelCar, $options: "i" } });
     }
     let seller = null;
     let user = null;
@@ -1318,6 +1333,31 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             },
         ]);
     }
+    const cardsgroupNacional = yield Vehicles_1.default.aggregate([
+        {
+            $match: otherMong,
+        },
+        {
+            $group: {
+                _id: "$model",
+                minPriceGlobal: { $min: "$price" },
+                avgPriceGlobal: { $avg: "$price" },
+                maxPriceGlobal: { $max: "$price" },
+            },
+        },
+        {
+            $sort: {
+                _id: 1,
+            },
+        },
+    ]);
+    for (let i = 0; i < cardsgroupmodel.length; i++) {
+        cardsgroupNacional.forEach((model) => {
+            if (cardsgroupmodel[i]._id == model._id) {
+                cardsgroupmodel[i] = Object.assign(Object.assign({}, cardsgroupmodel[i]), { minPriceGlobal: model.minPriceGlobal, avgPriceGlobal: model.avgPriceGlobal, maxPriceGlobal: model.maxPriceGlobal });
+            }
+        });
+    }
     let datos = {};
     datos = {
         grupocard: cardsgroupmodel,
@@ -1407,7 +1447,6 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         if (seller) {
             columns.splice(4, 1);
         }
-        console.log(columns);
         worksheet.columns = columns;
         // Agregar los datos de los vehículos del grupo
         grupo.vehicles.forEach((vehiculo) => {
@@ -1455,6 +1494,25 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         worksheet.addRow({
             modelo: "Máximo Precio",
             precio: grupo.maxPrice,
+            style: footerStyle,
+        });
+        // Separar las secciones de los datos
+        worksheet.addRow({}); // Línea vacía
+        worksheet.addRow({}); // Línea vacía
+        // Agregar las secciones del mínimo, medio y máximo precio
+        worksheet.addRow({
+            modelo: "Mínimo Precio Global",
+            precio: grupo.minPriceGlobal,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Promedio Precio Global",
+            precio: grupo.avgPriceGlobal,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Máximo Precio Global",
+            precio: grupo.maxPriceGlobal,
             style: footerStyle,
         });
         if (user.type_user == "admin") {
