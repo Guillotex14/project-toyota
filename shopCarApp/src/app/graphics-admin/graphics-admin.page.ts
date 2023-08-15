@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { concesionaries } from 'src/assets/json/concesionaries';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-graphics-admin',
@@ -247,9 +248,14 @@ export class GraphicsAdminPage implements AfterViewInit {
 
     this.utils.showLoading().then((_) => {
       this.sellerSrv.exportExcel(data).subscribe(
-        (res: any) => {
+       async (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
+                this.descargarArchivo(res.data.fileName,res.data.base64Data)
+            this.utils.presentToast(
+              'Se mandado un correo de la exportación del excel ' +res.data.fileName
+                
+            );
               // this.platform.ready().then(async (d) => {
             //   if (this.platform.is('mobile')) {
             //     const directorioDescargas = await Filesystem.getUri({
@@ -293,8 +299,7 @@ export class GraphicsAdminPage implements AfterViewInit {
 
 
             this.utils.presentToast(
-              'Se mandado un correo de la exportación del excel ' +res.data.fileName
-                
+              'Se mandado un correo de la exportación del excel ' +res.data.fileName               
             );
           }
         },
@@ -304,6 +309,17 @@ export class GraphicsAdminPage implements AfterViewInit {
       );
     });
   }
+
+  async  descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
+    try {
+      // Abrir una nueva ventana del navegador con el archivo
+      const url=dataBase64;
+      await Browser.open({ url });
+    } catch (error) {
+      console.error('Error al descargar el archivo:', error);
+    }
+  }
+
 
   public closeModal() {
     this.modal.dismiss();

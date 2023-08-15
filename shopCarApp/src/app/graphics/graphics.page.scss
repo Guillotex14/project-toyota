@@ -206,5 +206,23 @@ font-size: 15px !important;
 }
 
 @media screen and (width:320px){
+  .cardChart{
+    width: 250px !important;
+  }
+
+  canvas {
+    width: 230px !important;
+    // height: 330px!important;
+  }
+}
+
+@media screen and (width:280px){
+  .cardChart{
+    width: 250px !important;
+    canvas {
+      width: 230px !important;
+      // height: 330px!important;
+    }
+  }
 
 }

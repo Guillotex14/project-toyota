@@ -403,13 +403,13 @@ adminRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respons
 
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "ficha mecanica encontrada exitosamente";
+        jsonRes.message = "ficha mécanica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no se encontro la ficha mecanica";
+        jsonRes.message = "no se encontro la ficha mécanica";
         jsonRes.status = false;
         return jsonRes;
     }

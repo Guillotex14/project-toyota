@@ -31,7 +31,7 @@
 .colImage{
   margin-top: 40% !important;
   ion-img {
-    width: 80%;
+    width: auto !important;
     text-align: center;
     margin: auto !important;
   }
@@ -40,29 +40,54 @@
 
 .colInputUser{
   margin-top: 10% !important;
-  ion-input{
-    width: 90%;
+
+  ion-row{
+    border: 1px solid #b3b3b3; 
+    border-radius: 30px !important;
+    height: 60px !important;
+    width: 90% !important;
     margin: auto !important;
-    // #inputEmail{
-      label{
-        .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
-          .label-text.sc-ion-input-md{
-            font-size: 20px !important;
-            font-weight: bold !important;
+
+    ion-input{
+      width: 90%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 20px !important;
+              font-weight: bold !important;
+            }
           }
         }
-      }
-    // }
+      // }
+    }
   }
 }
 
 .colInputPass{
-  ion-input{
-    width: 90%;
+
+  ion-row{
+    border: 1px solid #b3b3b3; 
+    border-radius: 30px !important;
+    height: 60px !important;
+    width: 90% !important;
     margin: auto !important;
-    // font-size: 25px;
-    // height: 80px;
+
+    ion-input{
+      width: 90%;
+      margin: auto !important;
+      height: 50px !important;
+      // font-size: 25px;
+      // height: 80px;
+    }
+    ion-icon {
+      font-size: 25px !important; 
+      margin: 13px auto !important
+    }
   }
+
+
 }
 
 .colButtonLogin{
@@ -84,4 +109,577 @@
   --highlight-color-focused: trasparent !important;
   --highlight-color-invalid: trasparent !important;
   --highlight-color-valid: trasparent !important;
+}
+
+#inputEmail{
+  min-height: 35px !important;
+  --highlight-color-focused: trasparent !important;
+  --highlight-color-invalid: trasparent !important;
+  --highlight-color-valid: trasparent !important;
+}
+
+@media screen and (width:414px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 16px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+}
+
+@media screen and (width:412px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 16px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+}
+
+@media screen and (width:393px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      height: 45px !important;
+      --highlight-color-focused: trasparent !important;
+    --highlight-color-invalid: trasparent !important;
+    --highlight-color-valid: trasparent !important;
+      // #inputEmail{
+        // label{
+        //   .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+        //     .label-text.sc-ion-input-md{
+        //       font-size: 16px !important;
+        //       font-weight: bold !important;
+        //     }
+        //   }
+        // }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+        --highlight-color-focused: trasparent !important;
+    --highlight-color-invalid: trasparent !important;
+    --highlight-color-valid: trasparent !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+
+}
+
+@media screen and (width:390px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 16px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+}
+
+@media screen and (width:375px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 16px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+}
+
+@media screen and (width:360px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 16px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 16px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 50px !important;
+      width: 85% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 45px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 10px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
+}
+
+@media screen and (width:320px){
+
+}
+
+@media screen and (width:280px){
+  .colImage{
+    ion-img{
+      width: 75% !important;
+      margin: auto !important;
+    }
+  }
+
+  .colInputUser{
+    margin-top: 10% !important;
+    ion-label{
+      font-size: 14px !important;
+    }
+
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 40px !important;
+      width: 90% !important;
+      margin: auto !important;
+    
+
+    ion-input{
+      width: 85%;
+      margin: auto !important;
+      height: 30px !important;
+      // #inputEmail{
+        label{
+          .input-fill-outline.input-label-placement-stacked.sc-ion-input-md-h .label-text-wrapper.sc-ion-input-md{
+            .label-text.sc-ion-input-md{
+              font-size: 12px !important;
+              font-weight: bold !important;
+            }
+          }
+        }
+      // }
+      }
+    }
+  }
+
+  .colInputPass{
+    ion-label{
+      font-size: 16px !important;
+    }
+    ion-row{
+      border: 1px solid #b3b3b3; 
+      border-radius: 30px !important;
+      height: 40px !important;
+      width: 90% !important;
+      margin: auto !important;
+  
+      ion-input{
+        width: 85%;
+        margin: auto !important;
+        height: 30px !important;
+      }
+      ion-icon {
+        font-size: 20px !important; 
+        margin: 7px auto !important
+      }
+    }
+  
+  
+  }
+
+  .colButtonLogin{
+    margin-top: 10% !important;
+    ion-button{
+      width: 85%;
+      margin: auto !important;
+      font-size: 16px;
+      text-transform: capitalize !important;
+      height: 45px;
+  
+      --background: #141414;
+      --color: #FFFFFF;
+    }
+  }
 }

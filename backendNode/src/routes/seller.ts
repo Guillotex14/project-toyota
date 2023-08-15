@@ -197,7 +197,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     to: emailmechanic,
     subject: "Revisión de vehículo",
     text:
-      "El vendedor " +
+      "El véndedor " +
       infoSeller!.fullName +
       " del concesionario " +
       infoSeller!.concesionary +
@@ -500,12 +500,12 @@ sellerRouter.post(
     if (mecFile) {
       reponseJson.code = 200;
       reponseJson.status = true;
-      reponseJson.message = "Ficha mecanica encontrada";
+      reponseJson.message = "Ficha mécanica encontrada";
       reponseJson.data = mecFile;
     } else {
       reponseJson.code = 400;
       reponseJson.status = false;
-      reponseJson.message = "No se encontro la ficha mecanica";
+      reponseJson.message = "No se encontro la ficha mécanica";
     }
 
     res.json(reponseJson);
@@ -805,11 +805,11 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       from: "Toyousado Notifications",
       to: email!.email,
       subject: "Compra de vehículo",
-      text: `El vendedor ${
+      text: `El véndedor ${
         infoBuyer!.fullName
-      } quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${
+      } quiere comprar tu vehículo, para mas información comunicaté con el véndedor al correo ${
         emailBuyer!.email
-      } o al número telefono ${infoBuyer!.phone}`,
+      } o al número de teléfono ${infoBuyer!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -822,7 +822,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
 
     responseJson.code = 200;
     responseJson.message =
-      "Compra realizada, esperar confirmación o rechazo del vendedor";
+      "Compra realizada, esperar confirmación o rechazo del véndedor";
     responseJson.status = true;
   }
 
@@ -869,9 +869,9 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
       subject: "Oferta de vehículo aprobada",
       text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
-      } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
+      } ha sido aceptada, para más información comunicaté con el véndedor al correo ${
         userSeller!.email
-      } o al número telefono ${infoSeller!.phone}`,
+      } o al número de teléfono ${infoSeller!.phone}`,
     };
 
 
@@ -933,9 +933,9 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
       subject: "Compra de vehículo rechazada",
       text: `Tu compra del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
-      } fue rechazada, para mas información comunicate con el vendedor al correo ${
+      } fue rechazada, para más información comunicaté con el véndedor al correo ${
         userSeller!.email
-      } o al número telefono ${infoSeller!.phone}`,
+      } o al número de teléfono ${infoSeller!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -1140,7 +1140,7 @@ sellerRouter.post(
     const vehiclesFiltered = await vehicles
       .find(query)
       .sort({ date_create: -1 });
-
+    console.log(vehiclesFiltered)
     if (vehiclesFiltered) {
       let arrayVehicles: any[] = [];
 
@@ -1182,9 +1182,9 @@ sellerRouter.post(
           date_create: vehiclesFiltered[i].date_create,
           plate: vehiclesFiltered[i].plate,
           vin: vehiclesFiltered[i].vin,
-          image: (await ImgVehicle.findOne({
+          image: await ImgVehicle.findOne({
             id_vehicle: vehiclesFiltered[i]._id,
-          }))
+          })
             ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
             : "",
         };
@@ -1541,9 +1541,11 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
     };
   }
   let seller: any = null;
+  let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user!="admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1690,8 +1692,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Año", key: "anhio", width: 15, style: headerStyle },
       { header: "Precio", key: "precio", width: 15, style: headerStyle },
       {
-        header: "Ficha mecanica",
-        key: "ficha_mecanica",
+        header: "Ficha mécanica",
+        key: "ficha_mécanica",
         width: 15,
         style: headerStyle,
       },
@@ -1764,7 +1766,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         marca: vehiculo.brand,
         anhio: vehiculo.year,
         precio: vehiculo.price,
-        ficha_mecanica: vehiculo.general_condition,
+        ficha_mécanica: vehiculo.general_condition,
         fecha: vehiculo.date_create,
         fecha_venta: vehiculo.date_sell,
         desplazamiento: vehiculo.displacement,
@@ -1782,7 +1784,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         vino: vehiculo.vin,
       };
       if (seller) {
-        delete dataRow.ficha_mecanica;
+        delete dataRow.ficha_mécanica;
       }
 
       worksheet.addRow(dataRow);
@@ -1876,51 +1878,37 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
 // ...
 
 fs.unlinkSync(filePath);
+ 
 
-  if (datos) {
-    reponseJson.code = 200;
-    reponseJson.message = "success";
-    reponseJson.status = true;
-    reponseJson.data = {
-      url:sendUrl,
-      fileName:fileName
-    };
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "no existe";
-    reponseJson.status = false;
-  }
-  res.json(reponseJson);
+  workbook.xlsx
+    .writeBuffer()
+    .then(async (buffer: any) => {
+      // Convertir el buffer en base64
+      const base64 = buffer.toString("base64");
 
-  // workbook.xlsx
-  //   .writeBuffer()
-  //   .then(async (buffer: any) => {
-  //     // Convertir el buffer en base64
-  //     const base64 = buffer.toString("base64");
+      // Crear un objeto de respuesta con el archivo base64
+      const datos = {
+        fileName: now.getTime() + ".xlsx",
+        base64Data:
+          "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
+          base64,
+      };
 
-  //     // Crear un objeto de respuesta con el archivo base64
-  //     const datos = {
-  //       fileName: now.getTime() + ".xlsx",
-  //       base64Data:
-  //         "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
-  //         base64,
-  //     };
-
-  //     if (datos) {
-  //       reponseJson.code = 200;
-  //       reponseJson.message = "success";
-  //       reponseJson.status = true;
-  //       reponseJson.data = datos;
-  //     } else {
-  //       reponseJson.code = 400;
-  //       reponseJson.message = "no existe";
-  //       reponseJson.status = false;
-  //     }
-  //     res.json(reponseJson);
-  //   })
-  //   .catch((error: any) => {
-  //     console.log("Error al generar el archivo Excel:", error);
-  //   });
+      if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = datos;
+      } else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+      }
+      res.json(reponseJson);
+    })
+    .catch((error: any) => {
+      console.log("Error al generar el archivo Excel:", error);
+    });
 });
 
 sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
@@ -1959,6 +1947,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     };
   }
 
+
   if (yearCar) {
     mongQuery = {
       ...mongQuery,
@@ -1980,10 +1969,11 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     };
   }
   let seller: any = null;
+  let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
-    console.log(seller);
-    if (seller) {
+    user = await Users.findOne({ _id: id_user });
+    if (seller && user.type_user!="admin") {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: seller.concesionary, $options: "i" },
@@ -1997,6 +1987,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       }
     }
   }
+  console.log(mongQuery)
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
@@ -2226,7 +2217,7 @@ const desgloseImg = async (image: any) => {
   let posr = image.split(";base64").pop();
   let imgBuff = Buffer.from(posr, 'base64');
 
-  const resize = await sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
+  const resize = await sharp(imgBuff).resize(300, 250).toBuffer().then((data) => {
       return data;
   }).catch((err:any) => {
       console.log("error",err)
@@ -2236,6 +2227,7 @@ const desgloseImg = async (image: any) => {
   return 'data:image/jpeg;base64,'+resize.toString('base64');
 
 }
+
 const sendNotification = async (
   id_seller: string,
   message: string,

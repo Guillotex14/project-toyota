@@ -38,6 +38,7 @@ export class AddVehiclePage implements OnInit {
   mechanicName: string = '';
   mechanicCity: string = '';
   mechanicConcesionary: string = '';
+  mechanicImg: string = '';
 
   newMechanic: CreateMechanic = new CreateMechanic();
   // arrayCities: any[] = states;
@@ -537,6 +538,7 @@ export class AddVehiclePage implements OnInit {
       this.mechanicName = event.detail.data.mechanic.fullName;
       this.mechanicCity = event.detail.data.mechanic.city;
       this.mechanicConcesionary = event.detail.data.mechanic.concesionary;
+      this.mechanicImg = event.detail.data.mechanic.image !=="" ? event.detail.data.mechanic.image.img : '';
     }
   }
 

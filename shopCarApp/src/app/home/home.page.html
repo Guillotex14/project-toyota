@@ -3,29 +3,33 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" class="colImage">
-        <ion-img src="assets/images/logo/logo_real_toyousado.png" style="margin:auto !important; width: auto !important;"></ion-img>
+        <ion-img src="assets/images/logo/logo_real_toyousado.png" ></ion-img>
       </ion-col>
 
       <ion-col size="12" class="colInputUser">
         <ion-label style="margin: 10px 30px !important;">Correo electrónico</ion-label>
-        <ion-input type="email" shape="round" id="inputEmail" fill="outline" [(ngModel)]="newLogin.email"></ion-input>
+        <ion-row>
+          <ion-col size="12">
+            <ion-input type="email" id="inputEmail" [(ngModel)]="newLogin.email"></ion-input>
+          </ion-col>
+        </ion-row>
       </ion-col>
 
       <ion-col size="12" class="colInputPass" style="margin-top: 15px;">
         <ion-label style="margin: 10px 30px !important;">Contraseña</ion-label>
-        <ion-row style="border: 1px solid #b3b3b3; border-radius: 30px !important;height: 60px !important;width: 90% !important;margin: auto !important;">
+        <ion-row >
           <ion-col size="9">
-            <ion-input [type]="showPass" [(ngModel)]="newLogin.password" style="height: 50px !important;" id="inputPasss"></ion-input>
+            <ion-input [type]="showPass" [(ngModel)]="newLogin.password" id="inputPasss"></ion-input>
           </ion-col>
           <ion-col size="3" style="text-align: center;">
-            <ion-icon name="eye-outline" *ngIf="showPass==='password'" (click)="showPassword()" style="font-size: 25px !important; margin: 13px auto !important"></ion-icon>
-            <ion-icon name="eye-off-outline" *ngIf="showPass==='text'" (click)="showPassword()" style="font-size: 25px !important; margin: 13px auto !important"></ion-icon>
+            <ion-icon name="eye-outline" *ngIf="showPass==='password'" (click)="showPassword()" ></ion-icon>
+            <ion-icon name="eye-off-outline" *ngIf="showPass==='text'" (click)="showPassword()" ></ion-icon>
           </ion-col>
         </ion-row>
       </ion-col>
 
       <ion-col size="12" class="colButtonLogin">
-        <ion-button expand="block" shape="round" (click)="login()">Iniciar sesion</ion-button>
+        <ion-button expand="block" shape="round" (click)="login()">Iniciar sesión</ion-button>
       </ion-col>
 
       <ion-col size="12" style="margin-top: 15px !important;">

@@ -83,6 +83,20 @@ left: 2px;
 
 }
 
+.noPhotoIcon{
+font-size: 150px !important ;
+}
+
+.noPhotoTitle{
+font-size: 20px !important ;
+}
+
+.noPhotoSubtitle{
+color: #5D5D5D !important; 
+font-size: 12px !important ;
+}
+
+
 ion-card{
 text-align: center !important;
 box-shadow: none !important;
@@ -119,7 +133,7 @@ ion-avatar{
   margin: 5% auto !important;
   width: 100px !important;
   height: 100px !important;
-  border: 1px solid !important;
+  // border: 1px solid !important;
 }
 
 ion-search-bar{
@@ -173,4 +187,44 @@ ion-card{
   font-size: 100px !important;
   margin: auto !important;
   text-align: center !important;
+}
+
+@media screen and (width: 280px){
+  ion-input{
+    height: 40px !important;
+  }
+
+  .noPhotoIcon{
+    font-size: 120px !important ;
+  }
+    
+  .noPhotoTitle{
+    font-size: 16px !important ;
+  }
+    
+  .noPhotoSubtitle{
+    color: #5D5D5D !important; 
+    font-size: 11px !important ;
+  }
+
+  .card{
+    height: 110px !important;
+    .mecAvatar{
+      width: 77% !important;
+      height: 84% !important;
+      ion-icon{
+        font-size: 80px !important;
+      }
+    }
+    .mecFullname{
+      font-size: 12px !important;
+    } 
+    .mecCity{
+      font-size: 12px !important;
+    }
+    .mecConcesionary{
+      font-size: 12px !important;
+    }
+  }
+
 }

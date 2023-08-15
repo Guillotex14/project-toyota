@@ -17,7 +17,7 @@
       </ion-col>
 
       <ion-col size="12" style="text-align: left; margin: 10px auto !important;">
-        <ion-title class="titlePage">Grafica de ventas</ion-title>
+        <ion-title class="titlePage">Gráfica de ventas</ion-title>
       </ion-col>
 
       <ion-col size="12">
@@ -30,7 +30,7 @@
       
       <ion-col size="12">
         <ion-button expand="block" shape="round" class="btnRed" id="open-filter" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
-          filtro de grafica
+          filtro de gráfica
         </ion-button>
       </ion-col>
 
@@ -49,7 +49,7 @@
       <ion-col size="12" style="margin-top: 20px !important;">
         <ion-list-header class="headerList">
           <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5">
-            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;" >Exportar</ion-button>
+            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed btnExcel" style="text-transform: capitalize;" >Exportar</ion-button>
           </ion-col>
           <ion-col sizeXl="2" sizeLg="2" sizeMd="1" sizeSm="1" sizeXs="1">
           </ion-col>
@@ -135,7 +135,7 @@
         </ion-toolbar>
       </ion-header>
       
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding filterGraphic">
 
         <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
         <ion-accordion-group expand="inset" [value]="['brand']">
@@ -301,7 +301,7 @@
         </ion-toolbar>
       </ion-header>
       
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding filterGraphic">
         <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
         <ion-accordion-group expand="inset" [value]="['brand']">
 

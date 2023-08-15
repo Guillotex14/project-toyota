@@ -39,13 +39,9 @@
   
   }
   
-  ion-radio{
-    font-size: 13px !important;
-  }
-  
   ion-label {
-    font-size: 15px !important;
-    margin: 15px auto !important;
+    font-size: 15px ;
+    margin: 15px auto ;
   }
   
   ion-segment-button {
@@ -69,7 +65,7 @@
   ion-item-divider{
     margin: 15px auto !important;
     ion-label{
-      font-size: 15px !important;
+      font-size: 15px ;
       font-weight: 900 !important;
       margin: auto !important;
     }
@@ -84,7 +80,8 @@
     --color-checked: #EB0A1E;
     --inner-border-radius: 2px;
     font-weight: bold;
-    margin: auto 3px !important;
+    margin: auto 3px;
+    font-size: 13px !important;
   }
   
   ion-radio::part(container) {
@@ -142,15 +139,19 @@
   }
   
   @media screen and (width:360px){
-    ion-radio {
+    // ion-radio {
 
-      margin: auto !important;
-    }
+    //   margin: auto !important;
+    // }
   }
   
   @media screen and (width:320px){
-    ion-radio {
+    // ion-radio {
 
-      margin: auto !important;
-    }
+    //   margin: auto !important;
+    // }
+
+  }
+
+  @media screen and (width:280px){
   }

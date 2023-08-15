@@ -1,6 +1,43 @@
 .header{
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
+  .flagVnzl{
+    width: 30px !important;
+    height: 30px !important;
+    margin: auto !important;
+  }
+
+  .logoWhite{
+    width: 45px !important;
+  }
+
+  .headerTitle{
+    font-size: 28px !important;
+    margin-top: 40px !important;
+  }
+
+  .badgeNotify{
+    position: absolute !important;
+    top: 30% !important;
+    right: 22% !important;
+  }
+
+  .iconNotify{
+    font-size: 35px !important; 
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-self: center !important;
+    margin-top: 85% !important;
+  }
+  .iconMenu{
+    font-size: 35px !important; 
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-self: center !important;
+    margin-top: 85% !important;
+  }
 }
 
 .colSearchBar{
@@ -188,11 +225,115 @@ ion-radio {
 }
 
 @media screen and (width:414px){
+  .cardVehicles{
+    ion-img{
+      width: 110px !important;
+    }
+  }
+}
 
+@media screen and (width:412px){
+  .cardVehicles{
+    ion-img{
+      width: 110px !important;
+    }
+  }
 }
 
 @media screen and (width:411px){
+  .cardVehicles{
+    ion-img{
+      width: 110px !important;
+    }
+  }
+}
 
+@media screen and (width:393px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  .cardVehicles{
+    margin: auto !important;
+    ion-img{
+      width: 115px !important;
+      height: 60px !important;
+      margin: 17px 0px 0px 0px !important;
+      img{
+        width: 95% !important;
+      }
+    }
+
+    p{
+      font-size: 11px !important;
+      // font-weight: 900;
+    }
+  }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 20px 0px 0px 18px !important;
+  }
+
+  .header{
+    .badgeNotify{
+      // position: absolute !important;
+      // top: 30% !important;
+      // right: 0% !important;
+      z-index: 999999999;
+    }
+  }
+}
+
+@media screen and (width:390px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  .cardVehicles{
+    margin: auto !important;
+    ion-img{
+      width: 117px !important;
+      height: 60px !important;
+      margin: 17px 0px 0px 0px !important;
+      img{
+        width: 95% !important;
+      }
+    }
+
+    p{
+      font-size: 11px !important;
+      // font-weight: 900;
+    }
+  }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 20px 0px 0px 18px !important;
+  }
+
+  .header{
+    .badgeNotify{
+      // position: absolute !important;
+      // top: 30% !important;
+      // right: 0% !important;
+      z-index: 999999999;
+    }
+  }
 }
 
 @media screen and (width:375px){
@@ -228,16 +369,97 @@ ion-radio {
     font-size: 75px !important; 
     margin: 20px 0px 0px 18px !important;
   }
-}
 
-@media screen and (width:360px){
-  .cardVehicles{
-    ion-card{
-      margin: auto !important;
+  .header{
+    .badgeNotify{
+      // position: absolute !important;
+      // top: 30% !important;
+      // right: 0% !important;
+      z-index: 999999999;
     }
   }
 }
 
-@media screen and (width:320px){
+@media screen and (width:360px){
+  .cardVehicles{
+    ion-img{
+      width: 115px !important;
+    }
+    ion-card{
+      margin: auto !important;
+    }
+  }
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  .header{
+    .headerTitle{
+      font-size: 25px !important;
+    }
+
+    .badgeNotify{
+      z-index: 999999999;
+    }
+  }
+}
+
+@media screen and (width:280px){
+  .header{
+    .flagVnzl{
+      width: 30px !important;
+      height: 30px !important;
+      margin: auto !important;
+    }
+  
+    .logoWhite{
+      width: 30px !important;
+    }
+  
+    .headerTitle{
+      font-size: 20px !important;
+
+    }
+  
+    .badgeNotify{
+      position: absolute !important;
+      top: 30% !important;
+      right: 0% !important;
+      z-index: 999999999;
+    }
+  
+    .iconNotify{
+      font-size: 30px !important;
+      margin-top: 100% !important;
+    }
+
+    .iconMenu{
+      font-size: 30px !important;
+      margin-top: 100% !important;
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  ion-card{
+    width: 100% !important;
+    margin: auto !important;
+  }
+  
+  
+
+  .contentFilter{
+    ion-title{
+      font-size: 14px !important;
+    }
+  }
+
+  .cardVehicles{
+    ion-img{
+      width: 110px !important;
+    }
+  }
 
 }
