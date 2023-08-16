@@ -399,7 +399,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     }
 
     if (minPrice === 0 && maxPrice === 0) {
-      query.price = null ;
+      query.price = {$exists: true} ;
     } else if (minPrice !== 0 && maxPrice === 0) {
       query.price = { $gte: minPrice, $ne: null };
     } else if (minPrice === 0 && maxPrice !== 0) {
