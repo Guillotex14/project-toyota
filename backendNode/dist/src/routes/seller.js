@@ -1354,122 +1354,102 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
         otherMong = Object.assign(Object.assign({}, otherMong), { model: { $regex: modelCar, $options: "i" } });
     }
+    if (concesionary) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
+    }
     let seller = null;
     let user = null;
     if (id_user) {
         seller = yield Sellers_1.default.findOne({ id_user: id_user });
         user = yield Users_1.default.findOne({ _id: id_user });
-        if (seller && user.type_user != "admin") {
-            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
-        }
-        else {
-            if (concesionary) {
-                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
-            }
-        }
+        // if (seller && user.type_user != "admin") {
+        //   mongQuery = {
+        //     ...mongQuery,
+        //     concesionary: { $regex: seller.concesionary, $options: "i" },
+        //   };
+        // } else {
+        //   if (concesionary) {
+        //     mongQuery = {
+        //       ...mongQuery,
+        //       concesionary: { $regex: concesionary, $options: "i" },
+        //     };
+        //   }
+        // }
     }
     let cardsgroupmodel = [];
-    if (user.type_user == "admin") {
-        cardsgroupmodel = yield Vehicles_1.default.aggregate([
-            {
-                $match: mongQuery,
+    cardsgroupmodel = yield Vehicles_1.default.aggregate([
+        {
+            $match: mongQuery,
+        },
+        {
+            $lookup: {
+                from: "mechanicalfiles",
+                localField: "_id",
+                foreignField: "id_vehicle",
+                as: "mechanicalfiles",
             },
-            {
-                $lookup: {
-                    from: "mechanicalfiles",
-                    localField: "_id",
-                    foreignField: "id_vehicle",
-                    as: "mechanicalfiles",
+        },
+        {
+            $unwind: "$mechanicalfiles",
+        },
+        {
+            $group: {
+                _id: "$model",
+                minPrice: { $min: "$price" },
+                avgPrice: { $avg: "$price" },
+                maxPrice: { $max: "$price" },
+                statusMalo: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$mechanicalfiles.general_condition", "malo"] },
+                            1,
+                            0,
+                        ],
+                    },
                 },
-            },
-            {
-                $unwind: "$mechanicalfiles",
-            },
-            {
-                $group: {
-                    _id: "$model",
-                    minPrice: { $min: "$price" },
-                    avgPrice: { $avg: "$price" },
-                    maxPrice: { $max: "$price" },
-                    statusMalo: {
-                        $sum: {
-                            $cond: [
-                                { $eq: ["$mechanicalfiles.general_condition", "malo"] },
-                                1,
-                                0,
-                            ],
-                        },
+                statusRegular: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$mechanicalfiles.general_condition", "regular"] },
+                            1,
+                            0,
+                        ],
                     },
-                    statusRegular: {
-                        $sum: {
-                            $cond: [
-                                { $eq: ["$mechanicalfiles.general_condition", "regular"] },
-                                1,
-                                0,
-                            ],
-                        },
+                },
+                statusBueno: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$mechanicalfiles.general_condition", "bueno"] },
+                            1,
+                            0,
+                        ],
                     },
-                    statusBueno: {
-                        $sum: {
-                            $cond: [
-                                { $eq: ["$mechanicalfiles.general_condition", "bueno"] },
-                                1,
-                                0,
-                            ],
-                        },
+                },
+                statusExcelente: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$mechanicalfiles.general_condition", "excelente"] },
+                            1,
+                            0,
+                        ],
                     },
-                    statusExcelente: {
-                        $sum: {
-                            $cond: [
-                                { $eq: ["$mechanicalfiles.general_condition", "excelente"] },
-                                1,
-                                0,
-                            ],
-                        },
-                    },
-                    vehicles: {
-                        $push: {
-                            $mergeObjects: [
-                                "$$ROOT",
-                                { general_condition: "$mechanicalfiles.general_condition" },
-                            ],
-                        },
+                },
+                vehicles: {
+                    $push: {
+                        $mergeObjects: [
+                            "$$ROOT",
+                            { general_condition: "$mechanicalfiles.general_condition" },
+                        ],
                     },
                 },
             },
-            {
-                $sort: {
-                    _id: 1,
-                },
+        },
+        {
+            $sort: {
+                _id: 1,
             },
-        ]);
-        for (let i = 0; i < cardsgroupmodel.length; i++) {
-            for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
-                delete cardsgroupmodel[i].vehicles[j].mechanicalfiles;
-            }
-        }
-    }
-    else {
-        cardsgroupmodel = yield Vehicles_1.default.aggregate([
-            {
-                $match: mongQuery,
-            },
-            {
-                $group: {
-                    _id: "$model",
-                    minPrice: { $min: "$price" },
-                    avgPrice: { $avg: "$price" },
-                    maxPrice: { $max: "$price" },
-                    vehicles: { $push: "$$ROOT" },
-                },
-            },
-            {
-                $sort: {
-                    _id: 1,
-                },
-            },
-        ]);
-    }
+        },
+    ]);
     const cardsgroupNacional = yield Vehicles_1.default.aggregate([
         {
             $match: otherMong,
@@ -1499,6 +1479,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     datos = {
         grupocard: cardsgroupmodel,
     };
+    console.log(datos);
     // Crear un nuevo archivo Excel
     const workbook = new ExcelJS.Workbook();
     // Establecer el estilo para el encabezado
@@ -1581,9 +1562,6 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
             { header: "Vino", key: "vino", width: 15, style: headerStyle },
         ];
-        if (seller) {
-            columns.splice(4, 1);
-        }
         worksheet.columns = columns;
         // Agregar los datos de los vehículos del grupo
         grupo.vehicles.forEach((vehiculo) => {
@@ -1609,9 +1587,6 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
                 lamina: vehiculo.plate,
                 vino: vehiculo.vin,
             };
-            if (seller) {
-                delete dataRow.ficha_mécanica;
-            }
             worksheet.addRow(dataRow);
         });
         // Separar las secciones de los datos
@@ -1652,31 +1627,29 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             precio: grupo.maxPriceGlobal,
             style: footerStyle,
         });
-        if (user.type_user == "admin") {
-            worksheet.addRow({}); // Línea vacía
-            worksheet.addRow({}); // Línea vacía
-            // Agregar las secciones del mínimo, medio y máximo precio
-            worksheet.addRow({
-                modelo: "Condición general - Malo",
-                precio: grupo.statusMalo,
-                style: footerStyle,
-            });
-            worksheet.addRow({
-                modelo: "Condición general - Regular",
-                precio: grupo.statusRegular,
-                style: footerStyle,
-            });
-            worksheet.addRow({
-                modelo: "Condición general - Bueno",
-                precio: grupo.statusBueno,
-                style: footerStyle,
-            });
-            worksheet.addRow({
-                modelo: "Condición general - Excelente",
-                precio: grupo.statusExcelente,
-                style: footerStyle,
-            });
-        }
+        worksheet.addRow({}); // Línea vacía
+        worksheet.addRow({}); // Línea vacía
+        // Agregar las secciones del mínimo, medio y máximo precio
+        worksheet.addRow({
+            modelo: "Condición general - Malo",
+            precio: grupo.statusMalo,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Condición general - Regular",
+            precio: grupo.statusRegular,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Condición general - Bueno",
+            precio: grupo.statusBueno,
+            style: footerStyle,
+        });
+        worksheet.addRow({
+            modelo: "Condición general - Excelente",
+            precio: grupo.statusExcelente,
+            style: footerStyle,
+        });
     });
     const fileName = now.getTime() + ".xlsx";
     const filePath = "./public/pdf/" + fileName;
@@ -1785,20 +1758,28 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
         otherMong = Object.assign(Object.assign({}, otherMong), { model: { $regex: modelCar, $options: "i" } });
     }
-    let seller = null;
-    let user = null;
-    if (id_user) {
-        seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        user = yield Users_1.default.findOne({ _id: id_user });
-        if (seller && user.type_user != "admin") {
-            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
-        }
-        else {
-            if (concesionary) {
-                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
-            }
-        }
+    if (concesionary) {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
     }
+    // let seller: any = null;
+    let user = null;
+    user = yield Users_1.default.findOne({ _id: id_user });
+    // if (id_user) {
+    //   seller = await Sellers.findOne({ id_user: id_user });
+    //   if (seller && user.type_user != "admin") {
+    //     mongQuery = {
+    //       ...mongQuery,
+    //       concesionary: { $regex: seller.concesionary, $options: "i" },
+    //     };
+    //   } else {
+    //     if (concesionary) {
+    //       mongQuery = {
+    //         ...mongQuery,
+    //         concesionary: { $regex: concesionary, $options: "i" },
+    //       };
+    //     }
+    //   }
+    // }
     const cardsgroupmodel = yield Vehicles_1.default.aggregate([
         {
             $match: mongQuery,
@@ -1837,13 +1818,11 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
         },
     ]);
     for (let i = 0; i < cardsgroupmodel.length; i++) {
-        // if (cardsgroupmodel[i].vehicles.length > 0) {
         for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
             cardsgroupmodel[i].vehicles[j].imgVehicle = null;
             let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
             cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         }
-        // }
         cardsgroupNacional.forEach((model) => {
             if (cardsgroupmodel[i]._id == model._id) {
                 cardsgroupmodel[i] = Object.assign(Object.assign({}, cardsgroupmodel[i]), { minPriceGlobal: model.minPriceGlobal, avgPriceGlobal: model.avgPriceGlobal, maxPriceGlobal: model.maxPriceGlobal });
@@ -1852,39 +1831,37 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     }
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
-    if (user.type_user == "admin") {
-        countMechanicaFile = yield Vehicles_1.default.aggregate([
-            {
-                $match: otherQuery,
+    countMechanicaFile = yield Vehicles_1.default.aggregate([
+        {
+            $match: otherQuery,
+        },
+        {
+            $lookup: {
+                from: "mechanicalfiles",
+                localField: "_id",
+                foreignField: "id_vehicle",
+                as: "mechanicalfiles",
             },
-            {
-                $lookup: {
-                    from: "mechanicalfiles",
-                    localField: "_id",
-                    foreignField: "id_vehicle",
-                    as: "mechanicalfiles",
+        },
+        {
+            $unwind: {
+                path: "$mechanicalfiles",
+            },
+        },
+        {
+            $match: {
+                "mechanicalfiles.general_condition": {
+                    $in: ["bueno", "malo", "regular", "excelente"],
                 },
             },
-            {
-                $unwind: {
-                    path: "$mechanicalfiles",
-                },
+        },
+        {
+            $group: {
+                _id: "$mechanicalfiles.general_condition",
+                count: { $sum: 1 },
             },
-            {
-                $match: {
-                    "mechanicalfiles.general_condition": {
-                        $in: ["bueno", "malo", "regular", "excelente"],
-                    },
-                },
-            },
-            {
-                $group: {
-                    _id: "$mechanicalfiles.general_condition",
-                    count: { $sum: 1 },
-                },
-            },
-        ]);
-    }
+        },
+    ]);
     let datos = {};
     datos = {
         grupocard: cardsgroupmodel,
