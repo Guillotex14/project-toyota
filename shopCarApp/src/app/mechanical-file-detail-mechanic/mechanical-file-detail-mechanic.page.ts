@@ -74,8 +74,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.mechanicalFileDetail.wiper_shower_brushes_windshield= "";
     this.mechanicalFileDetail.headlights_lights= "";
     this.mechanicalFileDetail.general_condition= "";
-    
-    this.getMechanicalFile();
+
   }
 
 

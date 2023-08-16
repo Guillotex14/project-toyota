@@ -288,12 +288,12 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
     this.disabledSave = true;
-    this.utils.presentLoading("Creando ficha mécanica")
+    this.utils.presentToast("Creando ficha mécanica")
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
       if (res.status) {
         this.utils.dismissLoading()
         this.utils.presentToast("Se ha creado la ficha mécanica correctamente")
-        this.goBack();
+        this.router.navigate(['mechanic']);
         this.newMechanicalFile.part_emblems_complete = "";
         this.newMechanicalFile.wiper_shower_brushes_windshield = "";
         this.newMechanicalFile.hits = "";

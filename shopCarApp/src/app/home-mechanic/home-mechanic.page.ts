@@ -56,12 +56,6 @@ export class HomeMechanicPage implements OnInit {
       this.id_mechanic = me.id_mechanic;
       this.id_user = me.id;
     }
-
-    // this.getCountInspections();
-    // this.getvehicles();
-    // this.getNotifies();
-    // this.getBrands();
-    // this.getModels();
   }
 
   ngOnInit() {
@@ -220,7 +214,6 @@ export class HomeMechanicPage implements OnInit {
     }
 
     this.mechanicSrv.updateNotification(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.getNotifies();
         this.getCountNotifies();
@@ -245,7 +238,9 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public openModalNotification(){
-    this.modal.present();
+    if (this.arrayNotifies.length > 0 ) {
+      this.modal.present();
+    }
   }
 
   public openModal(){
@@ -269,15 +264,15 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public closeModal(){
-    this.modalFilter.dismiss();
+    this.modal.dismiss();
   }
 
   public closeModalDetail(){
-    if(this.arrayNotifies.length > 0){
+    if(this.arrayNotifies.length == 0){
       this.filterModal.dismiss();
+      this.modal.dismiss();
     }else{
       this.filterModal.dismiss();
-      this.modal.present();
     }
   }
 
@@ -294,6 +289,8 @@ export class HomeMechanicPage implements OnInit {
         this.notificationById = data.data;
         this.filterModal.present();
         this.updateNotification();
+        this.getNotifies();
+        this.getCountNotifies();
       }
 
     })
@@ -388,7 +385,7 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){

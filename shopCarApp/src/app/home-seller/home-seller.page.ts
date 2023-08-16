@@ -62,12 +62,7 @@ export class HomeSellerPage implements OnInit {
       this.id_seller = me.id_sell;
       this.id_user = me.id;
     }
-    
-    // this.getBrands();
-    // this.getModels()
-    // this.getNotifies();
-    // this.getCountNotifies();
-    // this.getVehicles();
+
 
   }
 
@@ -178,7 +173,7 @@ export class HomeSellerPage implements OnInit {
   }
 
   public closeModal(){
-    this.modalFilter.dismiss();
+    this.modal.dismiss();
   }
 
   public openDetailNotification(id: any){
@@ -201,10 +196,10 @@ export class HomeSellerPage implements OnInit {
 
   public closeModalDetail(){
     if(this.arrayNotifies.length > 0){
-      this.filterModal.dismiss();
+      this.filterModal.dismiss(); 
     }else{
       this.filterModal.dismiss();
-      this.modal.present();
+      this.modal.dismiss();
     }
   }
 
@@ -223,7 +218,7 @@ export class HomeSellerPage implements OnInit {
   }
 
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){

@@ -16,8 +16,6 @@ export class ModalMechanicComponent  implements OnInit {
   // concesionary: string = "";
   
   constructor(private modalCtrl: ModalController, private sellerSrv: SellerService, private utils: UtilsService, ) {
-    // this.getMechanics();
-
   }
 
   ngOnInit() {
@@ -26,7 +24,7 @@ export class ModalMechanicComponent  implements OnInit {
     // console.log("desde oninit", this.conce)
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter(){
     this.getMechanics();
   }
 
