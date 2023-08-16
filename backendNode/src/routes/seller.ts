@@ -604,9 +604,7 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
   res.json(jsonRes);
 });
 
-sellerRouter.post(
-  "/mechanicalFileByIdVehicle",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
 
@@ -693,9 +691,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
   res.json(ress);
 });
 
-sellerRouter.post(
-  "/mechanicByConcesionary",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicByConcesionary", async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const { concesionary } = req.body;
     let arrayMechanics: any[] = [];
@@ -1082,9 +1078,7 @@ sellerRouter.post("/getNotifications", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/updateNotification",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/updateNotification", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id } = req.body;
@@ -1129,9 +1123,7 @@ sellerRouter.post("/notificationById", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/countNotifications",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/countNotifications", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user } = req.body;
@@ -1182,9 +1174,7 @@ sellerRouter.post("/getVehicleByType", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/filterVehiclesWithMongo",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
     let query: any = {};
@@ -1310,9 +1300,7 @@ sellerRouter.post(
   }
 );
 
-sellerRouter.post(
-  "/autocompleteModels",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { search } = req.body;
