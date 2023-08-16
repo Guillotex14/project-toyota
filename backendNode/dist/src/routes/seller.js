@@ -695,19 +695,21 @@ sellerRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, f
     res.json(jsonResponse);
 }));
 sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const responseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
-        id_seller_buyer: id_seller,
-        name_new_owner: name_new_owner,
-        dni_new_owner: dni_new_owner,
-        phone_new_owner: phone_new_owner,
-        email_new_owner: email_new_owner,
-        price_ofert: price_ofert,
-    });
+    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    //   id_seller_buyer: id_seller,
+    //   name_new_owner: name_new_owner,
+    //   dni_new_owner: dni_new_owner,
+    //   phone_new_owner: phone_new_owner,
+    //   email_new_owner: email_new_owner,
+    //   price_ofert: price_ofert,
+    // });
     const sameIdSeller = yield Vehicles_1.default.findById(id_vehicle);
-    if (sameIdSeller.id_seller === id_seller) {
+    if (((_a = sameIdSeller.id_seller) === null || _a === void 0 ? void 0 : _a.toString()) === id_seller) {
+        console.log('soy el comprador');
         const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
             id_seller_buyer: id_seller,
             name_new_owner: name_new_owner,
@@ -734,6 +736,7 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         }
     }
     else {
+        console.log('no soy el vendedor');
         const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
             id_seller_buyer: id_seller,
             name_new_owner: name_new_owner,
@@ -741,6 +744,7 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
             phone_new_owner: phone_new_owner,
             email_new_owner: email_new_owner,
             price_ofert: price_ofert,
+            date_sell: date_sell,
             sold: false,
         });
         const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
