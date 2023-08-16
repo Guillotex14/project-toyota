@@ -43,6 +43,7 @@ export class HomeSellerPage implements OnInit {
   id_user: string = "";
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
+  @ViewChild('modalFilterHomeSeller') modalFilter!: IonModal;
 
   constructor(private router: Router, private utils: UtilsService, private menu: MenuController, private sellerSrv: SellerService, private modalCtrl: ModalController) {
     this.arrayUbication = states;
@@ -156,8 +157,28 @@ export class HomeSellerPage implements OnInit {
     this.modal.present();
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public closeModal(){
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public openDetailNotification(id: any){
@@ -207,7 +228,7 @@ export class HomeSellerPage implements OnInit {
 
   public applyFilter(){
     this.getVehicles()
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public getVehicles(){

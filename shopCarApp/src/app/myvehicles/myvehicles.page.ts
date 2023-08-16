@@ -36,7 +36,7 @@ export class MyvehiclesPage implements OnInit {
   maxKmsAux: string = "";
 
   @ViewChild(IonModal) modal!: IonModal;
-  
+  @ViewChild('modalFilterMyVehicles') modalFilter!: IonModal;
   constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) {
     this.arrayUbication = states;
     let data = localStorage.getItem('me');
@@ -106,6 +106,8 @@ export class MyvehiclesPage implements OnInit {
         console.log(data);
         this.arrayVehicles = data.data;
         this.utils.dismissLoading();
+        
+
 
       }else{
         this.utils.dismissLoading();
@@ -123,13 +125,33 @@ export class MyvehiclesPage implements OnInit {
     this.router.navigate(['/car-detail/'+id_vehicle+'/myvehicles']);
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public dismissModal(){
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){
     this.getMyVehicles()
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public dotMinYear(input:any){
