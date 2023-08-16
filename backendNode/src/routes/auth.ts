@@ -10,6 +10,8 @@ import imgUser from "../models/imgUser";
 import { uploadImageUser, deleteImageUser, uploadImageVehicle } from '../../cloudinaryMetods';
 import  Sharp  from "sharp";
 import mechanicalsFiles from "../models/mechanicalsFiles";
+import Vehicles from "../models/Vehicles";
+import ImgVehicle from "../models/ImgVehicle";
 
 const authRouter = Router();
 
@@ -183,6 +185,8 @@ authRouter.get("/sharpMetods", async (req: Request, res: Response) => {
     // }
 
     const deleteMechanicalFiles = await mechanicalsFiles.deleteMany({});
+    const delVehicles = await Vehicles.deleteMany({});
+    const delimgvehicles = await ImgVehicle.deleteMany({});
 
     if (deleteMechanicalFiles) {
         console.log("eliminados")
