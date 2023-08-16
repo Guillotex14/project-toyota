@@ -9,23 +9,23 @@
             <ion-col size="2">
               <ion-row>
                 <ion-col size="12">
-                  <ion-img src="assets/images/logo/flag_vzla.png" style="width: 30px;height: 30px;margin: auto !important;"></ion-img>
+                  <ion-img src="assets/images/logo/flag_vzla.png" class="flagVnzl"></ion-img>
                 </ion-col>
                 <ion-col size="12">
-                  <ion-img src="assets/images/logo/logo_toyota_blanco.png" style="width: 45px;"></ion-img>
+                  <ion-img src="assets/images/logo/logo_toyota_blanco.png" class="logoWhite"></ion-img>
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' ">
-              <p style="font-size: 28px;margin-top: 40px;">Toyousado</p>
+            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left !important':'text-align: center !important'">
+              <p class="headerTitle">Toyousado</p>
             </ion-col>
             <ion-col size="2" *ngIf="arrayNotifies.length > 0">
-              <ion-badge mode="ios" style="position: absolute !important;top: 30% !important;right: 22% !important;" *ngIf="countNotifies>0">{{countNotifies}}</ion-badge>
-              <ion-icon name="notifications" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0"></ion-icon>
+              <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
+              <ion-icon name="notifications" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0" class="iconNotify"></ion-icon>
               <!-- -->
             </ion-col>
             <ion-col size="2">
-              <ion-icon name="menu-outline" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" (click)="openMenu()"></ion-icon>
+              <ion-icon name="menu-outline" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -40,15 +40,15 @@
       <ion-col size="12" class="colFilter">
         <ion-row>
 
-          <ion-col size="4" class="colResultFilter">
+          <ion-col sizeXl="5" sizeLg="5" sizeMd="5" sizeSm="5" sizeXs="5" class="colResultFilter">
             <span>
               Resultados {{arrayVehicles.length}}
             </span>
           </ion-col>
-          <ion-col size="4">
+          <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
           </ion-col>
 
-          <ion-col size="4" class="colIconFilter" id="openFilters">
+          <ion-col sizeXl="5" sizeLg="5" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" id="openFilters">
             <ion-icon name="list-outline"></ion-icon>
             <span>
               Filtro
@@ -74,8 +74,10 @@
 
                       <ion-col size="12">
                         <ion-row>
-                          <ion-col size="8" style="font-size: 13px !important;">
-                            ¿Cuánto vale mi vehículo?
+                          <ion-col size="8">
+                            <span class="titleCardHome">
+                              ¿Cuánto vale mi vehículo?
+                            </span>
                           </ion-col>
                           <ion-col size="2">
                             <ion-icon name="car-sport" size="large"></ion-icon>
@@ -90,7 +92,10 @@
                         <ion-card-subtitle>Presiona vender para cargar nuevos vehículos</ion-card-subtitle>
                         <ion-row>
                           <ion-col size="8">
-                            Vender
+                            <span class="titleCardHome">
+                              Vender
+                            </span>
+
                           </ion-col>
                           <ion-col size="2">
                             <ion-icon name="logo-usd" size="large"></ion-icon>
@@ -105,7 +110,9 @@
                         <ion-card-subtitle>Presiona Comprar para explorar nuevos vehículos</ion-card-subtitle>
                         <ion-row>
                           <ion-col size="8">
-                            Comprar
+                            <span class="titleCardHome">
+                              Comprar
+                            </span>
                           </ion-col>
                           <ion-col size="2">
                             <ion-icon name="cash-outline" size="large"></ion-icon>
@@ -126,24 +133,25 @@
               <span>Todos los modelos</span>
             </ion-col>
 
-            <ion-col size="6" *ngFor="let vehicle of arrayVehicles; let i = index">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img> -->
-                <ion-icon name="image" *ngIf="vehicle.image ===''" style="font-size: 90px !important; margin: 16px 0px 0px 20px !important;"></ion-icon>
+                <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
                 <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !==''"></ion-img>
                 <ion-card-content>
                   <p>
                     {{vehicle.model}}
                   </p>
                   <span>
-                    {{vehicle.year}}
+                    {{vehicle.price | currency:'USD':true:'1.0-0'}}
                   </span>
+                  <p>{{vehicle.city}}</p>
                 </ion-card-content>
                 <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
-                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" style="margin-top: 15px;">
+                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">
                   ver detalle
                 </ion-button>
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
@@ -221,7 +229,7 @@
         </ion-toolbar>
       </ion-header>
       
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding contentFilter">
         <ion-title style="text-align: center !important;font-weight: 700 !important;">Selecciona 1 o más filtros</ion-title>
         <ion-accordion-group expand="inset" [value]="['brand']">
 

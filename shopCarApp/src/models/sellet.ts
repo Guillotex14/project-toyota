@@ -169,6 +169,8 @@ export class VehicleList{
   public image!: any;
   public model!: string;
   public year!: number;
+  public price!: number;
+  public city!: string;
   public id_seller_buyer!: string;
 }
 

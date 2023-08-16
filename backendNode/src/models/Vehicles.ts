@@ -26,7 +26,7 @@ const vehicleSchema = new Schema({
     child: {
         type: Schema.Types.ObjectId,
         ref: 'imgVehicle' // nombre de la colección secundaria
-      },
+    },
     mechanicalFile: {
         type: Boolean,
         default: false

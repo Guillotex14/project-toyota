@@ -18,17 +18,17 @@
           <ion-col size="12">
             <ion-row>
               <ion-col size="8">
-                <p style="font-size: 20px; margin: 20px auto auto 20px;">{{username}}</p>
-                <p style="font-size: 15px; color: #EB0A1E;margin: 0px auto auto 25px;">
+                <p class="sidebarUsename"> {{username}}</p>
+                <p class="sidebarTypeuser">
                   <span *ngIf="typeUser === 'admin'">Administrador</span>
-                  <span *ngIf="typeUser === 'seller'">Véndedor</span>
-                  <span *ngIf="typeUser === 'mechanic'">Mecánico</span>
+                  <span *ngIf="typeUser === 'seller'">Vendedor</span>
+                  <span *ngIf="typeUser === 'mechanic'">Técnico</span>
                 </p>
               </ion-col>
 
               <ion-col size="4">
                 <ion-avatar *ngIf="image !==null" (click)="openActionSheetEdit()">
-                  <img [src]="image.img" />
+                  <img [src]="image.img"/>
                 </ion-avatar>
 
                 <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite" (click)="openActionSheet()"></ion-icon>
@@ -76,7 +76,7 @@
         <ion-icon slot="end" name="car-sport"></ion-icon>
       </ion-item> -->
       <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
-        <ion-label>Graficas</ion-label>
+        <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
       </ion-item>
       <!-- <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('sells-history')">
@@ -120,7 +120,7 @@
         <ion-icon name="add"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('graphics-admin')">
-        <ion-label>Graficas</ion-label>
+        <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
       </ion-item>
       <!-- <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('sells-history')">
@@ -133,7 +133,7 @@
   <ion-footer>
     <ion-list>
       <ion-item button (click)="logout()">
-        <ion-label>Cerrar Sesion</ion-label>
+        <ion-label>Cerrar Sesión</ion-label>
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-item>
     </ion-list>

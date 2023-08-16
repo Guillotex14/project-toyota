@@ -22,6 +22,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const imgUser_1 = __importDefault(require("../models/imgUser"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const sharp_1 = __importDefault(require("sharp"));
+const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -89,14 +90,14 @@ authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
             }
             else {
                 jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecto";
+                jsonRes.message = "Contraseña incorrecta";
                 jsonRes.status = false;
                 return jsonRes;
             }
         }
         else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "ususario no registrado";
+            jsonRes.message = "Ususario no registrado";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -150,17 +151,24 @@ authRouter.post("/updateImgProfile", (req, res) => __awaiter(void 0, void 0, voi
     }
     res.json(reponseJson);
 }));
-authRouter.post("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { image } = req.body;
-    if (image.length > 0) {
-        for (let i = 0; i < image.length; i++) {
-            // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
-            const imgResult = yield desgloseImg(image[i].image);
-            // const img2 = imgResult.toString('base64');
-            const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResult);
-            console.log(filename);
-        }
+authRouter.get("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const reponseJson: ResponseModel = new ResponseModel();
+    // const { image } = req.body;
+    // if (image.length > 0) {
+    //     for (let i = 0; i < image.length; i++) {
+    //         // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
+    //         const imgResult = await desgloseImg(image[i].image);
+    //         // const img2 = imgResult.toString('base64');
+    //         const filename = await uploadImageVehicle(imgResult);
+    //         console.log(filename)
+    //     }
+    // }
+    const deleteMechanicalFiles = yield mechanicalsFiles_1.default.deleteMany({});
+    if (deleteMechanicalFiles) {
+        console.log("eliminados");
+    }
+    else {
+        console.log("no eliminados");
     }
 }));
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {

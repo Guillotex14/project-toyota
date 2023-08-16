@@ -12,7 +12,9 @@ import { Chart, registerables } from 'chart.js';
 import * as moment from 'moment';
 import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { concesionaries } from 'src/assets/json/concesionaries';
 import { Browser } from '@capacitor/browser';
+
 @Component({
   selector: 'app-graphics-admin',
   templateUrl: './graphics-admin.page.html',
@@ -45,6 +47,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   genCondCar: any[] = [];
   arrayData: any = {};
   arrayListCars: any[] = [];
+  arrayConcesionary: any[] = []
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
@@ -59,7 +62,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   ) {
     Chart.register(...registerables);
     this.genCondCar = [];
-
+    this.arrayConcesionary = concesionaries;
     let data = JSON.parse(localStorage.getItem('me')!);
 
     if (data) {
@@ -178,7 +181,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   }
 
   public getCarList(){
-    console.log(this.id_user)
+    
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -191,35 +194,6 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
       console.log(res)
       if (res.status) {
-        if (res.data.grupocard.length > 0) {
-          for (let i = 0; i < res.data.grupocard.length; i++) {
-            if (res.data.grupocard[i].vehiclesWithImages.length > 0) {
-              for (let j = 0; j < res.data.grupocard[i].vehiclesWithImages.length; j++) {
-                if (res.data.grupocard[i].vehicles.length > 0){
-                  for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                    if (res.data.grupocard[i].vehiclesWithImages[j].id_vehicle == res.data.grupocard[i].vehicles[k]._id) {
-                      res.data.grupocard[i].vehicles[k].image = res.data.grupocard[i].vehiclesWithImages[j].img;
-                    }else{
-                      res.data.grupocard[i].vehicles[k].image ="";
-                    }
-                  }
-                }else{
-                  if (res.data.grupocard[i].vehicles.length > 0){
-                    for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                      res.data.grupocard[i].vehicles[k].image ="";
-                    }
-                  }
-                }
-              }
-            }else{
-              if (res.data.grupocard[i].vehicles.length > 0){
-                for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                  res.data.grupocard[i].vehicles[k].image ="";
-                }
-              }
-            }
-          }
-        }
 
         this.arrayListCars = res.data.grupocard;
       }else{

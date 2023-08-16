@@ -23,6 +23,7 @@ const moment_1 = __importDefault(require("moment"));
 const brands_1 = __importDefault(require("../models/brands"));
 const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
 const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
+const imgUser_1 = __importDefault(require("../models/imgUser"));
 const adminRouter = (0, express_1.Router)();
 adminRouter.post('/allVehicles', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
@@ -167,6 +168,7 @@ adminRouter.get("/allSellers", (req, res) => __awaiter(void 0, void 0, void 0, f
                             email: res[j].email,
                             type_user: res[j].type_user,
                             date_created: infoSellers[k].date_created,
+                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id })) ? yield imgUser_1.default.findOne({ id_user: res[j]._id }) : "",
                         };
                         arraySellers.push(seller);
                     }
@@ -359,14 +361,14 @@ adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, v
     const ress = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "ficha mecanica encontrada exitosamente";
+        jsonRes.message = "ficha mécanica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no se encontro la ficha mecanica";
+        jsonRes.message = "no se encontro la ficha mécanica";
         jsonRes.status = false;
         return jsonRes;
     }

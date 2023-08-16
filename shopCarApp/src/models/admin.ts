@@ -21,5 +21,6 @@ export class SellersList{
   public phone!: string;
   public date_created!: string;
   public type_user: string = "seller";
+  public image!: any;
 }
 

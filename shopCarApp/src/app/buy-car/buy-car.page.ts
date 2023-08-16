@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuController, ModalController } from '@ionic/angular';
+import { IonModal, MenuController, ModalController } from '@ionic/angular';
 import { SellerService } from '../services/seller/seller.service';
 import { UtilsService } from '../services/utils/utils.service';
 import { VehicleList } from 'src/models/sellet';
@@ -36,6 +36,8 @@ export class BuyCarPage implements OnInit {
   maxPriceAux: string = "";
   minKmsAux: string = "";
   maxKmsAux: string = "";
+
+  @ViewChild(IonModal) modal!: IonModal;
 
   constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController) {
     this.arrayModels = models;
@@ -73,7 +75,7 @@ export class BuyCarPage implements OnInit {
   }
 
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modal.dismiss();
   }
 
   public applyFilter(){
@@ -199,3 +201,5 @@ export class BuyCarPage implements OnInit {
     this.arrayVehicles.splice(i, 1);
   }
 }
+
+

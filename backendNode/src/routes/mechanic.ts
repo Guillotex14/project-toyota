@@ -156,12 +156,12 @@ mechanicRouter.post("/getMechanicFileByIdVehicle", async (req: Request, res: Res
     if(mecFile){
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica encontrada";
+        reponseJson.message = "Ficha mécanica encontrada";
         reponseJson.data = mecFile;
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro la ficha mecanica";
+        reponseJson.message = "No se encontro la ficha mécanica";
     }
 
     res.json(reponseJson);
@@ -272,7 +272,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     if(newMechanicFileSaved){
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica creada correctamente";
+        reponseJson.message = "Ficha mécanica creada correctamente";
         reponseJson.data = newMechanicFileSaved;
 
         //obteniendo el correo del vendedor
@@ -299,8 +299,8 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: mailSeller,
-            subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehículo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
+            subject: 'Ficha mécanica creada',
+            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
         };
 
         await sendEmail(mailOptions);
@@ -310,7 +310,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo crear la Ficha mecanica";
+        reponseJson.message = "No se pudo crear la Ficha mécanica";
     }
 
     res.json(reponseJson);

@@ -45,7 +45,7 @@ export class ListUserAdminPage implements OnInit {
         this.utils.dismissLoading();
       }else{
         this.utils.dismissLoading();
-        this.utils.presentToast("Sin véndedores registrados");
+        this.utils.presentToast("Sin vendedores registrados");
       }
     },
     (error) => {

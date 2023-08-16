@@ -11,6 +11,7 @@ import moment from "moment";
 import brands from "../models/brands";
 import modelVehicle from "../models/modelVehicle";
 import ImgVehicle from "../models/ImgVehicle";
+import imgUser from "../models/imgUser";
 
 const adminRouter = Router();
 
@@ -167,6 +168,7 @@ adminRouter.get("/allSellers", async (req: Request, res: Response) => {
                             email: res[j].email,
                             type_user: res[j].type_user,
                             date_created: infoSellers[k].date_created,
+                            image: await imgUser.findOne({ id_user: res[j]._id }) ? await imgUser.findOne({ id_user: res[j]._id }) : "",
                         }
                         arraySellers.push(seller);
                     }
@@ -401,13 +403,13 @@ adminRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respons
 
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "ficha mecanica encontrada exitosamente";
+        jsonRes.message = "ficha mécanica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }else{
         jsonRes.code = 400;
-        jsonRes.message = "no se encontro la ficha mecanica";
+        jsonRes.message = "no se encontro la ficha mécanica";
         jsonRes.status = false;
         return jsonRes;
     }

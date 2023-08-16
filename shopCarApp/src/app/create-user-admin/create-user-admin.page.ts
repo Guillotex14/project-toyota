@@ -96,7 +96,7 @@ export class CreateUserAdminPage implements OnInit {
       return;      
     }
 
-    this.utils.presentLoading("Registrando véndedor");
+    this.utils.presentLoading("Registrando vendedor");
 
     this.adminSrv.addSeller(this.newSeller).subscribe((res: any) => {
 

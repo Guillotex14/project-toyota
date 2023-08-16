@@ -169,7 +169,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   public getCarList(){
-    
+    console.log("buscando......")
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -182,36 +182,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
       console.log(res)
       if (res.status) {
-
-        if (res.data.grupocard.length > 0) {
-          for (let i = 0; i < res.data.grupocard.length; i++) {
-            if (res.data.grupocard[i].vehiclesWithImages.length > 0) {
-              for (let j = 0; j < res.data.grupocard[i].vehiclesWithImages.length; j++) {
-                if (res.data.grupocard[i].vehicles.length > 0){
-                  for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                    if (res.data.grupocard[i].vehiclesWithImages[j].id_vehicle == res.data.grupocard[i].vehicles[k]._id) {
-                      res.data.grupocard[i].vehicles[k].image = res.data.grupocard[i].vehiclesWithImages[j].img;
-                    }else{
-                      res.data.grupocard[i].vehicles[k].image ="";
-                    }
-                  }
-                }else{
-                  if (res.data.grupocard[i].vehicles.length > 0){
-                    for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                      res.data.grupocard[i].vehicles[k].image ="";
-                    }
-                  }
-                }
-              }
-            }else{
-              if (res.data.grupocard[i].vehicles.length > 0){
-                for (let k = 0; k < res.data.grupocard[i].vehicles.length; k++) {
-                  res.data.grupocard[i].vehicles[k].image ="";
-                }
-              }
-            }
-          }
-        }
 
         this.arrayListCars = res.data.grupocard;
       }else{
