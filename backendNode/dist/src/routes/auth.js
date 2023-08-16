@@ -23,6 +23,8 @@ const imgUser_1 = __importDefault(require("../models/imgUser"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const sharp_1 = __importDefault(require("sharp"));
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
+const Vehicles_1 = __importDefault(require("../models/Vehicles"));
+const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
 const authRouter = (0, express_1.Router)();
 authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -164,6 +166,8 @@ authRouter.get("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, f
     //     }
     // }
     const deleteMechanicalFiles = yield mechanicalsFiles_1.default.deleteMany({});
+    const delVehicles = yield Vehicles_1.default.deleteMany({});
+    const delimgvehicles = yield ImgVehicle_1.default.deleteMany({});
     if (deleteMechanicalFiles) {
         console.log("eliminados");
     }
