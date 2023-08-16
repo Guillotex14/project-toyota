@@ -2098,8 +2098,9 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   
   for (let i = 0; i < cardsgroupmodel.length; i++) {
    for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
+    cardsgroupmodel[i].vehicles[j].imgVehicle ='';
     let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
-    cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
+    cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
     
    }
     

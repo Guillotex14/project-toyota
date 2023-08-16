@@ -1701,8 +1701,9 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     ]);
     for (let i = 0; i < cardsgroupmodel.length; i++) {
         for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
+            cardsgroupmodel[i].vehicles[j].imgVehicle = '';
             let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
-            cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
+            cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         }
         cardsgroupNacional.forEach((model) => {
             if (cardsgroupmodel[i]._id == model._id) {
