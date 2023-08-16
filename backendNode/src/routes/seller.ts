@@ -399,7 +399,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     }
 
     if (minPrice === 0 && maxPrice === 0) {
-      query.price = { $gte: 0, $ne: null };
+      query.price = null ;
     } else if (minPrice !== 0 && maxPrice === 0) {
       query.price = { $gte: minPrice, $ne: null };
     } else if (minPrice === 0 && maxPrice !== 0) {
@@ -418,7 +418,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     const vehiclesFiltered = await vehicles
       .find(query)
       .sort({ date_create: -1 });
-    console.log(vehiclesFiltered)
+
 
     if (vehiclesFiltered) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -476,6 +476,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
       jsonRes.message = "No se encontraron vehículos";
       jsonRes.status = false;
     }
+
   res.json(jsonRes);
 });
 
