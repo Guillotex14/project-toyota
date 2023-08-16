@@ -37,13 +37,13 @@
 
           <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colResultFilter">
             <span>
-              Resultados
+              Resultados {{arrayVehicles.length}}
             </span>
           </ion-col>
           <ion-col sizeXl="4" sizeLg="4" sizeMd="2" sizeSm="2" sizeXs="2">
           </ion-col>
 
-          <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" id="openFilters">
+          <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" (click)="openModal()">
             <ion-icon name="list-outline"></ion-icon>
             <span>
               Filtro
@@ -97,7 +97,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-modal trigger="openFilters">
+  <ion-modal #modalFilterBuyCar>
     <ng-template>
       
       <ion-header>

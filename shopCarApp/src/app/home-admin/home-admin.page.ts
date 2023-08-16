@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {  Router } from '@angular/router';
-import { MenuController, ModalController } from '@ionic/angular';
+import { IonModal, MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { AdminService } from '../services/admin/admin.service';
 import { VehicleList } from 'src/models/sellet';
@@ -35,6 +35,8 @@ export class HomeAdminPage implements OnInit {
   maxPriceAux: string = "";
   minKmsAux: string = "";
   maxKmsAux: string = "";
+
+  @ViewChild('modalFilterHomeAdmin') modalFilter!: IonModal;
 
   constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController) { 
     this.arrayUbication = states;
@@ -86,13 +88,33 @@ export class HomeAdminPage implements OnInit {
     this.router.navigate(['car-detail-admin/'+id+'/home-admin']);
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){
     this.getVehicles()
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public getVehicles(){

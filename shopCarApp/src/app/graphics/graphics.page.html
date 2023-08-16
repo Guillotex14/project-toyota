@@ -29,7 +29,7 @@
       </ion-col>
       
       <ion-col size="12">
-        <ion-button expand="block" shape="round" class="btnRed" id="open-filter" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
+        <ion-button expand="block" shape="round" class="btnRed" (click)="openModal()" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
           filtro de gráfica
         </ion-button>
       </ion-col>
@@ -53,7 +53,7 @@
         <ion-col sizeXl="2" sizeLg="2" sizeMd="1" sizeSm="1" sizeXs="1">
         </ion-col>
         <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6">
-          <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;" >Filtro de Ventas</ion-button>
+          <ion-button expand="block" shape="round" class="btnRed" (click)="openModalVehicle()" style="text-transform: capitalize;" >Filtro de Ventas</ion-button>
         </ion-col>
         <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
       </ion-list-header>
@@ -123,7 +123,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-modal trigger="open-filter">
+  <ion-modal #ModalFilterGraphicSeller>
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -289,7 +289,7 @@
     </ng-template>
   </ion-modal>
 
-  <ion-modal trigger="openFilterVehicles" #ModalFilterVehicle>
+  <ion-modal #ModalFilterVehicleSeller>
     <ng-template>
       <ion-header>
         <ion-toolbar>

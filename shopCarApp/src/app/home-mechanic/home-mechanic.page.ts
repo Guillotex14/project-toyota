@@ -45,6 +45,7 @@ export class HomeMechanicPage implements OnInit {
   notificationById: NotificationById = new NotificationById();
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
+  @ViewChild('modalFilterHomeMechanic') modalFilter!: IonModal;
   
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController) { 
     this.arrayUbication = states;
@@ -247,8 +248,28 @@ export class HomeMechanicPage implements OnInit {
     this.modal.present();
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public closeModal(){
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public closeModalDetail(){
@@ -372,7 +393,7 @@ export class HomeMechanicPage implements OnInit {
 
   public applyFilter(){
     this.getvehicles();
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
 }
