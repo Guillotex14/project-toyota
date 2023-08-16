@@ -27,11 +27,11 @@
             <ion-col size="12">
               <ion-grid fixed size="12" class="card" *ngFor="let seller of auxSellers">
                 <ion-row>
-                  <ion-col size="3">
+                  <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="5" size-xs="5">
                     <ion-img [src]="seller.image.img" style="margin: 50px auto auto auto;" *ngIf="seller.image !==''" ></ion-img>
                     <ion-icon name="person-circle" *ngIf="seller.image ===''" class="iconListUser"></ion-icon>
                   </ion-col>
-                  <ion-col size="9">
+                  <ion-col size-xl="7" size-lg="7" size-md="7" size-sm="7" size-xs="7" class="colInfoListUser">
                     <ion-grid fixed>
                       <ion-row>
                         <ion-col size="12">

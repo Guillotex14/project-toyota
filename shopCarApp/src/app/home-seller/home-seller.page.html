@@ -22,10 +22,9 @@
             <ion-col size="2" *ngIf="arrayNotifies.length > 0">
               <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
               <ion-icon name="notifications" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0" class="iconNotify"></ion-icon>
-              <!-- -->
             </ion-col>
             <ion-col size="2">
-              <ion-icon name="menu-outline" style="font-size: 35px; align-items: center;align-content: center;justify-content: center;align-self: center;margin-top: 85%;" class="iconMenu" (click)="openMenu()"></ion-icon>
+              <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -133,7 +132,7 @@
               <span>Todos los modelos</span>
             </ion-col>
 
-            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img> -->
@@ -148,7 +147,7 @@
                   </span>
                   <p>{{vehicle.city}}</p>
                 </ion-card-content>
-                <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
+                <ion-chip *ngIf="vehicle.id_seller_buyer !== null" class="chipCard">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
                 <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">

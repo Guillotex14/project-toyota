@@ -14,7 +14,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { concesionaries } from 'src/assets/json/concesionaries';
 import { Browser } from '@capacitor/browser';
-
+moment
 @Component({
   selector: 'app-graphics-admin',
   templateUrl: './graphics-admin.page.html',
