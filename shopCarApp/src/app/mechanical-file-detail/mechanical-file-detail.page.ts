@@ -75,7 +75,6 @@ export class MechanicalFileDetailPage implements OnInit {
     this.mechanicalFile.headlights_lights= "";
     this.mechanicalFile.general_condition= "";
 
-    // this.getMechanicFile();
   }
 
   ngOnInit() {

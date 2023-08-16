@@ -91,10 +91,6 @@ export class CarDetailPage implements OnInit {
       this.myId = dataJson.id_sell;
     }
 
-    // this.getVehicleById();
-    // this.buttonsActionSheet();
-    // this.buttonsActionSheetEdit();
-
   }
 
 

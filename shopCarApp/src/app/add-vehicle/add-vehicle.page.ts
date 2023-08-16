@@ -321,7 +321,14 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.transmission = '';
     this.newVehicle.traction = '';
     this.newVehicle.year = 0;
+    this.newVehicle.vin = '';
+    this.newVehicle.vehicle_plate = '';
     this.newVehicle.images = [];
+    this.newVehicle.type_vehicle = '';
+    this.mechanicCity = '';
+    this.mechanicConcesionary = '';
+    this.mechanicImg = '';
+    this.mechanicName = '';
     this.year = '';
     this.km = '';
   }

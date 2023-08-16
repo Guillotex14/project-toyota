@@ -46,13 +46,17 @@ export class MyvehiclesPage implements OnInit {
       this.id = json.id_sell;
     }
     
+  }
+
+  ngOnInit() {
+  }
+
+  ionViewWillEnter(){
     this.getBrands();
     this.getModels();
     this.getMyVehicles();
   }
 
-  ngOnInit() {
-  }
 
   public openMenu() {
     this.utils.setLogin(true);
