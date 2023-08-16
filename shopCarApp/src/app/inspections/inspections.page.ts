@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inspections',
@@ -14,7 +15,7 @@ export class InspectionsPage implements OnInit {
   arrayInspections: any[] = [];
 
 
-  constructor(private router: Router, private utils: UtilsService, private mechanicSrv: MechanicService) {
+  constructor(private router: Router, private utils: UtilsService, private mechanicSrv: MechanicService, private menuctrl: MenuController) {
 
     let data = localStorage.getItem('me');
 
@@ -30,6 +31,10 @@ export class InspectionsPage implements OnInit {
   
   ionViewWillEnter(){
     this.getInspections();
+  }
+
+  public openMenu(){
+    this.menuctrl.open();
   }
 
   public goBack(){

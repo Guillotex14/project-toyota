@@ -360,53 +360,108 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   let arrayVehicles: any[] = [];
-  const { id_seller } = req.body;
+  let query: any = {};
+    //aqui declaramos las variables que vamos a recibir
+    const {
+      minYear,
+      maxYear,
+      minKm,
+      maxKm,
+      minPrice,
+      maxPrice,
+      brand,
+      model,
+      ubication,
+      type_vehicle,
+      id_seller
+    } = req.body;
 
-  const myVehicles = await vehicles
-    .find({ id_seller: id_seller })
-    .sort({ date_create: -1 });
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
-  if (myVehicles) {
-    for (let i = 0; i < myVehicles.length; i++) {
+    if (minYear === 0 && maxYear === 0) {
+      query.year = { $gte: 0 };
+    } else if (minYear !== 0 && maxYear === 0) {
+      query.year = { $gte: minYear };
+    } else if (minYear === 0 && maxYear !== 0) {
+      query.year = { $lte: maxYear };
+    } else {
+      query.year = { $gte: minYear, $lte: maxYear };
+    }
+
+    if (minKm === 0 && maxKm === 0) {
+      query.km = { $gte: 0 };
+    } else if (minKm !== 0 && maxKm === 0) {
+      query.km = { $gte: minKm };
+    } else if (minKm === 0 && maxKm !== 0) {
+      query.km = { $lte: maxKm };
+    } else {
+      query.km = { $gte: minKm, $lte: maxKm };
+    }
+
+    if (minPrice === 0 && maxPrice === 0) {
+      query.price = { $gte: 0, $ne: null };
+    } else if (minPrice !== 0 && maxPrice === 0) {
+      query.price = { $gte: minPrice, $ne: null };
+    } else if (minPrice === 0 && maxPrice !== 0) {
+      query.price = { $lte: maxPrice, $ne: null };
+    } else {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+
+    query.city = { $regex: ubication, $options: "i" };
+    query.brand = { $regex: brand, $options: "i" };
+    query.model = { $regex: model, $options: "i" };
+    query.type_vehicle = { $regex: type_vehicle, $options: "i" };
+    query.mechanicalFile = true;
+    query.sold = false;
+    query.id_seller = id_seller;
+
+    const vehiclesFiltered = await vehicles
+      .find(query)
+      .sort({ date_create: -1 });
+    console.log(vehiclesFiltered)
+
+    if (vehiclesFiltered) {
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
       let data = {
-        name_new_owner: myVehicles[i].name_new_owner,
-        dni_new_owner: myVehicles[i].dni_new_owner,
-        phone_new_owner: myVehicles[i].phone_new_owner,
-        email_new_owner: myVehicles[i].email_new_owner,
-        price_ofert: myVehicles[i].price_ofert,
-        final_price_sold: myVehicles[i].final_price_sold,
-        _id: myVehicles[i]._id,
-        model: myVehicles[i].model,
-        brand: myVehicles[i].brand,
-        year: myVehicles[i].year,
-        displacement: myVehicles[i].displacement,
-        km: myVehicles[i].km,
-        engine_model: myVehicles[i].engine_model,
-        titles: myVehicles[i].titles,
-        fuel: myVehicles[i].fuel,
-        transmission: myVehicles[i].transmission,
-        city: myVehicles[i].city,
-        dealer: myVehicles[i].dealer,
-        concesionary: myVehicles[i].concesionary,
-        traction_control: myVehicles[i].traction_control,
-        performance: myVehicles[i].performance,
-        comfort: myVehicles[i].comfort,
-        technology: myVehicles[i].technology,
-        id_seller: myVehicles[i].id_seller,
-        id_mechanic: myVehicles[i].id_mechanic,
-        price: myVehicles[i].price,
-        mechanicalFile: myVehicles[i].mechanicalFile,
-        id_seller_buyer: myVehicles[i].id_seller_buyer,
-        sold: myVehicles[i].sold,
-        type_vehicle: myVehicles[i].type_vehicle,
-        traction: myVehicles[i].traction,
-        date_sell: myVehicles[i].date_sell,
-        date_create: myVehicles[i].date_create,
-        plate: myVehicles[i].plate,
-        vin: myVehicles[i].vin,
-        dispatched: myVehicles[i].dispatched,
-        images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
-          ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
+        name_new_owner: vehiclesFiltered[i].name_new_owner,
+        dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+        phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+        email_new_owner: vehiclesFiltered[i].email_new_owner,
+        price_ofert: vehiclesFiltered[i].price_ofert,
+        final_price_sold: vehiclesFiltered[i].final_price_sold,
+        _id: vehiclesFiltered[i]._id,
+        model: vehiclesFiltered[i].model,
+        brand: vehiclesFiltered[i].brand,
+        year: vehiclesFiltered[i].year,
+        displacement: vehiclesFiltered[i].displacement,
+        km: vehiclesFiltered[i].km,
+        engine_model: vehiclesFiltered[i].engine_model,
+        titles: vehiclesFiltered[i].titles,
+        fuel: vehiclesFiltered[i].fuel,
+        transmission: vehiclesFiltered[i].transmission,
+        city: vehiclesFiltered[i].city,
+        dealer: vehiclesFiltered[i].dealer,
+        concesionary: vehiclesFiltered[i].concesionary,
+        traction_control: vehiclesFiltered[i].traction_control,
+        performance: vehiclesFiltered[i].performance,
+        comfort: vehiclesFiltered[i].comfort,
+        technology: vehiclesFiltered[i].technology,
+        id_seller: vehiclesFiltered[i].id_seller,
+        id_mechanic: vehiclesFiltered[i].id_mechanic,
+        price: vehiclesFiltered[i].price,
+        mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+        id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+        sold: vehiclesFiltered[i].sold,
+        type_vehicle: vehiclesFiltered[i].type_vehicle,
+        traction: vehiclesFiltered[i].traction,
+        date_sell: vehiclesFiltered[i].date_sell,
+        date_create: vehiclesFiltered[i].date_create,
+        plate: vehiclesFiltered[i].plate,
+        vin: vehiclesFiltered[i].vin,
+        dispatched: vehiclesFiltered[i].dispatched,
+        images: await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
           : "",
       };
 
@@ -417,11 +472,72 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     jsonRes.message = "Vehicleos encontrados";
     jsonRes.status = true;
     jsonRes.data = arrayVehicles;
-  } else {
-    jsonRes.code = 400;
-    jsonRes.message = "No se encontraron vehículos";
-    jsonRes.status = false;
-  }
+    }else{
+      jsonRes.code = 400;
+      jsonRes.message = "No se encontraron vehículos";
+      jsonRes.status = false;
+    }
+
+  // const myVehicles = await vehicles
+  //   .find({ id_seller: id_seller })
+  //   .sort({ date_create: -1 });
+
+  // if (myVehicles) {
+  //   for (let i = 0; i < myVehicles.length; i++) {
+  //     let data = {
+  //       name_new_owner: myVehicles[i].name_new_owner,
+  //       dni_new_owner: myVehicles[i].dni_new_owner,
+  //       phone_new_owner: myVehicles[i].phone_new_owner,
+  //       email_new_owner: myVehicles[i].email_new_owner,
+  //       price_ofert: myVehicles[i].price_ofert,
+  //       final_price_sold: myVehicles[i].final_price_sold,
+  //       _id: myVehicles[i]._id,
+  //       model: myVehicles[i].model,
+  //       brand: myVehicles[i].brand,
+  //       year: myVehicles[i].year,
+  //       displacement: myVehicles[i].displacement,
+  //       km: myVehicles[i].km,
+  //       engine_model: myVehicles[i].engine_model,
+  //       titles: myVehicles[i].titles,
+  //       fuel: myVehicles[i].fuel,
+  //       transmission: myVehicles[i].transmission,
+  //       city: myVehicles[i].city,
+  //       dealer: myVehicles[i].dealer,
+  //       concesionary: myVehicles[i].concesionary,
+  //       traction_control: myVehicles[i].traction_control,
+  //       performance: myVehicles[i].performance,
+  //       comfort: myVehicles[i].comfort,
+  //       technology: myVehicles[i].technology,
+  //       id_seller: myVehicles[i].id_seller,
+  //       id_mechanic: myVehicles[i].id_mechanic,
+  //       price: myVehicles[i].price,
+  //       mechanicalFile: myVehicles[i].mechanicalFile,
+  //       id_seller_buyer: myVehicles[i].id_seller_buyer,
+  //       sold: myVehicles[i].sold,
+  //       type_vehicle: myVehicles[i].type_vehicle,
+  //       traction: myVehicles[i].traction,
+  //       date_sell: myVehicles[i].date_sell,
+  //       date_create: myVehicles[i].date_create,
+  //       plate: myVehicles[i].plate,
+  //       vin: myVehicles[i].vin,
+  //       dispatched: myVehicles[i].dispatched,
+  //       images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
+  //         ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
+  //         : "",
+  //     };
+
+  //     arrayVehicles.push(data);
+  //   }
+
+  //   jsonRes.code = 200;
+  //   jsonRes.message = "Vehicleos encontrados";
+  //   jsonRes.status = true;
+  //   jsonRes.data = arrayVehicles;
+  // } else {
+  //   jsonRes.code = 400;
+  //   jsonRes.message = "No se encontraron vehículos";
+  //   jsonRes.status = false;
+  // }
 
   res.json(jsonRes);
 });
@@ -498,12 +614,12 @@ sellerRouter.post(
     if (mecFile) {
       reponseJson.code = 200;
       reponseJson.status = true;
-      reponseJson.message = "Ficha mecanica encontrada";
+      reponseJson.message = "Ficha mécanica encontrada";
       reponseJson.data = mecFile;
     } else {
       reponseJson.code = 400;
       reponseJson.status = false;
-      reponseJson.message = "No se encontro la ficha mecanica";
+      reponseJson.message = "No se encontro la ficha mécanica";
     }
 
     res.json(reponseJson);
@@ -808,9 +924,9 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       subject: "Compra de vehículo",
       text: `El vendedor ${
         infoBuyer!.fullName
-      } quiere comprar tu vehículo, para mas información comunicate con el vendedor al correo ${
+      } quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${
         emailBuyer!.email
-      } o al número telefono ${infoBuyer!.phone}`,
+      } o al número de teléfono ${infoBuyer!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -853,12 +969,6 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
   const userSeller = await Users.findById(infoSeller!.id_user);
 
   if (vehicle) {
-    reponseJson.code = 200;
-    reponseJson.message = "success";
-    reponseJson.status = true;
-    reponseJson.data = vehicle;
-
-    if (vehicle) {
       reponseJson.code = 200;
       reponseJson.message = "aprobacion de oferta exitosa";
       reponseJson.status = true;
@@ -882,11 +992,7 @@ sellerRouter.post("/approveBuyVehicle", async (req: Request, res: Response) => {
         mailOptions.text,
         mailOptions.subject
       );
-    } else {
-      reponseJson.code = 400;
-      reponseJson.message = "no existe";
-      reponseJson.status = false;
-    }
+    
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al aprobar la oferta";
@@ -932,9 +1038,9 @@ sellerRouter.post("/rejectBuyVehicle", async (req: Request, res: Response) => {
       subject: "Compra de vehículo rechazada",
       text: `Tu compra del vehículo ${vehicle!.model} del concesionario ${
         vehicle!.concesionary
-      } fue rechazada, para mas información comunicate con el vendedor al correo ${
+      } fue rechazada, para más información comunicaté con el vendedor al correo ${
         userSeller!.email
-      } o al número telefono ${infoSeller!.phone}`,
+      } o al número de teléfono ${infoSeller!.phone}`,
     };
 
     await sendEmail(mailOptions);
@@ -1139,7 +1245,6 @@ sellerRouter.post(
     const vehiclesFiltered = await vehicles
       .find(query)
       .sort({ date_create: -1 });
-
     if (vehiclesFiltered) {
       let arrayVehicles: any[] = [];
 
@@ -1181,9 +1286,9 @@ sellerRouter.post(
           date_create: vehiclesFiltered[i].date_create,
           plate: vehiclesFiltered[i].plate,
           vin: vehiclesFiltered[i].vin,
-          image: (await ImgVehicle.findOne({
+          image: await ImgVehicle.findOne({
             id_vehicle: vehiclesFiltered[i]._id,
-          }))
+          })
             ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
             : "",
         };
@@ -1230,6 +1335,64 @@ sellerRouter.post(
     res.json(reponseJson);
   }
 );
+
+sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id, final_price_sold } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate(
+    { _id: id },
+    { sold: true, price: final_price_sold, dispatched: true }
+  );
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "vehículo entregado exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "erroe al entregar vehículo";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+});
+
+sellerRouter.post("/repost", async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id } = req.body;
+
+  const vehiclesFiltered = await vehicles.findOneAndUpdate(
+    { _id: id },
+    {
+      sold: false,
+      price_ofert: null,
+      final_price_sold: null,
+      name_new_owner: null,
+      dni_new_owner: null,
+      phone_new_owner: null,
+      email_new_owner: null,
+      date_sell: null,
+      id_seller_buyer: null,
+    }
+  );
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "vehículo publicado exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "erroe al publicar vehículo";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+});
 
 sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -1522,28 +1685,35 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     }
   }
+  if (concesionary) {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary, $options: "i" },
+    };
+  }
 
   let seller: any = null;
   let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
     user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user != "admin") {
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: seller.concesionary, $options: "i" },
-      };
-    } else {
-      if (concesionary) {
-        mongQuery = {
-          ...mongQuery,
-          concesionary: { $regex: concesionary, $options: "i" },
-        };
-      }
-    }
+    // if (seller && user.type_user != "admin") {
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: seller.concesionary, $options: "i" },
+    //   };
+    // } else {
+    //   if (concesionary) {
+    //     mongQuery = {
+    //       ...mongQuery,
+    //       concesionary: { $regex: concesionary, $options: "i" },
+    //     };
+    //   }
+    // }
   }
+
   let cardsgroupmodel: any[] = [];
-  if (user.type_user == "admin") {
+  
     cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1617,33 +1787,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         },
       },
     ]);
+  
 
-    for (let i = 0; i < cardsgroupmodel.length; i++) {
-      for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
-        delete cardsgroupmodel[i].vehicles[j].mechanicalfiles;
-      }
-    }
-  } else {
-    cardsgroupmodel = await vehicles.aggregate([
-      {
-        $match: mongQuery,
-      },
-      {
-        $group: {
-          _id: "$model",
-          minPrice: { $min: "$price" },
-          avgPrice: { $avg: "$price" },
-          maxPrice: { $max: "$price" },
-          vehicles: { $push: "$$ROOT" },
-        },
-      },
-      {
-        $sort: {
-          _id: 1,
-        },
-      },
-    ]);
-  }
   const cardsgroupNacional = await vehicles.aggregate([
     {
       $match: otherMong,
@@ -1682,6 +1827,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   datos = {
     grupocard: cardsgroupmodel,
   };
+console.log(datos)
 
   // Crear un nuevo archivo Excel
   const workbook = new ExcelJS.Workbook();
@@ -1708,8 +1854,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Año", key: "anhio", width: 15, style: headerStyle },
       { header: "Precio", key: "precio", width: 15, style: headerStyle },
       {
-        header: "Ficha mecanica",
-        key: "ficha_mecanica",
+        header: "Ficha mécanica",
+        key: "ficha_mécanica",
         width: 15,
         style: headerStyle,
       },
@@ -1769,9 +1915,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
       { header: "Vino", key: "vino", width: 15, style: headerStyle },
     ];
-    if (seller) {
-      columns.splice(4, 1);
-    }
+    
+
     worksheet.columns = columns;
 
     // Agregar los datos de los vehículos del grupo
@@ -1781,7 +1926,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         marca: vehiculo.brand,
         anhio: vehiculo.year,
         precio: vehiculo.price,
-        ficha_mecanica: vehiculo.general_condition,
+        ficha_mécanica: vehiculo.general_condition,
         fecha: vehiculo.date_create,
         fecha_venta: vehiculo.date_sell,
         desplazamiento: vehiculo.displacement,
@@ -1798,9 +1943,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         lamina: vehiculo.plate,
         vino: vehiculo.vin,
       };
-      if (seller) {
-        delete dataRow.ficha_mecanica;
-      }
 
       worksheet.addRow(dataRow);
     });
@@ -1847,7 +1989,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
           style: footerStyle,
         });
 
-    if (user.type_user == "admin") {
       worksheet.addRow({}); // Línea vacía
       worksheet.addRow({}); // Línea vacía
 
@@ -1872,7 +2013,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         precio: grupo.statusExcelente,
         style: footerStyle,
       });
-    }
+
   });
 
   const fileName = now.getTime() + ".xlsx";
@@ -2034,25 +2175,35 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     }
   }
-  let seller: any = null;
-  let user: any = null;
-  if (id_user) {
-    seller = await Sellers.findOne({ id_user: id_user });
-    user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user != "admin") {
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: seller.concesionary, $options: "i" },
-      };
-    } else {
-      if (concesionary) {
-        mongQuery = {
-          ...mongQuery,
-          concesionary: { $regex: concesionary, $options: "i" },
-        };
-      }
-    }
+
+  if (concesionary) {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary, $options: "i" },
+    };
   }
+  
+  // let seller: any = null;
+  let user: any = null;
+    user = await Users.findOne({ _id: id_user });
+
+  // if (id_user) {
+  //   seller = await Sellers.findOne({ id_user: id_user });
+  //   if (seller && user.type_user != "admin") {
+  //     mongQuery = {
+  //       ...mongQuery,
+  //       concesionary: { $regex: seller.concesionary, $options: "i" },
+  //     };
+  //   } else {
+  //     if (concesionary) {
+  //       mongQuery = {
+  //         ...mongQuery,
+  //         concesionary: { $regex: concesionary, $options: "i" },
+  //       };
+  //     }
+  //   }
+  // }
+
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
@@ -2095,14 +2246,14 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   ]);
 
   
-  
   for (let i = 0; i < cardsgroupmodel.length; i++) {
-   for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
-    cardsgroupmodel[i].vehicles[j].imgVehicle ='';
-    let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
-    cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
-    
-   }
+
+      for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
+        cardsgroupmodel[i].vehicles[j].imgVehicle = null;
+        let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
+        cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
+        
+      }
     
     cardsgroupNacional.forEach((model: any) => {
       if (cardsgroupmodel[i]._id == model._id) {
@@ -2121,7 +2272,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     mechanicalFile: true,
   };
   let countMechanicaFile: any[] = [];
-  if (user.type_user == "admin") {
+
     countMechanicaFile = await vehicles.aggregate([
       {
         $match: otherQuery,
@@ -2153,7 +2304,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
         },
       },
     ]);
-  }
 
   let datos: any = {};
   datos = {
@@ -2173,95 +2323,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   }
   res.json(reponseJson);
 });
-
-sellerRouter.post("/dispatchedCar", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id, final_price_sold } = req.body;
-
-  const vehiclesFiltered = await vehicles.findOneAndUpdate(
-    { _id: id },
-    { sold: true, price: final_price_sold, dispatched: true }
-  );
-
-  if (vehiclesFiltered) {
-    reponseJson.code = 200;
-    reponseJson.message = "vehículo entregado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = vehiclesFiltered;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "erroe al entregar vehículo";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-});
-
-sellerRouter.post("/repost", async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id } = req.body;
-
-  const vehiclesFiltered = await vehicles.findOneAndUpdate(
-    { _id: id },
-    {
-      sold: false,
-      price_ofert: null,
-      final_price_sold: null,
-      name_new_owner: null,
-      dni_new_owner: null,
-      phone_new_owner: null,
-      email_new_owner: null,
-      date_sell: null,
-      id_seller_buyer: null,
-    }
-  );
-
-  if (vehiclesFiltered) {
-    reponseJson.code = 200;
-    reponseJson.message = "vehículo publicado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = vehiclesFiltered;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "erroe al publicar vehículo";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-});
-
-const gruopCardPrice = (listCar: any[], groupPrice: any) => {
-  let caray: any = {
-    minPrice: {
-      value: groupPrice.minPrice,
-      cars: [],
-    },
-    medPrice: {
-      value: groupPrice.medPrice,
-      cars: [],
-    },
-    maxPrice: {
-      value: groupPrice.maxPrice,
-      cars: [],
-    },
-  };
-  listCar.map((car) => {
-    car.price = car.price ? car.price : 0;
-    if (car.price <= groupPrice.minPrice) {
-      caray.minPrice.cars.push(car);
-    }
-    if (car.price > groupPrice.minPrice && car.price <= groupPrice.medPrice) {
-      caray.medPrice.cars.push(car);
-    }
-    if (car.price > groupPrice.medPrice && car.price <= groupPrice.maxPrice) {
-      caray.maxPrice.cars.push(car);
-    }
-  });
-
-  return caray;
-};
 
 function getMonthlyTotals(data: any) {
   const monthlyTotals: any = [];
@@ -2340,49 +2401,6 @@ const agruparPorWeek = (datos: any) => {
   return result;
 };
 
-const sendNotification = async (
-  id_seller: string,
-  message: string,
-  title: string
-) => {
-  // const jsonRes: ResponseModel = new ResponseModel();
-
-  const userInfo = await Sellers.findOne({ _id: id_seller });
-
-  if (userInfo) {
-    const notify = new notifications({
-      id_user: userInfo.id_user,
-      title: title,
-      message: message,
-      date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      status: false,
-    });
-
-    await notify.save();
-  }
-};
-
-const sendNotificationMechanic = async (
-  id_mechanic: string,
-  message: string,
-  title: string
-) => {
-  // const jsonRes: ResponseModel = new ResponseModel();
-
-  const userInfo = await mechanics.findOne({ _id: id_mechanic });
-
-  if (userInfo) {
-    const notify = new notifications({
-      id_user: userInfo.id_user,
-      title: title,
-      message: message,
-      date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      status: false,
-    });
-
-    await notify.save();
-  }
-};
 
 function getMonthRange(startMonth: any, rangeMonths: any) {
   const months = [
@@ -2448,10 +2466,7 @@ const desgloseImg = async (image: any) => {
   let posr = image.split(";base64").pop();
   let imgBuff = Buffer.from(posr, "base64");
 
-  const resize = await sharp(imgBuff)
-    .resize(150, 80)
-    .toBuffer()
-    .then((data) => {
+  const resize = await sharp(imgBuff).resize(300, 250).toBuffer().then((data) => {
       return data;
     })
     .catch((err: any) => {
@@ -2462,4 +2477,47 @@ const desgloseImg = async (image: any) => {
   return "data:image/jpeg;base64," + resize.toString("base64");
 };
 
+const sendNotification = async (
+  id_seller: string,
+  message: string,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
+
+  const userInfo = await Sellers.findOne({ _id: id_seller });
+
+  if (userInfo) {
+    const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      message: message,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+    });
+
+    await notify.save();
+  }
+};
+
+const sendNotificationMechanic = async (
+  id_mechanic: string,
+  message: string,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
+
+  const userInfo = await mechanics.findOne({ _id: id_mechanic });
+
+  if (userInfo) {
+    const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      message: message,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+    });
+
+    await notify.save();
+  }
+};
 export default sellerRouter;

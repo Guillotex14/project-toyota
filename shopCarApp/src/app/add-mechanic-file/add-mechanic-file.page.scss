@@ -39,13 +39,9 @@
   
   }
   
-  ion-radio{
-    font-size: 13px !important;
-  }
-  
   ion-label {
-    font-size: 15px !important;
-    margin: 15px auto !important;
+    font-size: 15px ;
+    margin: 15px auto ;
   }
   
   ion-segment-button {
@@ -69,7 +65,7 @@
   ion-item-divider{
     margin: 15px auto !important;
     ion-label{
-      font-size: 15px !important;
+      font-size: 15px ;
       font-weight: 900 !important;
       margin: auto !important;
     }
@@ -84,7 +80,8 @@
     --color-checked: #EB0A1E;
     --inner-border-radius: 2px;
     font-weight: bold;
-    margin: auto 3px !important;
+    margin: auto 3px;
+    font-size: 13px !important;
   }
   
   ion-radio::part(container) {
@@ -125,4 +122,36 @@
     // --border-radius: 15px;
     --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
     --color: white;
+  }
+
+  @media screen and (width:414px){
+
+  }
+  
+  @media screen and (width:411px){
+  
+  }
+  
+  @media screen and (width:375px){
+    ion-radio {
+      margin: auto !important;
+    }
+  }
+  
+  @media screen and (width:360px){
+    // ion-radio {
+
+    //   margin: auto !important;
+    // }
+  }
+  
+  @media screen and (width:320px){
+    // ion-radio {
+
+    //   margin: auto !important;
+    // }
+
+  }
+
+  @media screen and (width:280px){
   }

@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import imgUser from "../models/imgUser";
 import { uploadImageUser, deleteImageUser, uploadImageVehicle } from '../../cloudinaryMetods';
 import  Sharp  from "sharp";
+import mechanicalsFiles from "../models/mechanicalsFiles";
 
 const authRouter = Router();
 
@@ -86,13 +87,13 @@ authRouter.post("/login", async (req: Request, res: Response) => {
                 return jsonRes;
             } else {
                 jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecto";
+                jsonRes.message = "Contraseña incorrecta";
                 jsonRes.status = false;
                 return jsonRes;
             }
         } else if (!res) {
             jsonRes.code = 400;
-            jsonRes.message = "ususario no registrado";
+            jsonRes.message = "Ususario no registrado";
             jsonRes.status = false;
             return jsonRes;
         }
@@ -161,28 +162,38 @@ authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
     res.json(reponseJson);
 });
 
-authRouter.post("/sharpMetods", async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
+authRouter.get("/sharpMetods", async (req: Request, res: Response) => {
+    // const reponseJson: ResponseModel = new ResponseModel();
 
-    const { image } = req.body;
+    // const { image } = req.body;
 
-    if (image.length > 0) {
+    // if (image.length > 0) {
 
-        for (let i = 0; i < image.length; i++) {
+    //     for (let i = 0; i < image.length; i++) {
             
-            // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
-            const imgResult = await desgloseImg(image[i].image);
+    //         // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
+    //         const imgResult = await desgloseImg(image[i].image);
 
-            // const img2 = imgResult.toString('base64');
-            const filename = await uploadImageVehicle(imgResult);
+    //         // const img2 = imgResult.toString('base64');
+    //         const filename = await uploadImageVehicle(imgResult);
             
-            console.log(filename)
+    //         console.log(filename)
             
-        }
+    //     }
+    // }
+
+    const deleteMechanicalFiles = await mechanicalsFiles.deleteMany({});
+
+    if (deleteMechanicalFiles) {
+        console.log("eliminados")
+    }else{
+        console.log("no eliminados")
     }
 
 
 });
+
+
 
 
 const desgloseImg = async (image: any) => {

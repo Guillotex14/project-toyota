@@ -96,7 +96,12 @@ ion-col{
   margin: 3px auto !important;
 }
 
-ion-label{
+// ion-label{
+//   color: #7D7D7D;
+//   font-size: 14px !important;
+// }
+
+.labelForm{
   color: #7D7D7D;
   font-size: 14px !important;
 }
@@ -111,4 +116,34 @@ ion-label{
   --highlight-color-focused: trasparent !important;
   --highlight-color-invalid: trasparent !important;
   --highlight-color-valid: trasparent !important;
+}
+
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+ 
+  .labelForm{
+    font-size: 13px !important;
+  }
+
+  .btnSaveRed{
+    font-size: 14px !important;
+    height: 40px !important;
+}
+
+
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+
 }

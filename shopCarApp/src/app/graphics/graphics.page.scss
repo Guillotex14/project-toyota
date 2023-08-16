@@ -16,9 +16,9 @@ ion-card{
   // height: 180px !important;
   box-shadow: none !important;
   ion-img{
-    // width: 80%;
-    // height: 60%;
-    margin-top: 20% !important
+    width: 130px !important;
+    height: 80px !important;
+    margin: 16px 0px 0px -25px !important
   }
 
   p{
@@ -41,8 +41,11 @@ ion-card{
     margin: auto auto 10px auto!important;
     text-transform: capitalize !important;
   }
+}
 
-
+.iconCard{
+  font-size: 90px !important; 
+  margin: 16px 0px 0px 0px !important;
 }
 
 canvas {
@@ -111,4 +114,115 @@ ion-radio {
   --color: #EB0A1E;
   --color-checked: #EB0A1E;
   // --inner-border-radius: 2px
+}
+
+.cityCar{
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: black !important;
+}
+.priceCar{
+font-weight: bold !important; 
+color: green !important; 
+font-size: 15px !important;
+}
+
+.dateCar{
+  color: black !important; 
+  font-weight: 600 !important; 
+  font-size: 13px !important;
+}
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+    ion-img{
+      width: 100px !important;
+      height: 60px !important;
+      margin: 16px 0px 0px -30px !important;
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  // .cardVehicles{
+
+  //   ion-img{
+  //     width: 130px !important;
+  //     height: 60px !important;
+  //     margin: 17px 0px 0px 0px !important;
+  //     img{
+  //       width: 95% !important;
+  //     }
+  //   }
+
+  //   p{
+  //     font-size: 11px !important;
+  //     // font-weight: 900;
+  //   }
+  // }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 16px 0px 0px 0px !important;
+  }
+
+  .modelCar{
+    font-size: 19px !important;
+  }
+
+  .cityCar{
+    font-size: 13px !important;
+  }
+  
+  .priceCar{
+    font-size: 13px !important;
+  }
+
+  .titlePage{
+    font-size: 19px !important;
+  }
+
+  .btnRed{
+    font-size: 13px !important;
+  }
+
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+  .cardChart{
+    width: 250px !important;
+  }
+
+  canvas {
+    width: 230px !important;
+    // height: 330px!important;
+  }
+}
+
+@media screen and (width:280px){
+  .cardChart{
+    width: 250px !important;
+    canvas {
+      width: 230px !important;
+      // height: 330px!important;
+    }
+  }
+
 }

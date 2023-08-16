@@ -48,4 +48,4 @@ const medicalFile = new mongoose_1.Schema({
     }
 });
 exports.default = (0, mongoose_1.model)("medicalFile", medicalFile);
-//# sourceMappingURL=mecanicalsFiles.js.map
+//# sourceMappingURL=mécanicalsFiles.js.map

@@ -13,6 +13,7 @@
 .spanSubtitle{
   color: #828282;
   font-size: 12px;
+  text-transform: capitalize;
 }
 
 .pTitle{
@@ -69,6 +70,7 @@ ion-search-bar{
     font-weight: 900;
     color: #1c1c1d;
   }
+
   ion-button{
     --border-radius: 30px !important;
     --background: #EB0A1E !important;
@@ -76,7 +78,7 @@ ion-search-bar{
     font-size: 10px;
     font-weight: 900;
     width: 70%;
-    height: 20px;
+    height: 25px;
     text-transform: capitalize !important;
   }
 
@@ -113,4 +115,146 @@ ion-label{
 .sc-ion-input-md-h:not(.legacy-input) {
   min-height: 45px !important;
 ;
+}
+
+.iconListUser{
+  font-size: 80px;
+  margin: 25px 0px;
+}
+
+ion-img{
+  margin: 50px auto auto auto !important;
+}
+
+.btnOulineBlack{
+  text-transform: lowercase !important; font-size: 15px !important; width: 80px !important; height: 25px !important;
+  ion-icon{
+    font-size: 20px !important;
+  }
+}
+.btnOutlineRed{
+  text-transform: lowercase !important; font-size: 15px !important; width: 72px !important; height: 25px !important; 
+  ion-icon{
+    font-size: 20px !important;
+  }
+}
+
+@media screen and (width:414px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (width:412px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (width:411px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (width: 393px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (width: 390px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 18px !important;
+    }
+  }
+}
+
+
+@media screen and (width:375px){
+  .iconListUser{
+    font-size: 80px !important;
+    margin: 25px 0px 0px 0px !important;
+  }
+  
+  .pTitle{
+    font-size: 13px !important;
+  }
+
+  .spanSubtitle{
+    font-size: 12px !important;
+  }
+  
+  .btnOutlineBlack {
+    height: 22px !important;
+    ion-icon {
+      
+      font-size: 15px !important;
+      
+    }
+  }
+
+  .btnOutlineRed{
+    height: 22px !important;
+    margin: 0px 0px 0px 0px !important;
+    ion-icon {
+      
+      font-size: 15px !important;
+      
+    }
+  }
+}
+
+@media screen and (width:360px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      
+      font-size: 15px !important;
+      
+    }
+  }
+}
+
+@media screen and (width:320px){
+  
+}
+
+@media screen  and (max-width: 280px){
+  .card{
+    text-align: center !important;
+    .pTitle{
+      font-size: 12px !important;
+    }
+
+    ion-img{
+      width: 65px !important;
+      height: 55px !important; 
+    }
+  }
+  .btnOutlineBlack {
+    margin: 15px 0px 0px 0px !important;
+    font-size: 15px !important;
+    height: 25px !important;
+  }
 }

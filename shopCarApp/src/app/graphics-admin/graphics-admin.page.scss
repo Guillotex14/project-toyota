@@ -16,9 +16,9 @@ ion-card{
   // height: 180px !important;
   box-shadow: none !important;
   ion-img{
-    // width: 80%;
-    // height: 60%;
-    margin-top: 20% !important
+    width: 130px !important;
+    height: 80px !important;
+    margin: 16px 0px 0px -25px !important
   }
 
   p{
@@ -41,18 +41,33 @@ ion-card{
     margin: auto auto 10px auto!important;
     text-transform: capitalize !important;
   }
-
-
 }
 
-.headerList{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0;
-  ion-label{
-    text-align: center;
-  }
+.iconCard{
+  font-size: 90px !important; 
+  margin: 16px 0px 0px 0px !important;
+}
+
+canvas {
+  width: 315px!important;
+  height: 330px!important;
+}
+
+.cardChart{
+  position: relative;
+  height: 355px;
+  width: 335px;
+  display: block;
+  box-sizing: border-box;
+  margin: 20px auto;
+}
+
+.styleChart{
+  position: relative;
+  height: 328px;
+  width: 302px;
+  display: block;
+  box-sizing: border-box;
 }
 
 ion-list{
@@ -76,9 +91,120 @@ ion-item::part(native){
   }
 }
 
+// ion-accordion{
+//   border-top-left-radius: 8px !important;
+//   border-top-right-radius: 8px !important;
+//   border-bottom-left-radius: 8px !important;
+//   border-bottom-right-radius: 8px !important;
+//   margin: 5px auto !important;
+// }
+
+.headerList{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  ion-label{
+    text-align: center;
+  }
+}
+
 ion-radio {
   // --border-radius: 8px;
   --color: #EB0A1E;
   --color-checked: #EB0A1E;
   // --inner-border-radius: 2px
+}
+
+.cityCar{
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: black !important;
+}
+.priceCar{
+font-weight: bold !important; 
+color: green !important; 
+font-size: 15px !important;
+}
+
+.dateCar{
+  color: black !important; 
+  font-weight: 600 !important; 
+  font-size: 13px !important;
+}
+@media screen and (width:414px){
+
+}
+
+@media screen and (width:411px){
+
+}
+
+@media screen and (width:375px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
+
+    }
+    ion-img{
+      width: 100px !important;
+      height: 60px !important;
+      margin: 16px 0px 0px -30px !important;
+    }
+  }
+
+  .titleCardHome{
+    font-size: 11px !important;
+  }
+
+  // .cardVehicles{
+
+  //   ion-img{
+  //     width: 130px !important;
+  //     height: 60px !important;
+  //     margin: 17px 0px 0px 0px !important;
+  //     img{
+  //       width: 95% !important;
+  //     }
+  //   }
+
+  //   p{
+  //     font-size: 11px !important;
+  //     // font-weight: 900;
+  //   }
+  // }
+
+  .iconCard{
+    font-size: 75px !important; 
+    margin: 16px 0px 0px 0px !important;
+  }
+
+  .modelCar{
+    font-size: 19px !important;
+  }
+
+  .cityCar{
+    font-size: 13px !important;
+  }
+  
+  .priceCar{
+    font-size: 13px !important;
+  }
+
+  .titlePage{
+    font-size: 19px !important;
+  }
+
+  .btnRed{
+    font-size: 13px !important;
+  }
+
+}
+
+@media screen and (width:360px){
+
+}
+
+@media screen and (width:320px){
+
 }

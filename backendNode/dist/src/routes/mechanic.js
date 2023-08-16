@@ -152,13 +152,13 @@ mechanicRouter.post("/getMechanicFileByIdVehicle", (req, res) => __awaiter(void 
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica encontrada";
+        reponseJson.message = "Ficha mécanica encontrada";
         reponseJson.data = mecFile;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro la ficha mecanica";
+        reponseJson.message = "No se encontro la ficha mécanica";
     }
     res.json(reponseJson);
 }));
@@ -219,7 +219,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     if (newMechanicFileSaved) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mecanica creada correctamente";
+        reponseJson.message = "Ficha mécanica creada correctamente";
         reponseJson.data = newMechanicFileSaved;
         //obteniendo el correo del vendedor
         const vehicle = yield Vehicles_1.default.findOne({ _id: id_vehicle });
@@ -242,8 +242,8 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: mailSeller,
-            subject: 'Ficha mecanica creada',
-            text: `La ficha mecanica de tu vehículo ha sido creada correctamente, la ficha mecanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
+            subject: 'Ficha mécanica creada',
+            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
@@ -251,7 +251,7 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo crear la Ficha mecanica";
+        reponseJson.message = "No se pudo crear la Ficha mécanica";
     }
     res.json(reponseJson);
 }));
