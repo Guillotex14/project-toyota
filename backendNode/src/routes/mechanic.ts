@@ -434,8 +434,7 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
     }
 
     res.json(reponseJson);
-}
-);
+});
 
 mechanicRouter.post('/getNotifications', async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
