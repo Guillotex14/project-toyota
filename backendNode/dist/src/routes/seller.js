@@ -346,7 +346,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         query.km = { $gte: minKm, $lte: maxKm };
     }
     if (minPrice === 0 && maxPrice === 0) {
-        query.price = null;
+        query.price = { $exists: true };
     }
     else if (minPrice !== 0 && maxPrice === 0) {
         query.price = { $gte: minPrice, $ne: null };
@@ -362,11 +362,9 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.id_seller = id_seller;
-    console.log(query);
     const vehiclesFiltered = yield Vehicles_1.default
         .find(query)
         .sort({ date_create: -1 });
-    console.log(vehiclesFiltered);
     if (vehiclesFiltered) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
@@ -422,63 +420,6 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         jsonRes.message = "No se encontraron vehículos";
         jsonRes.status = false;
     }
-    // const myVehicles = await vehicles
-    //   .find({ id_seller: id_seller })
-    //   .sort({ date_create: -1 });
-    // if (myVehicles) {
-    //   for (let i = 0; i < myVehicles.length; i++) {
-    //     let data = {
-    //       name_new_owner: myVehicles[i].name_new_owner,
-    //       dni_new_owner: myVehicles[i].dni_new_owner,
-    //       phone_new_owner: myVehicles[i].phone_new_owner,
-    //       email_new_owner: myVehicles[i].email_new_owner,
-    //       price_ofert: myVehicles[i].price_ofert,
-    //       final_price_sold: myVehicles[i].final_price_sold,
-    //       _id: myVehicles[i]._id,
-    //       model: myVehicles[i].model,
-    //       brand: myVehicles[i].brand,
-    //       year: myVehicles[i].year,
-    //       displacement: myVehicles[i].displacement,
-    //       km: myVehicles[i].km,
-    //       engine_model: myVehicles[i].engine_model,
-    //       titles: myVehicles[i].titles,
-    //       fuel: myVehicles[i].fuel,
-    //       transmission: myVehicles[i].transmission,
-    //       city: myVehicles[i].city,
-    //       dealer: myVehicles[i].dealer,
-    //       concesionary: myVehicles[i].concesionary,
-    //       traction_control: myVehicles[i].traction_control,
-    //       performance: myVehicles[i].performance,
-    //       comfort: myVehicles[i].comfort,
-    //       technology: myVehicles[i].technology,
-    //       id_seller: myVehicles[i].id_seller,
-    //       id_mechanic: myVehicles[i].id_mechanic,
-    //       price: myVehicles[i].price,
-    //       mechanicalFile: myVehicles[i].mechanicalFile,
-    //       id_seller_buyer: myVehicles[i].id_seller_buyer,
-    //       sold: myVehicles[i].sold,
-    //       type_vehicle: myVehicles[i].type_vehicle,
-    //       traction: myVehicles[i].traction,
-    //       date_sell: myVehicles[i].date_sell,
-    //       date_create: myVehicles[i].date_create,
-    //       plate: myVehicles[i].plate,
-    //       vin: myVehicles[i].vin,
-    //       dispatched: myVehicles[i].dispatched,
-    //       images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
-    //         ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
-    //         : "",
-    //     };
-    //     arrayVehicles.push(data);
-    //   }
-    //   jsonRes.code = 200;
-    //   jsonRes.message = "Vehicleos encontrados";
-    //   jsonRes.status = true;
-    //   jsonRes.data = arrayVehicles;
-    // } else {
-    //   jsonRes.code = 400;
-    //   jsonRes.message = "No se encontraron vehículos";
-    //   jsonRes.status = false;
-    // }
     res.json(jsonRes);
 }));
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
