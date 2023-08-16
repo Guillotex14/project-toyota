@@ -804,37 +804,37 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
   //   price_ofert: price_ofert,
   // });
 
-  const sameIdSeller = await vehicles.findById(id_vehicle);
+  // const sameIdSeller = await vehicles.findById(id_vehicle);
 
-  if (sameIdSeller!.id_seller?.toString() === id_seller) {
-    console.log('soy el comprador')
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-      id_seller_buyer: id_seller,
-      name_new_owner: name_new_owner,
-      dni_new_owner: dni_new_owner,
-      phone_new_owner: phone_new_owner,
-      email_new_owner: email_new_owner,
-      price_ofert: price_ofert,
-      price: price_ofert,
-      sold: true,
-      date_sell: date_sell,
-      final_price_sold: price_ofert,
-      dispatched: true,
-    });
+  // if (sameIdSeller!.id_seller?.toString() === id_seller) {
+  //   console.log('soy el comprador')
+  //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+  //     id_seller_buyer: id_seller,
+  //     name_new_owner: name_new_owner,
+  //     dni_new_owner: dni_new_owner,
+  //     phone_new_owner: phone_new_owner,
+  //     email_new_owner: email_new_owner,
+  //     price_ofert: price_ofert,
+  //     price: price_ofert,
+  //     sold: true,
+  //     date_sell: date_sell,
+  //     final_price_sold: price_ofert,
+  //     dispatched: true,
+  //   });
 
-    if (vehicle) {
-      responseJson.code = 200;
-      responseJson.message = "vehículo comprado exitosamente";
-      responseJson.status = true;
-      responseJson.data = vehicle;
-    } else {
-      responseJson.code = 400;
-      responseJson.message = "no se pudo comprar el vehículo";
-      responseJson.status = false;
-    }
-  } else {
+  //   if (vehicle) {
+  //     responseJson.code = 200;
+  //     responseJson.message = "vehículo comprado exitosamente";
+  //     responseJson.status = true;
+  //     responseJson.data = vehicle;
+  //   } else {
+  //     responseJson.code = 400;
+  //     responseJson.message = "no se pudo comprar el vehículo";
+  //     responseJson.status = false;
+  //   }
+  // } else {
 
-    console.log('no soy el vendedor')
+  //   console.log('no soy el vendedor')
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
       id_seller_buyer: id_seller,
       name_new_owner: name_new_owner,
@@ -879,7 +879,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     responseJson.message =
       "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
-  }
+  // }
 
   res.json(responseJson);
 });
