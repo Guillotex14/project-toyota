@@ -68,6 +68,7 @@ export class HomeMechanicPage implements OnInit {
 
   ionViewWillEnter(){
     this.getCountInspections();
+    this.getCountNotifies()
     this.getvehicles();
     this.getNotifies();
     this.getBrands();

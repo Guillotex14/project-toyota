@@ -40,13 +40,13 @@ export class AppComponent implements  OnInit{
       this.image = me.img;
       this.idUser = me.id;
 
-      if(me.type_user == "admin"){
-        this.router.navigate(['home-admin']);
-      }else if(me.type_user == "seller"){
-        this.router.navigate(['seller']);
-      }else if(me.type_user == "mechanic"){
-        this.router.navigate(['mechanic']);
-      }
+      // if(me.type_user == "admin"){
+      //   this.router.navigate(['home-admin']);
+      // }else if(me.type_user == "seller"){
+      //   this.router.navigate(['seller']);
+      // }else if(me.type_user == "mechanic"){
+      //   this.router.navigate(['mechanic']);
+      // }
 
     }
 

@@ -46,34 +46,36 @@
         </ion-title>
       </ion-col>
 
+      <ion-list-header class="headerList">
+        <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5">
+          <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;" >Exportar</ion-button>
+        </ion-col>
+        <ion-col sizeXl="2" sizeLg="2" sizeMd="1" sizeSm="1" sizeXs="1">
+        </ion-col>
+        <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6">
+          <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;" >Filtro de Ventas</ion-button>
+        </ion-col>
+        <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
+      </ion-list-header>
       <ion-col size="12" style="margin-top: 20px !important;">
-        <ion-list-header class="headerList">
-          <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5">
-            <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed btnExcel" style="text-transform: capitalize;" >Exportar</ion-button>
-          </ion-col>
-          <ion-col sizeXl="2" sizeLg="2" sizeMd="1" sizeSm="1" sizeXs="1">
-          </ion-col>
-          <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6">
-            <ion-button expand="block" shape="round" class="btnRed" id="openFilterVehicles" style="text-transform: capitalize;" >Filtro de Ventas</ion-button>
-          </ion-col>
-          <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
-        </ion-list-header>
         <ion-list *ngFor="let modelCar of arrayListCars">
+
           <ion-item-divider >
             <ion-label style="font-size: 18px;color: black;font-weight: 600;">{{modelCar._id}}</ion-label>
           </ion-item-divider>
+
           <ion-item>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Max.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPrice ? modelCar.maxPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPriceGlobal ? modelCar.maxPriceGlobal : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Prom.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPrice ? modelCar.avgPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPriceGlobal ? modelCar.avgPriceGlobal : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
               <ion-label style="font-size: 15px;color: black;font-weight: 600;">Precio Min.</ion-label>
-              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPrice ? modelCar.minPrice : 0}}</ion-label>
+              <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPriceGlobal ? modelCar.minPriceGlobal : 0}}</ion-label>
             </ion-col>
           </ion-item>
           
@@ -82,24 +84,24 @@
               <ion-card-content>
                 <ion-grid fixed>
                   <ion-row>
-                    <ion-col size="4">
-                      <ion-icon name="image" *ngIf="!vehicle.imgVehicle" class="iconCard"></ion-icon>
-                      <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle"></ion-img>
+                    <ion-col size="5" class="colCardGraphImg">
+                      <ion-icon name="image" *ngIf="vehicle.imgVehicle === null" class="iconCard"></ion-icon>
+                      <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle !==null"></ion-img>
                     </ion-col>
-                    <ion-col size="8">
+                    <ion-col size="7" class="colCardGraphInfo">
                       <ion-row>
                         <ion-col size="12">
                           <ion-card-title style="font-weight: bold;" class="modelCar">{{vehicle.model}}</ion-card-title>
-                          <ion-card-subtitle class="cityCar">Vendida en <br>{{vehicle.city}}</ion-card-subtitle>
+                          <ion-card-subtitle class="cityCar">Vendido/a en {{vehicle.city}}</ion-card-subtitle>
                         </ion-col>
                         <ion-col size="12" style="text-align: center !important;">
                           <ion-row>
-                            <ion-col size="7">
+                            <ion-col size="7" class="colDateCar">
                               <ion-card-subtitle class="dateCar">
                                 {{vehicle.date_sell}}
                               </ion-card-subtitle>
                             </ion-col>
-                            <ion-col size="5">
+                            <ion-col size="5" class="colPriceCar">
                               <ion-card-title  class="priceCar">
                                 <!-- {{vehicle.price | currency:'USD':true:'1.0-0'}} -->
                                 ${{vehicle.price ? vehicle.price : 0}}

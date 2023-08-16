@@ -1,89 +1,3 @@
-.header{
-  background-color: black;
-  color: white;
-  .flagVnzl{
-    width: 30px !important;
-    height: 30px !important;
-    margin: auto !important;
-  }
-
-  .logoWhite{
-    width: 45px !important;
-  }
-
-  .headerTitle{
-    font-size: 28px !important;
-    margin-top: 40px !important;
-  }
-
-  .badgeNotify{
-    position: absolute !important;
-    top: 30% !important;
-    right: 22% !important;
-  }
-
-  .iconNotify{
-    font-size: 35px !important; 
-    align-items: center !important;
-    align-content: center !important;
-    justify-content: center !important;
-    align-self: center !important;
-    margin-top: 85% !important;
-  }
-  .iconMenu{
-    font-size: 35px !important; 
-    align-items: center !important;
-    align-content: center !important;
-    justify-content: center !important;
-    align-self: center !important;
-    margin-top: 85% !important;
-  }
-}
-
-.colSearchBar{
-  z-index: 9999;
-  margin-top: 28% !important;
-  position: absolute;
-  left: 2px;
-}
-
-.colFilter{
-  background-color: #E3E3E3;
-  // padding-top: 30px !important;
-  .colResultFilter{
-    margin-top: 4%;
-    text-align: left !important;
-    span{
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-  .colIconFilter{
-    ion-icon{
-      font-size: 25px;
-      margin: -5px 10px;
-    }
-    span{
-      font-size: 14px;
-      font-weight: 600;
-    }
-    margin-top: 4%;
-    text-align: right !important;
-  }
-
-  height: 55px;
-}
-
-.filterOptions{
-  ion-row{
-    ion-col{
-      font-size: 12px;
-      color: #1c1c1d !important;
-      font-weight: 700
-    }
-  }
-}
-
 ion-card{
   background-color: #1c1c1d;
   color: white;
@@ -171,37 +85,13 @@ hr{
 .badge.badge-warning {
   background-color: #FFD600
 }
+
 .iconCard{
   font-size: 90px !important; 
   margin: 16px 0px 0px 20px !important;
 }
-ion-badge{
-  --background: #EB0A1E !important;
-  --color: white !important;
-}
 
-ion-list{
-  ion-item::part(native){
-    background: #FFF !important;
-    color: #000 !important;
-    ion-label{
-      color: #000 !important;
-    }
-  }
-}
-
-
-ion-item::part(native){
-  color: #fff !important;
-  background: #EB0A1E !important;
-  font-weight: 600 !important;
-  font-size: 20px !important;
-  ion-icon{
-    color: #fff !important;
-  }
-}
-
-ion-chip{
+.chipCard{
   position: fixed !important;
   bottom: 25px !important;
   margin: 5px auto !important;
@@ -217,6 +107,33 @@ ion-chip{
   }
 }
 
+ion-badge{
+  --background: #EB0A1E !important;
+  --color: white !important;
+}
+
+ion-list{
+  ion-item::part(native){
+    background: #FFF !important;
+    color: #000 !important;
+    ion-label{
+      color: #000 !important;
+    }
+  }
+}
+
+ion-item::part(native){
+  color: #fff !important;
+  background: #EB0A1E !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  ion-icon{
+    color: #fff !important;
+  }
+}
+
+
+
 ion-radio {
   --border-radius: 8px;
   --color: #EB0A1E;
@@ -224,242 +141,262 @@ ion-radio {
   --inner-border-radius: 2px
 }
 
-@media screen and (width:414px){
-  .cardVehicles{
-    ion-img{
-      width: 110px !important;
-    }
-  }
-}
+// @media screen and (max-width:480px){
+//   .header{
+//     .iconMenu{
+//       margin-top: 70% !important;
+//     }
 
-@media screen and (width:412px){
-  .cardVehicles{
-    ion-img{
-      width: 110px !important;
-    }
-  }
-}
-
-@media screen and (width:411px){
-  .cardVehicles{
-    ion-img{
-      width: 110px !important;
-    }
-  }
-}
-
-@media screen and (width:393px){
-  ion-card{
-    ion-card-subtitle{
-      font-size: 10px !important; 
-
-    }
-  }
-
-  .titleCardHome{
-    font-size: 11px !important;
-  }
-
-  .cardVehicles{
-    margin: auto !important;
-    ion-img{
-      width: 115px !important;
-      height: 60px !important;
-      margin: 17px 0px 0px 0px !important;
-      img{
-        width: 95% !important;
-      }
-    }
-
-    p{
-      font-size: 11px !important;
-      // font-weight: 900;
-    }
-  }
-
-  .iconCard{
-    font-size: 75px !important; 
-    margin: 20px 0px 0px 18px !important;
-  }
-
-  .header{
-    .badgeNotify{
-      // position: absolute !important;
-      // top: 30% !important;
-      // right: 0% !important;
-      z-index: 999999999;
-    }
-  }
-}
-
-@media screen and (width:390px){
-  ion-card{
-    ion-card-subtitle{
-      font-size: 10px !important; 
-
-    }
-  }
-
-  .titleCardHome{
-    font-size: 11px !important;
-  }
-
-  .cardVehicles{
-    margin: auto !important;
-    ion-img{
-      width: 117px !important;
-      height: 60px !important;
-      margin: 17px 0px 0px 0px !important;
-      img{
-        width: 95% !important;
-      }
-    }
-
-    p{
-      font-size: 11px !important;
-      // font-weight: 900;
-    }
-  }
-
-  .iconCard{
-    font-size: 75px !important; 
-    margin: 20px 0px 0px 18px !important;
-  }
-
-  .header{
-    .badgeNotify{
-      // position: absolute !important;
-      // top: 30% !important;
-      // right: 0% !important;
-      z-index: 999999999;
-    }
-  }
-}
-
-@media screen and (width:375px){
-  ion-card{
-    ion-card-subtitle{
-      font-size: 10px !important; 
-
-    }
-  }
-
-  .titleCardHome{
-    font-size: 11px !important;
-  }
-
-  .cardVehicles{
-    margin: auto !important;
-    ion-img{
-      width: 117px !important;
-      height: 60px !important;
-      margin: 17px 0px 0px 0px !important;
-      img{
-        width: 95% !important;
-      }
-    }
-
-    p{
-      font-size: 11px !important;
-      // font-weight: 900;
-    }
-  }
-
-  .iconCard{
-    font-size: 75px !important; 
-    margin: 20px 0px 0px 18px !important;
-  }
-
-  .header{
-    .badgeNotify{
-      // position: absolute !important;
-      // top: 30% !important;
-      // right: 0% !important;
-      z-index: 999999999;
-    }
-  }
-}
-
-@media screen and (width:360px){
-  .cardVehicles{
-    ion-img{
-      width: 115px !important;
-    }
-    ion-card{
-      margin: auto !important;
-    }
-  }
-  .titleCardHome{
-    font-size: 11px !important;
-  }
-
-  .header{
-    .headerTitle{
-      font-size: 25px !important;
-    }
-
-    .badgeNotify{
-      z-index: 999999999;
-    }
-  }
-}
-
-@media screen and (width:280px){
-  .header{
-    .flagVnzl{
-      width: 30px !important;
-      height: 30px !important;
-      margin: auto !important;
-    }
+//     .badgeNotify{
+//       position: absolute !important;
+//       top: 30% !important;
+//       // right: 0% !important;
+//       z-index: 999999999;
+//     }
   
-    .logoWhite{
-      width: 30px !important;
-    }
+//     .iconNotify{
+//       // font-size: 30px !important;
+//       margin-top: 70% !important;
+//     }
+//   }
+// }
+
+// @media screen and (width:414px){
+//   .cardVehicles{
+//     ion-img{
+//       width: 110px !important;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:412px){
+//   .cardVehicles{
+//     ion-img{
+//       width: 110px !important;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:411px){
+//   .cardVehicles{
+//     ion-img{
+//       width: 110px !important;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:393px){
+//   ion-card{
+//     ion-card-subtitle{
+//       font-size: 10px !important; 
+
+//     }
+//   }
+
+//   .titleCardHome{
+//     font-size: 11px !important;
+//   }
+
+//   .cardVehicles{
+//     margin: auto !important;
+//     ion-img{
+//       width: 115px !important;
+//       height: 60px !important;
+//       margin: 17px 0px 0px 0px !important;
+//       img{
+//         width: 95% !important;
+//       }
+//     }
+
+//     p{
+//       font-size: 11px !important;
+//       // font-weight: 900;
+//     }
+//   }
+
+//   .iconCard{
+//     font-size: 75px !important; 
+//     margin: 20px 0px 0px 18px !important;
+//   }
+
+//   .header{
+//     .badgeNotify{
+//       // position: absolute !important;
+//       // top: 30% !important;
+//       // right: 0% !important;
+//       z-index: 999999999;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:390px){
+//   ion-card{
+//     ion-card-subtitle{
+//       font-size: 10px !important; 
+
+//     }
+//   }
+
+//   .titleCardHome{
+//     font-size: 11px !important;
+//   }
+
+//   .cardVehicles{
+//     margin: auto !important;
+//     ion-img{
+//       width: 117px !important;
+//       height: 60px !important;
+//       margin: 17px 0px 0px 0px !important;
+//       img{
+//         width: 95% !important;
+//       }
+//     }
+
+//     p{
+//       font-size: 11px !important;
+//       // font-weight: 900;
+//     }
+//   }
+
+//   .iconCard{
+//     font-size: 75px !important; 
+//     margin: 20px 0px 0px 18px !important;
+//   }
+
+//   .header{
+//     .badgeNotify{
+//       // position: absolute !important;
+//       // top: 30% !important;
+//       // right: 0% !important;
+//       z-index: 999999999;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:375px){
+//   ion-card{
+//     ion-card-subtitle{
+//       font-size: 10px !important; 
+
+//     }
+//   }
+
+//   .titleCardHome{
+//     font-size: 11px !important;
+//   }
+
+//   .cardVehicles{
+//     margin: auto !important;
+//     ion-img{
+//       width: 117px !important;
+//       height: 60px !important;
+//       margin: 17px 0px 0px 0px !important;
+//       img{
+//         width: 95% !important;
+//       }
+//     }
+
+//     p{
+//       font-size: 11px !important;
+//       // font-weight: 900;
+//     }
+//   }
+
+//   .iconCard{
+//     font-size: 75px !important; 
+//     margin: 20px 0px 0px 18px !important;
+//   }
+
+//   .header{
+//     .badgeNotify{
+//       // position: absolute !important;
+//       // top: 30% !important;
+//       // right: 0% !important;
+//       z-index: 999999999;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:360px){
+//   .cardVehicles{
+//     ion-img{
+//       width: 115px !important;
+//     }
+//     ion-card{
+//       margin: auto !important;
+//     }
+//   }
+//   .titleCardHome{
+//     font-size: 11px !important;
+//   }
+
+//   .header{
+//     // .headerTitle{
+//     //   font-size: 25px !important;
+//     // }
+
+//     .badgeNotify{
+//       z-index: 999999999;
+//     }
+//   }
+// }
+
+// @media screen and (min-width:280px){
+//   .header{
+//     // .flagVnzl{
+//     //   width: 30px !important;
+//     //   height: 30px !important;
+//     //   margin: auto !important;
+//     // }
   
-    .headerTitle{
-      font-size: 20px !important;
-
-    }
+//     // .logoWhite{
+//     //   width: 30px !important;
+//     // }
   
-    .badgeNotify{
-      position: absolute !important;
-      top: 30% !important;
-      right: 0% !important;
-      z-index: 999999999;
-    }
+//     // .headerTitle{
+//     //   font-size: 20px !important;
+
+//     // }
   
-    .iconNotify{
-      font-size: 30px !important;
-      margin-top: 100% !important;
-    }
+//     // .badgeNotify{
+//     //   position: absolute !important;
+//     //   top: 30% !important;
+//     //   right: 0% !important;
+//     //   z-index: 999999999;
+//     // }
+  
+//     // .iconNotify{
+//     //   font-size: 30px !important;
+//     //   margin-top: 100% !important;
+//     // }
 
-    .iconMenu{
-      font-size: 30px !important;
-      margin-top: 100% !important;
-    }
-  }
+//     // .iconMenu{
+//     //   font-size: 30px !important;
+//     //   margin-top: 100% !important;
+//     // }
+//   }
 
-  .titleCardHome{
-    font-size: 11px !important;
-  }
+//   .titleCardHome{
+//     font-size: 11px !important;
+//   }
 
-  ion-card{
-    width: 100% !important;
-    margin: auto !important;
-  }
+//   ion-card{
+//     width: 100% !important;
+//     margin: auto !important;
+//   }
   
   
 
-  .contentFilter{
-    ion-title{
-      font-size: 14px !important;
-    }
-  }
+//   .contentFilter{
+//     ion-title{
+//       font-size: 14px !important;
+//     }
+//   }
 
-  .cardVehicles{
-    ion-img{
-      width: 110px !important;
-    }
-  }
+//   .cardVehicles{
+//     ion-img{
+//       width: 110px !important;
+//     }
+//   }
 
-}
+// }

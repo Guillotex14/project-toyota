@@ -132,24 +132,58 @@ font-size: 15px !important;
   font-weight: 600 !important; 
   font-size: 13px !important;
 }
-@media screen and (width:414px){
 
+@media screen and (max-width:414px){
+  ion-card{
+    ion-img{
+      width: 125px !important;
+      margin: auto 0px !important;
+    }
+  }
 }
 
-@media screen and (width:411px){
-
+@media screen and (max-width:412px){
+  ion-card{
+    ion-img{
+      width: 110px !important;
+    }
+  }
 }
 
-@media screen and (width:375px){
+@media screen and (max-width:411px){
+  ion-card{
+    ion-img{
+      width: 110px !important;
+    }
+  }
+}
+
+@media screen and (max-width:393px){
+  ion-card{
+    ion-img{
+      width: 115px !important;
+    }
+  }
+}
+
+@media screen and (max-width:390px){
+  ion-card{
+    ion-img{
+      width: 115px !important;
+    }
+  }
+}
+
+@media screen and (max-width:375px){
   ion-card{
     ion-card-subtitle{
       font-size: 10px !important; 
 
     }
     ion-img{
-      width: 100px !important;
-      height: 60px !important;
-      margin: 16px 0px 0px -30px !important;
+      width: 110px !important;
+      height: 70px !important;
+      margin: 15px 0px !important;
     }
   }
 
@@ -201,10 +235,50 @@ font-size: 15px !important;
 
 }
 
-@media screen and (width:360px){
+@media screen and (max-width:360px){
+  ion-card{
+    ion-card-subtitle{
+      font-size: 10px !important; 
 
+    }
+    ion-img{
+      width: 95px !important;
+      height: 65px !important;
+      margin: 15px 0px !important;
+    }
+  }
 }
 
-@media screen and (width:320px){
+@media screen and (max-width:350px) {
+  .colDateCar{
+    .dateCar{
+      font-size: 9px !important;
+    }
+  }
+  .colPriceCar{
+    .priceCar{
+      font-size: 11px !important;
+    }
+  }
+}
 
+@media screen and (max-width:320px){
+
+  ion-card{
+    ion-img{
+      width: 70px !important;
+      height: 60px !important;
+      margin: 15px 0px !important;
+    }
+  }
+}
+
+@media screen and (max-width:280px){
+  ion-card{
+    ion-img{
+      width: 70px !important;
+      height: 60px !important;
+      margin: 15px 0px !important;
+    }
+  }
 }

@@ -40,10 +40,11 @@ export class BuyCarPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController) {
-    this.arrayModels = models;
+    
     this.arrayUbication = states;
     
     this.getBrands();
+    this.getModels();
     this.getVehicles();
 
   }
@@ -55,6 +56,18 @@ export class BuyCarPage implements OnInit {
   public getBrands(){
     this.sellerSrv.allBrands().subscribe((res: any) => {
       this.arrayBrands = res.data;
+
+    }, (err: any) => {
+      console.log(err);
+    });
+  }
+
+  public getModels(){
+    this.sellerSrv.allModels().subscribe((res: any) => {
+
+      if(res.status){
+        this.arrayModels = res.data;
+      } 
 
     }, (err: any) => {
       console.log(err);
@@ -80,7 +93,7 @@ export class BuyCarPage implements OnInit {
 
   public applyFilter(){
     this.getVehicles()
-    this.modalCtrl.dismiss();
+    this.modal.dismiss();
   }
 
   public getVehicles(){
