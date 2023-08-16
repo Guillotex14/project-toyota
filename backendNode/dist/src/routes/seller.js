@@ -346,7 +346,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         query.km = { $gte: minKm, $lte: maxKm };
     }
     if (minPrice === 0 && maxPrice === 0) {
-        query.price = { $gte: 0, $ne: null };
+        query.price = null;
     }
     else if (minPrice !== 0 && maxPrice === 0) {
         query.price = { $gte: minPrice, $ne: null };
@@ -361,9 +361,8 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     query.brand = { $regex: brand, $options: "i" };
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-    query.mechanicalFile = true;
-    query.sold = false;
     query.id_seller = id_seller;
+    console.log(query);
     const vehiclesFiltered = yield Vehicles_1.default
         .find(query)
         .sort({ date_create: -1 });
