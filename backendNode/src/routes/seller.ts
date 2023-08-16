@@ -360,53 +360,108 @@ sellerRouter.get("/allVehicles", async (req: Request, res: Response) => {
 sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   let arrayVehicles: any[] = [];
-  const { id_seller } = req.body;
+  let query: any = {};
+    //aqui declaramos las variables que vamos a recibir
+    const {
+      minYear,
+      maxYear,
+      minKm,
+      maxKm,
+      minPrice,
+      maxPrice,
+      brand,
+      model,
+      ubication,
+      type_vehicle,
+      id_seller
+    } = req.body;
 
-  const myVehicles = await vehicles
-    .find({ id_seller: id_seller })
-    .sort({ date_create: -1 });
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
-  if (myVehicles) {
-    for (let i = 0; i < myVehicles.length; i++) {
+    if (minYear === 0 && maxYear === 0) {
+      query.year = { $gte: 0 };
+    } else if (minYear !== 0 && maxYear === 0) {
+      query.year = { $gte: minYear };
+    } else if (minYear === 0 && maxYear !== 0) {
+      query.year = { $lte: maxYear };
+    } else {
+      query.year = { $gte: minYear, $lte: maxYear };
+    }
+
+    if (minKm === 0 && maxKm === 0) {
+      query.km = { $gte: 0 };
+    } else if (minKm !== 0 && maxKm === 0) {
+      query.km = { $gte: minKm };
+    } else if (minKm === 0 && maxKm !== 0) {
+      query.km = { $lte: maxKm };
+    } else {
+      query.km = { $gte: minKm, $lte: maxKm };
+    }
+
+    if (minPrice === 0 && maxPrice === 0) {
+      query.price = { $gte: 0, $ne: null };
+    } else if (minPrice !== 0 && maxPrice === 0) {
+      query.price = { $gte: minPrice, $ne: null };
+    } else if (minPrice === 0 && maxPrice !== 0) {
+      query.price = { $lte: maxPrice, $ne: null };
+    } else {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+
+    query.city = { $regex: ubication, $options: "i" };
+    query.brand = { $regex: brand, $options: "i" };
+    query.model = { $regex: model, $options: "i" };
+    query.type_vehicle = { $regex: type_vehicle, $options: "i" };
+    query.mechanicalFile = true;
+    query.sold = false;
+    query.id_seller = id_seller;
+
+    const vehiclesFiltered = await vehicles
+      .find(query)
+      .sort({ date_create: -1 });
+    console.log(vehiclesFiltered)
+
+    if (vehiclesFiltered) {
+        for (let i = 0; i < vehiclesFiltered.length; i++) {
       let data = {
-        name_new_owner: myVehicles[i].name_new_owner,
-        dni_new_owner: myVehicles[i].dni_new_owner,
-        phone_new_owner: myVehicles[i].phone_new_owner,
-        email_new_owner: myVehicles[i].email_new_owner,
-        price_ofert: myVehicles[i].price_ofert,
-        final_price_sold: myVehicles[i].final_price_sold,
-        _id: myVehicles[i]._id,
-        model: myVehicles[i].model,
-        brand: myVehicles[i].brand,
-        year: myVehicles[i].year,
-        displacement: myVehicles[i].displacement,
-        km: myVehicles[i].km,
-        engine_model: myVehicles[i].engine_model,
-        titles: myVehicles[i].titles,
-        fuel: myVehicles[i].fuel,
-        transmission: myVehicles[i].transmission,
-        city: myVehicles[i].city,
-        dealer: myVehicles[i].dealer,
-        concesionary: myVehicles[i].concesionary,
-        traction_control: myVehicles[i].traction_control,
-        performance: myVehicles[i].performance,
-        comfort: myVehicles[i].comfort,
-        technology: myVehicles[i].technology,
-        id_seller: myVehicles[i].id_seller,
-        id_mechanic: myVehicles[i].id_mechanic,
-        price: myVehicles[i].price,
-        mechanicalFile: myVehicles[i].mechanicalFile,
-        id_seller_buyer: myVehicles[i].id_seller_buyer,
-        sold: myVehicles[i].sold,
-        type_vehicle: myVehicles[i].type_vehicle,
-        traction: myVehicles[i].traction,
-        date_sell: myVehicles[i].date_sell,
-        date_create: myVehicles[i].date_create,
-        plate: myVehicles[i].plate,
-        vin: myVehicles[i].vin,
-        dispatched: myVehicles[i].dispatched,
-        images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
-          ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
+        name_new_owner: vehiclesFiltered[i].name_new_owner,
+        dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+        phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+        email_new_owner: vehiclesFiltered[i].email_new_owner,
+        price_ofert: vehiclesFiltered[i].price_ofert,
+        final_price_sold: vehiclesFiltered[i].final_price_sold,
+        _id: vehiclesFiltered[i]._id,
+        model: vehiclesFiltered[i].model,
+        brand: vehiclesFiltered[i].brand,
+        year: vehiclesFiltered[i].year,
+        displacement: vehiclesFiltered[i].displacement,
+        km: vehiclesFiltered[i].km,
+        engine_model: vehiclesFiltered[i].engine_model,
+        titles: vehiclesFiltered[i].titles,
+        fuel: vehiclesFiltered[i].fuel,
+        transmission: vehiclesFiltered[i].transmission,
+        city: vehiclesFiltered[i].city,
+        dealer: vehiclesFiltered[i].dealer,
+        concesionary: vehiclesFiltered[i].concesionary,
+        traction_control: vehiclesFiltered[i].traction_control,
+        performance: vehiclesFiltered[i].performance,
+        comfort: vehiclesFiltered[i].comfort,
+        technology: vehiclesFiltered[i].technology,
+        id_seller: vehiclesFiltered[i].id_seller,
+        id_mechanic: vehiclesFiltered[i].id_mechanic,
+        price: vehiclesFiltered[i].price,
+        mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+        id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+        sold: vehiclesFiltered[i].sold,
+        type_vehicle: vehiclesFiltered[i].type_vehicle,
+        traction: vehiclesFiltered[i].traction,
+        date_sell: vehiclesFiltered[i].date_sell,
+        date_create: vehiclesFiltered[i].date_create,
+        plate: vehiclesFiltered[i].plate,
+        vin: vehiclesFiltered[i].vin,
+        dispatched: vehiclesFiltered[i].dispatched,
+        images: await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
           : "",
       };
 
@@ -417,11 +472,72 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     jsonRes.message = "Vehicleos encontrados";
     jsonRes.status = true;
     jsonRes.data = arrayVehicles;
-  } else {
-    jsonRes.code = 400;
-    jsonRes.message = "No se encontraron vehículos";
-    jsonRes.status = false;
-  }
+    }else{
+      jsonRes.code = 400;
+      jsonRes.message = "No se encontraron vehículos";
+      jsonRes.status = false;
+    }
+
+  // const myVehicles = await vehicles
+  //   .find({ id_seller: id_seller })
+  //   .sort({ date_create: -1 });
+
+  // if (myVehicles) {
+  //   for (let i = 0; i < myVehicles.length; i++) {
+  //     let data = {
+  //       name_new_owner: myVehicles[i].name_new_owner,
+  //       dni_new_owner: myVehicles[i].dni_new_owner,
+  //       phone_new_owner: myVehicles[i].phone_new_owner,
+  //       email_new_owner: myVehicles[i].email_new_owner,
+  //       price_ofert: myVehicles[i].price_ofert,
+  //       final_price_sold: myVehicles[i].final_price_sold,
+  //       _id: myVehicles[i]._id,
+  //       model: myVehicles[i].model,
+  //       brand: myVehicles[i].brand,
+  //       year: myVehicles[i].year,
+  //       displacement: myVehicles[i].displacement,
+  //       km: myVehicles[i].km,
+  //       engine_model: myVehicles[i].engine_model,
+  //       titles: myVehicles[i].titles,
+  //       fuel: myVehicles[i].fuel,
+  //       transmission: myVehicles[i].transmission,
+  //       city: myVehicles[i].city,
+  //       dealer: myVehicles[i].dealer,
+  //       concesionary: myVehicles[i].concesionary,
+  //       traction_control: myVehicles[i].traction_control,
+  //       performance: myVehicles[i].performance,
+  //       comfort: myVehicles[i].comfort,
+  //       technology: myVehicles[i].technology,
+  //       id_seller: myVehicles[i].id_seller,
+  //       id_mechanic: myVehicles[i].id_mechanic,
+  //       price: myVehicles[i].price,
+  //       mechanicalFile: myVehicles[i].mechanicalFile,
+  //       id_seller_buyer: myVehicles[i].id_seller_buyer,
+  //       sold: myVehicles[i].sold,
+  //       type_vehicle: myVehicles[i].type_vehicle,
+  //       traction: myVehicles[i].traction,
+  //       date_sell: myVehicles[i].date_sell,
+  //       date_create: myVehicles[i].date_create,
+  //       plate: myVehicles[i].plate,
+  //       vin: myVehicles[i].vin,
+  //       dispatched: myVehicles[i].dispatched,
+  //       images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
+  //         ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
+  //         : "",
+  //     };
+
+  //     arrayVehicles.push(data);
+  //   }
+
+  //   jsonRes.code = 200;
+  //   jsonRes.message = "Vehicleos encontrados";
+  //   jsonRes.status = true;
+  //   jsonRes.data = arrayVehicles;
+  // } else {
+  //   jsonRes.code = 400;
+  //   jsonRes.message = "No se encontraron vehículos";
+  //   jsonRes.status = false;
+  // }
 
   res.json(jsonRes);
 });
@@ -1129,7 +1245,6 @@ sellerRouter.post(
     const vehiclesFiltered = await vehicles
       .find(query)
       .sort({ date_create: -1 });
-    console.log(vehiclesFiltered)
     if (vehiclesFiltered) {
       let arrayVehicles: any[] = [];
 
@@ -2143,13 +2258,16 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
   ]);
 
   
-  
   for (let i = 0; i < cardsgroupmodel.length; i++) {
-   for (let j = 0; j < cardsgroupmodel[j].vehicles.length; j++) {
-    let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[j].vehicles[j]._id });
-    cardsgroupmodel[j].vehicles[j].imgVehicle = imgvehicles;
-    
-   }
+    // if (cardsgroupmodel[i].vehicles.length > 0) {
+
+      for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
+        cardsgroupmodel[i].vehicles[j].imgVehicle = null;
+        let imgvehicles = await ImgVehicle.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
+        cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
+        
+      }
+    // }
     
     cardsgroupNacional.forEach((model: any) => {
       if (cardsgroupmodel[i]._id == model._id) {
