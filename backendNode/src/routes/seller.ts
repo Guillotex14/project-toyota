@@ -1685,28 +1685,35 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     }
   }
+  if (concesionary) {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary, $options: "i" },
+    };
+  }
 
   let seller: any = null;
   let user: any = null;
   if (id_user) {
     seller = await Sellers.findOne({ id_user: id_user });
     user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user != "admin") {
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: seller.concesionary, $options: "i" },
-      };
-    } else {
-      if (concesionary) {
-        mongQuery = {
-          ...mongQuery,
-          concesionary: { $regex: concesionary, $options: "i" },
-        };
-      }
-    }
+    // if (seller && user.type_user != "admin") {
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: seller.concesionary, $options: "i" },
+    //   };
+    // } else {
+    //   if (concesionary) {
+    //     mongQuery = {
+    //       ...mongQuery,
+    //       concesionary: { $regex: concesionary, $options: "i" },
+    //     };
+    //   }
+    // }
   }
+
   let cardsgroupmodel: any[] = [];
-  if (user.type_user == "admin") {
+  
     cardsgroupmodel = await vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1780,33 +1787,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         },
       },
     ]);
+  
 
-    for (let i = 0; i < cardsgroupmodel.length; i++) {
-      for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
-        delete cardsgroupmodel[i].vehicles[j].mechanicalfiles;
-      }
-    }
-  } else {
-    cardsgroupmodel = await vehicles.aggregate([
-      {
-        $match: mongQuery,
-      },
-      {
-        $group: {
-          _id: "$model",
-          minPrice: { $min: "$price" },
-          avgPrice: { $avg: "$price" },
-          maxPrice: { $max: "$price" },
-          vehicles: { $push: "$$ROOT" },
-        },
-      },
-      {
-        $sort: {
-          _id: 1,
-        },
-      },
-    ]);
-  }
   const cardsgroupNacional = await vehicles.aggregate([
     {
       $match: otherMong,
@@ -1845,6 +1827,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
   datos = {
     grupocard: cardsgroupmodel,
   };
+console.log(datos)
 
   // Crear un nuevo archivo Excel
   const workbook = new ExcelJS.Workbook();
@@ -1932,9 +1915,8 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
       { header: "Lamina", key: "lamina", width: 15, style: headerStyle },
       { header: "Vino", key: "vino", width: 15, style: headerStyle },
     ];
-    if (seller) {
-      columns.splice(4, 1);
-    }
+    
+
     worksheet.columns = columns;
 
     // Agregar los datos de los vehículos del grupo
@@ -1961,9 +1943,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         lamina: vehiculo.plate,
         vino: vehiculo.vin,
       };
-      if (seller) {
-        delete dataRow.ficha_mécanica;
-      }
 
       worksheet.addRow(dataRow);
     });
@@ -2010,7 +1989,6 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
           style: footerStyle,
         });
 
-    if (user.type_user == "admin") {
       worksheet.addRow({}); // Línea vacía
       worksheet.addRow({}); // Línea vacía
 
@@ -2035,7 +2013,7 @@ sellerRouter.get("/exportExcell", async (req: Request, res: Response) => {
         precio: grupo.statusExcelente,
         style: footerStyle,
       });
-    }
+
   });
 
   const fileName = now.getTime() + ".xlsx";
@@ -2197,25 +2175,35 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
       model: { $regex: modelCar, $options: "i" },
     }
   }
-  let seller: any = null;
-  let user: any = null;
-  if (id_user) {
-    seller = await Sellers.findOne({ id_user: id_user });
-    user = await Users.findOne({ _id: id_user });
-    if (seller && user.type_user != "admin") {
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: seller.concesionary, $options: "i" },
-      };
-    } else {
-      if (concesionary) {
-        mongQuery = {
-          ...mongQuery,
-          concesionary: { $regex: concesionary, $options: "i" },
-        };
-      }
-    }
+
+  if (concesionary) {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary, $options: "i" },
+    };
   }
+  
+  // let seller: any = null;
+  let user: any = null;
+    user = await Users.findOne({ _id: id_user });
+
+  // if (id_user) {
+  //   seller = await Sellers.findOne({ id_user: id_user });
+  //   if (seller && user.type_user != "admin") {
+  //     mongQuery = {
+  //       ...mongQuery,
+  //       concesionary: { $regex: seller.concesionary, $options: "i" },
+  //     };
+  //   } else {
+  //     if (concesionary) {
+  //       mongQuery = {
+  //         ...mongQuery,
+  //         concesionary: { $regex: concesionary, $options: "i" },
+  //       };
+  //     }
+  //   }
+  // }
+
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
@@ -2259,7 +2247,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
 
   
   for (let i = 0; i < cardsgroupmodel.length; i++) {
-    // if (cardsgroupmodel[i].vehicles.length > 0) {
 
       for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
         cardsgroupmodel[i].vehicles[j].imgVehicle = null;
@@ -2267,7 +2254,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
         cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         
       }
-    // }
     
     cardsgroupNacional.forEach((model: any) => {
       if (cardsgroupmodel[i]._id == model._id) {
@@ -2286,7 +2272,7 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
     mechanicalFile: true,
   };
   let countMechanicaFile: any[] = [];
-  if (user.type_user == "admin") {
+
     countMechanicaFile = await vehicles.aggregate([
       {
         $match: otherQuery,
@@ -2318,7 +2304,6 @@ sellerRouter.get("/listVehiclesSell", async (req: Request, res: Response) => {
         },
       },
     ]);
-  }
 
   let datos: any = {};
   datos = {
