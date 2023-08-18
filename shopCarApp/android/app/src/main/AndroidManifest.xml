@@ -41,7 +41,7 @@ xmlns:tools="http://schemas.android.com/tools"
     </application>
 
     <!-- Permissions -->
-    
+    <preference name="orientation" value="portrait" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
