@@ -23,7 +23,7 @@ moment
 export class GraphicsAdminPage implements AfterViewInit {
   today = new Date();
   lineChart: any;
-  month: number = 1;
+  month: any = "";
   yearSold: number = new Date().getFullYear();
   rangMonths: any = '';
   yearCar: string = '';

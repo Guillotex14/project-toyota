@@ -16,7 +16,7 @@ import { Browser } from '@capacitor/browser';
 export class GraphicsPage implements AfterViewInit, OnInit {
   today = new Date();
   lineChart: any;
-  month: number = 1;
+  month: any = "";
   yearSold: number = new Date().getFullYear();
   rangMonths: any = '';
   yearCar: string="";
