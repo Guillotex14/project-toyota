@@ -1409,12 +1409,13 @@ sellerRouter.get("/filterGraphySell", async (req: Request, res: Response) => {
 
   let now = new Date();
   let anioActual = now.getFullYear();
+  let monthActual = (now.getMonth()+1);
   if (yearSold) {
     anioActual = yearSold;
   }
 
   if (!month) {
-    month = 1;
+    month = monthActual;
   }
 
   if (!rangMonths) {
