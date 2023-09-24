@@ -5,13 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
 const express_1 = __importDefault(require("express"));
-// import  bodyParser  from "body-parser";
+const mechanic_route_1 = __importDefault(require("./src/routes/mechanic.route"));
+const seller_route_1 = __importDefault(require("./src/routes/seller.route"));
+const admin_route_1 = __importDefault(require("./src/routes/admin.route"));
+const auth_route_1 = __importDefault(require("./src/routes/auth.route"));
 const config_1 = require("./config");
 const cors_1 = __importDefault(require("cors"));
-const auth_1 = __importDefault(require("./src/routes/auth"));
-const admin_1 = __importDefault(require("./src/routes/admin"));
-const seller_1 = __importDefault(require("./src/routes/seller"));
-const mechanic_1 = __importDefault(require("./src/routes/mechanic"));
 const path_1 = __importDefault(require("path"));
 class App {
     constructor() {
@@ -29,10 +28,10 @@ class App {
         this.app.use((0, cors_1.default)());
     }
     routes() {
-        this.app.use("/auth", auth_1.default);
-        this.app.use("/admin", admin_1.default);
-        this.app.use("/seller", seller_1.default);
-        this.app.use("/mechanic", mechanic_1.default);
+        this.app.use("/auth", auth_route_1.default);
+        this.app.use("/admin", admin_route_1.default);
+        this.app.use("/seller", seller_route_1.default);
+        this.app.use("/mechanic", mechanic_route_1.default);
         this.app.use("/public", express_1.default.static("public"));
         this.app.use(express_1.default.static("public"));
     }

@@ -1,4 +1,4 @@
-import { v2 as cloudinary, ConfigOptions } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 import { ENV_API_KEY_CLOUDINARY, ENV_API_SECRET_CLOUDINARY, ENV_CLOUD_NAME_CLOUDINARY } from './enviroments';
 
 cloudinary.config({

@@ -1,21 +1,15 @@
-import { Router, Request, Response } from "express";
-
-//models
-import Users from "../models/Users";
+import { Request, Response } from "express";
 import { ResponseModel } from "../models/Response";
-import sellers from "../models/Sellers";
-import mechanics from "../models/Mechanics";
-import bcrypt from 'bcrypt';
-import imgUser from "../models/imgUser";
-import { uploadImageUser, deleteImageUser, uploadImageVehicle } from '../../cloudinaryMetods';
-import  Sharp  from "sharp";
-import mechanicalsFiles from "../models/mechanicalsFiles";
-import Vehicles from "../models/Vehicles";
-import ImgVehicle from "../models/ImgVehicle";
+import Users from "../schemas/Users.schema";
+import sellers from "../schemas/Sellers.schema";
+import mechanics from "../schemas/Mechanics.schema";
+import imgUser from "../schemas/imgUser.schema";
+import bcrypt from "bcrypt";
+import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 
-const authRouter = Router();
+const authController: any  = {};
 
-authRouter.post("/login", async (req: Request, res: Response) => {
+authController.login = async (req: Request, res: Response) => {
 
     const jsonRes = new ResponseModel()
 
@@ -104,9 +98,9 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     });
 
     res.json(jsonRes);
-});
+}
 
-authRouter.post("/addImgProfile", async (req: Request, res: Response) => {
+authController.addImgProfile = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user, image } = req.body;
@@ -129,9 +123,9 @@ authRouter.post("/addImgProfile", async (req: Request, res: Response) => {
     }
 
     res.json(reponseJson);
-});
+}
 
-authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
+authController.updateImgProfile = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user, image, public_id } = req.body;
@@ -162,57 +156,9 @@ authRouter.post("/updateImgProfile", async (req: Request, res: Response) => {
     }
 
     res.json(reponseJson);
-});
-
-authRouter.get("/sharpMetods", async (req: Request, res: Response) => {
-    // const reponseJson: ResponseModel = new ResponseModel();
-
-    // const { image } = req.body;
-
-    // if (image.length > 0) {
-
-    //     for (let i = 0; i < image.length; i++) {
-            
-    //         // const sharpImg = await Sharp(Buffer.from(image[i].image,'base64')).resize(150, 80).toBuffer();
-    //         const imgResult = await desgloseImg(image[i].image);
-
-    //         // const img2 = imgResult.toString('base64');
-    //         const filename = await uploadImageVehicle(imgResult);
-            
-    //         console.log(filename)
-            
-    //     }
-    // }
-
-    const deleteMechanicalFiles = await mechanicalsFiles.deleteMany({});
-    const delVehicles = await Vehicles.deleteMany({});
-    const delimgvehicles = await ImgVehicle.deleteMany({});
-
-    if (deleteMechanicalFiles) {
-        console.log("eliminados")
-    }else{
-        console.log("no eliminados")
-    }
-
-
-});
-
-
-
-
-const desgloseImg = async (image: any) => {
-    let posr = image.split(";base64").pop();
-    let imgBuff = Buffer.from(posr, 'base64');
-
-    const resize = await Sharp(imgBuff).resize(150, 80).toBuffer().then((data) => {
-        return data;
-    }).catch((err) => {
-        console.log("error",err)
-        return "";
-    })
-
-    return 'data:image/jpeg;base64,'+resize.toString('base64');
-
 }
 
-export default authRouter;
+
+
+
+export default authController;

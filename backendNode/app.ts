@@ -1,11 +1,10 @@
 import  Express  from "express";
-// import  bodyParser  from "body-parser";
+import mechanicRouter from "./src/routes/mechanic.route"
+import sellerRouter from "./src/routes/seller.route";
+import adminRouter from "./src/routes/admin.route";
+import authRouter from "./src/routes/auth.route";
 import { port } from "./config";
 import cors from "cors";
-import authRouter from "./src/routes/auth";
-import adminRouter from "./src/routes/admin";
-import sellerRouter from "./src/routes/seller";
-import mechanicRouter from "./src/routes/mechanic"
 import path from "path"
 
 export class App {
@@ -25,7 +24,7 @@ export class App {
     middlewares() {
         this.app.use(Express.json({limit: '512mb'}));
         this.app.use(Express.urlencoded({limit: '512mb', extended: true}));
-        this.app.use(cors())
+        this.app.use(cors());
     }
 
     routes() {

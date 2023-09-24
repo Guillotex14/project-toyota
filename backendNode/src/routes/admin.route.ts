@@ -1,17 +1,17 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
 
-import Users from "../models/Users";
-import Vehicles from "../models/Vehicles";
-import sellers from "../models/Sellers";
+import Users from "../schemas/Users.schema";
+import Vehicles from "../schemas/Vehicles.schema";
+import sellers from "../schemas/Sellers.schema";
 import { ResponseModel } from "../models/Response";
 import { AddSellerModel } from "../models/adminModel";
-import mechanicalsFiles from "../models/mechanicalsFiles";
+import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import moment from "moment";
-import brands from "../models/brands";
-import modelVehicle from "../models/modelVehicle";
-import ImgVehicle from "../models/ImgVehicle";
-import imgUser from "../models/imgUser";
+import brands from "../schemas/brands.schema";
+import modelVehicle from "../schemas/modelVehicle.schema";
+import ImgVehicle from "../schemas/ImgVehicle.schema";
+import imgUser from "../schemas/imgUser.schema";
 
 const adminRouter = Router();
 

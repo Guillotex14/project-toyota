@@ -39,21 +39,21 @@ const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const moment_1 = __importDefault(require("moment"));
 const sharp_1 = __importDefault(require("sharp"));
-const Users_1 = __importDefault(require("../models/Users"));
-const Vehicles_1 = __importDefault(require("../models/Vehicles"));
-const Mechanics_1 = __importDefault(require("../models/Mechanics"));
-const Zones_1 = __importDefault(require("../models/Zones"));
-const Concesionaries_1 = __importDefault(require("../models/Concesionaries"));
+const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
+const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
+const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
+const Zones_schema_1 = __importDefault(require("../schemas/Zones.schema"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const Response_1 = require("../models/Response");
-const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
-const Sellers_1 = __importDefault(require("../models/Sellers"));
-const brands_1 = __importDefault(require("../models/brands"));
-const notifications_1 = __importDefault(require("../models/notifications"));
-const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
-const modelVehicle_1 = __importDefault(require("../models/modelVehicle"));
+const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
+const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
+const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
+const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const nodemailer_1 = require("../../nodemailer");
-const imgUser_1 = __importDefault(require("../models/imgUser"));
+const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const global = __importStar(require("../global"));
 const sellerRouter = (0, express_1.Router)();
 sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -61,7 +61,7 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
     const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
     const { email, password, username, fullName, city, concesionary } = req.body;
     const hash = yield bcrypt_1.default.hash(password, 10);
-    const exist = yield Users_1.default.findOne({ email: email });
+    const exist = yield Users_schema_1.default.findOne({ email: email });
     if (exist) {
         reponseJson.code = 400;
         reponseJson.message = "El usuario se encuentra registrado";
@@ -69,13 +69,13 @@ sellerRouter.post("/addMechanic", (req, res) => __awaiter(void 0, void 0, void 0
         reponseJson.data = "";
     }
     else {
-        const newUser = new Users_1.default({
+        const newUser = new Users_schema_1.default({
             email,
             password: hash,
             username,
             type_user: "mechanic",
         });
-        const newMechanic = new Mechanics_1.default({
+        const newMechanic = new Mechanics_schema_1.default({
             fullName,
             city,
             concesionary,
@@ -118,7 +118,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, } = req.body;
-    const newVehicle = new Vehicles_1.default({
+    const newVehicle = new Vehicles_schema_1.default({
         model,
         year,
         brand,
@@ -148,11 +148,11 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         vehicle_plate,
     });
     yield newVehicle.save();
-    yield Mechanics_1.default
+    yield Mechanics_schema_1.default
         .findOne({ _id: id_mechanic })
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
-            yield Users_1.default.findOne({ _id: res.id_user })
+            yield Users_schema_1.default.findOne({ _id: res.id_user })
                 .then((res) => {
                 if (res) {
                     emailmechanic = res.email;
@@ -166,13 +166,13 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         .catch((err) => {
         console.log(err);
     });
-    infoSeller = yield Sellers_1.default.findOne({ _id: id_seller });
+    infoSeller = yield Sellers_schema_1.default.findOne({ _id: id_seller });
     if (images) {
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
                 const imgResize = yield desgloseImg(images[i].image);
                 const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
-                const imgVehi = new ImgVehicle_1.default({
+                const imgVehi = new ImgVehicle_schema_1.default({
                     img: filename.secure_url,
                     id_vehicle: newVehicle._id,
                     public_id: filename.public_id,
@@ -204,7 +204,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/updateVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, price } = req.body;
-    const vehicleUpdated = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+    const vehicleUpdated = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         price: price,
     });
     if (vehicleUpdated) {
@@ -224,7 +224,7 @@ sellerRouter.post("/addImgVehicle", (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, image } = req.body;
     const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
-    const newImage = new ImgVehicle_1.default({
+    const newImage = new ImgVehicle_schema_1.default({
         img: filename.secure_url,
         id_vehicle: id_vehicle,
         public_id: filename.public_id,
@@ -247,7 +247,7 @@ sellerRouter.post("/deleteImgVehicle", (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { public_id } = req.body;
     const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
-    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ public_id: public_id });
+    const delImg = yield ImgVehicle_schema_1.default.findOneAndDelete({ public_id: public_id });
     if (delImg) {
         reponseJson.code = 200;
         reponseJson.message = "Imagen eliminada exitosamente";
@@ -263,17 +263,17 @@ sellerRouter.post("/deleteImgVehicle", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, image, public_id } = req.body;
-    const delImg = yield ImgVehicle_1.default.findOneAndDelete({ public_id: public_id });
+    const delImg = yield ImgVehicle_schema_1.default.findOneAndDelete({ public_id: public_id });
     const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
     if (delImg) {
         let filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
-        const newImage = new ImgVehicle_1.default({
+        const newImage = new ImgVehicle_schema_1.default({
             img: filename.secure_url,
             id_vehicle: id_vehicle,
             public_id: filename.public_id,
         });
         yield newImage.save();
-        const arrayImages = yield ImgVehicle_1.default.find({ id_vehicle: id_vehicle });
+        const arrayImages = yield ImgVehicle_schema_1.default.find({ id_vehicle: id_vehicle });
         let data = {
             images: arrayImages,
             imgEdit: newImage,
@@ -293,7 +293,7 @@ sellerRouter.post("/updateImgVehicle", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.get("/allVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_seller } = req.body;
-    const vehiclesArray = yield Vehicles_1.default
+    const vehiclesArray = yield Vehicles_schema_1.default
         .find({
         mechanicalFile: true,
         sold: false,
@@ -362,7 +362,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.id_seller = id_seller;
-    const vehiclesFiltered = yield Vehicles_1.default
+    const vehiclesFiltered = yield Vehicles_schema_1.default
         .find(query)
         .sort({ date_create: -1 });
     if (vehiclesFiltered) {
@@ -404,8 +404,8 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
                 dispatched: vehiclesFiltered[i].dispatched,
-                images: (yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }))
-                    ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+                images: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }))
+                    ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
                     : "",
             };
             arrayVehicles.push(data);
@@ -425,9 +425,9 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
-    const infoVehicle = yield Vehicles_1.default.findOne({ _id: id });
-    const imgsVehichle = yield ImgVehicle_1.default.find({ id_vehicle: id });
-    const mechanicalFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id });
+    const infoVehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
+    const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
+    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
         let data = {
             _id: infoVehicle._id,
@@ -480,7 +480,7 @@ sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0
 sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const mecFile = yield mechanicalsFiles_1.default.findOne({ id_vehicle: id_vehicle });
+    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -498,14 +498,14 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
     const responseJson = new Response_1.ResponseModel();
     let arrayMechanics = [];
     let infoMechanic = [];
-    const ress = yield Users_1.default.find({ type_user: "mechanic" })
+    const ress = yield Users_schema_1.default.find({ type_user: "mechanic" })
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             responseJson.code = 200;
             responseJson.message = "Técnicos encontrados";
             responseJson.status = true;
             for (let i = 0; i < res.length; i++) {
-                yield Mechanics_1.default
+                yield Mechanics_schema_1.default
                     .find({ id_user: res[i]._id })
                     .then((res2) => {
                     if (res2) {
@@ -534,8 +534,8 @@ sellerRouter.get("/allMechanics", (req, res) => __awaiter(void 0, void 0, void 0
                             email: res[j].email,
                             username: res[j].username,
                             type_user: res[j].type_user,
-                            image: (yield imgUser_1.default.findOne({ id_user: res[j]._id }))
-                                ? yield imgUser_1.default.findOne({ id_user: res[j]._id })
+                            image: (yield imgUser_schema_1.default.findOne({ id_user: res[j]._id }))
+                                ? yield imgUser_schema_1.default.findOne({ id_user: res[j]._id })
                                 : "",
                         };
                         arrayMechanics.push(mechanic);
@@ -561,7 +561,7 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
     const jsonResponse = new Response_1.ResponseModel();
     const { concesionary } = req.body;
     let arrayMechanics = [];
-    const mecByConcesionary = yield Mechanics_1.default.find({
+    const mecByConcesionary = yield Mechanics_schema_1.default.find({
         concesionary: concesionary,
     });
     if (mecByConcesionary) {
@@ -573,10 +573,10 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
                 concesionary: mecByConcesionary[i].concesionary,
                 id_user: mecByConcesionary[i].id_user,
                 date_create: mecByConcesionary[i].date_created,
-                image: (yield imgUser_1.default.findOne({
+                image: (yield imgUser_schema_1.default.findOne({
                     id_user: mecByConcesionary[i].id_user,
                 }))
-                    ? yield imgUser_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
+                    ? yield imgUser_schema_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
                     : "",
             };
             arrayMechanics.push(mechanic);
@@ -615,7 +615,7 @@ sellerRouter.post("/mechanicByConcesionary", (req, res) => __awaiter(void 0, voi
 }));
 sellerRouter.get("/allZones", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const ress = yield Zones_1.default
+    const ress = yield Zones_schema_1.default
         .find()
         .then((res) => {
         if (res) {
@@ -639,7 +639,7 @@ sellerRouter.get("/allZones", (req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 sellerRouter.get("/allConcesionaries", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const ress = yield Concesionaries_1.default
+    const ress = yield Concesionaries_schema_1.default
         .find()
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(res);
@@ -664,7 +664,7 @@ sellerRouter.get("/allConcesionaries", (req, res) => __awaiter(void 0, void 0, v
 }));
 sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const brand = yield brands_1.default.find();
+    const brand = yield brands_schema_1.default.find();
     if (brand) {
         jsonResponse.code = 200;
         jsonResponse.message = "marcas encontradas";
@@ -680,7 +680,7 @@ sellerRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 sellerRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
-    const model = yield modelVehicle_1.default.find();
+    const model = yield modelVehicle_schema_1.default.find();
     if (model) {
         jsonResponse.code = 200;
         jsonResponse.message = "todos los modelos";
@@ -734,7 +734,7 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     //   }
     // } else {
     //   console.log('no soy el vendedor')
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+    const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: id_seller,
         name_new_owner: name_new_owner,
         dni_new_owner: dni_new_owner,
@@ -744,11 +744,11 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         date_sell: date_sell,
         sold: false,
     });
-    const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
-    const infoBuyer = yield Sellers_1.default.findById(id_seller);
-    const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
-    const email = yield Users_1.default.findById(infoSeller.id_user);
-    const emailBuyer = yield Users_1.default.findById(infoBuyer.id_user);
+    const getVehicle = yield Vehicles_schema_1.default.findById(id_vehicle);
+    const infoBuyer = yield Sellers_schema_1.default.findById(id_seller);
+    const infoSeller = yield Sellers_schema_1.default.findById(getVehicle.id_seller);
+    const email = yield Users_schema_1.default.findById(infoSeller.id_user);
+    const emailBuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
     const mailOptions = {
         from: "Toyousado Notifications",
         to: email.email,
@@ -768,17 +768,17 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
     const reponseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle } = req.body;
-    const infoVehicle = yield Vehicles_1.default.findById(id_vehicle);
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+    const infoVehicle = yield Vehicles_schema_1.default.findById(id_vehicle);
+    const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         price_ofert: infoVehicle.price_ofert,
         date_sell: date_sell,
         final_price_sold: infoVehicle.price_ofert,
         sold: false,
     });
-    const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
-    const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
-    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
-    const userSeller = yield Users_1.default.findById(infoSeller.id_user);
+    const infoBuyer = yield Sellers_schema_1.default.findById(vehicle.id_seller_buyer);
+    const userbuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
+    const infoSeller = yield Sellers_schema_1.default.findById(vehicle.id_seller);
+    const userSeller = yield Users_schema_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "aprobacion de oferta exitosa";
@@ -803,7 +803,7 @@ sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, 
 sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
+    const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: null,
         sold: false,
         price_ofert: null,
@@ -813,10 +813,10 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
         phone_new_owner: null,
         email_new_owner: null,
     });
-    const infoBuyer = yield Sellers_1.default.findById(vehicle.id_seller_buyer);
-    const userbuyer = yield Users_1.default.findById(infoBuyer.id_user);
-    const infoSeller = yield Sellers_1.default.findById(vehicle.id_seller);
-    const userSeller = yield Users_1.default.findById(infoSeller.id_user);
+    const infoBuyer = yield Sellers_schema_1.default.findById(vehicle.id_seller_buyer);
+    const userbuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
+    const infoSeller = yield Sellers_schema_1.default.findById(vehicle.id_seller);
+    const userSeller = yield Users_schema_1.default.findById(infoSeller.id_user);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "oferta rechazada exitosamente";
@@ -841,7 +841,7 @@ sellerRouter.post("/rejectBuyVehicle", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post("/getNotifications", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
-    const notificationsUser = yield notifications_1.default
+    const notificationsUser = yield notifications_schema_1.default
         .find({ id_user: id_user, status: false })
         .sort({ date: -1 });
     if (notificationsUser) {
@@ -860,7 +860,7 @@ sellerRouter.post("/getNotifications", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post("/updateNotification", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-    const notificationsUser = yield notifications_1.default.findByIdAndUpdate(id, {
+    const notificationsUser = yield notifications_schema_1.default.findByIdAndUpdate(id, {
         status: true,
     });
     if (notificationsUser) {
@@ -879,7 +879,7 @@ sellerRouter.post("/updateNotification", (req, res) => __awaiter(void 0, void 0,
 sellerRouter.post("/notificationById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-    const notificationsUser = yield notifications_1.default.findById(id);
+    const notificationsUser = yield notifications_schema_1.default.findById(id);
     if (notificationsUser) {
         reponseJson.code = 200;
         reponseJson.message = "notificacion encontrada exitosamente";
@@ -896,7 +896,7 @@ sellerRouter.post("/notificationById", (req, res) => __awaiter(void 0, void 0, v
 sellerRouter.post("/countNotifications", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
-    const countNotifies = yield notifications_1.default.countDocuments({
+    const countNotifies = yield notifications_schema_1.default.countDocuments({
         id_user: id_user,
         status: false,
     });
@@ -916,7 +916,7 @@ sellerRouter.post("/countNotifications", (req, res) => __awaiter(void 0, void 0,
 sellerRouter.post("/getVehicleByType", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { type_vehicle } = req.body;
-    const arrayVehicles = yield Vehicles_1.default.find({
+    const arrayVehicles = yield Vehicles_schema_1.default.find({
         type_vehicle: type_vehicle,
         mechanicalFile: true,
         sold: false,
@@ -985,7 +985,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
     query.mechanicalFile = true;
     query.sold = false;
     // query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_1.default
+    const vehiclesFiltered = yield Vehicles_schema_1.default
         .find(query)
         .sort({ date_create: -1 });
     if (vehiclesFiltered) {
@@ -1028,10 +1028,10 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
                 date_create: vehiclesFiltered[i].date_create,
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
-                image: (yield ImgVehicle_1.default.findOne({
+                image: (yield ImgVehicle_schema_1.default.findOne({
                     id_vehicle: vehiclesFiltered[i]._id,
                 }))
-                    ? yield ImgVehicle_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+                    ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
                     : "",
             };
             arrayVehicles.push(data);
@@ -1052,7 +1052,7 @@ sellerRouter.post("/filterVehiclesWithMongo", (req, res) => __awaiter(void 0, vo
 sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { search } = req.body;
-    const vehiclesFiltered = yield modelVehicle_1.default.find({
+    const vehiclesFiltered = yield modelVehicle_schema_1.default.find({
         model: { $regex: search, $options: "i" },
     });
     if (vehiclesFiltered) {
@@ -1071,7 +1071,7 @@ sellerRouter.post("/autocompleteModels", (req, res) => __awaiter(void 0, void 0,
 sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
+    const vehiclesFiltered = yield Vehicles_schema_1.default.findOneAndUpdate({ _id: id }, { sold: true, price: final_price_sold, dispatched: true });
     if (vehiclesFiltered) {
         reponseJson.code = 200;
         reponseJson.message = "vehículo entregado exitosamente";
@@ -1088,7 +1088,7 @@ sellerRouter.post("/dispatchedCar", (req, res) => __awaiter(void 0, void 0, void
 sellerRouter.post("/repost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-    const vehiclesFiltered = yield Vehicles_1.default.findOneAndUpdate({ _id: id }, {
+    const vehiclesFiltered = yield Vehicles_schema_1.default.findOneAndUpdate({ _id: id }, {
         sold: false,
         price_ofert: null,
         final_price_sold: null,
@@ -1174,8 +1174,8 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     let seller = null;
     let user = null;
     if (id_user) {
-        seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        user = yield Users_1.default.findOne({ _id: id_user });
+        seller = yield Sellers_schema_1.default.findOne({ id_user: id_user });
+        user = yield Users_schema_1.default.findOne({ _id: id_user });
         if (seller && user.type_user != "admin") {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: seller.concesionary, $options: "i" } });
         }
@@ -1185,7 +1185,7 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
             }
         }
     }
-    const vehiclesFiltered = yield Vehicles_1.default.aggregate([
+    const vehiclesFiltered = yield Vehicles_schema_1.default.aggregate([
         {
             $match: mongQuery,
         },
@@ -1302,8 +1302,8 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
     let seller = null;
     let user = null;
     if (id_user) {
-        seller = yield Sellers_1.default.findOne({ id_user: id_user });
-        user = yield Users_1.default.findOne({ _id: id_user });
+        seller = yield Sellers_schema_1.default.findOne({ id_user: id_user });
+        user = yield Users_schema_1.default.findOne({ _id: id_user });
         // if (seller && user.type_user != "admin") {
         //   mongQuery = {
         //     ...mongQuery,
@@ -1319,7 +1319,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         // }
     }
     let cardsgroupmodel = [];
-    cardsgroupmodel = yield Vehicles_1.default.aggregate([
+    cardsgroupmodel = yield Vehicles_schema_1.default.aggregate([
         {
             $match: mongQuery,
         },
@@ -1392,7 +1392,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             },
         },
     ]);
-    const cardsgroupNacional = yield Vehicles_1.default.aggregate([
+    const cardsgroupNacional = yield Vehicles_schema_1.default.aggregate([
         {
             $match: otherMong,
         },
@@ -1606,7 +1606,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
         .catch((error) => {
         console.log("Error al generar el archivo Excel:", error);
     });
-    let sendUser = yield Users_1.default.findOne({ _id: id_user });
+    let sendUser = yield Users_schema_1.default.findOne({ _id: id_user });
     if (sendUser) {
         const mailOptions = {
             from: "Toyousado",
@@ -1705,7 +1705,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     }
     // let seller: any = null;
     let user = null;
-    user = yield Users_1.default.findOne({ _id: id_user });
+    user = yield Users_schema_1.default.findOne({ _id: id_user });
     // if (id_user) {
     //   seller = await Sellers.findOne({ id_user: id_user });
     //   if (seller && user.type_user != "admin") {
@@ -1722,7 +1722,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     //     }
     //   }
     // }
-    const cardsgroupmodel = yield Vehicles_1.default.aggregate([
+    const cardsgroupmodel = yield Vehicles_schema_1.default.aggregate([
         {
             $match: mongQuery,
         },
@@ -1741,7 +1741,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
             },
         },
     ]);
-    const cardsgroupNacional = yield Vehicles_1.default.aggregate([
+    const cardsgroupNacional = yield Vehicles_schema_1.default.aggregate([
         {
             $match: otherMong,
         },
@@ -1762,7 +1762,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     for (let i = 0; i < cardsgroupmodel.length; i++) {
         for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
             cardsgroupmodel[i].vehicles[j].imgVehicle = null;
-            let imgvehicles = yield ImgVehicle_1.default.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
+            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
             cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         }
         cardsgroupNacional.forEach((model) => {
@@ -1773,7 +1773,7 @@ sellerRouter.get("/listVehiclesSell", (req, res) => __awaiter(void 0, void 0, vo
     }
     let otherQuery = Object.assign(Object.assign({}, mongQuery), { mechanicalFile: true });
     let countMechanicaFile = [];
-    countMechanicaFile = yield Vehicles_1.default.aggregate([
+    countMechanicaFile = yield Vehicles_schema_1.default.aggregate([
         {
             $match: otherQuery,
         },
@@ -1948,9 +1948,9 @@ const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Sellers_1.default.findOne({ _id: id_seller });
+    const userInfo = yield Sellers_schema_1.default.findOne({ _id: id_seller });
     if (userInfo) {
-        const notify = new notifications_1.default({
+        const notify = new notifications_schema_1.default({
             id_user: userInfo.id_user,
             title: title,
             message: message,
@@ -1962,9 +1962,9 @@ const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0
 });
 const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Mechanics_1.default.findOne({ _id: id_mechanic });
+    const userInfo = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
     if (userInfo) {
-        const notify = new notifications_1.default({
+        const notify = new notifications_schema_1.default({
             id_user: userInfo.id_user,
             title: title,
             message: message,
@@ -1975,4 +1975,4 @@ const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void
     }
 });
 exports.default = sellerRouter;
-//# sourceMappingURL=seller.js.map
+//# sourceMappingURL=seller.route.js.map
