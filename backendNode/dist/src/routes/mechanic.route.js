@@ -1,29 +1,37 @@
-import { Router, Request, Response, response } from 'express';
-import { ResponseModel } from '../models/Response';
-import moment from 'moment';
-
-import vehicles from '../models/Vehicles';
-import mechanics from '../models/Mechanics';
-import sellers from '../models/Sellers';
-import users from '../models/Users';
-import mechanicalsFiles from '../models/mechanicalsFiles';
-import notifications from '../models/notifications';
-import ImgVehicle from '../models/ImgVehicle';
-import { sendEmail } from '../../nodemailer';
-import brands from '../models/brands';
-import modelVehicle from '../models/modelVehicle';
-
-const mechanicRouter = Router();
-
-mechanicRouter.post("/inspections", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-    const {id_mechanic} = req.body;
-
-    const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false}).sort({date_create: -1});
-    if(vehiclesList.length > 0){
-
-        let arrayInpecciones: any[] = [];
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const Response_1 = require("../models/Response");
+const moment_1 = __importDefault(require("moment"));
+const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
+const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
+const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
+const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
+const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
+const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const nodemailer_1 = require("../../nodemailer");
+const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
+const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
+const mechanicRouter = (0, express_1.Router)();
+mechanicRouter.post("/inspections", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_mechanic } = req.body;
+    const vehiclesList = yield Vehicles_schema_1.default.find({ id_mechanic: id_mechanic, mechanicalFile: false }).sort({ date_create: -1 });
+    if (vehiclesList.length > 0) {
+        let arrayInpecciones = [];
         for (let i = 0; i < vehiclesList.length; i++) {
             let data = {
                 name_new_owner: vehiclesList[i].name_new_owner,
@@ -62,47 +70,39 @@ mechanicRouter.post("/inspections", async (req: Request, res: Response) => {
                 date_create: vehiclesList[i].date_create,
                 plate: vehiclesList[i].plate,
                 vin: vehiclesList[i].vin,
-                image: await ImgVehicle.findOne({ id_vehicle: vehiclesList[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: vehiclesList[i]._id }) : "",
-            }
+                image: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id })) ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id }) : "",
+            };
             arrayInpecciones.push(data);
         }
-
         reponseJson.code = 200;
         reponseJson.status = true;
         reponseJson.message = "Inspecciones encontradas";
         reponseJson.data = arrayInpecciones;
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se encontraron inspecciones";
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post("/countInspections", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-    const {id_mechanic} = req.body;
-
-    const vehiclesList = await vehicles.countDocuments({id_mechanic: id_mechanic, mechanicalFile: false});
-
+}));
+mechanicRouter.post("/countInspections", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_mechanic } = req.body;
+    const vehiclesList = yield Vehicles_schema_1.default.countDocuments({ id_mechanic: id_mechanic, mechanicalFile: false });
     reponseJson.code = 200;
     reponseJson.status = true;
     reponseJson.message = "Cantidad de vehículos";
     reponseJson.data = vehiclesList;
-    
     res.json(reponseJson);
-
-});
-
-mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-    const {id} = req.body;
-
-    const vehicle = await vehicles.findOne({_id: id});
-    const mechanicFile = await mechanicalsFiles.findOne({id_vehicle: id});
-    const imgVehicle = await ImgVehicle.find({id_vehicle: id});
-    if(vehicle){
+}));
+mechanicRouter.post("/getVehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const vehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
+    const mechanicFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
+    const imgVehicle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
+    if (vehicle) {
         let data = {
             _id: vehicle._id,
             model: vehicle.model,
@@ -132,94 +132,44 @@ mechanicRouter.post("/getVehicleById", async (req: Request, res: Response) => {
             id_seller_buyer: vehicle.id_seller_buyer,
             general_condition: mechanicFile ? mechanicFile.general_condition : "",
             images: imgVehicle ? imgVehicle : []
-        }
+        };
         reponseJson.code = 200;
         reponseJson.status = true;
         reponseJson.message = "Vehículo encontrado";
         reponseJson.data = data;
-
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se encontro el vehículo";
     }
-
     res.json(reponseJson);
-
-});
-
-mechanicRouter.post("/getMechanicFileByIdVehicle", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-    const {id_vehicle} = req.body;
-
-    const mecFile = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
-    if(mecFile){
+}));
+mechanicRouter.post("/getMechanicFileByIdVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle } = req.body;
+    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
+    if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
         reponseJson.message = "Ficha mécanica encontrada";
         reponseJson.data = mecFile;
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se encontro la ficha mécanica";
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) => {
-    const reponseJson:ResponseModel = new ResponseModel();
-    
+}));
+mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const reponseJson = new Response_1.ResponseModel();
     let mailSeller = "";
-    let infoMechanic:any = {};
-    let dateNow = moment().format('YYYY-MM-DD');
-
-    const {
-        part_emblems_complete,
-        wiper_shower_brushes_windshield,
-        hits,
-        scratches,
-        paint_condition,
-        bugle_accessories,
-        air_conditioning_system,
-        radio_player,
-        courtesy_lights,
-        upholstery_condition,
-        gts,
-        board_lights,
-        tire_pressure,
-        tire_life,
-        battery_status_terminals,
-        transmitter_belts,
-        motor_oil,
-        engine_coolant_container,
-        radiator_status,
-        exhaust_pipe_bracket,
-        fuel_tank_cover_pipes_hoses_connections,
-        distribution_mail,
-        spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-        fuel_system,
-        parking_break,
-        brake_bands_drums,
-        brake_pads_discs,
-        brake_pipes_hoses,
-        master_cylinder,
-        brake_fluid,
-        bushings_plateaus,
-        stumps,
-        terminals,
-        stabilizer_bar,
-        bearings,
-        tripoids_rubbe_bands,
-        shock_absorbers_coils,
-        dealer_maintenance,
-        headlights_lights,
-        general_condition,
-        id_vehicle,
-        id_mechanic
-    } = req.body;
-
-    const newMechanicFile = new mechanicalsFiles({
+    let infoMechanic = {};
+    let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
+    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
+    const newMechanicFile = new mechanicalsFiles_schema_1.default({
         part_emblems_complete,
         wiper_shower_brushes_windshield,
         hits,
@@ -264,122 +214,99 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         id_vehicle,
         id_mechanic
     });
-
-    const newMechanicFileSaved = await newMechanicFile.save();
-
-    const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{mechanicalFile: true});
-
-    if(newMechanicFileSaved){
+    const newMechanicFileSaved = yield newMechanicFile.save();
+    const vehicleUpdated = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, { mechanicalFile: true });
+    if (newMechanicFileSaved) {
         reponseJson.code = 200;
         reponseJson.status = true;
         reponseJson.message = "Ficha mécanica creada correctamente";
         reponseJson.data = newMechanicFileSaved;
-
         //obteniendo el correo del vendedor
-        const vehicle = await vehicles.findOne({_id: id_vehicle});
-
-        if(vehicle){
-            const seller = await sellers.findOne({_id: vehicle.id_seller});
-            if(seller){
-                const user = await users.findOne({_id: seller.id_user})
-                if(user){
-                    mailSeller = user.email!;
+        const vehicle = yield Vehicles_schema_1.default.findOne({ _id: id_vehicle });
+        if (vehicle) {
+            const seller = yield Sellers_schema_1.default.findOne({ _id: vehicle.id_seller });
+            if (seller) {
+                const user = yield Users_schema_1.default.findOne({ _id: seller.id_user });
+                if (user) {
+                    mailSeller = user.email;
                 }
             }
         }
         //obteniendo la informacion del tecnico
-        const mechanic = await mechanics.findOne({_id: id_mechanic});
-
-        if(mechanic){
+        const mechanic = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
+        if (mechanic) {
             infoMechanic.fullname = mechanic.fullName;
             infoMechanic.concesionary = mechanic.concesionary;
             infoMechanic.city = mechanic.city;
         }
-
         const mailOptions = {
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mécanica creada',
-            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
+            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
         };
-
-        await sendEmail(mailOptions);
-
-        sendNotification(vehicle!.id_seller?.toString()!, mailOptions.text, mailOptions.subject);
-
-    }else{
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
+        sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se pudo crear la Ficha mécanica";
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
+}));
+mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
-    const reponseJson: ResponseModel = new ResponseModel();
-    let query: any = {};
+    const reponseJson = new Response_1.ResponseModel();
+    let query = {};
     //aqui declaramos las variables que vamos a recibir
-    const {
-    minYear,
-    maxYear,
-    minKm,
-    maxKm,
-    minPrice,
-    maxPrice,
-    brand,
-    model,
-    ubication,
-    type_vehicle,
-    id_mechanic
-    } = req.body;
-
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_mechanic } = req.body;
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
-
     if (minYear === 0 && maxYear === 0) {
-    query.year = { $gte: 0 };
-    } else if (minYear !== 0 && maxYear === 0) {
-    query.year = { $gte: minYear };
-    } else if (minYear === 0 && maxYear !== 0) {
-    query.year = { $lte: maxYear };
-    } else {
-    query.year = { $gte: minYear, $lte: maxYear };
+        query.year = { $gte: 0 };
     }
-
+    else if (minYear !== 0 && maxYear === 0) {
+        query.year = { $gte: minYear };
+    }
+    else if (minYear === 0 && maxYear !== 0) {
+        query.year = { $lte: maxYear };
+    }
+    else {
+        query.year = { $gte: minYear, $lte: maxYear };
+    }
     if (minKm === 0 && maxKm === 0) {
-    query.km = { $gte: 0 };
-    } else if (minKm !== 0 && maxKm === 0) {
-    query.km = { $gte: minKm };
-    } else if (minKm === 0 && maxKm !== 0) {
-    query.km = { $lte: maxKm };
-    } else {
-    query.km = { $gte: minKm, $lte: maxKm };
+        query.km = { $gte: 0 };
     }
-
+    else if (minKm !== 0 && maxKm === 0) {
+        query.km = { $gte: minKm };
+    }
+    else if (minKm === 0 && maxKm !== 0) {
+        query.km = { $lte: maxKm };
+    }
+    else {
+        query.km = { $gte: minKm, $lte: maxKm };
+    }
     if (minPrice === 0 && maxPrice === 0) {
-    query.price = { $gte: 0, $ne: null };
-    } else if (minPrice !== 0 && maxPrice === 0) {
-    query.price = { $gte: minPrice, $ne: null };
-    } else if (minPrice === 0 && maxPrice !== 0) {
-    query.price = { $lte: maxPrice, $ne: null };
-    } else {
-    query.price = { $gte: minPrice, $lte: maxPrice };
+        query.price = { $gte: 0, $ne: null };
     }
-
+    else if (minPrice !== 0 && maxPrice === 0) {
+        query.price = { $gte: minPrice, $ne: null };
+    }
+    else if (minPrice === 0 && maxPrice !== 0) {
+        query.price = { $lte: maxPrice, $ne: null };
+    }
+    else {
+        query.price = { $gte: minPrice, $lte: maxPrice };
+    }
     query.city = { $regex: ubication, $options: "i" };
     query.brand = { $regex: brand, $options: "i" };
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.mechanicalFile = true;
     query.id_mechanic = id_mechanic;
-
-    const vehiclesFiltered = await vehicles.find(query).sort({date_create:-1});
-
+    const vehiclesFiltered = yield Vehicles_schema_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
-
-        let arrayVehicles: any[] = [];
-
+        let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
                 name_new_owner: vehiclesFiltered[i].name_new_owner,
@@ -418,171 +345,135 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
                 date_create: vehiclesFiltered[i].date_create,
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
-                image: await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
-            }
+                image: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })) ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }) : "",
+            };
             arrayVehicles.push(data);
         }
-
         reponseJson.code = 200;
         reponseJson.message = "Vehicleos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
-    } else {
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.message = "no se encontraron vehículos";
         reponseJson.status = false;
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post('/getNotifications', async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
-
+}));
+mechanicRouter.post('/getNotifications', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
-
-    const notificationsUser = await notifications.find({id_user: id_user, status: false}).sort({date: -1});
-
+    const notificationsUser = yield notifications_schema_1.default.find({ id_user: id_user, status: false }).sort({ date: -1 });
     if (notificationsUser) {
         reponseJson.code = 200;
         reponseJson.message = "notificaciones encontradas exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.message = "no se encontraron notificaciones";
         reponseJson.status = false;
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post('/updateNotification', async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
-
+}));
+mechanicRouter.post('/updateNotification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-
-    const notificationsUser = await notifications.findByIdAndUpdate(id, {status: true});
-
+    const notificationsUser = yield notifications_schema_1.default.findByIdAndUpdate(id, { status: true });
     if (notificationsUser) {
         reponseJson.code = 200;
         reponseJson.message = "notification actualizada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.message = "error al actualizar notificacion";
         reponseJson.status = false;
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post('/notificationById', async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
-
+}));
+mechanicRouter.post('/notificationById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
-
-    const notificationsUser = await notifications.findById(id);
-
+    const notificationsUser = yield notifications_schema_1.default.findById(id);
     if (notificationsUser) {
         reponseJson.code = 200;
         reponseJson.message = "notificacion encontrada exitosamente";
         reponseJson.status = true;
         reponseJson.data = notificationsUser;
-    }else{
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
-
     res.json(reponseJson);
-});
-
-mechanicRouter.post('/countNotifications', async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
-
+}));
+mechanicRouter.post('/countNotifications', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
-
-    const countNotifies = await notifications.countDocuments({id_user: id_user, status: false});
-
+    const countNotifies = yield notifications_schema_1.default.countDocuments({ id_user: id_user, status: false });
     if (countNotifies) {
         reponseJson.code = 200;
         reponseJson.message = "conteo de notificaciones";
         reponseJson.status = true;
         reponseJson.data = countNotifies;
-    }else{
-
+    }
+    else {
         reponseJson.code = 400;
         reponseJson.message = "no se encontro notificacion";
         reponseJson.status = false;
     }
-
     res.json(reponseJson);
-
-});
-
-mechanicRouter.get("/allBrands", async (req: Request, res: Response) => {
-    const jsonResponse: ResponseModel = new ResponseModel();
-
-    const brand = await brands.find()
-
+}));
+mechanicRouter.get("/allBrands", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const brand = yield brands_schema_1.default.find();
     if (brand) {
-
-    jsonResponse.code = 200;
-    jsonResponse.message = "Marcas encontradas exitosamente";
-    jsonResponse.status = true;
-    jsonResponse.data = brand;
-    
-    } else {
-    jsonResponse.code = 400;
-    jsonResponse.message = "no se encontraron marcas";
-    jsonResponse.status = false;
-    
+        jsonResponse.code = 200;
+        jsonResponse.message = "Marcas encontradas exitosamente";
+        jsonResponse.status = true;
+        jsonResponse.data = brand;
     }
-
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no se encontraron marcas";
+        jsonResponse.status = false;
+    }
     res.json(jsonResponse);
-});
-
-mechanicRouter.get("/allModels", async (req: Request, res: Response) => {
-    const jsonResponse: ResponseModel = new ResponseModel();
-
-    const model = await modelVehicle.find();
-
+}));
+mechanicRouter.get("/allModels", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const model = yield modelVehicle_schema_1.default.find();
     if (model) {
-    jsonResponse.code = 200;
-    jsonResponse.message = "todos los modelos";
-    jsonResponse.status = true;
-    jsonResponse.data = model;
-    }else{
-    jsonResponse.code = 400;
-    jsonResponse.message = "no hay modelos";
-    jsonResponse.status = false;
+        jsonResponse.code = 200;
+        jsonResponse.message = "todos los modelos";
+        jsonResponse.status = true;
+        jsonResponse.data = model;
     }
-
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no hay modelos";
+        jsonResponse.status = false;
+    }
     res.json(jsonResponse);
-
-});
-
-const sendNotification = async (id_seller:string, message: string, title: string) => {
+}));
+const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
-
-    const userInfo = await sellers.findOne({_id: id_seller});
-
-    if(userInfo){
-        const notify = new notifications({
+    const userInfo = yield Sellers_schema_1.default.findOne({ _id: id_seller });
+    if (userInfo) {
+        const notify = new notifications_schema_1.default({
             id_user: userInfo.id_user,
             title: title,
             message: message,
-            date: moment().format('YYYY-MM-DD HH:mm:ss'),
+            date: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
             status: false
         });
-
-        await notify.save();
-
-
+        yield notify.save();
     }
-
-}
-
-export default mechanicRouter;
+});
+exports.default = mechanicRouter;
+//# sourceMappingURL=mechanic.route.js.map
