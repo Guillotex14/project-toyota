@@ -3,21 +3,21 @@ import bcrypt from "bcrypt";
 import moment from "moment";
 import sharp from "sharp";
 
-import Users from "../models/Users";
-import vehicles from "../models/Vehicles";
-import mechanics from "../models/Mechanics";
-import zones from "../models/Zones";
-import concesionary from "../models/Concesionaries";
+import Users from "../schemas/Users.schema";
+import vehicles from "../schemas/Vehicles.schema";
+import mechanics from "../schemas/Mechanics.schema";
+import zones from "../schemas/Zones.schema";
+import concesionary from "../schemas/Concesionaries.schema";
 import { ResponseModel } from "../models/Response";
-import mechanicalsFiles from "../models/mechanicalsFiles";
-import Sellers from "../models/Sellers";
-import brands from "../models/brands";
-import notifications from "../models/notifications";
-import ImgVehicle from "../models/ImgVehicle";
-import modelVehicle from "../models/modelVehicle";
+import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
+import Sellers from "../schemas/Sellers.schema";
+import brands from "../schemas/brands.schema";
+import notifications from "../schemas/notifications.schema";
+import ImgVehicle from "../schemas/ImgVehicle.schema";
+import modelVehicle from "../schemas/modelVehicle.schema";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import { sendEmail } from "../../nodemailer";
-import imgUser from "../models/imgUser";
+import imgUser from "../schemas/imgUser.schema";
 import * as global from "../global";
 
 const sellerRouter = Router();
@@ -399,7 +399,7 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     }
 
     if (minPrice === 0 && maxPrice === 0) {
-      query.price = { $gte: 0, $ne: null };
+      query.price = {$exists: true} ;
     } else if (minPrice !== 0 && maxPrice === 0) {
       query.price = { $gte: minPrice, $ne: null };
     } else if (minPrice === 0 && maxPrice !== 0) {
@@ -412,14 +412,13 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
     query.brand = { $regex: brand, $options: "i" };
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-    query.mechanicalFile = true;
-    query.sold = false;
+
     query.id_seller = id_seller;
 
     const vehiclesFiltered = await vehicles
       .find(query)
       .sort({ date_create: -1 });
-    console.log(vehiclesFiltered)
+
 
     if (vehiclesFiltered) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -477,67 +476,6 @@ sellerRouter.post("/myVehicles", async (req: Request, res: Response) => {
       jsonRes.message = "No se encontraron vehículos";
       jsonRes.status = false;
     }
-
-  // const myVehicles = await vehicles
-  //   .find({ id_seller: id_seller })
-  //   .sort({ date_create: -1 });
-
-  // if (myVehicles) {
-  //   for (let i = 0; i < myVehicles.length; i++) {
-  //     let data = {
-  //       name_new_owner: myVehicles[i].name_new_owner,
-  //       dni_new_owner: myVehicles[i].dni_new_owner,
-  //       phone_new_owner: myVehicles[i].phone_new_owner,
-  //       email_new_owner: myVehicles[i].email_new_owner,
-  //       price_ofert: myVehicles[i].price_ofert,
-  //       final_price_sold: myVehicles[i].final_price_sold,
-  //       _id: myVehicles[i]._id,
-  //       model: myVehicles[i].model,
-  //       brand: myVehicles[i].brand,
-  //       year: myVehicles[i].year,
-  //       displacement: myVehicles[i].displacement,
-  //       km: myVehicles[i].km,
-  //       engine_model: myVehicles[i].engine_model,
-  //       titles: myVehicles[i].titles,
-  //       fuel: myVehicles[i].fuel,
-  //       transmission: myVehicles[i].transmission,
-  //       city: myVehicles[i].city,
-  //       dealer: myVehicles[i].dealer,
-  //       concesionary: myVehicles[i].concesionary,
-  //       traction_control: myVehicles[i].traction_control,
-  //       performance: myVehicles[i].performance,
-  //       comfort: myVehicles[i].comfort,
-  //       technology: myVehicles[i].technology,
-  //       id_seller: myVehicles[i].id_seller,
-  //       id_mechanic: myVehicles[i].id_mechanic,
-  //       price: myVehicles[i].price,
-  //       mechanicalFile: myVehicles[i].mechanicalFile,
-  //       id_seller_buyer: myVehicles[i].id_seller_buyer,
-  //       sold: myVehicles[i].sold,
-  //       type_vehicle: myVehicles[i].type_vehicle,
-  //       traction: myVehicles[i].traction,
-  //       date_sell: myVehicles[i].date_sell,
-  //       date_create: myVehicles[i].date_create,
-  //       plate: myVehicles[i].plate,
-  //       vin: myVehicles[i].vin,
-  //       dispatched: myVehicles[i].dispatched,
-  //       images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
-  //         ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
-  //         : "",
-  //     };
-
-  //     arrayVehicles.push(data);
-  //   }
-
-  //   jsonRes.code = 200;
-  //   jsonRes.message = "Vehicleos encontrados";
-  //   jsonRes.status = true;
-  //   jsonRes.data = arrayVehicles;
-  // } else {
-  //   jsonRes.code = 400;
-  //   jsonRes.message = "No se encontraron vehículos";
-  //   jsonRes.status = false;
-  // }
 
   res.json(jsonRes);
 });
@@ -604,9 +542,7 @@ sellerRouter.post("/vehicleById", async (req: Request, res: Response) => {
   res.json(jsonRes);
 });
 
-sellerRouter.post(
-  "/mechanicalFileByIdVehicle",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
 
@@ -693,9 +629,7 @@ sellerRouter.get("/allMechanics", async (req: Request, res: Response) => {
   res.json(ress);
 });
 
-sellerRouter.post(
-  "/mechanicByConcesionary",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/mechanicByConcesionary", async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
     const { concesionary } = req.body;
     let arrayMechanics: any[] = [];
@@ -861,18 +795,46 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     price_ofert,
   } = req.body;
 
-  const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    id_seller_buyer: id_seller,
-    name_new_owner: name_new_owner,
-    dni_new_owner: dni_new_owner,
-    phone_new_owner: phone_new_owner,
-    email_new_owner: email_new_owner,
-    price_ofert: price_ofert,
-  });
+  // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+  //   id_seller_buyer: id_seller,
+  //   name_new_owner: name_new_owner,
+  //   dni_new_owner: dni_new_owner,
+  //   phone_new_owner: phone_new_owner,
+  //   email_new_owner: email_new_owner,
+  //   price_ofert: price_ofert,
+  // });
 
-  const sameIdSeller = await vehicles.findById(id_vehicle);
+  // const sameIdSeller = await vehicles.findById(id_vehicle);
 
-  if (sameIdSeller!.id_seller === id_seller) {
+  // if (sameIdSeller!.id_seller?.toString() === id_seller) {
+  //   console.log('soy el comprador')
+  //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+  //     id_seller_buyer: id_seller,
+  //     name_new_owner: name_new_owner,
+  //     dni_new_owner: dni_new_owner,
+  //     phone_new_owner: phone_new_owner,
+  //     email_new_owner: email_new_owner,
+  //     price_ofert: price_ofert,
+  //     price: price_ofert,
+  //     sold: true,
+  //     date_sell: date_sell,
+  //     final_price_sold: price_ofert,
+  //     dispatched: true,
+  //   });
+
+  //   if (vehicle) {
+  //     responseJson.code = 200;
+  //     responseJson.message = "vehículo comprado exitosamente";
+  //     responseJson.status = true;
+  //     responseJson.data = vehicle;
+  //   } else {
+  //     responseJson.code = 400;
+  //     responseJson.message = "no se pudo comprar el vehículo";
+  //     responseJson.status = false;
+  //   }
+  // } else {
+
+  //   console.log('no soy el vendedor')
     const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
       id_seller_buyer: id_seller,
       name_new_owner: name_new_owner,
@@ -880,31 +842,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       phone_new_owner: phone_new_owner,
       email_new_owner: email_new_owner,
       price_ofert: price_ofert,
-      price: price_ofert,
-      sold: true,
       date_sell: date_sell,
-      final_price_sold: price_ofert,
-      dispatched: true,
-    });
-
-    if (vehicle) {
-      responseJson.code = 200;
-      responseJson.message = "vehículo comprado exitosamente";
-      responseJson.status = true;
-      responseJson.data = vehicle;
-    } else {
-      responseJson.code = 400;
-      responseJson.message = "no se pudo comprar el vehículo";
-      responseJson.status = false;
-    }
-  } else {
-    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-      id_seller_buyer: id_seller,
-      name_new_owner: name_new_owner,
-      dni_new_owner: dni_new_owner,
-      phone_new_owner: phone_new_owner,
-      email_new_owner: email_new_owner,
-      price_ofert: price_ofert,
       sold: false,
     });
 
@@ -941,7 +879,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     responseJson.message =
       "Compra realizada, esperar confirmación o rechazo del vendedor";
     responseJson.status = true;
-  }
+  // }
 
   res.json(responseJson);
 });
@@ -1082,9 +1020,7 @@ sellerRouter.post("/getNotifications", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/updateNotification",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/updateNotification", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id } = req.body;
@@ -1129,9 +1065,7 @@ sellerRouter.post("/notificationById", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/countNotifications",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/countNotifications", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { id_user } = req.body;
@@ -1182,9 +1116,7 @@ sellerRouter.post("/getVehicleByType", async (req: Request, res: Response) => {
   res.json(reponseJson);
 });
 
-sellerRouter.post(
-  "/filterVehiclesWithMongo",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/filterVehiclesWithMongo",async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
     let query: any = {};
@@ -1310,9 +1242,7 @@ sellerRouter.post(
   }
 );
 
-sellerRouter.post(
-  "/autocompleteModels",
-  async (req: Request, res: Response) => {
+sellerRouter.post("/autocompleteModels", async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
 
     const { search } = req.body;

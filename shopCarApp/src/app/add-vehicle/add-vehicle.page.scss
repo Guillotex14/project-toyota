@@ -121,7 +121,7 @@ ion-input{
 }
 
 ion-checkbox{
-  margin: auto !important;
+  margin: auto ;
   --checked-background: #EB0A1E !important;
   --border-color: #EB0A1E !important;
   --border-color-checked: #EB0A1E !important;
@@ -227,4 +227,32 @@ ion-card{
     }
   }
 
+}
+
+@media screen and (max-width:320px){
+  .mecFullname{
+    font-size: 14px !important;
+  }
+
+  .mecCity{
+    font-size: 13px !important;
+  }
+
+  .mecConcesionary{
+    font-size: 13px !important;
+  }
+}
+
+@media screen and (max-width:280px){
+  .mecFullname{
+    font-size: 13px !important;
+  }
+
+  .mecCity{
+    font-size: 12px !important;
+  }
+
+  .mecConcesionary{
+    font-size: 12px !important;
+  }
 }

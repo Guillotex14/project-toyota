@@ -43,6 +43,7 @@ export class HomeSellerPage implements OnInit {
   id_user: string = "";
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
+  @ViewChild('modalFilterHomeSeller') modalFilter!: IonModal;
 
   constructor(private router: Router, private utils: UtilsService, private menu: MenuController, private sellerSrv: SellerService, private modalCtrl: ModalController) {
     this.arrayUbication = states;
@@ -61,12 +62,7 @@ export class HomeSellerPage implements OnInit {
       this.id_seller = me.id_sell;
       this.id_user = me.id;
     }
-    
-    // this.getBrands();
-    // this.getModels()
-    // this.getNotifies();
-    // this.getCountNotifies();
-    // this.getVehicles();
+
 
   }
 
@@ -156,6 +152,26 @@ export class HomeSellerPage implements OnInit {
     this.modal.present();
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public closeModal(){
     this.modal.dismiss();
   }
@@ -180,10 +196,10 @@ export class HomeSellerPage implements OnInit {
 
   public closeModalDetail(){
     if(this.arrayNotifies.length > 0){
-      this.filterModal.dismiss();
+      this.filterModal.dismiss(); 
     }else{
       this.filterModal.dismiss();
-      this.modal.present();
+      this.modal.dismiss();
     }
   }
 
@@ -202,12 +218,12 @@ export class HomeSellerPage implements OnInit {
   }
 
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){
     this.getVehicles()
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public getVehicles(){

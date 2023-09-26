@@ -38,12 +38,14 @@ export class BuyCarPage implements OnInit {
   maxKmsAux: string = "";
 
   @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild('modalFilterBuyCar') modalFilter!: IonModal;
 
   constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController) {
-    this.arrayModels = models;
+    
     this.arrayUbication = states;
     
     this.getBrands();
+    this.getModels();
     this.getVehicles();
 
   }
@@ -55,6 +57,18 @@ export class BuyCarPage implements OnInit {
   public getBrands(){
     this.sellerSrv.allBrands().subscribe((res: any) => {
       this.arrayBrands = res.data;
+
+    }, (err: any) => {
+      console.log(err);
+    });
+  }
+
+  public getModels(){
+    this.sellerSrv.allModels().subscribe((res: any) => {
+
+      if(res.status){
+        this.arrayModels = res.data;
+      } 
 
     }, (err: any) => {
       console.log(err);
@@ -74,13 +88,33 @@ export class BuyCarPage implements OnInit {
     this.router.navigate(['/car-detail/'+id+'/buy-car']);
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
+  }
+
   public dismissModal(){
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){
     this.getVehicles()
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public getVehicles(){
@@ -102,6 +136,7 @@ export class BuyCarPage implements OnInit {
       if (data.status) {
         this.utils.dismissLoading();
         this.arrayVehicles = data.data;
+        
       }else{
         this.utils.dismissLoading();
         this.utils.presentToast(data.message);

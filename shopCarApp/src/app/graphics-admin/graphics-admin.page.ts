@@ -14,7 +14,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { concesionaries } from 'src/assets/json/concesionaries';
 import { Browser } from '@capacitor/browser';
-
+moment
 @Component({
   selector: 'app-graphics-admin',
   templateUrl: './graphics-admin.page.html',
@@ -23,7 +23,7 @@ import { Browser } from '@capacitor/browser';
 export class GraphicsAdminPage implements AfterViewInit {
   today = new Date();
   lineChart: any;
-  month: number = 1;
+  month: any = "";
   yearSold: number = new Date().getFullYear();
   rangMonths: any = '';
   yearCar: string = '';
@@ -50,7 +50,8 @@ export class GraphicsAdminPage implements AfterViewInit {
   arrayConcesionary: any[] = []
 
   @ViewChild(IonModal) modal!: IonModal;
-  @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
+  @ViewChild('ModalFilterGraphicAdmin') modalFilter!: IonModal;
+  @ViewChild('ModalFilterVehicleAdmin') modalVehicle!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
 
   constructor(
@@ -168,6 +169,13 @@ export class GraphicsAdminPage implements AfterViewInit {
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
           this.lineChartMethod();
+          this.month = 1;
+          this.yearSold = new Date().getFullYear();
+          this.rangMonths = "";
+          this.yearCar = "";
+          this.brandCar = ""
+          this.modelCar = "";
+          this.concesionary2 = "";
         }else{
           this.utils.dismissLoading();
           this.utils.presentToast(res.message);
@@ -196,6 +204,12 @@ export class GraphicsAdminPage implements AfterViewInit {
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
+        this.dateTo="";
+        this.dateFrom="";
+        this.yearCar2="";
+        this.brandCar2="";
+        this.modelCar2="";
+        this.concesionary2="";
       }else{
         this.utils.presentToast(res.message);
       }
@@ -291,9 +305,20 @@ export class GraphicsAdminPage implements AfterViewInit {
     }
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.month = 1;
+    this.yearSold = new Date().getFullYear();
+    this.rangMonths = '';
+    this.yearCar = '';
+    this.yearCarAux = '';
+    this.brandCar = '';
+    this.modelCar = '';
+    
+  }
 
   public closeModal() {
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter() {
@@ -307,6 +332,15 @@ export class GraphicsAdminPage implements AfterViewInit {
 
   public openModalVehicle() {
     this.modalVehicle.present();
+
+    this.dateTo = '';
+    this.dateFrom = '';
+    this.yearCar2 = '';
+    this.yearCarAux2 = '';
+    this.brandCar2 = '';
+    this.modelCar2 = '';
+    this.concesionary2 = '';
+
   }
 
   public closeModal2() {

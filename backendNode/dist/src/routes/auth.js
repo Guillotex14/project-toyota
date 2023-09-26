@@ -13,99 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-//models
-const Users_1 = __importDefault(require("../models/Users"));
 const Response_1 = require("../models/Response");
-const Sellers_1 = __importDefault(require("../models/Sellers"));
-const Mechanics_1 = __importDefault(require("../models/Mechanics"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const imgUser_1 = __importDefault(require("../models/imgUser"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const sharp_1 = __importDefault(require("sharp"));
 const mechanicalsFiles_1 = __importDefault(require("../models/mechanicalsFiles"));
+const Vehicles_1 = __importDefault(require("../models/Vehicles"));
+const ImgVehicle_1 = __importDefault(require("../models/ImgVehicle"));
+const auth_controller_1 = __importDefault(require("../controllers/auth.controller"));
 const authRouter = (0, express_1.Router)();
-authRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonRes = new Response_1.ResponseModel();
-    const { email, password } = req.body;
-    const ress = yield Users_1.default.findOne({ email: email }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            const hash = bcrypt_1.default.compareSync(password, res.password);
-            if (hash) {
-                jsonRes.code = 200;
-                jsonRes.message = "login success";
-                jsonRes.status = true;
-                const userImg = yield imgUser_1.default.findOne({ id_user: res._id });
-                if (res.type_user == "seller") {
-                    yield Sellers_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
-                        if (res2) {
-                            let seller = {
-                                id: res._id,
-                                id_sell: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            };
-                            jsonRes.data = seller;
-                        }
-                    })).catch((err) => {
-                        console.log(err);
-                    });
-                }
-                else if (res.type_user == "mechanic") {
-                    yield Mechanics_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
-                        if (res2) {
-                            let mechanic = {
-                                id: res._id,
-                                id_mechanic: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            };
-                            jsonRes.data = mechanic;
-                            // return jsonRes;
-                        }
-                    })).catch((err) => {
-                        console.log(err);
-                    });
-                }
-                else {
-                    let mechanic = {
-                        id: res._id,
-                        email: res.email,
-                        username: res.username,
-                        type_user: res.type_user,
-                        img: null
-                    };
-                    jsonRes.data = mechanic;
-                }
-                return jsonRes;
-            }
-            else {
-                jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecta";
-                jsonRes.status = false;
-                return jsonRes;
-            }
-        }
-        else if (!res) {
-            jsonRes.code = 400;
-            jsonRes.message = "Ususario no registrado";
-            jsonRes.status = false;
-            return jsonRes;
-        }
-    })).catch((err) => {
-        console.log(err);
-    });
-    res.json(jsonRes);
-}));
+authRouter.post("/login", auth_controller_1.default.login);
 authRouter.post("/addImgProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user, image } = req.body;
@@ -164,6 +81,8 @@ authRouter.get("/sharpMetods", (req, res) => __awaiter(void 0, void 0, void 0, f
     //     }
     // }
     const deleteMechanicalFiles = yield mechanicalsFiles_1.default.deleteMany({});
+    const delVehicles = yield Vehicles_1.default.deleteMany({});
+    const delimgvehicles = yield ImgVehicle_1.default.deleteMany({});
     if (deleteMechanicalFiles) {
         console.log("eliminados");
     }

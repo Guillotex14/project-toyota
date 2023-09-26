@@ -139,7 +139,7 @@ ion-img{
   }
 }
 
-@media screen and (width:414px){
+@media screen and (max-width:576px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -149,7 +149,7 @@ ion-img{
   }
 }
 
-@media screen and (width:412px){
+@media screen and (max-width:480px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -159,7 +159,7 @@ ion-img{
   }
 }
 
-@media screen and (width:411px){
+@media screen and (max-width:414px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -169,7 +169,7 @@ ion-img{
   }
 }
 
-@media screen and (width: 393px){
+@media screen and (max-width:412px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -179,7 +179,27 @@ ion-img{
   }
 }
 
-@media screen and (width: 390px){
+@media screen and (max-width:411px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (wmax-idth: 393px){
+  .btnOutlineBlack {
+    height: 25px !important;
+    margin: 15px 0px 0px 0px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+  }
+}
+
+@media screen and (wmax-idth: 390px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -190,7 +210,7 @@ ion-img{
 }
 
 
-@media screen and (width:375px){
+@media screen and (max-width:375px){
   .iconListUser{
     font-size: 80px !important;
     margin: 25px 0px 0px 0px !important;
@@ -224,7 +244,7 @@ ion-img{
   }
 }
 
-@media screen and (width:360px){
+@media screen and (max-width:360px){
   .btnOutlineBlack {
     height: 25px !important;
     margin: 15px 0px 0px 0px !important;
@@ -236,11 +256,11 @@ ion-img{
   }
 }
 
-@media screen and (width:320px){
+@media screen and (max-width:320px){
   
 }
 
-@media screen  and (max-width: 280px){
+@media screen  and (max-wmax-idth: 280px){
   .card{
     text-align: center !important;
     .pTitle{

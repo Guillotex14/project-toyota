@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import Vehicles from "./src/models/Vehicles";
+import Vehicles from "./src/schemas/Vehicles.schema";
 import moment from 'moment';
 
 export function cronInit(){

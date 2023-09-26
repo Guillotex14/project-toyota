@@ -346,7 +346,7 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         query.km = { $gte: minKm, $lte: maxKm };
     }
     if (minPrice === 0 && maxPrice === 0) {
-        query.price = { $gte: 0, $ne: null };
+        query.price = { $exists: true };
     }
     else if (minPrice !== 0 && maxPrice === 0) {
         query.price = { $gte: minPrice, $ne: null };
@@ -361,13 +361,10 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
     query.brand = { $regex: brand, $options: "i" };
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-    query.mechanicalFile = true;
-    query.sold = false;
     query.id_seller = id_seller;
     const vehiclesFiltered = yield Vehicles_1.default
         .find(query)
         .sort({ date_create: -1 });
-    console.log(vehiclesFiltered);
     if (vehiclesFiltered) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
@@ -423,63 +420,6 @@ sellerRouter.post("/myVehicles", (req, res) => __awaiter(void 0, void 0, void 0,
         jsonRes.message = "No se encontraron vehículos";
         jsonRes.status = false;
     }
-    // const myVehicles = await vehicles
-    //   .find({ id_seller: id_seller })
-    //   .sort({ date_create: -1 });
-    // if (myVehicles) {
-    //   for (let i = 0; i < myVehicles.length; i++) {
-    //     let data = {
-    //       name_new_owner: myVehicles[i].name_new_owner,
-    //       dni_new_owner: myVehicles[i].dni_new_owner,
-    //       phone_new_owner: myVehicles[i].phone_new_owner,
-    //       email_new_owner: myVehicles[i].email_new_owner,
-    //       price_ofert: myVehicles[i].price_ofert,
-    //       final_price_sold: myVehicles[i].final_price_sold,
-    //       _id: myVehicles[i]._id,
-    //       model: myVehicles[i].model,
-    //       brand: myVehicles[i].brand,
-    //       year: myVehicles[i].year,
-    //       displacement: myVehicles[i].displacement,
-    //       km: myVehicles[i].km,
-    //       engine_model: myVehicles[i].engine_model,
-    //       titles: myVehicles[i].titles,
-    //       fuel: myVehicles[i].fuel,
-    //       transmission: myVehicles[i].transmission,
-    //       city: myVehicles[i].city,
-    //       dealer: myVehicles[i].dealer,
-    //       concesionary: myVehicles[i].concesionary,
-    //       traction_control: myVehicles[i].traction_control,
-    //       performance: myVehicles[i].performance,
-    //       comfort: myVehicles[i].comfort,
-    //       technology: myVehicles[i].technology,
-    //       id_seller: myVehicles[i].id_seller,
-    //       id_mechanic: myVehicles[i].id_mechanic,
-    //       price: myVehicles[i].price,
-    //       mechanicalFile: myVehicles[i].mechanicalFile,
-    //       id_seller_buyer: myVehicles[i].id_seller_buyer,
-    //       sold: myVehicles[i].sold,
-    //       type_vehicle: myVehicles[i].type_vehicle,
-    //       traction: myVehicles[i].traction,
-    //       date_sell: myVehicles[i].date_sell,
-    //       date_create: myVehicles[i].date_create,
-    //       plate: myVehicles[i].plate,
-    //       vin: myVehicles[i].vin,
-    //       dispatched: myVehicles[i].dispatched,
-    //       images: (await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id }))
-    //         ? await ImgVehicle.findOne({ id_vehicle: myVehicles[i]._id })
-    //         : "",
-    //     };
-    //     arrayVehicles.push(data);
-    //   }
-    //   jsonRes.code = 200;
-    //   jsonRes.message = "Vehicleos encontrados";
-    //   jsonRes.status = true;
-    //   jsonRes.data = arrayVehicles;
-    // } else {
-    //   jsonRes.code = 400;
-    //   jsonRes.message = "No se encontraron vehículos";
-    //   jsonRes.status = false;
-    // }
     res.json(jsonRes);
 }));
 sellerRouter.post("/vehicleById", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -758,6 +698,42 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const responseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
+    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    //   id_seller_buyer: id_seller,
+    //   name_new_owner: name_new_owner,
+    //   dni_new_owner: dni_new_owner,
+    //   phone_new_owner: phone_new_owner,
+    //   email_new_owner: email_new_owner,
+    //   price_ofert: price_ofert,
+    // });
+    // const sameIdSeller = await vehicles.findById(id_vehicle);
+    // if (sameIdSeller!.id_seller?.toString() === id_seller) {
+    //   console.log('soy el comprador')
+    //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    //     id_seller_buyer: id_seller,
+    //     name_new_owner: name_new_owner,
+    //     dni_new_owner: dni_new_owner,
+    //     phone_new_owner: phone_new_owner,
+    //     email_new_owner: email_new_owner,
+    //     price_ofert: price_ofert,
+    //     price: price_ofert,
+    //     sold: true,
+    //     date_sell: date_sell,
+    //     final_price_sold: price_ofert,
+    //     dispatched: true,
+    //   });
+    //   if (vehicle) {
+    //     responseJson.code = 200;
+    //     responseJson.message = "vehículo comprado exitosamente";
+    //     responseJson.status = true;
+    //     responseJson.data = vehicle;
+    //   } else {
+    //     responseJson.code = 400;
+    //     responseJson.message = "no se pudo comprar el vehículo";
+    //     responseJson.status = false;
+    //   }
+    // } else {
+    //   console.log('no soy el vendedor')
     const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: id_seller,
         name_new_owner: name_new_owner,
@@ -765,62 +741,27 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         phone_new_owner: phone_new_owner,
         email_new_owner: email_new_owner,
         price_ofert: price_ofert,
+        date_sell: date_sell,
+        sold: false,
     });
-    const sameIdSeller = yield Vehicles_1.default.findById(id_vehicle);
-    if (sameIdSeller.id_seller === id_seller) {
-        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
-            id_seller_buyer: id_seller,
-            name_new_owner: name_new_owner,
-            dni_new_owner: dni_new_owner,
-            phone_new_owner: phone_new_owner,
-            email_new_owner: email_new_owner,
-            price_ofert: price_ofert,
-            price: price_ofert,
-            sold: true,
-            date_sell: date_sell,
-            final_price_sold: price_ofert,
-            dispatched: true,
-        });
-        if (vehicle) {
-            responseJson.code = 200;
-            responseJson.message = "vehículo comprado exitosamente";
-            responseJson.status = true;
-            responseJson.data = vehicle;
-        }
-        else {
-            responseJson.code = 400;
-            responseJson.message = "no se pudo comprar el vehículo";
-            responseJson.status = false;
-        }
-    }
-    else {
-        const vehicle = yield Vehicles_1.default.findByIdAndUpdate(id_vehicle, {
-            id_seller_buyer: id_seller,
-            name_new_owner: name_new_owner,
-            dni_new_owner: dni_new_owner,
-            phone_new_owner: phone_new_owner,
-            email_new_owner: email_new_owner,
-            price_ofert: price_ofert,
-            sold: false,
-        });
-        const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
-        const infoBuyer = yield Sellers_1.default.findById(id_seller);
-        const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
-        const email = yield Users_1.default.findById(infoSeller.id_user);
-        const emailBuyer = yield Users_1.default.findById(infoBuyer.id_user);
-        const mailOptions = {
-            from: "Toyousado Notifications",
-            to: email.email,
-            subject: "Compra de vehículo",
-            text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
-        responseJson.code = 200;
-        responseJson.message =
-            "Compra realizada, esperar confirmación o rechazo del vendedor";
-        responseJson.status = true;
-    }
+    const getVehicle = yield Vehicles_1.default.findById(id_vehicle);
+    const infoBuyer = yield Sellers_1.default.findById(id_seller);
+    const infoSeller = yield Sellers_1.default.findById(getVehicle.id_seller);
+    const email = yield Users_1.default.findById(infoSeller.id_user);
+    const emailBuyer = yield Users_1.default.findById(infoBuyer.id_user);
+    const mailOptions = {
+        from: "Toyousado Notifications",
+        to: email.email,
+        subject: "Compra de vehículo",
+        text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
+    responseJson.code = 200;
+    responseJson.message =
+        "Compra realizada, esperar confirmación o rechazo del vendedor";
+    responseJson.status = true;
+    // }
     res.json(responseJson);
 }));
 sellerRouter.post("/approveBuyVehicle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1176,11 +1117,12 @@ sellerRouter.get("/filterGraphySell", (req, res) => __awaiter(void 0, void 0, vo
     let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary, } = req.query;
     let now = new Date();
     let anioActual = now.getFullYear();
+    let monthActual = (now.getMonth() + 1);
     if (yearSold) {
         anioActual = yearSold;
     }
     if (!month) {
-        month = 1;
+        month = monthActual;
     }
     if (!rangMonths) {
         rangMonths = 1;

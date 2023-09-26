@@ -16,7 +16,7 @@ import { Browser } from '@capacitor/browser';
 export class GraphicsPage implements AfterViewInit, OnInit {
   today = new Date();
   lineChart: any;
-  month: number = 1;
+  month: any = "";
   yearSold: number = new Date().getFullYear();
   rangMonths: any = '';
   yearCar: string="";
@@ -43,7 +43,8 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayListCars: any[] = [];
   
   @ViewChild(IonModal) modal!: IonModal;
-  @ViewChild('ModalFilterVehicle') modalVehicle!: IonModal;
+  @ViewChild('ModalFilterVehicleSeller') modalVehicle!: IonModal;
+  @ViewChild('ModalFilterGraphicSeller') modalFilter!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
 
   constructor(
@@ -155,6 +156,12 @@ export class GraphicsPage implements AfterViewInit, OnInit {
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
           this.lineChartMethod();
+          this.month = 1;
+          this.yearSold = new Date().getFullYear();
+          this.rangMonths = "";
+          this.yearCar = "";
+          this.brandCar = "";
+          this.modelCar = "";
         }else{
           this.utils.dismissLoading();
           this.utils.presentToast(res.message);
@@ -184,6 +191,12 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
+        this.dateTo = ""
+        this.dateFrom = ""
+        this.yearCar2 = ""
+        this.brandCar2 = ""
+        this.modelCar2 = ""
+        this.concesionary2 = ""
       }else{
         this.utils.presentToast(res.message);
       }
@@ -278,9 +291,20 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     }
   }
 
+  public openModal(){
+    this.modalFilter.present();
+    this.month = 1;
+    this.yearSold = new Date().getFullYear();
+    this.rangMonths = '';
+    this.yearCar = '';
+    this.yearCarAux = '';
+    this.brandCar = '';
+    this.modelCar = '';
+  }
 
   public closeModal(){
-    this.modal.dismiss();
+    this.modalFilter.dismiss();
+    
   }
 
   public applyFilter(){
@@ -295,6 +319,13 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
   public openModalVehicle(){
     this.modalVehicle.present();
+    this.dateTo = '';
+    this.dateFrom = '';
+    this.yearCar2 = '';
+    this.yearCarAux2 = '';
+    this.brandCar2 = '';
+    this.modelCar2 = '';
+    this.concesionary2 = '';
   }
 
   public closeModal2(){

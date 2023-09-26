@@ -37,13 +37,13 @@
 
           <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colResultFilter">
             <span>
-              Resultados
+              Resultados {{arrayVehicles.length}}
             </span>
           </ion-col>
           <ion-col sizeXl="4" sizeLg="4" sizeMd="2" sizeSm="2" sizeXs="2">
           </ion-col>
 
-          <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" id="openFilters">
+          <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5" class="colIconFilter" (click)="openModal()">
             <ion-icon name="list-outline"></ion-icon>
             <span>
               Filtro
@@ -62,7 +62,7 @@
               <span>Todos los modelos</span>
             </ion-col>
 
-            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
@@ -78,7 +78,7 @@
                     {{vehicle.city}}
                   </p>
                 </ion-card-content>
-                <ion-chip *ngIf="vehicle.id_seller_buyer !== null">
+                <ion-chip *ngIf="vehicle.id_seller_buyer !== null" class="chipCard">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
                 <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">
@@ -97,7 +97,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-modal trigger="openFilters" #modalFilter>
+  <ion-modal #modalFilterBuyCar>
     <ng-template>
       
       <ion-header>
@@ -150,8 +150,8 @@
                     <ion-radio value=""></ion-radio>
                   </ion-item>
                   <ion-item *ngFor="let model of arrayModels">
-                    <ion-label>{{model.modelo}}</ion-label>
-                    <ion-radio [value]="model.modelo"></ion-radio>
+                    <ion-label>{{model.model}}</ion-label>
+                    <ion-radio [value]="model.model"></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>

@@ -45,6 +45,7 @@ export class HomeMechanicPage implements OnInit {
   notificationById: NotificationById = new NotificationById();
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
+  @ViewChild('modalFilterHomeMechanic') modalFilter!: IonModal;
   
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController) { 
     this.arrayUbication = states;
@@ -55,12 +56,6 @@ export class HomeMechanicPage implements OnInit {
       this.id_mechanic = me.id_mechanic;
       this.id_user = me.id;
     }
-
-    // this.getCountInspections();
-    // this.getvehicles();
-    // this.getNotifies();
-    // this.getBrands();
-    // this.getModels();
   }
 
   ngOnInit() {
@@ -68,6 +63,7 @@ export class HomeMechanicPage implements OnInit {
 
   ionViewWillEnter(){
     this.getCountInspections();
+    this.getCountNotifies()
     this.getvehicles();
     this.getNotifies();
     this.getBrands();
@@ -218,7 +214,6 @@ export class HomeMechanicPage implements OnInit {
     }
 
     this.mechanicSrv.updateNotification(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.getNotifies();
         this.getCountNotifies();
@@ -243,7 +238,29 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public openModalNotification(){
-    this.modal.present();
+    if (this.arrayNotifies.length > 0 ) {
+      this.modal.present();
+    }
+  }
+
+  public openModal(){
+    this.modalFilter.present();
+    this.minYear = "";
+    this.maxYear = "";
+    this.minPrice = "";
+    this.maxPrice = "";
+    this.minKms = "";
+    this.maxKms = "";
+    this.brand = "";
+    this.model = "";
+    this.ubication = "";
+    this.type_vehicle = "";
+    this.minYearAux = "";
+    this.maxYearAux = "";
+    this.minPriceAux = "";
+    this.maxPriceAux = "";
+    this.minKmsAux = "";
+    this.maxKmsAux = "";
   }
 
   public closeModal(){
@@ -251,11 +268,11 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public closeModalDetail(){
-    if(this.arrayNotifies.length > 0){
+    if(this.arrayNotifies.length == 0){
       this.filterModal.dismiss();
+      this.modal.dismiss();
     }else{
       this.filterModal.dismiss();
-      this.modal.present();
     }
   }
 
@@ -272,6 +289,8 @@ export class HomeMechanicPage implements OnInit {
         this.notificationById = data.data;
         this.filterModal.present();
         this.updateNotification();
+        this.getNotifies();
+        this.getCountNotifies();
       }
 
     })
@@ -366,12 +385,12 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public dismissModal(){
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
   public applyFilter(){
     this.getvehicles();
-    this.modalCtrl.dismiss();
+    this.modalFilter.dismiss();
   }
 
 }
