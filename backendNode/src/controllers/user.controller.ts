@@ -157,7 +157,7 @@ userController.update = async (req: Request, res: Response) => {
       reponseJson.message = "Usuario sin perimiso";
       reponseJson.status = false;
     }
-    reponseJson.code = 400;
+    reponseJson.code = 200;
     reponseJson.message = message;
   } else {
     reponseJson.code = 400;
@@ -167,11 +167,26 @@ userController.update = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-userController.delete = async (req: Request, res: Response) => {};
+userController.delete = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  reponseJson.code = 200;
+      reponseJson.message = "";
+      reponseJson.status = true;
+};
 
-userController.get = async (req: Request, res: Response) => {};
+userController.get = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+};
 
-userController.all = async (req: Request, res: Response) => {};
+userController.all = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+};
 
 async function addOrUpdateAdmin(data: any) {
   if (data.id_user) {
