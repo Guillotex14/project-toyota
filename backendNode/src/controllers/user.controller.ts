@@ -26,6 +26,14 @@ userController.insert = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
+  if (!data.type_user || data.type_user == "") {
+    reponseJson.code = 400;
+    reponseJson.message = "typo de usuario para crear requerido";
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
   const user = await Users.findOne({ email: data.email });
   let message = "";
 
@@ -125,6 +133,14 @@ userController.update = async (req: Request, res: Response) => {
   if (!data.id_user || data.id_user == "") {
     reponseJson.code = 400;
     reponseJson.message = "id_user requerido";
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  if (!data.type_user || data.type_user == "") {
+    reponseJson.code = 400;
+    reponseJson.message = "typo de usuario para editar requerido";
     reponseJson.status = false;
     reponseJson.data = null;
     return res.json(reponseJson);
