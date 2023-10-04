@@ -1,0 +1,1 @@
+{"version":3,"file":"modelVehicle.schema.js","sourceRoot":"","sources":["../../../src/schemas/modelVehicle.schema.ts"],"names":[],"mappings":";;AAAA,uCAAyC;AAEzC,MAAM,kBAAkB,GAAG,IAAI,iBAAM,CAAC;IAClC,KAAK,EAAE,MAAM;IACb,YAAY,EAAE,MAAM;IACpB,KAAK,EAAE,MAAM;CAChB,CAAC,CAAC;AAEH,kBAAe,IAAA,gBAAK,EAAC,cAAc,EAAE,kBAAkB,CAAC,CAAC"}
