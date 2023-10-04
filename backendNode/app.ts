@@ -6,6 +6,7 @@ import authRouter from "./src/routes/auth.route";
 import { port } from "./config";
 import cors from "cors";
 import path from "path"
+import userRouter from "./src/routes/user.route";
 
 export class App {
     app: Express.Application;
@@ -29,6 +30,7 @@ export class App {
 
     routes() {
         this.app.use("/auth", authRouter );
+        this.app.use("/user", userRouter );
         this.app.use("/admin", adminRouter );
         this.app.use("/seller", sellerRouter);
         this.app.use("/mechanic", mechanicRouter)

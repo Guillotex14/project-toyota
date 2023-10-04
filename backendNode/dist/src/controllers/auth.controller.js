@@ -19,6 +19,7 @@ const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
+const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -82,6 +83,8 @@ authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     };
                     jsonRes.data = mechanic;
                 }
+                let token = generar_jwt_1.default.generateToken(jsonRes.data);
+                jsonRes.data.token = token;
                 return jsonRes;
             }
             else {

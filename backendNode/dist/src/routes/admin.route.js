@@ -256,7 +256,6 @@ adminRouter.post("/sellerById", (req, res) => __awaiter(void 0, void 0, void 0, 
 adminRouter.post("/updateSeller", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { _id, email, username, fullName, city, concesionary, password, id_user, phone } = req.body;
-    console.log(req.body);
     const seller = { _id: _id };
     const user = { _id: id_user };
     const sellerUpdate = { fullName: fullName, city: city, concesionary: concesionary, phone: phone };
