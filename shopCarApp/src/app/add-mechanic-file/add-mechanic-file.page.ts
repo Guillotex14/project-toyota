@@ -142,11 +142,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.distribution_mail === "" || this.newMechanicalFile.distribution_mail === undefined){
-<<<<<<< HEAD
       this.utils.presentToast("El campo Correa de distribución es requerido")
-=======
-      this.utils.presentToast("El campo Correo de distribución es requerido")
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       return;
     }
 

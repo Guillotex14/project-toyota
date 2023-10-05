@@ -115,13 +115,10 @@ export class UtilsService {
     await alert.present();
   }
 
-<<<<<<< HEAD
   public validateEmail(email: string): boolean {
     var re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
-=======
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
 }

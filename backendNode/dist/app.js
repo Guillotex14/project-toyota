@@ -12,10 +12,7 @@ const auth_route_1 = __importDefault(require("./src/routes/auth.route"));
 const config_1 = require("./config");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
-<<<<<<< HEAD
-=======
 const user_route_1 = __importDefault(require("./src/routes/user.route"));
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -33,10 +30,7 @@ class App {
     }
     routes() {
         this.app.use("/auth", auth_route_1.default);
-<<<<<<< HEAD
-=======
         this.app.use("/user", user_route_1.default);
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
         this.app.use("/admin", admin_route_1.default);
         this.app.use("/seller", seller_route_1.default);
         this.app.use("/mechanic", mechanic_route_1.default);

@@ -33,6 +33,13 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    if (!data.type_user || data.type_user == "") {
+        reponseJson.code = 400;
+        reponseJson.message = "typo de usuario para crear requerido";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
     const user = yield Users_schema_1.default.findOne({ email: data.email });
     let message = "";
     if (!user) {
@@ -123,6 +130,13 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    if (!data.type_user || data.type_user == "") {
+        reponseJson.code = 400;
+        reponseJson.message = "typo de usuario para editar requerido";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
     const user = yield Users_schema_1.default.findOne({ _id: data.id_user });
     let message = "";
     if (user) {
@@ -142,19 +156,20 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             else {
                 message = `El usuario no se encuentra en ese rol`;
             }
+            reponseJson.status = data;
         }
         else if (decode.type_user == "seller") {
             yield addOrUpdateMechanic(data);
             message = `El usuario tecnico fue modificado con exito`;
+            reponseJson.status = data;
         }
         else {
             reponseJson.code = 400;
             reponseJson.message = "Usuario sin perimiso";
             reponseJson.status = false;
         }
-        reponseJson.code = 400;
+        reponseJson.code = 200;
         reponseJson.message = message;
-        reponseJson.status = data;
     }
     else {
         reponseJson.code = 400;
@@ -163,9 +178,24 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     res.json(reponseJson);
 });
-userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
-userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
-userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
+userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
+userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
 function addOrUpdateAdmin(data) {
     return __awaiter(this, void 0, void 0, function* () {
         if (data.id_user) {

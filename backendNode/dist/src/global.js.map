@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"global.js","sourceRoot":"","sources":["../../src/global.ts"],"names":[],"mappings":";;;AAAa,QAAA,OAAO,GAAG,gDAAgD,CAAC;AACxE,mDAAmD"}
-=======
 {"version":3,"file":"global.js","sourceRoot":"","sources":["../../src/global.ts"],"names":[],"mappings":";AAAA,2EAA2E;;;AAE9D,QAAA,OAAO,GAAG,wBAAwB,CAAC"}
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848

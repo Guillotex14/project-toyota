@@ -93,15 +93,8 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     let data = {
       id_vehicle: this.id
     }
-<<<<<<< HEAD
     this.utils.presentLoading("Cargando ficha...");
     this.mechanicSrv.getMechanicalFile(data).subscribe((res:any)=>{
-=======
-    console.log(data)
-    this.utils.presentLoading("Cargando ficha...");
-    this.mechanicSrv.getMechanicalFile(data).subscribe((res:any)=>{
-      console.log(res)
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       if (res.status) {
         this.mechanicalFileDetail = res.data;
         this.utils.dismissLoading();

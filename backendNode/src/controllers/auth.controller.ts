@@ -6,10 +6,7 @@ import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
-<<<<<<< HEAD
-=======
 import Jwt from "../helpers/generar-jwt";
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
 
 const authController: any  = {};
 
@@ -19,10 +16,6 @@ authController.login = async (req: Request, res: Response) => {
 
     const { email, password } = req.body;
     const ress =  await Users.findOne({email: email}).then(async(res:any) => {
-<<<<<<< HEAD
-        
-=======
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
         if (res) {
             const hash = bcrypt.compareSync(password, res.password);
             if (hash) {
@@ -86,12 +79,8 @@ authController.login = async (req: Request, res: Response) => {
                     }
                     jsonRes.data = mechanic;
                 }
-<<<<<<< HEAD
-
-=======
                 let token=Jwt.generateToken(jsonRes.data);
                 jsonRes.data.token=token;
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
                 return jsonRes;
             } else {
                 jsonRes.code = 400;

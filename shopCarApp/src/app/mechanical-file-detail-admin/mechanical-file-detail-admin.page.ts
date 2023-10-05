@@ -96,10 +96,6 @@ export class MechanicalFileDetailAdminPage implements OnInit {
     this.sellerSrv.mechanicFile(data).subscribe((data:any) => {
 
       if(data.status){
-<<<<<<< HEAD
-=======
-        console.log(data);
->>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
         this.mechanicalFile = data.data;
         this.utils.dismissLoading();
 
