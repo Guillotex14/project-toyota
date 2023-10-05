@@ -19,7 +19,6 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   ionViewWillEnter(){

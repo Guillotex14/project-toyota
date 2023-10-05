@@ -71,6 +71,10 @@ export class AppComponent implements  OnInit{
 
   public getLogin() {
     this.utils.getLogin().subscribe((data) => {
+<<<<<<< HEAD
+=======
+      console.log(data)
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       if (data === true) {
 
         let me = localStorage.getItem('me')!;
@@ -166,6 +170,10 @@ export class AppComponent implements  OnInit{
     let me = JSON.parse(dataMe!);
 
     this.authSrv.addImage(data).subscribe((data:any)=>{
+<<<<<<< HEAD
+=======
+      console.log(data);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       if(data.status){
         this.image = data.data;
         this.utils.dismissLoading();
@@ -182,6 +190,10 @@ export class AppComponent implements  OnInit{
       }
 
     }, (error)=>{
+<<<<<<< HEAD
+=======
+      console.log(error);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       this.utils.dismissLoading();
       this.utils.presentToast("Error al subir la imagen");
     });
@@ -200,6 +212,10 @@ export class AppComponent implements  OnInit{
     
     this.authSrv.UpdateImage(data).subscribe((data:any)=>{
 
+<<<<<<< HEAD
+=======
+      console.log(data);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       if(data.status){
         this.image = data.data;
         this.utils.dismissLoading();
@@ -214,6 +230,10 @@ export class AppComponent implements  OnInit{
         this.utils.presentToast(data.message);
       }
     }, (error)=>{
+<<<<<<< HEAD
+=======
+      console.log(error);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       this.utils.dismissLoading();
       this.utils.presentToast("Error al subir la imagen");
     });
@@ -240,6 +260,10 @@ export class AppComponent implements  OnInit{
   public getImage2(file:FileList){
     this.utils.presentLoading("Cargando imagen...");
     let reader = new FileReader();
+<<<<<<< HEAD
+=======
+    console.log(this.aux);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
     reader.onload = (e:any)=>{
       let info = e.target["result"];
       let split = info.split("base64");
@@ -313,6 +337,10 @@ export class AppComponent implements  OnInit{
       source: CameraSource.Photos,
 
     }).then((imageData)=>{
+<<<<<<< HEAD
+=======
+      console.log(imageData)
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       this.updateImgDB(imageData.dataUrl);
     } ,
     (err)=>{

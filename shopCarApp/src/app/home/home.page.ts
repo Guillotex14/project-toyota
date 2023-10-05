@@ -14,6 +14,7 @@ export class HomePage {
 
   newLogin: LoginModel = new LoginModel();
   showPass: string = 'password';
+<<<<<<< HEAD
 
   invalidEmail: boolean = false;
   incorrectPass: boolean = false;
@@ -21,6 +22,8 @@ export class HomePage {
   emptyEmail: boolean = false;
   emptyPass: boolean = false;
 
+=======
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
   constructor(private router: Router, private utils:UtilsService, private authSrv:AuthService) {
     this.newLogin.email = '';
     this.newLogin.password = '';
@@ -48,21 +51,33 @@ export class HomePage {
   public login(){
 
     if (this.newLogin.email == '') {
+<<<<<<< HEAD
       this.utils.presentToast('El campo correo electrónico es obligatorio');
       this.emptyEmail=true;
       this.incorrectUser=false;
       this.invalidEmail=false;
+=======
+      this.utils.presentToast('el campo correo electrónico es obligatorio');
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       return;
     }
 
     if (this.newLogin.password == '') {
+<<<<<<< HEAD
       this.utils.presentToast('El campo contraseña es obligatorio');
       this.emptyPass=true;
       this.incorrectPass=false;
+=======
+      this.utils.presentToast('el campo contraseña es obligatorio');
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       return;
     }
 
     this.authSrv.login(this.newLogin).subscribe((res:any) => {
+<<<<<<< HEAD
+=======
+      console.log(res);
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
 
       if (res.status == true) {
         this.authSrv.saveData(res.data);
@@ -82,8 +97,11 @@ export class HomePage {
 
       }else{
         this.utils.presentToast(res.message);
+<<<<<<< HEAD
         if (res.message == 'Contraseña incorrecta') this.incorrectPass=true;
         if (res.message == 'Ususario no registrado') this.incorrectUser=true;
+=======
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
       }
     });
 
@@ -97,6 +115,7 @@ export class HomePage {
     }
   }
 
+<<<<<<< HEAD
   public validEmail(event:any){
     if (event.detail.value !== '') {
       this.incorrectUser=false;
@@ -120,4 +139,6 @@ export class HomePage {
     console.log(event)
     if (event.keyCode === '13') this.login(); 
   }
+=======
+>>>>>>> a9d8cb4316b5dddb3cf2fb2b6196426e94fb1848
 }
