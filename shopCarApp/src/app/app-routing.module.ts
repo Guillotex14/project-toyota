@@ -118,7 +118,23 @@ const routes: Routes = [
   {
     path: 'add-model-vehicle',
     loadChildren: () => import('./add-model-vehicle/add-model-vehicle.module').then( m => m.AddModelVehiclePageModule)
+  },  {
+    path: 'list-mechanic-admin',
+    loadChildren: () => import('./list-mechanic-admin/list-mechanic-admin.module').then( m => m.ListMechanicAdminPageModule)
+  },
+  {
+    path: 'edit-mechanic-admin',
+    loadChildren: () => import('./edit-mechanic-admin/edit-mechanic-admin.module').then( m => m.EditMechanicAdminPageModule)
+  },
+  {
+    path: 'list-brand-admin',
+    loadChildren: () => import('./list-brand-admin/list-brand-admin.module').then( m => m.ListBrandAdminPageModule)
+  },
+  {
+    path: 'list-model-admin',
+    loadChildren: () => import('./list-model-admin/list-model-admin.module').then( m => m.ListModelAdminPageModule)
   }
+
 ];
 
 @NgModule({

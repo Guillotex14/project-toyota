@@ -137,7 +137,6 @@ export class AddMechanicPage implements OnInit {
   }
 
   filterConces(event:any){
-    console.log(this.newMechanic.city)
     if (this.newMechanic.city == '' || this.newMechanic.city == undefined || this.newMechanic.city == null) {
       this.auxConces = this.arrayConcesionaries;
     }else{
@@ -148,9 +147,7 @@ export class AddMechanicPage implements OnInit {
 
       for (let i = 0; i < this.arrayConcesionaries.length; i++) {
         zon = this.arrayConcesionaries[i].estado.toLowerCase();
-        console.log(zon)
         if (zon.includes(this.newMechanic.city.toLowerCase())) {
-          console.log(this.arrayConcesionaries[i])
           this.auxConces.push(this.arrayConcesionaries[i]);
         }
       }

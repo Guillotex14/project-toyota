@@ -28,8 +28,44 @@
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
 
+@font-face {
+  font-family: 'ToyotaBold';
+  src: url('/assets/fonts/Display\ fonts/Display\ Bold/ToyotaDisplay_Bd.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaRegular';
+  src: url('/assets/fonts/Display\ fonts/Display\ Regular/ToyotaDisplay_Rg.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaHeavy';
+  src: url('/assets/fonts/Display\ fonts/Display\ Heavy/ToyotaDisplay_He.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaTextBold';
+  src: url('/assets/fonts/Text\ fonts/Text\ Bold/ToyotaText_Bold.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaTextBoldItalic';
+  src: url('/assets/fonts/Text\ fonts/Text\ Bold\ Italic/ToyotaText_BdIt.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaItalic';
+  src: url('/assets/fonts/Text\ fonts/Text\ Italic/ToyotaText_It.ttf');
+}
+
+@font-face {
+  font-family: 'ToyotaTextRegular';
+  src: url('/assets/fonts/Text\ fonts/Text\ Regular/ToyotaText_Rg.ttf');
+}
+
+
 *{
-  font-family: 'Poppins', sans-serif;
+  font-family: 'ToyotaRegular';
 }
 
 .header{
@@ -46,7 +82,7 @@
   }
 
   .headerTitle{
-    font-size: 28px !important;
+    font-size: 25px !important;
     margin-top: 40px !important;
   }
 
@@ -291,7 +327,7 @@
 
 .sidebarTypeuser{
   font-size: 15px !important; 
-  color: #EB0A1E !important;
+  color: #fff !important;
   margin: 0px auto auto 25px !important;
 }
 

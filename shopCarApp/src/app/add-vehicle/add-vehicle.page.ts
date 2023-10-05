@@ -126,7 +126,6 @@ export class AddVehiclePage implements OnInit {
 
   public getBrands(){
     this.sellerSrv.allBrands().subscribe((res: any) => {
-        console.log(res)
         this.arrayBrands = res.data;
 
       }, (err: any) => {
@@ -138,7 +137,6 @@ export class AddVehiclePage implements OnInit {
   public getMechanics(){
     this.utils.presentLoading('Cargando técnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
-      console.log(data)
       if (data.status) {
         this.arrayMechanics = data.data;
         this.auxMechanic = data.data;
@@ -264,40 +262,6 @@ export class AddVehiclePage implements OnInit {
     this.arrayImages.splice(index,1)
   }
 
-  // public addImage() {
-  //   this.fileInput.nativeElement.click();
-  // }
-
-  // public getImage(file:FileList){
-  //   this.utils.presentLoading("Cargando imagen...");
-  //   let reader = new FileReader();
-  //   reader.onload = (e:any)=>{
-  //     let info = e.target["result"];
-  //     let split = info.split("base64");
-  //     let split2 = split[0].split("/");
-  //     let type = split2[1];
-
-  //     let img = {
-  //       image:e.target["result"],
-  //     }
-  //     this.arrayImages.push(img);
-  //     this.utils.dismissLoading();
-  //   }
-  //   reader.readAsDataURL(file[0]);
-  // }
-
-  // public getImage2(file:FileList){
-  //   this.utils.presentLoading("Cargando imagen...");
-  //   let reader = new FileReader();
-  //   console.log(this.aux);
-  //   reader.onload = (e:any)=>{
-  //     this.arrayImages[this.aux].image = +e.target["result"];
-  //     this.utils.dismissLoading();
-  //     console.log(this.arrayImages)
-  //   }
-  //   reader.readAsDataURL(file[0]);
-  // }
-
   public editImage(index:any){
     this.aux = index;
     // this.fileInput2.nativeElement.click();
@@ -334,7 +298,6 @@ export class AddVehiclePage implements OnInit {
   }
 
   public async modalMechanic(){
-    console.log(this.newVehicle.concesionary)
     const modal = await this.modalCtrl.create({
       component: ModalMechanicComponent,
       cssClass: 'modal-mechanic',
@@ -346,8 +309,6 @@ export class AddVehiclePage implements OnInit {
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
-
-    console.log(data)
 
     if(data.id_mechanic != undefined || data.id_mechanic != null || data.id_mechanic != ''){
       this.newVehicle.id_mechanic = data.id_mechanic;
@@ -496,7 +457,6 @@ export class AddVehiclePage implements OnInit {
 
   public filterConces(){
 
-    console.log(this.newVehicle.city)
     if (this.newVehicle.city == '' || this.newVehicle.city == undefined || this.newVehicle.city == null) {
       this.conceAux = this.arrayConcesionaries;
     }else{
@@ -517,14 +477,12 @@ export class AddVehiclePage implements OnInit {
   }
 
   public filterMechanic(){
-    console.log(this.newVehicle.concesionary)
     if (this.newVehicle.concesionary !== "") {
       let data = {
         concesionary: this.newVehicle.concesionary,
       }
       this.arrayMechanics = [];
       this.sellerSrv.getMechanicByConcesionary(data).subscribe((res:any)=>{
-        console.log(res)
         if (res.status) {
           
           this.arrayMechanics = res.data;
@@ -539,7 +497,6 @@ export class AddVehiclePage implements OnInit {
   }
 
   public onWillDismiss(event: any) {
-    console.log(event.detail.data);
     if (event.detail.role === 'confirm') {
       this.utils.presentToast(`Técnico seleccionado correctamente ${event.detail.data.mechanic.fullName}`);
       this.newVehicle.id_mechanic = event.detail.data.mechanic._id;
@@ -567,7 +524,6 @@ export class AddVehiclePage implements OnInit {
 
   public selectMechanic(id_mechanic: string){
     // this.utils.presentLoading('Seleccionando Técnico...');
-    console.log(id_mechanic)
     this.modalCtrl.dismiss({
       mechanic: id_mechanic
     }, "confirm");

@@ -176,7 +176,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   public getCarList(){
-    console.log("buscando......")
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -187,7 +186,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       id_user: this.id_user,
     }
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
-      console.log(res)
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
@@ -252,7 +250,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
             //         'Archivo PDF guardado con éxito en esta ruta: ' +
             //           rutaArchivo
             //       );
-            //       console.log('Archivo PDF guardado con éxito');
             //     } catch (error) {
             //       this.utils.presentToast(
             //         'Error al descargar el archivo: ' + error

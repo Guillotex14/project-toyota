@@ -52,7 +52,6 @@ export class CarDetailAdminPage implements OnInit {
     this.adminSrv.getVehicleById(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
         this.carDetail = data.data;
         this.utils.dismissLoading();
       }else{

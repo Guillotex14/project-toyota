@@ -107,7 +107,6 @@ export class MyvehiclesPage implements OnInit {
     this.sellerSrv.getMyVehicles(data).subscribe((data:any) => {
 
       if(data.status){
-        console.log(data);
         this.arrayVehicles = data.data;
         this.utils.dismissLoading();
         

@@ -141,7 +141,6 @@ export class CreateUserAdminPage implements OnInit {
   }
 
   filterConces(event:any){
-    console.log(this.newSeller.city)
     if (this.newSeller.city == '' || this.newSeller.city == undefined || this.newSeller.city == null) {
       this.auxConces = this.arrayConcesionaries;
     }else{
@@ -152,9 +151,7 @@ export class CreateUserAdminPage implements OnInit {
 
       for (let i = 0; i < this.arrayConcesionaries.length; i++) {
         zon = this.arrayConcesionaries[i].estado.toLowerCase();
-        console.log(zon)
         if (zon.includes(this.newSeller.city.toLowerCase())) {
-          console.log(this.arrayConcesionaries[i])
           this.auxConces.push(this.arrayConcesionaries[i]);
         }
       }

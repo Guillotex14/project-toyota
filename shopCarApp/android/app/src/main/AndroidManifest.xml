@@ -38,10 +38,10 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+    <!-- <preference name="orientation" value="portrait" /> -->
     </application>
 
     <!-- Permissions -->
-    <preference name="orientation" value="portrait" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />

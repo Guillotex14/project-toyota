@@ -102,8 +102,6 @@ export class ListUserAdminPage implements OnInit {
     //   }
     // });
 
-    console.log("searchUser", event)
-
     let data = { search: event.detail.value };
 
     if (data.search == "") {

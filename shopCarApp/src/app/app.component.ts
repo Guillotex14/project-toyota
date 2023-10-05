@@ -71,7 +71,6 @@ export class AppComponent implements  OnInit{
 
   public getLogin() {
     this.utils.getLogin().subscribe((data) => {
-      console.log(data)
       if (data === true) {
 
         let me = localStorage.getItem('me')!;
@@ -167,7 +166,6 @@ export class AppComponent implements  OnInit{
     let me = JSON.parse(dataMe!);
 
     this.authSrv.addImage(data).subscribe((data:any)=>{
-      console.log(data);
       if(data.status){
         this.image = data.data;
         this.utils.dismissLoading();
@@ -184,7 +182,6 @@ export class AppComponent implements  OnInit{
       }
 
     }, (error)=>{
-      console.log(error);
       this.utils.dismissLoading();
       this.utils.presentToast("Error al subir la imagen");
     });
@@ -203,7 +200,6 @@ export class AppComponent implements  OnInit{
     
     this.authSrv.UpdateImage(data).subscribe((data:any)=>{
 
-      console.log(data);
       if(data.status){
         this.image = data.data;
         this.utils.dismissLoading();
@@ -218,7 +214,6 @@ export class AppComponent implements  OnInit{
         this.utils.presentToast(data.message);
       }
     }, (error)=>{
-      console.log(error);
       this.utils.dismissLoading();
       this.utils.presentToast("Error al subir la imagen");
     });
@@ -245,7 +240,6 @@ export class AppComponent implements  OnInit{
   public getImage2(file:FileList){
     this.utils.presentLoading("Cargando imagen...");
     let reader = new FileReader();
-    console.log(this.aux);
     reader.onload = (e:any)=>{
       let info = e.target["result"];
       let split = info.split("base64");
@@ -319,7 +313,6 @@ export class AppComponent implements  OnInit{
       source: CameraSource.Photos,
 
     }).then((imageData)=>{
-      console.log(imageData)
       this.updateImgDB(imageData.dataUrl);
     } ,
     (err)=>{

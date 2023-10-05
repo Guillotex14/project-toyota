@@ -14,6 +14,13 @@ export class HomePage {
 
   newLogin: LoginModel = new LoginModel();
   showPass: string = 'password';
+
+  invalidEmail: boolean = false;
+  incorrectPass: boolean = false;
+  incorrectUser: boolean = false;
+  emptyEmail: boolean = false;
+  emptyPass: boolean = false;
+
   constructor(private router: Router, private utils:UtilsService, private authSrv:AuthService) {
     this.newLogin.email = '';
     this.newLogin.password = '';
@@ -41,17 +48,21 @@ export class HomePage {
   public login(){
 
     if (this.newLogin.email == '') {
-      this.utils.presentToast('el campo correo electrónico es obligatorio');
+      this.utils.presentToast('El campo correo electrónico es obligatorio');
+      this.emptyEmail=true;
+      this.incorrectUser=false;
+      this.invalidEmail=false;
       return;
     }
 
     if (this.newLogin.password == '') {
-      this.utils.presentToast('el campo contraseña es obligatorio');
+      this.utils.presentToast('El campo contraseña es obligatorio');
+      this.emptyPass=true;
+      this.incorrectPass=false;
       return;
     }
 
     this.authSrv.login(this.newLogin).subscribe((res:any) => {
-      console.log(res);
 
       if (res.status == true) {
         this.authSrv.saveData(res.data);
@@ -71,6 +82,8 @@ export class HomePage {
 
       }else{
         this.utils.presentToast(res.message);
+        if (res.message == 'Contraseña incorrecta') this.incorrectPass=true;
+        if (res.message == 'Ususario no registrado') this.incorrectUser=true;
       }
     });
 
@@ -84,4 +97,27 @@ export class HomePage {
     }
   }
 
+  public validEmail(event:any){
+    if (event.detail.value !== '') {
+      this.incorrectUser=false;
+      this.emptyEmail=false;
+      if (!this.utils.validateEmail(event.detail.value)) {
+        this.invalidEmail=true;
+      }else{
+        this.invalidEmail=false;
+      }
+    }
+  }
+
+  public validPass(event:any){
+    if(event.detail.value !== ''){
+      if (this.incorrectPass) this.incorrectPass = false; 
+      if (this.emptyPass) this.emptyPass = false;
+    }
+  }
+
+  public enterKey(event:any){
+    console.log(event)
+    if (event.keyCode === '13') this.login(); 
+  }
 }

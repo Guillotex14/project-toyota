@@ -33,7 +33,6 @@ export class AddModelVehiclePage implements OnInit {
 
   public getBrands(){
     this.adminSrv.allBrands().subscribe((res: any) => {
-        console.log(res)
         this.arrayBrands = res.data;
 
       }, (err: any) => {

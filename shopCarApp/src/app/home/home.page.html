@@ -8,22 +8,41 @@
 
       <ion-col size="12" class="colInputUser">
         <ion-label style="margin: 10px 30px !important;">Correo electrónico</ion-label>
-        <ion-row>
+        <ion-row [class.borderRed]="invalidEmail || incorrectUser || emptyEmail">
           <ion-col size="12">
-            <ion-input type="email" id="inputEmail" [(ngModel)]="newLogin.email"></ion-input>
+            <ion-input type="email" id="inputEmail" [(ngModel)]="newLogin.email" (ionInput)="validEmail($event)"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col *ngIf="invalidEmail || incorrectUser || emptyEmail">
+        <ion-row>
+          <ion-col size="12" style="text-align: center;">
+            <span *ngIf="invalidEmail" style="color:red; font-size: 15px;">Ingrese email valido</span>
+            <span *ngIf="incorrectUser" style="color:red; font-size: 15px;">Usuario/correo no registrado</span>
+            <span *ngIf="emptyEmail" style="color:red; font-size: 15px;">El campo correo electrónico es obligatorio</span>
           </ion-col>
         </ion-row>
       </ion-col>
 
       <ion-col size="12" class="colInputPass" style="margin-top: 15px;">
         <ion-label style="margin: 10px 30px !important;">Contraseña</ion-label>
-        <ion-row >
+        <ion-row [class.borderRed]="incorrectPass || emptyPass">
           <ion-col size="9">
-            <ion-input [type]="showPass" [(ngModel)]="newLogin.password" id="inputPasss"></ion-input>
+            <ion-input [type]="showPass" [(ngModel)]="newLogin.password" id="inputPasss" (ionInput)="validPass($event)"></ion-input>
           </ion-col>
           <ion-col size="3" style="text-align: center;">
             <ion-icon name="eye-outline" *ngIf="showPass==='password'" (click)="showPassword()" ></ion-icon>
             <ion-icon name="eye-off-outline" *ngIf="showPass==='text'" (click)="showPassword()" ></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col *ngIf="incorrectPass || emptyPass">
+        <ion-row>
+          <ion-col size="12" style="text-align: center;">
+            <span *ngIf="incorrectPass" style="color:red; font-size: 15px;">Contraseña Incorrecta</span>
+            <span *ngIf="emptyPass" style="color:red; font-size: 15px;">El campo contraseña es obligatorio</span>
           </ion-col>
         </ion-row>
       </ion-col>

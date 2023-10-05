@@ -225,7 +225,6 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.approveBuyVehicle(data).subscribe((data:any) => {
           
           if(data.status){
-            console.log(data);
             this.utils.presentToast(data.message);
             this.router.navigate(['seller']);
           }else{
@@ -247,7 +246,6 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.rejectBuyVehicle(data).subscribe((data:any) => {
       
       if(data.status){
-        console.log(data);
         this.utils.presentToast(data.message);
         this.router.navigate(['seller']);
       }else{
@@ -274,7 +272,6 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.updateVehicle(data).subscribe((data:any) => {
       
       if(data.status){
-          console.log(data);
           this.utils.dismissLoading();
           this.utils.presentToast(data.message);
           this.editCar=!this.editCar;
@@ -295,7 +292,6 @@ export class CarDetailPage implements OnInit {
     let data = {
       public_id: image.public_id,
     }
-    console.log(data);
     this.sellerSrv.deleteImageVehicle(data).subscribe((data:any) => {
       this.zone.run(() => {
         this.arrayImages.splice(index,1)
@@ -329,7 +325,6 @@ export class CarDetailPage implements OnInit {
   public getImage2(file:FileList){
     this.utils.presentLoading("Cargando imagen...");
     let reader = new FileReader();
-    console.log(this.aux);
     reader.onload = (e:any)=>{
       let info = e.target["result"];
       let split = info.split("base64");
@@ -430,7 +425,6 @@ export class CarDetailPage implements OnInit {
     }
 
     this.sellerSrv.addImageVehicle(img).subscribe((data:any) => {
-      console.log(data)
         let newImg = {
           img: data.data.img,
           _id: data.data._id,

@@ -199,10 +199,8 @@ export class HomeMechanicPage implements OnInit {
     }
 
     this.mechanicSrv.getNotifications(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.arrayNotifies = data.data;
-        console.log(this.arrayNotifies)
       }
     });
   
@@ -227,10 +225,8 @@ export class HomeMechanicPage implements OnInit {
     }
 
     this.mechanicSrv.getCountNotifications(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.countNotifies = data.data;
-        console.log(this.countNotifies)
       }else{
         this.countNotifies = 0;
       }
@@ -284,7 +280,6 @@ export class HomeMechanicPage implements OnInit {
     }
 
     this.mechanicSrv.notificationById(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.notificationById = data.data;
         this.filterModal.present();

@@ -85,7 +85,6 @@ export class CarDetailMechanicPage implements OnInit {
     this.mechanicSrv.getVehicleById(this.id_vehicle).subscribe(
       (res: any) => {
         if(res.status){
-          console.log(res.data)
           this.carDetail = res.data
           this.utils.dismissLoading();
         }else{

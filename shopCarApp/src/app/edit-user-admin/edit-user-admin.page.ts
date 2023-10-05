@@ -74,7 +74,6 @@ export class EditUserAdminPage implements OnInit {
       for (let i = 0; i < this.arrayConcesionaries.length; i++) {
         zon = this.arrayConcesionaries[i].estado.toLowerCase();
         if (zon.includes(this.seller.city.toLowerCase())) {
-          console.log(this.arrayConcesionaries[i])
           this.auxConces.push(this.arrayConcesionaries[i]);
         }
       }
