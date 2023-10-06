@@ -9,6 +9,7 @@ import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import jwt from "../helpers/generar-jwt";
 import moment from "moment";
 import { sendEmail } from "../../nodemailer";
+import SellersSchema from "../schemas/Sellers.schema";
 
 const userController: any = {};
 
@@ -185,23 +186,294 @@ userController.update = async (req: Request, res: Response) => {
 
 userController.delete = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  const data = req.body;
+
+  const user = await Users.findOne({ _id: data.id_user });
+  if (user) {
+    if (user.type_user == "admin") {
+      const ress = await Users.findOneAndDelete({ _id: user._id });
+    } else if (user.type_user == "seller") {
+      const userSeller = await sellers.findOneAndDelete({ id_user: user._id });
+      const ress = await Users.findOneAndDelete({ _id: user._id });
+    } else if (user.type_user == "mechanic") {
+      const usermechanic = await mechanics.findOneAndDelete({
+        id_user: user._id,
+      });
+      const ress = await Users.findOneAndDelete({ _id: user._id });
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "Tipo de usuario indefinido";
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "Usuario no encontrado";
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
   reponseJson.code = 200;
-      reponseJson.message = "";
-      reponseJson.status = true;
+  reponseJson.message = "Usuario borrado con exito";
+  reponseJson.status = true;
+  return res.json(reponseJson);
 };
 
 userController.get = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  const data = req.query;
+  let sendata: any = {};
+  let user: any;
+  if (data.id_user) {
+    user = await Users.findOne({ _id: data.id_user });
+  } else if (data.email) {
+    user = await Users.findOne({ email: data.email });
+  }
+  if (user) {
+    sendata = {
+      id_user: user?._id,
+      email: user?.email,
+      username: user?.username,
+      type_user: user?.type_user,
+    };
+    if (user.type_user == "admin") {
+      let ress = await Users.findOne({ _id: user._id });
+      sendata = {
+        id_user: ress?._id,
+        email: ress?.email,
+        username: ress?.username,
+        type_user: ress?.type_user,
+      };
+    } else if (user.type_user == "seller") {
+      let userSeller = await sellers.findOne({ id_user: user._id });
+      sendata = {
+        ...sendata,
+        id_seller: userSeller?._id,
+        fullName: userSeller?.fullName,
+        city: userSeller?.city,
+        concesionary: userSeller?.concesionary,
+        date_created: userSeller?.date_created,
+        phone: userSeller?.phone,
+      };
+    } else if (user.type_user == "mechanic") {
+      let usermechanic = await mechanics.findOne({ id_user: user._id });
+      sendata = {
+        ...sendata,
+        id_seller: usermechanic?._id,
+        id_mechanic: usermechanic?._id,
+        fullName: usermechanic?.fullName,
+        city: usermechanic?.city,
+        concesionary: usermechanic?.concesionary,
+        date_created: usermechanic?.date_created,
+        phone: usermechanic?.phone,
+      };
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "Tipo de usuario indefinido";
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "Usuario no encontrado";
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
   reponseJson.code = 200;
-  reponseJson.message = "";
+  reponseJson.message = "Usuario encontrado con exito";
+  reponseJson.data = sendata;
   reponseJson.status = true;
+  return res.json(reponseJson);
 };
 
 userController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  let data:any = req.query;
+  if (!data) {
+    data={
+      s:"",
+      pos:0,
+      lim:10,
+      type_user:"admin"
+    }
+  }
+  let type_user_table="admin";
+
+  let sendata: any = {};
+  let user: any;
+  let search: any;
+  let project: any;
+
+if (data.type_user == "seller") {
+  type_user_table = "sellers";
+  search={
+    $or: [
+      { _id: { $regex: ".*"+data.s+".*" } },
+      { email: { $regex: ".*"+data.s+".*" } },
+      { username: { $regex: ".*"+data.s+".*" } },
+      { type_user: { $regex: ".*"+data.s+".*" } },
+      {"sellers._id": { $regex: ".*"+data.s+".*" } },
+      {"sellers.fullName": { $regex: ".*"+data.s+".*" } },
+      { "sellers.city": { $regex: ".*"+data.s+".*" } },
+      { "sellers.concesionary": { $regex: ".*"+data.s+".*" } },
+      { "sellers.date_created": { $regex: ".*"+data.s+".*" } },
+      { "sellers.phone": { $regex: ".*"+data.s+".*" } }
+    ],
+    type_user: data.type_user
+  }
+
+  project={
+    _id: "$_id",
+    email: 1,
+    username: 1,
+    type_user: 1,
+    "sellers._id": 1,
+    "sellers.fullName": 1,
+    "sellers.city": 1,
+    "sellers.concesionary": 1,
+    "sellers.date_created": 1,
+    "sellers.phone": 1
+  }
+} else if (data.type_user == "mechanic") {
+  type_user_table = "mechanics";
+  search={
+    $or: [
+      { _id: { $regex: ".*"+data.s+".*" } },
+      { email: { $regex: ".*"+data.s+".*" } },
+      { username: { $regex: ".*"+data.s+".*" } },
+      { type_user: { $regex: ".*"+data.s+".*" } },
+      
+      {"mechanics._id": { $regex: ".*"+data.s+".*" } },
+      {"mechanics.fullName": { $regex: ".*"+data.s+".*" } },
+      { "mechanics.city": { $regex: ".*"+data.s+".*" } },
+      { "mechanics.concesionary": { $regex: ".*"+data.s+".*" } },
+      { "mechanics.date_created": { $regex: ".*"+data.s+".*" } },
+      { "mechanics.phone": { $regex: ".*"+data.s+".*" } }
+    ],
+    type_user: data.type_user
+  }
+
+  project={
+    _id: "$_id",
+    email: 1,
+    username: 1,
+    type_user: 1,
+    "mechanics._id": 2,
+    "mechanics.fullName": 2,
+    "mechanics.city": 2,
+    "mechanics.concesionary": 2,
+    "mechanics.date_created": 2,
+    "mechanics.phone": 2
+  }
+}
+
+let list = await Users.aggregate([
+  {
+    $match:search
+  },
+  {
+    $lookup: {
+      from: type_user_table,
+      localField: "_id",
+      foreignField: "id_user",
+      as: type_user_table
+    }
+  },
+  {
+    $unwind: `$${type_user_table}`
+  },
+  {
+    $skip: (parseInt(data.lim) * parseInt(data.pos))
+  },
+  {
+    $limit: parseInt(data.lim)
+  },
+ 
+  {
+    $project:project
+  }
+]);
+
+sendata.rows=list;
+let count:any;
+
+if(list.length>0){
+  
+  count = await Users.aggregate([
+    {
+      $match: search
+    },
+    {
+      $lookup: {
+        from: type_user_table,
+        localField: "_id",
+        foreignField: "id_user",
+        as: type_user_table
+      }
+    },
+    {
+      $unwind: `$${type_user_table}`
+    },
+    {
+      $count: "totalCount"
+    }
+  ]);
   reponseJson.code = 200;
-  reponseJson.message = "";
+  reponseJson.message = "Usuario encontrado con exito";
   reponseJson.status = true;
+
+}else{
+  reponseJson.code = 400;
+  reponseJson.message = "sin resultado";
+  reponseJson.status = true;
+
+}
+
+let totalItems=0;
+if(count){
+   totalItems = count[0].totalCount;
+  
+}
+let totalPages = Math.ceil(totalItems / data.lim);
+
+sendata.count=totalItems;
+sendata.pages=totalPages;
+
+  reponseJson.data = sendata;
+  return res.json(reponseJson);
 };
 
 async function addOrUpdateAdmin(data: any) {

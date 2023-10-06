@@ -9,7 +9,7 @@ const user_controller_1 = __importDefault(require("../controllers/user.controlle
 const userRouter = (0, express_1.Router)();
 userRouter.post("/insert", user_controller_1.default.insert);
 userRouter.post("/update", user_controller_1.default.update);
-userRouter.get("/delete", user_controller_1.default.delete);
+userRouter.post("/delete", user_controller_1.default.delete);
 userRouter.get("/get", user_controller_1.default.get);
 userRouter.get("/all", user_controller_1.default.all);
 exports.default = userRouter;

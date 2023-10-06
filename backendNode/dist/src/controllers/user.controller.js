@@ -33,6 +33,13 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    if (!data.type_user || data.type_user == "") {
+        reponseJson.code = 400;
+        reponseJson.message = "typo de usuario para crear requerido";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
     const user = yield Users_schema_1.default.findOne({ email: data.email });
     let message = "";
     if (!user) {
@@ -123,6 +130,13 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    if (!data.type_user || data.type_user == "") {
+        reponseJson.code = 400;
+        reponseJson.message = "typo de usuario para editar requerido";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
     const user = yield Users_schema_1.default.findOne({ _id: data.id_user });
     let message = "";
     if (user) {
@@ -142,19 +156,20 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             else {
                 message = `El usuario no se encuentra en ese rol`;
             }
+            reponseJson.status = data;
         }
         else if (decode.type_user == "seller") {
             yield addOrUpdateMechanic(data);
             message = `El usuario tecnico fue modificado con exito`;
+            reponseJson.status = data;
         }
         else {
             reponseJson.code = 400;
             reponseJson.message = "Usuario sin perimiso";
             reponseJson.status = false;
         }
-        reponseJson.code = 400;
+        reponseJson.code = 200;
         reponseJson.message = message;
-        reponseJson.status = data;
     }
     else {
         reponseJson.code = 400;
@@ -163,9 +178,269 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     res.json(reponseJson);
 });
-userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
-userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
-userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const data = req.body;
+    const user = yield Users_schema_1.default.findOne({ _id: data.id_user });
+    if (user) {
+        if (user.type_user == "admin") {
+            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
+        }
+        else if (user.type_user == "seller") {
+            const userSeller = yield Sellers_schema_1.default.findOneAndDelete({ id_user: user._id });
+            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
+        }
+        else if (user.type_user == "mechanic") {
+            const usermechanic = yield Mechanics_schema_1.default.findOneAndDelete({
+                id_user: user._id,
+            });
+            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "Tipo de usuario indefinido";
+            reponseJson.status = false;
+            reponseJson.data = null;
+            return res.json(reponseJson);
+        }
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "Usuario no encontrado";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    reponseJson.code = 200;
+    reponseJson.message = "Usuario borrado con exito";
+    reponseJson.status = true;
+    return res.json(reponseJson);
+});
+userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const data = req.query;
+    let sendata = {};
+    let user;
+    if (data.id_user) {
+        user = yield Users_schema_1.default.findOne({ _id: data.id_user });
+    }
+    else if (data.email) {
+        user = yield Users_schema_1.default.findOne({ email: data.email });
+    }
+    if (user) {
+        sendata = {
+            id_user: user === null || user === void 0 ? void 0 : user._id,
+            email: user === null || user === void 0 ? void 0 : user.email,
+            username: user === null || user === void 0 ? void 0 : user.username,
+            type_user: user === null || user === void 0 ? void 0 : user.type_user,
+        };
+        if (user.type_user == "admin") {
+            let ress = yield Users_schema_1.default.findOne({ _id: user._id });
+            sendata = {
+                id_user: ress === null || ress === void 0 ? void 0 : ress._id,
+                email: ress === null || ress === void 0 ? void 0 : ress.email,
+                username: ress === null || ress === void 0 ? void 0 : ress.username,
+                type_user: ress === null || ress === void 0 ? void 0 : ress.type_user,
+            };
+        }
+        else if (user.type_user == "seller") {
+            let userSeller = yield Sellers_schema_1.default.findOne({ id_user: user._id });
+            sendata = Object.assign(Object.assign({}, sendata), { id_seller: userSeller === null || userSeller === void 0 ? void 0 : userSeller._id, fullName: userSeller === null || userSeller === void 0 ? void 0 : userSeller.fullName, city: userSeller === null || userSeller === void 0 ? void 0 : userSeller.city, concesionary: userSeller === null || userSeller === void 0 ? void 0 : userSeller.concesionary, date_created: userSeller === null || userSeller === void 0 ? void 0 : userSeller.date_created, phone: userSeller === null || userSeller === void 0 ? void 0 : userSeller.phone });
+        }
+        else if (user.type_user == "mechanic") {
+            let usermechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
+            sendata = Object.assign(Object.assign({}, sendata), { id_seller: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, id_mechanic: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, fullName: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.fullName, city: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.city, concesionary: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.concesionary, date_created: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.date_created, phone: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.phone });
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "Tipo de usuario indefinido";
+            reponseJson.status = false;
+            reponseJson.data = null;
+            return res.json(reponseJson);
+        }
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "Usuario no encontrado";
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    reponseJson.code = 200;
+    reponseJson.message = "Usuario encontrado con exito";
+    reponseJson.data = sendata;
+    reponseJson.status = true;
+    return res.json(reponseJson);
+});
+userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    let data = req.query;
+    if (!data) {
+        data = {
+            s: "",
+            pos: 0,
+            lim: 10,
+            type_user: "admin"
+        };
+    }
+    let type_user_table = "admin";
+    let sendata = {};
+    let user;
+    let search;
+    let project;
+    if (data.type_user == "seller") {
+        type_user_table = "sellers";
+        search = {
+            $or: [
+                { _id: { $regex: ".*" + data.s + ".*" } },
+                { email: { $regex: ".*" + data.s + ".*" } },
+                { username: { $regex: ".*" + data.s + ".*" } },
+                { type_user: { $regex: ".*" + data.s + ".*" } },
+                { "sellers._id": { $regex: ".*" + data.s + ".*" } },
+                { "sellers.fullName": { $regex: ".*" + data.s + ".*" } },
+                { "sellers.city": { $regex: ".*" + data.s + ".*" } },
+                { "sellers.concesionary": { $regex: ".*" + data.s + ".*" } },
+                { "sellers.date_created": { $regex: ".*" + data.s + ".*" } },
+                { "sellers.phone": { $regex: ".*" + data.s + ".*" } }
+            ],
+            type_user: data.type_user
+        };
+        project = {
+            id_user: "$_id",
+            email: 1,
+            username: 1,
+            type_user: 1,
+            "sellers._id": 1,
+            "sellers.fullName": 1,
+            "sellers.city": 1,
+            "sellers.concesionary": 1,
+            "sellers.date_created": 1,
+            "sellers.phone": 1
+        };
+    }
+    else if (data.type_user == "mechanic") {
+        type_user_table = "mechanics";
+        search = {
+            $or: [
+                { _id: { $regex: ".*" + data.s + ".*" } },
+                { email: { $regex: ".*" + data.s + ".*" } },
+                { username: { $regex: ".*" + data.s + ".*" } },
+                { type_user: { $regex: ".*" + data.s + ".*" } },
+                { "mechanics._id": { $regex: ".*" + data.s + ".*" } },
+                { "mechanics.fullName": { $regex: ".*" + data.s + ".*" } },
+                { "mechanics.city": { $regex: ".*" + data.s + ".*" } },
+                { "mechanics.concesionary": { $regex: ".*" + data.s + ".*" } },
+                { "mechanics.date_created": { $regex: ".*" + data.s + ".*" } },
+                { "mechanics.phone": { $regex: ".*" + data.s + ".*" } }
+            ],
+            type_user: data.type_user
+        };
+        project = {
+            _id: "$_id",
+            email: 1,
+            username: 1,
+            type_user: 1,
+            "mechanics._id": 2,
+            "mechanics.fullName": 2,
+            "mechanics.city": 2,
+            "mechanics.concesionary": 2,
+            "mechanics.date_created": 2,
+            "mechanics.phone": 2
+        };
+    }
+    let list = yield Users_schema_1.default.aggregate([
+        {
+            $match: search
+        },
+        {
+            $lookup: {
+                from: type_user_table,
+                localField: "_id",
+                foreignField: "id_user",
+                as: type_user_table
+            }
+        },
+        {
+            $unwind: `$${type_user_table}`
+        },
+        {
+            $skip: (parseInt(data.lim) * parseInt(data.pos))
+        },
+        {
+            $limit: parseInt(data.lim)
+        },
+        {
+            $project: project
+        }
+    ]);
+    sendata.rows = list;
+    let count;
+    if (list.length > 0) {
+        count = yield Users_schema_1.default.aggregate([
+            {
+                $match: search
+            },
+            {
+                $lookup: {
+                    from: type_user_table,
+                    localField: "_id",
+                    foreignField: "id_user",
+                    as: type_user_table
+                }
+            },
+            {
+                $unwind: `$${type_user_table}`
+            },
+            {
+                $count: "totalCount"
+            }
+        ]);
+        reponseJson.code = 200;
+        reponseJson.message = "Usuario encontrado con exito";
+        reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "sin resultado";
+        reponseJson.status = true;
+    }
+    let totalItems = 0;
+    if (count) {
+        totalItems = count[0].totalCount;
+    }
+    let totalPages = Math.ceil(totalItems / data.lim);
+    sendata.count = totalItems;
+    sendata.pages = totalPages;
+    reponseJson.data = sendata;
+    return res.json(reponseJson);
+});
 function addOrUpdateAdmin(data) {
     return __awaiter(this, void 0, void 0, function* () {
         if (data.id_user) {

@@ -5,6 +5,7 @@ const MechanicSchema = new Schema({
     city: String,
     concesionary: String,
     date_created: String,
+    phone: String,
     id_user: {
         type: Schema.Types.ObjectId
     },
