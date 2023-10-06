@@ -7,6 +7,7 @@ export class CreateMechanic {
   public city!: string;
   public concesionary!: string;
   public phone!: string;
+  public type_user: string = 'mechanic' 
 }
 
 export class CarDetailSeller{

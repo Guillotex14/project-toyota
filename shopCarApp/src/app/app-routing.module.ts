@@ -128,14 +128,13 @@ const routes: Routes = [
     loadChildren: () => import('./edit-mechanic-admin/edit-mechanic-admin.module').then( m => m.EditMechanicAdminPageModule)
   },
   {
-    path: 'list-brand-admin',
+    path: 'list-brands',
     loadChildren: () => import('./list-brand-admin/list-brand-admin.module').then( m => m.ListBrandAdminPageModule)
   },
   {
-    path: 'list-model-admin',
+    path: 'list-models-vehicles',
     loadChildren: () => import('./list-model-admin/list-model-admin.module').then( m => m.ListModelAdminPageModule)
-  }
-
+  },
 ];
 
 @NgModule({

@@ -172,6 +172,9 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
     
     let mailSeller = "";
     let infoMechanic:any = {};
+    let nameSeller: string = ""
+    let conceSeller: string = ""
+    let citySeller: string = ""
     let dateNow = moment().format('YYYY-MM-DD');
 
     const {
@@ -281,6 +284,9 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         if(vehicle){
             const seller = await sellers.findOne({_id: vehicle.id_seller});
             if(seller){
+                nameSeller = seller!.fullName!;
+                conceSeller = seller!.concesionary!;
+                citySeller = seller!.city!;
                 const user = await users.findOne({_id: seller.id_user})
                 if(user){
                     mailSeller = user.email!;
@@ -300,8 +306,71 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mécanica creada',
-            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic!.fullname} del concesionario ${infoMechanic!.concesionary} del estado ${infoMechanic!.city}`,
+            text: `<div>
+            <p>Ficha técnica creada exitosamente para:</p>
+            </div>
+            <div class="div-table" style="width: 100%;">
+                <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.model}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.year}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.plate}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${nameSeller}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${conceSeller}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${citySeller}</div>
+                </div>
+                </div>
+            </div>`,
         };
+
+        const bodyNotification = `
+    <div>
+        <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+    <div class="table">
+        <div class="tr">
+        <div class="td bg_gray_1">Modelo</div>
+        <div class="td bg_gray_2">${vehicle!.model}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Año</div>
+        <div class="td bg_gray_2">${vehicle!.year}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Placa</div>
+        <div class="td bg_gray_2">${vehicle!.plate}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Vendedor</div>
+        <div class="td bg_gray_2">${nameSeller}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Concesionario</div>
+        <div class="td bg_gray_2">${conceSeller}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Estado</div>
+        <div class="td bg_gray_2">${citySeller}</div>
+        </div>
+    </div>
+        </div>`;
 
         await sendEmail(mailOptions);
 
@@ -585,5 +654,6 @@ const sendNotification = async (id_seller:string, message: string, title: string
     }
 
 }
+
 
 export default mechanicRouter;

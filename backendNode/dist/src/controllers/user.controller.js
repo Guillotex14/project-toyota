@@ -196,6 +196,55 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     reponseJson.message = "";
     reponseJson.status = true;
 });
+userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let mechanicsArray = [];
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const search = {
+        type_user: 'mechanic'
+    };
+    const query = yield Users_schema_1.default.aggregate([
+        {
+            $match: search
+        },
+        {
+            $lookup: {
+                from: "mechanics",
+                localField: "_id",
+                foreignField: "id_user",
+                as: "infoUser"
+            }
+        },
+        { $sort: { date_created: -1 } }
+    ]);
+    if (query) {
+        mechanicsArray = query.map((mech) => {
+            let mecha = {
+                _id: mech._id
+            };
+            mechanicsArray.push(mecha);
+        });
+        console.log(mechanicsArray);
+        reponseJson.code = 200;
+        reponseJson.message = "Lista de mecanicos";
+        reponseJson.status = true;
+        reponseJson.data = query;
+    }
+    else {
+        reponseJson.code = 200;
+        reponseJson.message = "";
+        reponseJson.status = true;
+    }
+    return res.json(reponseJson);
+});
 function addOrUpdateAdmin(data) {
     return __awaiter(this, void 0, void 0, function* () {
         if (data.id_user) {

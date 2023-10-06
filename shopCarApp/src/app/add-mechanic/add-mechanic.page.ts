@@ -6,6 +6,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { states } from 'src/assets/json/states';
 import { UtilsService } from '../services/utils/utils.service';
 import { concesionaries } from 'src/assets/json/concesionaries';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-add-mechanic',
@@ -20,8 +21,10 @@ export class AddMechanicPage implements OnInit {
   auxConces: any[] = concesionaries;
   typeInput: string = "password";
   typeInputConfirm: string = "password";
+  isAdmin: boolean = false;
+  user: any = null;
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils:UtilsService) {
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils:UtilsService, private authSrv: AuthService) {
 
     this.newMechanic.email = "";
     this.newMechanic.password = "";
@@ -32,12 +35,17 @@ export class AddMechanicPage implements OnInit {
     this.newMechanic.username = "";
     this.newMechanic.phone = "";
 
-    let data = JSON.parse(localStorage.getItem("me")!);
+    this.user = this.authSrv.getMeData();
 
-    if (data != null) {
-      this.newMechanic.city = data.city;
-      this.newMechanic.concesionary = data.concesionary;
-    }
+    if (this.user && this.user.type_user === 'seller') this.newMechanic.city = this.user.city; this.newMechanic.concesionary = this.user.concesionary;
+    
+    // let data = JSON.parse(localStorage.getItem("me")!);
+
+    // if (data != null) {
+    //   this.newMechanic.city = data.city;
+    //   this.newMechanic.concesionary = data.concesionary;
+    // }
+
 
   }
 
@@ -66,8 +74,8 @@ export class AddMechanicPage implements OnInit {
           this.newMechanic.concesionary = "";
           this.newMechanic.fullName = "";
           this.newMechanic.username = "";
-          this.router.navigate(['seller']);
           this.utils.dismissLoading();
+          this.user.type_user === 'seller' ? this.router.navigate(['seller']) : this.router.navigate(['home-admin']) ;
         }else{
           this.utils.presentToast(data.message);
           this.utils.dismissLoading();
