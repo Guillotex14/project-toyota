@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as global from '../../../models/global'
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellerService {
-
-  constructor(private http:HttpClient) { }
+  authToken:any="";
+  constructor(private http:HttpClient, private authSrv: AuthService) { 
+    this.authToken=this.authSrv.getToken();
+  }
 
   public addMechanic(data:any){
-    return this.http.post(global.urlBase+'seller/addMechanic',data);
+    return this.http.post(global.urlBase+'user/insert',data,this.authToken);
   }
 
   public addVehicle(data:any){

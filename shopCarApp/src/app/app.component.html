@@ -7,7 +7,7 @@
             <ion-grid fixed>
               <ion-row>
                 <ion-col size="10" style="text-align: center;">
-                  <ion-img src="assets/images/logo/logo_toyota.png" style="width: 40%; height: 60%; margin: 20px auto auto auto ;"></ion-img>
+                  <ion-img src="assets/images/logo/logo_toyota_blanco.png" style="width: 40%; height: 60%; margin: 20px auto auto auto ;"></ion-img>
                 </ion-col>
                 <ion-col size="2">
                   <ion-icon name="close-circle-sharp" style="font-size: 40px;" (click)="closeMenu()" class="bntCloseMenu"></ion-icon>
@@ -111,9 +111,25 @@
         <ion-label>Crear Usuario</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-mechanic-admin')">
+        <ion-label>Lista de Técnicos</ion-label>
+        <ion-icon name="create"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-mechanic')">
+        <ion-label>Crear Técnico</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-brands')">
+        <ion-label>Lista de Marcas</ion-label>
+        <ion-icon name="create"></ion-icon>
+      </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-brand')">
         <ion-label>Crear Marca</ion-label>
         <ion-icon name="add"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-models-vehicles')">
+        <ion-label>Lista modelos de vehiculos</ion-label>
+        <ion-icon name="create"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-model-vehicle')">
         <ion-label>Crear Modelo Vehícular</ion-label>
@@ -123,10 +139,7 @@
         <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
       </ion-item>
-      <!-- <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('sells-history')">
-        <ion-label>Historial de ventas</ion-label>
-        <ion-icon name="time"></ion-icon>
-      </ion-item> -->
+      
     </ion-list>
 
   </ion-content>

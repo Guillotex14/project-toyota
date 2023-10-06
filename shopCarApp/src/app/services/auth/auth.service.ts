@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as global from '../../../models/global';
 
@@ -8,10 +8,39 @@ import * as global from '../../../models/global';
 })
 export class AuthService {
 
-  constructor(private http:HttpClient) { }
+  user:any="";
+  authToken:string="";
+
+  constructor(private http:HttpClient) { 
+    
+  }
 
   public saveData(data:any){
     localStorage.setItem('me', JSON.stringify(data));
+  }
+
+  public getMeData(){
+    let me: any = null;
+
+    if (localStorage.getItem('me')) me = JSON.parse(localStorage.getItem('me')!);
+
+    return me
+  }
+
+  public getToken() {
+    let headers = {};
+    this.user = JSON.parse(localStorage.getItem("me")!);
+    if (this.user) {
+      headers = new HttpHeaders()
+        .set('Authorization', this.user.token)
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json');
+
+      return { headers };
+    }else{
+      return null;
+    } 
+    
   }
 
   public login(data:any){

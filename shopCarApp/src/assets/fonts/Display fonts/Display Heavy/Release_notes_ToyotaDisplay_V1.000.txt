@@ -1,0 +1,24 @@
+﻿                                            ==Release notes_Toyota Display Heavy==
+
+Compiler of release notes: Dalton Maag 
+Designer: Dalton Maag 
+Designer URL: daltonmaag.com
+
+Date of creation: 2012-05-11
+
+Basic information 
+1 Basic Family name: Toyota Display
+2 TrueType Version record: 1.000
+3 Supported scripts: Latin, Greek, Cyrillic
+4 Number of glyphs: 645
+5 Weights/Styles: Heavy
+
+
+Technology 
+1 File formats: The file has been delivered in the TrueType-based OpenType format. 
+2 Embedding settings: Printing and previewing of the document is allowed.
+3 Hinting information: Fonts are not hinted.
+4 Default numerals: Proportional numerals as default, tabular figures accessable via Open Type features. 
+
+Other information
+1 This version replaces Toyota Display Latin

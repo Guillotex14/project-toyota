@@ -19,9 +19,6 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   ngOnInit() {
-    // this.concesionary = this.conce;
-    // console.log("desde oninit", this.concesionary)
-    // console.log("desde oninit", this.conce)
   }
 
   ionViewWillEnter(){
@@ -31,7 +28,6 @@ export class ModalMechanicComponent  implements OnInit {
   public getMechanics(){
     this.utils.presentLoading('Cargando técnicos...');
     this.sellerSrv.getMechanics().subscribe((data: any) => {
-      console.log(data)
       if (data.status) {
         this.arrayMechanics = data.data;
         this.utils.dismissLoading();

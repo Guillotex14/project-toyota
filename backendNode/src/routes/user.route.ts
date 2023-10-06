@@ -10,6 +10,7 @@ userRouter.post("/update", userController.update);
 userRouter.post("/delete", userController.delete);
 userRouter.get("/get", userController.get);
 userRouter.get("/all", userController.all);
+userRouter.get("/allMechanics", userController.allMechanic);
 
 
 export default userRouter;

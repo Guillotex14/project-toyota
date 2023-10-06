@@ -1,16 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as global from '../../../models/global';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+  authToken:any="";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authSrv: AuthService) {
+    this.authToken=this.authSrv.getToken();
+  }
 
   public addSeller(seller: any) {
-    return this.http.post(global.urlBase+"admin/addSeller",seller);
+    return this.http.post(global.urlBase+"user/insert",seller,this.authToken);
   }
 
   public getSellers() {
@@ -59,6 +63,10 @@ export class AdminService {
 
   public addModel(model: any) {
     return this.http.post(global.urlBase+"admin/addModelVehicle",model);
+  }
+
+  public allMechanics(){
+    return this.http.get(global.urlBase+"user/allMechanics",this.authToken);
   }
 
 }

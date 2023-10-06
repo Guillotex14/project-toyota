@@ -180,6 +180,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
+<<<<<<< HEAD
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
     if (decode == false) {
@@ -294,6 +295,29 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+=======
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
+userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
+userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+});
+userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let mechanicsArray = [];
+>>>>>>> feature/spring-1
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -301,6 +325,7 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+<<<<<<< HEAD
     let data = req.query;
     if (!data) {
         data = {
@@ -376,11 +401,18 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         };
     }
     let list = yield Users_schema_1.default.aggregate([
+=======
+    const search = {
+        type_user: 'mechanic'
+    };
+    const query = yield Users_schema_1.default.aggregate([
+>>>>>>> feature/spring-1
         {
             $match: search
         },
         {
             $lookup: {
+<<<<<<< HEAD
                 from: type_user_table,
                 localField: "_id",
                 foreignField: "id_user",
@@ -439,6 +471,34 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     sendata.count = totalItems;
     sendata.pages = totalPages;
     reponseJson.data = sendata;
+=======
+                from: "mechanics",
+                localField: "_id",
+                foreignField: "id_user",
+                as: "infoUser"
+            }
+        },
+        { $sort: { date_created: -1 } }
+    ]);
+    if (query) {
+        mechanicsArray = query.map((mech) => {
+            let mecha = {
+                _id: mech._id
+            };
+            mechanicsArray.push(mecha);
+        });
+        console.log(mechanicsArray);
+        reponseJson.code = 200;
+        reponseJson.message = "Lista de mecanicos";
+        reponseJson.status = true;
+        reponseJson.data = query;
+    }
+    else {
+        reponseJson.code = 200;
+        reponseJson.message = "";
+        reponseJson.status = true;
+    }
+>>>>>>> feature/spring-1
     return res.json(reponseJson);
 });
 function addOrUpdateAdmin(data) {

@@ -7,6 +7,7 @@ export class CreateSeller {
   public city!: string;
   public phone!: string;
   public concesionary!: string;
+  public type_user: string = 'seller'
 }
 
 export class SellersList{

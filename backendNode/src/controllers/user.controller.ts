@@ -476,6 +476,65 @@ sendata.pages=totalPages;
   return res.json(reponseJson);
 };
 
+userController.allMechanic = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  let mechanicsArray: any[] = [];
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const search = {
+    type_user: 'mechanic'
+  };
+
+  const query = await Users.aggregate([
+    {
+      $match: search
+    },
+    {
+      $lookup:{
+        from: "mechanics",
+        localField: "_id",
+        foreignField: "id_user",
+        as: "infoUser"
+      }
+    },
+    {$sort:{date_created:-1}}
+  ])
+
+  if (query) {
+
+    mechanicsArray = query.map((mech:any)=>{
+      let mecha = {
+        _id: mech._id 
+      }
+
+      mechanicsArray.push(mecha);
+    })
+    
+    console.log(mechanicsArray)
+
+    reponseJson.code = 200;
+    reponseJson.message = "Lista de mecanicos";
+    reponseJson.status = true;
+    reponseJson.data = query;
+  } else {
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+  }
+
+  return res.json(reponseJson);
+};
+
 async function addOrUpdateAdmin(data: any) {
   if (data.id_user) {
     const user = { _id: data.id_user };

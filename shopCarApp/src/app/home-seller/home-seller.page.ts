@@ -110,7 +110,6 @@ export class HomeSellerPage implements OnInit {
     this.sellerSrv.getNotifications(data).subscribe((data:any)=>{
       if (data.status) {
         this.arrayNotifies = data.data;
-        console.log(this.arrayNotifies)
       }
     });
   
@@ -124,7 +123,6 @@ export class HomeSellerPage implements OnInit {
     this.sellerSrv.getCountNotifications(data).subscribe((data:any)=>{
       if (data.status) {
         this.countNotifies = data.data;
-        console.log(this.countNotifies)
       }else{
         this.countNotifies = 0;
       }
@@ -184,7 +182,6 @@ export class HomeSellerPage implements OnInit {
     }
 
     this.sellerSrv.notificationById(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.notificationById = data.data;
         this.filterModal.present();
@@ -209,7 +206,6 @@ export class HomeSellerPage implements OnInit {
     }
 
     this.sellerSrv.updateNotification(data).subscribe((data:any)=>{
-      console.log(data)
       if (data.status) {
         this.getNotifies();
         this.getCountNotifies();

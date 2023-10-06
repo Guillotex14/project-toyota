@@ -92,11 +92,9 @@ export class GraphicsAdminPage implements AfterViewInit {
       if (res.status) {
         this.arrayBrands = res.data;
       }else{
-        console.log(res)
         this.utils.presentToast(res.message);
       }
     } , (err:any)=>{
-      console.log(err);
       this.utils.presentToast("Error de servidor");
     });
   }
@@ -164,7 +162,6 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
-          console.log(res)
           this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
@@ -200,7 +197,6 @@ export class GraphicsAdminPage implements AfterViewInit {
       id_user: this.id_user,
     }
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
-      console.log(res)
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
@@ -267,7 +263,6 @@ export class GraphicsAdminPage implements AfterViewInit {
             //         'Archivo PDF guardado con éxito en esta ruta: ' +
             //           rutaArchivo
             //       );
-            //       console.log('Archivo PDF guardado con éxito');
             //     } catch (error) {
             //       this.utils.presentToast(
             //         'Error al descargar el archivo: ' + error
