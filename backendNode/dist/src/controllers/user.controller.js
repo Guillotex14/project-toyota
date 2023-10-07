@@ -180,7 +180,6 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
-<<<<<<< HEAD
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
     if (decode == false) {
@@ -295,29 +294,6 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-=======
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-});
-userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-});
-userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-});
-userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-    let mechanicsArray = [];
->>>>>>> feature/spring-1
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -325,14 +301,13 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-<<<<<<< HEAD
     let data = req.query;
     if (!data) {
         data = {
             s: "",
             pos: 0,
             lim: 10,
-            type_user: "admin"
+            type_user: "admin",
         };
     }
     let type_user_table = "admin";
@@ -353,12 +328,12 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
                 { "sellers.city": { $regex: ".*" + data.s + ".*" } },
                 { "sellers.concesionary": { $regex: ".*" + data.s + ".*" } },
                 { "sellers.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.phone": { $regex: ".*" + data.s + ".*" } }
+                { "sellers.phone": { $regex: ".*" + data.s + ".*" } },
             ],
-            type_user: data.type_user
+            type_user: data.type_user,
         };
         project = {
-            id_user: "$_id",
+            _id: "$_id",
             email: 1,
             username: 1,
             type_user: 1,
@@ -367,7 +342,7 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
             "sellers.city": 1,
             "sellers.concesionary": 1,
             "sellers.date_created": 1,
-            "sellers.phone": 1
+            "sellers.phone": 1,
         };
     }
     else if (data.type_user == "mechanic") {
@@ -383,9 +358,9 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
                 { "mechanics.city": { $regex: ".*" + data.s + ".*" } },
                 { "mechanics.concesionary": { $regex: ".*" + data.s + ".*" } },
                 { "mechanics.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.phone": { $regex: ".*" + data.s + ".*" } }
+                { "mechanics.phone": { $regex: ".*" + data.s + ".*" } },
             ],
-            type_user: data.type_user
+            type_user: data.type_user,
         };
         project = {
             _id: "$_id",
@@ -397,93 +372,171 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
             "mechanics.city": 2,
             "mechanics.concesionary": 2,
             "mechanics.date_created": 2,
-            "mechanics.phone": 2
+            "mechanics.phone": 2,
         };
     }
-    let list = yield Users_schema_1.default.aggregate([
-=======
-    const search = {
-        type_user: 'mechanic'
-    };
-    const query = yield Users_schema_1.default.aggregate([
->>>>>>> feature/spring-1
-        {
-            $match: search
-        },
-        {
-            $lookup: {
-<<<<<<< HEAD
-                from: type_user_table,
-                localField: "_id",
-                foreignField: "id_user",
-                as: type_user_table
-            }
-        },
-        {
-            $unwind: `$${type_user_table}`
-        },
-        {
-            $skip: (parseInt(data.lim) * parseInt(data.pos))
-        },
-        {
-            $limit: parseInt(data.lim)
-        },
-        {
-            $project: project
-        }
-    ]);
-    sendata.rows = list;
-    let count;
-    if (list.length > 0) {
-        count = yield Users_schema_1.default.aggregate([
+    else if (data.type_user == "admin") {
+        type_user_table = "users";
+        search = {
+            $or: [
+                { _id: { $regex: ".*" + data.s + ".*" } },
+                { email: { $regex: ".*" + data.s + ".*" } },
+                { username: { $regex: ".*" + data.s + ".*" } },
+                { type_user: { $regex: ".*" + data.s + ".*" } },
+            ],
+            type_user: data.type_user,
+        };
+        project = {
+            _id: "$_id",
+            email: 1,
+            username: 1,
+            type_user: 1,
+        };
+    }
+    if (data.type_user == "admin") {
+        let list = yield Users_schema_1.default.aggregate([
             {
-                $match: search
+                $match: search,
+            },
+            {
+                $skip: parseInt(data.lim) * parseInt(data.pos),
+            },
+            {
+                $limit: parseInt(data.lim),
+            },
+            {
+                $project: project,
+            },
+        ]);
+        sendata.rows = list;
+        let count;
+        if (list.length > 0) {
+            count = yield Users_schema_1.default.aggregate([
+                {
+                    $match: search,
+                },
+                {
+                    $count: "totalCount",
+                },
+            ]);
+            reponseJson.code = 200;
+            reponseJson.message = "Usuario encontrado con exito";
+            reponseJson.status = true;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "sin resultado";
+            reponseJson.status = true;
+        }
+        let totalItems = 0;
+        if (count) {
+            totalItems = count[0].totalCount;
+        }
+        let totalPages = Math.ceil(totalItems / data.lim);
+        sendata.count = totalItems;
+        sendata.pages = totalPages;
+    }
+    else {
+        let list = yield Users_schema_1.default.aggregate([
+            {
+                $match: search,
             },
             {
                 $lookup: {
                     from: type_user_table,
                     localField: "_id",
                     foreignField: "id_user",
-                    as: type_user_table
-                }
+                    as: type_user_table,
+                },
             },
             {
-                $unwind: `$${type_user_table}`
+                $unwind: `$${type_user_table}`,
             },
             {
-                $count: "totalCount"
-            }
+                $skip: parseInt(data.lim) * parseInt(data.pos),
+            },
+            {
+                $limit: parseInt(data.lim),
+            },
+            {
+                $project: project,
+            },
         ]);
-        reponseJson.code = 200;
-        reponseJson.message = "Usuario encontrado con exito";
-        reponseJson.status = true;
+        sendata.rows = list;
+        let count;
+        if (list.length > 0) {
+            count = yield Users_schema_1.default.aggregate([
+                {
+                    $match: search,
+                },
+                {
+                    $lookup: {
+                        from: type_user_table,
+                        localField: "_id",
+                        foreignField: "id_user",
+                        as: type_user_table,
+                    },
+                },
+                {
+                    $unwind: `$${type_user_table}`,
+                },
+                {
+                    $count: "totalCount",
+                },
+            ]);
+            reponseJson.code = 200;
+            reponseJson.message = "Usuario encontrado con exito";
+            reponseJson.status = true;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "sin resultado";
+            reponseJson.status = true;
+        }
+        let totalItems = 0;
+        if (count) {
+            totalItems = count[0].totalCount;
+        }
+        let totalPages = Math.ceil(totalItems / data.lim);
+        sendata.count = totalItems;
+        sendata.pages = totalPages;
     }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "sin resultado";
-        reponseJson.status = true;
-    }
-    let totalItems = 0;
-    if (count) {
-        totalItems = count[0].totalCount;
-    }
-    let totalPages = Math.ceil(totalItems / data.lim);
-    sendata.count = totalItems;
-    sendata.pages = totalPages;
     reponseJson.data = sendata;
-=======
+    return res.json(reponseJson);
+});
+userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let mechanicsArray = [];
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const search = {
+        type_user: "mechanic",
+    };
+    const query = yield Users_schema_1.default.aggregate([
+        {
+            $match: search,
+        },
+        {
+            $lookup: {
                 from: "mechanics",
                 localField: "_id",
                 foreignField: "id_user",
-                as: "infoUser"
-            }
+                as: "infoUser",
+            },
         },
-        { $sort: { date_created: -1 } }
+        { $sort: { date_created: -1 } },
     ]);
     if (query) {
         mechanicsArray = query.map((mech) => {
             let mecha = {
-                _id: mech._id
+                _id: mech._id,
             };
             mechanicsArray.push(mecha);
         });
@@ -498,7 +551,6 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
         reponseJson.message = "";
         reponseJson.status = true;
     }
->>>>>>> feature/spring-1
     return res.json(reponseJson);
 });
 function addOrUpdateAdmin(data) {

@@ -167,6 +167,9 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
     const reponseJson = new Response_1.ResponseModel();
     let mailSeller = "";
     let infoMechanic = {};
+    let nameSeller = "";
+    let conceSeller = "";
+    let citySeller = "";
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
     const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
     const newMechanicFile = new mechanicalsFiles_schema_1.default({
@@ -226,6 +229,9 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
         if (vehicle) {
             const seller = yield Sellers_schema_1.default.findOne({ _id: vehicle.id_seller });
             if (seller) {
+                nameSeller = seller.fullName;
+                conceSeller = seller.concesionary;
+                citySeller = seller.city;
                 const user = yield Users_schema_1.default.findOne({ _id: seller.id_user });
                 if (user) {
                     mailSeller = user.email;
@@ -243,8 +249,70 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
             from: 'Toyousado Notifications',
             to: mailSeller,
             subject: 'Ficha mécanica creada',
-            text: `La ficha mécanica de tu vehículo ha sido creada correctamente, la ficha mécanica fue creada por ${infoMechanic.fullname} del concesionario ${infoMechanic.concesionary} del estado ${infoMechanic.city}`,
+            text: `<div>
+            <p>Ficha técnica creada exitosamente para:</p>
+            </div>
+            <div class="div-table" style="width: 100%;">
+                <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle.model}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle.year}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle.plate}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${nameSeller}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${conceSeller}</div>
+                </div>
+                <div style=" display: table-row;border: 1px solid #000;">
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${citySeller}</div>
+                </div>
+                </div>
+            </div>`,
         };
+        const bodyNotification = `
+    <div>
+        <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+    <div class="table">
+        <div class="tr">
+        <div class="td bg_gray_1">Modelo</div>
+        <div class="td bg_gray_2">${vehicle.model}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Año</div>
+        <div class="td bg_gray_2">${vehicle.year}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Placa</div>
+        <div class="td bg_gray_2">${vehicle.plate}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Vendedor</div>
+        <div class="td bg_gray_2">${nameSeller}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Concesionario</div>
+        <div class="td bg_gray_2">${conceSeller}</div>
+        </div>
+        <div class="tr">
+        <div class="td bg_gray_1">Estado</div>
+        <div class="td bg_gray_2">${citySeller}</div>
+        </div>
+    </div>
+        </div>`;
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), mailOptions.text, mailOptions.subject);
     }

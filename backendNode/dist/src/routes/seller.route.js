@@ -185,14 +185,72 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: "Toyousado",
         to: emailmechanic,
         subject: "Revisión de vehículo",
-        text: "El vendedor " +
-            infoSeller.fullName +
-            " del concesionario " +
-            infoSeller.concesionary +
-            " del estado " +
-            infoSeller.city +
-            " ha agregado un vehículo para que sea revisado, por favor ingresa a la plataforma para revisarlo",
+        text: `
+    <div>
+      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+      <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
+        </div>
+      </div>
+    </div>`,
     };
+    const bodyNotification = `
+    <div>
+      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+      <div class="table">
+        <div class="tr">
+          <div class="td bg_gray_1">Modelo</div>
+          <div class="td bg_gray_2">${model}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Año</div>
+          <div class="td bg_gray_2">${year}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Placa</div>
+          <div class="td bg_gray_2">${vehicle_plate}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Vendedor</div>
+          <div class="td bg_gray_2">${infoSeller.fullName}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Concesionario</div>
+          <div class="td bg_gray_2">${infoSeller.concesionary}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Estado</div>
+          <div class="td bg_gray_2">${infoSeller.city}</div>
+        </div>
+      </div>
+    </div>
+  `;
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
     reponseJson.code = 200;
@@ -733,7 +791,6 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     //     responseJson.status = false;
     //   }
     // } else {
-    //   console.log('no soy el vendedor')
     const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: id_seller,
         name_new_owner: name_new_owner,
@@ -753,8 +810,71 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: "Toyousado Notifications",
         to: email.email,
         subject: "Compra de vehículo",
-        text: `El vendedor ${infoBuyer.fullName} quiere comprar tu vehículo, para mas información comunicaté con el vendedor al correo ${emailBuyer.email} o al número de teléfono ${infoBuyer.phone}`,
+        text: `<div>
+      <p>Tienes una oferta de compra para:</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+      <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.model}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.year}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.plate}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
+        </div>
+      </div>
+    </div>`,
     };
+    const bodyNotification = `
+    <div>
+      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+      <div class="table">
+        <div class="tr">
+          <div class="td bg_gray_1">Modelo</div>
+          <div class="td bg_gray_2">${getVehicle.model}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Año</div>
+          <div class="td bg_gray_2">${getVehicle.year}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Placa</div>
+          <div class="td bg_gray_2">${getVehicle.plate}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Vendedor</div>
+          <div class="td bg_gray_2">${infoSeller.fullName}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Concesionario</div>
+          <div class="td bg_gray_2">${infoSeller.concesionary}</div>
+        </div>
+        <div class="tr">
+          <div class="td bg_gray_1">Estado</div>
+          <div class="td bg_gray_2">${infoSeller.city}</div>
+        </div>
+      </div>
+    </div>
+  `;
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
     responseJson.code = 200;

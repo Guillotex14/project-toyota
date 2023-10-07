@@ -321,156 +321,219 @@ userController.all = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-  let data:any = req.query;
+  let data: any = req.query;
   if (!data) {
-    data={
-      s:"",
-      pos:0,
-      lim:10,
-      type_user:"admin"
-    }
+    data = {
+      s: "",
+      pos: 0,
+      lim: 10,
+      type_user: "admin",
+    };
   }
-  let type_user_table="admin";
+  let type_user_table = "admin";
 
   let sendata: any = {};
   let user: any;
   let search: any;
   let project: any;
 
-if (data.type_user == "seller") {
-  type_user_table = "sellers";
-  search={
-    $or: [
-      { _id: { $regex: ".*"+data.s+".*" } },
-      { email: { $regex: ".*"+data.s+".*" } },
-      { username: { $regex: ".*"+data.s+".*" } },
-      { type_user: { $regex: ".*"+data.s+".*" } },
-      {"sellers._id": { $regex: ".*"+data.s+".*" } },
-      {"sellers.fullName": { $regex: ".*"+data.s+".*" } },
-      { "sellers.city": { $regex: ".*"+data.s+".*" } },
-      { "sellers.concesionary": { $regex: ".*"+data.s+".*" } },
-      { "sellers.date_created": { $regex: ".*"+data.s+".*" } },
-      { "sellers.phone": { $regex: ".*"+data.s+".*" } }
-    ],
-    type_user: data.type_user
+  if (data.type_user == "seller") {
+    type_user_table = "sellers";
+    search = {
+      $or: [
+        { _id: { $regex: ".*" + data.s + ".*" } },
+        { email: { $regex: ".*" + data.s + ".*" } },
+        { username: { $regex: ".*" + data.s + ".*" } },
+        { type_user: { $regex: ".*" + data.s + ".*" } },
+        { "sellers._id": { $regex: ".*" + data.s + ".*" } },
+        { "sellers.fullName": { $regex: ".*" + data.s + ".*" } },
+        { "sellers.city": { $regex: ".*" + data.s + ".*" } },
+        { "sellers.concesionary": { $regex: ".*" + data.s + ".*" } },
+        { "sellers.date_created": { $regex: ".*" + data.s + ".*" } },
+        { "sellers.phone": { $regex: ".*" + data.s + ".*" } },
+      ],
+      type_user: data.type_user,
+    };
+
+    project = {
+      _id: "$_id",
+      email: 1,
+      username: 1,
+      type_user: 1,
+      "sellers._id": 1,
+      "sellers.fullName": 1,
+      "sellers.city": 1,
+      "sellers.concesionary": 1,
+      "sellers.date_created": 1,
+      "sellers.phone": 1,
+    };
+  } else if (data.type_user == "mechanic") {
+    type_user_table = "mechanics";
+    search = {
+      $or: [
+        { _id: { $regex: ".*" + data.s + ".*" } },
+        { email: { $regex: ".*" + data.s + ".*" } },
+        { username: { $regex: ".*" + data.s + ".*" } },
+        { type_user: { $regex: ".*" + data.s + ".*" } },
+
+        { "mechanics._id": { $regex: ".*" + data.s + ".*" } },
+        { "mechanics.fullName": { $regex: ".*" + data.s + ".*" } },
+        { "mechanics.city": { $regex: ".*" + data.s + ".*" } },
+        { "mechanics.concesionary": { $regex: ".*" + data.s + ".*" } },
+        { "mechanics.date_created": { $regex: ".*" + data.s + ".*" } },
+        { "mechanics.phone": { $regex: ".*" + data.s + ".*" } },
+      ],
+      type_user: data.type_user,
+    };
+
+    project = {
+      _id: "$_id",
+      email: 1,
+      username: 1,
+      type_user: 1,
+      "mechanics._id": 2,
+      "mechanics.fullName": 2,
+      "mechanics.city": 2,
+      "mechanics.concesionary": 2,
+      "mechanics.date_created": 2,
+      "mechanics.phone": 2,
+    };
+  } else if (data.type_user == "admin") {
+    type_user_table = "users";
+
+    search = {
+      $or: [
+        { _id: { $regex: ".*" + data.s + ".*" } },
+        { email: { $regex: ".*" + data.s + ".*" } },
+        { username: { $regex: ".*" + data.s + ".*" } },
+        { type_user: { $regex: ".*" + data.s + ".*" } },
+      ],
+      type_user: data.type_user,
+    };
+
+    project = {
+      _id: "$_id",
+      email: 1,
+      username: 1,
+      type_user: 1,
+    };
   }
 
-  project={
-    _id: "$_id",
-    email: 1,
-    username: 1,
-    type_user: 1,
-    "sellers._id": 1,
-    "sellers.fullName": 1,
-    "sellers.city": 1,
-    "sellers.concesionary": 1,
-    "sellers.date_created": 1,
-    "sellers.phone": 1
-  }
-} else if (data.type_user == "mechanic") {
-  type_user_table = "mechanics";
-  search={
-    $or: [
-      { _id: { $regex: ".*"+data.s+".*" } },
-      { email: { $regex: ".*"+data.s+".*" } },
-      { username: { $regex: ".*"+data.s+".*" } },
-      { type_user: { $regex: ".*"+data.s+".*" } },
-      
-      {"mechanics._id": { $regex: ".*"+data.s+".*" } },
-      {"mechanics.fullName": { $regex: ".*"+data.s+".*" } },
-      { "mechanics.city": { $regex: ".*"+data.s+".*" } },
-      { "mechanics.concesionary": { $regex: ".*"+data.s+".*" } },
-      { "mechanics.date_created": { $regex: ".*"+data.s+".*" } },
-      { "mechanics.phone": { $regex: ".*"+data.s+".*" } }
-    ],
-    type_user: data.type_user
-  }
+  if (data.type_user == "admin") {
+    let list = await Users.aggregate([
+      {
+        $match: search,
+      },
+      {
+        $skip: parseInt(data.lim) * parseInt(data.pos),
+      },
+      {
+        $limit: parseInt(data.lim),
+      },
 
-  project={
-    _id: "$_id",
-    email: 1,
-    username: 1,
-    type_user: 1,
-    "mechanics._id": 2,
-    "mechanics.fullName": 2,
-    "mechanics.city": 2,
-    "mechanics.concesionary": 2,
-    "mechanics.date_created": 2,
-    "mechanics.phone": 2
-  }
-}
+      {
+        $project: project,
+      },
+    ]);
 
-let list = await Users.aggregate([
-  {
-    $match:search
-  },
-  {
-    $lookup: {
-      from: type_user_table,
-      localField: "_id",
-      foreignField: "id_user",
-      as: type_user_table
+    sendata.rows = list;
+    let count: any;
+
+    if (list.length > 0) {
+      count = await Users.aggregate([
+        {
+          $match: search,
+        },
+        {
+          $count: "totalCount",
+        },
+      ]);
+      reponseJson.code = 200;
+      reponseJson.message = "Usuario encontrado con exito";
+      reponseJson.status = true;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "sin resultado";
+      reponseJson.status = true;
     }
-  },
-  {
-    $unwind: `$${type_user_table}`
-  },
-  {
-    $skip: (parseInt(data.lim) * parseInt(data.pos))
-  },
-  {
-    $limit: parseInt(data.lim)
-  },
- 
-  {
-    $project:project
-  }
-]);
 
-sendata.rows=list;
-let count:any;
-
-if(list.length>0){
-  
-  count = await Users.aggregate([
-    {
-      $match: search
-    },
-    {
-      $lookup: {
-        from: type_user_table,
-        localField: "_id",
-        foreignField: "id_user",
-        as: type_user_table
-      }
-    },
-    {
-      $unwind: `$${type_user_table}`
-    },
-    {
-      $count: "totalCount"
+    let totalItems = 0;
+    if (count) {
+      totalItems = count[0].totalCount;
     }
-  ]);
-  reponseJson.code = 200;
-  reponseJson.message = "Usuario encontrado con exito";
-  reponseJson.status = true;
+    let totalPages = Math.ceil(totalItems / data.lim);
 
-}else{
-  reponseJson.code = 400;
-  reponseJson.message = "sin resultado";
-  reponseJson.status = true;
+    sendata.count = totalItems;
+    sendata.pages = totalPages;
+  } else {
+    let list = await Users.aggregate([
+      {
+        $match: search,
+      },
+      {
+        $lookup: {
+          from: type_user_table,
+          localField: "_id",
+          foreignField: "id_user",
+          as: type_user_table,
+        },
+      },
+      {
+        $unwind: `$${type_user_table}`,
+      },
+      {
+        $skip: parseInt(data.lim) * parseInt(data.pos),
+      },
+      {
+        $limit: parseInt(data.lim),
+      },
 
-}
+      {
+        $project: project,
+      },
+    ]);
 
-let totalItems=0;
-if(count){
-   totalItems = count[0].totalCount;
-  
-}
-let totalPages = Math.ceil(totalItems / data.lim);
+    sendata.rows = list;
+    let count: any;
 
-sendata.count=totalItems;
-sendata.pages=totalPages;
+    if (list.length > 0) {
+      count = await Users.aggregate([
+        {
+          $match: search,
+        },
+        {
+          $lookup: {
+            from: type_user_table,
+            localField: "_id",
+            foreignField: "id_user",
+            as: type_user_table,
+          },
+        },
+        {
+          $unwind: `$${type_user_table}`,
+        },
+        {
+          $count: "totalCount",
+        },
+      ]);
+      reponseJson.code = 200;
+      reponseJson.message = "Usuario encontrado con exito";
+      reponseJson.status = true;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "sin resultado";
+      reponseJson.status = true;
+    }
+
+    let totalItems = 0;
+    if (count) {
+      totalItems = count[0].totalCount;
+    }
+    let totalPages = Math.ceil(totalItems / data.lim);
+
+    sendata.count = totalItems;
+    sendata.pages = totalPages;
+  }
 
   reponseJson.data = sendata;
   return res.json(reponseJson);
@@ -492,35 +555,34 @@ userController.allMechanic = async (req: Request, res: Response) => {
   }
 
   const search = {
-    type_user: 'mechanic'
+    type_user: "mechanic",
   };
 
   const query = await Users.aggregate([
     {
-      $match: search
+      $match: search,
     },
     {
-      $lookup:{
+      $lookup: {
         from: "mechanics",
         localField: "_id",
         foreignField: "id_user",
-        as: "infoUser"
-      }
+        as: "infoUser",
+      },
     },
-    {$sort:{date_created:-1}}
-  ])
+    { $sort: { date_created: -1 } },
+  ]);
 
   if (query) {
-
-    mechanicsArray = query.map((mech:any)=>{
+    mechanicsArray = query.map((mech: any) => {
       let mecha = {
-        _id: mech._id 
-      }
+        _id: mech._id,
+      };
 
       mechanicsArray.push(mecha);
-    })
-    
-    console.log(mechanicsArray)
+    });
+
+    console.log(mechanicsArray);
 
     reponseJson.code = 200;
     reponseJson.message = "Lista de mecanicos";
