@@ -302,6 +302,7 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.json(reponseJson);
     }
     let data = req.query;
+    console.log(req.query);
     if (!data) {
         data = {
             s: "",

@@ -322,6 +322,9 @@ userController.all = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
   let data: any = req.query;
+
+  console.log(req.query);
+
   if (!data) {
     data = {
       s: "",

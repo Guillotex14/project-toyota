@@ -77,8 +77,9 @@ brandController.delete = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
   const data = req.body;
-
+  console.log(data);
   const brand = await brands.findOne({ _id: data._id });
+  console.log(brand)
   if (brand) {
     const ress = await brands.findOneAndDelete({ _id: data._id });
 
@@ -109,10 +110,20 @@ brandController.get = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  reponseJson.code = 200;
-  reponseJson.message = "Usuario encontrado con exito";
-  reponseJson.data = null;
-  reponseJson.status = true;
+  const list = await brands.find();
+  
+  if (list) {
+    reponseJson.code = 200;
+    reponseJson.message = "Lista de marcas";
+    reponseJson.status = true;
+    reponseJson.data = list;
+  } else {
+    reponseJson.code = 200;
+    reponseJson.message = "No hay marcas registradas";
+    reponseJson.status = true;
+    reponseJson.data = null;
+  }
+
   return res.json(reponseJson);
 };
 
@@ -127,13 +138,22 @@ brandController.all = async (req: Request, res: Response) => {
     reponseJson.message = jwt.message;
     reponseJson.status = false;
     reponseJson.data = null;
-    return res.json(reponseJson);
+    // return res.json(reponseJson);
   }
 
-  reponseJson.code = 200;
-  reponseJson.message = "";
-  reponseJson.status = true;
-  reponseJson.data = data;
+  const list = await brands.find();
+
+  if (list) {
+    reponseJson.code = 200;
+    reponseJson.message = "Lista de marcas";
+    reponseJson.status = true;
+    reponseJson.data = list;
+  } else {
+    reponseJson.code = 200;
+    reponseJson.message = "No hay marcas registradas";
+    reponseJson.status = true;
+    reponseJson.data = null;
+  }
 
   res.json(reponseJson);
 };

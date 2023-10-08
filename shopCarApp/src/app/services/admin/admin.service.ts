@@ -49,14 +49,6 @@ export class AdminService {
     return this.http.post(global.urlBase+"admin/searchSeller",search);
   }
 
-  public addBrand(name: any) {
-    return this.http.post(global.urlBase+"admin/addBrand",name);
-  }
-
-  public allBrands() {
-    return this.http.get(global.urlBase+"admin/allBrands");
-  }
-
   public allModels() {
     return this.http.get(global.urlBase+"admin/allModels");
   }
@@ -65,8 +57,35 @@ export class AdminService {
     return this.http.post(global.urlBase+"admin/addModelVehicle",model);
   }
 
-  public allMechanics(){
-    return this.http.get(global.urlBase+"user/allMechanics",this.authToken);
+  public allMechanics(data:any){
+    return this.http.get(global.urlBase+`user/all?s=${data.s}&pos=${data.pos}&lim=${data.lim}&type_user=mechanic`,this.authToken);
   }
+
+  public allBrands() {
+    return this.http.get(global.urlBase+"admin/allBrands");
+  }
+
+  public addBrand(name: any) {
+    return this.http.post(global.urlBase+"vehicle/insert-update-brand",name,this.authToken);
+  }
+
+
+  public getBrandsList(){
+    return this.http.get(global.urlBase+'vehicle/all-brands',this.authToken);
+  }
+
+  public getBrandById(id:any){
+    return this.http.get(`${global.urlBase}vehicle/get-brand?id=${id}`,this.authToken);
+  }
+
+  public updateBrand(data:any){
+    return this.http.post(global.urlBase+'vehicle/insert-update-brand',data,this.authToken);
+  } 
+
+  public deleteBrand(id:any){
+    console.log(id);
+    return this.http.post(global.urlBase+'vehicle/delete-brand',id,this.authToken);
+  }
+
 
 }
