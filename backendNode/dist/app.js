@@ -13,6 +13,7 @@ const config_1 = require("./config");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
 const user_route_1 = __importDefault(require("./src/routes/user.route"));
+const vehicle_route_1 = __importDefault(require("./src/routes/vehicle.route"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -31,6 +32,7 @@ class App {
     routes() {
         this.app.use("/auth", auth_route_1.default);
         this.app.use("/user", user_route_1.default);
+        this.app.use("/vehicle", vehicle_route_1.default);
         this.app.use("/admin", admin_route_1.default);
         this.app.use("/seller", seller_route_1.default);
         this.app.use("/mechanic", mechanic_route_1.default);

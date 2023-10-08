@@ -319,16 +319,16 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         type_user_table = "sellers";
         search = {
             $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
-                { "sellers._id": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.fullName": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.city": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.concesionary": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.phone": { $regex: ".*" + data.s + ".*" } },
+                { _id: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { email: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { username: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { type_user: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers._id": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers.fullName": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers.city": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers.concesionary": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers.date_created": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "sellers.phone": { $regex: ".*" + data.s + ".*", $options: "i" } },
             ],
             type_user: data.type_user,
         };
@@ -349,16 +349,16 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         type_user_table = "mechanics";
         search = {
             $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
-                { "mechanics._id": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.fullName": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.city": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.concesionary": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.phone": { $regex: ".*" + data.s + ".*" } },
+                { _id: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { email: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { username: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { type_user: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics._id": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics.fullName": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics.city": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics.concesionary": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics.date_created": { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { "mechanics.phone": { $regex: ".*" + data.s + ".*", $options: "i" } },
             ],
             type_user: data.type_user,
         };
@@ -379,10 +379,10 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         type_user_table = "users";
         search = {
             $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
+                { _id: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { email: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { username: { $regex: ".*" + data.s + ".*", $options: "i" } },
+                { type_user: { $regex: ".*" + data.s + ".*", $options: "i" } },
             ],
             type_user: data.type_user,
         };
