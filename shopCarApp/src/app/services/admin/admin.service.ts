@@ -61,6 +61,18 @@ export class AdminService {
     return this.http.get(global.urlBase+`user/all?s=${data.s}&pos=${data.pos}&lim=${data.lim}&type_user=mechanic`,this.authToken);
   }
 
+  public getMechanicById(data:any){
+    return this.http.get(global.urlBase+"user/get?id_user="+data.id_user,this.authToken);
+  }
+
+  public deleteMechanic(data:any){
+    return this.http.post(global.urlBase+"user/delete",data,this.authToken);
+  }
+
+  public updateMechanic(data:any){
+    return this.http.post(global.urlBase+"user/update",data,this.authToken);
+  }
+
   public allBrands() {
     return this.http.get(global.urlBase+"admin/allBrands");
   }
@@ -69,11 +81,10 @@ export class AdminService {
     return this.http.post(global.urlBase+"vehicle/insert-update-brand",name,this.authToken);
   }
 
-
-  public getBrandsList(){
-    return this.http.get(global.urlBase+'vehicle/all-brands',this.authToken);
+  public getBrandsList(data:any){
+    return this.http.get(`${global.urlBase}vehicle/all-paginator-brands?s=${data.s}&pos=${data.pos}&lim=${data.lim}`,this.authToken);
   }
-
+  
   public getBrandById(id:any){
     return this.http.get(`${global.urlBase}vehicle/get-brand?id=${id}`,this.authToken);
   }

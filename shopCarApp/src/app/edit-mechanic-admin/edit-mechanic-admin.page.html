@@ -1,13 +1,98 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>edit-mechanic-admin</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">edit-mechanic-admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="12" class="header">
+        <ion-grid fixed >
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goTo()"></ion-icon>
+            </ion-col>
+            <ion-col size="8" style="text-align: center;">
+              <p class="headerTitle">Editar Tecnico</p>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label class="labelForm">Nombre Completo</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="mechanic.fullName"></ion-input>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label class="labelForm">Correo Electrónico</ion-label>
+              <ion-input type="email" fill="outline" [(ngModel)]="mechanic.email"></ion-input>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label class="labelForm">Numero telefónico</ion-label>
+              <ion-input type="email" fill="outline" [(ngModel)]="mechanic.phone"></ion-input>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label class="labelForm">Nombre de Usuario</ion-label>
+              <ion-input type="text" fill="outline" [(ngModel)]="mechanic.username"></ion-input>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
+                    <ion-label class="labelForm">Contraseña</ion-label>
+                    <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
+                      <ion-col size="9">
+                        <ion-input [type]="typeInput" [(ngModel)]="password" style="height: 30px !important;" id="inputPasss"></ion-input>
+                      </ion-col>
+                      <ion-col size="3" style="text-align: center;">
+                        <ion-icon name="eye-outline" *ngIf="typeInput === 'password'" (click)="showPassword()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-off-outline" *ngIf="typeInput === 'text'" (click)="showPassword()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
+                    <ion-label class="labelForm">Confirmar Contraseña</ion-label>
+                    <ion-row style="border: 1px solid #b3b3b3; border-radius: 15px;height: 50px;">
+                      <ion-col size="9">
+                        <ion-input [type]="typeInputConfirm" [(ngModel)]="password_confirm" style="height: 30px !important;" id="inputPasss"></ion-input>
+                      </ion-col>
+                      <ion-col size="3" style="text-align: center;">
+                        <ion-icon name="eye-outline" *ngIf="typeInputConfirm === 'password'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                        <ion-icon name="eye-off-outline" *ngIf="typeInputConfirm === 'text'" (click)="showPasswordConfirm()" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label class="labelForm">Estado</ion-label>
+              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="mechanic.city" placeholder="Seleccione Estado" (ionChange)="filterConces($event)"> 
+                <ion-select-option *ngFor="let city of arrayCities" [value]="city.estado">{{city.estado}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" >
+              <ion-label class="labelForm">Concesionario</ion-label>
+              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="mechanic.concesionary" placeholder="Seleccione concesionario"> 
+                <ion-select-option *ngFor="let conces of auxConces" [value]="conces.name">{{conces.name}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="margin: 15px auto;">
+              <ion-button expand="block" shape="round" class="btnSaveRed" (click)="updateProfile()">
+                Editar
+                <ion-icon name="create" slot="end" style="color: white !important;"></ion-icon>
+              </ion-button>
+              <ion-button expand="block" shape="round" fill="outline" class="btnOutlineRed" (click)="presentAlert()">
+                Eliminar
+                <ion-icon slot="end" name="trash" class="iconRed"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

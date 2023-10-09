@@ -95,7 +95,7 @@ brandController.delete = (req, res) => __awaiter(void 0, void 0, void 0, functio
 brandController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -103,25 +103,24 @@ brandController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const list = yield brands_schema_1.default.find();
-    if (list) {
-        reponseJson.code = 200;
-        reponseJson.message = "Lista de marcas";
-        reponseJson.status = true;
-        reponseJson.data = list;
+    const data = req.query;
+    let brand;
+    if (data._id) {
+        brand = yield brands_schema_1.default.findOne({ _id: data._id });
     }
-    else {
-        reponseJson.code = 200;
-        reponseJson.message = "No hay marcas registradas";
-        reponseJson.status = true;
-        reponseJson.data = null;
+    else if (data.name) {
+        brand = yield brands_schema_1.default.findOne({ name: data.name });
     }
+    reponseJson.code = 200;
+    reponseJson.message = "Marca encontrada con exito";
+    reponseJson.data = brand;
+    reponseJson.status = true;
     return res.json(reponseJson);
 });
 brandController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -130,19 +129,114 @@ brandController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         reponseJson.data = null;
         // return res.json(reponseJson);
     }
-    const list = yield brands_schema_1.default.find();
-    if (list) {
+    if (!data) {
+        data = {
+            s: "",
+        };
+    }
+    let search;
+    let project;
+    search = {
+        $or: [
+            { _id: { $regex: ".*" + data.s + ".*", $options: "i" } },
+            { name: { $regex: ".*" + data.s + ".*", $options: "i" } },
+        ],
+    };
+    project = {
+        _id: "$_id",
+        name: 1,
+    };
+    let list = yield brands_schema_1.default.aggregate([
+        {
+            $match: search,
+        },
+        {
+            $project: project,
+        },
+    ]);
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = list;
+    res.json(reponseJson);
+});
+brandController.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let data = req.query;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    if (!data) {
+        data = {
+            s: "",
+            pos: 0,
+            lim: 10,
+        };
+    }
+    let search;
+    let project;
+    search = {
+        $or: [
+            { _id: { $regex: ".*" + data.s + ".*", $options: "i" } },
+            { name: { $regex: ".*" + data.s + ".*", $options: "i" } },
+        ],
+    };
+    project = {
+        _id: "$_id",
+        name: 1,
+    };
+    let sendata = {};
+    let list = yield brands_schema_1.default.aggregate([
+        {
+            $match: search,
+        },
+        {
+            $skip: parseInt(data.lim) * parseInt(data.pos),
+        },
+        {
+            $limit: parseInt(data.lim),
+        },
+        {
+            $project: project,
+        },
+    ]);
+    sendata.rows = list;
+    let count;
+    if (list.length > 0) {
+        count = yield brands_schema_1.default.aggregate([
+            {
+                $match: search,
+            },
+            {
+                $count: "totalCount",
+            },
+        ]);
         reponseJson.code = 200;
-        reponseJson.message = "Lista de marcas";
+        reponseJson.message = "Usuario encontrado con exito";
         reponseJson.status = true;
-        reponseJson.data = list;
     }
     else {
-        reponseJson.code = 200;
-        reponseJson.message = "No hay marcas registradas";
+        reponseJson.code = 400;
+        reponseJson.message = "sin resultado";
         reponseJson.status = true;
-        reponseJson.data = null;
     }
+    let totalItems = 0;
+    if (count) {
+        totalItems = count[0].totalCount;
+    }
+    let totalPages = Math.ceil(totalItems / data.lim);
+    sendata.count = totalItems;
+    sendata.pages = totalPages;
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = sendata;
     res.json(reponseJson);
 });
 exports.default = brandController;

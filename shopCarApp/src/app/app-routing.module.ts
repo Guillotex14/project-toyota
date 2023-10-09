@@ -124,7 +124,7 @@ const routes: Routes = [
     loadChildren: () => import('./list-mechanic-admin/list-mechanic-admin.module').then( m => m.ListMechanicAdminPageModule)
   },
   {
-    path: 'edit-mechanic-admin',
+    path: 'edit-mechanic-admin/:id',
     loadChildren: () => import('./edit-mechanic-admin/edit-mechanic-admin.module').then( m => m.EditMechanicAdminPageModule)
   },
   {

@@ -141,27 +141,29 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
     let message = "";
     if (user) {
         if (decode.type_user == "admin") {
-            if (data.type_user == user.type_user) {
+            if (data.type_user == "admin") {
                 yield addOrUpdateAdmin(data);
                 message = `El usuario administrador fue modificado con exito`;
             }
-            else if (data.type_user == user.type_user) {
+            else if (data.type_user == "mechanic") {
                 yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue modificado con exito`;
             }
-            else if (data.type_user == user.type_user) {
+            else if (data.type_user == "seller") {
                 yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue modificado con exito`;
             }
             else {
                 message = `El usuario no se encuentra en ese rol`;
             }
-            reponseJson.status = data;
+            reponseJson.status = true;
+            reponseJson.data = data;
         }
         else if (decode.type_user == "seller") {
             yield addOrUpdateMechanic(data);
             message = `El usuario tecnico fue modificado con exito`;
-            reponseJson.status = data;
+            reponseJson.status = true;
+            reponseJson.data = data;
         }
         else {
             reponseJson.code = 400;
@@ -267,7 +269,7 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         else if (user.type_user == "mechanic") {
             let usermechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
-            sendata = Object.assign(Object.assign({}, sendata), { id_seller: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, id_mechanic: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, fullName: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.fullName, city: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.city, concesionary: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.concesionary, date_created: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.date_created, phone: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.phone });
+            sendata = Object.assign(Object.assign({}, sendata), { id_mechanic: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, fullName: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.fullName, city: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.city, concesionary: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.concesionary, date_created: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.date_created, phone: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.phone });
         }
         else {
             reponseJson.code = 400;
@@ -302,7 +304,6 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.json(reponseJson);
     }
     let data = req.query;
-    console.log(req.query);
     if (!data) {
         data = {
             s: "",
@@ -541,7 +542,6 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
             };
             mechanicsArray.push(mecha);
         });
-        console.log(mechanicsArray);
         reponseJson.code = 200;
         reponseJson.message = "Lista de mecanicos";
         reponseJson.status = true;

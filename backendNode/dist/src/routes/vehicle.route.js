@@ -11,5 +11,6 @@ vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpda
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);
 vehicleRouter.get("/get-brand", brand_controller_1.default.get);
 vehicleRouter.get("/all-brands", brand_controller_1.default.all);
+vehicleRouter.get("/all-paginator-brands", brand_controller_1.default.allPaginator);
 exports.default = vehicleRouter;
 //# sourceMappingURL=vehicle.route.js.map

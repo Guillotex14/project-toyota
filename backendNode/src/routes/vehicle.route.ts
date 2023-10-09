@@ -10,6 +10,7 @@ vehicleRouter.post("/insert-update-brand", brandController.insertUpdate);
 vehicleRouter.post("/delete-brand", brandController.delete);
 vehicleRouter.get("/get-brand", brandController.get);
 vehicleRouter.get("/all-brands", brandController.all);
+vehicleRouter.get("/all-paginator-brands", brandController.allPaginator);
 
 
 export default vehicleRouter;

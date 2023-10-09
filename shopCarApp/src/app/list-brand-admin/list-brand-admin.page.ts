@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UtilsService } from '../services/utils/utils.service';
-import { AlertController, IonModal, MenuController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, IonModal, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AdminService } from '../services/admin/admin.service';
 
@@ -11,6 +11,8 @@ import { AdminService } from '../services/admin/admin.service';
 })
 export class ListBrandAdminPage implements OnInit {
   @ViewChild('modalBrandEdit') modalEdit!: IonModal;
+  @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
+
   brandList: any[] = [];
   brand: any = null;
   error: boolean = false;
@@ -18,7 +20,7 @@ export class ListBrandAdminPage implements OnInit {
   search: any = {
     s: "",
     pos: 0,
-    limit: 10
+    lim: 10
   }
 
   constructor(private utils: UtilsService, private menu: MenuController, private router: Router, private adminSrv:AdminService, private alertCtrl: AlertController) { }
@@ -41,10 +43,10 @@ export class ListBrandAdminPage implements OnInit {
 
   public getBrandsList(){
     this.utils.presentLoading("cargando data...")
-    this.adminSrv.getBrandsList().subscribe((resp:any)=>{
+    this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
       if (resp.status) {
         this.utils.dismissLoading()
-        this.brandList = resp.data
+        this.brandList = resp.data.rows
       }else{
         this.utils.dismissLoading()
         this.utils.presentToast("Error al cargar datos")
@@ -55,10 +57,6 @@ export class ListBrandAdminPage implements OnInit {
       this.utils.dismissLoading();
       this.utils.presentToast("Error de servidor");
     })
-  }
-
-  public getDetailBrand(){
-
   }
 
   public deleteBrand(id:any){
@@ -143,5 +141,23 @@ export class ListBrandAdminPage implements OnInit {
     if (this.error) {
       this.error = false;
     }
+  }
+
+  public loadData(eve:any){
+    this.search.pos+=1;
+    let moreMechanics = []
+    this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
+      if (resp.status) {
+        if (resp.data.rows.length > 0) {
+
+          moreMechanics = resp.data.rows;
+          moreMechanics.map((data:any)=>{
+            this.brandList.push(data)
+          })
+
+        }
+      }
+    })
+    this.infiniteScroll.complete();
   }
 }

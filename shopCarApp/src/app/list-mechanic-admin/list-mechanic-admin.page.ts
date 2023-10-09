@@ -58,15 +58,13 @@ export class ListMechanicAdminPage implements OnInit {
     })
   }
 
-  public getDetailMechanic(){
-
-  }
-
-  public deleteMechanic(id:any){
-
+  public editMechanic(id:any){
+    this.data.pos = 0;
+    this.router.navigate(["edit-mechanic-admin/"+id])
   }
 
   async showAlertDelete(id:any) {
+
     const alert = await this.alertCtrl.create({
       header: 'Eliminar Tecnico',
       message: '¿Está seguro de eliminar al tecnico seleccionado?',
@@ -74,11 +72,11 @@ export class ListMechanicAdminPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          cssClass: 'danger',
+          cssClass: 'btnRed',
           handler: (blah) => {}
         }, {
           text: 'Aceptar',
-          cssClass: 'secondary',
+          cssClass: 'btnRed',
           handler: () => {
             this.deleteMechanic(id);
           }
@@ -89,13 +87,27 @@ export class ListMechanicAdminPage implements OnInit {
     await alert.present();
   }
 
+  public deleteMechanic(id:any){
 
-  public onDelete(){
+    let data = {
+      id_user: id
+    }
 
-  }
+    this.utils.presentLoading("Elimnando tecnico");
+    this.adminSrv.deleteMechanic(data).subscribe((resp:any)=>{  
+      if (resp.status) {
+        this.utils.dismissLoading();
+        this.utils.presentToast("Tecnico eliminado exitosamente");
+        this.getMechanicsList();
+      } else {
+        this.utils.dismissLoading();
+        this.utils.presentToast("Error al eliminar tecnico");
+      }
 
-  public editMechanic(id:any){
-
+    },(error:any)=>{
+      this.utils.dismissLoading();
+      this.utils.presentToast("Server error");
+    })
   }
 
   public loadData(eve:any){

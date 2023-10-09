@@ -87,6 +87,10 @@
     </ng-template>
   </ion-modal>
 
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)" #infiniteScroll>
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
 

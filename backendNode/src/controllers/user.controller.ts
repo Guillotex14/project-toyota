@@ -149,26 +149,27 @@ userController.update = async (req: Request, res: Response) => {
 
   const user = await Users.findOne({ _id: data.id_user });
   let message = "";
-
   if (user) {
     if (decode.type_user == "admin") {
-      if (data.type_user == user.type_user) {
+      if (data.type_user == "admin") {
         await addOrUpdateAdmin(data);
         message = `El usuario administrador fue modificado con exito`;
-      } else if (data.type_user == user.type_user) {
+      } else if (data.type_user == "mechanic") {
         await addOrUpdateMechanic(data);
         message = `El usuario tecnico fue modificado con exito`;
-      } else if (data.type_user == user.type_user) {
+      } else if (data.type_user == "seller") {
         await addOrUpdateSeller(data);
         message = `El usuario vendedor fue modificado con exito`;
       } else {
         message = `El usuario no se encuentra en ese rol`;
       }
-      reponseJson.status = data;
+      reponseJson.status = true;
+      reponseJson.data = data;
     } else if (decode.type_user == "seller") {
       await addOrUpdateMechanic(data);
       message = `El usuario tecnico fue modificado con exito`;
-      reponseJson.status = data;
+      reponseJson.status = true;
+      reponseJson.data = data;
     } else {
       reponseJson.code = 400;
       reponseJson.message = "Usuario sin perimiso";
@@ -245,6 +246,8 @@ userController.get = async (req: Request, res: Response) => {
   const data = req.query;
   let sendata: any = {};
   let user: any;
+
+  
   if (data.id_user) {
     user = await Users.findOne({ _id: data.id_user });
   } else if (data.email) {
@@ -280,7 +283,6 @@ userController.get = async (req: Request, res: Response) => {
       let usermechanic = await mechanics.findOne({ id_user: user._id });
       sendata = {
         ...sendata,
-        id_seller: usermechanic?._id,
         id_mechanic: usermechanic?._id,
         fullName: usermechanic?.fullName,
         city: usermechanic?.city,
@@ -322,8 +324,6 @@ userController.all = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
   let data: any = req.query;
-
-  console.log(req.query);
 
   if (!data) {
     data = {
@@ -585,8 +585,6 @@ userController.allMechanic = async (req: Request, res: Response) => {
       mechanicsArray.push(mecha);
     });
 
-    console.log(mechanicsArray);
-
     reponseJson.code = 200;
     reponseJson.message = "Lista de mecanicos";
     reponseJson.status = true;
@@ -669,6 +667,7 @@ async function addOrUpdateSeller(data: any) {
 }
 
 async function addOrUpdateMechanic(data: any) {
+
   if (data.id_user) {
     const mechanic = { _id: data.id_mechanic };
     const user = { _id: data.id_user };
