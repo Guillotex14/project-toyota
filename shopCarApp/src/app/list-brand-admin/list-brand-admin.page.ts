@@ -39,6 +39,8 @@ export class ListBrandAdminPage implements OnInit {
 
   public goBack(){
     this.router.navigate(['home-admin'])
+    this.search.pos = 0;
+
   }
 
   public getBrandsList(){
@@ -145,16 +147,14 @@ export class ListBrandAdminPage implements OnInit {
 
   public loadData(eve:any){
     this.search.pos+=1;
-    let moreMechanics = []
+    let moreBrands = []
     this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
       if (resp.status) {
         if (resp.data.rows.length > 0) {
-
-          moreMechanics = resp.data.rows;
-          moreMechanics.map((data:any)=>{
+          moreBrands = resp.data.rows;
+          moreBrands.map((data:any)=>{
             this.brandList.push(data)
           })
-
         }
       }
     })

@@ -21,7 +21,7 @@ export class ListMechanicAdminPage implements OnInit {
   }
 
   constructor(private utils: UtilsService, private adminSrv: AdminService, private menu: MenuController, private router:Router, private alertCtrl: AlertController) {
-    this.utils.presentLoading("Cargando Tecnicos");
+    this.utils.presentLoading("Cargando Técnicos");
   }
   
   ngOnInit() {
@@ -30,6 +30,8 @@ export class ListMechanicAdminPage implements OnInit {
 
   ionViewWillEnter(){
     this.getMechanicsList();
+    this.data.pos = 0;
+
   }
 
   public goBack(){
@@ -49,11 +51,11 @@ export class ListMechanicAdminPage implements OnInit {
         this.mechanicList = resp.data.rows;
       }else{
         this.utils.dismissLoading();
-        this.utils.presentToast("Error al cargar Tecnicos")
+        this.utils.presentToast("Error al cargar Técnicos")
       }
     },(error)=>{
       this.utils.dismissLoading();
-      this.utils.presentToast("Error al cargar Tecnicos")
+      this.utils.presentToast("Error al cargar Técnicos")
     
     })
   }
@@ -66,8 +68,8 @@ export class ListMechanicAdminPage implements OnInit {
   async showAlertDelete(id:any) {
 
     const alert = await this.alertCtrl.create({
-      header: 'Eliminar Tecnico',
-      message: '¿Está seguro de eliminar al tecnico seleccionado?',
+      header: 'Eliminar Técnico',
+      message: '¿Está seguro de eliminar al técnico seleccionado?',
       buttons: [
         {
           text: 'Cancelar',
@@ -93,15 +95,15 @@ export class ListMechanicAdminPage implements OnInit {
       id_user: id
     }
 
-    this.utils.presentLoading("Elimnando tecnico");
+    this.utils.presentLoading("Elimnando técnico");
     this.adminSrv.deleteMechanic(data).subscribe((resp:any)=>{  
       if (resp.status) {
         this.utils.dismissLoading();
-        this.utils.presentToast("Tecnico eliminado exitosamente");
+        this.utils.presentToast("Técnico eliminado exitosamente");
         this.getMechanicsList();
       } else {
         this.utils.dismissLoading();
-        this.utils.presentToast("Error al eliminar tecnico");
+        this.utils.presentToast("Error al eliminar técnico");
       }
 
     },(error:any)=>{

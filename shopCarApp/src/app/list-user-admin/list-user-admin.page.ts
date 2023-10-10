@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, MenuController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, MenuController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { AdminService } from '../services/admin/admin.service';
 import { SellersList } from 'src/models/admin';
@@ -11,10 +11,20 @@ import { SellersList } from 'src/models/admin';
   styleUrls: ['./list-user-admin.page.scss'],
 })
 export class ListUserAdminPage implements OnInit {
-
-  arraySellers: SellersList[] = [];
-  auxSellers: SellersList[] = [];
+  @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
+  arraySellers: any[] = [];
+  auxSellers: any[] = [];
   search: string = "";
+
+  countPage: number = 0;
+  totalData: number = 0;
+
+  dataSearch: any = {
+    s: "",
+    pos: 0,
+    lim: 10
+  }
+  
 
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) {
     
@@ -24,11 +34,13 @@ export class ListUserAdminPage implements OnInit {
   }
   
   ionViewWillEnter(){
+    this.utils.presentLoading("Cargando vendedores...")
     this.getSellers();
   }
 
   public goTo(){
     this.router.navigate(['home-admin']);
+    this.dataSearch.pos = 0;
   }
 
   public openMenu() {
@@ -37,11 +49,12 @@ export class ListUserAdminPage implements OnInit {
   }
 
   public getSellers() {
-    this.utils.presentLoading("Cargando...");
-    this.adminSrv.getSellers().subscribe((res: any) => {
-      if (res.status) {
-        this.arraySellers = res.data;
-        this.auxSellers = res.data;
+
+    this.adminSrv.allSellers(this.dataSearch).subscribe((resp:any) => {
+      if (resp.status) {
+        this.arraySellers = resp.data.rows;
+        this.countPage = resp.data.pages;
+        this.totalData = resp.data.count;
         this.utils.dismissLoading();
       }else{
         this.utils.dismissLoading();
@@ -53,8 +66,25 @@ export class ListUserAdminPage implements OnInit {
       this.utils.dismissLoading();
       this.utils.presentToast("Error de servidor");
     });
-  }
 
+
+    // this.utils.presentLoading("Cargando...");
+    // this.adminSrv.getSellers().subscribe((res: any) => {
+    //   if (res.status) {
+    //     this.arraySellers = res.data;
+    //     this.auxSellers = res.data;
+    //     this.utils.dismissLoading();
+    //   }else{
+    //     this.utils.dismissLoading();
+    //     this.utils.presentToast("Sin vendedores registrados");
+    //   }
+    // },
+    // (error) => {
+    //   console.log(error);
+    //   this.utils.dismissLoading();
+    //   this.utils.presentToast("Error de servidor");
+    // });
+  }
 
   async presentAlert(id: any) {
     const alert = await this.alertCtrl.create({
@@ -94,49 +124,25 @@ export class ListUserAdminPage implements OnInit {
     this.router.navigate(['edit-user-admi/'+ id]);
   }
 
-  public searchUser(event: any) {
-    // let data = { search: event.detail.value };
-    // this.adminSrv.searchSeller(data).subscribe((res: any) => {
-    //   if (res.status) {
-    //     this.arraySellers = res.data;
-    //   }
-    // });
-
-    let data = { search: event.detail.value };
-
-    if (data.search == "") {
-      this.auxSellers= this.arraySellers;
-    }else{
-      this.auxSellers = [];
-
-      let sear;
-      let sear2;
-      let sear3;
-      let sear4;
-      let sear5;
-
-      for (let i = 0; i < this.arraySellers.length; i++) {
-
-        sear = this.arraySellers[i].fullName.toLowerCase();
-        sear2 = this.arraySellers[i].email.toLowerCase();
-        sear3 = this.arraySellers[i].city.toLowerCase();
-        sear4 = this.arraySellers[i].concesionary.toLowerCase();
-
-        if (sear.includes(data.search.toLowerCase()) || sear2.includes(data.search.toLowerCase()) || sear3.includes(data.search.toLowerCase()) || sear4.includes(data.search.toLowerCase())) {
-          
-          this.auxSellers.push(this.arraySellers[i]);
+  public loadData(eve:any){
+    this.dataSearch.pos+=1;
+    let moreSellers = []
+    
+    if (this.dataSearch.pos<= this.countPage) {
+      this.adminSrv.allMechanics(this.dataSearch).subscribe((resp:any)=>{
+        if (resp.status) {
+          if (resp.dataSearch.rows.length > 0) {
+            moreSellers = resp.data.rows;
+            moreSellers.map((data:any)=>{
+              this.arraySellers.push(data)
+            })
+          }
         }
-      
-      }
+      })
+      this.infiniteScroll.complete();
+    }else{
+      this.infiniteScroll.complete();
     }
 
-
-
   }
-
-  public setSearch(event: any) {
-  
-    this.search = event.detail.value;
-  }
-
 }

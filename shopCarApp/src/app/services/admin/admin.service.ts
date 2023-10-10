@@ -21,6 +21,10 @@ export class AdminService {
     return this.http.get(global.urlBase+"admin/AllSellers");
   }
 
+  public allSellers(data:any){
+    return this.http.get(global.urlBase+`user/all?s=${data.s}&pos=${data.pos}&lim=${data.lim}&type_user=seller`,this.authToken);
+  }
+
   public getSellerById(id: any) {
     return this.http.post(global.urlBase+"admin/sellerById",id);
   }

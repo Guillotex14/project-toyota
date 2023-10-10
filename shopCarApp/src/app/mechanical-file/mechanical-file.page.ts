@@ -133,7 +133,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.courtesy_lights === "" || this.newMechanicalFile.courtesy_lights === undefined){
-      this.utils.presentToast("El campo Luces de cortesia es requerido");
+      this.utils.presentToast("El campo Luces de cortesía es requerido");
       return;
     }
 
@@ -148,7 +148,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.engine_coolant_container === "" || this.newMechanicalFile.engine_coolant_container === undefined){
-      this.utils.presentToast("El campo Refrigerante del motor-Envase es requerido")
+      this.utils.presentToast("El campo Refrigerante del motor - Envase es requerido")
       return;
     }
 
@@ -198,7 +198,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.part_emblems_complete === "" || this.newMechanicalFile.part_emblems_complete === undefined){
-      this.utils.presentToast("El campo Piezas completas-Emblemas completos es requerido")
+      this.utils.presentToast("El campo Piezas completas - Emblemas completos es requerido")
       return;
     }
 
@@ -223,7 +223,7 @@ export class MechanicalFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter === "" || this.newMechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter === undefined){
-      this.utils.presentToast("El campo Bujías-Filtro de aire-Filtro de gasolina-fitro anti polen es requerido")
+      this.utils.presentToast("El campo Bujías - Filtro de aire - Filtro de gasolina -fitro anti polen es requerido")
       return;
     }
 
@@ -284,10 +284,10 @@ export class MechanicalFilePage implements OnInit {
     }
 
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
-      this.utils.presentLoading("Creando ficha mécanica")
+      this.utils.presentLoading("Creando ficha mecánica")
       if (res.data.status) {
         this.utils.dismissLoading()
-        this.utils.presentToast("Se ha creado la ficha mécanica correctamente")
+        this.utils.presentToast("Se ha creado la ficha mecánica correctamente")
         this.router.navigate(['mechanic'])
         this.newMechanicalFile.part_emblems_complete = "";
         this.newMechanicalFile.wiper_shower_brushes_windshield = "";
@@ -329,11 +329,11 @@ export class MechanicalFilePage implements OnInit {
         this.newMechanicalFile.dealer_maintenance = "";
       }else{
         this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
+        this.utils.presentToast("Ha ocurrido un error al crear la ficha mecánica")
       }
     }
     ,(err) => {
-      this.utils.presentToast("Ha ocurrido un error al crear la ficha mécanica")
+      this.utils.presentToast("Ha ocurrido un error al crear la ficha mecánica")
     }
     )
 
@@ -345,18 +345,18 @@ export class MechanicalFilePage implements OnInit {
     }
     
     this.mechanicSrv.rejectMechanicalFile(data).subscribe((res:any) => {
-      this.utils.presentLoading("Rechazando ficha mécanica")
+      this.utils.presentLoading("Rechazando ficha mecánica")
       if (res.data.status) {
         this.utils.dismissLoading()
-        this.utils.presentToast("Se ha rechazado la ficha mécanica correctamente")
+        this.utils.presentToast("Se ha rechazado la ficha mecánica correctamente")
         this.router.navigate(['mechanic'])
       }else{
         this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mécanica")
+        this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecánica")
       }
     }
     ,(err:any) => {
-      this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mécanica")
+      this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecánica")
     })
   }
 

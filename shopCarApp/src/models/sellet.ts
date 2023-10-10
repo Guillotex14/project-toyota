@@ -182,6 +182,7 @@ export class NotificationById{
   public message!: string;
   public date!: string;
   public status!: boolean;
+  public data!: any;
 }
 
 export class ImagesVehicle{

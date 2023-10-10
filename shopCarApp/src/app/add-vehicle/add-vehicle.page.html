@@ -33,7 +33,7 @@
                 <br>
                 <span class="noPhotoTitle" >Cargar imágenes</span>
                 <br>
-                <span class="noPhotoSubtitle" >Minimo 5 fotos del vehículo (Delantera, trasera. ambos lados e interna)</span>
+                <span class="noPhotoSubtitle" >Mínimo 5 fotos del vehículo (Delantera, trasera, ambos lados e interna)</span>
               </ion-col>
 
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length > 0">
@@ -173,7 +173,7 @@
           </ion-col>
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmision</ion-label>
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmisión</ion-label>
             <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission"></ion-input> -->
             <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmición" (ionChange)="filterMechanic()">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="automática">Automática</ion-select-option>
@@ -288,7 +288,7 @@
           <ion-col size="12" *ngIf="newVehicle.id_mechanic === ''">
             <ion-card>
               <ion-card-header>
-                <ion-card-title style="font-weight: bold;">Ficha mécanica</ion-card-title>
+                <ion-card-title style="font-weight: bold;">Ficha mecánica</ion-card-title>
                 <ion-card-subtitle style="color:darkgoldenrod;">en espera</ion-card-subtitle>
 
                 <ion-button expand="block" shape="round" class="btnSaveRed" (click)="openModal()" style="height: 30px !important; margin-top: 15px !important;">
@@ -297,7 +297,7 @@
               </ion-card-header>
 
               <ion-card-content>
-                <ion-card-subtitle style="color: #898989;">El vehículo no sera publicado hasta que se apruebe la ficha mécanica</ion-card-subtitle>
+                <ion-card-subtitle style="color: #898989;">El vehículo no sera publicado hasta que se apruebe la ficha mecánica</ion-card-subtitle>
               </ion-card-content>
             </ion-card>
           </ion-col>

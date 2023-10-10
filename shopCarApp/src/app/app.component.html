@@ -104,11 +104,11 @@
         <ion-icon name="home"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-user-admin')">
-        <ion-label>Lista de usuarios</ion-label>
+        <ion-label>Lista de Vendedores</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('create-user-admin')">
-        <ion-label>Crear Usuario</ion-label>
+        <ion-label>Crear Vendedor</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-mechanic-admin')">
@@ -127,12 +127,12 @@
         <ion-label>Crear Marca</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-models-vehicles')">
-        <ion-label>Lista modelos de vehiculos</ion-label>
+      <!-- <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-models-vehicles')">
+        <ion-label>Lista modelos de vehículos</ion-label>
         <ion-icon name="create"></ion-icon>
-      </ion-item>
+      </ion-item> -->
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-model-vehicle')">
-        <ion-label>Crear Modelo Vehícular</ion-label>
+        <ion-label>Crear Modelo Vehículo</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
       <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('graphics-admin')">

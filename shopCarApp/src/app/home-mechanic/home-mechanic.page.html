@@ -75,7 +75,7 @@
 
                 <ion-card-content>
                   <p class="titleCardMec">
-                    Realizar inspección mécanica
+                    Realizar inspección mecánica
                   </p>
                   <hr>
                   <span class="subtitleCardMec">
@@ -180,8 +180,37 @@
             <ion-title>{{notificationById.title}}</ion-title>
           </ion-col>
           <ion-col size="12" style="text-align: center !important; margin-top: 15px;">
-            <span>{{notificationById.message}}</span>
+            <div class="div-table" style="width: 100%;" *ngIf="notificationById.data">
+              <div class="table">
+                <div class="tr">
+                  <div class="td bg_gray_1">Modelo</div>
+                  <div class="td bg_gray_2">{{notificationById.data.model}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Año</div>
+                  <div class="td bg_gray_2">{{notificationById.data.year}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Placa</div>
+                  <div class="td bg_gray_2">{{notificationById.data.plate}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Vendedor</div>
+                  <div class="td bg_gray_2">{{notificationById.data.fullName}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Concesionario</div>
+                  <div class="td bg_gray_2">{{notificationById.data.concesionary}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Estado</div>
+                  <div class="td bg_gray_2">{{notificationById.data.city}}</div>
+                </div>
+              </div>
+            </div>
+            <span *ngIf="notificationById.message">{{notificationById.message}}</span>
           </ion-col>
+
           <ion-col size="12" style="margin-top: 15px;">
             {{notificationById.date}}
           </ion-col>

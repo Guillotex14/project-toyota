@@ -25,22 +25,24 @@
               <ion-input type="text" placeholder="Buscar" fill="outline" (ionInput)="searchUser($event)"></ion-input>
             </ion-col> -->
             <ion-col size="12">
-              <ion-grid fixed size="12" class="card" *ngFor="let seller of auxSellers">
+              <ion-grid fixed size="12" class="card" *ngFor="let seller of arraySellers">
                 <ion-row>
                   <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="5" size-xs="5">
-                    <ion-img [src]="seller.image.img" style="margin: 50px auto auto auto;" *ngIf="seller.image !==''" ></ion-img>
-                    <ion-icon name="person-circle" *ngIf="seller.image ===''" class="iconListUser"></ion-icon>
+                    <!-- <ion-img [src]="seller.image.img" style="margin: 50px auto auto auto;" *ngIf="seller.image !==''" ></ion-img> -->
+                    <!-- <ion-icon name="person-circle" *ngIf="seller.image ===''" class="iconListUser"></ion-icon> -->
+                    <ion-icon name="person-circle" class="iconListUser"></ion-icon>
+
                   </ion-col>
                   <ion-col size-xl="7" size-lg="7" size-md="7" size-sm="7" size-xs="7" class="colInfoListUser">
                     <ion-grid fixed>
                       <ion-row>
                         <ion-col size="12">
-                          <p class="pTitle">{{seller.fullName}}</p>
+                          <p class="pTitle">{{seller.sellers.fullName}}</p>
                           <span class="spanSubtitle" style="font-size: 15px;">vendedor</span>
                         </ion-col>
                         <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" style="margin-top: 5px">
-                          <p class="pTitle">{{seller.city}}</p>
-                          <span class="spanSubtitle">{{seller.date_created}}</span>
+                          <p class="pTitle">{{seller.sellers.city}}</p>
+                          <span class="spanSubtitle">{{seller.sellers.date_created}}</span>
                         </ion-col>
                         <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
 
@@ -67,5 +69,11 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)" #infiniteScroll>
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
