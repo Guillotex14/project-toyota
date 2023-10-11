@@ -235,6 +235,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     fullName: infoSeller!.fullName,
     concesionary: infoSeller!.concesionary,
     city: infoSeller!.city,
+    title: "Tienes el siguiente vehículo para generar la ficha técnica"
   }
 
   await sendEmail(mailOptions);
@@ -925,50 +926,17 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       </div>`,
     };
 
-    const bodyNotification = `
-    <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-      <div class="table">
-        <div class="tr">
-          <div class="td bg_gray_1">Modelo</div>
-          <div class="td bg_gray_2">${getVehicle!.model}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Año</div>
-          <div class="td bg_gray_2">${getVehicle!.year}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Placa</div>
-          <div class="td bg_gray_2">${getVehicle!.plate}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Vendedor</div>
-          <div class="td bg_gray_2">${infoSeller!.fullName}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Concesionario</div>
-          <div class="td bg_gray_2">${infoSeller!.concesionary}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Estado</div>
-          <div class="td bg_gray_2">${infoSeller!.city}</div>
-        </div>
-      </div>
-    </div>
-  `;
-
-    // await sendEmail(mailOptions);
-
     const dataVehicle = {
       model: getVehicle!.model,
       year: getVehicle!.year,
       plate: getVehicle!.plate,
       fullName: infoSeller!.fullName,
       concesionary: infoSeller!.concesionary,
-      city: infoSeller!.city
+      city: infoSeller!.city,
+      title: "Tienes una oferta de compra para:"
     }
+
+    await sendEmail(mailOptions);
 
     sendNotification(
       infoSeller!._id.toString(),
@@ -2536,7 +2504,6 @@ const sendNotificationMechanic = async (
   data: any,
   title: string
 ) => {
-  // const jsonRes: ResponseModel = new ResponseModel();
 
   const userInfo = await mechanics.findOne({ _id: id_mechanic });
 
@@ -2552,4 +2519,5 @@ const sendNotificationMechanic = async (
     await notify.save();
   }
 };
+
 export default sellerRouter;

@@ -338,17 +338,18 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
                 </div>
             </div>`,
         };
-
-        await sendEmail(mailOptions);
-
+        
         const dataVehicle = {
             model: vehicle!.model,
             year: vehicle!.year,
             plate: vehicle!.plate,
-            nameSeller: nameSeller,
-            conceSeller: conceSeller,
-            citySeller: citySeller
+            fullName: nameSeller,
+            concesionary: conceSeller,
+            city: citySeller,
+            title: "Ficha técnica creada exitosamente para:"
         }
+        
+        await sendEmail(mailOptions);
 
         sendNotification(vehicle!.id_seller?.toString()!, dataVehicle, "Ficha mecánica creada");
 
