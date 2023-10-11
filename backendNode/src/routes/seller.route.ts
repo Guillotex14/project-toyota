@@ -147,7 +147,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     id_seller_buyer: null,
     type_vehicle,
     vin,
-    vehicle_plate,
+    plate: vehicle_plate,
   });
 
   await newVehicle.save();
