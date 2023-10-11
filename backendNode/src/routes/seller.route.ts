@@ -194,9 +194,9 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     from: "Toyousado",
     to: emailmechanic,
     subject: "Revisión de vehículo",
-    text:`
+    html:`
     <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+      <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
     </div>
     <div class="div-table" style="width: 100%;">
       <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
@@ -228,44 +228,18 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
     </div>`,
   };
 
-  const bodyNotification = `
-    <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-      <div class="table">
-        <div class="tr">
-          <div class="td bg_gray_1">Modelo</div>
-          <div class="td bg_gray_2">${model}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Año</div>
-          <div class="td bg_gray_2">${year}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Placa</div>
-          <div class="td bg_gray_2">${vehicle_plate}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Vendedor</div>
-          <div class="td bg_gray_2">${infoSeller!.fullName}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Concesionario</div>
-          <div class="td bg_gray_2">${infoSeller!.concesionary}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Estado</div>
-          <div class="td bg_gray_2">${infoSeller!.city}</div>
-        </div>
-      </div>
-    </div>
-  `;
-
+  const dataVehicle = {
+    model: model,
+    year: year,
+    vehicle_plate: vehicle_plate,
+    fullName: infoSeller!.fullName,
+    concesionary: infoSeller!.concesionary,
+    city: infoSeller!.city,
+  }
 
   await sendEmail(mailOptions);
 
-  sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
+  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";
@@ -609,12 +583,12 @@ sellerRouter.post("/mechanicalFileByIdVehicle", async (req: Request, res: Respon
     if (mecFile) {
       reponseJson.code = 200;
       reponseJson.status = true;
-      reponseJson.message = "Ficha mécanica encontrada";
+      reponseJson.message = "Ficha mecánica encontrada";
       reponseJson.data = mecFile;
     } else {
       reponseJson.code = 400;
       reponseJson.status = false;
-      reponseJson.message = "No se encontro la ficha mécanica";
+      reponseJson.message = "No se encontro la ficha mecánica";
     }
 
     res.json(reponseJson);
@@ -917,8 +891,8 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     const mailOptions = {
       from: "Toyousado Notifications",
       to: email!.email,
-      subject: "Compra de vehículo",
-      text: `<div>
+      subject: "Oferta de vehículo",
+      html: `<div>
       <p>Tienes una oferta de compra para:</p>
     </div>
     <div class="div-table" style="width: 100%;">
@@ -948,7 +922,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.city}</div>
         </div>
       </div>
-    </div>`,
+      </div>`,
     };
 
     const bodyNotification = `
@@ -985,12 +959,21 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     </div>
   `;
 
-    await sendEmail(mailOptions);
+    // await sendEmail(mailOptions);
+
+    const dataVehicle = {
+      model: getVehicle!.model,
+      year: getVehicle!.year,
+      plate: getVehicle!.plate,
+      fullName: infoSeller!.fullName,
+      concesionary: infoSeller!.concesionary,
+      city: infoSeller!.city
+    }
 
     sendNotification(
       infoSeller!._id.toString(),
-      mailOptions.text,
-      mailOptions.subject
+      dataVehicle,
+      "Oferta de vehículo"
     );
 
     responseJson.code = 200;
@@ -1903,7 +1886,7 @@ console.log(datos)
       { header: "Año", key: "anhio", width: 15, style: headerStyle },
       { header: "Precio", key: "precio", width: 15, style: headerStyle },
       {
-        header: "Ficha mécanica",
+        header: "Ficha mecánica",
         key: "ficha_mécanica",
         width: 15,
         style: headerStyle,
@@ -2528,7 +2511,7 @@ const desgloseImg = async (image: any) => {
 
 const sendNotification = async (
   id_seller: string,
-  message: string,
+  data: any,
   title: string
 ) => {
   // const jsonRes: ResponseModel = new ResponseModel();
@@ -2539,7 +2522,7 @@ const sendNotification = async (
     const notify = new notifications({
       id_user: userInfo.id_user,
       title: title,
-      message: message,
+      data: data,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
       status: false,
     });
@@ -2550,7 +2533,7 @@ const sendNotification = async (
 
 const sendNotificationMechanic = async (
   id_mechanic: string,
-  message: string,
+  data: any,
   title: string
 ) => {
   // const jsonRes: ResponseModel = new ResponseModel();
@@ -2561,7 +2544,7 @@ const sendNotificationMechanic = async (
     const notify = new notifications({
       id_user: userInfo.id_user,
       title: title,
-      message: message,
+      data: data,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),
       status: false,
     });

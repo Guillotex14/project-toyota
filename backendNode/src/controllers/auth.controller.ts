@@ -1,12 +1,15 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
 import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
+import notifications from "../schemas/notifications.schema";
+import { sendEmail } from '../../nodemailer';
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
+import moment from "moment";
 
 const authController: any  = {};
 
@@ -159,7 +162,48 @@ authController.updateImgProfile = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
+// authController.sendEmail = async (req: Request, res: Response) => {
+//     const reponseJson: ResponseModel = new ResponseModel();
+
+//     const dataVehicle = {
+//         model: "model",
+//         year: "year",
+//         vehicle_plate: "vehicle_plate",
+//         fullName: "infoSeller!.fullName",
+//         concesionary: "infoSeller!.concesionary",
+//         city: "infoSeller!.city",
+//     }
+//         sendNotification("mvarelavasquez@gmail.com", dataVehicle, "Revisión de vehículo");
+
+//         reponseJson.message = "Imagen actualizada exitosamente";
+//         reponseJson.status = true;
+//         reponseJson.data = {};
 
 
+//     res.json(reponseJson);
+    
+// }
+
+// const sendNotification = async (
+//     id_seller: string,
+//     data: any,
+//     title: string
+//   ) => {
+//     // const jsonRes: ResponseModel = new ResponseModel();
+  
+//     const userInfo = await Users.findOne({ email: id_seller });
+  
+//     if (userInfo) {
+//       const notify = new notifications({
+//         id_user: userInfo._id,
+//         title: title,
+//         data: data,
+//         date: moment().format("YYYY-MM-DD HH:mm:ss"),
+//         status: false,
+//       });
+  
+//       await notify.save();
+//     }
+//   };
 
 export default authController;

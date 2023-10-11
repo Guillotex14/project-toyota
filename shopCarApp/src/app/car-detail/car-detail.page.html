@@ -8,7 +8,7 @@
               <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goBack()"></ion-icon>
             </ion-col>
             <ion-col size="8" style="text-align: center;">
-              <ion-img src="assets/images/logo/logo_toyota.png" class="logoRed"></ion-img>
+              <ion-img src="assets/images/logo/logo_toyota_blanco.png" class="logoRed"></ion-img>
             </ion-col>
             <ion-col size="2">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
@@ -114,7 +114,7 @@
               </ion-col>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;" *ngIf="carDetail.engine_model">
               <ion-col size="12">
                 <span class="spanLabel" class="spanLabel">Motor</span>
               </ion-col>
@@ -289,7 +289,7 @@
                     <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === 'true'">
                       <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Confort</p>
-                      <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y ecologico</span>
+                      <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y  ecológico</span>
                     </ion-col>
                   </ion-row>
                 </ion-card-content>

@@ -6,6 +6,9 @@ const notificationsSchema = new Schema({
     },
     title: String,
     message: String,
+    data: {
+        type: Object
+    },
     date: String,
     status: Boolean,
 });

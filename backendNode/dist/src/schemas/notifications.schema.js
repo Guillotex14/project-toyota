@@ -7,6 +7,9 @@ const notificationsSchema = new mongoose_1.Schema({
     },
     title: String,
     message: String,
+    data: {
+        type: Object
+    },
     date: String,
     status: Boolean,
 });

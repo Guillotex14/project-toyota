@@ -17,9 +17,11 @@ const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
+const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
+const moment_1 = __importDefault(require("moment"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -149,6 +151,36 @@ authController.updateImgProfile = (req, res) => __awaiter(void 0, void 0, void 0
         reponseJson.status = false;
     }
     res.json(reponseJson);
+});
+authController.sendEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const dataVehicle = {
+        model: "model",
+        year: "year",
+        vehicle_plate: "vehicle_plate",
+        fullName: "infoSeller!.fullName",
+        concesionary: "infoSeller!.concesionary",
+        city: "infoSeller!.city",
+    };
+    sendNotification("mvarelavasquez@gmail.com", dataVehicle, "Revisión de vehículo");
+    reponseJson.message = "Imagen actualizada exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = {};
+    res.json(reponseJson);
+});
+const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
+    // const jsonRes: ResponseModel = new ResponseModel();
+    const userInfo = yield Users_schema_1.default.findOne({ email: id_seller });
+    if (userInfo) {
+        const notify = new notifications_schema_1.default({
+            id_user: userInfo._id,
+            title: title,
+            data: data,
+            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
+            status: false,
+        });
+        yield notify.save();
+    }
 });
 exports.default = authController;
 //# sourceMappingURL=auth.controller.js.map

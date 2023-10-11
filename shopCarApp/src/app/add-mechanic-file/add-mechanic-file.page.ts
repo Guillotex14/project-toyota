@@ -92,7 +92,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.battery_status_terminals === "" || this.newMechanicalFile.battery_status_terminals === undefined){
-      this.utils.presentToast("El campo Estado de la batería-Bornes es requerido");
+      this.utils.presentToast("El campo Estado de la batería - Bornes es requerido");
       return;
     }
 
@@ -122,7 +122,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.bugle_accessories === "" || this.newMechanicalFile.bugle_accessories === undefined){
-      this.utils.presentToast("El campo Corneta-Accesorios es requerido");
+      this.utils.presentToast("El campo Corneta - Accesorios es requerido");
       return;
     }
 
@@ -167,7 +167,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.gts === "" || this.newMechanicalFile.gts === undefined){
-      this.utils.presentToast("El campo Revisión del sistema del vehículo a traves de tester inteligente o GTS requerido")
+      this.utils.presentToast("El campo Revisión del sistema del vehículo a través de tester inteligente o GTS requerido")
       return;
     }
 
@@ -222,7 +222,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter === "" || this.newMechanicalFile.spark_plugs_air_filter_fuel_filter_anti_pollen_filter === undefined){
-      this.utils.presentToast("El campo Bujías - Filtro de aire - Filtro de gasolina -fitro anti polen es requerido")
+      this.utils.presentToast("El campo Bujías - Filtro de aire - Filtro de gasolina - filtro anti polen es requerido")
       return;
     }
 
@@ -262,7 +262,7 @@ export class AddMechanicFilePage implements OnInit {
     }
 
     if(this.newMechanicalFile.upholstery_condition === "" || this.newMechanicalFile.upholstery_condition === undefined){
-      this.utils.presentToast("El campo Estado de la tapiceria es requerido")
+      this.utils.presentToast("El campo Estado de la tapicería es requerido")
       return;
     }
 

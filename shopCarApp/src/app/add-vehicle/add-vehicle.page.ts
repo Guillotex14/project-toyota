@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet } from '@ionic/angular';
+import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet, IonicSafeString, AlertController } from '@ionic/angular';
 import { AddVehicle, CreateMechanic } from 'src/models/sellet';
 import { SellerService } from '../services/seller/seller.service';
 import { UtilsService } from '../services/utils/utils.service';
@@ -55,7 +55,25 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController) {
+  buttonPhoto = [
+    {
+      text: 'Aceptar',
+      handler: () =>{
+        this.takePhoto()
+      }
+    }
+  ]
+
+  buttonGallery = [
+    {
+      text: 'Aceptar',
+      handler: () =>{
+        this.takePhotoGalery()
+      }
+    }
+  ]
+
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
     this.newVehicle.brand = '';
     this.newVehicle.city = '';
@@ -188,11 +206,11 @@ export class AddVehiclePage implements OnInit {
       return;
     }
 
-    if(this.newVehicle.engine_model == "" || this.newVehicle.engine_model == null || this.newVehicle.engine_model == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El modelo del motor del vehículo es obligatorio");
-      return;
-    }
+    // if(this.newVehicle.engine_model == "" || this.newVehicle.engine_model == null || this.newVehicle.engine_model == undefined){
+    //   this.utils.dismissLoading();
+    //   this.utils.presentToast("El modelo del motor del vehículo es obligatorio");
+    //   return;
+    // }
 
     if(this.newVehicle.titles == "" || this.newVehicle.titles == null || this.newVehicle.titles == undefined){
       this.utils.dismissLoading();
@@ -412,14 +430,14 @@ export class AddVehiclePage implements OnInit {
         text: 'Camara',
         icon: 'camera',
         handler: () => {
-          this.takePhoto();
+          this.presentAlert(1);
         }
       },
       {
         text: 'Galeria',
         icon: 'image',
         handler: () => {
-          this.takePhotoGalery();
+          this.presentAlert(2);
         }
       },
       {
@@ -646,7 +664,7 @@ export class AddVehiclePage implements OnInit {
     }
   }
 
-public showPassword() {
+  public showPassword() {
     if (this.typeInput == "password") {
       this.typeInput = "text";
     } else {
@@ -660,6 +678,27 @@ public showPassword() {
     } else {
       this.typeInputConfirm = "password";
     }
+  }
+
+  public async presentAlert(data:any) {
+    const alert = await this.alertCtrl.create({
+      header: 'Información',
+      // subHeader: 'Subtitle',
+      message: new IonicSafeString('<p>1. Lateral completo</p> <p>2. Tres cuartos frente conductor</p> <p>3. Tres cuartos trasero copiloto</p> <p>4.Interior frente torpedo completo</p> <p>5.Interior frente tablero de instrumentos (visualización del kilometraje)</p>'),
+      buttons: data === 1 ? this.buttonPhoto : this.buttonGallery
+    });
+
+    
+
+
+
+
+
+
+
+
+  
+    await alert.present();
   }
 
 }

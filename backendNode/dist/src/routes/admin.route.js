@@ -360,14 +360,14 @@ adminRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, v
     const ress = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (ress) {
         jsonRes.code = 200;
-        jsonRes.message = "ficha mécanica encontrada exitosamente";
+        jsonRes.message = "ficha mecánica encontrada exitosamente";
         jsonRes.status = true;
         jsonRes.data = ress;
         return jsonRes;
     }
     else {
         jsonRes.code = 400;
-        jsonRes.message = "no se encontro la ficha mécanica";
+        jsonRes.message = "no se encontro la ficha mecánica";
         jsonRes.status = false;
         return jsonRes;
     }

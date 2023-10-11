@@ -139,6 +139,16 @@ hr{
   font-size: 90px !important; 
   margin: 16px 0px 0px 20px !important;
 }
+
+.green{
+  --background: #198754!important;
+  color: #fff;
+  ion-label{
+    margin: 0px auto !important;
+  }
+
+}
+
 ion-badge{
   --background: #EB0A1E !important;
   --color: white !important;

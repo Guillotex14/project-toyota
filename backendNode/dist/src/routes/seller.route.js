@@ -185,9 +185,9 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         from: "Toyousado",
         to: emailmechanic,
         subject: "Revisión de vehículo",
-        text: `
+        html: `
     <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+      <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
     </div>
     <div class="div-table" style="width: 100%;">
       <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
@@ -218,41 +218,16 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
       </div>
     </div>`,
     };
-    const bodyNotification = `
-    <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-      <div class="table">
-        <div class="tr">
-          <div class="td bg_gray_1">Modelo</div>
-          <div class="td bg_gray_2">${model}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Año</div>
-          <div class="td bg_gray_2">${year}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Placa</div>
-          <div class="td bg_gray_2">${vehicle_plate}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Vendedor</div>
-          <div class="td bg_gray_2">${infoSeller.fullName}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Concesionario</div>
-          <div class="td bg_gray_2">${infoSeller.concesionary}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Estado</div>
-          <div class="td bg_gray_2">${infoSeller.city}</div>
-        </div>
-      </div>
-    </div>
-  `;
+    const dataVehicle = {
+        model: model,
+        year: year,
+        vehicle_plate: vehicle_plate,
+        fullName: infoSeller.fullName,
+        concesionary: infoSeller.concesionary,
+        city: infoSeller.city,
+    };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
-    sendNotificationMechanic(id_mechanic, mailOptions.text, mailOptions.subject);
+    sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     reponseJson.code = 200;
     reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
@@ -542,13 +517,13 @@ sellerRouter.post("/mechanicalFileByIdVehicle", (req, res) => __awaiter(void 0, 
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
-        reponseJson.message = "Ficha mécanica encontrada";
+        reponseJson.message = "Ficha mecánica encontrada";
         reponseJson.data = mecFile;
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se encontro la ficha mécanica";
+        reponseJson.message = "No se encontro la ficha mecánica";
     }
     res.json(reponseJson);
 }));
@@ -809,8 +784,8 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const mailOptions = {
         from: "Toyousado Notifications",
         to: email.email,
-        subject: "Compra de vehículo",
-        text: `<div>
+        subject: "Oferta de vehículo",
+        html: `<div>
       <p>Tienes una oferta de compra para:</p>
     </div>
     <div class="div-table" style="width: 100%;">
@@ -840,7 +815,7 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
         </div>
       </div>
-    </div>`,
+      </div>`,
     };
     const bodyNotification = `
     <div>
@@ -875,8 +850,16 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
       </div>
     </div>
   `;
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
-    sendNotification(infoSeller._id.toString(), mailOptions.text, mailOptions.subject);
+    // await sendEmail(mailOptions);
+    const dataVehicle = {
+        model: getVehicle.model,
+        year: getVehicle.year,
+        plate: getVehicle.plate,
+        fullName: infoSeller.fullName,
+        concesionary: infoSeller.concesionary,
+        city: infoSeller.city
+    };
+    sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
     responseJson.code = 200;
     responseJson.message =
         "Compra realizada, esperar confirmación o rechazo del vendedor";
@@ -1563,7 +1546,7 @@ sellerRouter.get("/exportExcell", (req, res) => __awaiter(void 0, void 0, void 0
             { header: "Año", key: "anhio", width: 15, style: headerStyle },
             { header: "Precio", key: "precio", width: 15, style: headerStyle },
             {
-                header: "Ficha mécanica",
+                header: "Ficha mecánica",
                 key: "ficha_mécanica",
                 width: 15,
                 style: headerStyle,
@@ -2066,28 +2049,28 @@ const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return "data:image/jpeg;base64," + resize.toString("base64");
 });
-const sendNotification = (id_seller, message, title) => __awaiter(void 0, void 0, void 0, function* () {
+const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Sellers_schema_1.default.findOne({ _id: id_seller });
     if (userInfo) {
         const notify = new notifications_schema_1.default({
             id_user: userInfo.id_user,
             title: title,
-            message: message,
+            data: data,
             date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
             status: false,
         });
         yield notify.save();
     }
 });
-const sendNotificationMechanic = (id_mechanic, message, title) => __awaiter(void 0, void 0, void 0, function* () {
+const sendNotificationMechanic = (id_mechanic, data, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
     if (userInfo) {
         const notify = new notifications_schema_1.default({
             id_user: userInfo.id_user,
             title: title,
-            message: message,
+            data: data,
             date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
             status: false,
         });

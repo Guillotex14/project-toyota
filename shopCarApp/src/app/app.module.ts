@@ -15,7 +15,7 @@ import { ModalMechanicComponent } from './components/modal-mechanic/modal-mechan
 
 @NgModule({
   declarations: [AppComponent, ModalAddMechanicComponent, ModalMechanicComponent],
-  imports: [BrowserModule, RouterModule, FormsModule, HttpClientModule, AppRoutingModule, IonicModule.forRoot(), AgGridModule],
+  imports: [BrowserModule, RouterModule, FormsModule, HttpClientModule, AppRoutingModule, IonicModule.forRoot({ innerHTMLTemplatesEnabled: true }), AgGridModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

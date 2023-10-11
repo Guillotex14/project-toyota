@@ -59,4 +59,7 @@ authRouter.post("/updateImgProfile", authController.updateImgProfile);
 
 // }
 
+
+// authRouter.get("/sendNotify", authController.sendEmail)
+
 export default authRouter;

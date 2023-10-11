@@ -16,8 +16,8 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left !important':'text-align: center !important'">
-              <p class="headerTitle">Tu Toyota Usado</p>
+            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left !important;font-size: 22px !important':'text-align: center !important'">
+              <p class="headerTitle" [style]="arrayNotifies.length > 0 ? 'font-size: 22px !important':'font-size: 25px !important'">Tu Toyota Usado</p>
             </ion-col>
             <ion-col size="2" *ngIf="arrayNotifies.length > 0">
               <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
@@ -64,7 +64,7 @@
             <ion-col size="12" style="margin-top: 20px;">
               <ion-card>
                 <ion-card-header>
-                  <ion-card-subtitle>Presiona si quieres comparar precio  de tu vehículo</ion-card-subtitle>
+                  <ion-card-subtitle>Presiona si quieres comparar el precio  de tu vehículo</ion-card-subtitle>
                 </ion-card-header>
 
                 <ion-card-content>
@@ -150,6 +150,7 @@
                 <ion-chip *ngIf="vehicle.id_seller_buyer !== null" class="chipCard">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
+                
                 <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">
                   ver detalle
                 </ion-button>
@@ -202,12 +203,14 @@
           <ion-col size="12" style="text-align: center !important; margin-top: 30px;">
             <ion-title>{{notificationById.title}}</ion-title>
           </ion-col>
-          <ion-col size="12" style="text-align: center !important; margin-top: 15px;">
+
+          <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.data">
 
             <div>
               <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
             </div>
-            <div class="div-table" style="width: 100%;" *ngIf="notificationById.data">
+
+            <div class="div-table" style="width: 100%;" >
               <div class="table">
                 <div class="tr">
                   <div class="td bg_gray_1">Modelo</div>
@@ -236,8 +239,12 @@
               </div>
             </div>
           
-            <span *ngIf="notificationById.message">{{notificationById.message}}</span>
           </ion-col>
+
+          <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.message">
+            <span >{{notificationById.message}}</span>
+          </ion-col>
+
           <ion-col size="12" style="margin-top: 15px;">
             {{notificationById.date}}
           </ion-col>
