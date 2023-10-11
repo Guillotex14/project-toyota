@@ -207,7 +207,7 @@
           <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.data">
 
             <div>
-              <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
+              <p>{{notificationById.data.title}}</p>
             </div>
 
             <div class="div-table" style="width: 100%;" >
@@ -222,7 +222,7 @@
                 </div>
                 <div class="tr">
                   <div class="td bg_gray_1">Placa</div>
-                  <div class="td bg_gray_2">{{notificationById.data.plate}}</div>
+                  <div class="td bg_gray_2">{{notificationById.data.plate ? notificationById.data.plate : notificationById.data.vehicle_plate}}</div>
                 </div>
                 <div class="tr">
                   <div class="td bg_gray_1">Vendedor</div>

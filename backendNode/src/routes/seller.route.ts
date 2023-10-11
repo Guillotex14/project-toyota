@@ -231,7 +231,7 @@ sellerRouter.post("/addVehicle", async (req: Request, res: Response) => {
   const dataVehicle = {
     model: model,
     year: year,
-    vehicle_plate: vehicle_plate,
+    plate: vehicle_plate,
     fullName: infoSeller!.fullName,
     concesionary: infoSeller!.concesionary,
     city: infoSeller!.city,
@@ -926,6 +926,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
       </div>`,
     };
 
+    
     const dataVehicle = {
       model: getVehicle!.model,
       year: getVehicle!.year,
@@ -937,7 +938,7 @@ sellerRouter.post("/buyVehicle", async (req: Request, res: Response) => {
     }
 
     await sendEmail(mailOptions);
-
+    
     sendNotification(
       infoSeller!._id.toString(),
       dataVehicle,

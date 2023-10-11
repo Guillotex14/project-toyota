@@ -220,7 +220,7 @@ export class AddVehiclePage implements OnInit {
 
     if(this.newVehicle.transmission == "" || this.newVehicle.transmission == null || this.newVehicle.transmission == undefined){
       this.utils.dismissLoading();
-      this.utils.presentToast("El transmición del vehículo es obligatorio");
+      this.utils.presentToast("El transmisión del vehículo es obligatorio");
       return;
     }
 
