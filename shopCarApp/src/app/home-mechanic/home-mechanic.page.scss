@@ -198,6 +198,24 @@ ion-radio {
   --inner-border-radius: 2px
 }
 
+.table {
+  display: table;
+  border-collapse: collapse;
+  margin: auto;
+  .tr {    
+    display: table-row;
+    border: 1px solid #000;
+    .td {
+      display: table-cell;
+      padding: 8px;
+      border-left: 1px solid #000;
+      // &:first-child {
+      //   border-left:0;
+      // }      
+    }
+  }
+}
+
 // @media screen and (max-width:414px){
 //   .cardVehicles{
 //     ion-img{

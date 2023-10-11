@@ -342,7 +342,7 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         const dataVehicle = {
             model: vehicle!.model,
             year: vehicle!.year,
-            plate: vehicle!.plate,
+            plate: vehicle!.plate ? vehicle!.plate : "",
             fullName: nameSeller,
             concesionary: conceSeller,
             city: citySeller,
@@ -351,12 +351,12 @@ mechanicRouter.post("/addMechanicalFile", async (req: Request, res: Response) =>
         
         await sendEmail(mailOptions);
 
-        sendNotification(vehicle!.id_seller?.toString()!, dataVehicle, "Ficha mecánica creada");
+        sendNotification(vehicle!.id_seller?.toString()!, dataVehicle, "Ficha técnica creada");
 
     }else{
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo crear la Ficha mecánica";
+        reponseJson.message = "No se pudo crear la Ficha técnica";
     }
 
     res.json(reponseJson);
