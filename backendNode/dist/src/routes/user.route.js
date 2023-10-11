@@ -12,6 +12,6 @@ userRouter.post("/update", user_controller_1.default.update);
 userRouter.post("/delete", user_controller_1.default.delete);
 userRouter.get("/get", user_controller_1.default.get);
 userRouter.get("/all", user_controller_1.default.all);
-userRouter.get("/allMechanics", user_controller_1.default.allMechanic);
+userRouter.get("/modificarUsuario", user_controller_1.default.modificarUsuario);
 exports.default = userRouter;
 //# sourceMappingURL=user.route.js.map

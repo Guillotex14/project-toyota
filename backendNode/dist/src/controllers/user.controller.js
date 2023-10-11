@@ -16,6 +16,7 @@ const Response_1 = require("../models/Response");
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
+const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const moment_1 = __importDefault(require("moment"));
@@ -45,41 +46,33 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
     if (!user) {
         if (decode.type_user == "admin") {
             if (data.type_user == "admin") {
-                let new_admin = yield addOrUpdateAdmin(data);
-                data.id_user = new_admin.id_user;
                 message = `El usuario administrador fue creado con exito`;
             }
             if (data.type_user == "mechanic") {
-                let newMechanic = yield addOrUpdateMechanic(data);
-                data.id_user = newMechanic.id_user;
-                data.id_mechanic = newMechanic.id_mechanic;
-                if (newMechanic) {
-                    const mailOptions = {
-                        from: "Toyousado",
-                        to: data.email,
-                        subject: "Bienvenido",
-                        text: "Bienvenido a Toyousado, tu usuario es: " +
-                            data.email +
-                            " y tu contraseña es: " +
-                            data.password +
-                            "",
-                    };
-                    yield (0, nodemailer_1.sendEmail)(mailOptions);
-                }
                 message = `El usuario tecnico fue creado con exito`;
             }
             if (data.type_user == "seller") {
-                let newSeller = yield addOrUpdateSeller(data);
-                data.id_user = newSeller.id_user;
-                data.id_seller = newSeller.id_seller;
                 message = `El usuario vendedor fue creado con exito`;
+            }
+            let newUser = yield addOrUpdateUser(data);
+            data.id_user = newUser.id_user;
+            if (newUser) {
+                const mailOptions = {
+                    from: "Toyousado",
+                    to: data.email,
+                    subject: "Bienvenido",
+                    text: "Bienvenido a Toyousado, tu usuario es: " +
+                        data.email +
+                        " y tu contraseña es: " +
+                        data.password +
+                        "",
+                };
+                yield (0, nodemailer_1.sendEmail)(mailOptions);
             }
         }
         else if (decode.type_user == "seller") {
-            let newMechanic = yield addOrUpdateMechanic(data);
-            data.id_user = newMechanic.id_user;
-            data.id_mechanic = newMechanic.id_mechanic;
-            if (newMechanic) {
+            let newUser = yield addOrUpdateUser(data);
+            if (newUser) {
                 const mailOptions = {
                     from: "Toyousado",
                     to: data.email,
@@ -110,6 +103,55 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.status = false;
     }
     res.json(reponseJson);
+});
+userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let user = yield Users_schema_1.default.find();
+    for (let i = 0; i < user.length; i++) {
+        let element = user[i];
+        if (element.type_user == "admin") {
+            let admin = yield Sellers_schema_1.default.findOne({ id_user: element._id });
+            let data = {
+                fullName: null,
+                city: null,
+                concesionary: null,
+                date_created: null,
+                phone: null,
+                status: 1,
+            };
+            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+        }
+        if (element.type_user == "seller") {
+            let seller = yield Sellers_schema_1.default.findOne({ id_user: element._id });
+            let data = {
+                fullName: seller === null || seller === void 0 ? void 0 : seller.fullName,
+                city: seller === null || seller === void 0 ? void 0 : seller.city,
+                concesionary: seller === null || seller === void 0 ? void 0 : seller.concesionary,
+                date_created: (seller === null || seller === void 0 ? void 0 : seller.date_created) ? seller === null || seller === void 0 ? void 0 : seller.date_created : null,
+                phone: (seller === null || seller === void 0 ? void 0 : seller.phone) ? seller === null || seller === void 0 ? void 0 : seller.phone : null,
+                status: 1,
+            };
+            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+        }
+        if (element.type_user == "mechanic") {
+            let mechanic = yield Mechanics_schema_1.default.findOne({ id_user: element._id });
+            let data = {
+                fullName: mechanic === null || mechanic === void 0 ? void 0 : mechanic.fullName,
+                city: mechanic === null || mechanic === void 0 ? void 0 : mechanic.city,
+                concesionary: mechanic === null || mechanic === void 0 ? void 0 : mechanic.concesionary,
+                date_created: (mechanic === null || mechanic === void 0 ? void 0 : mechanic.date_created) ? mechanic === null || mechanic === void 0 ? void 0 : mechanic.date_created : null,
+                phone: (mechanic === null || mechanic === void 0 ? void 0 : mechanic.phone) ? mechanic === null || mechanic === void 0 ? void 0 : mechanic.phone : null,
+                status: 1,
+            };
+            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+        }
+    }
+    let otherUser = yield Users_schema_1.default.find();
+    reponseJson.code = 400;
+    reponseJson.message = "id_user requerido";
+    reponseJson.status = false;
+    reponseJson.data = otherUser;
+    return res.json(reponseJson);
 });
 userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -142,25 +184,32 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
     if (user) {
         if (decode.type_user == "admin") {
             if (data.type_user == "admin") {
-                yield addOrUpdateAdmin(data);
                 message = `El usuario administrador fue modificado con exito`;
             }
             else if (data.type_user == "mechanic") {
-                yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue modificado con exito`;
             }
             else if (data.type_user == "seller") {
-                yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue modificado con exito`;
             }
             else {
                 message = `El usuario no se encuentra en ese rol`;
             }
+            yield addOrUpdateUser(data);
             reponseJson.status = true;
             reponseJson.data = data;
         }
         else if (decode.type_user == "seller") {
-            yield addOrUpdateMechanic(data);
+            if (data.type_user == "mechanic") {
+                message = `El usuario tecnico fue modificado con exito`;
+                yield addOrUpdateUser(data);
+            }
+            else {
+                message = `No tiene permiso de modificar/agregar otro rol de usuario`;
+                reponseJson.code = 400;
+                reponseJson.status = false;
+                return res.json(reponseJson);
+            }
             message = `El usuario tecnico fue modificado con exito`;
             reponseJson.status = true;
             reponseJson.data = data;
@@ -178,7 +227,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.message = "Usuario no existente";
         reponseJson.status = false;
     }
-    res.json(reponseJson);
+    return res.json(reponseJson);
 });
 userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -191,29 +240,11 @@ userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const data = req.body;
+    let data = req.body;
+    data = Object.assign(Object.assign({}, data), { status: 0 });
     const user = yield Users_schema_1.default.findOne({ _id: data.id_user });
     if (user) {
-        if (user.type_user == "admin") {
-            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
-        }
-        else if (user.type_user == "seller") {
-            const userSeller = yield Sellers_schema_1.default.findOneAndDelete({ id_user: user._id });
-            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
-        }
-        else if (user.type_user == "mechanic") {
-            const usermechanic = yield Mechanics_schema_1.default.findOneAndDelete({
-                id_user: user._id,
-            });
-            const ress = yield Users_schema_1.default.findOneAndDelete({ _id: user._id });
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "Tipo de usuario indefinido";
-            reponseJson.status = false;
-            reponseJson.data = null;
-            return res.json(reponseJson);
-        }
+        let userDetele = yield deleteUser(data);
     }
     else {
         reponseJson.code = 400;
@@ -247,37 +278,21 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     else if (data.email) {
         user = yield Users_schema_1.default.findOne({ email: data.email });
     }
+    const userImg = yield imgUser_schema_1.default.findOne({ id_user: user._id });
     if (user) {
         sendata = {
             id_user: user === null || user === void 0 ? void 0 : user._id,
             email: user === null || user === void 0 ? void 0 : user.email,
             username: user === null || user === void 0 ? void 0 : user.username,
             type_user: user === null || user === void 0 ? void 0 : user.type_user,
+            fullName: user === null || user === void 0 ? void 0 : user.fullName,
+            city: user === null || user === void 0 ? void 0 : user.city,
+            concesionary: user === null || user === void 0 ? void 0 : user.concesionary,
+            date_created: user === null || user === void 0 ? void 0 : user.date_created,
+            phone: user === null || user === void 0 ? void 0 : user.phone,
+            status: user === null || user === void 0 ? void 0 : user.status,
+            img: userImg ? userImg : null
         };
-        if (user.type_user == "admin") {
-            let ress = yield Users_schema_1.default.findOne({ _id: user._id });
-            sendata = {
-                id_user: ress === null || ress === void 0 ? void 0 : ress._id,
-                email: ress === null || ress === void 0 ? void 0 : ress.email,
-                username: ress === null || ress === void 0 ? void 0 : ress.username,
-                type_user: ress === null || ress === void 0 ? void 0 : ress.type_user,
-            };
-        }
-        else if (user.type_user == "seller") {
-            let userSeller = yield Sellers_schema_1.default.findOne({ id_user: user._id });
-            sendata = Object.assign(Object.assign({}, sendata), { id_seller: userSeller === null || userSeller === void 0 ? void 0 : userSeller._id, fullName: userSeller === null || userSeller === void 0 ? void 0 : userSeller.fullName, city: userSeller === null || userSeller === void 0 ? void 0 : userSeller.city, concesionary: userSeller === null || userSeller === void 0 ? void 0 : userSeller.concesionary, date_created: userSeller === null || userSeller === void 0 ? void 0 : userSeller.date_created, phone: userSeller === null || userSeller === void 0 ? void 0 : userSeller.phone });
-        }
-        else if (user.type_user == "mechanic") {
-            let usermechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
-            sendata = Object.assign(Object.assign({}, sendata), { id_mechanic: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic._id, fullName: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.fullName, city: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.city, concesionary: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.concesionary, date_created: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.date_created, phone: usermechanic === null || usermechanic === void 0 ? void 0 : usermechanic.phone });
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "Tipo de usuario indefinido";
-            reponseJson.status = false;
-            reponseJson.data = null;
-            return res.json(reponseJson);
-        }
     }
     else {
         reponseJson.code = 400;
@@ -317,192 +332,88 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let user;
     let search;
     let project;
-    if (data.type_user == "seller") {
-        type_user_table = "sellers";
-        search = {
-            $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
-                { "sellers._id": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.fullName": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.city": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.concesionary": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "sellers.phone": { $regex: ".*" + data.s + ".*" } },
-            ],
-            type_user: data.type_user,
-        };
-        project = {
-            _id: "$_id",
-            email: 1,
-            username: 1,
-            type_user: 1,
-            "sellers._id": 1,
-            "sellers.fullName": 1,
-            "sellers.city": 1,
-            "sellers.concesionary": 1,
-            "sellers.date_created": 1,
-            "sellers.phone": 1,
-        };
+    search = {
+        $or: [
+            { email: { $regex: ".*" + data.s + ".*" } },
+            { username: { $regex: ".*" + data.s + ".*" } },
+            { type_user: { $regex: ".*" + data.s + ".*" } },
+            { fullName: { $regex: ".*" + data.s + ".*" } },
+            { city: { $regex: ".*" + data.s + ".*" } },
+            { concesionary: { $regex: ".*" + data.s + ".*" } },
+            { date_created: { $regex: ".*" + data.s + ".*" } },
+            { phone: { $regex: ".*" + data.s + ".*" } },
+        ],
+    };
+    project = {
+        email: 1,
+        username: 1,
+        type_user: 1,
+        fullName: 1,
+        city: 1,
+        concesionary: 1,
+        date_created: 1,
+        phone: 1,
+    };
+    if (data.type_user != "all") {
+        search = Object.assign(Object.assign({}, search), { type_user: data.type_user });
     }
-    else if (data.type_user == "mechanic") {
-        type_user_table = "mechanics";
-        search = {
-            $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
-                { "mechanics._id": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.fullName": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.city": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.concesionary": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.date_created": { $regex: ".*" + data.s + ".*" } },
-                { "mechanics.phone": { $regex: ".*" + data.s + ".*" } },
-            ],
-            type_user: data.type_user,
-        };
-        project = {
-            _id: "$_id",
-            email: 1,
-            username: 1,
-            type_user: 1,
-            "mechanics._id": 2,
-            "mechanics.fullName": 2,
-            "mechanics.city": 2,
-            "mechanics.concesionary": 2,
-            "mechanics.date_created": 2,
-            "mechanics.phone": 2,
-        };
-    }
-    else if (data.type_user == "admin") {
-        type_user_table = "users";
-        search = {
-            $or: [
-                { _id: { $regex: ".*" + data.s + ".*" } },
-                { email: { $regex: ".*" + data.s + ".*" } },
-                { username: { $regex: ".*" + data.s + ".*" } },
-                { type_user: { $regex: ".*" + data.s + ".*" } },
-            ],
-            type_user: data.type_user,
-        };
-        project = {
-            _id: "$_id",
-            email: 1,
-            username: 1,
-            type_user: 1,
-        };
-    }
-    if (data.type_user == "admin") {
-        let list = yield Users_schema_1.default.aggregate([
+    let list = yield Users_schema_1.default.aggregate([
+        {
+            $match: search,
+        },
+        // {
+        //   $lookup: {
+        //     from: "imgusers",
+        //     localField: "_id",
+        //     foreignField: "id_user",
+        //     as: "imgusers",
+        //   },
+        // },
+        // {
+        //   $unwind: {
+        //     path: "$imgusers",
+        //     preserveNullAndEmptyArrays: true 
+        //   }
+        // },
+        {
+            $skip: parseInt(data.lim) * parseInt(data.pos),
+        },
+        {
+            $limit: parseInt(data.lim),
+        },
+    ]);
+    let count;
+    if (list.length > 0) {
+        sendata.rows = list;
+        for (let i = 0; i < sendata.rows.length; i++) {
+            const element = sendata.rows[i];
+            const userImg = yield imgUser_schema_1.default.findOne({ id_user: element._id });
+            element.img = userImg ? userImg : null;
+        }
+        count = yield Users_schema_1.default.aggregate([
             {
                 $match: search,
             },
             {
-                $skip: parseInt(data.lim) * parseInt(data.pos),
-            },
-            {
-                $limit: parseInt(data.lim),
-            },
-            {
-                $project: project,
+                $count: "totalCount",
             },
         ]);
-        sendata.rows = list;
-        let count;
-        if (list.length > 0) {
-            count = yield Users_schema_1.default.aggregate([
-                {
-                    $match: search,
-                },
-                {
-                    $count: "totalCount",
-                },
-            ]);
-            reponseJson.code = 200;
-            reponseJson.message = "Usuario encontrado con exito";
-            reponseJson.status = true;
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "sin resultado";
-            reponseJson.status = true;
-        }
-        let totalItems = 0;
-        if (count) {
-            totalItems = count[0].totalCount;
-        }
-        let totalPages = Math.ceil(totalItems / data.lim);
-        sendata.count = totalItems;
-        sendata.pages = totalPages;
+        reponseJson.code = 200;
+        reponseJson.message = "Usuario encontrado con exito";
+        reponseJson.status = true;
     }
     else {
-        let list = yield Users_schema_1.default.aggregate([
-            {
-                $match: search,
-            },
-            {
-                $lookup: {
-                    from: type_user_table,
-                    localField: "_id",
-                    foreignField: "id_user",
-                    as: type_user_table,
-                },
-            },
-            {
-                $unwind: `$${type_user_table}`,
-            },
-            {
-                $skip: parseInt(data.lim) * parseInt(data.pos),
-            },
-            {
-                $limit: parseInt(data.lim),
-            },
-            {
-                $project: project,
-            },
-        ]);
-        sendata.rows = list;
-        let count;
-        if (list.length > 0) {
-            count = yield Users_schema_1.default.aggregate([
-                {
-                    $match: search,
-                },
-                {
-                    $lookup: {
-                        from: type_user_table,
-                        localField: "_id",
-                        foreignField: "id_user",
-                        as: type_user_table,
-                    },
-                },
-                {
-                    $unwind: `$${type_user_table}`,
-                },
-                {
-                    $count: "totalCount",
-                },
-            ]);
-            reponseJson.code = 200;
-            reponseJson.message = "Usuario encontrado con exito";
-            reponseJson.status = true;
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "sin resultado";
-            reponseJson.status = true;
-        }
-        let totalItems = 0;
-        if (count) {
-            totalItems = count[0].totalCount;
-        }
-        let totalPages = Math.ceil(totalItems / data.lim);
-        sendata.count = totalItems;
-        sendata.pages = totalPages;
+        reponseJson.code = 400;
+        reponseJson.message = "sin resultado";
+        reponseJson.status = true;
     }
+    let totalItems = 0;
+    if (count) {
+        totalItems = count[0].totalCount;
+    }
+    let totalPages = Math.ceil(totalItems / data.lim);
+    sendata.count = totalItems;
+    sendata.pages = totalPages;
     reponseJson.data = sendata;
     return res.json(reponseJson);
 });
@@ -554,7 +465,7 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     return res.json(reponseJson);
 });
-function addOrUpdateAdmin(data) {
+function addOrUpdateUser(data) {
     return __awaiter(this, void 0, void 0, function* () {
         if (data.id_user) {
             const user = { _id: data.id_user };
@@ -564,39 +475,17 @@ function addOrUpdateAdmin(data) {
                 yield Users_schema_1.default.findOneAndUpdate(user, data);
             }
             else {
-                const userUpdate = { email: data.email, username: data.username };
+                const userUpdate = {
+                    email: data.email,
+                    username: data.username,
+                    type_user: data.type_user,
+                    fullName: data.fullName,
+                    city: data.city,
+                    concesionary: data.concesionary,
+                    phone: data.phone,
+                };
                 yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
             }
-        }
-        else {
-            const hash = yield bcrypt_1.default.hash(data.password, 12);
-            const newUser = new Users_schema_1.default({
-                email: data.email,
-                password: hash,
-                username: data.username,
-                type_user: "admin",
-            });
-            yield newUser.save();
-            data.id_user = newUser._id;
-        }
-        return data;
-    });
-}
-function addOrUpdateSeller(data) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (data.id_user) {
-            const seller = { _id: data.id_seller };
-            const user = { _id: data.id_user };
-            if (data.password != "") {
-                const hash = yield bcrypt_1.default.hash(data.password, 12);
-                data.password = hash;
-                yield Users_schema_1.default.findOneAndUpdate(user, data);
-            }
-            else {
-                const userUpdate = { email: data.email, username: data.username };
-                yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
-            }
-            yield Sellers_schema_1.default.findOneAndUpdate(seller, data);
         }
         else {
             const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -605,60 +494,26 @@ function addOrUpdateSeller(data) {
                 email: data.email,
                 password: hash,
                 username: data.username,
-                type_user: "seller",
-            });
-            const newSeller = new Sellers_schema_1.default({
+                type_user: data.type_user,
                 fullName: data.fullName,
                 city: data.city,
                 concesionary: data.concesionary,
                 date_created: date_created,
                 phone: data.phone,
+                status: 1,
             });
             yield newUser.save();
-            newSeller.id_user = newUser._id;
-            yield newSeller.save();
             data.id_user = newUser._id;
-            data.id_seller = newSeller._id;
         }
         return data;
     });
 }
-function addOrUpdateMechanic(data) {
+function deleteUser(data) {
     return __awaiter(this, void 0, void 0, function* () {
         if (data.id_user) {
-            const mechanic = { _id: data.id_mechanic };
             const user = { _id: data.id_user };
-            if (data.password != "") {
-                const hash = yield bcrypt_1.default.hash(data.password, 12);
-                data.password = hash;
-                yield Users_schema_1.default.findOneAndUpdate(user, data);
-            }
-            else {
-                const userUpdate = { email: data.email, username: data.username };
-                yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
-            }
-            yield Mechanics_schema_1.default.findOneAndUpdate(mechanic, data);
-        }
-        else {
-            const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
-            const hash = yield bcrypt_1.default.hash(data.password, 12);
-            const newUser = new Users_schema_1.default({
-                email: data.email,
-                password: hash,
-                username: data.username,
-                type_user: "mechanic",
-            });
-            const newMechanic = new Mechanics_schema_1.default({
-                fullName: data.fullName,
-                city: data.city,
-                concesionary: data.concesionary,
-                date_created: date_created,
-            });
-            yield newUser.save();
-            newMechanic.id_user = newUser._id;
-            yield newMechanic.save();
-            data.id_user = newUser._id;
-            data.id_mechanic = newMechanic._id;
+            const userUpdate = { status: data.status };
+            yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
         }
         return data;
     });
