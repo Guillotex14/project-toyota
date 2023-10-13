@@ -11,6 +11,8 @@ vehicleRouter.post("/delete-brand", brandController.delete);
 vehicleRouter.get("/get-brand", brandController.get);
 vehicleRouter.get("/all-brands", brandController.all);
 vehicleRouter.get("/all-paginator-brands", brandController.allPaginator);
+vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
+vehicleRouter.get("/exportExcell", vehicleController.exportExcell);
 
 
 export default vehicleRouter;
