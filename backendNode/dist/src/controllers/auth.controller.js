@@ -17,94 +17,75 @@ const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
-const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
-const moment_1 = __importDefault(require("moment"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { email, password } = req.body;
-    const ress = yield Users_schema_1.default.findOne({ email: email }).then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            const hash = bcrypt_1.default.compareSync(password, res.password);
-            if (hash) {
-                jsonRes.code = 200;
-                jsonRes.message = "login success";
-                jsonRes.status = true;
-                const userImg = yield imgUser_schema_1.default.findOne({ id_user: res._id });
-                if (res.type_user == "seller") {
-                    yield Sellers_schema_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
-                        if (res2) {
-                            let seller = {
-                                id: res._id,
-                                id_sell: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            };
-                            jsonRes.data = seller;
-                        }
-                    })).catch((err) => {
-                        console.log(err);
-                    });
-                }
-                else if (res.type_user == "mechanic") {
-                    yield Mechanics_schema_1.default.findOne({ id_user: res._id }).then((res2) => __awaiter(void 0, void 0, void 0, function* () {
-                        if (res2) {
-                            let mechanic = {
-                                id: res._id,
-                                id_mechanic: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            };
-                            jsonRes.data = mechanic;
-                            // return jsonRes;
-                        }
-                    })).catch((err) => {
-                        console.log(err);
-                    });
-                }
-                else {
-                    let mechanic = {
-                        id: res._id,
-                        email: res.email,
-                        username: res.username,
-                        type_user: res.type_user,
-                        img: null
-                    };
-                    jsonRes.data = mechanic;
-                }
-                let token = generar_jwt_1.default.generateToken(jsonRes.data);
-                jsonRes.data.token = token;
-                return jsonRes;
+    const user = yield Users_schema_1.default.findOne({ email: email });
+    if (user) {
+        jsonRes.code = 200;
+        jsonRes.message = "login success";
+        jsonRes.status = true;
+        const hash = bcrypt_1.default.compareSync(password, user.password);
+        const userImg = yield imgUser_schema_1.default.findOne({ id_user: user._id });
+        if (hash) {
+            if (user.type_user === "seller") {
+                const seller = yield Sellers_schema_1.default.findOne({ id_user: user._id });
+                const infoSeller = {
+                    id: user._id,
+                    id_sell: seller._id,
+                    fullName: seller.fullName,
+                    city: seller.city,
+                    concesionary: seller.concesionary,
+                    email: user.email,
+                    username: user.username,
+                    type_user: user.type_user,
+                    img: userImg ? userImg : null
+                };
+                jsonRes.data = infoSeller;
+            }
+            else if (user.type_user === "mechanic") {
+                const mechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
+                const infoMechanic = {
+                    id: user._id,
+                    id_mechanic: mechanic._id,
+                    fullName: mechanic.fullName,
+                    city: mechanic.city,
+                    concesionary: mechanic.concesionary,
+                    email: user.email,
+                    username: user.username,
+                    type_user: user.type_user,
+                    img: userImg ? userImg : null
+                };
+                jsonRes.data = infoMechanic;
             }
             else {
-                jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecta";
-                jsonRes.status = false;
-                return jsonRes;
+                let admin = {
+                    id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    type_user: user.type_user,
+                    img: userImg ? userImg : null
+                };
+                jsonRes.data = admin;
             }
+            let token = generar_jwt_1.default.generateToken(jsonRes.data);
+            jsonRes.data.token = token;
         }
-        else if (!res) {
+        else {
             jsonRes.code = 400;
-            jsonRes.message = "Ususario no registrado";
+            jsonRes.message = "Contraseña incorrecta";
             jsonRes.status = false;
-            return jsonRes;
         }
-    })).catch((err) => {
-        console.log(err);
-    });
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "Ususario no registrado";
+        jsonRes.status = false;
+    }
     res.json(jsonRes);
 });
 authController.addImgProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -151,36 +132,6 @@ authController.updateImgProfile = (req, res) => __awaiter(void 0, void 0, void 0
         reponseJson.status = false;
     }
     res.json(reponseJson);
-});
-authController.sendEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const dataVehicle = {
-        model: "model",
-        year: "year",
-        vehicle_plate: "vehicle_plate",
-        fullName: "infoSeller!.fullName",
-        concesionary: "infoSeller!.concesionary",
-        city: "infoSeller!.city",
-    };
-    sendNotification("mvarelavasquez@gmail.com", dataVehicle, "Revisión de vehículo");
-    reponseJson.message = "Imagen actualizada exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = {};
-    res.json(reponseJson);
-});
-const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
-    // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Users_schema_1.default.findOne({ email: id_seller });
-    if (userInfo) {
-        const notify = new notifications_schema_1.default({
-            id_user: userInfo._id,
-            title: title,
-            data: data,
-            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
-            status: false,
-        });
-        yield notify.save();
-    }
 });
 exports.default = authController;
 //# sourceMappingURL=auth.controller.js.map

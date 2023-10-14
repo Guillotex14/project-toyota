@@ -5,6 +5,7 @@ import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { NotificationById } from 'src/models/sellet';
 import { states } from 'src/assets/json/states';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-home-mechanic',
@@ -15,13 +16,13 @@ export class HomeMechanicPage implements OnInit {
 
   countInspections: number = 0;
   countNotifies: number = 0;
-  id_mechanic: string = "";
-  id_user: string = "";
   arrayVehicles: any = [];
   auxVehicles: any = [];
   arrayModels: any[]=[];
   arrayUbication: any[]=[];
   arrayBrands: any[]=[];
+  me: any = null;
+
 
   minYear: string = "";
   maxYear: string = "";
@@ -47,15 +48,9 @@ export class HomeMechanicPage implements OnInit {
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
   @ViewChild('modalFilterHomeMechanic') modalFilter!: IonModal;
   
-  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController) { 
+  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController, private authSrv:AuthService) { 
     this.arrayUbication = states;
-    let data = localStorage.getItem('me');
-
-    if(data){
-      let me = JSON.parse(data);
-      this.id_mechanic = me.id_mechanic;
-      this.id_user = me.id;
-    }
+    this.me = this.authSrv.getMeData();
   }
 
   ngOnInit() {
@@ -113,7 +108,7 @@ export class HomeMechanicPage implements OnInit {
   public getCountInspections(){
     
     let id_mechanic = {
-      id_mechanic: this.id_mechanic
+      id_mechanic: this.me.id_mechanic ? this.me.id_mechanic : null
     }
 
     this.mechanicSrv.getCountInspections(id_mechanic).subscribe(
@@ -145,7 +140,7 @@ export class HomeMechanicPage implements OnInit {
       maxPrice: parseInt(this.maxPrice) > 0 ? parseInt(this.maxPrice) : 0,
       minKm: parseInt(this.minKms) > 0 ? parseInt(this.minKms) : 0,
       maxKm: parseInt(this.maxKms) > 0 ? parseInt(this.maxKms) : 0,
-      id_mechanic: this.id_mechanic
+      id_mechanic: this.me.id_mechanic
     }
 
     this.utils.presentLoading("Cargando...");
@@ -195,7 +190,7 @@ export class HomeMechanicPage implements OnInit {
   public getNotifies(){
     
     let data = {
-      id_user: this.id_user
+      id_user: this.me.id ? this.me.id : null
     }
 
     this.mechanicSrv.getNotifications(data).subscribe((data:any)=>{
@@ -221,7 +216,7 @@ export class HomeMechanicPage implements OnInit {
 
   public getCountNotifies(){
     let data = {
-      id_user: this.id_user
+      id_user: this.me.id ? this.me.id : null
     }
 
     this.mechanicSrv.getCountNotifications(data).subscribe((data:any)=>{

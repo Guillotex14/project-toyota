@@ -42,6 +42,6 @@ authRouter.post("/updateImgProfile", auth_controller_1.default.updateImgProfile)
 //     })
 //     return 'data:image/jpeg;base64,'+resize.toString('base64');
 // }
-authRouter.get("/sendNotify", auth_controller_1.default.sendEmail);
+// authRouter.get("/sendNotify", authController.sendEmail)
 exports.default = authRouter;
 //# sourceMappingURL=auth.route.js.map

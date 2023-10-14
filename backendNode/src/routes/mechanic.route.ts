@@ -367,6 +367,7 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
     let query: any = {};
+    let arrayVehicles: any[] = [];
     //aqui declaramos las variables que vamos a recibir
     const {
     minYear,
@@ -404,15 +405,15 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
     query.km = { $gte: minKm, $lte: maxKm };
     }
 
-    if (minPrice === 0 && maxPrice === 0) {
-    query.price = { $gte: 0, $ne: null };
-    } else if (minPrice !== 0 && maxPrice === 0) {
-    query.price = { $gte: minPrice, $ne: null };
-    } else if (minPrice === 0 && maxPrice !== 0) {
-    query.price = { $lte: maxPrice, $ne: null };
-    } else {
-    query.price = { $gte: minPrice, $lte: maxPrice };
-    }
+    // if (minPrice === 0 && maxPrice === 0) {
+    // query.price = { $gte: 0, $ne: null };
+    // } else if (minPrice !== 0 && maxPrice === 0) {
+    // query.price = { $gte: minPrice, $ne: null };
+    // } else if (minPrice === 0 && maxPrice !== 0) {
+    // query.price = { $lte: maxPrice, $ne: null };
+    // } else {
+    // query.price = { $gte: minPrice, $lte: maxPrice };
+    // }
 
     query.city = { $regex: ubication, $options: "i" };
     query.brand = { $regex: brand, $options: "i" };
@@ -424,8 +425,6 @@ mechanicRouter.post("/getVehicles", async (req: Request, res: Response) => {
     const vehiclesFiltered = await vehicles.find(query).sort({date_create:-1});
 
     if (vehiclesFiltered) {
-
-        let arrayVehicles: any[] = [];
 
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {

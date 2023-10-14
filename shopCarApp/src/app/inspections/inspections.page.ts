@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { MenuController } from '@ionic/angular';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-inspections',
@@ -13,16 +14,11 @@ export class InspectionsPage implements OnInit {
 
   id_mechanic: string = "";
   arrayInspections: any[] = [];
+  me: any = null;
 
+  constructor(private router: Router, private utils: UtilsService, private mechanicSrv: MechanicService, private menuctrl: MenuController, private authSrv:AuthService) {
 
-  constructor(private router: Router, private utils: UtilsService, private mechanicSrv: MechanicService, private menuctrl: MenuController) {
-
-    let data = localStorage.getItem('me');
-
-    if(data != null){
-      let me = JSON.parse(data);
-      this.id_mechanic = me.id_mechanic;
-    }
+    this.me = this.authSrv.getMeData();
 
   }
 
@@ -47,7 +43,7 @@ export class InspectionsPage implements OnInit {
 
   public getInspections(){
     let data = {
-      id_mechanic: this.id_mechanic!
+      id_mechanic: this.me.id_mechanic ? this.me.id_mechanic : null
     }
     this.utils.presentLoading("Cargando...");
     this.mechanicSrv.getInspections(data).subscribe(

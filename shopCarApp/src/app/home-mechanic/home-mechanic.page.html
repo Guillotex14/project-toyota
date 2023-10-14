@@ -16,7 +16,7 @@
               </ion-row>
             </ion-col>
             <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' ">
-              <p class="headerTitle">Tu Toyota Usado</p>
+              <p class="headerTitle" [style]="arrayNotifies.length > 0 ? 'font-size: 22px !important':'font-size: 25px !important'">Tu Toyota Usado</p>
             </ion-col>
             <ion-col size="2" *ngIf="arrayNotifies.length > 0">
               <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
@@ -29,12 +29,6 @@
           </ion-row>
         </ion-grid>
       </ion-col>
-
-      
-
-
-
-
 
       <!-- searchbar -->
       <!-- <ion-col size="12" class="colSearchBar">

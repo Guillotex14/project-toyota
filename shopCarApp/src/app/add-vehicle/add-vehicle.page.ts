@@ -59,7 +59,28 @@ export class AddVehiclePage implements OnInit {
     {
       text: 'Aceptar',
       handler: () =>{
-        this.takePhoto()
+        this.takePhoto();
+        this.actionSheetButtons = [
+          {
+            text: 'Camara',
+            icon: 'camera',
+            handler: () => {
+              this.takePhoto();
+            }
+          },
+          {
+            text: 'Galeria',
+            icon: 'image',
+            handler: () => {
+              this.takePhotoGalery();
+            }
+          },
+          {
+            text: 'Cancelar',
+            icon: 'close',
+            role: 'cancel'
+          }
+        ];
       }
     }
   ]
@@ -68,7 +89,28 @@ export class AddVehiclePage implements OnInit {
     {
       text: 'Aceptar',
       handler: () =>{
-        this.takePhotoGalery()
+        this.takePhotoGalery();
+        this.actionSheetButtons = [
+          {
+            text: 'Camara',
+            icon: 'camera',
+            handler: () => {
+              this.takePhoto();
+            }
+          },
+          {
+            text: 'Galeria',
+            icon: 'image',
+            handler: () => {
+              this.takePhotoGalery();
+            }
+          },
+          {
+            text: 'Cancelar',
+            icon: 'close',
+            role: 'cancel'
+          }
+        ];
       }
     }
   ]
@@ -459,7 +501,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galeria edit',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();
@@ -687,17 +729,6 @@ export class AddVehiclePage implements OnInit {
       message: new IonicSafeString('<p>1. Lateral completo</p> <p>2. Tres cuartos frente conductor</p> <p>3. Tres cuartos trasero copiloto</p> <p>4.Interior frente torpedo completo</p> <p>5.Interior frente tablero de instrumentos (visualización del kilometraje)</p>'),
       buttons: data === 1 ? this.buttonPhoto : this.buttonGallery
     });
-
-    
-
-
-
-
-
-
-
-
-  
     await alert.present();
   }
 

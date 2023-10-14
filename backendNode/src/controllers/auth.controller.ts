@@ -18,88 +18,71 @@ authController.login = async (req: Request, res: Response) => {
     const jsonRes = new ResponseModel()
 
     const { email, password } = req.body;
-    const ress =  await Users.findOne({email: email}).then(async(res:any) => {
-        if (res) {
-            const hash = bcrypt.compareSync(password, res.password);
-            if (hash) {
-                jsonRes.code = 200;
-                jsonRes.message = "login success";
-                jsonRes.status = true;
 
-                const userImg = await imgUser.findOne({id_user: res._id});
+    const user = await Users.findOne({email: email});
 
-                if (res.type_user == "seller") {
-                    await sellers.findOne({id_user: res._id}).then(async(res2:any) => {
-                        if (res2) {
+    if (user){
+        jsonRes.code = 200;
+        jsonRes.message = "login success";
+        jsonRes.status = true;
+        const hash = bcrypt.compareSync(password, user.password!);
+        const userImg = await imgUser.findOne({id_user: user._id!});
 
-                            let seller = {
-                                id: res._id,
-                                id_sell: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            }
-                            jsonRes.data = seller;
-                        }
-                    }).catch((err: any) => {
-                        console.log(err)
-                    });
-                }else if (res.type_user == "mechanic") {
-                    await mechanics.findOne({id_user: res._id}).then(async(res2:any) => {
-                        if (res2) {
+        if (hash) {
+            if (user.type_user === "seller") {
+                const seller = await sellers.findOne({id_user: user._id!})
 
-                            let mechanic = {
-                                id: res._id,
-                                id_mechanic: res2._id,
-                                fullName: res2.fullName,
-                                city: res2.city,
-                                concesionary: res2.concesionary,
-                                email: res.email,
-                                username: res.username,
-                                type_user: res.type_user,
-                                img: userImg ? userImg : null
-                            }
-
-                            jsonRes.data = mechanic;
-                            // return jsonRes;
-                        }
-                    }).catch((err: any) => {
-                        console.log(err)
-                    });
-                    
-                }else{
-
-                    let mechanic = {
-                        id: res._id,
-                        email: res.email,
-                        username: res.username,
-                        type_user: res.type_user,
-                        img: null
-                    }
-                    jsonRes.data = mechanic;
+                const infoSeller = {
+                    id: user._id!,
+                    id_sell: seller!._id,
+                    fullName: seller!.fullName,
+                    city: seller!.city,
+                    concesionary: seller!.concesionary,
+                    email: user.email!,
+                    username: user.username!,
+                    type_user: user.type_user!,
+                    img: userImg ? userImg : null
                 }
-                let token=Jwt.generateToken(jsonRes.data);
-                jsonRes.data.token=token;
-                return jsonRes;
-            } else {
-                jsonRes.code = 400;
-                jsonRes.message = "Contraseña incorrecta";
-                jsonRes.status = false;
-                return jsonRes;
+
+                jsonRes.data = infoSeller;
+            } else if (user.type_user === "mechanic") {
+                const mechanic = await mechanics.findOne({id_user: user._id!})
+                const infoMechanic = {
+                    id: user._id!,
+                    id_mechanic: mechanic!._id,
+                    fullName: mechanic!.fullName,
+                    city: mechanic!.city,
+                    concesionary: mechanic!.concesionary,
+                    email: user.email!,
+                    username: user.username!,
+                    type_user: user.type_user!,
+                    img: userImg ? userImg : null
+                }
+
+                jsonRes.data = infoMechanic;
+            }else{
+                let admin = {
+                    id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    type_user: user.type_user,
+                    img: userImg ? userImg : null
+                }
+                jsonRes.data = admin;
             }
-        } else if (!res) {
+
+            let token=Jwt.generateToken(jsonRes.data);
+            jsonRes.data.token=token;
+        } else {
             jsonRes.code = 400;
-            jsonRes.message = "Ususario no registrado";
+            jsonRes.message = "Contraseña incorrecta";
             jsonRes.status = false;
-            return jsonRes;
         }
-    }).catch((err: any) => {
-        console.log(err)
-    });
+    }else{
+        jsonRes.code = 400;
+        jsonRes.message = "Ususario no registrado";
+        jsonRes.status = false;
+    }
 
     res.json(jsonRes);
 }
@@ -161,49 +144,5 @@ authController.updateImgProfile = async (req: Request, res: Response) => {
 
     res.json(reponseJson);
 }
-
-// authController.sendEmail = async (req: Request, res: Response) => {
-//     const reponseJson: ResponseModel = new ResponseModel();
-
-//     const dataVehicle = {
-//         model: "model",
-//         year: "year",
-//         vehicle_plate: "vehicle_plate",
-//         fullName: "infoSeller!.fullName",
-//         concesionary: "infoSeller!.concesionary",
-//         city: "infoSeller!.city",
-//     }
-//         sendNotification("mvarelavasquez@gmail.com", dataVehicle, "Revisión de vehículo");
-
-//         reponseJson.message = "Imagen actualizada exitosamente";
-//         reponseJson.status = true;
-//         reponseJson.data = {};
-
-
-//     res.json(reponseJson);
-    
-// }
-
-// const sendNotification = async (
-//     id_seller: string,
-//     data: any,
-//     title: string
-//   ) => {
-//     // const jsonRes: ResponseModel = new ResponseModel();
-  
-//     const userInfo = await Users.findOne({ email: id_seller });
-  
-//     if (userInfo) {
-//       const notify = new notifications({
-//         id_user: userInfo._id,
-//         title: title,
-//         data: data,
-//         date: moment().format("YYYY-MM-DD HH:mm:ss"),
-//         status: false,
-//       });
-  
-//       await notify.save();
-//     }
-//   };
 
 export default authController;

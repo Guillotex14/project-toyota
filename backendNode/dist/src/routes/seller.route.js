@@ -145,7 +145,7 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
         id_seller_buyer: null,
         type_vehicle,
         vin,
-        vehicle_plate,
+        plate: vehicle_plate,
     });
     yield newVehicle.save();
     yield Mechanics_schema_1.default
@@ -221,10 +221,11 @@ sellerRouter.post("/addVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
     const dataVehicle = {
         model: model,
         year: year,
-        vehicle_plate: vehicle_plate,
+        plate: vehicle_plate,
         fullName: infoSeller.fullName,
         concesionary: infoSeller.concesionary,
         city: infoSeller.city,
+        title: "Tienes el siguiente vehículo para generar la ficha técnica"
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
@@ -817,48 +818,16 @@ sellerRouter.post("/buyVehicle", (req, res) => __awaiter(void 0, void 0, void 0,
       </div>
       </div>`,
     };
-    const bodyNotification = `
-    <div>
-      <p>Tienes el siguiente vehículo para generar la ficha tecnica</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-      <div class="table">
-        <div class="tr">
-          <div class="td bg_gray_1">Modelo</div>
-          <div class="td bg_gray_2">${getVehicle.model}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Año</div>
-          <div class="td bg_gray_2">${getVehicle.year}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Placa</div>
-          <div class="td bg_gray_2">${getVehicle.plate}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Vendedor</div>
-          <div class="td bg_gray_2">${infoSeller.fullName}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Concesionario</div>
-          <div class="td bg_gray_2">${infoSeller.concesionary}</div>
-        </div>
-        <div class="tr">
-          <div class="td bg_gray_1">Estado</div>
-          <div class="td bg_gray_2">${infoSeller.city}</div>
-        </div>
-      </div>
-    </div>
-  `;
-    // await sendEmail(mailOptions);
     const dataVehicle = {
         model: getVehicle.model,
         year: getVehicle.year,
         plate: getVehicle.plate,
         fullName: infoSeller.fullName,
         concesionary: infoSeller.concesionary,
-        city: infoSeller.city
+        city: infoSeller.city,
+        title: "Tienes una oferta de compra para:"
     };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
     responseJson.code = 200;
     responseJson.message =
@@ -2064,7 +2033,6 @@ const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, v
     }
 });
 const sendNotificationMechanic = (id_mechanic, data, title) => __awaiter(void 0, void 0, void 0, function* () {
-    // const jsonRes: ResponseModel = new ResponseModel();
     const userInfo = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
     if (userInfo) {
         const notify = new notifications_schema_1.default({

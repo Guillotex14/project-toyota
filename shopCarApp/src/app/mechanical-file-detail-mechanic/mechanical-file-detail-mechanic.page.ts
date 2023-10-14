@@ -15,6 +15,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   ios: boolean = false;
   web: boolean = false;
   backToTop: boolean = false;
+  edit: boolean = false;
   id: string = "";
   theRoute: string = "";
   mechanicalFileDetail: MechanicalFileDetail = new MechanicalFileDetail();
@@ -120,4 +121,15 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.content.scrollToTop(500);
   }
 
+  public editFile(){
+    this.edit = true;
+  }
+
+  public noEditFile(){
+    this.edit = false;
+  }
+
+  public saveFile(){
+
+  }
 }

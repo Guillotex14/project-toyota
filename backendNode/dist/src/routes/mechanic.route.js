@@ -281,21 +281,22 @@ mechanicRouter.post("/addMechanicalFile", (req, res) => __awaiter(void 0, void 0
                 </div>
             </div>`,
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         const dataVehicle = {
             model: vehicle.model,
             year: vehicle.year,
-            plate: vehicle.plate,
-            nameSeller: nameSeller,
-            conceSeller: conceSeller,
-            citySeller: citySeller
+            plate: vehicle.plate ? vehicle.plate : "",
+            fullName: nameSeller,
+            concesionary: conceSeller,
+            city: citySeller,
+            title: "Ficha técnica creada exitosamente para:"
         };
-        sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha mecánica creada");
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
+        sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha técnica creada");
     }
     else {
         reponseJson.code = 400;
         reponseJson.status = false;
-        reponseJson.message = "No se pudo crear la Ficha mecánica";
+        reponseJson.message = "No se pudo crear la Ficha técnica";
     }
     res.json(reponseJson);
 }));
@@ -303,6 +304,7 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
     //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
+    let arrayVehicles = [];
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_mechanic } = req.body;
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
@@ -330,18 +332,15 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
     else {
         query.km = { $gte: minKm, $lte: maxKm };
     }
-    if (minPrice === 0 && maxPrice === 0) {
-        query.price = { $gte: 0, $ne: null };
-    }
-    else if (minPrice !== 0 && maxPrice === 0) {
-        query.price = { $gte: minPrice, $ne: null };
-    }
-    else if (minPrice === 0 && maxPrice !== 0) {
-        query.price = { $lte: maxPrice, $ne: null };
-    }
-    else {
-        query.price = { $gte: minPrice, $lte: maxPrice };
-    }
+    // if (minPrice === 0 && maxPrice === 0) {
+    // query.price = { $gte: 0, $ne: null };
+    // } else if (minPrice !== 0 && maxPrice === 0) {
+    // query.price = { $gte: minPrice, $ne: null };
+    // } else if (minPrice === 0 && maxPrice !== 0) {
+    // query.price = { $lte: maxPrice, $ne: null };
+    // } else {
+    // query.price = { $gte: minPrice, $lte: maxPrice };
+    // }
     query.city = { $regex: ubication, $options: "i" };
     query.brand = { $regex: brand, $options: "i" };
     query.model = { $regex: model, $options: "i" };
@@ -350,7 +349,6 @@ mechanicRouter.post("/getVehicles", (req, res) => __awaiter(void 0, void 0, void
     query.id_mechanic = id_mechanic;
     const vehiclesFiltered = yield Vehicles_schema_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
-        let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
                 name_new_owner: vehiclesFiltered[i].name_new_owner,
