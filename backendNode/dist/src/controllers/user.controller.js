@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const moment_1 = __importDefault(require("moment"));
 const Response_1 = require("../models/Response");
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
-const moment_1 = __importDefault(require("moment"));
 const nodemailer_1 = require("../../nodemailer");
 const userController = {};
 userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

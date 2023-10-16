@@ -6,13 +6,13 @@
         <ion-grid fixed >
           <ion-row>
             <ion-col size="2">
-              <!-- <ion-icon name="arrow-back-circle-sharp" (click)="goTo()" class="iconBack"></ion-icon> -->
+              <ion-icon name="arrow-back-circle-sharp" (click)="goBack()" class="iconBack"></ion-icon>
             </ion-col>
             <ion-col size="8" style="text-align: center;">
               <p class="headerTitle">Lista de Modelos</p>
             </ion-col>
             <ion-col size="2">
-              <!-- <ion-icon name="menu-outline" (click)="openMenu()" class="iconMenu"></ion-icon> -->
+              <ion-icon name="menu-outline" (click)="openMenu()" class="iconMenu"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -23,41 +23,37 @@
           <ion-row>
 
             <ion-col size="12">
-              <!-- <ion-grid fixed size="12" class="card" *ngFor="let seller of auxSellers">
+              <ion-grid fixed>
                 <ion-row>
-                  <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="5" size-xs="5">
-                    <ion-img [src]="seller.image.img" style="margin: 50px auto auto auto;" *ngIf="seller.image !==''" ></ion-img>
-                    <ion-icon name="person-circle" *ngIf="seller.image ===''" class="iconListUser"></ion-icon>
-                  </ion-col>
-                  <ion-col size-xl="7" size-lg="7" size-md="7" size-sm="7" size-xs="7" class="colInfoListUser">
-                    <ion-grid fixed>
+      
+                  <ion-col size="12">
+                    <ion-grid fixed size="12" class="card" *ngFor="let model of modelList">
                       <ion-row>
-                        <ion-col size="12">
-                          <p class="pTitle">{{seller.fullName}}</p>
-                          <span class="spanSubtitle" style="font-size: 15px;">vendedor</span>
+                        <ion-col size-xl="6" size-lg="6" size-md="6" size-sm="6" size-xs="6" style="text-align: center;">
+                          <p style="margin: 25% auto; font-size: 23px;">{{model.model}}</p>
                         </ion-col>
-                        <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" style="margin-top: 5px">
-                          <p class="pTitle">{{seller.city}}</p>
-                          <span class="spanSubtitle">{{seller.date_created}}</span>
-                        </ion-col>
-                        <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
-
-                          <ion-col size="12">
-                            <ion-button shape="round" fill="outline" color="dark" (click)="editSeller(seller._id)" class=btnOutlineBlack>
-                              <ion-icon name="create"  color="dark"></ion-icon>
-                            </ion-button>
-                          </ion-col>
-                          <ion-col size="12">
-                            <ion-button shape="round" fill="outline" class="btnOutlineRed" (click)="presentAlert(seller._id)">
-                              <ion-icon name="trash" class="iconRed"  ></ion-icon>
-                            </ion-button>
-                          </ion-col>
+                        <ion-col size-xl="6" size-lg="6" size-md="6" size-sm="6" size-xs="6" style="text-align: center;">
+                          <ion-grid fixed>
+                            <ion-row>
+                              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+                                <ion-button shape="round" fill="outline" color="dark" class="btnOutlineBlackBrand" (click)="openModalEdit(model)">
+                                  <ion-icon name="create"  color="dark"></ion-icon>
+                                </ion-button>
+                              </ion-col>
+                              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+                                <ion-button shape="round" fill="outline" class="btnOutlineRed" (click)="showAlertDelete(model)">
+                                  <ion-icon name="trash" class="iconRed"  ></ion-icon>
+                                </ion-button>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
                         </ion-col>
                       </ion-row>
                     </ion-grid>
                   </ion-col>
+      
                 </ion-row>
-              </ion-grid> -->
+              </ion-grid>
             </ion-col>
 
           </ion-row>
@@ -65,5 +61,61 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-modal #modalModelEdit>
+    <ng-template >
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Marca</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="closeModalEdit()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12" style="margin-top: 20%;">
+              <ion-label style="margin: auto 15px;">Nombre del modelo</ion-label>
+              <ion-input type="text" placeholder="Ingrese nombre" [(ngModel)]="model.model" fill="outline" [class.borderRed]="error" style></ion-input>
+            </ion-col>
+            <ion-col size="12" *ngIf="error" style="text-align: center;">
+              <p class="msgError">Ingrese nombre para la marca</p>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehículo</ion-label>
+              <ion-select [(ngModel)]="model.type_vehicle" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
+                <ion-select-option value="">Todos</ion-select-option>
+                <ion-select-option value="pickup">Pick-up y carga</ion-select-option>
+                <ion-select-option value="suv">SUV</ion-select-option>
+                <ion-select-option value="sedan">Sedan</ion-select-option>
+                <ion-select-option value="hatchback">Hatchback</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+              <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
+              <ion-select [(ngModel)]="model.brand" interface="action-sheet" placeholder="Marca" fill="outline" id="typeSelect">
+                <ion-select-option value="">Todos</ion-select-option>
+                <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
+                
+              </ion-select>
+            </ion-col>
+            
+            <ion-col size="12" style="margin-top: 15px;">
+              <ion-button (click)="updateModel()" expand="block" shape="round" class="btnSaveRed">
+                Editar modelo
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)" #infiniteScroll>
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
 

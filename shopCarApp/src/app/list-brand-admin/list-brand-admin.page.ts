@@ -46,6 +46,7 @@ export class ListBrandAdminPage implements OnInit {
   public getBrandsList(){
     this.utils.presentLoading("cargando data...")
     this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
+      console.log(resp.data)
       if (resp.status) {
         this.utils.dismissLoading()
         this.brandList = resp.data.rows
@@ -66,6 +67,7 @@ export class ListBrandAdminPage implements OnInit {
       this.utils.presentLoading("Eliminando Marca")
       if (resp.status === true) {
         this.utils.presentToast("Marca eliminada exitosamente");
+        this.search.pos = 0;
         this.getBrandsList();
         setTimeout(() => {
           this.utils.dismissLoading();

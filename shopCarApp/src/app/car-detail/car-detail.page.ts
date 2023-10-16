@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonActionSheet, IonModal, MenuController } from '@ionic/angular';
+import { IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
@@ -14,13 +14,16 @@ import { CarDetailSeller } from 'src/models/sellet';
 export class CarDetailPage implements OnInit {
   carDetail: CarDetailSeller = new CarDetailSeller();
   actionSheetButtonsEdit: any[] = [];
+  showAutoComplete:boolean = false;
   typeConection: boolean = false;
   actionSheetButtons: any[] = [];
+  arrayAutoComplete: any[] = [];  
   openASEdit: boolean = false;
   priceOfertAux: string = "";
   theCartegory: string = "";
   editCar: boolean = false;
   openAS: boolean = false;
+  arrayBrands: any[] = [];
   arrayImages: any[] = [];
   priceOfert: number = 0;
   idImgEdit: string = "";
@@ -35,13 +38,14 @@ export class CarDetailPage implements OnInit {
   dni: string = "";
   id: string = "";
   aux: number = 0;
-
+  km: string = "";
 
   @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
   @ViewChild('actionSheet') actionSheet!: IonActionSheet;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('modalBuy') modal!: IonModal;
+  @ViewChild('autoComplete') autoComplete!: IonPopover;
 
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone) {
     this.id = this.actRoute.snapshot.params['id'];
@@ -69,11 +73,11 @@ export class CarDetailPage implements OnInit {
     this.carDetail.city = "";
     this.carDetail.dealer = "";
     this.carDetail.concesionary = "";
-    this.carDetail.traction_control = "";
-    this.carDetail.performance = "";
+    this.carDetail.traction_control = false;
+    this.carDetail.performance = false;
     this.carDetail.price = 0;
-    this.carDetail.comfort = "";
-    this.carDetail.technology = "";
+    this.carDetail.comfort = false;
+    this.carDetail.technology = false;
     this.carDetail.id_seller = "";
     this.carDetail.id_mechanic = "";
     this.carDetail.id_seller_buyer = "";
@@ -101,6 +105,7 @@ export class CarDetailPage implements OnInit {
     this.getVehicleById();
     this.buttonsActionSheet();
     this.buttonsActionSheetEdit();
+    this.getBrands();
   }
 
   goBack(){
@@ -131,6 +136,9 @@ export class CarDetailPage implements OnInit {
 
       if(data.status){
         this.carDetail = data.data;
+        this.km = JSON.stringify(this.setDot(this.carDetail.km));
+        this.km = this.km.replace('"','');
+        this.km = this.km.replace('"','');
         this.utils.dismissLoading();
         
         if (this.carDetail.price !== null) {
@@ -262,17 +270,17 @@ export class CarDetailPage implements OnInit {
   }
 
   public updateVehicle(){
-    this.utils.presentLoading("Actualizando...");
+    
+    this.carDetail.km = parseInt(this.km.replace(/\./g,''));
+    this.carDetail.price = this.price
     let data = {
-      id_vehicle: this.id,
-      price: this.price,
-      images: this.arrayImages.length > 0 ? this.arrayImages : []
+      data: this.carDetail
     }
     
     this.sellerSrv.updateVehicle(data).subscribe((data:any) => {
-      
+      this.utils.presentLoading("Actualizando...");
       if(data.status){
-          this.utils.dismissLoading();
+        this.utils.dismissLoading();
           this.utils.presentToast(data.message);
           this.editCar=!this.editCar;
           this.getVehicleById();
@@ -282,7 +290,9 @@ export class CarDetailPage implements OnInit {
         }
     
     }, (error:any) => {
-      console.log(error);
+      
+      this.utils.dismissLoading();
+      this.utils.presentToast("Server error");
     });
 
   }
@@ -594,5 +604,54 @@ export class CarDetailPage implements OnInit {
     })
   }
 
+  public searchAutoComplete(){
+    this.showAutoComplete = true;
+    this.getAutoComplete(); 
+  }
+
+  public getAutoComplete(){
+
+    let data = {
+      search: this.carDetail.model
+    }
+
+    this.sellerSrv.autoComplete(data).subscribe((res:any)=>{
+      if (res.status) {
+        this.arrayAutoComplete = res.data;
+      }
+    })
+  }
+
+  public selectAutoComplete(item:any){
+    this.carDetail.model = item.model;
+    this.carDetail.brand = item.brand;
+    this.carDetail.type_vehicle = item.type_vehicle;
+    this.arrayAutoComplete = [];
+    this.showAutoComplete = false;
+  }
   
+  public getBrands(){
+    this.sellerSrv.allBrands().subscribe((res: any) => {
+        this.arrayBrands = res.data;
+
+      }, (err: any) => {
+        console.log(err);
+      });
+
+  }
+
+  public setDotKm(input:any){
+    
+    var num = input.value.replace(/\./g,'');
+    if(!isNaN(num)){
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+      input.value = num;
+      this.km = num;
+    }else{ 
+      
+      input.value = input.value.replace(/[^\d\.]*/g,'');
+    }
+
+  }
 }

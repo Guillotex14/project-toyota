@@ -30,6 +30,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   yearCarAux: string = '';
   brandCar: string = '';
   modelCar: string = '';
+  triple_m: string = '';
 
   //data filter 2
   dateTo: string = '';
@@ -46,6 +47,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   arrayModels: any[] = [];
   genCondCar: any[] = [];
   arrayData: any = {};
+  dataGraphy: any = {};
   arrayListCars: any[] = [];
   arrayConcesionary: any[] = []
 
@@ -119,34 +121,23 @@ export class GraphicsAdminPage implements AfterViewInit {
   public lineChartMethod() {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
-      data: {
-        labels: this.arrayLabels,
-        datasets: [
-          {
-            label: this.arrayData.label,
-            fill: false,
-            // lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: this.arrayData.data,
-            spanGaps: false,
-          },
-        ],
-      },
-    });
+      data: this.dataGraphy,
+      options:{
+        plugins:{
+          tooltip:{
+            callbacks:{
+              label: function(tooltipItem:any) {
+                console.log(tooltipItem)
+                // Redondear el valor numérico al entero más cercano
+                var value = Math.round(tooltipItem.yLabel);
+                return value.toString(); // Devolver el valor redondeado sin decimales
+              }
+            }
+          }
+        }
+      }
+    },
+    );
   }
 
   public getChartGrafic() {
@@ -158,6 +149,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
       concesionary: this.concesionary2,
+      triple_m: '',
     }
     this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
@@ -165,6 +157,7 @@ export class GraphicsAdminPage implements AfterViewInit {
           this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
+          this.dataGraphy=res.data;
           this.lineChartMethod();
           this.month = 1;
           this.yearSold = new Date().getFullYear();
@@ -393,5 +386,11 @@ export class GraphicsAdminPage implements AfterViewInit {
 
   public onDateToChange(event: any) {
     this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
+  }
+
+  public setDot(data:any){
+    var str = data.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return str.join(".");
   }
 }

@@ -1,15 +1,6 @@
 import { Request, Response } from "express";
 import { ResponseModel } from "../models/Response";
-import Users from "../schemas/Users.schema";
-import sellers from "../schemas/Sellers.schema";
-import mechanics from "../schemas/Mechanics.schema";
-import imgUser from "../schemas/imgUser.schema";
-import bcrypt from "bcrypt";
-import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import jwt from "../helpers/generar-jwt";
-import moment from "moment";
-import { sendEmail } from "../../nodemailer";
-import SellersSchema from "../schemas/Sellers.schema";
 import brands from "../schemas/brands.schema";
 
 const brandController: any = {};
@@ -210,8 +201,8 @@ brandController.allPaginator = async (req: Request, res: Response) => {
       _id: "$_id",
       name: 1,
     };
-    let sendata: any = {};
 
+    let sendata: any = {};
 
   let list = await brands.aggregate([
     {
@@ -267,3 +258,4 @@ brandController.allPaginator = async (req: Request, res: Response) => {
 };
 
 export default brandController;
+

@@ -1,15 +1,13 @@
 import { Request, Response } from "express";
+import jwt from "../helpers/generar-jwt";
+import bcrypt from "bcrypt";
+import moment from "moment";
 import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
 import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
-import bcrypt from "bcrypt";
-import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
-import jwt from "../helpers/generar-jwt";
-import moment from "moment";
 import { sendEmail } from "../../nodemailer";
-import SellersSchema from "../schemas/Sellers.schema";
 
 const userController: any = {};
 
@@ -501,8 +499,6 @@ userController.allMechanic = async (req: Request, res: Response) => {
 
   return res.json(reponseJson);
 };
-
-
 
 async function addOrUpdateUser(data: any) {
   if (data.id_user) {

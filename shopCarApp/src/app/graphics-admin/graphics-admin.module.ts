@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { GraphicsAdminPageRoutingModule } from './graphics-admin-routing.module';
-
 import { GraphicsAdminPage } from './graphics-admin.page';
+
 
 @NgModule({
   imports: [

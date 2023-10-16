@@ -114,6 +114,7 @@ export class ListUserAdminPage implements OnInit {
     let data = { id: id };
     this.adminSrv.deleteSeller(data).subscribe((res: any) => {
       if (res.status) {
+        this.dataSearch.pos = 0;
         this.getSellers();
         this.utils.dismissLoading();
       }

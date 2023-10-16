@@ -9,7 +9,6 @@ import { sendEmail } from '../../nodemailer';
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
-import moment from "moment";
 
 const authController: any  = {};
 

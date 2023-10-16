@@ -4,6 +4,7 @@ import { IonContent, Platform } from '@ionic/angular';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { MechanicalFileDetail } from 'src/models/mechanic';
 import { UtilsService } from '../services/utils/utils.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-mechanical-file-detail-mechanic',
@@ -15,7 +16,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   ios: boolean = false;
   web: boolean = false;
   backToTop: boolean = false;
-  edit: boolean = false;
+  edit: boolean = true;
   id: string = "";
   theRoute: string = "";
   mechanicalFileDetail: MechanicalFileDetail = new MechanicalFileDetail();
@@ -117,19 +118,42 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
       this.backToTop = false;
     }
   }
+
   public scrollToTop() {
     this.content.scrollToTop(500);
   }
 
   public editFile(){
-    this.edit = true;
+    this.edit = false;
   }
 
   public noEditFile(){
-    this.edit = false;
+    this.edit = true;
   }
 
   public saveFile(){
 
+    let data = {
+      data: this.mechanicalFileDetail
+    }
+    this.utils.presentLoading("Actualizando ficha mecánica")
+    this.mechanicSrv.editFileMechanic(data).subscribe((res:any) => {
+
+      if (res.status) {
+        this.utils.dismissLoading();
+        this.utils.presentToast(res.message)
+        this.edit = true;
+        this.scrollToTop()
+        this.goBack();
+      } else {
+        this.utils.dismissLoading()
+        this.utils.presentToast(res.message)
+      }
+
+      console.log(res)
+    },(error)=>{
+      this.utils.dismissLoading()
+        this.utils.presentToast("Error de servidor")
+    })
   }
 }

@@ -47,9 +47,6 @@
               </ion-col>
             </ion-col>
 
-            <!-- <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
-            <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)"> -->
-
             <ion-col size="12" style="text-align: center;" *ngIf="editCar">
               <ion-row>
                 <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
@@ -94,98 +91,252 @@
               </ion-row>
             </ion-col>
 
-            <ion-col size="12" >
-              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
-                <span class="spanLabel" style="margin-left: 25px !important;">Modelo</span>
-              </ion-col>
-              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
-                <p class="pText" style="margin-left: 30px !important;">{{carDetail.model}}</p>
-              </ion-col>
+            <ion-col size="12" *ngIf="!editCar">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+                    <span class="spanLabel" style="margin-left: 25px !important;">Modelo</span>
+                  </ion-col>
+                  <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+                    <p class="pText" style="margin-left: 30px !important;">{{carDetail.model}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel" class="spanLabel">Marca</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">
+                      {{carDetail.brand}}
+                    </p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel" class="spanLabel">Año</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">
+                      {{carDetail.year}}
+                    </p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Km</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{setDot(carDetail.km)}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Cilindrada</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{carDetail.displacement}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Combustible</span>
+                  </ion-col>
+                  <ion-col size="12" >
+                    <p class="pText">{{carDetail.fuel}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Títulos</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{carDetail.titles}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Transmisión</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{carDetail.transmission}}</p>
+                  </ion-col>
+                </ion-col>
+    
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Tracción</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{carDetail.traction}}</p>
+                  </ion-col>
+                </ion-col>
+              </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel" class="spanLabel">Marca</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">
-                  {{carDetail.brand}}
-                </p>
-              </ion-col>
-            </ion-col>
+            <ion-col size="12" *ngIf="editCar">
+              <ion-row>
 
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;" *ngIf="carDetail.engine_model">
-              <ion-col size="12">
-                <span class="spanLabel" class="spanLabel">Motor</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{carDetail.engine_model}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel" class="spanLabel">Año</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">
-                  {{carDetail.year}}
-                </p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Km</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{setDot(carDetail.km)}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Cilindrada</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{carDetail.displacement}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Combustible</span>
-              </ion-col>
-              <ion-col size="12" >
-                <p class="pText">{{carDetail.fuel}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Títulos</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{carDetail.titles}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Transmisión</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{carDetail.transmission}}</p>
-              </ion-col>
-            </ion-col>
-
-            <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
-              <ion-col size="12">
-                <span class="spanLabel">Tracción</span>
-              </ion-col>
-              <ion-col size="12">
-                <p class="pText">{{carDetail.traction}}</p>
-              </ion-col>
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Modelo</ion-label>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.model" (ionInput)="searchAutoComplete()"></ion-input>
+      
+                  <ion-list class="listModels" *ngIf="carDetail.model !== '' && showAutoComplete">
+                    <ion-list-header>
+                      <ion-label>Modelos</ion-label>
+                    </ion-list-header>
+                    <ion-item *ngFor="let model of arrayAutoComplete" lines="full" button (click)="selectAutoComplete(model)">
+                      <ion-label>{{model.model}}</ion-label>
+                    </ion-item>
+                  </ion-list>
+                  
+                  <ion-popover side="bottom" alignment="center" [translucent]="true" [backdropDismiss]="true" [arrow]="true" trigger="trigger-open" >
+                    <ng-template>
+                      <ion-list>
+                        <ion-item *ngFor="let model of arrayAutoComplete">
+                          <ion-label>{{model.model}}</ion-label>
+                        </ion-item>
+                      </ion-list>
+                    </ng-template>
+                  </ion-popover>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
+                  <ion-select [(ngModel)]="carDetail.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
+                    <ion-select-option value="">Todos</ion-select-option>
+                    <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
+                    
+                  </ion-select>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Año</ion-label>
+                  <ion-input type="tel" fill="outline" [(ngModel)]="carDetail.year"></ion-input>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Km</ion-label>
+                  <ion-input type="tel" fill="outline" [value]="km" (ionInput)="setDotKm($event.target)"></ion-input>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Cilindrada</ion-label>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.displacement"></ion-input>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Combustible</ion-label>
+                  <ion-select [(ngModel)]="carDetail.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible">
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="gasolina">Gasolina</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="diesel">Diesel</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="hibrido">Hibrido</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="eléctrico">Eléctrico</ion-select-option>
+                  </ion-select>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Títulos</ion-label>
+                  <ion-select [(ngModel)]="carDetail.titles" interface="action-sheet" fill="outline" placeholder="seleccionar títulos">
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="1-1">1-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="2-1">2-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="3-1">3-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4-1">4-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="5-1">5-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="6-1">6-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="7-1">7-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="8-1">8-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="9-1">9-1</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="10-1">10-1</ion-select-option>
+                  </ion-select>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmisión</ion-label>
+                  <ion-select [(ngModel)]="carDetail.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmisión">
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="automática">Automática</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="manual">Manual</ion-select-option>
+                  </ion-select>
+                </ion-col>
+    
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tracción</ion-label>
+                  <ion-select [(ngModel)]="carDetail.traction" interface="action-sheet" fill="outline" placeholder="seleccionar tracción">
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x2">4x2</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 part time">4x4 Part Time</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 full time">4x4 Full Time</ion-select-option>
+                  </ion-select>
+                </ion-col>
+                <ion-col size="12" style="margin-top: 10px;">
+                  <ion-label class="titleDatosPlus" >Datos plus</ion-label>
+                </ion-col>
+      
+                <ion-col size="12">
+                  <ion-row>
+                    <ion-col  sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
+                      <p class="datoPlusTitle">Control de tracción</p>
+                      <span class="datoPlusSubtitle">Estable y seguro</span>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
+                      <ion-img src="assets/images/logo/traccion.png" class="datoPlusImg"></ion-img>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
+                      <ion-checkbox [(ngModel)]="carDetail.traction_control"></ion-checkbox>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+      
+                <ion-col size="12">
+                  <ion-row>
+                    <ion-col  sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
+                      <p class="datoPlusTitle">Performance</p>
+                      <span class="datoPlusSubtitle">V6 Twin Turbo (V35A-FTS)</span>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
+                      <ion-img src="assets/images/logo/performance.png" class="datoPlusImg"></ion-img>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
+                      <ion-checkbox [(ngModel)]="carDetail.performance"></ion-checkbox>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+      
+                <ion-col size="12">
+                  <ion-row>
+                    <ion-col sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
+                      <p class="datoPlusTitle">Confort</p>
+                      <span class="datoPlusSubtitle">Asientos tapizados en cuero natural y  ecológico</span>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
+                      <ion-img src="assets/images/logo/confort.png" class="datoPlusImg"></ion-img>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
+                      <ion-checkbox [(ngModel)]="carDetail.comfort"></ion-checkbox>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+      
+                <ion-col size="12">
+                  <ion-row>
+                    <ion-col sizeXl="8" sizeLg="8" sizeMd="8" sizeSm="8" sizeXs="8">
+                      <p class="datoPlusTitle">Tecnología</p>
+                      <span class="datoPlusSubtitle">Control de estabilidad(VSC)</span>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2">
+                        <ion-img src="assets/images/logo/tecnologia.png" class="datoPlusImg"></ion-img>
+                    </ion-col>
+                    <ion-col sizeXl="2" sizeLg="2" sizeMd="2" sizeSm="2" sizeXs="2" style="margin: auto !important;">
+                      <ion-checkbox [(ngModel)]="carDetail.technology"></ion-checkbox>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
             </ion-col>
 
             <ion-col size="12" *ngIf="carDetail.id_seller_buyer!==null" style="text-align: center;">
@@ -264,29 +415,29 @@
 
             </ion-col>
 
-            <ion-col size="12" >
+            <ion-col size="12" *ngIf="!editCar">
               <ion-card>
                 <ion-card-content>
                   <ion-row>
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.traction_control === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.traction_control === true">
                       <ion-img src="assets/images/logo/traccion.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Control de tracción</p>
                       <span style="font-size: 10px; color: #898989">Estable y seguro</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.technology === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.technology === true">
                       <ion-img src="assets/images/logo/tecnologia.png" style="width: 29% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Tecnología</p>
                       <span style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.performance === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.performance === true">
                       <ion-img src="assets/images/logo/performance.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Performance</p>
                       <span style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === 'true'">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === true">
                       <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Confort</p>
                       <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y  ecológico</span>

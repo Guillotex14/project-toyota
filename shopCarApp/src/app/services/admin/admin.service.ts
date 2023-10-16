@@ -18,7 +18,7 @@ export class AdminService {
   }
 
   public getSellers() {
-    return this.http.get(global.urlBase+"admin/AllSellers");
+    return this.http.get(global.urlBase+"admin/AllSellers",this.authToken);
   }
 
   public allSellers(data:any){
@@ -26,39 +26,51 @@ export class AdminService {
   }
 
   public getSellerById(id: any) {
-    return this.http.post(global.urlBase+"admin/sellerById",id);
+    return this.http.post(global.urlBase+"admin/sellerById",id,this.authToken);
   }
 
   public updateSeller(seller: any) {
-    return this.http.post(global.urlBase+"admin/updateSeller",seller);
+    return this.http.post(global.urlBase+"admin/updateSeller",seller,this.authToken);
   }
 
   public deleteSeller(id: any) {
-    return this.http.post(global.urlBase+"admin/deleteSeller",id);
+    return this.http.post(global.urlBase+"admin/deleteSeller",id,this.authToken);
   }
 
   public getVehicles(data: any) {
-    return this.http.post(global.urlBase+"admin/AllVehicles",data);
+    return this.http.post(global.urlBase+"admin/AllVehicles",data,this.authToken);
   }
 
   public getVehicleById(id: any) {
-    return this.http.post(global.urlBase+"admin/vehicleById",id);
+    return this.http.post(global.urlBase+"admin/vehicleById",id,this.authToken);
   }
 
   public mechanicFile(id:any){
-    return this.http.post(global.urlBase+'seller/mechanicalFileByIdVehicle',id);
+    return this.http.post(global.urlBase+'seller/mechanicalFileByIdVehicle',id,this.authToken);
   }
 
   public searchSeller(search: any) {
-    return this.http.post(global.urlBase+"admin/searchSeller",search);
+    return this.http.post(global.urlBase+"admin/searchSeller",search,this.authToken);
   }
 
   public allModels() {
-    return this.http.get(global.urlBase+"admin/allModels");
+    return this.http.get(global.urlBase+"admin/allModels",this.authToken);
+  }
+
+  public getModelList(data:any){
+    return this.http.get(`${global.urlBase}user/allModelPaginator?s=${data.s}&pos=${data.pos}&lim=${data.lim}`,this.authToken);
   }
 
   public addModel(model: any) {
-    return this.http.post(global.urlBase+"admin/addModelVehicle",model);
+    return this.http.post(global.urlBase+"admin/addModelVehicle",model,this.authToken);
+  }
+
+  public updateModel(model: any){
+    return this.http.post(global.urlBase+"user/updateModel",model,this.authToken);
+  }
+
+  public deleteModel(model: any){
+    return this.http.post(global.urlBase+"user/deleteModel",model,this.authToken);
   }
 
   public allMechanics(data:any){
@@ -78,7 +90,7 @@ export class AdminService {
   }
 
   public allBrands() {
-    return this.http.get(global.urlBase+"admin/allBrands");
+    return this.http.get(global.urlBase+"admin/allBrands",this.authToken);
   }
 
   public addBrand(name: any) {

@@ -60,7 +60,7 @@
         </ion-row>
       </ion-col>
 
-      <ion-col size="12">
+      <ion-col size="12" style="margin-bottom: 50px !important;">
         <ion-list>
           <ion-item-group class="itemGroupSegment">
             <ion-item-divider>
@@ -73,7 +73,7 @@
                   <ion-label>Piezas completas - Emblemas completos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.part_emblems_complete" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.part_emblems_complete" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.part_emblems_complete">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -97,7 +97,7 @@
                   <ion-label>Cepillos limpia parabrisas-Ducha Limpia parabrisas</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.wiper_shower_brushes_windshield" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.wiper_shower_brushes_windshield" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.wiper_shower_brushes_windshield">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -121,7 +121,7 @@
                   <ion-label>Golpes</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.hits" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.hits" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.hits">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -145,7 +145,7 @@
                   <ion-label>Rayones</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.scratches" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.scratches" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.scratches">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -169,7 +169,7 @@
                   <ion-label>Estado de la pintura</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.paint_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.paint_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.paint_condition">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -193,7 +193,7 @@
                   <ion-label>Faros - Luces</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.headlights_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.headlights_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.headlights_lights">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -221,7 +221,7 @@
                   <ion-label>Corneta - Accesorios</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.bugle_accessories" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.bugle_accessories" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.bugle_accessories">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -245,7 +245,7 @@
                   <ion-label>Sistema de aire acondicionado</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.air_conditioning_system" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.air_conditioning_system" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.air_conditioning_system">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -269,7 +269,7 @@
                   <ion-label>Radio reproductor</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.radio_player" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.radio_player" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.radio_player">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -293,7 +293,7 @@
                   <ion-label>Luces de cortesía</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.courtesy_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.courtesy_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.courtesy_lights">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -317,7 +317,7 @@
                   <ion-label>Estado de tapicería (Asientos techo, alfombras <br> y tapicería de puertas)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.upholstery_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.upholstery_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.upholstery_condition">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -341,7 +341,7 @@
                   <ion-label>Revisión del sistema del vehículo a través de <br> tester inteligente o GTS</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.gts" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.gts" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.gts">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -365,7 +365,7 @@
                   <ion-label>Luces del tablero</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.board_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.board_lights" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.board_lights">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -389,7 +389,7 @@
                   <ion-label>Presión de los neumáticos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.tire_pressure" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.tire_pressure" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.tire_pressure">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -413,7 +413,7 @@
                   <ion-label>Vida útil del neumático</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.tire_life" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.tire_life" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.tire_life">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -437,7 +437,7 @@
                   <ion-label>Estado de la batería - Bornes</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.battery_status_terminals" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.battery_status_terminals" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.battery_status_terminals">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -461,7 +461,7 @@
                   <ion-label>Correas transmisoras</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.transmitter_belts" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.transmitter_belts" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.transmitter_belts">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -485,7 +485,7 @@
                   <ion-label>Aceite de motor</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.motor_oil" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.motor_oil" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.motor_oil">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -509,7 +509,7 @@
                   <ion-label>Refrigerante del motor - Envase</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.engine_coolant_container" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.engine_coolant_container" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.engine_coolant_container">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -533,7 +533,7 @@
                   <ion-label>Estado del radiador</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.radiator_status" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.radiator_status" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.radiator_status">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -557,7 +557,7 @@
                   <ion-label>Tubo de escape y soporte</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.exhaust_pipe_bracket" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.exhaust_pipe_bracket" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.exhaust_pipe_bracket">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -581,7 +581,7 @@
                   <ion-label>Condición del tanque de combustible, tapa tubos, <br> mangueras y conexiones</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.fuel_tank_cover_pipes_hoses_connections" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.fuel_tank_cover_pipes_hoses_connections" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.fuel_tank_cover_pipes_hoses_connections">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -605,7 +605,7 @@
                   <ion-label>Correa de distribución </ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.distribution_mail" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.distribution_mail" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.distribution_mail">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -629,7 +629,7 @@
                   <ion-label>Bujías - Filtro de aire - Filtro de gasolina - filtro <br> anti polen</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.spark_plugs_air_filter_fuel_filter_anti_pollen_filter" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.spark_plugs_air_filter_fuel_filter_anti_pollen_filter" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.spark_plugs_air_filter_fuel_filter_anti_pollen_filter">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -653,7 +653,7 @@
                   <ion-label>Sistema de combustible</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.fuel_system" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.fuel_system" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.fuel_system">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -681,7 +681,7 @@
                   <ion-label>Freno estacionamiento</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.parking_break" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.parking_break" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.parking_break">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -705,7 +705,7 @@
                   <ion-label>Bandas de freno y tambores</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.brake_bands_drums" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.brake_bands_drums" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.brake_bands_drums">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -729,7 +729,7 @@
                   <ion-label>Pastillas de freno y discos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.brake_pads_discs" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.brake_pads_discs" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.brake_pads_discs">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -753,7 +753,7 @@
                   <ion-label>Tubos y mangueras de freno</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.brake_pipes_hoses" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.brake_pipes_hoses" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.brake_pipes_hoses">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -777,7 +777,7 @@
                   <ion-label>Bomba de freno</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.master_cylinder" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.master_cylinder" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.master_cylinder">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -801,7 +801,7 @@
                   <ion-label>Fluido de frenos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.brake_fluid" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.brake_fluid" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.brake_fluid">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -829,7 +829,7 @@
                   <ion-label>Bujes y mesetas</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.bushings_plateaus" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.bushings_plateaus" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.bushings_plateaus">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -853,7 +853,7 @@
                   <ion-label>Muñones</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.stumps" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.stumps" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.stumps">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -877,7 +877,7 @@
                   <ion-label>Terminales</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.terminals" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.terminals" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.terminals">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -901,7 +901,7 @@
                   <ion-label>Barra estabilizadora</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.stabilizer_bar" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.stabilizer_bar" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.stabilizer_bar">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -925,7 +925,7 @@
                   <ion-label>Rodamientos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.bearings" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.bearings" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.bearings">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -949,7 +949,7 @@
                   <ion-label>Tripoides y gomas</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.tripoids_rubbe_bands" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.tripoids_rubbe_bands" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.tripoids_rubbe_bands">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -973,7 +973,7 @@
                   <ion-label>Amortiguadores y Espirales</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.shock_absorbers_coils" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.shock_absorbers_coils" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.shock_absorbers_coils">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -996,7 +996,7 @@
             </ion-item-divider>
 
             <ion-item class="itemSegment">
-              <ion-segment [value]="mechanicalFileDetail.dealer_maintenance" [class.mLeft]="android === true || web === true" [disabled]="edit">
+              <ion-segment [(ngModel)]="mechanicalFileDetail.dealer_maintenance" [class.mLeft]="android === true || web === true" [disabled]="edit">
                 <ion-segment-button value="no" [class.segment-red]="mechanicalFileDetail.dealer_maintenance">
                   <ion-label>No</ion-label>
                 </ion-segment-button>
@@ -1006,13 +1006,13 @@
               </ion-segment>
             </ion-item>
 
-            <ion-item class="itemSegment" style="margin-bottom: 25px !important;">
+            <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
                   <ion-label>Estado general del vehículo</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
-                  <ion-segment [value]="mechanicalFileDetail.general_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
+                  <ion-segment [(ngModel)]="mechanicalFileDetail.general_condition" [class.mLeft]="android === true || web === true" [disabled]="edit">
                     <ion-segment-button value="malo" [class.segment-red]="mechanicalFileDetail.general_condition">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
@@ -1044,21 +1044,21 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="!edit" >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="edit" >
     <ion-fab-button (click)="editFile()">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="edit" >
-    <ion-fab-button (click)="noEditFile()">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="!edit" >
+    <ion-fab-button (click)="saveFile()">
       <ion-icon name="checkmark-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="edit">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="!edit" style="margin-left: 60px">
     <ion-fab-button>
-      <ion-icon name="close-outline"  (click)="saveFile()"></ion-icon>
+      <ion-icon name="close-outline" (click)="noEditFile()"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 

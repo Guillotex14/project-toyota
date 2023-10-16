@@ -23,9 +23,6 @@
             <p class="titlePage">Cargar vehículo</p>
           </ion-col>
 
-          <!-- <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
-          <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)"> -->
-
           <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
             <ion-row>
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
@@ -136,15 +133,9 @@
             <ion-input type="tel" fill="outline" [value]="km" (ionInput)="setDotKm($event.target)"></ion-input>
           </ion-col>
 
-          <!-- <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
-            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Modelo de motor</ion-label>
-            <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.engine_model"></ion-input>
-          </ion-col> -->
-
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Títulos</ion-label>
-            <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.titles"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.titles" interface="action-sheet" fill="outline" placeholder="seleccionar títulos" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.titles" interface="action-sheet" fill="outline" placeholder="seleccionar títulos">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="1-1">1-1</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="2-1">2-1</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="3-1">3-1</ion-select-option>
@@ -160,8 +151,7 @@
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Combustible</ion-label>
-            <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.fuel"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="gasolina">Gasolina</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="diesel">Diesel</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="hibrido">Hibrido</ion-select-option>
@@ -171,8 +161,7 @@
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmisión</ion-label>
-            <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmisión" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmisión">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="automática">Automática</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="manual">Manual</ion-select-option>
             </ion-select>
@@ -180,8 +169,7 @@
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tracción</ion-label>
-            <!-- <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.transmission_2"></ion-input> -->
-            <ion-select [(ngModel)]="newVehicle.traction" interface="action-sheet" fill="outline" placeholder="seleccionar tracción" (ionChange)="filterMechanic()">
+            <ion-select [(ngModel)]="newVehicle.traction" interface="action-sheet" fill="outline" placeholder="seleccionar tracción">
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x2">4x2</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 part time">4x4 Part Time</ion-select-option>
               <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 full time">4x4 Full Time</ion-select-option>
@@ -189,20 +177,11 @@
           </ion-col>
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
-            <!-- <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Estado</ion-label>
-            <ion-select [(ngModel)]="newVehicle.city" interface="action-sheet" (ionChange)="filterConces()" placeholder="Seleccione estado" fill="outline">
-                <ion-select-option value="">Todos</ion-select-option>
-              <ion-select-option [value]="zone.estado" *ngFor="let zone of arrayZones" style="text-transform: capitalize;">{{zone.estado}}</ion-select-option>
-            </ion-select> -->
             <ion-label>Estado</ion-label>
             <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.city" disabled="true" style="opacity: 1 !important;"></ion-input>
           </ion-col>
 
           <ion-col size="12">
-            <!-- <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Concesionario</ion-label>
-            <ion-select [(ngModel)]="newVehicle.concesionary" interface="action-sheet" fill="outline" placeholder="seleccionar concesionario" (ionChange)="filterMechanic()">
-              <ion-select-option [value]="conce.name" *ngFor="let conce of conceAux" style="text-transform: capitalize;" interface="action-sheet" >{{conce.name}}</ion-select-option>
-            </ion-select> -->
             <ion-label>Concesionario</ion-label>
             <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.concesionary" disabled="true" style="opacity: 1 !important;"></ion-input>
           </ion-col>
@@ -212,11 +191,6 @@
               Vaciar Formulario
             </ion-button>
           </ion-col>
-
-          <!-- <ion-col size="12" style="text-align: center;">
-            <ion-label style="font-size: 18px; color: #898989; margin: 10px 0px !important;">Precio</ion-label>
-            <ion-input type="tel" fill="outline" style="width: 50%; margin: auto !important;" [(ngModel)]="newVehicle.price"></ion-input>
-          </ion-col> -->
 
           <ion-col size="12" style="margin-top: 10px;">
             <ion-label class="titleDatosPlus" >Datos plus</ion-label>

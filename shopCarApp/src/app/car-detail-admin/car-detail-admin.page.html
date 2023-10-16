@@ -185,29 +185,29 @@
               </ion-button>
             </ion-col> -->
 
-            <ion-col size="12" *ngIf="carDetail.traction_control === 'true' || carDetail.technology === 'true' || carDetail.performance === 'true' || carDetail.comfort === 'true'">
+            <ion-col size="12" *ngIf="carDetail.traction_control === true || carDetail.technology === true || carDetail.performance === true || carDetail.comfort === true">
               <ion-card class="cardDataPlus">
                 <ion-card-content>
                   <ion-row>
-                    <ion-col size="6" *ngIf="carDetail.traction_control === 'true'">
+                    <ion-col size="6" *ngIf="carDetail.traction_control === true">
                       <ion-img src="assets/images/logo/traccion.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Control de tracción</p>
                       <span style="font-size: 10px; color: #898989">Estable y seguro</span>
                     </ion-col>
 
-                    <ion-col size="6" *ngIf="carDetail.technology === 'true'">
+                    <ion-col size="6" *ngIf="carDetail.technology === true">
                       <ion-img src="assets/images/logo/tecnologia.png" style="width: 29% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Tecnología</p>
                       <span style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</span>
                     </ion-col>
 
-                    <ion-col size="6" *ngIf="carDetail.performance === 'true'">
+                    <ion-col size="6" *ngIf="carDetail.performance === true">
                       <ion-img src="assets/images/logo/performance.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Performance</p>
                       <span style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
                     </ion-col>
 
-                    <ion-col size="6" *ngIf="carDetail.comfort === 'true'">
+                    <ion-col size="6" *ngIf="carDetail.comfort === true">
                       <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Confort</p>
                       <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y  ecológico</span>

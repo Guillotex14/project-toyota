@@ -52,6 +52,14 @@ ion-input{
   
   }
 
+  ion-checkbox{
+    margin: auto ;
+    --checked-background: #EB0A1E !important;
+    --border-color: #EB0A1E !important;
+    --border-color-checked: #EB0A1E !important;
+    --checkbox-background-checked: #EB0A1E !important;
+    --checkmark-color: #fff !important;
+  }
 
 #inputPasss{
   min-height: 40px !important;

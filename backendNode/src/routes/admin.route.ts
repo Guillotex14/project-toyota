@@ -529,4 +529,6 @@ adminRouter.post("/addModelVehicle", async (req: Request, res: Response) => {
 
 });
 
+
+
 export default adminRouter;

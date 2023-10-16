@@ -36,6 +36,7 @@ export class ListMechanicAdminPage implements OnInit {
 
   public goBack(){
     this.router.navigate(["home-admin"]);
+    this.data.pos = 0;
   }
 
   public openMenu(){
@@ -100,6 +101,7 @@ export class ListMechanicAdminPage implements OnInit {
       if (resp.status) {
         this.utils.dismissLoading();
         this.utils.presentToast("Técnico eliminado exitosamente");
+        this.data.pos = 0;
         this.getMechanicsList();
       } else {
         this.utils.dismissLoading();
