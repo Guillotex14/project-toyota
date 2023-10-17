@@ -15,6 +15,8 @@ vehicleRouter.get("/allVehicles", vehicleController.all);
 vehicleRouter.get("/vehicleById", vehicleController.get);
 vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
 vehicleRouter.get("/exportExcell", vehicleController.exportExcell);
+vehicleRouter.post("/addImgVehicle", vehicleController.addImgVehicle);
+vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);
 
 
 // ---------------------brand--------------------
@@ -25,12 +27,12 @@ vehicleRouter.get("/all-brands", brandController.all);
 vehicleRouter.get("/all-paginator-brands", brandController.allPaginator);
 
 
-//-------------modelo------------------------
-// vehicleRouter.post("/addModelVehicle", modelVehiclesController.add);
-// vehicleRouter.post("/updateModelVehicle", modelVehiclesController.update);
-// vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.delete);
-// vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
-// vehicleRouter.get("/modelVehicleById", modelVehiclesController.get);
+//-------------modelos------------------------
+vehicleRouter.post("/addModelVehicle", modelVehiclesController.add);
+vehicleRouter.post("/updateModelVehicle", modelVehiclesController.update);
+vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.delete);
+vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
+vehicleRouter.get("/modelVehicleById", modelVehiclesController.get);
 
 
 //---------------ficha mechanica--------------------

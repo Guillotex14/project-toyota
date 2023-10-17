@@ -186,7 +186,7 @@ vehicleController.insert = async (req: Request, res: Response) => {
 vehicleController.update = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller"]);
   const { data } = req.body;
 
   if (decode == false) {
@@ -219,8 +219,6 @@ vehicleController.delete = async (req: Request, res: Response) => {
 vehicleController.get = async (req: Request, res: Response) => {
 };
 
-
-
 vehicleController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
@@ -242,6 +240,128 @@ vehicleController.all = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
+
+vehicleController.addImgVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id_vehicle, image } = req.body;
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const filename = await uploadImageVehicle(image);
+
+  const newImage = new ImgVehicle({
+  img: filename.secure_url,
+  id_vehicle: id_vehicle,
+  public_id: filename.public_id,
+  });
+
+  await newImage.save();
+
+  if (newImage) {
+  reponseJson.code = 200;
+  reponseJson.message = "Imagen agregada exitosamente";
+  reponseJson.status = true;
+  reponseJson.data = newImage;
+  } else {
+  reponseJson.code = 400;
+  reponseJson.message = "No se pudo agregar la imagen";
+  reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+}
+
+
+vehicleController.deleteImgVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { public_id } = req.body; 
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
+
+  if (delImg) {
+  reponseJson.code = 200;
+  reponseJson.message = "Imagen eliminada exitosamente";
+  reponseJson.status = true;
+  } else {
+  reponseJson.code = 400;
+  reponseJson.message = "No se pudo eliminar la imagen";
+  reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+}
+
+vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id_vehicle, image, public_id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  if (delImg) {
+      let filename = await uploadImageVehicle(image);
+
+      const newImage = new ImgVehicle({
+      img: filename.secure_url,
+      id_vehicle: id_vehicle,
+      public_id: filename.public_id,
+      });
+      await newImage.save();
+
+      const arrayImages = await ImgVehicle.find({ id_vehicle: id_vehicle });
+
+      let data = {
+      images: arrayImages,
+      imgEdit: newImage,
+      };
+
+      reponseJson.code = 200;
+      reponseJson.message = "Imagen actualizada exitosamente";
+      reponseJson.data = data;
+      reponseJson.status = true;
+  } else {
+      reponseJson.code = 400;
+      reponseJson.message = "No se pudo actualizar la imagen";
+      reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+}
+
 
 vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
