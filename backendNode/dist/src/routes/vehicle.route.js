@@ -15,14 +15,19 @@ vehicleRouter.post("/delete", vehicle_controller_1.default.delete);
 vehicleRouter.get("/allVehicles", vehicle_controller_1.default.all);
 vehicleRouter.get("/vehicleById", vehicle_controller_1.default.get);
 vehicleRouter.get("/filterGraphySale", vehicle_controller_1.default.filterGraphySale);
+vehicleRouter.get("/listVehiclesSale", vehicle_controller_1.default.listVehiclesSale);
 vehicleRouter.get("/exportExcell", vehicle_controller_1.default.exportExcell);
+vehicleRouter.post("/addImgVehicle", vehicle_controller_1.default.addImgVehicle);
+vehicleRouter.post("/deleteImgVehicle", vehicle_controller_1.default.deleteImgVehicle);
+vehicleRouter.post("/updateImgVehicle", vehicle_controller_1.default.updateImgVehicle);
+vehicleRouter.get("/myVehicles", vehicle_controller_1.default.myVehicles);
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpdate);
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);
 vehicleRouter.get("/get-brand", brand_controller_1.default.get);
 vehicleRouter.get("/all-brands", brand_controller_1.default.all);
 vehicleRouter.get("/all-paginator-brands", brand_controller_1.default.allPaginator);
-//-------------modelo------------------------
+//-------------modelos------------------------
 // vehicleRouter.post("/addModelVehicle", modelVehiclesController.add);
 // vehicleRouter.post("/updateModelVehicle", modelVehiclesController.update);
 // vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.delete);
