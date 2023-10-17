@@ -277,6 +277,38 @@
             </div>
           </ion-accordion>
 
+          <ion-accordion value="prom_price">
+            <ion-item slot="header">
+              <ion-label>Rango de Precio (Max, Prom, Min)</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-radio-group [(ngModel)]="triple_m">
+                  <ion-item>
+                    <ion-label>Ninguno</ion-label>
+                    <ion-radio value=""></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Todos</ion-label>
+                    <ion-radio value="all"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Máximo</ion-label>
+                    <ion-radio value="max"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Promedio</ion-label>
+                    <ion-radio value="mid"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Minímo</ion-label>
+                    <ion-radio value="min"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
         </ion-accordion-group>
       
       </ion-content>

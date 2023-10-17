@@ -149,7 +149,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
       concesionary: this.concesionary2,
-      triple_m: '',
+      triple_m: this.triple_m,
     }
     this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{

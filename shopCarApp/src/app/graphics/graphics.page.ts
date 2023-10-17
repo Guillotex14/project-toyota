@@ -123,7 +123,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       yearCar: this.yearCar,
       brandCar: this.brandCar,
       modelCar: this.modelCar,
-      triple_m: '',
+      triple_m: this.triple_m,
     }
     this.utils.presentLoading('Cargando datos');
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
