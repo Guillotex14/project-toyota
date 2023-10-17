@@ -51,8 +51,7 @@ class Jwt {
             issue = 0;
             break;
           } else {
-            issue = 1;
-            break;
+            issue++;
           }
         }
     }
