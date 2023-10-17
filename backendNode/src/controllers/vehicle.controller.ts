@@ -86,13 +86,13 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
   let data: any = req.query;
 
-  // if (decode == false) {
-  //   reponseJson.code = jwt.code;
-  //   reponseJson.message = jwt.message;
-  //   reponseJson.status = false;
-  //   reponseJson.data = null;
-  //   return res.json(reponseJson);
-  // }
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
 
   let now = new Date();
   let anioActual = now.getFullYear();
@@ -411,13 +411,13 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
   let data: any = req.query;
 
-  // if (decode == false) {
-  //   reponseJson.code = jwt.code;
-  //   reponseJson.message = jwt.message;
-  //   reponseJson.status = false;
-  //   reponseJson.data = null;
-  //   return res.json(reponseJson);
-  // }
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
 
   reponseJson.code = 200;
   reponseJson.message = "";
