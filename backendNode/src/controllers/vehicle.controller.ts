@@ -216,7 +216,6 @@ vehicleController.update = async (req: Request, res: Response) => {
 vehicleController.delete = async (req: Request, res: Response) => {
 };
 
-
 vehicleController.get = async (req: Request, res: Response) => {
 };
 

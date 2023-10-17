@@ -26,11 +26,11 @@ vehicleRouter.get("/all-paginator-brands", brandController.allPaginator);
 
 
 //-------------modelo------------------------
-vehicleRouter.post("/addModelVehicle", modelVehiclesController.add);
-vehicleRouter.post("/updateModelVehicle", modelVehiclesController.update);
-vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.delete);
-vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
-vehicleRouter.get("/modelVehicleById", modelVehiclesController.get);
+// vehicleRouter.post("/addModelVehicle", modelVehiclesController.add);
+// vehicleRouter.post("/updateModelVehicle", modelVehiclesController.update);
+// vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.delete);
+// vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
+// vehicleRouter.get("/modelVehicleById", modelVehiclesController.get);
 
 
 //---------------ficha mechanica--------------------
