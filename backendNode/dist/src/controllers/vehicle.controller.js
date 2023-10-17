@@ -14,14 +14,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Response_1 = require("../models/Response");
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
+const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
+const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
+const moment_1 = __importDefault(require("moment"));
+const nodemailer_1 = require("../../nodemailer");
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
+const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
+const sharp_1 = __importDefault(require("sharp"));
+const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"));
+const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const vehicleController = {};
 vehicleController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-    const data = req.body;
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -29,17 +41,112 @@ vehicleController.insert = (req, res) => __awaiter(void 0, void 0, void 0, funct
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    const newVehicle = new Vehicles_schema_1.default({
+        model,
+        year,
+        brand,
+        displacement,
+        km,
+        engine_model,
+        titles,
+        fuel,
+        transmission,
+        traction,
+        city,
+        dealer,
+        concesionary,
+        traction_control,
+        performance,
+        comfort,
+        technology,
+        mechanicalFile: false,
+        sold: false,
+        date_create: dateNow,
+        price: null,
+        id_seller,
+        id_mechanic,
+        id_seller_buyer: null,
+        type_vehicle,
+        vin,
+        plate: vehicle_plate,
+    });
+    yield newVehicle.save();
+    const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
+    emailmechanic = yield Users_schema_1.default.findOne({ _id: mec === null || mec === void 0 ? void 0 : mec.id_user });
+    infoSeller = yield Sellers_schema_1.default.findOne({ _id: id_seller });
+    if (images) {
+        if (images.length > 0) {
+            for (let i = 0; i < images.length; i++) {
+                const imgResize = yield desgloseImg(images[i].image);
+                const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(imgResize);
+                const imgVehi = new ImgVehicle_schema_1.default({
+                    img: filename.secure_url,
+                    id_vehicle: newVehicle._id,
+                    public_id: filename.public_id,
+                });
+                yield imgVehi.save();
+            }
+        }
+    }
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic,
+        subject: "Revisión de vehículo",
+        html: `
+      <div>
+      <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+      </div>
+      <div class="div-table" style="width: 100%;">
+      <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
+          </div>
+      </div>
+      </div>`,
+    };
+    const dataVehicle = {
+        model: model,
+        year: year,
+        plate: vehicle_plate,
+        fullName: infoSeller.fullName,
+        concesionary: infoSeller.concesionary,
+        city: infoSeller.city,
+        title: "Tienes el siguiente vehículo para generar la ficha técnica"
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     reponseJson.code = 200;
-    reponseJson.message = "";
+    reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
-    reponseJson.data = data;
+    reponseJson.data = "";
     res.json(reponseJson);
 });
 vehicleController.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-    const data = req.body;
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller"]);
+    const { data } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -47,11 +154,23 @@ vehicleController.update = (req, res) => __awaiter(void 0, void 0, void 0, funct
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-    reponseJson.data = data;
+    const vehicleUpdated = yield Vehicles_schema_2.default.findByIdAndUpdate(data._id, data);
+    if (vehicleUpdated) {
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Vehículo actualizado correctamente";
+        reponseJson.data = vehicleUpdated;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se pudo actualizar el vehículo";
+    }
     res.json(reponseJson);
+});
+vehicleController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+vehicleController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 vehicleController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -346,6 +465,31 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     reponseJson.data = data;
     res.json(reponseJson);
 });
+const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
+    let posr = image.split(";base64").pop();
+    let imgBuff = Buffer.from(posr, "base64");
+    const resize = yield (0, sharp_1.default)(imgBuff).resize(300, 250).toBuffer().then((data) => {
+        return data;
+    })
+        .catch((err) => {
+        console.log("error", err);
+        return "";
+    });
+    return "data:image/jpeg;base64," + resize.toString("base64");
+});
+const sendNotificationMechanic = (id_mechanic, data, title) => __awaiter(void 0, void 0, void 0, function* () {
+    const userInfo = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
+    if (userInfo) {
+        const notify = new notifications_schema_1.default({
+            id_user: userInfo.id_user,
+            title: title,
+            data: data,
+            date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
+            status: false,
+        });
+        yield notify.save();
+    }
+});
 function groupAndSumByMonth(data) {
     const result = {};
     data.forEach((item) => {
@@ -414,7 +558,6 @@ const agruparPorSemana = (datos) => {
     }
     return result;
 };
-// Función para obtener el número de semana de una fecha
 const getWeekNumber = (date) => {
     const onejan = new Date(date.getFullYear(), 0, 1);
     const week = Math.ceil(((date - onejan) / 86400000 + onejan.getDay()) / 7);

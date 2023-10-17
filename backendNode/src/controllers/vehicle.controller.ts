@@ -11,6 +11,17 @@ import moment from "moment";
 import { sendEmail } from "../../nodemailer";
 import Sellers from "../schemas/Sellers.schema";
 import Vehicles from "../schemas/Vehicles.schema";
+import notifications from "../schemas/notifications.schema";
+
+import sharp from "sharp";
+
+import vehicles from '../schemas/Vehicles.schema';
+import users from '../schemas/Users.schema';
+import mechanicalsFiles from '../schemas/mechanicalsFiles.schema';
+import ImgVehicle from '../schemas/ImgVehicle.schema';
+import brands from '../schemas/brands.schema';
+import modelVehicle from '../schemas/modelVehicle.schema';
+import { deleteImageVehicle, uploadImageVehicle } from '../../cloudinaryMetods';
 
 const vehicleController: any = {};
 
@@ -18,20 +29,156 @@ vehicleController.insert = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-  const data = req.body;
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+
+  const {
+      model,
+      brand,
+      year,
+      displacement,
+      km,
+      engine_model,
+      titles,
+      fuel,
+      transmission,
+      traction,
+      city,
+      dealer,
+      concesionary,
+      traction_control,
+      performance,
+      comfort,
+      technology,
+      id_seller,
+      id_mechanic,
+      type_vehicle,
+      images,
+      vin,
+      vehicle_plate,
+  } = req.body;
 
   if (decode == false) {
-    reponseJson.code = jwt.code;
-    reponseJson.message = jwt.message;
-    reponseJson.status = false;
-    reponseJson.data = null;
-    return res.json(reponseJson);
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
   }
 
+  
+  const newVehicle = new Vehicles({
+      model,
+      year,
+      brand,
+      displacement,
+      km,
+      engine_model,
+      titles,
+      fuel,
+      transmission,
+      traction,
+      city,
+      dealer,
+      concesionary,
+      traction_control,
+      performance,
+      comfort,
+      technology,
+      mechanicalFile: false,
+      sold: false,
+      date_create: dateNow,
+      price: null,
+      id_seller,
+      id_mechanic,
+      id_seller_buyer: null,
+      type_vehicle,
+      vin,
+      plate: vehicle_plate,
+  });
+
+  await newVehicle.save();
+
+  const mec = await mechanics.findOne({ _id: id_mechanic })
+  emailmechanic = await Users.findOne({_id: mec?.id_user})
+  
+  
+  infoSeller = await sellers.findOne({ _id: id_seller });
+
+  if (images) {
+      if (images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+          const imgResize = await desgloseImg(images[i].image);
+
+          const filename = await uploadImageVehicle(imgResize);
+
+          const imgVehi = new ImgVehicle({
+          img: filename.secure_url,
+          id_vehicle: newVehicle._id,
+          public_id: filename.public_id,
+          });
+          await imgVehi.save();
+      }
+      }
+  }
+
+  const mailOptions = {
+      from: "Toyousado",
+      to: emailmechanic,
+      subject: "Revisión de vehículo",
+      html:`
+      <div>
+      <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+      </div>
+      <div class="div-table" style="width: 100%;">
+      <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.fullName}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.concesionary}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.city}</div>
+          </div>
+      </div>
+      </div>`,
+  };
+
+  const dataVehicle = {
+      model: model,
+      year: year,
+      plate: vehicle_plate,
+      fullName: infoSeller!.fullName,
+      concesionary: infoSeller!.concesionary,
+      city: infoSeller!.city,
+      title: "Tienes el siguiente vehículo para generar la ficha técnica"
+  }
+
+  await sendEmail(mailOptions);
+
+  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
+
   reponseJson.code = 200;
-  reponseJson.message = "";
+  reponseJson.message = "Vehículo agregado exitosamente";
   reponseJson.status = true;
-  reponseJson.data = data;
+  reponseJson.data = "";
 
   res.json(reponseJson);
 };
@@ -39,8 +186,8 @@ vehicleController.insert = async (req: Request, res: Response) => {
 vehicleController.update = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-  const data = req.body;
+  let decode = await jwt.getAuthorization(token, ["seller"]);
+  const { data } = req.body;
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -50,13 +197,29 @@ vehicleController.update = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  reponseJson.code = 200;
-  reponseJson.message = "";
-  reponseJson.status = true;
-  reponseJson.data = data;
+  const vehicleUpdated = await vehicles.findByIdAndUpdate(data._id, data);
+
+  if (vehicleUpdated) {
+    reponseJson.code = 200;
+    reponseJson.status = true;
+    reponseJson.message = "Vehículo actualizado correctamente";
+    reponseJson.data = vehicleUpdated;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.status = false;
+    reponseJson.message = "No se pudo actualizar el vehículo";
+  }
 
   res.json(reponseJson);
 };
+
+vehicleController.delete = async (req: Request, res: Response) => {
+};
+
+vehicleController.get = async (req: Request, res: Response) => {
+};
+
+
 
 vehicleController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -427,6 +590,43 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
+
+const desgloseImg = async (image: any) => {
+  let posr = image.split(";base64").pop();
+  let imgBuff = Buffer.from(posr, "base64");
+
+  const resize = await sharp(imgBuff).resize(300, 250).toBuffer().then((data) => {
+      return data;
+  })
+  .catch((err: any) => {
+      console.log("error", err);
+      return "";
+  });
+
+  return "data:image/jpeg;base64," + resize.toString("base64");
+};
+
+const sendNotificationMechanic = async (
+  id_mechanic: string,
+  data: any,
+  title: string
+) => {
+
+  const userInfo = await mechanics.findOne({ _id: id_mechanic });
+
+  if (userInfo) {
+  const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      data: data,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+  });
+
+  await notify.save();
+  }
+};
+
 function groupAndSumByMonth(data: any) {
   const result: any = {};
 
@@ -507,7 +707,8 @@ const agruparPorSemana = (datos: any) => {
   return result;
 };
 
-// Función para obtener el número de semana de una fecha
+
+
 const getWeekNumber = (date: any) => {
   const onejan: any = new Date(date.getFullYear(), 0, 1);
   const week = Math.ceil(((date - onejan) / 86400000 + onejan.getDay()) / 7);
