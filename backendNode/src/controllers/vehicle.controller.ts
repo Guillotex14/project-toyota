@@ -217,6 +217,213 @@ vehicleController.update = async (req: Request, res: Response) => {
 vehicleController.delete = async (req: Request, res: Response) => {
 };
 
+vehicleController.all = async (req: Request, res: Response) => {
+  //aqui declaramos las respuestas
+  const reponseJson: ResponseModel = new ResponseModel();
+  let query: any = {};
+  //aqui declaramos las variables que vamos a recibir
+  const {
+  minYear,
+  maxYear,
+  minKm,
+  maxKm,
+  minPrice,
+  maxPrice,
+  brand,
+  model,
+  ubication,
+  type_vehicle,
+  } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+  //aqui creamos las condiciones para el filtro de los vehículos y las querys
+
+  if (minYear === 0 && maxYear === 0) {
+  query.year = { $gte: 0 };
+  } else if (minYear !== 0 && maxYear === 0) {
+  query.year = { $gte: minYear };
+  } else if (minYear === 0 && maxYear !== 0) {
+  query.year = { $lte: maxYear };
+  } else {
+  query.year = { $gte: minYear, $lte: maxYear };
+  }
+
+  if (minKm === 0 && maxKm === 0) {
+  query.km = { $gte: 0 };
+  } else if (minKm !== 0 && maxKm === 0) {
+  query.km = { $gte: minKm };
+  } else if (minKm === 0 && maxKm !== 0) {
+  query.km = { $lte: maxKm };
+  } else {
+  query.km = { $gte: minKm, $lte: maxKm };
+  }
+
+  if (minPrice === 0 && maxPrice === 0) {
+  query.price = { $gte: 0, $ne: null };
+  } else if (minPrice !== 0 && maxPrice === 0) {
+  query.price = { $gte: minPrice, $ne: null };
+  } else if (minPrice === 0 && maxPrice !== 0) {
+  query.price = { $lte: maxPrice, $ne: null };
+  } else {
+  query.price = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  query.city = { $regex: ubication, $options: "i" };
+  query.brand = { $regex: brand, $options: "i" };
+  query.model = { $regex: model, $options: "i" };
+  query.type_vehicle = { $regex: type_vehicle, $options: "i" };
+  query.mechanicalFile = true;
+  query.sold = false;
+  // query.id_seller_buyer = null;
+
+  const vehiclesFiltered = await vehicles
+  .find(query)
+  .sort({ date_create: -1 });
+  if (vehiclesFiltered) {
+  let arrayVehicles: any[] = [];
+
+  for (let i = 0; i < vehiclesFiltered.length; i++) {
+      let data = {
+      name_new_owner: vehiclesFiltered[i].name_new_owner,
+      dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+      phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+      email_new_owner: vehiclesFiltered[i].email_new_owner,
+      price_ofert: vehiclesFiltered[i].price_ofert,
+      final_price_sold: vehiclesFiltered[i].final_price_sold,
+      _id: vehiclesFiltered[i]._id,
+      model: vehiclesFiltered[i].model,
+      brand: vehiclesFiltered[i].brand,
+      year: vehiclesFiltered[i].year,
+      displacement: vehiclesFiltered[i].displacement,
+      km: vehiclesFiltered[i].km,
+      engine_model: vehiclesFiltered[i].engine_model,
+      titles: vehiclesFiltered[i].titles,
+      fuel: vehiclesFiltered[i].fuel,
+      transmission: vehiclesFiltered[i].transmission,
+      city: vehiclesFiltered[i].city,
+      dealer: vehiclesFiltered[i].dealer,
+      concesionary: vehiclesFiltered[i].concesionary,
+      traction_control: vehiclesFiltered[i].traction_control,
+      performance: vehiclesFiltered[i].performance,
+      comfort: vehiclesFiltered[i].comfort,
+      technology: vehiclesFiltered[i].technology,
+      id_seller: vehiclesFiltered[i].id_seller,
+      id_mechanic: vehiclesFiltered[i].id_mechanic,
+      __v: vehiclesFiltered[i].__v,
+      price: vehiclesFiltered[i].price,
+      mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+      id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+      sold: vehiclesFiltered[i].sold,
+      type_vehicle: vehiclesFiltered[i].type_vehicle,
+      traction: vehiclesFiltered[i].traction,
+      date_sell: vehiclesFiltered[i].date_sell,
+      date_create: vehiclesFiltered[i].date_create,
+      plate: vehiclesFiltered[i].plate,
+      vin: vehiclesFiltered[i].vin,
+      image: await ImgVehicle.findOne({
+          id_vehicle: vehiclesFiltered[i]._id,
+      })
+          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+          : "",
+      };
+      arrayVehicles.push(data);
+  }
+
+  reponseJson.code = 200;
+  reponseJson.message = "vehículos encontrados exitosamente";
+  reponseJson.status = true;
+  reponseJson.data = arrayVehicles;
+  } else {
+  reponseJson.code = 400;
+  reponseJson.message =
+      "no se encontraron vehículos con los filtros seleccionados";
+  reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.get = async (req: Request, res: Response) => {
+  const jsonRes: ResponseModel = new ResponseModel();
+
+  const { id } = req.body;
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  if (decode == false) {
+      jsonRes.code = jwt.code;
+      jsonRes.message = jwt.message;
+      jsonRes.status = false;
+      jsonRes.data = null;
+      return res.json(jsonRes);
+  }
+
+  const infoVehicle = await vehicles.findOne({ _id: id });
+
+  const imgsVehichle = await ImgVehicle.find({ id_vehicle: id });
+
+  const mechanicalFile = await mechanicalsFiles.findOne({ id_vehicle: id });
+
+  if (infoVehicle) {
+  let data = {
+      _id: infoVehicle._id,
+      model: infoVehicle.model,
+      brand: infoVehicle.brand,
+      year: infoVehicle.year,
+      displacement: infoVehicle.displacement,
+      km: infoVehicle.km,
+      engine_model: infoVehicle.engine_model,
+      titles: infoVehicle.titles,
+      fuel: infoVehicle.fuel,
+      transmission: infoVehicle.transmission,
+      city: infoVehicle.city,
+      dealer: infoVehicle.dealer,
+      concesionary: infoVehicle.concesionary,
+      traction_control: infoVehicle.traction_control,
+      performance: infoVehicle.performance,
+      price: infoVehicle.price,
+      comfort: infoVehicle.comfort,
+      technology: infoVehicle.technology,
+      mechanicalFile: infoVehicle.mechanicalFile,
+      sold: infoVehicle.sold,
+      type_vehicle: infoVehicle.type_vehicle,
+      id_seller: infoVehicle.id_seller,
+      id_mechanic: infoVehicle.id_mechanic,
+      id_seller_buyer: infoVehicle.id_seller_buyer,
+      traction: infoVehicle.traction,
+      date_create: infoVehicle.date_create,
+      plate: infoVehicle.plate,
+      vin: infoVehicle.vin,
+      price_ofert: infoVehicle.price_ofert,
+      final_price_sold: infoVehicle.final_price_sold,
+      general_condition: mechanicalFile!
+      ? mechanicalFile.general_condition
+      : "",
+      images: imgsVehichle ? imgsVehichle : [],
+  };
+
+      jsonRes.code = 200;
+      jsonRes.message = "success";
+      jsonRes.status = true;
+      jsonRes.data = data;
+  } else {
+      jsonRes.code = 400;
+      jsonRes.message = "No se pudo obtener la información del vehículo";
+      jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
+};
+
 vehicleController.addImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
 
@@ -1425,213 +1632,6 @@ console.log(datos)
   res.json(reponseJson);
 };
 
-vehicleController.all = async (req: Request, res: Response) => {
-  //aqui declaramos las respuestas
-  const reponseJson: ResponseModel = new ResponseModel();
-  let query: any = {};
-  //aqui declaramos las variables que vamos a recibir
-  const {
-  minYear,
-  maxYear,
-  minKm,
-  maxKm,
-  minPrice,
-  maxPrice,
-  brand,
-  model,
-  ubication,
-  type_vehicle,
-  } = req.body;
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-      reponseJson.code = jwt.code;
-      reponseJson.message = jwt.message;
-      reponseJson.status = false;
-      reponseJson.data = null;
-      return res.json(reponseJson);
-  }
-  //aqui creamos las condiciones para el filtro de los vehículos y las querys
-
-  if (minYear === 0 && maxYear === 0) {
-  query.year = { $gte: 0 };
-  } else if (minYear !== 0 && maxYear === 0) {
-  query.year = { $gte: minYear };
-  } else if (minYear === 0 && maxYear !== 0) {
-  query.year = { $lte: maxYear };
-  } else {
-  query.year = { $gte: minYear, $lte: maxYear };
-  }
-
-  if (minKm === 0 && maxKm === 0) {
-  query.km = { $gte: 0 };
-  } else if (minKm !== 0 && maxKm === 0) {
-  query.km = { $gte: minKm };
-  } else if (minKm === 0 && maxKm !== 0) {
-  query.km = { $lte: maxKm };
-  } else {
-  query.km = { $gte: minKm, $lte: maxKm };
-  }
-
-  if (minPrice === 0 && maxPrice === 0) {
-  query.price = { $gte: 0, $ne: null };
-  } else if (minPrice !== 0 && maxPrice === 0) {
-  query.price = { $gte: minPrice, $ne: null };
-  } else if (minPrice === 0 && maxPrice !== 0) {
-  query.price = { $lte: maxPrice, $ne: null };
-  } else {
-  query.price = { $gte: minPrice, $lte: maxPrice };
-  }
-
-  query.city = { $regex: ubication, $options: "i" };
-  query.brand = { $regex: brand, $options: "i" };
-  query.model = { $regex: model, $options: "i" };
-  query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-  query.mechanicalFile = true;
-  query.sold = false;
-  // query.id_seller_buyer = null;
-
-  const vehiclesFiltered = await vehicles
-  .find(query)
-  .sort({ date_create: -1 });
-  if (vehiclesFiltered) {
-  let arrayVehicles: any[] = [];
-
-  for (let i = 0; i < vehiclesFiltered.length; i++) {
-      let data = {
-      name_new_owner: vehiclesFiltered[i].name_new_owner,
-      dni_new_owner: vehiclesFiltered[i].dni_new_owner,
-      phone_new_owner: vehiclesFiltered[i].phone_new_owner,
-      email_new_owner: vehiclesFiltered[i].email_new_owner,
-      price_ofert: vehiclesFiltered[i].price_ofert,
-      final_price_sold: vehiclesFiltered[i].final_price_sold,
-      _id: vehiclesFiltered[i]._id,
-      model: vehiclesFiltered[i].model,
-      brand: vehiclesFiltered[i].brand,
-      year: vehiclesFiltered[i].year,
-      displacement: vehiclesFiltered[i].displacement,
-      km: vehiclesFiltered[i].km,
-      engine_model: vehiclesFiltered[i].engine_model,
-      titles: vehiclesFiltered[i].titles,
-      fuel: vehiclesFiltered[i].fuel,
-      transmission: vehiclesFiltered[i].transmission,
-      city: vehiclesFiltered[i].city,
-      dealer: vehiclesFiltered[i].dealer,
-      concesionary: vehiclesFiltered[i].concesionary,
-      traction_control: vehiclesFiltered[i].traction_control,
-      performance: vehiclesFiltered[i].performance,
-      comfort: vehiclesFiltered[i].comfort,
-      technology: vehiclesFiltered[i].technology,
-      id_seller: vehiclesFiltered[i].id_seller,
-      id_mechanic: vehiclesFiltered[i].id_mechanic,
-      __v: vehiclesFiltered[i].__v,
-      price: vehiclesFiltered[i].price,
-      mechanicalFile: vehiclesFiltered[i].mechanicalFile,
-      id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
-      sold: vehiclesFiltered[i].sold,
-      type_vehicle: vehiclesFiltered[i].type_vehicle,
-      traction: vehiclesFiltered[i].traction,
-      date_sell: vehiclesFiltered[i].date_sell,
-      date_create: vehiclesFiltered[i].date_create,
-      plate: vehiclesFiltered[i].plate,
-      vin: vehiclesFiltered[i].vin,
-      image: await ImgVehicle.findOne({
-          id_vehicle: vehiclesFiltered[i]._id,
-      })
-          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
-          : "",
-      };
-      arrayVehicles.push(data);
-  }
-
-  reponseJson.code = 200;
-  reponseJson.message = "vehículos encontrados exitosamente";
-  reponseJson.status = true;
-  reponseJson.data = arrayVehicles;
-  } else {
-  reponseJson.code = 400;
-  reponseJson.message =
-      "no se encontraron vehículos con los filtros seleccionados";
-  reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-};
-
-vehicleController.get = async (req: Request, res: Response) => {
-  const jsonRes: ResponseModel = new ResponseModel();
-
-  const { id } = req.body;
-
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-      jsonRes.code = jwt.code;
-      jsonRes.message = jwt.message;
-      jsonRes.status = false;
-      jsonRes.data = null;
-      return res.json(jsonRes);
-  }
-
-  const infoVehicle = await vehicles.findOne({ _id: id });
-
-  const imgsVehichle = await ImgVehicle.find({ id_vehicle: id });
-
-  const mechanicalFile = await mechanicalsFiles.findOne({ id_vehicle: id });
-
-  if (infoVehicle) {
-  let data = {
-      _id: infoVehicle._id,
-      model: infoVehicle.model,
-      brand: infoVehicle.brand,
-      year: infoVehicle.year,
-      displacement: infoVehicle.displacement,
-      km: infoVehicle.km,
-      engine_model: infoVehicle.engine_model,
-      titles: infoVehicle.titles,
-      fuel: infoVehicle.fuel,
-      transmission: infoVehicle.transmission,
-      city: infoVehicle.city,
-      dealer: infoVehicle.dealer,
-      concesionary: infoVehicle.concesionary,
-      traction_control: infoVehicle.traction_control,
-      performance: infoVehicle.performance,
-      price: infoVehicle.price,
-      comfort: infoVehicle.comfort,
-      technology: infoVehicle.technology,
-      mechanicalFile: infoVehicle.mechanicalFile,
-      sold: infoVehicle.sold,
-      type_vehicle: infoVehicle.type_vehicle,
-      id_seller: infoVehicle.id_seller,
-      id_mechanic: infoVehicle.id_mechanic,
-      id_seller_buyer: infoVehicle.id_seller_buyer,
-      traction: infoVehicle.traction,
-      date_create: infoVehicle.date_create,
-      plate: infoVehicle.plate,
-      vin: infoVehicle.vin,
-      price_ofert: infoVehicle.price_ofert,
-      final_price_sold: infoVehicle.final_price_sold,
-      general_condition: mechanicalFile!
-      ? mechanicalFile.general_condition
-      : "",
-      images: imgsVehichle ? imgsVehichle : [],
-  };
-
-      jsonRes.code = 200;
-      jsonRes.message = "success";
-      jsonRes.status = true;
-      jsonRes.data = data;
-  } else {
-      jsonRes.code = 400;
-      jsonRes.message = "No se pudo obtener la información del vehículo";
-      jsonRes.status = false;
-  }
-
-  res.json(jsonRes);
-};
-
 vehicleController.myVehicles = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   let arrayVehicles: any[] = [];
@@ -1912,8 +1912,6 @@ const agruparPorSemana = (datos: any) => {
 
   return result;
 };
-
-
 
 const getWeekNumber = (date: any) => {
   const onejan: any = new Date(date.getFullYear(), 0, 1);
