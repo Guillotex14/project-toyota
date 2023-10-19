@@ -14,6 +14,7 @@ vehicleRouter.post("/insert", vehicle_controller_1.default.insert);
 vehicleRouter.post("/update", vehicle_controller_1.default.update);
 vehicleRouter.post("/delete", vehicle_controller_1.default.delete);
 vehicleRouter.get("/allVehicles", vehicle_controller_1.default.all);
+vehicleRouter.get("/filterVehiclesWithMongo", vehicle_controller_1.default.filterVehiclesWithMongo);
 vehicleRouter.get("/vehicleById", vehicle_controller_1.default.get);
 vehicleRouter.post("/addImgVehicle", vehicle_controller_1.default.addImgVehicle);
 vehicleRouter.post("/deleteImgVehicle", vehicle_controller_1.default.deleteImgVehicle);

@@ -12,6 +12,7 @@ vehicleRouter.post("/insert", vehicleController.insert);
 vehicleRouter.post("/update", vehicleController.update);
 vehicleRouter.post("/delete", vehicleController.delete);
 vehicleRouter.get("/allVehicles", vehicleController.all);
+vehicleRouter.get("/filterVehiclesWithMongo", vehicleController.filterVehiclesWithMongo);
 vehicleRouter.get("/vehicleById", vehicleController.get);
 vehicleRouter.post("/addImgVehicle", vehicleController.addImgVehicle);
 vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);

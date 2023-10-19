@@ -158,7 +158,7 @@ vehicleController.insert = (req, res) => __awaiter(void 0, void 0, void 0, funct
         fullName: infoSeller.fullName,
         concesionary: infoSeller.concesionary,
         city: infoSeller.city,
-        title: "Tienes el siguiente vehículo para generar la ficha técnica"
+        title: "Tienes el siguiente vehículo para generar la ficha técnica",
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
@@ -194,8 +194,7 @@ vehicleController.update = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     res.json(reponseJson);
 });
-vehicleController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
+vehicleController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
 vehicleController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
@@ -253,9 +252,7 @@ vehicleController.all = (req, res) => __awaiter(void 0, void 0, void 0, function
     query.mechanicalFile = true;
     query.sold = false;
     // query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_schema_2.default
-        .find(query)
-        .sort({ date_create: -1 });
+    const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -308,6 +305,31 @@ vehicleController.all = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.message = "vehículos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message =
+            "no se encontraron vehículos con los filtros seleccionados";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    if (true) {
+        reponseJson.code = 200;
+        reponseJson.message = "vehículos encontrados exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = null;
     }
     else {
         reponseJson.code = 400;
@@ -852,7 +874,9 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     for (let i = 0; i < cardsgroupmodel.length; i++) {
         for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
             cardsgroupmodel[i].vehicles[j].imgVehicle = null;
-            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
+            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({
+                id_vehicle: cardsgroupmodel[i].vehicles[j]._id,
+            });
             cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         }
         cardsgroupNacional.forEach((model) => {
@@ -1337,7 +1361,7 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     let arrayVehicles = [];
     let query = {};
     //aqui declaramos las variables que vamos a recibir
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_seller } = req.body;
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_seller, } = req.body;
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
     if (decode == false) {
@@ -1389,9 +1413,7 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     query.model = { $regex: model, $options: "i" };
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.id_seller = id_seller;
-    const vehiclesFiltered = yield Vehicles_schema_2.default
-        .find(query)
-        .sort({ date_create: -1 });
+    const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
@@ -1431,7 +1453,9 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
                 dispatched: vehiclesFiltered[i].dispatched,
-                images: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id }))
+                images: (yield ImgVehicle_schema_1.default.findOne({
+                    id_vehicle: vehiclesFiltered[i]._id,
+                }))
                     ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesFiltered[i]._id })
                     : "",
             };
@@ -1478,7 +1502,10 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
     let imgBuff = Buffer.from(posr, "base64");
-    const resize = yield (0, sharp_1.default)(imgBuff).resize(300, 250).toBuffer().then((data) => {
+    const resize = yield (0, sharp_1.default)(imgBuff)
+        .resize(300, 250)
+        .toBuffer()
+        .then((data) => {
         return data;
     })
         .catch((err) => {
