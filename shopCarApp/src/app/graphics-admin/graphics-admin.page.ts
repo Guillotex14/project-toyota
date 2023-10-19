@@ -14,6 +14,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { concesionaries } from 'src/assets/json/concesionaries';
 import { Browser } from '@capacitor/browser';
+import { AdminService } from '../services/admin/admin.service';
 moment
 @Component({
   selector: 'app-graphics-admin',
@@ -61,7 +62,8 @@ export class GraphicsAdminPage implements AfterViewInit {
     private menu: MenuController,
     private utils: UtilsService,
     private sellerSrv: SellerService,
-    private platform: Platform
+    private platform: Platform,
+    private adminSrv: AdminService
   ) {
     Chart.register(...registerables);
     this.genCondCar = [];
@@ -90,7 +92,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   }
 
   public getBrands(){
-    this.sellerSrv.allBrands().subscribe((res:any)=>{
+    this.adminSrv.allBrands().subscribe((res:any)=>{
       if (res.status) {
         this.arrayBrands = res.data;
       }else{
@@ -102,7 +104,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   }
 
   public getModels() {
-    this.sellerSrv.allModels().subscribe(
+    this.adminSrv.allModels().subscribe(
       (res: any) => {
         if (res.status) {
           this.arrayModels = res.data;
@@ -149,7 +151,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
       concesionary: this.concesionary2,
-      triple_m: '',
+      triple_m: this.triple_m,
     }
     this.utils.presentLoading("Cargando datos...");
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UtilsService } from '../services/utils/utils.service';
-import { IonModal, MenuController, ModalController, PopoverController } from '@ionic/angular';
+import { IonModal, MenuController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SellerService } from '../services/seller/seller.service';
 import { NotificationById, VehicleList } from 'src/models/sellet';
-import { models } from '../../assets/json/models';
 import {states} from '../../assets/json/states';
 @Component({
   selector: 'app-home-seller',

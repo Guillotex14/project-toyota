@@ -22,7 +22,7 @@ const sellerController: any = {};
 sellerController.addVehicle = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     let emailmechanic: any = "";
     let infoSeller: any = {};
     let dateNow = moment().format("YYYY-MM-DD");
@@ -179,8 +179,17 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
 
 sellerController.addImgVehicle = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
-
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
+    
     const { id_vehicle, image } = req.body;
+    if (decode == false) {
+        reponseJson.code = jwt.code;
+        reponseJson.message = jwt.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
 
     const filename = await uploadImageVehicle(image);
 
@@ -210,7 +219,7 @@ sellerController.deleteImgVehicle = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { public_id } = req.body; 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -242,7 +251,7 @@ sellerController.updateImgVehicle = async (req: Request, res: Response) => {
 
     const { id_vehicle, image, public_id } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -334,7 +343,7 @@ sellerController.allVehicles = async (req: Request, res: Response) => {
     type_vehicle,
     } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -470,7 +479,7 @@ sellerController.myVehicles = async (req: Request, res: Response) => {
     } = req.body;
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {  
         jsonRes.code = jwt.code;
@@ -589,7 +598,7 @@ sellerController.vehicleById = async (req: Request, res: Response) => {
     const { id } = req.body;
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         jsonRes.code = jwt.code;
@@ -660,7 +669,7 @@ sellerController.mechanicalFileByIdVehicle = async (req: Request, res: Response)
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -690,7 +699,7 @@ sellerController.allBrands = async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin"]);
 
     if (decode == false) {
         jsonResponse.code = jwt.code;
@@ -720,7 +729,7 @@ sellerController.allModels = async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         jsonResponse.code = jwt.code;
@@ -760,7 +769,7 @@ sellerController.buyVehicle = async (req: Request, res: Response) => {
     } = req.body;
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         responseJson.code = jwt.code;
@@ -901,7 +910,7 @@ sellerController.approveBuyVehicle = async (req: Request, res: Response) => {
     const { id_vehicle } = req.body;
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -966,7 +975,7 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1034,7 +1043,7 @@ sellerController.getNotifications = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_user } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1067,7 +1076,7 @@ sellerController.updateNotification = async (req: Request, res: Response) => {
     const { id } = req.body;
 
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1099,7 +1108,7 @@ sellerController.notificationById = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1129,7 +1138,7 @@ sellerController.countNotifications = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_user } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1162,7 +1171,7 @@ sellerController.dispatchedCar = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id, final_price_sold } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1195,7 +1204,7 @@ sellerController.repost = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
 
     if (decode == false) {
         reponseJson.code = jwt.code;
@@ -1238,7 +1247,7 @@ sellerController.autocompleteModels = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { search } = req.body;
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+    let decode = await jwt.getAuthorization(token, ["seller","admin" ]);
     
     if (decode == false) {
         reponseJson.code = jwt.code;

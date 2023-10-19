@@ -31,7 +31,7 @@ const sellerController = {};
 sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -171,7 +171,7 @@ sellerController.deleteImgVehicle = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { public_id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -197,7 +197,7 @@ sellerController.updateImgVehicle = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, image, public_id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -265,7 +265,7 @@ sellerController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -388,7 +388,7 @@ sellerController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, fu
     //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, id_seller } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -502,7 +502,7 @@ sellerController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, f
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -566,7 +566,7 @@ sellerController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, voi
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -591,7 +591,7 @@ sellerController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, voi
 sellerController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         jsonResponse.code = generar_jwt_1.default.code;
         jsonResponse.message = generar_jwt_1.default.message;
@@ -616,7 +616,7 @@ sellerController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, fun
 sellerController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         jsonResponse.code = generar_jwt_1.default.code;
         jsonResponse.message = generar_jwt_1.default.message;
@@ -643,7 +643,7 @@ sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         responseJson.code = generar_jwt_1.default.code;
         responseJson.message = generar_jwt_1.default.message;
@@ -760,7 +760,7 @@ sellerController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, voi
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
     const { id_vehicle } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -804,7 +804,7 @@ sellerController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -851,7 +851,7 @@ sellerController.getNotifications = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -879,7 +879,7 @@ sellerController.updateNotification = (req, res) => __awaiter(void 0, void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -907,7 +907,7 @@ sellerController.notificationById = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -933,7 +933,7 @@ sellerController.countNotifications = (req, res) => __awaiter(void 0, void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -962,7 +962,7 @@ sellerController.dispatchedCar = (req, res) => __awaiter(void 0, void 0, void 0,
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -988,7 +988,7 @@ sellerController.repost = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -1024,7 +1024,7 @@ sellerController.autocompleteModels = (req, res) => __awaiter(void 0, void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const { search } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
