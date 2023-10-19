@@ -197,10 +197,8 @@ vehicleController.update = (req, res) => __awaiter(void 0, void 0, void 0, funct
 vehicleController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 vehicleController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
-    //aqui declaramos las variables que vamos a recibir
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);

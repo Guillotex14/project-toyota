@@ -218,10 +218,8 @@ vehicleController.delete = async (req: Request, res: Response) => {
 };
 
 vehicleController.all = async (req: Request, res: Response) => {
-  //aqui declaramos las respuestas
   const reponseJson: ResponseModel = new ResponseModel();
   let query: any = {};
-  //aqui declaramos las variables que vamos a recibir
   const {
   minYear,
   maxYear,
