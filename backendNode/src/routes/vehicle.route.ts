@@ -8,20 +8,44 @@ import modelVehiclesController from "../controllers/modelsVehicles.controller";
 const vehicleRouter = Router();
 
 // --------------vehiculos-------------------
-vehicleRouter.post("/insert", vehicleController.insert);
-vehicleRouter.post("/update", vehicleController.update);
-vehicleRouter.post("/delete", vehicleController.delete);
-vehicleRouter.get("/allVehicles", vehicleController.all);
-vehicleRouter.get("/filterVehiclesWithMongo", vehicleController.filterVehiclesWithMongo);
-vehicleRouter.get("/vehicleById", vehicleController.get);
+vehicleRouter.post("/addVehicle", vehicleController.addVehicle);
+
+vehicleRouter.post("/updateVehicle", vehicleController.updateVehicle);
+
 vehicleRouter.post("/addImgVehicle", vehicleController.addImgVehicle);
+
 vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);
+
 vehicleRouter.post("/updateImgVehicle", vehicleController.updateImgVehicle);
-vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
-vehicleRouter.get("/listVehiclesSale", vehicleController.listVehiclesSale);
-vehicleRouter.get("/exportExcell", vehicleController.exportExcell);
+
+vehicleRouter.get("/allVehicles", vehicleController.allVehicles);
+
 vehicleRouter.post("/myVehicles", vehicleController.myVehicles);
+
+vehicleRouter.post("/vehicleById", vehicleController.vehicleById);
+
 vehicleRouter.post("/mechanicalFileByIdVehicle", vehicleController.mechanicalFileByIdVehicle);
+
+vehicleRouter.post("/getVehicleByType", vehicleController.getVehicleByType);
+
+vehicleRouter.post("/filterVehiclesWithMongo", vehicleController.filterVehiclesWithMongo);
+
+vehicleRouter.get("/listVehiclesSale", vehicleController.listVehiclesSale);
+
+vehicleRouter.get("/exportExcell", vehicleController.exportExcell);
+
+vehicleRouter.post("/buyVehicle", vehicleController.buyVehicle);
+
+vehicleRouter.post("/approveBuyVehicle", vehicleController.approveBuyVehicle);
+
+vehicleRouter.post("/rejectBuyVehicle", vehicleController.rejectBuyVehicle);
+
+vehicleRouter.post("/dispatchedCar", vehicleController.dispatchedCar);
+
+vehicleRouter.post("/repost", vehicleController.repost);
+
+vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
+
 
 
 // ---------------------brand--------------------

@@ -599,173 +599,6 @@ sellerController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, voi
     }
     res.json(reponseJson);
 });
-sellerController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonResponse = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        jsonResponse.code = generar_jwt_1.default.code;
-        jsonResponse.message = generar_jwt_1.default.message;
-        jsonResponse.status = false;
-        jsonResponse.data = null;
-        return res.json(jsonResponse);
-    }
-    const brand = yield brands_schema_1.default.find();
-    if (brand) {
-        jsonResponse.code = 200;
-        jsonResponse.message = "marcas encontradas";
-        jsonResponse.status = true;
-        jsonResponse.data = brand;
-    }
-    else {
-        jsonResponse.code = 400;
-        jsonResponse.message = "no se encontraron marcas";
-        jsonResponse.status = false;
-    }
-    res.json(jsonResponse);
-});
-sellerController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const jsonResponse = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        jsonResponse.code = generar_jwt_1.default.code;
-        jsonResponse.message = generar_jwt_1.default.message;
-        jsonResponse.status = false;
-        jsonResponse.data = null;
-        return res.json(jsonResponse);
-    }
-    const model = yield modelVehicle_schema_1.default.find();
-    if (model) {
-        jsonResponse.code = 200;
-        jsonResponse.message = "todos los modelos";
-        jsonResponse.status = true;
-        jsonResponse.data = model;
-    }
-    else {
-        jsonResponse.code = 400;
-        jsonResponse.message = "no hay modelos";
-        jsonResponse.status = false;
-    }
-    res.json(jsonResponse);
-});
-sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const responseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        responseJson.code = generar_jwt_1.default.code;
-        responseJson.message = generar_jwt_1.default.message;
-        responseJson.status = false;
-        responseJson.data = null;
-        return res.json(responseJson);
-    }
-    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //   id_seller_buyer: id_seller,
-    //   name_new_owner: name_new_owner,
-    //   dni_new_owner: dni_new_owner,
-    //   phone_new_owner: phone_new_owner,
-    //   email_new_owner: email_new_owner,
-    //   price_ofert: price_ofert,
-    // });
-    // const sameIdSeller = await vehicles.findById(id_vehicle);
-    // if (sameIdSeller!.id_seller?.toString() === id_seller) {
-    //   console.log('soy el comprador')
-    //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //     id_seller_buyer: id_seller,
-    //     name_new_owner: name_new_owner,
-    //     dni_new_owner: dni_new_owner,
-    //     phone_new_owner: phone_new_owner,
-    //     email_new_owner: email_new_owner,
-    //     price_ofert: price_ofert,
-    //     price: price_ofert,
-    //     sold: true,
-    //     date_sell: date_sell,
-    //     final_price_sold: price_ofert,
-    //     dispatched: true,
-    //   });
-    //   if (vehicle) {
-    //     responseJson.code = 200;
-    //     responseJson.message = "vehículo comprado exitosamente";
-    //     responseJson.status = true;
-    //     responseJson.data = vehicle;
-    //   } else {
-    //     responseJson.code = 400;
-    //     responseJson.message = "no se pudo comprar el vehículo";
-    //     responseJson.status = false;
-    //   }
-    // } else {
-    const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
-        id_seller_buyer: id_seller,
-        name_new_owner: name_new_owner,
-        dni_new_owner: dni_new_owner,
-        phone_new_owner: phone_new_owner,
-        email_new_owner: email_new_owner,
-        price_ofert: price_ofert,
-        date_sell: date_sell,
-        sold: false,
-    });
-    const getVehicle = yield Vehicles_schema_1.default.findById(id_vehicle);
-    const infoBuyer = yield Sellers_schema_1.default.findById(id_seller);
-    const infoSeller = yield Sellers_schema_1.default.findById(getVehicle.id_seller);
-    const email = yield Users_schema_1.default.findById(infoSeller.id_user);
-    const emailBuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
-    const mailOptions = {
-        from: "Toyousado Notifications",
-        to: email.email,
-        subject: "Oferta de vehículo",
-        html: `<div>
-        <p>Tienes una oferta de compra para:</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.model}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.year}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.plate}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
-        </div>
-        </div>
-        </div>`,
-    };
-    const dataVehicle = {
-        model: getVehicle.model,
-        year: getVehicle.year,
-        plate: getVehicle.plate,
-        fullName: infoSeller.fullName,
-        concesionary: infoSeller.concesionary,
-        city: infoSeller.city,
-        title: "Tienes una oferta de compra para:",
-    };
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
-    sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
-    responseJson.code = 200;
-    responseJson.message =
-        "Compra realizada, esperar confirmación o rechazo del vendedor";
-    responseJson.status = true;
-    // }
-    res.json(responseJson);
-});
 sellerController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -858,117 +691,6 @@ sellerController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void
     }
     res.json(reponseJson);
 });
-sellerController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_user } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const notificationsUser = yield notifications_schema_1.default
-        .find({ id_user: id_user, status: false })
-        .sort({ date: -1 });
-    if (notificationsUser) {
-        reponseJson.code = 200;
-        reponseJson.message = "notificaciones obtenidas exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = notificationsUser;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no se encontraron notificaciones";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-sellerController.updateNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const notificationsUser = yield notifications_schema_1.default.findByIdAndUpdate(id, {
-        status: true,
-    });
-    if (notificationsUser) {
-        reponseJson.code = 200;
-        reponseJson.message = "notificacion actualizada exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = notificationsUser;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "error al actualizar notificacion";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-sellerController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const notificationsUser = yield notifications_schema_1.default.findById(id);
-    if (notificationsUser) {
-        reponseJson.code = 200;
-        reponseJson.message = "notificacion encontrada exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = notificationsUser;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no se encontro notificacion";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-sellerController.countNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_user } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const countNotifies = yield notifications_schema_1.default.countDocuments({
-        id_user: id_user,
-        status: false,
-    });
-    if (countNotifies) {
-        reponseJson.code = 200;
-        reponseJson.message = "conteo de notificaciones exitoso";
-        reponseJson.status = true;
-        reponseJson.data = countNotifies;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no se encontro notificacion";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
 sellerController.dispatchedCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
@@ -1030,277 +752,6 @@ sellerController.repost = (req, res) => __awaiter(void 0, void 0, void 0, functi
         reponseJson.status = false;
     }
     res.json(reponseJson);
-});
-sellerController.autocompleteModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { search } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const vehiclesFiltered = yield modelVehicle_schema_1.default.find({
-        model: { $regex: search, $options: "i" },
-    });
-    if (vehiclesFiltered) {
-        reponseJson.code = 200;
-        reponseJson.message = "success";
-        reponseJson.status = true;
-        reponseJson.data = vehiclesFiltered;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no existe";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-sellerController.addMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { email, password, username, fullName, city, concesionary } = req.body;
-    const hash = yield bcrypt_1.default.hash(password, 10);
-    const exist = yield Users_schema_1.default.findOne({ email: email });
-    if (exist) {
-        reponseJson.code = 400;
-        reponseJson.message = "El usuario se encuentra registrado";
-        reponseJson.status = false;
-        reponseJson.data = "";
-    }
-    else {
-        const newUser = new Users_schema_1.default({
-            email,
-            password: hash,
-            username,
-            type_user: "mechanic",
-        });
-        const newMechanic = new Mechanics_schema_1.default({
-            fullName,
-            city,
-            concesionary,
-            date_created,
-        });
-        yield newUser.save();
-        if (newUser) {
-            newMechanic.id_user = newUser._id;
-        }
-        yield newMechanic.save();
-        if (newMechanic && newUser) {
-            const mailOptions = {
-                from: "Toyousado",
-                to: email,
-                subject: "Bienvenido",
-                text: "Bienvenido a Toyousado, tu usuario es: " +
-                    email +
-                    " y tu contraseña es: " +
-                    password +
-                    "",
-            };
-            yield (0, nodemailer_1.sendEmail)(mailOptions);
-            reponseJson.code = 200;
-            reponseJson.message = "Técnico agregado exitosamente";
-            reponseJson.status = true;
-            reponseJson.data = "";
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "Error al agregar técnico";
-            reponseJson.status = false;
-            reponseJson.data = "";
-        }
-    }
-    res.json(reponseJson);
-});
-sellerController.allMechanics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    let arrayMechanics = [];
-    let infoMechanic = [];
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const ress = yield Users_schema_1.default.find({ type_user: "mechanic" })
-        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (res) {
-            reponseJson.code = 200;
-            reponseJson.message = "Técnicos encontrados";
-            reponseJson.status = true;
-            for (let i = 0; i < res.length; i++) {
-                yield Mechanics_schema_1.default
-                    .find({ id_user: res[i]._id })
-                    .then((res2) => {
-                    if (res2) {
-                        res2.forEach((element) => {
-                            infoMechanic.push(element);
-                        });
-                    }
-                    else {
-                        infoMechanic = [];
-                        return res2;
-                    }
-                })
-                    .catch((err) => {
-                    console.log(err);
-                });
-            }
-            for (let j = 0; j < res.length; j++) {
-                for (let k = 0; k < infoMechanic.length; k++) {
-                    if (res[j]._id.toString() === infoMechanic[k].id_user.toString()) {
-                        let mechanic = {
-                            id: res[j]._id,
-                            id_mechanic: infoMechanic[k]._id,
-                            fullName: infoMechanic[k].fullName,
-                            city: infoMechanic[k].city,
-                            concesionary: infoMechanic[k].concesionary,
-                            email: res[j].email,
-                            username: res[j].username,
-                            type_user: res[j].type_user,
-                            image: (yield imgUser_schema_1.default.findOne({ id_user: res[j]._id }))
-                                ? yield imgUser_schema_1.default.findOne({ id_user: res[j]._id })
-                                : "",
-                        };
-                        arrayMechanics.push(mechanic);
-                    }
-                }
-            }
-            reponseJson.data = arrayMechanics;
-            return reponseJson;
-        }
-        else {
-            reponseJson.code = 400;
-            reponseJson.message = "no se encontraron técnicos";
-            reponseJson.status = false;
-            return reponseJson;
-        }
-    }))
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
-});
-sellerController.mechanicByConcesionary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    const { concesionary } = req.body;
-    let arrayMechanics = [];
-    const mecByConcesionary = yield Mechanics_schema_1.default.find({
-        concesionary: concesionary,
-    });
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    if (mecByConcesionary) {
-        for (let i = 0; i < mecByConcesionary.length; i++) {
-            let mechanic = {
-                _id: mecByConcesionary[i]._id,
-                fullName: mecByConcesionary[i].fullName,
-                city: mecByConcesionary[i].city,
-                concesionary: mecByConcesionary[i].concesionary,
-                id_user: mecByConcesionary[i].id_user,
-                date_create: mecByConcesionary[i].date_created,
-                image: (yield imgUser_schema_1.default.findOne({
-                    id_user: mecByConcesionary[i].id_user,
-                }))
-                    ? yield imgUser_schema_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
-                    : "",
-            };
-            arrayMechanics.push(mechanic);
-        }
-        reponseJson.code = 200;
-        reponseJson.message = "Técnicos encontrados";
-        reponseJson.status = true;
-        reponseJson.data = arrayMechanics;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "no se encontraron Técnicos";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-sellerController.allZones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const ress = yield Zones_schema_1.default
-        .find()
-        .then((res) => {
-        if (res) {
-            reponseJson.code = 200;
-            reponseJson.message = "zonas encontradas";
-            reponseJson.status = true;
-            reponseJson.data = res;
-            return reponseJson;
-        }
-        else if (!res) {
-            reponseJson.code = 400;
-            reponseJson.message = "no se encontraron zonas";
-            reponseJson.status = false;
-            return reponseJson;
-        }
-    })
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
-});
-sellerController.allConcesionaries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { search } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const ress = yield Concesionaries_schema_1.default
-        .find()
-        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(res);
-        if (res) {
-            reponseJson.code = 200;
-            reponseJson.message = "concesionarias encontradas";
-            reponseJson.status = true;
-            reponseJson.data = res;
-            return reponseJson;
-        }
-        else if (!res) {
-            reponseJson.code = 400;
-            reponseJson.message = "no se encontraron concesionarias";
-            reponseJson.status = false;
-            return reponseJson;
-        }
-    }))
-        .catch((err) => {
-        console.log(err);
-    });
-    res.json(ress);
 });
 sellerController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -1777,6 +1228,562 @@ sellerController.listVehiclesSell = (req, res) => __awaiter(void 0, void 0, void
         reponseJson.status = false;
     }
     res.json(reponseJson);
+});
+// -------brand------
+sellerController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        jsonResponse.code = generar_jwt_1.default.code;
+        jsonResponse.message = generar_jwt_1.default.message;
+        jsonResponse.status = false;
+        jsonResponse.data = null;
+        return res.json(jsonResponse);
+    }
+    const brand = yield brands_schema_1.default.find();
+    if (brand) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "marcas encontradas";
+        jsonResponse.status = true;
+        jsonResponse.data = brand;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no se encontraron marcas";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+});
+// -----model-----
+sellerController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        jsonResponse.code = generar_jwt_1.default.code;
+        jsonResponse.message = generar_jwt_1.default.message;
+        jsonResponse.status = false;
+        jsonResponse.data = null;
+        return res.json(jsonResponse);
+    }
+    const model = yield modelVehicle_schema_1.default.find();
+    if (model) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "todos los modelos";
+        jsonResponse.status = true;
+        jsonResponse.data = model;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no hay modelos";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+});
+sellerController.autocompleteModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const vehiclesFiltered = yield modelVehicle_schema_1.default.find({
+        model: { $regex: search, $options: "i" },
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+// -----ventas------
+sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const responseJson = new Response_1.ResponseModel();
+    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
+    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        responseJson.code = generar_jwt_1.default.code;
+        responseJson.message = generar_jwt_1.default.message;
+        responseJson.status = false;
+        responseJson.data = null;
+        return res.json(responseJson);
+    }
+    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    //   id_seller_buyer: id_seller,
+    //   name_new_owner: name_new_owner,
+    //   dni_new_owner: dni_new_owner,
+    //   phone_new_owner: phone_new_owner,
+    //   email_new_owner: email_new_owner,
+    //   price_ofert: price_ofert,
+    // });
+    // const sameIdSeller = await vehicles.findById(id_vehicle);
+    // if (sameIdSeller!.id_seller?.toString() === id_seller) {
+    //   console.log('soy el comprador')
+    //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    //     id_seller_buyer: id_seller,
+    //     name_new_owner: name_new_owner,
+    //     dni_new_owner: dni_new_owner,
+    //     phone_new_owner: phone_new_owner,
+    //     email_new_owner: email_new_owner,
+    //     price_ofert: price_ofert,
+    //     price: price_ofert,
+    //     sold: true,
+    //     date_sell: date_sell,
+    //     final_price_sold: price_ofert,
+    //     dispatched: true,
+    //   });
+    //   if (vehicle) {
+    //     responseJson.code = 200;
+    //     responseJson.message = "vehículo comprado exitosamente";
+    //     responseJson.status = true;
+    //     responseJson.data = vehicle;
+    //   } else {
+    //     responseJson.code = 400;
+    //     responseJson.message = "no se pudo comprar el vehículo";
+    //     responseJson.status = false;
+    //   }
+    // } else {
+    const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
+        id_seller_buyer: id_seller,
+        name_new_owner: name_new_owner,
+        dni_new_owner: dni_new_owner,
+        phone_new_owner: phone_new_owner,
+        email_new_owner: email_new_owner,
+        price_ofert: price_ofert,
+        date_sell: date_sell,
+        sold: false,
+    });
+    const getVehicle = yield Vehicles_schema_1.default.findById(id_vehicle);
+    const infoBuyer = yield Sellers_schema_1.default.findById(id_seller);
+    const infoSeller = yield Sellers_schema_1.default.findById(getVehicle.id_seller);
+    const email = yield Users_schema_1.default.findById(infoSeller.id_user);
+    const emailBuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
+    const mailOptions = {
+        from: "Toyousado Notifications",
+        to: email.email,
+        subject: "Oferta de vehículo",
+        html: `<div>
+        <p>Tienes una oferta de compra para:</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.model}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.year}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.plate}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
+        </div>
+        </div>
+        </div>`,
+    };
+    const dataVehicle = {
+        model: getVehicle.model,
+        year: getVehicle.year,
+        plate: getVehicle.plate,
+        fullName: infoSeller.fullName,
+        concesionary: infoSeller.concesionary,
+        city: infoSeller.city,
+        title: "Tienes una oferta de compra para:",
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
+    responseJson.code = 200;
+    responseJson.message =
+        "Compra realizada, esperar confirmación o rechazo del vendedor";
+    responseJson.status = true;
+    // }
+    res.json(responseJson);
+});
+// ----notificaciones----
+sellerController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default
+        .find({ id_user: id_user, status: false })
+        .sort({ date: -1 });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificaciones obtenidas exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontraron notificaciones";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+sellerController.updateNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default.findByIdAndUpdate(id, {
+        status: true,
+    });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificacion actualizada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "error al actualizar notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+sellerController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default.findById(id);
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificacion encontrada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontro notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+sellerController.countNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const countNotifies = yield notifications_schema_1.default.countDocuments({
+        id_user: id_user,
+        status: false,
+    });
+    if (countNotifies) {
+        reponseJson.code = 200;
+        reponseJson.message = "conteo de notificaciones exitoso";
+        reponseJson.status = true;
+        reponseJson.data = countNotifies;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontro notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+// -----tecnico mecanico---
+sellerController.addMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
+    const { email, password, username, fullName, city, concesionary } = req.body;
+    const hash = yield bcrypt_1.default.hash(password, 10);
+    const exist = yield Users_schema_1.default.findOne({ email: email });
+    if (exist) {
+        reponseJson.code = 400;
+        reponseJson.message = "El usuario se encuentra registrado";
+        reponseJson.status = false;
+        reponseJson.data = "";
+    }
+    else {
+        const newUser = new Users_schema_1.default({
+            email,
+            password: hash,
+            username,
+            type_user: "mechanic",
+        });
+        const newMechanic = new Mechanics_schema_1.default({
+            fullName,
+            city,
+            concesionary,
+            date_created,
+        });
+        yield newUser.save();
+        if (newUser) {
+            newMechanic.id_user = newUser._id;
+        }
+        yield newMechanic.save();
+        if (newMechanic && newUser) {
+            const mailOptions = {
+                from: "Toyousado",
+                to: email,
+                subject: "Bienvenido",
+                text: "Bienvenido a Toyousado, tu usuario es: " +
+                    email +
+                    " y tu contraseña es: " +
+                    password +
+                    "",
+            };
+            yield (0, nodemailer_1.sendEmail)(mailOptions);
+            reponseJson.code = 200;
+            reponseJson.message = "Técnico agregado exitosamente";
+            reponseJson.status = true;
+            reponseJson.data = "";
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "Error al agregar técnico";
+            reponseJson.status = false;
+            reponseJson.data = "";
+        }
+    }
+    res.json(reponseJson);
+});
+sellerController.allMechanics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let arrayMechanics = [];
+    let infoMechanic = [];
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const ress = yield Users_schema_1.default.find({ type_user: "mechanic" })
+        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        if (res) {
+            reponseJson.code = 200;
+            reponseJson.message = "Técnicos encontrados";
+            reponseJson.status = true;
+            for (let i = 0; i < res.length; i++) {
+                yield Mechanics_schema_1.default
+                    .find({ id_user: res[i]._id })
+                    .then((res2) => {
+                    if (res2) {
+                        res2.forEach((element) => {
+                            infoMechanic.push(element);
+                        });
+                    }
+                    else {
+                        infoMechanic = [];
+                        return res2;
+                    }
+                })
+                    .catch((err) => {
+                    console.log(err);
+                });
+            }
+            for (let j = 0; j < res.length; j++) {
+                for (let k = 0; k < infoMechanic.length; k++) {
+                    if (res[j]._id.toString() === infoMechanic[k].id_user.toString()) {
+                        let mechanic = {
+                            id: res[j]._id,
+                            id_mechanic: infoMechanic[k]._id,
+                            fullName: infoMechanic[k].fullName,
+                            city: infoMechanic[k].city,
+                            concesionary: infoMechanic[k].concesionary,
+                            email: res[j].email,
+                            username: res[j].username,
+                            type_user: res[j].type_user,
+                            image: (yield imgUser_schema_1.default.findOne({ id_user: res[j]._id }))
+                                ? yield imgUser_schema_1.default.findOne({ id_user: res[j]._id })
+                                : "",
+                        };
+                        arrayMechanics.push(mechanic);
+                    }
+                }
+            }
+            reponseJson.data = arrayMechanics;
+            return reponseJson;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no se encontraron técnicos";
+            reponseJson.status = false;
+            return reponseJson;
+        }
+    }))
+        .catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
+});
+sellerController.mechanicByConcesionary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    const { concesionary } = req.body;
+    let arrayMechanics = [];
+    const mecByConcesionary = yield Mechanics_schema_1.default.find({
+        concesionary: concesionary,
+    });
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    if (mecByConcesionary) {
+        for (let i = 0; i < mecByConcesionary.length; i++) {
+            let mechanic = {
+                _id: mecByConcesionary[i]._id,
+                fullName: mecByConcesionary[i].fullName,
+                city: mecByConcesionary[i].city,
+                concesionary: mecByConcesionary[i].concesionary,
+                id_user: mecByConcesionary[i].id_user,
+                date_create: mecByConcesionary[i].date_created,
+                image: (yield imgUser_schema_1.default.findOne({
+                    id_user: mecByConcesionary[i].id_user,
+                }))
+                    ? yield imgUser_schema_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
+                    : "",
+            };
+            arrayMechanics.push(mechanic);
+        }
+        reponseJson.code = 200;
+        reponseJson.message = "Técnicos encontrados";
+        reponseJson.status = true;
+        reponseJson.data = arrayMechanics;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontraron Técnicos";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+// ------zonas-----
+sellerController.allZones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const ress = yield Zones_schema_1.default
+        .find()
+        .then((res) => {
+        if (res) {
+            reponseJson.code = 200;
+            reponseJson.message = "zonas encontradas";
+            reponseJson.status = true;
+            reponseJson.data = res;
+            return reponseJson;
+        }
+        else if (!res) {
+            reponseJson.code = 400;
+            reponseJson.message = "no se encontraron zonas";
+            reponseJson.status = false;
+            return reponseJson;
+        }
+    })
+        .catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
+});
+// ----concesionario----
+sellerController.allConcesionaries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const ress = yield Concesionaries_schema_1.default
+        .find()
+        .then((res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(res);
+        if (res) {
+            reponseJson.code = 200;
+            reponseJson.message = "concesionarias encontradas";
+            reponseJson.status = true;
+            reponseJson.data = res;
+            return reponseJson;
+        }
+        else if (!res) {
+            reponseJson.code = 400;
+            reponseJson.message = "no se encontraron concesionarias";
+            reponseJson.status = false;
+            return reponseJson;
+        }
+    }))
+        .catch((err) => {
+        console.log(err);
+    });
+    res.json(ress);
 });
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();

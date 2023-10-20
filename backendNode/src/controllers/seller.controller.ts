@@ -833,38 +833,7 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     res.json(reponseJson);
   };
 
-// -------brand------
-
-sellerController.allBrands = async (req: Request, res: Response) => {
-  const jsonResponse: ResponseModel = new ResponseModel();
-
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
-
-  if (decode == false) {
-    jsonResponse.code = jwt.code;
-    jsonResponse.message = jwt.message;
-    jsonResponse.status = false;
-    jsonResponse.data = null;
-    return res.json(jsonResponse);
-  }
-
-  const brand = await brands.find();
-
-  if (brand) {
-    jsonResponse.code = 200;
-    jsonResponse.message = "marcas encontradas";
-    jsonResponse.status = true;
-    jsonResponse.data = brand;
-  } else {
-    jsonResponse.code = 400;
-    jsonResponse.message = "no se encontraron marcas";
-    jsonResponse.status = false;
-  }
-
-  res.json(jsonResponse);
-};
-sellerController.dispatchedCar = async (req: Request, res: Response) => {
+  sellerController.dispatchedCar = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id, final_price_sold } = req.body;
     const token: any = req.header("Authorization");
@@ -1575,6 +1544,39 @@ sellerController.dispatchedCar = async (req: Request, res: Response) => {
       res.json(reponseJson);
     };
   
+
+// -------brand------
+
+sellerController.allBrands = async (req: Request, res: Response) => {
+  const jsonResponse: ResponseModel = new ResponseModel();
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    jsonResponse.code = jwt.code;
+    jsonResponse.message = jwt.message;
+    jsonResponse.status = false;
+    jsonResponse.data = null;
+    return res.json(jsonResponse);
+  }
+
+  const brand = await brands.find();
+
+  if (brand) {
+    jsonResponse.code = 200;
+    jsonResponse.message = "marcas encontradas";
+    jsonResponse.status = true;
+    jsonResponse.data = brand;
+  } else {
+    jsonResponse.code = 400;
+    jsonResponse.message = "no se encontraron marcas";
+    jsonResponse.status = false;
+  }
+
+  res.json(jsonResponse);
+};
+
 
 // -----model-----
 

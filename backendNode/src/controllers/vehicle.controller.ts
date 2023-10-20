@@ -3,33 +3,25 @@ import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
 import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
-import imgUser from "../schemas/imgUser.schema";
-import bcrypt from "bcrypt";
-import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import jwt from "../helpers/generar-jwt";
 import moment from "moment";
 import { sendEmail } from "../../nodemailer";
 import Sellers from "../schemas/Sellers.schema";
 import Vehicles from "../schemas/Vehicles.schema";
 import notifications from "../schemas/notifications.schema";
-
 import sharp from "sharp";
-
 import vehicles from "../schemas/Vehicles.schema";
-import users from "../schemas/Users.schema";
 import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
-import brands from "../schemas/brands.schema";
-import modelVehicle from "../schemas/modelVehicle.schema";
 import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
 import * as global from "../global";
 
 const vehicleController: any = {};
 
-vehicleController.insert = async (req: Request, res: Response) => {
+vehicleController.addVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
@@ -68,7 +60,7 @@ vehicleController.insert = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  const newVehicle = new Vehicles({
+  const newVehicle = new vehicles({
     model,
     year,
     brand,
@@ -127,43 +119,43 @@ vehicleController.insert = async (req: Request, res: Response) => {
     to: emailmechanic,
     subject: "Revisión de vehículo",
     html: `
-      <div>
-      <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-      </div>
-      <div class="div-table" style="width: 100%;">
-      <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-          </div>
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-          </div>
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-          </div>
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-            infoSeller!.fullName
-          }</div>
-          </div>
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-            infoSeller!.concesionary
-          }</div>
-          </div>
-          <div style=" display: table-row;border: 1px solid #000;">
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-          <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-            infoSeller!.city
-          }</div>
-          </div>
-      </div>
-      </div>`,
+        <div>
+        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+        </div>
+        <div class="div-table" style="width: 100%;">
+        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.fullName
+            }</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.concesionary
+            }</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.city
+            }</div>
+            </div>
+        </div>
+        </div>`,
   };
 
   const dataVehicle = {
@@ -188,10 +180,128 @@ vehicleController.insert = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-vehicleController.update = async (req: Request, res: Response) => {
+vehicleController.addImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  const { id_vehicle, image } = req.body;
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const filename = await uploadImageVehicle(image);
+
+  const newImage = new ImgVehicle({
+    img: filename.secure_url,
+    id_vehicle: id_vehicle,
+    public_id: filename.public_id,
+  });
+
+  await newImage.save();
+
+  if (newImage) {
+    reponseJson.code = 200;
+    reponseJson.message = "Imagen agregada exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = newImage;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo agregar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.deleteImgVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { public_id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
+
+  if (delImg) {
+    reponseJson.code = 200;
+    reponseJson.message = "Imagen eliminada exitosamente";
+    reponseJson.status = true;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo eliminar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id_vehicle, image, public_id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  if (delImg) {
+    let filename = await uploadImageVehicle(image);
+
+    const newImage = new ImgVehicle({
+      img: filename.secure_url,
+      id_vehicle: id_vehicle,
+      public_id: filename.public_id,
+    });
+    await newImage.save();
+
+    const arrayImages = await ImgVehicle.find({ id_vehicle: id_vehicle });
+
+    let data = {
+      images: arrayImages,
+      imgEdit: newImage,
+    };
+
+    reponseJson.code = 200;
+    reponseJson.message = "Imagen actualizada exitosamente";
+    reponseJson.data = data;
+    reponseJson.status = true;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo actualizar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.updateVehicle = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller"]);
   const { data } = req.body;
 
   if (decode == false) {
@@ -218,11 +328,11 @@ vehicleController.update = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-vehicleController.delete = async (req: Request, res: Response) => {};
-
-vehicleController.all = async (req: Request, res: Response) => {
+vehicleController.allVehicles = async (req: Request, res: Response) => {
+  //aqui declaramos las respuestas
   const reponseJson: ResponseModel = new ResponseModel();
   let query: any = {};
+  //aqui declaramos las variables que vamos a recibir
   const {
     minYear,
     maxYear,
@@ -236,7 +346,7 @@ vehicleController.all = async (req: Request, res: Response) => {
     type_vehicle,
   } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -350,44 +460,145 @@ vehicleController.all = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-vehicleController.filterVehiclesWithMongo = async (
-  req: Request,
-  res: Response
-) => {
-  const reponseJson: ResponseModel = new ResponseModel();
+vehicleController.myVehicles = async (req: Request, res: Response) => {
+  const jsonRes: ResponseModel = new ResponseModel();
+  let arrayVehicles: any[] = [];
+  let query: any = {};
+  //aqui declaramos las variables que vamos a recibir
+  const {
+    minYear,
+    maxYear,
+    minKm,
+    maxKm,
+    minPrice,
+    maxPrice,
+    brand,
+    model,
+    ubication,
+    type_vehicle,
+    id_seller,
+  } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
 
   if (decode == false) {
-    reponseJson.code = jwt.code;
-    reponseJson.message = jwt.message;
-    reponseJson.status = false;
-    reponseJson.data = null;
-    return res.json(reponseJson);
+    jsonRes.code = jwt.code;
+    jsonRes.message = jwt.message;
+    jsonRes.status = false;
+    jsonRes.data = null;
+    return res.json(jsonRes);
   }
-  if (true) {
-    reponseJson.code = 200;
-    reponseJson.message = "vehículos encontrados exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = null;
+  //aqui creamos las condiciones para el filtro de los vehículos y las querys
+
+  if (minYear === 0 && maxYear === 0) {
+    query.year = { $gte: 0 };
+  } else if (minYear !== 0 && maxYear === 0) {
+    query.year = { $gte: minYear };
+  } else if (minYear === 0 && maxYear !== 0) {
+    query.year = { $lte: maxYear };
   } else {
-    reponseJson.code = 400;
-    reponseJson.message =
-      "no se encontraron vehículos con los filtros seleccionados";
-    reponseJson.status = false;
+    query.year = { $gte: minYear, $lte: maxYear };
   }
 
-  res.json(reponseJson);
+  if (minKm === 0 && maxKm === 0) {
+    query.km = { $gte: 0 };
+  } else if (minKm !== 0 && maxKm === 0) {
+    query.km = { $gte: minKm };
+  } else if (minKm === 0 && maxKm !== 0) {
+    query.km = { $lte: maxKm };
+  } else {
+    query.km = { $gte: minKm, $lte: maxKm };
+  }
+
+  if (minPrice === 0 && maxPrice === 0) {
+    query.price = { $exists: true };
+  } else if (minPrice !== 0 && maxPrice === 0) {
+    query.price = { $gte: minPrice, $ne: null };
+  } else if (minPrice === 0 && maxPrice !== 0) {
+    query.price = { $lte: maxPrice, $ne: null };
+  } else {
+    query.price = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  query.city = { $regex: ubication, $options: "i" };
+  query.brand = { $regex: brand, $options: "i" };
+  query.model = { $regex: model, $options: "i" };
+  query.type_vehicle = { $regex: type_vehicle, $options: "i" };
+
+  query.id_seller = id_seller;
+
+  const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
+
+  if (vehiclesFiltered) {
+    for (let i = 0; i < vehiclesFiltered.length; i++) {
+      let data = {
+        name_new_owner: vehiclesFiltered[i].name_new_owner,
+        dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+        phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+        email_new_owner: vehiclesFiltered[i].email_new_owner,
+        price_ofert: vehiclesFiltered[i].price_ofert,
+        final_price_sold: vehiclesFiltered[i].final_price_sold,
+        _id: vehiclesFiltered[i]._id,
+        model: vehiclesFiltered[i].model,
+        brand: vehiclesFiltered[i].brand,
+        year: vehiclesFiltered[i].year,
+        displacement: vehiclesFiltered[i].displacement,
+        km: vehiclesFiltered[i].km,
+        engine_model: vehiclesFiltered[i].engine_model,
+        titles: vehiclesFiltered[i].titles,
+        fuel: vehiclesFiltered[i].fuel,
+        transmission: vehiclesFiltered[i].transmission,
+        city: vehiclesFiltered[i].city,
+        dealer: vehiclesFiltered[i].dealer,
+        concesionary: vehiclesFiltered[i].concesionary,
+        traction_control: vehiclesFiltered[i].traction_control,
+        performance: vehiclesFiltered[i].performance,
+        comfort: vehiclesFiltered[i].comfort,
+        technology: vehiclesFiltered[i].technology,
+        id_seller: vehiclesFiltered[i].id_seller,
+        id_mechanic: vehiclesFiltered[i].id_mechanic,
+        price: vehiclesFiltered[i].price,
+        mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+        id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+        sold: vehiclesFiltered[i].sold,
+        type_vehicle: vehiclesFiltered[i].type_vehicle,
+        traction: vehiclesFiltered[i].traction,
+        date_sell: vehiclesFiltered[i].date_sell,
+        date_create: vehiclesFiltered[i].date_create,
+        plate: vehiclesFiltered[i].plate,
+        vin: vehiclesFiltered[i].vin,
+        dispatched: vehiclesFiltered[i].dispatched,
+        images: (await ImgVehicle.findOne({
+          id_vehicle: vehiclesFiltered[i]._id,
+        }))
+          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+          : "",
+      };
+
+      arrayVehicles.push(data);
+    }
+
+    jsonRes.code = 200;
+    jsonRes.message = "Vehicleos encontrados";
+    jsonRes.status = true;
+    jsonRes.data = arrayVehicles;
+  } else {
+    jsonRes.code = 400;
+    jsonRes.message = "No se encontraron vehículos";
+    jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
 };
 
-vehicleController.get = async (req: Request, res: Response) => {
+vehicleController.vehicleById = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
 
   const { id } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
 
   if (decode == false) {
     jsonRes.code = jwt.code;
@@ -454,13 +665,14 @@ vehicleController.get = async (req: Request, res: Response) => {
   res.json(jsonRes);
 };
 
-vehicleController.addImgVehicle = async (req: Request, res: Response) => {
+vehicleController.mechanicalFileByIdVehicle = async (
+  req: Request,
+  res: Response
+) => {
   const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id_vehicle, image } = req.body;
-
+  const { id_vehicle } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -470,110 +682,402 @@ vehicleController.addImgVehicle = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  const filename = await uploadImageVehicle(image);
-
-  const newImage = new ImgVehicle({
-    img: filename.secure_url,
-    id_vehicle: id_vehicle,
-    public_id: filename.public_id,
-  });
-
-  await newImage.save();
-
-  if (newImage) {
+  const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
+  if (mecFile) {
     reponseJson.code = 200;
-    reponseJson.message = "Imagen agregada exitosamente";
     reponseJson.status = true;
-    reponseJson.data = newImage;
+    reponseJson.message = "Ficha mecánica encontrada";
+    reponseJson.data = mecFile;
   } else {
     reponseJson.code = 400;
-    reponseJson.message = "No se pudo agregar la imagen";
     reponseJson.status = false;
+    reponseJson.message = "No se encontro la ficha mecánica";
   }
 
   res.json(reponseJson);
 };
 
-vehicleController.deleteImgVehicle = async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-  const { public_id } = req.body;
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-    reponseJson.code = jwt.code;
-    reponseJson.message = jwt.message;
-    reponseJson.status = false;
-    reponseJson.data = null;
-    return res.json(reponseJson);
-  }
-
-  const delImag = await deleteImageVehicle(public_id);
-
-  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
-
-  if (delImg) {
-    reponseJson.code = 200;
-    reponseJson.message = "Imagen eliminada exitosamente";
-    reponseJson.status = true;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "No se pudo eliminar la imagen";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-};
-
-vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  const { id_vehicle, image, public_id } = req.body;
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-    reponseJson.code = jwt.code;
-    reponseJson.message = jwt.message;
-    reponseJson.status = false;
-    reponseJson.data = null;
-    return res.json(reponseJson);
-  }
-
-  const delImg = await ImgVehicle.findOneAndDelete({ public_id: public_id });
-
-  const delImag = await deleteImageVehicle(public_id);
-
-  if (delImg) {
-    let filename = await uploadImageVehicle(image);
-
-    const newImage = new ImgVehicle({
-      img: filename.secure_url,
-      id_vehicle: id_vehicle,
-      public_id: filename.public_id,
+vehicleController.approveBuyVehicle = async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const date_sell = moment().format("YYYY-MM-DD");
+    const { id_vehicle } = req.body;
+  
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  
+    const infoVehicle = await vehicles.findById(id_vehicle);
+  
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+      price_ofert: infoVehicle!.price_ofert,
+      date_sell: date_sell,
+      final_price_sold: infoVehicle!.price_ofert,
+      sold: false,
     });
-    await newImage.save();
+  
+    const infoBuyer = await sellers.findById(vehicle!.id_seller_buyer);
+  
+    const userbuyer = await Users.findById(infoBuyer!.id_user);
+  
+    const infoSeller = await sellers.findById(vehicle!.id_seller);
+  
+    const Userseller = await Users.findById(infoSeller!.id_user);
+  
+    if (vehicle) {
+      reponseJson.code = 200;
+      reponseJson.message = "aprobacion de oferta exitosa";
+      reponseJson.status = true;
+      reponseJson.data = vehicle;
+  
+      const mailOptions = {
+        from: "Toyousado Notifications",
+        to: userbuyer!.email,
+        subject: "Oferta de vehículo aprobada",
+        text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
+          vehicle!.concesionary
+        } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
+          Userseller!.email
+        } o al número telefono ${infoSeller!.phone}`,
+      };
+  
+      await sendEmail(mailOptions);
+  
+      sendNotification(
+        userbuyer!._id.toString(),
+        mailOptions.text,
+        mailOptions.subject
+      );
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "error al aprobar la oferta";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  };
+  
+vehicleController.rejectBuyVehicle = async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const { id_vehicle } = req.body;
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  
+    const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+      id_seller_buyer: null,
+      sold: false,
+      price_ofert: null,
+      date_sell: null,
+      name_new_owner: null,
+      dni_new_owner: null,
+      phone_new_owner: null,
+      email_new_owner: null,
+    });
+  
+    const infoBuyer = await sellers.findById(vehicle!.id_seller_buyer);
+  
+    const userbuyer = await Users.findById(infoBuyer!.id_user);
+  
+    const infoSeller = await sellers.findById(vehicle!.id_seller);
+  
+    const userSeller = await Users.findById(infoSeller!.id_user);
+  
+    if (vehicle) {
+      reponseJson.code = 200;
+      reponseJson.message = "oferta rechazada exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = vehicle;
+  
+      const mailOptions = {
+        from: "Toyousado Notifications",
+        to: userbuyer!.email,
+        subject: "Compra de vehículo rechazada",
+        text: `Tu compra del vehículo ${vehicle!.model} del concesionario ${
+          vehicle!.concesionary
+        } fue rechazada, para más información comunicaté con el vendedor al correo ${
+          userSeller!.email
+        } o al número de teléfono ${infoSeller!.phone}`,
+      };
+  
+      await sendEmail(mailOptions);
+  
+      sendNotification(
+        userbuyer!._id.toString(),
+        mailOptions.text,
+        mailOptions.subject
+      );
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "error al rechazar la oferta";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  };
 
-    const arrayImages = await ImgVehicle.find({ id_vehicle: id_vehicle });
+  vehicleController.dispatchedCar = async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const { id, final_price_sold } = req.body;
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  
+    const vehiclesFiltered = await vehicles.findOneAndUpdate(
+      { _id: id },
+      { sold: true, price: final_price_sold, dispatched: true }
+    );
+  
+    if (vehiclesFiltered) {
+      reponseJson.code = 200;
+      reponseJson.message = "vehículo entregado exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = vehiclesFiltered;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "erroe al entregar vehículo";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  };
+  
+  vehicleController.repost = async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const { id } = req.body;
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+  
+    const vehiclesFiltered = await vehicles.findOneAndUpdate(
+      { _id: id },
+      {
+        sold: false,
+        price_ofert: null,
+        final_price_sold: null,
+        name_new_owner: null,
+        dni_new_owner: null,
+        phone_new_owner: null,
+        email_new_owner: null,
+        date_sell: null,
+        id_seller_buyer: null,
+      }
+    );
+  
+    if (vehiclesFiltered) {
+      reponseJson.code = 200;
+      reponseJson.message = "vehículo publicado exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = vehiclesFiltered;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "erroe al publicar vehículo";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  };
 
-    let data = {
-      images: arrayImages,
-      imgEdit: newImage,
-    };
-
-    reponseJson.code = 200;
-    reponseJson.message = "Imagen actualizada exitosamente";
-    reponseJson.data = data;
-    reponseJson.status = true;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.message = "No se pudo actualizar la imagen";
-    reponseJson.status = false;
-  }
-
-  res.json(reponseJson);
-};
-
+  vehicleController.getVehicleByType = async (req: Request, res: Response) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+    const { type_vehicle } = req.body;
+  
+    const arrayVehicles = await vehicles.find({
+      type_vehicle: type_vehicle,
+      mechanicalFile: true,
+      sold: false,
+      id_seller_buyer: null,
+    });
+  
+    if (arrayVehicles) {
+      reponseJson.code = 200;
+      reponseJson.message = "vehículos encontrados exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = arrayVehicles;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "no se encontraron vehículos";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  };
+  
+  vehicleController.filterVehiclesWithMongo = async (
+    req: Request,
+    res: Response
+  ) => {
+    const reponseJson: ResponseModel = new ResponseModel();
+    const token: any = req.header("Authorization");
+    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  
+    if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+    }
+    let query: any = {};
+    //aqui declaramos las variables que vamos a recibir
+    const {
+      minYear,
+      maxYear,
+      minKm,
+      maxKm,
+      minPrice,
+      maxPrice,
+      brand,
+      model,
+      ubication,
+      type_vehicle,
+    } = req.body;
+  
+    //aqui creamos las condiciones para el filtro de los vehículos y las querys
+  
+    if (minYear === 0 && maxYear === 0) {
+      query.year = { $gte: 0 };
+    } else if (minYear !== 0 && maxYear === 0) {
+      query.year = { $gte: minYear };
+    } else if (minYear === 0 && maxYear !== 0) {
+      query.year = { $lte: maxYear };
+    } else {
+      query.year = { $gte: minYear, $lte: maxYear };
+    }
+  
+    if (minKm === 0 && maxKm === 0) {
+      query.km = { $gte: 0 };
+    } else if (minKm !== 0 && maxKm === 0) {
+      query.km = { $gte: minKm };
+    } else if (minKm === 0 && maxKm !== 0) {
+      query.km = { $lte: maxKm };
+    } else {
+      query.km = { $gte: minKm, $lte: maxKm };
+    }
+  
+    if (minPrice === 0 && maxPrice === 0) {
+      query.price = { $gte: 0, $ne: null };
+    } else if (minPrice !== 0 && maxPrice === 0) {
+      query.price = { $gte: minPrice, $ne: null };
+    } else if (minPrice === 0 && maxPrice !== 0) {
+      query.price = { $lte: maxPrice, $ne: null };
+    } else {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+  
+    query.city = { $regex: ubication, $options: "i" };
+    query.brand = { $regex: brand, $options: "i" };
+    query.model = { $regex: model, $options: "i" };
+    query.type_vehicle = { $regex: type_vehicle, $options: "i" };
+    query.mechanicalFile = true;
+    query.sold = false;
+    // query.id_seller_buyer = null;
+  
+    const vehiclesFiltered = await vehicles
+      .find(query)
+      .sort({ date_create: -1 });
+    if (vehiclesFiltered) {
+      let arrayVehicles: any[] = [];
+  
+      for (let i = 0; i < vehiclesFiltered.length; i++) {
+        let data = {
+          name_new_owner: vehiclesFiltered[i].name_new_owner,
+          dni_new_owner: vehiclesFiltered[i].dni_new_owner,
+          phone_new_owner: vehiclesFiltered[i].phone_new_owner,
+          email_new_owner: vehiclesFiltered[i].email_new_owner,
+          price_ofert: vehiclesFiltered[i].price_ofert,
+          final_price_sold: vehiclesFiltered[i].final_price_sold,
+          _id: vehiclesFiltered[i]._id,
+          model: vehiclesFiltered[i].model,
+          brand: vehiclesFiltered[i].brand,
+          year: vehiclesFiltered[i].year,
+          displacement: vehiclesFiltered[i].displacement,
+          km: vehiclesFiltered[i].km,
+          engine_model: vehiclesFiltered[i].engine_model,
+          titles: vehiclesFiltered[i].titles,
+          fuel: vehiclesFiltered[i].fuel,
+          transmission: vehiclesFiltered[i].transmission,
+          city: vehiclesFiltered[i].city,
+          dealer: vehiclesFiltered[i].dealer,
+          concesionary: vehiclesFiltered[i].concesionary,
+          traction_control: vehiclesFiltered[i].traction_control,
+          performance: vehiclesFiltered[i].performance,
+          comfort: vehiclesFiltered[i].comfort,
+          technology: vehiclesFiltered[i].technology,
+          id_seller: vehiclesFiltered[i].id_seller,
+          id_mechanic: vehiclesFiltered[i].id_mechanic,
+          __v: vehiclesFiltered[i].__v,
+          price: vehiclesFiltered[i].price,
+          mechanicalFile: vehiclesFiltered[i].mechanicalFile,
+          id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
+          sold: vehiclesFiltered[i].sold,
+          type_vehicle: vehiclesFiltered[i].type_vehicle,
+          traction: vehiclesFiltered[i].traction,
+          date_sell: vehiclesFiltered[i].date_sell,
+          date_create: vehiclesFiltered[i].date_create,
+          plate: vehiclesFiltered[i].plate,
+          vin: vehiclesFiltered[i].vin,
+          image: await ImgVehicle.findOne({
+            id_vehicle: vehiclesFiltered[i]._id,
+          })
+            ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
+            : "",
+        };
+        arrayVehicles.push(data);
+      }
+  
+      reponseJson.code = 200;
+      reponseJson.message = "vehículos encontrados exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = arrayVehicles;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message =
+        "no se encontraron vehículos con los filtros seleccionados";
+      reponseJson.status = false;
+    }
+  
+    res.json(reponseJson);
+  
+  };
+  
 vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
@@ -1807,6 +2311,167 @@ vehicleController.mechanicalFileByIdVehicle = async (
   res.json(reponseJson);
 };
 
+vehicleController.buyVehicle = async (req: Request, res: Response) => {
+  const responseJson: ResponseModel = new ResponseModel();
+  const date_sell = moment().format("YYYY-MM-DD");
+  const {
+    id_vehicle,
+    id_seller,
+    name_new_owner,
+    dni_new_owner,
+    phone_new_owner,
+    email_new_owner,
+    price_ofert,
+  } = req.body;
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    responseJson.code = jwt.code;
+    responseJson.message = jwt.message;
+    responseJson.status = false;
+    responseJson.data = null;
+    return res.json(responseJson);
+  }
+
+  // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+  //   id_seller_buyer: id_seller,
+  //   name_new_owner: name_new_owner,
+  //   dni_new_owner: dni_new_owner,
+  //   phone_new_owner: phone_new_owner,
+  //   email_new_owner: email_new_owner,
+  //   price_ofert: price_ofert,
+  // });
+
+  // const sameIdSeller = await vehicles.findById(id_vehicle);
+
+  // if (sameIdSeller!.id_seller?.toString() === id_seller) {
+  //   console.log('soy el comprador')
+  //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+  //     id_seller_buyer: id_seller,
+  //     name_new_owner: name_new_owner,
+  //     dni_new_owner: dni_new_owner,
+  //     phone_new_owner: phone_new_owner,
+  //     email_new_owner: email_new_owner,
+  //     price_ofert: price_ofert,
+  //     price: price_ofert,
+  //     sold: true,
+  //     date_sell: date_sell,
+  //     final_price_sold: price_ofert,
+  //     dispatched: true,
+  //   });
+
+  //   if (vehicle) {
+  //     responseJson.code = 200;
+  //     responseJson.message = "vehículo comprado exitosamente";
+  //     responseJson.status = true;
+  //     responseJson.data = vehicle;
+  //   } else {
+  //     responseJson.code = 400;
+  //     responseJson.message = "no se pudo comprar el vehículo";
+  //     responseJson.status = false;
+  //   }
+  // } else {
+
+  const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
+    id_seller_buyer: id_seller,
+    name_new_owner: name_new_owner,
+    dni_new_owner: dni_new_owner,
+    phone_new_owner: phone_new_owner,
+    email_new_owner: email_new_owner,
+    price_ofert: price_ofert,
+    date_sell: date_sell,
+    sold: false,
+  });
+
+  const getVehicle = await vehicles.findById(id_vehicle);
+
+  const infoBuyer = await sellers.findById(id_seller);
+
+  const infoSeller = await sellers.findById(getVehicle!.id_seller);
+
+  const email = await Users.findById(infoSeller!.id_user);
+
+  const emailBuyer = await Users.findById(infoBuyer!.id_user);
+
+  const mailOptions = {
+    from: "Toyousado Notifications",
+    to: email!.email,
+    subject: "Oferta de vehículo",
+    html: `<div>
+        <p>Tienes una oferta de compra para:</p>
+    </div>
+    <div class="div-table" style="width: 100%;">
+        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              getVehicle!.model
+            }</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              getVehicle!.year
+            }</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              getVehicle!.plate
+            }</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.fullName
+            }</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.concesionary
+            }</div>
+        </div>
+        <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.city
+            }</div>
+        </div>
+        </div>
+        </div>`,
+  };
+
+  const dataVehicle = {
+    model: getVehicle!.model,
+    year: getVehicle!.year,
+    plate: getVehicle!.plate,
+    fullName: infoSeller!.fullName,
+    concesionary: infoSeller!.concesionary,
+    city: infoSeller!.city,
+    title: "Tienes una oferta de compra para:",
+  };
+
+  await sendEmail(mailOptions);
+
+  sendNotification(
+    infoSeller!._id.toString(),
+    dataVehicle,
+    "Oferta de vehículo"
+  );
+
+  responseJson.code = 200;
+  responseJson.message =
+    "Compra realizada, esperar confirmación o rechazo del vendedor";
+  responseJson.status = true;
+  // }
+
+  res.json(responseJson);
+};
+
+
 const desgloseImg = async (image: any) => {
   let posr = image.split(";base64").pop();
   let imgBuff = Buffer.from(posr, "base64");
@@ -2010,5 +2675,28 @@ const getNameMonth = (date: any) => {
 
   return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+
+const sendNotification = async (
+  id_seller: string,
+  data: any,
+  title: string
+) => {
+  // const jsonRes: ResponseModel = new ResponseModel();
+
+  const userInfo = await sellers.findOne({ _id: id_seller });
+
+  if (userInfo) {
+    const notify = new notifications({
+      id_user: userInfo.id_user,
+      title: title,
+      data: data,
+      date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      status: false,
+    });
+
+    await notify.save();
+  }
+};
+
 
 export default vehicleController;
