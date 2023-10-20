@@ -17,35 +17,7 @@ mechanicRouter.post('/getNotifications', mechanic_controller_1.default.getNotifi
 mechanicRouter.post('/updateNotification', mechanic_controller_1.default.updateNotification);
 mechanicRouter.post('/notificationById', mechanic_controller_1.default.notificationById);
 mechanicRouter.post('/countNotifications', mechanic_controller_1.default.countNotifications);
-// mechanicRouter.get("/allBrands", async (req: Request, res: Response) => {
-//     const jsonResponse: ResponseModel = new ResponseModel();
-//     const brand = await brands.find()
-//     if (brand) {
-//     jsonResponse.code = 200;
-//     jsonResponse.message = "Marcas encontradas exitosamente";
-//     jsonResponse.status = true;
-//     jsonResponse.data = brand;
-//     } else {
-//     jsonResponse.code = 400;
-//     jsonResponse.message = "no se encontraron marcas";
-//     jsonResponse.status = false;
-//     }
-//     res.json(jsonResponse);
-// });
-// mechanicRouter.get("/allModels", async (req: Request, res: Response) => {
-//     const jsonResponse: ResponseModel = new ResponseModel();
-//     const model = await modelVehicle.find();
-//     if (model) {
-//     jsonResponse.code = 200;
-//     jsonResponse.message = "todos los modelos";
-//     jsonResponse.status = true;
-//     jsonResponse.data = model;
-//     }else{
-//     jsonResponse.code = 400;
-//     jsonResponse.message = "no hay modelos";
-//     jsonResponse.status = false;
-//     }
-//     res.json(jsonResponse);
-// });
+mechanicRouter.get("/allBrands", mechanic_controller_1.default.allBrands);
+mechanicRouter.get("/allModels", mechanic_controller_1.default.allModels);
 exports.default = mechanicRouter;
 //# sourceMappingURL=mechanic.route.js.map

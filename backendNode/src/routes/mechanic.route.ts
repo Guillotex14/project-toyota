@@ -26,46 +26,8 @@ mechanicRouter.post('/notificationById', mechanicController.notificationById);
 
 mechanicRouter.post('/countNotifications', mechanicController.countNotifications);
 
-// mechanicRouter.get("/allBrands", async (req: Request, res: Response) => {
-//     const jsonResponse: ResponseModel = new ResponseModel();
+mechanicRouter.get("/allBrands", mechanicController.allBrands);
 
-//     const brand = await brands.find()
-
-//     if (brand) {
-
-//     jsonResponse.code = 200;
-//     jsonResponse.message = "Marcas encontradas exitosamente";
-//     jsonResponse.status = true;
-//     jsonResponse.data = brand;
-    
-//     } else {
-//     jsonResponse.code = 400;
-//     jsonResponse.message = "no se encontraron marcas";
-//     jsonResponse.status = false;
-    
-//     }
-
-//     res.json(jsonResponse);
-// });
-
-// mechanicRouter.get("/allModels", async (req: Request, res: Response) => {
-//     const jsonResponse: ResponseModel = new ResponseModel();
-
-//     const model = await modelVehicle.find();
-
-//     if (model) {
-//     jsonResponse.code = 200;
-//     jsonResponse.message = "todos los modelos";
-//     jsonResponse.status = true;
-//     jsonResponse.data = model;
-//     }else{
-//     jsonResponse.code = 400;
-//     jsonResponse.message = "no hay modelos";
-//     jsonResponse.status = false;
-//     }
-
-//     res.json(jsonResponse);
-
-// });
+mechanicRouter.get("/allModels", mechanicController.allModels);
 
 export default mechanicRouter;

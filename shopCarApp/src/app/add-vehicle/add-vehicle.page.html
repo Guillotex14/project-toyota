@@ -185,12 +185,67 @@
             <ion-label>Concesionario</ion-label>
             <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.concesionary" disabled="true" style="opacity: 1 !important;"></ion-input>
           </ion-col>
-
           <ion-col size="12">
             <ion-button expand="block" fill="clear" shape="round" class="bntClear" color="danger" (click)="emptyForm()">
               Vaciar Formulario
             </ion-button>
           </ion-col>
+
+          <ion-col size="12" style="margin-top: 10px;">
+            <ion-label class="titleDatosPlus" >Datos plus</ion-label>
+          </ion-col>
+
+          <!-- <ion-col size="12">
+            <ion-accordion-group expand="inset" [value]="['documents']">
+              <ion-accordion value="documents">
+
+                <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
+                  <ion-row>
+                    <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
+                      <ion-icon name="image" (click)="openActionSheet()" class="noPhotoIcon" ></ion-icon>
+                      <br>
+                      <span class="noPhotoTitle" >Cargar de Documentos</span>
+                      <br>
+                    </ion-col>
+      
+                    <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length > 0">
+                      <swiper-container [loop]="true" [pagination]="true">
+                        <swiper-slide *ngFor="let image of arrayImages; let i = index">
+                          <ion-row>
+                            <ion-col size="4">
+                              <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImage(i)">
+                                <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
+                              </ion-button>
+                            </ion-col>
+                            <ion-col size="4">
+      
+                            </ion-col>
+                            <ion-col size="4">
+                              <ion-button expand="block" shape="round" (click)="openActionSheetEdit(i)" class="btnRed">
+                                <ion-icon name="create" style="font-size: 30px;"></ion-icon>
+                              </ion-button>
+                            </ion-col>
+                            <ion-col size="12">
+                              <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
+                            </ion-col>
+                          </ion-row>
+                        </swiper-slide>
+                        <div class="swiper-pagination"></div>
+                      </swiper-container>
+                      <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
+                        Agregar imagen
+                      </ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-col> 
+
+              </ion-accordion>
+              <ion-accordion value="documents2">
+
+              </ion-accordion>
+
+            </ion-accordion-group>
+          </ion-col>-->
 
           <ion-col size="12" style="margin-top: 10px;">
             <ion-label class="titleDatosPlus" >Datos plus</ion-label>

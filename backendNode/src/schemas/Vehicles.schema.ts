@@ -75,6 +75,10 @@ const vehicleSchema = new Schema({
     },
     id_seller_buyer: {
         type: Schema.Types.ObjectId
+    },
+    imgs_documentation:{
+        type: Array,
+        default: []
     }
 });
 

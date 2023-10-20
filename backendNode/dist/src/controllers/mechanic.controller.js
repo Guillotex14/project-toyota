@@ -23,6 +23,8 @@ const Response_1 = require("../models/Response");
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
+const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
+const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
 const mechanicController = {};
 mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
@@ -264,6 +266,7 @@ mechanicController.getVehicleById = (req, res) => __awaiter(void 0, void 0, void
             sold: vehicle.sold,
             date_create: vehicle.date_create,
             type_vehicle: vehicle.type_vehicle,
+            plate: vehicle.plate,
             id_seller: vehicle.id_seller,
             id_mechanic: vehicle.id_mechanic,
             id_seller_buyer: vehicle.id_seller_buyer,
@@ -300,7 +303,7 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
     let conceSeller = "";
     let citySeller = "";
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic } = req.body;
+    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic, odometer, engine_start, windshields_glass, hits_scratches, spark_plugs, injectors, fuel_filter_anti_pollen_filter, engine_noises, hits_scratches_sides, paint_condition_sides, trunk_hatch, spare_tire, hits_scratches_trunk, paint_condition_trunk, headlights_lights_trunk, fuel_tank_cover, pipes_hoses_connections, brake_discs, } = req.body;
     const newMechanicFile = new mechanicalsFiles_schema_1.default({
         part_emblems_complete,
         wiper_shower_brushes_windshield,
@@ -342,6 +345,24 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
         dealer_maintenance,
         headlights_lights,
         general_condition,
+        odometer,
+        engine_start,
+        windshields_glass,
+        hits_scratches,
+        spark_plugs,
+        injectors,
+        fuel_filter_anti_pollen_filter,
+        engine_noises,
+        hits_scratches_sides,
+        paint_condition_sides,
+        trunk_hatch,
+        spare_tire,
+        hits_scratches_trunk,
+        paint_condition_trunk,
+        headlights_lights_trunk,
+        fuel_tank_cover,
+        pipes_hoses_connections,
+        brake_discs,
         date_create: dateNow,
         id_vehicle,
         id_mechanic
@@ -585,6 +606,38 @@ mechanicController.countNotifications = (req, res) => __awaiter(void 0, void 0, 
         reponseJson.status = false;
     }
     res.json(reponseJson);
+});
+mechanicController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const brand = yield brands_schema_1.default.find();
+    if (brand) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "Marcas encontradas exitosamente";
+        jsonResponse.status = true;
+        jsonResponse.data = brand;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no se encontraron marcas";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
+});
+mechanicController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonResponse = new Response_1.ResponseModel();
+    const model = yield modelVehicle_schema_1.default.find();
+    if (model) {
+        jsonResponse.code = 200;
+        jsonResponse.message = "todos los modelos";
+        jsonResponse.status = true;
+        jsonResponse.data = model;
+    }
+    else {
+        jsonResponse.code = 400;
+        jsonResponse.message = "no hay modelos";
+        jsonResponse.status = false;
+    }
+    res.json(jsonResponse);
 });
 const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();

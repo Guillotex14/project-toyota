@@ -125,6 +125,16 @@
 
             <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
               <ion-col size="12">
+                <span class="spanLabel">Placa del vehículo</span>
+              </ion-col>
+              <ion-col size="12">
+                <p class="pText">{{carDetail.plate}}</p>
+              </ion-col>
+            </ion-col>
+
+
+            <ion-col sizeXl="4" sizeLg="14" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+              <ion-col size="12">
                 <span class="spanLabel">Transmisión</span>
               </ion-col>
               <ion-col size="12">
@@ -289,7 +299,7 @@
                       Crear Ficha
                     </ion-button>
                     <ion-button (click)="mechanicalFileDetail()" expand="block" shape="round" color="success" *ngIf="carDetail.mechanicalFile">
-                      Ver ficha
+                      Ver ficha técnica
                     </ion-button>
                   </ion-col>
                 </ion-row>

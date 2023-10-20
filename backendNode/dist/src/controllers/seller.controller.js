@@ -146,7 +146,16 @@ sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 sellerController.addImgVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     const { id_vehicle, image } = req.body;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
     const filename = yield (0, cloudinaryMetods_1.uploadImageVehicle)(image);
     const newImage = new ImgVehicle_schema_1.default({
         img: filename.secure_url,
