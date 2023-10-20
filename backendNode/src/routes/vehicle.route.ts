@@ -34,12 +34,6 @@ vehicleRouter.get("/listVehiclesSale", vehicleController.listVehiclesSale);
 
 vehicleRouter.get("/exportExcell", vehicleController.exportExcell);
 
-vehicleRouter.post("/buyVehicle", vehicleController.buyVehicle);
-
-vehicleRouter.post("/approveBuyVehicle", vehicleController.approveBuyVehicle);
-
-vehicleRouter.post("/rejectBuyVehicle", vehicleController.rejectBuyVehicle);
-
 vehicleRouter.post("/dispatchedCar", vehicleController.dispatchedCar);
 
 vehicleRouter.post("/repost", vehicleController.repost);
