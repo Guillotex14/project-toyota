@@ -55,6 +55,48 @@ modelVehiclesController.all = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
+modelVehiclesController.get = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  reponseJson.code = 200;
+  reponseJson.message = "Vehículo agregado exitosamente";
+  reponseJson.status = true;
+  reponseJson.data = "";
+
+  res.json(reponseJson);
+};
+
+modelVehiclesController.modelVehicleById = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+
+  reponseJson.code = 200;
+  reponseJson.message = "Vehículo agregado exitosamente";
+  reponseJson.status = true;
+  reponseJson.data = "";
+
+  res.json(reponseJson);
+};
+
+
 modelVehiclesController.allPaginator = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
@@ -212,6 +254,52 @@ modelVehiclesController.deleteModel = async (req: Request, res: Response) =>{
   }
 
   res.json(reponseJson)
+}
+
+modelVehiclesController.addModel = async (req: Request, res: Response)=>{
+  const jsonRes: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+
+  if (decode == false) {
+    jsonRes.code = jwt.code;
+    jsonRes.message = jwt.message;
+    jsonRes.status = false;
+    jsonRes.data = null;
+    return res.json(jsonRes);
+  }
+
+  const {model, brand, type_vehicle} = req.body;
+
+
+  const exist = await models.findOne({model: model});
+
+
+  if (exist) {
+      jsonRes.code = 400;
+      jsonRes.message = "El modelo ya existe";
+      jsonRes.status = false;
+  }else{
+  
+      const newModel = new models({model: model, brand: brand, type_vehicle: type_vehicle});
+  
+      await newModel.save();
+      
+      if (newModel) {
+          jsonRes.code = 200;
+          jsonRes.message = "Modelo agregado exitosamente";
+          jsonRes.status = true;
+          // jsonRes.data = "";
+      }else{
+          jsonRes.code = 400;
+          jsonRes.message = "Error al agregar el modelo";
+          jsonRes.status = false;
+      }
+  }
+
+  
+
+  res.json(jsonRes);
 }
 
 export default modelVehiclesController;
