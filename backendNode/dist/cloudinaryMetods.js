@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteImageVehicle = exports.uploadImageVehicle = exports.deleteImageUser = exports.uploadImageUser = void 0;
+exports.deleteIgmVechicleDocumentation = exports.uploadIgmVechicleDocumentation = exports.deleteImageVehicle = exports.uploadImageVehicle = exports.deleteImageUser = exports.uploadImageUser = void 0;
 const cloudinary_1 = require("cloudinary");
 const enviroments_1 = require("./enviroments");
 cloudinary_1.v2.config({
@@ -37,4 +37,14 @@ const deleteImageVehicle = (public_id) => __awaiter(void 0, void 0, void 0, func
     return yield cloudinary_1.v2.uploader.destroy(public_id);
 });
 exports.deleteImageVehicle = deleteImageVehicle;
+const uploadIgmVechicleDocumentation = (file) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield cloudinary_1.v2.uploader.upload(file, {
+        folder: "vehicles_documentation"
+    });
+});
+exports.uploadIgmVechicleDocumentation = uploadIgmVechicleDocumentation;
+const deleteIgmVechicleDocumentation = (public_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield cloudinary_1.v2.uploader.destroy(public_id);
+});
+exports.deleteIgmVechicleDocumentation = deleteIgmVechicleDocumentation;
 //# sourceMappingURL=cloudinaryMetods.js.map

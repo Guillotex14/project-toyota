@@ -296,7 +296,6 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
     //aqui declaramos las variables que vamos a recibir
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
     if (decode == false) {
@@ -306,6 +305,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
@@ -619,98 +619,6 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
     }
     res.json(reponseJson);
 });
-vehicleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { id_vehicle } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const infoVehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
-    const vehicle = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
-        price_ofert: infoVehicle.price_ofert,
-        date_sell: date_sell,
-        final_price_sold: infoVehicle.price_ofert,
-        sold: false,
-    });
-    const infoBuyer = yield Sellers_schema_1.default.findById(vehicle.id_seller_buyer);
-    const userbuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
-    const infoSeller = yield Sellers_schema_1.default.findById(vehicle.id_seller);
-    const Userseller = yield Users_schema_1.default.findById(infoSeller.id_user);
-    if (vehicle) {
-        reponseJson.code = 200;
-        reponseJson.message = "aprobacion de oferta exitosa";
-        reponseJson.status = true;
-        reponseJson.data = vehicle;
-        const mailOptions = {
-            from: "Toyousado Notifications",
-            to: userbuyer.email,
-            subject: "Oferta de vehículo aprobada",
-            text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${Userseller.email} o al número telefono ${infoSeller.phone}`,
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "error al aprobar la oferta";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
-vehicleController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const vehicle = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
-        id_seller_buyer: null,
-        sold: false,
-        price_ofert: null,
-        date_sell: null,
-        name_new_owner: null,
-        dni_new_owner: null,
-        phone_new_owner: null,
-        email_new_owner: null,
-    });
-    const infoBuyer = yield Sellers_schema_1.default.findById(vehicle.id_seller_buyer);
-    const userbuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
-    const infoSeller = yield Sellers_schema_1.default.findById(vehicle.id_seller);
-    const userSeller = yield Users_schema_1.default.findById(infoSeller.id_user);
-    if (vehicle) {
-        reponseJson.code = 200;
-        reponseJson.message = "oferta rechazada exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = vehicle;
-        const mailOptions = {
-            from: "Toyousado Notifications",
-            to: userbuyer.email,
-            subject: "Compra de vehículo rechazada",
-            text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el vendedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.message = "error al rechazar la oferta";
-        reponseJson.status = false;
-    }
-    res.json(reponseJson);
-});
 vehicleController.dispatchedCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
@@ -862,9 +770,7 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
     query.mechanicalFile = true;
     query.sold = false;
     // query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_schema_2.default
-        .find(query)
-        .sort({ date_create: -1 });
+    const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -1924,123 +1830,6 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
         reponseJson.message = "No se encontro la ficha mecánica";
     }
     res.json(reponseJson);
-});
-vehicleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const responseJson = new Response_1.ResponseModel();
-    const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { id_vehicle, id_seller, name_new_owner, dni_new_owner, phone_new_owner, email_new_owner, price_ofert, } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
-    if (decode == false) {
-        responseJson.code = generar_jwt_1.default.code;
-        responseJson.message = generar_jwt_1.default.message;
-        responseJson.status = false;
-        responseJson.data = null;
-        return res.json(responseJson);
-    }
-    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //   id_seller_buyer: id_seller,
-    //   name_new_owner: name_new_owner,
-    //   dni_new_owner: dni_new_owner,
-    //   phone_new_owner: phone_new_owner,
-    //   email_new_owner: email_new_owner,
-    //   price_ofert: price_ofert,
-    // });
-    // const sameIdSeller = await vehicles.findById(id_vehicle);
-    // if (sameIdSeller!.id_seller?.toString() === id_seller) {
-    //   console.log('soy el comprador')
-    //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //     id_seller_buyer: id_seller,
-    //     name_new_owner: name_new_owner,
-    //     dni_new_owner: dni_new_owner,
-    //     phone_new_owner: phone_new_owner,
-    //     email_new_owner: email_new_owner,
-    //     price_ofert: price_ofert,
-    //     price: price_ofert,
-    //     sold: true,
-    //     date_sell: date_sell,
-    //     final_price_sold: price_ofert,
-    //     dispatched: true,
-    //   });
-    //   if (vehicle) {
-    //     responseJson.code = 200;
-    //     responseJson.message = "vehículo comprado exitosamente";
-    //     responseJson.status = true;
-    //     responseJson.data = vehicle;
-    //   } else {
-    //     responseJson.code = 400;
-    //     responseJson.message = "no se pudo comprar el vehículo";
-    //     responseJson.status = false;
-    //   }
-    // } else {
-    const vehicle = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
-        id_seller_buyer: id_seller,
-        name_new_owner: name_new_owner,
-        dni_new_owner: dni_new_owner,
-        phone_new_owner: phone_new_owner,
-        email_new_owner: email_new_owner,
-        price_ofert: price_ofert,
-        date_sell: date_sell,
-        sold: false,
-    });
-    const getVehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
-    const infoBuyer = yield Sellers_schema_1.default.findById(id_seller);
-    const infoSeller = yield Sellers_schema_1.default.findById(getVehicle.id_seller);
-    const email = yield Users_schema_1.default.findById(infoSeller.id_user);
-    const emailBuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
-    const mailOptions = {
-        from: "Toyousado Notifications",
-        to: email.email,
-        subject: "Oferta de vehículo",
-        html: `<div>
-        <p>Tienes una oferta de compra para:</p>
-    </div>
-    <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.model}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.year}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle.plate}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
-        </div>
-        <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
-        </div>
-        </div>
-        </div>`,
-    };
-    const dataVehicle = {
-        model: getVehicle.model,
-        year: getVehicle.year,
-        plate: getVehicle.plate,
-        fullName: infoSeller.fullName,
-        concesionary: infoSeller.concesionary,
-        city: infoSeller.city,
-        title: "Tienes una oferta de compra para:",
-    };
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
-    sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
-    responseJson.code = 200;
-    responseJson.message =
-        "Compra realizada, esperar confirmación o rechazo del vendedor";
-    responseJson.status = true;
-    // }
-    res.json(responseJson);
 });
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();

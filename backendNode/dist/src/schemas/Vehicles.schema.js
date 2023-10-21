@@ -76,6 +76,10 @@ const vehicleSchema = new mongoose_1.Schema({
     },
     id_seller_buyer: {
         type: mongoose_1.Schema.Types.ObjectId
+    },
+    imgs_documentation: {
+        type: Array,
+        default: []
     }
 });
 exports.default = (0, mongoose_1.model)("vehicle", vehicleSchema);

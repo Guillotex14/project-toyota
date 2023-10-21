@@ -159,7 +159,16 @@
                     <p class="pText">{{carDetail.titles}}</p>
                   </ion-col>
                 </ion-col>
-    
+                
+                <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
+                  <ion-col size="12">
+                    <span class="spanLabel">Placa del vehículo</span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <p class="pText">{{carDetail.plate}}</p>
+                  </ion-col>
+                </ion-col>
+
                 <ion-col sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="6" style="text-align: center !important;">
                   <ion-col size="12">
                     <span class="spanLabel">Transmisión</span>
@@ -256,7 +265,12 @@
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="10-1">10-1</ion-select-option>
                   </ion-select>
                 </ion-col>
-    
+                
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Placa del vehículo</ion-label>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.plate"></ion-input>
+                </ion-col>
+                
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmisión</ion-label>
                   <ion-select [(ngModel)]="carDetail.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmisión">
@@ -273,6 +287,7 @@
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="4x4 full time">4x4 Full Time</ion-select-option>
                   </ion-select>
                 </ion-col>
+                
                 <ion-col size="12" style="margin-top: 10px;">
                   <ion-label class="titleDatosPlus" >Datos plus</ion-label>
                 </ion-col>
@@ -507,7 +522,7 @@
                   </ion-col>
                   <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" style="text-align: center; margin: auto;">
                     <ion-button (click)="openFile(carDetail._id)" expand="block" shape="round" color="success">
-                      Ver ficha
+                      Ver ficha técnica
                     </ion-button>
                   </ion-col>
                 </ion-row>
@@ -519,7 +534,7 @@
                 <ion-row>
                   <ion-col size="12">
                     <ion-button expand="block" shape="round" color="success" (click)="editVehicle()" *ngIf="!editCar">
-                      Editar
+                      Editar detalles vehículos
                     </ion-button>
                     <ion-button expand="block" shape="round" color="success" (click)="updateVehicle()" *ngIf="editCar">
                       guardar

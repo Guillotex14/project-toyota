@@ -23,9 +23,6 @@ vehicleRouter.post("/getVehicleByType", vehicle_controller_1.default.getVehicleB
 vehicleRouter.post("/filterVehiclesWithMongo", vehicle_controller_1.default.filterVehiclesWithMongo);
 vehicleRouter.get("/listVehiclesSale", vehicle_controller_1.default.listVehiclesSale);
 vehicleRouter.get("/exportExcell", vehicle_controller_1.default.exportExcell);
-vehicleRouter.post("/buyVehicle", vehicle_controller_1.default.buyVehicle);
-vehicleRouter.post("/approveBuyVehicle", vehicle_controller_1.default.approveBuyVehicle);
-vehicleRouter.post("/rejectBuyVehicle", vehicle_controller_1.default.rejectBuyVehicle);
 vehicleRouter.post("/dispatchedCar", vehicle_controller_1.default.dispatchedCar);
 vehicleRouter.post("/repost", vehicle_controller_1.default.repost);
 vehicleRouter.get("/filterGraphySale", vehicle_controller_1.default.filterGraphySale);

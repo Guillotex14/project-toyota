@@ -72,7 +72,7 @@ export class AddVehiclePage implements OnInit {
             text: 'Galeria',
             icon: 'image',
             handler: () => {
-              this.takePhotoGalery();
+              this.presentAlert(2);
             }
           },
           {
@@ -95,7 +95,7 @@ export class AddVehiclePage implements OnInit {
             text: 'Camara',
             icon: 'camera',
             handler: () => {
-              this.takePhoto();
+              this.presentAlert(1);
             }
           },
           {

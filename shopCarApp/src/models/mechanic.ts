@@ -26,6 +26,7 @@ export class CarDetailMechanic{
     public vehicle_plate!: string;
     public images!: any[]
     public id_seller_buyer!: string;
+    public plate!: string
 }
 
 export class MechanicalFileDetail{
@@ -71,4 +72,23 @@ export class MechanicalFileDetail{
     public wiper_shower_brushes_windshield!: string;
     public headlights_lights!: string;
     public general_condition!: string;
+
+    public odometer!:string;
+    public engine_start!:string;
+    public windshields_glass!:string;
+    public hits_scratches!:string;
+    public spark_plugs!:string;
+    public injectors!:string;
+    public fuel_filter_anti_pollen_filter!:string;
+    public engine_noises!:string;
+    public hits_scratches_sides!:string;
+    public paint_condition_sides!:string;
+    public trunk_hatch!:string;
+    public spare_tire!:string;
+    public hits_scratches_trunk!:string;
+    public paint_condition_trunk!:string;
+    public headlights_lights_trunk!:string;
+    public fuel_tank_cover!:string;
+    public pipes_hoses_connections!:string;
+    public brake_discs!:string;
 }

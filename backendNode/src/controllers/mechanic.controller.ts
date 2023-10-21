@@ -10,7 +10,8 @@ import { ResponseModel } from '../models/Response';
 import vehicles from '../schemas/Vehicles.schema';
 import sellers from '../schemas/Sellers.schema';
 import users from '../schemas/Users.schema';
-
+import brands from '../schemas/brands.schema'
+import models from '../schemas/modelVehicle.schema';
 
 const mechanicController: any = {};
 
@@ -290,6 +291,7 @@ mechanicController.getVehicleById = async (req: Request, res: Response) => {
             sold: vehicle.sold,
             date_create: vehicle.date_create,
             type_vehicle: vehicle.type_vehicle,
+            plate: vehicle.plate,
             id_seller: vehicle.id_seller,
             id_mechanic: vehicle.id_mechanic,
             id_seller_buyer: vehicle.id_seller_buyer,
@@ -373,7 +375,25 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
         headlights_lights,
         general_condition,
         id_vehicle,
-        id_mechanic
+        id_mechanic,
+        odometer,
+        engine_start,
+        windshields_glass,
+        hits_scratches,
+        spark_plugs,
+        injectors,
+        fuel_filter_anti_pollen_filter,
+        engine_noises,
+        hits_scratches_sides,
+        paint_condition_sides,
+        trunk_hatch,
+        spare_tire,
+        hits_scratches_trunk,
+        paint_condition_trunk,
+        headlights_lights_trunk,
+        fuel_tank_cover,
+        pipes_hoses_connections,
+        brake_discs,
     } = req.body;
 
     const newMechanicFile = new mechanicalsFiles({
@@ -417,6 +437,24 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
         dealer_maintenance,
         headlights_lights,
         general_condition,
+        odometer,
+        engine_start,
+        windshields_glass,
+        hits_scratches,
+        spark_plugs,
+        injectors,
+        fuel_filter_anti_pollen_filter,
+        engine_noises,
+        hits_scratches_sides,
+        paint_condition_sides,
+        trunk_hatch,
+        spare_tire,
+        hits_scratches_trunk,
+        paint_condition_trunk,
+        headlights_lights_trunk,
+        fuel_tank_cover,
+        pipes_hoses_connections,
+        brake_discs,
         date_create: dateNow,
         id_vehicle,
         id_mechanic
@@ -697,6 +735,48 @@ mechanicController.countNotifications = async (req: Request, res: Response) => {
     res.json(reponseJson);
 
 }
+
+mechanicController.allBrands = async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+
+    const brand = await brands.find()
+
+    if (brand) {
+
+    jsonResponse.code = 200;
+    jsonResponse.message = "Marcas encontradas exitosamente";
+    jsonResponse.status = true;
+    jsonResponse.data = brand;
+    
+    } else {
+    jsonResponse.code = 400;
+    jsonResponse.message = "no se encontraron marcas";
+    jsonResponse.status = false;
+    
+    }
+
+    res.json(jsonResponse);
+};
+
+mechanicController.allModels =  async (req: Request, res: Response) => {
+    const jsonResponse: ResponseModel = new ResponseModel();
+
+    const model = await models.find();
+
+    if (model) {
+    jsonResponse.code = 200;
+    jsonResponse.message = "todos los modelos";
+    jsonResponse.status = true;
+    jsonResponse.data = model;
+    }else{
+    jsonResponse.code = 400;
+    jsonResponse.message = "no hay modelos";
+    jsonResponse.status = false;
+    }
+
+    res.json(jsonResponse);
+
+};
 
 const sendNotification = async (id_seller:string, data: any, title: string) => {
     // const jsonRes: ResponseModel = new ResponseModel();
