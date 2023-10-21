@@ -321,7 +321,7 @@ userController.get = async (req: Request, res: Response) => {
 userController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin"]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;

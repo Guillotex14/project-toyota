@@ -15,7 +15,7 @@ vehicleRouter.post("/updateVehicle", vehicle_controller_1.default.updateVehicle)
 vehicleRouter.post("/addImgVehicle", vehicle_controller_1.default.addImgVehicle);
 vehicleRouter.post("/deleteImgVehicle", vehicle_controller_1.default.deleteImgVehicle);
 vehicleRouter.post("/updateImgVehicle", vehicle_controller_1.default.updateImgVehicle);
-vehicleRouter.get("/allVehicles", vehicle_controller_1.default.allVehicles);
+vehicleRouter.post("/allVehicles", vehicle_controller_1.default.allVehicles);
 vehicleRouter.post("/myVehicles", vehicle_controller_1.default.myVehicles);
 vehicleRouter.post("/vehicleById", vehicle_controller_1.default.vehicleById);
 vehicleRouter.post("/mechanicalFileByIdVehicle", vehicle_controller_1.default.mechanicalFileByIdVehicle);

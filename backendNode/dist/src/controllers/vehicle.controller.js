@@ -305,7 +305,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
@@ -349,7 +349,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     query.type_vehicle = { $regex: type_vehicle, $options: "i" };
     query.mechanicalFile = true;
     query.sold = false;
-    // query.id_seller_buyer = null;
+    query.id_seller_buyer = null;
     const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];

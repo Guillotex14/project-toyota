@@ -345,18 +345,7 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  const {
-    minYear,
-    maxYear,
-    minKm,
-    maxKm,
-    minPrice,
-    maxPrice,
-    brand,
-    model,
-    ubication,
-    type_vehicle,
-  } = req.body;
+  const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle} = req.body;
   //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
   if (minYear === 0 && maxYear === 0) {
@@ -395,7 +384,7 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   query.type_vehicle = { $regex: type_vehicle, $options: "i" };
   query.mechanicalFile = true;
   query.sold = false;
-  // query.id_seller_buyer = null;
+  query.id_seller_buyer = null;
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
   if (vehiclesFiltered) {

@@ -120,7 +120,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
         reponseJson.code = 200;
         reponseJson.message = "Vehiuclos encontrados";
         reponseJson.status = true;
-        reponseJson.data = arrayVehicles;
+        reponseJson.data = arrayVehicles.length;
 
     }else{
 

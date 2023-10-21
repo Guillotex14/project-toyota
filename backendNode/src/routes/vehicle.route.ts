@@ -18,7 +18,7 @@ vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);
 
 vehicleRouter.post("/updateImgVehicle", vehicleController.updateImgVehicle);
 
-vehicleRouter.get("/allVehicles", vehicleController.allVehicles);
+vehicleRouter.post("/allVehicles", vehicleController.allVehicles);
 
 vehicleRouter.post("/myVehicles", vehicleController.myVehicles);
 
