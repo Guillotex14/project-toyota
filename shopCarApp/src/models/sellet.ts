@@ -135,6 +135,7 @@ export class AddVehicle{
   public type_vehicle!: string;
   public vin!: string;
   public vehicle_plate!: string;
+  public img_documents!: any[];
 }
 
 export class AddMechanicFile{

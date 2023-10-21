@@ -4,6 +4,7 @@ import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet, I
 import { AddVehicle, CreateMechanic } from 'src/models/sellet';
 import { SellerService } from '../services/seller/seller.service';
 import { UtilsService } from '../services/utils/utils.service';
+import { AuthService } from '../services/auth/auth.service';
 import { ModalMechanicComponent } from '../components/modal-mechanic/modal-mechanic.component';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { states } from 'src/assets/json/states';
@@ -22,13 +23,17 @@ export class AddVehiclePage implements OnInit {
   showAutoComplete:boolean = false;
   disabledSave: boolean = false;
   aux: number = 0;
+  auxDocs: number = 0;
   km: string = '';
   year: string = '';
-
+  me: any = null;
 
   actionSheetButtons: any[] = [];
   actionSheetButtonsEdit: any[] = [];
+  aSBtnsDocs: any[] = [];
+  aSBtnsEditDocs: any[] = [];
   arrayImages: any[] = [];
+  arrayDocuments: any[] = [];
   arrayZones: any[] = states;
   arrayConcesionaries: any[] = concesionaries;
   conceAux: any[] = concesionaries;
@@ -51,9 +56,13 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheetEdit') ActionSheetEdit!: IonActionSheet;
   @ViewChild('ActionSheet') ActionSheet!: IonActionSheet;
+  @ViewChild('ActionSheet') ActionSheetDocs!: IonActionSheet;
+  @ViewChild('ActionSheetEdit') ActionSheetEditDocs!: IonActionSheet;
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
+  
+
 
   buttonPhoto = [
     {
@@ -115,7 +124,7 @@ export class AddVehiclePage implements OnInit {
     }
   ]
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService) {
 
     this.newVehicle.brand = '';
     this.newVehicle.city = '';
@@ -140,6 +149,7 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.type_vehicle = '';
     this.newVehicle.vin = '';
     this.newVehicle.vehicle_plate = '';
+    this.newVehicle.img_documents = [];
 
     this.newMechanic.email = "";
     this.newMechanic.password = "";
@@ -149,15 +159,14 @@ export class AddVehiclePage implements OnInit {
     this.newMechanic.fullName = "";
     this.newMechanic.username = "";
 
-    let data = localStorage.getItem('me');
+    this.me = this.authSrv.getMeData();
 
-    if (data) {
-      let me = JSON.parse(data);
-      this.newVehicle.id_seller = me.id_sell;
-      this.newVehicle.city = me.city;
-      this.newVehicle.concesionary = me.concesionary;
-      this.newMechanic.city = me.city;
-      this.newMechanic.concesionary = me.concesionary;
+    if (this.me != null) {
+      this.newVehicle.id_seller = this.me.id_sell;
+      this.newVehicle.city = this.me.city;
+      this.newVehicle.concesionary = this.me.concesionary;
+      this.newMechanic.city = this.me.city;
+      this.newMechanic.concesionary = this.me.concesionary;
     }else{
       this.newVehicle.id_seller = '';
       this.newVehicle.city = '';
@@ -166,6 +175,8 @@ export class AddVehiclePage implements OnInit {
 
     this.buttonsActionSheet();
     this.buttonsActionSheetEdit();
+    this.buttonsASDoc();
+    this.buttonsAStEditDoc();
     this.getBrands();
     this.getMechanics();
     this.filterMechanic();
@@ -211,6 +222,7 @@ export class AddVehiclePage implements OnInit {
   public addVehicle() {
     this.utils.presentLoading("Agregando vehículo...");
     this.newVehicle.images = this.arrayImages;
+    this.newVehicle.img_documents = this.arrayDocuments;
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.utils.dismissLoading();
       this.utils.presentToast("El modelo del vehículo es obligatorio");
@@ -230,12 +242,6 @@ export class AddVehiclePage implements OnInit {
       return;
     }
 
-    // if(this.newVehicle.price == "" || this.newVehicle.price == null || this.newVehicle.price == undefined){
-    //   this.utils.dismissLoading();
-    //   this.utils.presentToast("El precio del vehículo es obligatorio");
-    //   return;
-    // }
-
     if(this.newVehicle.displacement == "" || this.newVehicle.displacement == null || this.newVehicle.displacement == undefined){
       this.utils.dismissLoading();
       this.utils.presentToast("El desplazamiento del vehículo es obligatorio");
@@ -247,12 +253,6 @@ export class AddVehiclePage implements OnInit {
       this.utils.presentToast("Los kilómetros del vehículo es obligatorio");
       return;
     }
-
-    // if(this.newVehicle.engine_model == "" || this.newVehicle.engine_model == null || this.newVehicle.engine_model == undefined){
-    //   this.utils.dismissLoading();
-    //   this.utils.presentToast("El modelo del motor del vehículo es obligatorio");
-    //   return;
-    // }
 
     if(this.newVehicle.titles == "" || this.newVehicle.titles == null || this.newVehicle.titles == undefined){
       this.utils.dismissLoading();
@@ -324,13 +324,11 @@ export class AddVehiclePage implements OnInit {
 
   public editImage(index:any){
     this.aux = index;
-    // this.fileInput2.nativeElement.click();
     this.editTakePhotoGalery();
   }
 
   public emptyForm(){
     this.newVehicle.brand = '';
-    this.newVehicle.city = '';
     this.newVehicle.comfort = false;
     this.newVehicle.dealer = '';
     this.newVehicle.displacement = '';
@@ -409,7 +407,6 @@ export class AddVehiclePage implements OnInit {
         image: imageData.dataUrl,
       }
       this.arrayImages.push(img);
-      // this.utils.dismissLoading();
     } ,
     (err)=>{
       console.log(err)
@@ -444,15 +441,10 @@ export class AddVehiclePage implements OnInit {
       source: CameraSource.Photos,
     }).then (async (imageData) => {
       this.arrayImages[this.aux].image = imageData.dataUrl;
-      // this.utils.dismissLoading();
     } ,
     (err)=>{
       console.log(err)
-      // this.utils.dismissLoading();
     });
-
-
-    // this.arrayImages[this.aux].image = camera.dataUrl;
     this.utils.dismissLoading();
 
   }
@@ -505,6 +497,66 @@ export class AddVehiclePage implements OnInit {
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();
+        }
+      },
+      {
+        text: 'Salir',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
+  }
+
+  public openASEditDocs(index:any){
+    this.ActionSheetEditDocs.present();
+    this.auxDocs = index;
+  }
+
+  public openASDocs(){
+    this.ActionSheetDocs.present();
+  }
+
+  public buttonsASDoc(){
+    this.aSBtnsDocs = [
+      {
+        text: 'Camara',
+        icon: 'camera',
+        handler: () => {
+          this.takePhotoDoc();
+        }
+      },
+      {
+        text: 'Galeria',
+        icon: 'image',
+        handler: () => {
+          this.takePhotoGaleryDoc();
+        }
+      },
+      {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
+    
+
+  }
+
+  public buttonsAStEditDoc(){
+
+    this.aSBtnsEditDocs = [
+      {
+        text: 'Camara',
+        icon: 'camera',
+        handler: () => {
+          this.editTakePhotoDoc();
+        }
+      },
+      {
+        text: 'Galeria edit',
+        icon: 'image',
+        handler: () => {
+          this.editTakePhotoGaleryDoc();
         }
       },
       {
@@ -583,7 +635,6 @@ export class AddVehiclePage implements OnInit {
   }
 
   public selectMechanic(id_mechanic: string){
-    // this.utils.presentLoading('Seleccionando Técnico...');
     this.modalCtrl.dismiss({
       mechanic: id_mechanic
     }, "confirm");
@@ -725,11 +776,83 @@ export class AddVehiclePage implements OnInit {
   public async presentAlert(data:any) {
     const alert = await this.alertCtrl.create({
       header: 'Información',
-      // subHeader: 'Subtitle',
       message: new IonicSafeString('<p>1. Lateral completo</p> <p>2. Tres cuartos frente conductor</p> <p>3. Tres cuartos trasero copiloto</p> <p>4.Interior frente torpedo completo</p> <p>5.Interior frente tablero de instrumentos (visualización del kilometraje)</p>'),
       buttons: data === 1 ? this.buttonPhoto : this.buttonGallery
     });
     await alert.present();
+  }
+
+  public async takePhotoDoc(){
+    
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then((imageData)=>{
+      let img = {
+        image: imageData.dataUrl,
+      }
+      this.arrayDocuments.push(img);
+    },
+    (err)=>{
+      console.log(err)
+    });
+    this.utils.dismissLoading();
+  }
+
+  public async takePhotoGaleryDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then(async (imageData) => {
+      let img = {
+        image: imageData.dataUrl,
+      }
+      this.arrayDocuments.push(img);
+    } ,
+    (err)=>{
+      console.log(err)
+      this.utils.dismissLoading();
+    });
+    this.utils.dismissLoading();
+  }
+
+  public async editTakePhotoDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then (async (imageData) => {
+      this.arrayDocuments[this.auxDocs].image = imageData.dataUrl;
+    } ,
+    (err)=>{
+      console.log(err)
+    });
+    this.utils.dismissLoading();
+  }
+
+  public async editTakePhotoGaleryDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then (async (imageData) => {
+      this.arrayDocuments[this.auxDocs].image = imageData.dataUrl;
+    } ,
+    (err)=>{
+      console.log(err)
+    });
+    this.utils.dismissLoading();
+
   }
 
 }

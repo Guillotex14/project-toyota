@@ -162,11 +162,14 @@ ion-search-bar{
   width: 100% !important;
 }
 
-ion-item::parte(native){
-  background: #E9E9E9 !important;
-  color: #1c1c1d !important;
-  border-radius: 20px !important;
-  width: 100% !important;
+ion-item::part(native){
+  color: #fff !important;
+  background: #EB0A1E !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  ion-icon{
+    color: #fff !important;
+  }
 }
 
 ion-card{
