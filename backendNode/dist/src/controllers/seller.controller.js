@@ -39,7 +39,8 @@ sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, } = req.body;
+    let documents = [];
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -94,6 +95,20 @@ sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
             }
         }
     }
+    if (imgs_documents) {
+        if (imgs_documents.length > 0) {
+            for (let i = 0; i < imgs_documents.length; i++) {
+                const imgResize = yield desgloseImg(imgs_documents[i].image);
+                const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgResize);
+                let data = {
+                    img: filename.secure_url,
+                    public_id: filename.public_id
+                };
+                documents.push(data);
+            }
+        }
+    }
+    yield Vehicles_schema_1.default.findOneAndUpdate({ _id: newVehicle._id }, { imgs_documentation: documents });
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic,
@@ -1323,41 +1338,6 @@ sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
         responseJson.data = null;
         return res.json(responseJson);
     }
-    // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //   id_seller_buyer: id_seller,
-    //   name_new_owner: name_new_owner,
-    //   dni_new_owner: dni_new_owner,
-    //   phone_new_owner: phone_new_owner,
-    //   email_new_owner: email_new_owner,
-    //   price_ofert: price_ofert,
-    // });
-    // const sameIdSeller = await vehicles.findById(id_vehicle);
-    // if (sameIdSeller!.id_seller?.toString() === id_seller) {
-    //   console.log('soy el comprador')
-    //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-    //     id_seller_buyer: id_seller,
-    //     name_new_owner: name_new_owner,
-    //     dni_new_owner: dni_new_owner,
-    //     phone_new_owner: phone_new_owner,
-    //     email_new_owner: email_new_owner,
-    //     price_ofert: price_ofert,
-    //     price: price_ofert,
-    //     sold: true,
-    //     date_sell: date_sell,
-    //     final_price_sold: price_ofert,
-    //     dispatched: true,
-    //   });
-    //   if (vehicle) {
-    //     responseJson.code = 200;
-    //     responseJson.message = "vehículo comprado exitosamente";
-    //     responseJson.status = true;
-    //     responseJson.data = vehicle;
-    //   } else {
-    //     responseJson.code = 400;
-    //     responseJson.message = "no se pudo comprar el vehículo";
-    //     responseJson.status = false;
-    //   }
-    // } else {
     const vehicle = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, {
         id_seller_buyer: id_seller,
         name_new_owner: name_new_owner,

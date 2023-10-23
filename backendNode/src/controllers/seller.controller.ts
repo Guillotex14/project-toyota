@@ -16,7 +16,7 @@ import ImgVehicle from "../schemas/ImgVehicle.schema";
 import { sendEmail } from "../../nodemailer";
 import brands from "../schemas/brands.schema";
 import modelVehicle from "../schemas/modelVehicle.schema";
-import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
+import { deleteImageVehicle, uploadDocuments, uploadImageVehicle } from "../../cloudinaryMetods";
 import imgUserSchema from "../schemas/imgUser.schema";
 import ZonesSchema from "../schemas/Zones.schema";
 
@@ -29,6 +29,7 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
 
   const {
     model,
@@ -54,6 +55,7 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
     images,
     vin,
     vehicle_plate,
+    imgs_documents
   } = req.body;
 
   if (decode == false) {
@@ -117,6 +119,28 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
       }
     }
   }
+  
+  if (imgs_documents) {
+    if (imgs_documents.length > 0) {
+      for (let i = 0; i < imgs_documents.length; i++) {
+        const imgResize = await desgloseImg(imgs_documents[i].image);
+
+        const filename = await uploadDocuments(imgResize);
+
+        let data = {
+          img: filename.secure_url,
+          public_id: filename.public_id
+        }
+
+        documents.push(data);
+      }
+    }
+  }
+
+  await vehicles.findOneAndUpdate(
+    { _id: newVehicle._id },
+    { imgs_documentation: documents }
+  );
 
   const mailOptions = {
     from: "Toyousado",
@@ -765,8 +789,8 @@ sellerController.approveBuyVehicle = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
-  
+};
+
 sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_vehicle } = req.body;
@@ -831,9 +855,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
+};
 
-  sellerController.dispatchedCar = async (req: Request, res: Response) => {
+sellerController.dispatchedCar = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id, final_price_sold } = req.body;
     const token: any = req.header("Authorization");
@@ -864,9 +888,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
-  
-  sellerController.repost = async (req: Request, res: Response) => {
+};
+
+sellerController.repost = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id } = req.body;
     const token: any = req.header("Authorization");
@@ -907,9 +931,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
+};
 
-  sellerController.getVehicleByType = async (req: Request, res: Response) => {
+sellerController.getVehicleByType = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const token: any = req.header("Authorization");
     let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
@@ -942,9 +966,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
-  
-  sellerController.filterVehiclesWithMongo = async (
+};
+
+sellerController.filterVehiclesWithMongo = async (
     req: Request,
     res: Response
   ) => {
@@ -1080,9 +1104,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
   
     res.json(reponseJson);
   
-  };
-  
-  sellerController.filterGraphySell = async (req: Request, res: Response) => {
+};
+
+sellerController.filterGraphySell = async (req: Request, res: Response) => {
       const reponseJson: ResponseModel = new ResponseModel();
       const token: any = req.header("Authorization");
       let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
@@ -1291,9 +1315,9 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
       }
     
       res.json(reponseJson);
-    };
+};
   
-  sellerController.listVehiclesSell = async (req: Request, res: Response) => { 
+sellerController.listVehiclesSell = async (req: Request, res: Response) => { 
       const reponseJson: ResponseModel = new ResponseModel();
       
       const token: any = req.header("Authorization");
@@ -1542,8 +1566,8 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
         reponseJson.status = false;
       }
       res.json(reponseJson);
-    };
-  
+};
+
 
 // -------brand------
 
@@ -1609,6 +1633,7 @@ sellerController.allModels = async (req: Request, res: Response) => {
 
   res.json(jsonResponse);
 };
+
 sellerController.autocompleteModels = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { search } = req.body;
@@ -1639,7 +1664,7 @@ sellerController.autocompleteModels = async (req: Request, res: Response) => {
     }
   
     res.json(reponseJson);
-  };
+};
 
 // -----ventas------
 
@@ -1667,44 +1692,6 @@ sellerController.buyVehicle = async (req: Request, res: Response) => {
     return res.json(responseJson);
   }
 
-  // const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-  //   id_seller_buyer: id_seller,
-  //   name_new_owner: name_new_owner,
-  //   dni_new_owner: dni_new_owner,
-  //   phone_new_owner: phone_new_owner,
-  //   email_new_owner: email_new_owner,
-  //   price_ofert: price_ofert,
-  // });
-
-  // const sameIdSeller = await vehicles.findById(id_vehicle);
-
-  // if (sameIdSeller!.id_seller?.toString() === id_seller) {
-  //   console.log('soy el comprador')
-  //   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
-  //     id_seller_buyer: id_seller,
-  //     name_new_owner: name_new_owner,
-  //     dni_new_owner: dni_new_owner,
-  //     phone_new_owner: phone_new_owner,
-  //     email_new_owner: email_new_owner,
-  //     price_ofert: price_ofert,
-  //     price: price_ofert,
-  //     sold: true,
-  //     date_sell: date_sell,
-  //     final_price_sold: price_ofert,
-  //     dispatched: true,
-  //   });
-
-  //   if (vehicle) {
-  //     responseJson.code = 200;
-  //     responseJson.message = "vehículo comprado exitosamente";
-  //     responseJson.status = true;
-  //     responseJson.data = vehicle;
-  //   } else {
-  //     responseJson.code = 400;
-  //     responseJson.message = "no se pudo comprar el vehículo";
-  //     responseJson.status = false;
-  //   }
-  // } else {
 
   const vehicle = await vehicles.findByIdAndUpdate(id_vehicle, {
     id_seller_buyer: id_seller,
@@ -1802,8 +1789,6 @@ sellerController.buyVehicle = async (req: Request, res: Response) => {
 
   res.json(responseJson);
 };
-
-
 
 // ----notificaciones----
 
@@ -1935,12 +1920,6 @@ sellerController.countNotifications = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-
-
-
-
-
-
 // -----tecnico mecanico---
 
 sellerController.addMechanic = async (req: Request, res: Response) => {
@@ -2011,7 +1990,6 @@ sellerController.addMechanic = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
-
 
 sellerController.allMechanics = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -2090,7 +2068,6 @@ sellerController.allMechanics = async (req: Request, res: Response) => {
   res.json(ress);
 };
 
-
 sellerController.mechanicByConcesionary = async (
   req: Request,
   res: Response
@@ -2143,7 +2120,6 @@ sellerController.mechanicByConcesionary = async (
 
     res.json(reponseJson);
 }
-
 
 // ------zonas-----
 sellerController.allZones = async (req: Request, res: Response) => {
@@ -2219,8 +2195,6 @@ sellerController.allConcesionaries = async (req: Request, res: Response) => {
 
   res.json(ress);
 };
-
-
 
 
 const desgloseImg = async (image: any) => {

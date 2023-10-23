@@ -27,12 +27,12 @@ export const deleteImageVehicle = async (public_id: string) => {
     return await cloudinary.uploader.destroy(public_id);
 }
 
-export const uploadIgmVechicleDocumentation = async (file: any) =>{
+export const uploadDocuments = async (file: any) =>{
     return await cloudinary.uploader.upload(file,{
         folder: "vehicles_documentation"
     });
 }
 
-export const deleteIgmVechicleDocumentation = async (public_id: string) =>{
+export const deleteDocuments = async (public_id: string) =>{
     return await cloudinary.uploader.destroy(public_id);
 }
