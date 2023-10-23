@@ -170,4 +170,59 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
         this.utils.presentToast("Error de servidor")
     })
   }
+
+  public generalCondition(event: any){
+  
+    let total = Number(this.mechanicalFileDetail.part_emblems_complete) +
+    Number(this.mechanicalFileDetail.wiper_shower_brushes_windshield) +
+    Number(this.mechanicalFileDetail.paint_condition) +
+    Number(this.mechanicalFileDetail.bugle_accessories) +
+    Number(this.mechanicalFileDetail.air_conditioning_system) +
+    Number(this.mechanicalFileDetail.radio_player) +
+    Number(this.mechanicalFileDetail.courtesy_lights) +
+    Number(this.mechanicalFileDetail.upholstery_condition) +
+    Number(this.mechanicalFileDetail.board_lights) +
+    Number(this.mechanicalFileDetail.tire_life) +
+    Number(this.mechanicalFileDetail.battery_status_terminals) +
+    Number(this.mechanicalFileDetail.transmitter_belts) +
+    Number(this.mechanicalFileDetail.motor_oil) +
+    Number(this.mechanicalFileDetail.engine_coolant_container) +
+    Number(this.mechanicalFileDetail.radiator_status) +
+    Number(this.mechanicalFileDetail.exhaust_pipe_bracket) +
+    Number(this.mechanicalFileDetail.distribution_mail) +
+    Number(this.mechanicalFileDetail.fuel_system) +
+    Number(this.mechanicalFileDetail.parking_break) +
+    Number(this.mechanicalFileDetail.brake_bands_drums) +
+    Number(this.mechanicalFileDetail.brake_pads_discs) +
+    Number(this.mechanicalFileDetail.master_cylinder) +
+    Number(this.mechanicalFileDetail.brake_fluid) +
+    Number(this.mechanicalFileDetail.bushings_plateaus) +
+    Number(this.mechanicalFileDetail.stumps) +
+    Number(this.mechanicalFileDetail.terminals) +
+    Number(this.mechanicalFileDetail.stabilizer_bar) +
+    Number(this.mechanicalFileDetail.bearings) +
+    Number(this.mechanicalFileDetail.tripoids_rubbe_bands) +
+    Number(this.mechanicalFileDetail.shock_absorbers_coils) +
+    Number(this.mechanicalFileDetail.odometer) +
+    Number(this.mechanicalFileDetail.engine_start) +
+    Number(this.mechanicalFileDetail.windshields_glass) +
+    Number(this.mechanicalFileDetail.hits_scratches) +
+    Number(this.mechanicalFileDetail.spark_plugs) +
+    Number(this.mechanicalFileDetail.injectors) +
+    Number(this.mechanicalFileDetail.fuel_filter_anti_pollen_filter) +
+    Number(this.mechanicalFileDetail.engine_noises) +
+    Number(this.mechanicalFileDetail.hits_scratches_sides) +
+    Number(this.mechanicalFileDetail.paint_condition_sides) +
+    Number(this.mechanicalFileDetail.trunk_hatch) +
+    Number(this.mechanicalFileDetail.spare_tire) +
+    Number(this.mechanicalFileDetail.hits_scratches_trunk) +
+    Number(this.mechanicalFileDetail.paint_condition_trunk) +
+    Number(this.mechanicalFileDetail.headlights_lights_trunk) +
+    Number(this.mechanicalFileDetail.fuel_tank_cover) +
+    Number(this.mechanicalFileDetail.pipes_hoses_connections) +
+    Number(this.mechanicalFileDetail.brake_discs);
+
+    console.log(total)
+    this.mechanicalFileDetail.general_condition = total;
+  }
 }

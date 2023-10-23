@@ -109,7 +109,7 @@ export class AppComponent implements  OnInit{
   public buttonsActionSheet(){
     this.actionSheetButtons = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.takePhoto();
@@ -134,7 +134,7 @@ export class AppComponent implements  OnInit{
 
     this.actionSheetButtonsEdit = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.editTakePhoto();

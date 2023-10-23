@@ -242,50 +242,50 @@
                     <ion-row>
                       <ion-col size="12">
                         
-                        <ion-row *ngIf="carDetail.general_condition ==='excelente'">
+                        <ion-row *ngIf="carDetail.general_condition ==='excelente' || carDetail.general_condition >= 96">
                           <ion-col size="12">
-                            <span class="spanGenCon">Condición del vehículo:</span>
+                            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
                           <ion-col size="5" style="text-align: right !important;">
-                            <ion-icon name="shield-checkmark-outline" style="font-size: 30px !important; color: #11D800 !important"></ion-icon>
+                            <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #11D800 !important"></ion-icon>
                           </ion-col>
                           <ion-col size="7"style="text-align: left !important;">
-                            <p style="color: #11D800 !important;" class="pGenCon">Excelente</p>
-                          </ion-col>
-                        </ion-row>
-                        <ion-row *ngIf="carDetail.general_condition ==='bueno'">
-                          <ion-col size="12">
-                            <span class="spanGenCon">Condición del vehículo:</span>
-                          </ion-col>
-                          <ion-col size="5" style="text-align: right !important;">
-                            <ion-icon name="shield-checkmark-outline" style="font-size: 30px !important; color: #F9D616 !important"></ion-icon>
-                          </ion-col>
-                          <ion-col size="7"style="text-align: left !important;">
-                            <p style=" color: #F9D616 !important;" class="pGenCon">Bueno</p>
-                          </ion-col>
-                        </ion-row>
-
-                        <ion-row *ngIf="carDetail.general_condition ==='regular'">
-                          <ion-col size="12">
-                            <span class="spanGenCon">Condición del vehículo:</span>
-                          </ion-col>
-                          <ion-col size="5" style="text-align: right !important;">
-                            <ion-icon name="help-circle-outline" style="font-size: 30px !important; color: #F7941D !important"></ion-icon>
-                          </ion-col>
-                          <ion-col size="7"style="text-align: left !important;">
-                            <p style=" color: #F7941D !important;" class="pGenCon">Regular</p>
+                            <p style="font-size: 25px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">Excelente</p>
                           </ion-col>
                         </ion-row>
                 
-                        <ion-row *ngIf="carDetail.general_condition ==='malo'">
+                        <ion-row *ngIf="carDetail.general_condition ==='bueno' || carDetail.general_condition >= 86 && carDetail.general_condition < 96">
                           <ion-col size="12">
-                            <span class="spanGenCon">Condición del vehículo:</span>
+                            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
                           <ion-col size="5" style="text-align: right !important;">
-                            <ion-icon name="close-circle-outline" style="font-size: 30px !important; color: #EB0A1E !important"></ion-icon>
+                            <ion-icon name="shield-checkmark-outline" style="font-size: 45px !important; color: #F9D616 !important"></ion-icon>
                           </ion-col>
                           <ion-col size="7"style="text-align: left !important;">
-                            <p style=" color: #EB0A1E !important;" class="pGenCon">Malo</p>
+                            <p style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">Bueno</p>
+                          </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="carDetail.general_condition ==='regular' || carDetail.general_condition >= 76 && carDetail.general_condition < 86 ">
+                          <ion-col size="12">
+                            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="alert-circle-outline" style="font-size: 45px !important; color: #F7941D !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 25px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">Regular</p>
+                          </ion-col>
+                        </ion-row>
+                
+                        <ion-row *ngIf="carDetail.general_condition ==='malo' || carDetail.general_condition < 76">
+                          <ion-col size="12">
+                            <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+                          </ion-col>
+                          <ion-col size="5" style="text-align: right !important;">
+                            <ion-icon name="close-circle-outline" style="font-size: 45px !important; color: #EB0A1E !important"></ion-icon>
+                          </ion-col>
+                          <ion-col size="7"style="text-align: left !important;">
+                            <p style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">Malo</p>
                           </ion-col>
                         </ion-row>
 

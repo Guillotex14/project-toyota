@@ -36,7 +36,7 @@ export class CarDetailSeller{
   public mechanicalFile!: boolean;
   public type_vehicle!: string;
   public sold!: boolean;
-  public general_condition!: string;
+  public general_condition!: any;
   public images!: ImagesVehicle[];
   public vin!: string;
   public vehicle_plate!: string;
@@ -87,7 +87,7 @@ export class CarDetailMechanicalFile{
   public upholstery_condition!: string;
   public wiper_shower_brushes_windshield!: string;
   public headlights_lights!: string;
-  public general_condition!: string;
+  public general_condition!: any;
 
   //lo nuevo
   public odometer!:string;
@@ -135,7 +135,7 @@ export class AddVehicle{
   public type_vehicle!: string;
   public vin!: string;
   public vehicle_plate!: string;
-  public img_documents!: any[];
+  public imgs_documents!: any[];
 }
 
 export class AddMechanicFile{
@@ -173,7 +173,7 @@ export class AddMechanicFile{
   public upholstery_condition!: string;
   public wiper_shower_brushes_windshield!: string;
   public headlights_lights!: string;
-  public general_condition!: string;
+  public general_condition!: number;
   
   //lo nuevo
   public odometer!:string;

@@ -5,6 +5,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-car-detail',
@@ -18,7 +19,9 @@ export class CarDetailPage implements OnInit {
   typeConection: boolean = false;
   actionSheetButtons: any[] = [];
   arrayAutoComplete: any[] = [];  
+  invalidEmail: boolean = false;
   openASEdit: boolean = false;
+  emptyEmail: boolean = false;
   priceOfertAux: string = "";
   theCartegory: string = "";
   editCar: boolean = false;
@@ -31,6 +34,7 @@ export class CarDetailPage implements OnInit {
   fullName: string = "";
   priceAux: string = "";
   typeDni: string = "V";
+  codePhone: string = "";
   email: string = "";
   phone: string = "";
   price: number = 0;
@@ -39,6 +43,15 @@ export class CarDetailPage implements OnInit {
   id: string = "";
   aux: number = 0;
   km: string = "";
+  me: any = null;
+
+  invalidCodePhone: boolean = false;
+  invalidPhoneNumber: boolean = false;
+  emptyPhoneNumber: boolean = false;
+  emptyName: boolean = false;
+  typeDoc: boolean = false;
+  emptyDni: boolean = false;
+  emptyPrice: boolean = false;
 
   @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
   @ViewChild('actionSheet') actionSheet!: IonActionSheet;
@@ -47,7 +60,7 @@ export class CarDetailPage implements OnInit {
   @ViewChild('modalBuy') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone) {
+  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService) {
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
     if (this.actRoute.snapshot.params['category'] !== undefined) {
@@ -88,15 +101,12 @@ export class CarDetailPage implements OnInit {
     this.carDetail.vehicle_plate = "";
     this.carDetail.price_ofert = 0;
 
-    let data = localStorage.getItem('me');
-
-    if(data){
-      let dataJson = JSON.parse(data);
-      this.myId = dataJson.id_sell;
+    this.me = this.authSrv.getMeData();
+    if (this.me !== null) {
+      this.myId = this.me.id_sell;
     }
 
   }
-
 
   ngOnInit() {
   }
@@ -169,41 +179,46 @@ export class CarDetailPage implements OnInit {
   public buyVehicle(){
 
     if(this.priceOfert == 0 || this.priceOfert == null || this.priceOfert == undefined || this.priceOfert.toString() == ""){
-      this.utils.presentToast("Ingrese un precio de oferta");
+      this.emptyPrice = true;
       return;
     }
 
     if(this.fullName == "" || this.fullName == null || this.fullName == undefined){
-      this.utils.presentToast("Ingrese su nombre del comprador");
+      this.emptyName = true;
       return;
     }
       
     if(this.typeDni == "" || this.typeDni == null || this.typeDni == undefined){
-      this.utils.presentToast("Seleccione un tipo de cédula");
+      this.typeDoc = true;
       return;
     }
     
     if(this.dni == "" || this.dni == null || this.dni == undefined){
-      this.utils.presentToast("Ingrese numero de cédula del comprador");
+      this.emptyDni = true;
       return;
     }
 
+    if(this.codePhone == "" || this.codePhone == null || this.codePhone == undefined){
+      this.invalidCodePhone = true;
+      return; 
+    }
+
     if(this.phone == "" || this.phone == null || this.phone == undefined){
-      this.utils.presentToast("Ingrese numero de teléfono del comprador");
+      this.emptyPhoneNumber = true;
       return; 
     }
 
     if(this.email == "" || this.email == null || this.email == undefined){
-      this.utils.presentToast("Ingrese correo electrónico del comprador");
+      this.emptyEmail = true;
       return;
     }
-
+    return;
     let data = {
       id_vehicle: this.id,
       id_seller: this.myId,
       name_new_owner: this.fullName,
       dni_new_owner: this.typeDni+"-"+this.dni,
-      phone_new_owner: this.phone,
+      phone_new_owner: this.codePhone+this.phone,
       email_new_owner: this.email,
       price_ofert: this.priceOfert
     }
@@ -512,7 +527,7 @@ export class CarDetailPage implements OnInit {
   public buttonsActionSheet(){
     this.actionSheetButtons = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.takePhoto();
@@ -537,7 +552,7 @@ export class CarDetailPage implements OnInit {
 
     this.actionSheetButtonsEdit = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.editTakePhoto();
@@ -654,4 +669,63 @@ export class CarDetailPage implements OnInit {
     }
 
   }
+
+  public validEmail(event:any){
+    if (event.detail.value !== '') {
+      this.emptyEmail=false;
+      if (!this.utils.validateEmail(event.detail.value)) {
+        this.invalidEmail=true;
+      }else{
+        this.invalidEmail=false;
+      }
+    }
+  }
+
+  public validPhone(event:any){
+    if (event.detail.value !== '') {
+      this.emptyPhoneNumber=false;
+      if (event.detail.value.length < 7) {
+        this.invalidPhoneNumber=true;
+      }else{
+        this.invalidPhoneNumber=false;
+      }
+    }
+  }
+
+  public validCodePhone(event:any){
+    if (event.detail.value !== '') {
+      this.invalidCodePhone=false;
+    }else{
+      this.invalidCodePhone=true;
+    }
+  }
+
+  public validName(event:any){
+    if (event.detail.value !== '') {
+      this.emptyName=false;
+    }else{
+      this.emptyName=true;
+    }
+  }
+
+  public validDni(event:any){
+    if (event.detail.value !== '') {
+      this.emptyDni=false;
+    }else{
+      this.emptyDni=true;
+    }
+  }
+
+  public validTypeDni(event:any){
+
+    console.log(event)
+    if (event.detail.value !== '') {
+      this.typeDoc=false;
+    }else{
+      this.typeDoc=true;
+    }
+  }
+
+
+
 }

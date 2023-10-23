@@ -51,18 +51,31 @@ export class AddVehiclePage implements OnInit {
   typeInput: string = "password";
   typeInputConfirm: string = "password";
 
+  emptyDisplacement: boolean = false;
+  emptyTransmission: boolean = false;
+  emptyTypeVehicle: boolean = false;
+  emptyIdmechanic: boolean = false;
+  emptyTraction: boolean = false;
+  emptyTitles: boolean = false;
+  emptyBrand: boolean = false;
+  emptyModel: boolean = false;
+  emptyPlate: boolean = false;
+  validPlate: boolean = false;
+  emptyFuel: boolean = false;
+  emptyYear: boolean = false;
+  validVin: boolean = false;
+  emptyVin: boolean = false;
+  emptyKm: boolean = false;
 
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheetEdit') ActionSheetEdit!: IonActionSheet;
   @ViewChild('ActionSheet') ActionSheet!: IonActionSheet;
-  @ViewChild('ActionSheet') ActionSheetDocs!: IonActionSheet;
-  @ViewChild('ActionSheetEdit') ActionSheetEditDocs!: IonActionSheet;
+  @ViewChild('ActionSheetDocs') ActionSheetDocs!: IonActionSheet;
+  @ViewChild('ActionSheetEditDocs') ActionSheetEditDocs!: IonActionSheet;
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
-  
-
 
   buttonPhoto = [
     {
@@ -71,7 +84,7 @@ export class AddVehiclePage implements OnInit {
         this.takePhoto();
         this.actionSheetButtons = [
           {
-            text: 'Camara',
+            text: 'Cámara',
             icon: 'camera',
             handler: () => {
               this.takePhoto();
@@ -101,7 +114,7 @@ export class AddVehiclePage implements OnInit {
         this.takePhotoGalery();
         this.actionSheetButtons = [
           {
-            text: 'Camara',
+            text: 'Cámara',
             icon: 'camera',
             handler: () => {
               this.presentAlert(1);
@@ -149,7 +162,7 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.type_vehicle = '';
     this.newVehicle.vin = '';
     this.newVehicle.vehicle_plate = '';
-    this.newVehicle.img_documents = [];
+    this.newVehicle.imgs_documents = [];
 
     this.newMechanic.email = "";
     this.newMechanic.password = "";
@@ -220,85 +233,81 @@ export class AddVehiclePage implements OnInit {
   }
 
   public addVehicle() {
-    this.utils.presentLoading("Agregando vehículo...");
-    this.newVehicle.images = this.arrayImages;
-    this.newVehicle.img_documents = this.arrayDocuments;
-    if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El modelo del vehículo es obligatorio");
-      return;
+    // this.utils.presentLoading("Agregando vehículo...");
 
+    if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
+      this.emptyModel = true;
+      return;
+    }
+
+        
+    if(this.newVehicle.type_vehicle == "" || this.newVehicle.type_vehicle == null || this.newVehicle.type_vehicle == undefined){
+      this.emptyTypeVehicle = true;
+      return;
     }
 
     if(this.newVehicle.brand == "" || this.newVehicle.brand == null || this.newVehicle.brand == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("La marca del vehículo es obligatoria");
+      this.emptyBrand = true;
+      return;
+    } 
+
+    if(this.year == "" || this.year == null || this.year == undefined){
+      this.emptyYear = true;
       return;
     }
 
-    if(this.year == "" || this.year == null || this.year == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El año del vehículo es obligatorio");
+    if(this.newVehicle.vin == "" || this.newVehicle.vin == null || this.newVehicle.vin == undefined){
+      this.emptyVin = true;
+      return;
+    }
+
+    if(this.newVehicle.vehicle_plate == "" || this.newVehicle.vehicle_plate == null || this.newVehicle.vehicle_plate == undefined){
+      this.emptyPlate = true;
       return;
     }
 
     if(this.newVehicle.displacement == "" || this.newVehicle.displacement == null || this.newVehicle.displacement == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El desplazamiento del vehículo es obligatorio");
+      this.emptyDisplacement = true;
       return;
     }
 
     if(this.km == "" || this.km == null || this.km == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Los kilómetros del vehículo es obligatorio");
+      this.emptyKm = true;
       return;
     }
 
     if(this.newVehicle.titles == "" || this.newVehicle.titles == null || this.newVehicle.titles == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Los títulos del vehículo es obligatorio");
-      return;
-    }
-
-    if(this.newVehicle.transmission == "" || this.newVehicle.transmission == null || this.newVehicle.transmission == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El transmisión del vehículo es obligatorio");
-      return;
-    }
-
-    if(this.newVehicle.traction == "" || this.newVehicle.traction == null || this.newVehicle.traction == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("La tracción del vehículo es obligatorio");
+      this.emptyTitles = true;
       return;
     }
 
     if(this.newVehicle.fuel == "" || this.newVehicle.fuel == null || this.newVehicle.fuel == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("El combustible del vehículo es obligatorio");
+      this.emptyFuel = true;
       return;
     }
 
-    if(this.newVehicle.city == "" || this.newVehicle.city == null || this.newVehicle.city == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("La ciudad del vehículo es obligatorio");
+    if(this.newVehicle.transmission == "" || this.newVehicle.transmission == null || this.newVehicle.transmission == undefined){
+      this.emptyTransmission = true;
       return;
     }
 
-    if(this.newVehicle.concesionary == "" || this.newVehicle.concesionary == null || this.newVehicle.concesionary == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("La zona del vehículo es obligatorio");
+    if(this.newVehicle.traction == "" || this.newVehicle.traction == null || this.newVehicle.traction == undefined){
+      this.emptyTraction = true;
       return;
     }
 
     if(this.newVehicle.id_mechanic == "" || this.newVehicle.id_mechanic == null || this.newVehicle.id_mechanic == undefined){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Debe seleccionar un mecánico para la revisión del vehículo");
+      this.emptyIdmechanic = true;
       return;
     }
-
-    this.newVehicle.year = parseInt(this.year);
-    this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
+    return;
     this.disabledSave = true;
+    this.newVehicle.images = this.arrayImages;
+    this.newVehicle.year = parseInt(this.year);
+    this.newVehicle.imgs_documents = this.arrayDocuments;
+    this.newVehicle.vin = this.newVehicle.vin.toUpperCase();
+    this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
+    this.newVehicle.vehicle_plate = this.newVehicle.vehicle_plate.toUpperCase();
     this.sellerSrv.addVehicle(this.newVehicle).subscribe((resp:any) => {
       if(resp.status){
         this.utils.dismissLoading();
@@ -320,6 +329,10 @@ export class AddVehiclePage implements OnInit {
 
   public deleteImage(index:any){
     this.arrayImages.splice(index,1)
+  }
+
+  public deleteImageDoc(index:any){
+    this.arrayDocuments.splice(index,1)
   }
 
   public editImage(index:any){
@@ -461,7 +474,7 @@ export class AddVehiclePage implements OnInit {
   public buttonsActionSheet(){
     this.actionSheetButtons = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.presentAlert(1);
@@ -486,7 +499,7 @@ export class AddVehiclePage implements OnInit {
 
     this.actionSheetButtonsEdit = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.editTakePhoto();
@@ -519,7 +532,7 @@ export class AddVehiclePage implements OnInit {
   public buttonsASDoc(){
     this.aSBtnsDocs = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.takePhotoDoc();
@@ -546,7 +559,7 @@ export class AddVehiclePage implements OnInit {
 
     this.aSBtnsEditDocs = [
       {
-        text: 'Camara',
+        text: 'Cámara',
         icon: 'camera',
         handler: () => {
           this.editTakePhotoDoc();
@@ -854,5 +867,121 @@ export class AddVehiclePage implements OnInit {
     this.utils.dismissLoading();
 
   }
+
+  public validateVin(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyVin = false;
+    }
+
+    if (e.target.value.length < 17) {
+      this.validVin = true;
+    }else{
+      this.validVin = false;
+    }
+
+  }
+
+  public validatePlate(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyPlate = false;
+    }
+
+    if (e.target.value.length < 7) {
+      this.validPlate = true;
+    }else{
+      this.validPlate = false;
+    }
+
+  }
+
+  public validateModel(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyModel = false;
+    }
+
+  }
+
+  public validateTypeVehicle(e:any){
+    if (e.target.value != "") {
+      this.emptyTypeVehicle = false;
+    }
+  
+  }
+
+  public validateBrand(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyBrand = false;
+    }
+
+  }
+
+  public validateDisplacement(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyDisplacement = false;
+    }
+
+  }
+
+  public validateKm(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyKm = false;
+    }
+
+  }
+
+  public validateTitles(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyTitles = false;
+    }
+
+  }
+
+  public validateTransmission(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyTransmission = false;
+    }
+
+  }
+
+  public validateTraction(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyTraction = false;
+    }
+
+  }
+
+  public validateFuel(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyFuel = false;
+    }
+
+  }
+
+  public validateIdMechanic(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyIdmechanic = false;
+    }
+
+  }
+
+  public validateYear(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyYear = false;
+    }
+
+  }
+
 
 }

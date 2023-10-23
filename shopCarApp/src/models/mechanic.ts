@@ -21,7 +21,7 @@ export class CarDetailMechanic{
     public id_mechanic!: string;
     public mechanicalFile!: boolean;
     public sold!: boolean;
-    public general_condition!: string;
+    public general_condition!: any;
     public vin!: string;
     public vehicle_plate!: string;
     public images!: any[]
@@ -71,7 +71,7 @@ export class MechanicalFileDetail{
     public upholstery_condition!: string;
     public wiper_shower_brushes_windshield!: string;
     public headlights_lights!: string;
-    public general_condition!: string;
+    public general_condition!: any;
 
     public odometer!:string;
     public engine_start!:string;

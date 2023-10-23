@@ -65,7 +65,6 @@ export class AddMechanicFilePage implements OnInit {
     this.newMechanicalFile.tripoids_rubbe_bands = "";
     this.newMechanicalFile.shock_absorbers_coils = "";
     this.newMechanicalFile.dealer_maintenance = "";
-    this.newMechanicalFile.general_condition = "";
     this.newMechanicalFile.odometer = "";
     this.newMechanicalFile.engine_start = "";
     this.newMechanicalFile.windshields_glass = "";
@@ -84,6 +83,7 @@ export class AddMechanicFilePage implements OnInit {
     this.newMechanicalFile.fuel_tank_cover = "";
     this.newMechanicalFile.pipes_hoses_connections = "";
     this.newMechanicalFile.brake_discs = "";
+    this.newMechanicalFile.general_condition = 0;
     this.newMechanicalFile.id_vehicle = this.id_vehicle;
   }
 
@@ -256,11 +256,11 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
 
-    if(this.newMechanicalFile.general_condition === "" || this.newMechanicalFile.general_condition === undefined){
+    // if(this.newMechanicalFile.general_condition === "" || this.newMechanicalFile.general_condition === undefined){
 
-      this.utils.presentToast("El campo Condición general es requerido")
-      return;
-    }
+    //   this.utils.presentToast("El campo Condición general es requerido")
+    //   return;
+    // }
 //////////////////////////////////////////////////////////////
     if(this.newMechanicalFile.odometer === "" || this.newMechanicalFile.odometer === undefined){
 
@@ -401,7 +401,7 @@ export class AddMechanicFilePage implements OnInit {
         this.newMechanicalFile.tripoids_rubbe_bands = "";
         this.newMechanicalFile.shock_absorbers_coils = "";
         this.newMechanicalFile.dealer_maintenance = "";
-        this.newMechanicalFile.general_condition = "";
+        this.newMechanicalFile.general_condition = 0;
         this.newMechanicalFile.odometer = "";
         this.newMechanicalFile.engine_start = "";
         this.newMechanicalFile.windshields_glass = "";
@@ -445,4 +445,59 @@ export class AddMechanicFilePage implements OnInit {
     this.content.scrollToTop(500);
   }
   
+  public generalCondition(event: any){
+  
+    let total = Number(this.newMechanicalFile.part_emblems_complete) +
+    Number(this.newMechanicalFile.wiper_shower_brushes_windshield) +
+    Number(this.newMechanicalFile.paint_condition) +
+    Number(this.newMechanicalFile.bugle_accessories) +
+    Number(this.newMechanicalFile.air_conditioning_system) +
+    Number(this.newMechanicalFile.radio_player) +
+    Number(this.newMechanicalFile.courtesy_lights) +
+    Number(this.newMechanicalFile.upholstery_condition) +
+    Number(this.newMechanicalFile.board_lights) +
+    Number(this.newMechanicalFile.tire_life) +
+    Number(this.newMechanicalFile.battery_status_terminals) +
+    Number(this.newMechanicalFile.transmitter_belts) +
+    Number(this.newMechanicalFile.motor_oil) +
+    Number(this.newMechanicalFile.engine_coolant_container) +
+    Number(this.newMechanicalFile.radiator_status) +
+    Number(this.newMechanicalFile.exhaust_pipe_bracket) +
+    Number(this.newMechanicalFile.distribution_mail) +
+    Number(this.newMechanicalFile.fuel_system) +
+    Number(this.newMechanicalFile.parking_break) +
+    Number(this.newMechanicalFile.brake_bands_drums) +
+    Number(this.newMechanicalFile.brake_pads_discs) +
+    Number(this.newMechanicalFile.master_cylinder) +
+    Number(this.newMechanicalFile.brake_fluid) +
+    Number(this.newMechanicalFile.bushings_plateaus) +
+    Number(this.newMechanicalFile.stumps) +
+    Number(this.newMechanicalFile.terminals) +
+    Number(this.newMechanicalFile.stabilizer_bar) +
+    Number(this.newMechanicalFile.bearings) +
+    Number(this.newMechanicalFile.tripoids_rubbe_bands) +
+    Number(this.newMechanicalFile.shock_absorbers_coils) +
+    Number(this.newMechanicalFile.odometer) +
+    Number(this.newMechanicalFile.engine_start) +
+    Number(this.newMechanicalFile.windshields_glass) +
+    Number(this.newMechanicalFile.hits_scratches) +
+    Number(this.newMechanicalFile.spark_plugs) +
+    Number(this.newMechanicalFile.injectors) +
+    Number(this.newMechanicalFile.fuel_filter_anti_pollen_filter) +
+    Number(this.newMechanicalFile.engine_noises) +
+    Number(this.newMechanicalFile.hits_scratches_sides) +
+    Number(this.newMechanicalFile.paint_condition_sides) +
+    Number(this.newMechanicalFile.trunk_hatch) +
+    Number(this.newMechanicalFile.spare_tire) +
+    Number(this.newMechanicalFile.hits_scratches_trunk) +
+    Number(this.newMechanicalFile.paint_condition_trunk) +
+    Number(this.newMechanicalFile.headlights_lights_trunk) +
+    Number(this.newMechanicalFile.fuel_tank_cover) +
+    Number(this.newMechanicalFile.pipes_hoses_connections) +
+    Number(this.newMechanicalFile.brake_discs);
+
+    console.log(total)
+    this.newMechanicalFile.general_condition = total;
+  }
+
 }

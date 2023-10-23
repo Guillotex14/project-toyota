@@ -162,13 +162,16 @@ ion-search-bar{
   width: 100% !important;
 }
 
-ion-item::part(native){
-  color: #fff !important;
-  background: #EB0A1E !important;
-  font-weight: 600 !important;
-  font-size: 20px !important;
-  ion-icon{
+ion-accordion{
+
+  ion-item::part(native){
     color: #fff !important;
+    background: #EB0A1E !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    ion-icon{
+      color: #fff !important;
+    }
   }
 }
 
@@ -195,6 +198,16 @@ ion-card{
 .ulStepsPhotos{
   list-style: none !important;
   text-align: center !important;
+}
+
+.borderRed{
+  label{
+    border: 1px solid #EB0A1E !important;
+  }
+}
+
+.borderRedSelect{
+  border: 1px solid #EB0A1E !important;
 }
 
 @media screen and (width: 280px){
