@@ -464,12 +464,12 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
     brand,
     model,
     ubication,
-    type_vehicle,
-    id_seller,
+    type_vehicle
   } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller","admin","mechanic"]);
+  console.log(decode)
 
   if (decode == false) {
     jsonRes.code = jwt.code;
@@ -477,6 +477,13 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
     jsonRes.status = false;
     jsonRes.data = null;
     return res.json(jsonRes);
+  }
+
+
+  if (decode.type_user=="mechanic") {
+    query.id_mechanic=decode.id_mechanic
+  }else if(decode.type_user=="seller"){
+    query.id_seller = decode.id_seller;
   }
   //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
@@ -515,7 +522,6 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
   query.model = { $regex: model, $options: "i" };
   query.type_vehicle = { $regex: type_vehicle, $options: "i" };
 
-  query.id_seller = id_seller;
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
 
@@ -587,7 +593,7 @@ vehicleController.vehicleById = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
 
   if (decode == false) {
     jsonRes.code = jwt.code;
@@ -2002,138 +2008,6 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-vehicleController.myVehicles = async (req: Request, res: Response) => {
-  const jsonRes: ResponseModel = new ResponseModel();
-  let arrayVehicles: any[] = [];
-  let query: any = {};
-  //aqui declaramos las variables que vamos a recibir
-  const {
-    minYear,
-    maxYear,
-    minKm,
-    maxKm,
-    minPrice,
-    maxPrice,
-    brand,
-    model,
-    ubication,
-    type_vehicle,
-    id_seller,
-  } = req.body;
-
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-    jsonRes.code = jwt.code;
-    jsonRes.message = jwt.message;
-    jsonRes.status = false;
-    jsonRes.data = null;
-    return res.json(jsonRes);
-  }
-  //aqui creamos las condiciones para el filtro de los vehículos y las querys
-
-  if (minYear === 0 && maxYear === 0) {
-    query.year = { $gte: 0 };
-  } else if (minYear !== 0 && maxYear === 0) {
-    query.year = { $gte: minYear };
-  } else if (minYear === 0 && maxYear !== 0) {
-    query.year = { $lte: maxYear };
-  } else {
-    query.year = { $gte: minYear, $lte: maxYear };
-  }
-
-  if (minKm === 0 && maxKm === 0) {
-    query.km = { $gte: 0 };
-  } else if (minKm !== 0 && maxKm === 0) {
-    query.km = { $gte: minKm };
-  } else if (minKm === 0 && maxKm !== 0) {
-    query.km = { $lte: maxKm };
-  } else {
-    query.km = { $gte: minKm, $lte: maxKm };
-  }
-
-  if (minPrice === 0 && maxPrice === 0) {
-    query.price = { $exists: true };
-  } else if (minPrice !== 0 && maxPrice === 0) {
-    query.price = { $gte: minPrice, $ne: null };
-  } else if (minPrice === 0 && maxPrice !== 0) {
-    query.price = { $lte: maxPrice, $ne: null };
-  } else {
-    query.price = { $gte: minPrice, $lte: maxPrice };
-  }
-
-  query.city = { $regex: ubication, $options: "i" };
-  query.brand = { $regex: brand, $options: "i" };
-  query.model = { $regex: model, $options: "i" };
-  query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-
-  query.id_seller = id_seller;
-
-  const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
-
-  if (vehiclesFiltered) {
-    for (let i = 0; i < vehiclesFiltered.length; i++) {
-      let data = {
-        name_new_owner: vehiclesFiltered[i].name_new_owner,
-        dni_new_owner: vehiclesFiltered[i].dni_new_owner,
-        phone_new_owner: vehiclesFiltered[i].phone_new_owner,
-        email_new_owner: vehiclesFiltered[i].email_new_owner,
-        price_ofert: vehiclesFiltered[i].price_ofert,
-        final_price_sold: vehiclesFiltered[i].final_price_sold,
-        _id: vehiclesFiltered[i]._id,
-        model: vehiclesFiltered[i].model,
-        brand: vehiclesFiltered[i].brand,
-        year: vehiclesFiltered[i].year,
-        displacement: vehiclesFiltered[i].displacement,
-        km: vehiclesFiltered[i].km,
-        engine_model: vehiclesFiltered[i].engine_model,
-        titles: vehiclesFiltered[i].titles,
-        fuel: vehiclesFiltered[i].fuel,
-        transmission: vehiclesFiltered[i].transmission,
-        city: vehiclesFiltered[i].city,
-        dealer: vehiclesFiltered[i].dealer,
-        concesionary: vehiclesFiltered[i].concesionary,
-        traction_control: vehiclesFiltered[i].traction_control,
-        performance: vehiclesFiltered[i].performance,
-        comfort: vehiclesFiltered[i].comfort,
-        technology: vehiclesFiltered[i].technology,
-        id_seller: vehiclesFiltered[i].id_seller,
-        id_mechanic: vehiclesFiltered[i].id_mechanic,
-        price: vehiclesFiltered[i].price,
-        mechanicalFile: vehiclesFiltered[i].mechanicalFile,
-        id_seller_buyer: vehiclesFiltered[i].id_seller_buyer,
-        sold: vehiclesFiltered[i].sold,
-        type_vehicle: vehiclesFiltered[i].type_vehicle,
-        traction: vehiclesFiltered[i].traction,
-        date_sell: vehiclesFiltered[i].date_sell,
-        date_create: vehiclesFiltered[i].date_create,
-        plate: vehiclesFiltered[i].plate,
-        vin: vehiclesFiltered[i].vin,
-        dispatched: vehiclesFiltered[i].dispatched,
-        images: (await ImgVehicle.findOne({
-          id_vehicle: vehiclesFiltered[i]._id,
-        }))
-          ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
-          : "",
-      };
-
-      arrayVehicles.push(data);
-    }
-
-    jsonRes.code = 200;
-    jsonRes.message = "Vehicleos encontrados";
-    jsonRes.status = true;
-    jsonRes.data = arrayVehicles;
-  } else {
-    jsonRes.code = 400;
-    jsonRes.message = "No se encontraron vehículos";
-    jsonRes.status = false;
-  }
-
-  res.json(jsonRes);
-};
-
 vehicleController.mechanicalFileByIdVehicle = async (
   req: Request,
   res: Response
@@ -2165,6 +2039,410 @@ vehicleController.mechanicalFileByIdVehicle = async (
 
   res.json(reponseJson);
 };
+
+
+
+vehicleController.inspections = async (req: Request, res: Response) => {
+  const reponseJson:ResponseModel = new ResponseModel();
+  const {id_mechanic} = req.body;
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["mechanic"]);
+
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const vehiclesList = await vehicles.find({id_mechanic: id_mechanic, mechanicalFile: false}).sort({date_create: -1});
+  if(vehiclesList.length > 0){
+
+      let arrayInpecciones: any[] = [];
+
+      for (let i = 0; i < vehiclesList.length; i++) {
+          let data = {
+              name_new_owner: vehiclesList[i].name_new_owner,
+              dni_new_owner: vehiclesList[i].dni_new_owner,
+              phone_new_owner: vehiclesList[i].phone_new_owner,
+              email_new_owner: vehiclesList[i].email_new_owner,
+              price_ofert: vehiclesList[i].price_ofert,
+              final_price_sold: vehiclesList[i].final_price_sold,
+              _id: vehiclesList[i]._id,
+              model: vehiclesList[i].model,
+              brand: vehiclesList[i].brand,
+              year: vehiclesList[i].year,
+              displacement: vehiclesList[i].displacement,
+              km: vehiclesList[i].km,
+              engine_model: vehiclesList[i].engine_model,
+              titles: vehiclesList[i].titles,
+              fuel: vehiclesList[i].fuel,
+              transmission: vehiclesList[i].transmission,
+              city: vehiclesList[i].city,
+              dealer: vehiclesList[i].dealer,
+              concesionary: vehiclesList[i].concesionary,
+              traction_control: vehiclesList[i].traction_control,
+              performance: vehiclesList[i].performance,
+              comfort: vehiclesList[i].comfort,
+              technology: vehiclesList[i].technology,
+              id_seller: vehiclesList[i].id_seller,
+              id_mechanic: vehiclesList[i].id_mechanic,
+              __v: vehiclesList[i].__v,
+              price: vehiclesList[i].price,
+              mechanicalFile: vehiclesList[i].mechanicalFile,
+              id_seller_buyer: vehiclesList[i].id_seller_buyer,
+              sold: vehiclesList[i].sold,
+              type_vehicle: vehiclesList[i].type_vehicle,
+              traction: vehiclesList[i].traction,
+              date_sell: vehiclesList[i].date_sell,
+              date_create: vehiclesList[i].date_create,
+              plate: vehiclesList[i].plate,
+              vin: vehiclesList[i].vin,
+              image: await ImgVehicle.findOne({ id_vehicle: vehiclesList[i]._id }) ? await ImgVehicle.findOne({ id_vehicle: vehiclesList[i]._id }) : "",
+          }
+          arrayInpecciones.push(data);
+      }
+
+      reponseJson.code = 200;
+      reponseJson.status = true;
+      reponseJson.message = "Inspecciones encontradas";
+      reponseJson.data = arrayInpecciones;
+  }else{
+      reponseJson.code = 400;
+      reponseJson.status = false;
+      reponseJson.message = "No se encontraron inspecciones";
+  }
+
+  res.json(reponseJson);
+}
+
+vehicleController.countInspections = async (req: Request, res: Response) => {
+  const reponseJson:ResponseModel = new ResponseModel();
+  const {id_mechanic} = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["mechanic"]);
+
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const vehiclesList = await vehicles.countDocuments({id_mechanic: id_mechanic, mechanicalFile: false});
+
+  reponseJson.code = 200;
+  reponseJson.status = true;
+  reponseJson.message = "Cantidad de vehículos";
+  reponseJson.data = vehiclesList;
+  
+  res.json(reponseJson);
+
+}
+
+vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
+  const reponseJson:ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["mechanic"]);
+  
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  let mailSeller: any = "";
+  let infoMechanic:any = {};
+  let nameSeller: string = ""
+  let conceSeller: string = ""
+  let citySeller: string = ""
+  let dateNow = moment().format('YYYY-MM-DD');
+
+  const {
+      part_emblems_complete,
+      wiper_shower_brushes_windshield,
+      hits,
+      scratches,
+      paint_condition,
+      bugle_accessories,
+      air_conditioning_system,
+      radio_player,
+      courtesy_lights,
+      upholstery_condition,
+      gts,
+      board_lights,
+      tire_pressure,
+      tire_life,
+      battery_status_terminals,
+      transmitter_belts,
+      motor_oil,
+      engine_coolant_container,
+      radiator_status,
+      exhaust_pipe_bracket,
+      fuel_tank_cover_pipes_hoses_connections,
+      distribution_mail,
+      spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+      fuel_system,
+      parking_break,
+      brake_bands_drums,
+      brake_pads_discs,
+      brake_pipes_hoses,
+      master_cylinder,
+      brake_fluid,
+      bushings_plateaus,
+      stumps,
+      terminals,
+      stabilizer_bar,
+      bearings,
+      tripoids_rubbe_bands,
+      shock_absorbers_coils,
+      dealer_maintenance,
+      headlights_lights,
+      general_condition,
+      id_vehicle,
+      id_mechanic,
+      odometer,
+      engine_start,
+      windshields_glass,
+      hits_scratches,
+      spark_plugs,
+      injectors,
+      fuel_filter_anti_pollen_filter,
+      engine_noises,
+      hits_scratches_sides,
+      paint_condition_sides,
+      trunk_hatch,
+      spare_tire,
+      hits_scratches_trunk,
+      paint_condition_trunk,
+      headlights_lights_trunk,
+      fuel_tank_cover,
+      pipes_hoses_connections,
+      brake_discs,
+  } = req.body;
+
+  const newMechanicFile = new mechanicalsFiles({
+      part_emblems_complete,
+      wiper_shower_brushes_windshield,
+      hits,
+      scratches,
+      paint_condition,
+      bugle_accessories,
+      air_conditioning_system,
+      radio_player,
+      courtesy_lights,
+      upholstery_condition,
+      gts,
+      board_lights,
+      tire_pressure,
+      tire_life,
+      battery_status_terminals,
+      transmitter_belts,
+      motor_oil,
+      engine_coolant_container,
+      radiator_status,
+      exhaust_pipe_bracket,
+      fuel_tank_cover_pipes_hoses_connections,
+      distribution_mail,
+      spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+      fuel_system,
+      parking_break,
+      brake_bands_drums,
+      brake_pads_discs,
+      brake_pipes_hoses,
+      master_cylinder,
+      brake_fluid,
+      bushings_plateaus,
+      stumps,
+      terminals,
+      stabilizer_bar,
+      bearings,
+      tripoids_rubbe_bands,
+      shock_absorbers_coils,
+      dealer_maintenance,
+      headlights_lights,
+      general_condition,
+      odometer,
+      engine_start,
+      windshields_glass,
+      hits_scratches,
+      spark_plugs,
+      injectors,
+      fuel_filter_anti_pollen_filter,
+      engine_noises,
+      hits_scratches_sides,
+      paint_condition_sides,
+      trunk_hatch,
+      spare_tire,
+      hits_scratches_trunk,
+      paint_condition_trunk,
+      headlights_lights_trunk,
+      fuel_tank_cover,
+      pipes_hoses_connections,
+      brake_discs,
+      date_create: dateNow,
+      id_vehicle,
+      id_mechanic
+  });
+
+  const newMechanicFileSaved = await newMechanicFile.save();
+
+  const vehicleUpdated = await vehicles.findByIdAndUpdate(id_vehicle,{mechanicalFile: true});
+
+  if(newMechanicFileSaved){
+      reponseJson.code = 200;
+      reponseJson.status = true;
+      reponseJson.message = "Ficha mecánica creada correctamente";
+      reponseJson.data = newMechanicFileSaved;
+
+      //obteniendo el correo del vendedor
+      const vehicle = await vehicles.findOne({_id: id_vehicle});
+
+      if(vehicle){
+          const seller = await sellers.findOne({_id: vehicle.id_seller});
+          if(seller){
+              nameSeller = seller!.fullName!;
+              conceSeller = seller!.concesionary!;
+              citySeller = seller!.city!;
+              const user = await Users.findOne({_id: seller.id_user})
+              if(user){
+                  mailSeller = user.email!;
+              }
+          }
+      }
+      //obteniendo la informacion del tecnico
+      const mechanic = await mechanics.findOne({_id: id_mechanic});
+
+      if(mechanic){
+          infoMechanic.fullname = mechanic.fullName;
+          infoMechanic.concesionary = mechanic.concesionary;
+          infoMechanic.city = mechanic.city;
+      }
+
+      const mailOptions = {
+          from: 'Toyousado Notifications',
+          to: mailSeller,
+          subject: 'Ficha mecánica creada',
+          html: `<div>
+          <p>Ficha técnica creada exitosamente para:</p>
+          </div>
+          <div class="div-table" style="width: 100%;">
+              <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.model}</div>
+              </div>
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.year}</div>
+              </div>
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.plate}</div>
+              </div>
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${nameSeller}</div>
+              </div>
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${conceSeller}</div>
+              </div>
+              <div style=" display: table-row;border: 1px solid #000;">
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${citySeller}</div>
+              </div>
+              </div>
+          </div>`,
+      };
+      
+      const dataVehicle = {
+          model: vehicle!.model,
+          year: vehicle!.year,
+          plate: vehicle!.plate ? vehicle!.plate : "",
+          fullName: nameSeller,
+          concesionary: conceSeller,
+          city: citySeller,
+          title: "Ficha técnica creada exitosamente para:"
+      }
+      
+      await sendEmail(mailOptions);
+
+      sendNotification(vehicle!.id_seller?.toString()!, dataVehicle, "Ficha técnica creada");
+
+  }else{
+      reponseJson.code = 400;
+      reponseJson.status = false;
+      reponseJson.message = "No se pudo crear la Ficha técnica";
+  }
+
+  res.json(reponseJson);
+}
+
+vehicleController.updateMechanicalFile = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["mechanic"]);
+  const {data} = req.body;
+
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const update = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
+
+  if (update) {
+      reponseJson.code = 200;
+      reponseJson.message = "Ficha mecánica actualizada exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = null;
+  } else {
+      reponseJson.code = 400;
+      reponseJson.message = "Error al actualizar Ficha mecánica";
+      reponseJson.status = false;
+      reponseJson.data = null;
+  }
+
+  return res.json(reponseJson);
+};
+
+vehicleController.getMechanicFileByIdVehicle = async (req: Request, res: Response) => {
+  const reponseJson:ResponseModel = new ResponseModel();
+  const {id_vehicle} = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["mechanic"]);
+  
+  if (decode == false) {
+      reponseJson.code = jwt.code;
+      reponseJson.message = jwt.message;
+      reponseJson.status = false;
+      reponseJson.data = null;
+      return res.json(reponseJson);
+  }
+
+  const mecFile = await mechanicalsFiles.findOne({id_vehicle: id_vehicle});
+  if(mecFile){
+      reponseJson.code = 200;
+      reponseJson.status = true;
+      reponseJson.message = "Ficha mecánica encontrada";
+      reponseJson.data = mecFile;
+  }else{
+      reponseJson.code = 400;
+      reponseJson.status = false;
+      reponseJson.message = "No se encontro la ficha mecánica";
+  }
+
+  res.json(reponseJson);
+}
 
 
 const desgloseImg = async (image: any) => {
