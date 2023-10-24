@@ -121,7 +121,7 @@ adminController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, fu
         reponseJson.code = 200;
         reponseJson.message = "Vehiuclos encontrados";
         reponseJson.status = true;
-        reponseJson.data = arrayVehicles.length;
+        reponseJson.data = arrayVehicles;
     }
     else {
         reponseJson.code = 400;
