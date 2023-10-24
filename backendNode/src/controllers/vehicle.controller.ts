@@ -329,10 +329,8 @@ vehicleController.updateVehicle = async (req: Request, res: Response) => {
 };
 
 vehicleController.allVehicles = async (req: Request, res: Response) => {
-  //aqui declaramos las respuestas
   const reponseJson: ResponseModel = new ResponseModel();
   let query: any = {};
-  //aqui declaramos las variables que vamos a recibir
 
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["seller", "admin"]);

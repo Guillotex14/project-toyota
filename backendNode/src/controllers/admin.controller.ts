@@ -22,7 +22,7 @@ import ZonesSchema from "../schemas/Zones.schema";
 import { AddSellerModel } from "../models/adminModel";
 
 const adminController: any = {};
-
+// nueva ruta post vehicle/allVehicles
 adminController.allVehicles= async (req: Request, res: Response) => {
     //aqui declaramos las respuestas
     const reponseJson: ResponseModel = new ResponseModel();
@@ -132,7 +132,8 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(reponseJson);
 
-}
+} 
+// nueva ruta get user/all
  adminController.allSellers=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
     let arraySellers: any[] = [];
@@ -200,6 +201,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(ress);
 }
+// nueva ruta post user/insert
  adminController.addSeller=async (req: Request, res: Response) => {
     
     const reponseJson:ResponseModel = new ResponseModel();
@@ -245,6 +247,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(reponseJson);
 }
+// nueva ruta get user/get
  adminController.sellerById=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
     const {id} = req.body;
@@ -279,6 +282,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(jsonRes);
 }
+// nueva ruta post user/update
  adminController.updateSeller=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
     const {_id, email, username, fullName, city, concesionary,password, id_user, phone} = req.body;
@@ -305,6 +309,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(jsonRes);
 }
+// nueva ruta post user/delete
  adminController.deleteSeller=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
     const {id} = req.body;
@@ -338,6 +343,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(ress);
 }
+// nueva ruta post vehicle/vehicleById valido para user tipo seller
  adminController.vehicleById=async (req: Request, res: Response) => {
 
     const jsonRes: ResponseModel = new ResponseModel();
@@ -394,6 +400,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(jsonRes);
 }
+// nueva ruta post vehicle/mechanicalFileByIdVehicle
  adminController.mechanicalFileByIdVehicle=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 
@@ -417,6 +424,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
     res.json(jsonRes);
 
 }
+// nueva ruta get vehicle/insert-update-brand
  adminController.addBrand=async (req: Request, res: Response) => {
     
     const jsonRes: ResponseModel = new ResponseModel();
@@ -452,6 +460,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
     res.json(jsonRes);
 
 }
+// nueva ruta get vehicle/all-brands o all-paginator-brands
  adminController.allBrands=async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
@@ -471,6 +480,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
     res.json(jsonResponse);
 
 }
+// nueva ruta get vehicle/allModelVehicle o allModelPaginator
  adminController.allModels=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 
@@ -489,6 +499,7 @@ adminController.allVehicles= async (req: Request, res: Response) => {
 
     res.json(jsonRes);
 }
+// nueva ruta get vehicle/addModelVehicle
  adminController.addModelVehicle=async (req: Request, res: Response) => {
     const jsonRes: ResponseModel = new ResponseModel();
 

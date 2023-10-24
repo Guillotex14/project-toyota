@@ -501,9 +501,6 @@ userController.allMechanic = async (req: Request, res: Response) => {
   return res.json(reponseJson);
 };
 
-
-
-
 userController.getNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
