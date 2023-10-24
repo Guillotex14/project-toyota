@@ -89,7 +89,7 @@ mechanicController.getVehicles = async (req: Request, res: Response) => {
 
     const vehiclesFiltered = await vehicles.find(query).sort({date_create:-1});
 
-    if (vehiclesFiltered) {
+    if (vehiclesFiltered.length>0) {
 
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
@@ -135,7 +135,7 @@ mechanicController.getVehicles = async (req: Request, res: Response) => {
         }
 
         reponseJson.code = 200;
-        reponseJson.message = "Vehicleos encontrados exitosamente";
+        reponseJson.message = "Vehiculos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     } else {

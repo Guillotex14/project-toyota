@@ -24,6 +24,7 @@ const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
 const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const adminController = {};
+// nueva ruta post vehicle/allVehicles
 adminController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
@@ -130,6 +131,7 @@ adminController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
     res.json(reponseJson);
 });
+// nueva ruta get user/all
 adminController.allSellers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     let arraySellers = [];
@@ -187,6 +189,7 @@ adminController.allSellers = (req, res) => __awaiter(void 0, void 0, void 0, fun
     });
     res.json(ress);
 });
+// nueva ruta post user/insert
 adminController.addSeller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const date_created = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
@@ -222,6 +225,7 @@ adminController.addSeller = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     res.json(reponseJson);
 });
+// nueva ruta get user/get
 adminController.sellerById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -252,6 +256,7 @@ adminController.sellerById = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     res.json(jsonRes);
 });
+// nueva ruta post user/update
 adminController.updateSeller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { _id, email, username, fullName, city, concesionary, password, id_user, phone } = req.body;
@@ -274,6 +279,7 @@ adminController.updateSeller = (req, res) => __awaiter(void 0, void 0, void 0, f
     jsonRes.status = true;
     res.json(jsonRes);
 });
+// nueva ruta post user/delete
 adminController.deleteSeller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -305,6 +311,7 @@ adminController.deleteSeller = (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     res.json(ress);
 });
+// nueva ruta post vehicle/vehicleById valido para user tipo seller
 adminController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -353,6 +360,7 @@ adminController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
     res.json(jsonRes);
 });
+// nueva ruta post vehicle/mechanicalFileByIdVehicle
 adminController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
@@ -372,6 +380,7 @@ adminController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, void
     }
     res.json(jsonRes);
 });
+// nueva ruta get vehicle/insert-update-brand
 adminController.addBrand = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { name } = req.body;
@@ -398,6 +407,7 @@ adminController.addBrand = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     res.json(jsonRes);
 });
+// nueva ruta get vehicle/all-brands o all-paginator-brands
 adminController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const allBrands = yield brands_schema_1.default.find();
@@ -414,6 +424,7 @@ adminController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     res.json(jsonResponse);
 });
+// nueva ruta get vehicle/allModelVehicle o allModelPaginator
 adminController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const models = yield modelVehicle_schema_1.default.find();
@@ -430,6 +441,7 @@ adminController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     res.json(jsonRes);
 });
+// nueva ruta get vehicle/addModelVehicle
 adminController.addModelVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { model, brand, type_vehicle } = req.body;

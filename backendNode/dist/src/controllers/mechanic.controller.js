@@ -83,7 +83,7 @@ mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0,
     query.mechanicalFile = true;
     query.id_mechanic = id_mechanic;
     const vehiclesFiltered = yield Vehicles_schema_1.default.find(query).sort({ date_create: -1 });
-    if (vehiclesFiltered) {
+    if (vehiclesFiltered.length > 0) {
         for (let i = 0; i < vehiclesFiltered.length; i++) {
             let data = {
                 name_new_owner: vehiclesFiltered[i].name_new_owner,
@@ -127,7 +127,7 @@ mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0,
             arrayVehicles.push(data);
         }
         reponseJson.code = 200;
-        reponseJson.message = "Vehicleos encontrados exitosamente";
+        reponseJson.message = "Vehiculos encontrados exitosamente";
         reponseJson.status = true;
         reponseJson.data = arrayVehicles;
     }
