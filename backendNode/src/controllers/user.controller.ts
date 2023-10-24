@@ -501,6 +501,9 @@ userController.allMechanic = async (req: Request, res: Response) => {
   return res.json(reponseJson);
 };
 
+
+
+
 userController.getNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
@@ -630,13 +633,6 @@ userController.countNotifications = async (req: Request, res: Response) => {
 };
 
 
-userController.post("/getNotifications", userController.getNotifications);
-
-userController.post("/updateNotification", userController.updateNotification);
-
-userController.post("/notificationById", userController.notificationById);
-
-userController.post("/countNotifications", userController.countNotifications);
 
 async function addOrUpdateUser(data: any) {
   if (data.id_user) {
