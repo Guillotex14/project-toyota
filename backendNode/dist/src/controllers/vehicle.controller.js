@@ -569,6 +569,7 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
     const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
     const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
+        console.log(infoVehicle.imgs_documentation);
         let data = {
             _id: infoVehicle._id,
             model: infoVehicle.model,

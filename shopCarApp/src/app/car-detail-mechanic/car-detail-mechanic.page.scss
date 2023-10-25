@@ -42,3 +42,29 @@ ion-card{
   }
 
 }
+
+ion-accordion{
+
+  ion-item::part(native){
+    color: #fff !important;
+    background: #EB0A1E !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    ion-icon{
+      color: #fff !important;
+    }
+  }
+}
+
+.noPhotoIcon{
+  font-size: 150px !important ;
+  }
+  
+  .noPhotoTitle{
+  font-size: 20px !important ;
+  }
+  
+  .noPhotoSubtitle{
+  color: #5D5D5D !important; 
+  font-size: 12px !important ;
+  }

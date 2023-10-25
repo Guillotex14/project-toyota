@@ -22,6 +22,7 @@ export class CarDetailAdminPage implements OnInit {
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
     this.carDetail.images = [];
+    this.carDetail.imgs_documentation = [];
 
   }
 
@@ -50,7 +51,6 @@ export class CarDetailAdminPage implements OnInit {
     }
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getVehicleById(data).subscribe((data:any) => {
-
       if(data.status){
         this.carDetail = data.data;
         this.utils.dismissLoading();

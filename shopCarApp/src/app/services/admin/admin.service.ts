@@ -38,11 +38,11 @@ export class AdminService {
   }
 
   public getVehicleById(id: any) {
-    return this.http.post(global.urlBase+"admin/vehicleById",id,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/vehicleById",id,this.authToken);
   }
 
   public mechanicFile(id:any){
-    return this.http.post(global.urlBase+'seller/mechanicalFileByIdVehicle',id,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/mechanicalFileByIdVehicle',id,this.authToken);
   }
 
   public searchSeller(search: any) {
