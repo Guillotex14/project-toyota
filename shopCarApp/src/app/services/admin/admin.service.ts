@@ -17,10 +17,6 @@ export class AdminService {
     return this.http.post(global.urlBase+"user/insert",seller,this.authToken);
   }
 
-  public getSellers() {
-    return this.http.get(global.urlBase+"admin/AllSellers",this.authToken);
-  }
-
   public allSellers(data:any){
     return this.http.get(global.urlBase+`user/all?s=${data.s}&pos=${data.pos}&lim=${data.lim}&type_user=seller`,this.authToken);
   }

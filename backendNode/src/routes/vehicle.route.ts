@@ -40,6 +40,15 @@ vehicleRouter.post("/repost", vehicleController.repost);
 
 vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
 
+vehicleRouter.post("/inspections",vehicleController.inspections);
+
+vehicleRouter.post("/countInspections",vehicleController.countInspections);
+
+vehicleRouter.post("/addMechanicalFile",vehicleController.addMechanicalFile);
+
+vehicleRouter.post("/updateMechanicalFile",vehicleController.updateMechanicalFile);
+
+vehicleRouter.post("/getMechanicFileByIdVehicle",vehicleController.getMechanicFileByIdVehicle);
 
 
 // ---------------------brand--------------------

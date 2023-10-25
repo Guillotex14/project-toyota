@@ -40,7 +40,7 @@ sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -102,7 +102,7 @@ sellerController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgResize);
                 let data = {
                     img: filename.secure_url,
-                    public_id: filename.public_id
+                    public_id: filename.public_id,
                 };
                 documents.push(data);
             }
@@ -614,6 +614,7 @@ sellerController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, voi
     }
     res.json(reponseJson);
 });
+// nueva ruta post sale/approveBuyVehicle
 sellerController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -659,6 +660,7 @@ sellerController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, voi
     }
     res.json(reponseJson);
 });
+// nueva ruta post sale/rejectBuyVehicle
 sellerController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
@@ -802,7 +804,11 @@ sellerController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, void
 sellerController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -857,9 +863,7 @@ sellerController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void 
     query.mechanicalFile = true;
     query.sold = false;
     // query.id_seller_buyer = null;
-    const vehiclesFiltered = yield Vehicles_schema_1.default
-        .find(query)
-        .sort({ date_create: -1 });
+    const vehiclesFiltered = yield Vehicles_schema_1.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
@@ -935,7 +939,7 @@ sellerController.filterGraphySell = (req, res) => __awaiter(void 0, void 0, void
     let { month, yearSold, rangMonths, yearCar, brandCar, modelCar, id_user, concesionary, } = req.query;
     let now = new Date();
     let anioActual = now.getFullYear();
-    let monthActual = (now.getMonth() + 1);
+    let monthActual = now.getMonth() + 1;
     if (yearSold) {
         anioActual = yearSold;
     }
@@ -1184,7 +1188,9 @@ sellerController.listVehiclesSell = (req, res) => __awaiter(void 0, void 0, void
     for (let i = 0; i < cardsgroupmodel.length; i++) {
         for (let j = 0; j < cardsgroupmodel[i].vehicles.length; j++) {
             cardsgroupmodel[i].vehicles[j].imgVehicle = null;
-            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({ id_vehicle: cardsgroupmodel[i].vehicles[j]._id });
+            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({
+                id_vehicle: cardsgroupmodel[i].vehicles[j]._id,
+            });
             cardsgroupmodel[i].vehicles[j].imgVehicle = imgvehicles;
         }
         cardsgroupNacional.forEach((model) => {
@@ -1325,6 +1331,7 @@ sellerController.autocompleteModels = (req, res) => __awaiter(void 0, void 0, vo
     res.json(reponseJson);
 });
 // -----ventas------
+// nueva ruta post sale/rejectBuyVehicle
 sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
     const date_sell = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -1591,7 +1598,8 @@ sellerController.allMechanics = (req, res) => __awaiter(void 0, void 0, void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const ress = yield Users_schema_1.default.find({ type_user: "mechanic" })
+    const ress = yield Users_schema_1.default
+        .find({ type_user: "mechanic" })
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         if (res) {
             reponseJson.code = 200;
@@ -1678,7 +1686,9 @@ sellerController.mechanicByConcesionary = (req, res) => __awaiter(void 0, void 0
                 image: (yield imgUser_schema_1.default.findOne({
                     id_user: mecByConcesionary[i].id_user,
                 }))
-                    ? yield imgUser_schema_1.default.findOne({ id_user: mecByConcesionary[i].id_user })
+                    ? yield imgUser_schema_1.default.findOne({
+                        id_user: mecByConcesionary[i].id_user,
+                    })
                     : "",
             };
             arrayMechanics.push(mechanic);
@@ -1707,8 +1717,7 @@ sellerController.allZones = (req, res) => __awaiter(void 0, void 0, void 0, func
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const ress = yield Zones_schema_1.default
-        .find()
+    const ress = yield Zones_schema_1.default.find()
         .then((res) => {
         if (res) {
             reponseJson.code = 200;

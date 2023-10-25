@@ -15,9 +15,6 @@ vehicleRouter.post("/updateVehicle", vehicle_controller_1.default.updateVehicle)
 vehicleRouter.post("/addImgVehicle", vehicle_controller_1.default.addImgVehicle);
 vehicleRouter.post("/deleteImgVehicle", vehicle_controller_1.default.deleteImgVehicle);
 vehicleRouter.post("/updateImgVehicle", vehicle_controller_1.default.updateImgVehicle);
-vehicleRouter.post("/addImgDoc", vehicle_controller_1.default.addImgDoc);
-vehicleRouter.post("/deleteImgDoc", vehicle_controller_1.default.deleteImgDoc);
-vehicleRouter.post("/updateImgDoc", vehicle_controller_1.default.updateImgDoc);
 vehicleRouter.post("/allVehicles", vehicle_controller_1.default.allVehicles);
 vehicleRouter.post("/myVehicles", vehicle_controller_1.default.myVehicles);
 vehicleRouter.post("/vehicleById", vehicle_controller_1.default.vehicleById);
@@ -29,6 +26,11 @@ vehicleRouter.get("/exportExcell", vehicle_controller_1.default.exportExcell);
 vehicleRouter.post("/dispatchedCar", vehicle_controller_1.default.dispatchedCar);
 vehicleRouter.post("/repost", vehicle_controller_1.default.repost);
 vehicleRouter.get("/filterGraphySale", vehicle_controller_1.default.filterGraphySale);
+vehicleRouter.post("/inspections", vehicle_controller_1.default.inspections);
+vehicleRouter.post("/countInspections", vehicle_controller_1.default.countInspections);
+vehicleRouter.post("/addMechanicalFile", vehicle_controller_1.default.addMechanicalFile);
+vehicleRouter.post("/updateMechanicalFile", vehicle_controller_1.default.updateMechanicalFile);
+vehicleRouter.post("/getMechanicFileByIdVehicle", vehicle_controller_1.default.getMechanicFileByIdVehicle);
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpdate);
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);
