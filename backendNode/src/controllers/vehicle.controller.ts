@@ -13,7 +13,7 @@ import sharp from "sharp";
 import vehicles from "../schemas/Vehicles.schema";
 import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
-import { deleteImageVehicle, uploadImageVehicle } from "../../cloudinaryMetods";
+import { deleteImageVehicle, uploadDocuments, uploadImageVehicle } from "../../cloudinaryMetods";
 import * as global from "../global";
 
 const vehicleController: any = {};
@@ -25,6 +25,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
 
   const {
     model,
@@ -50,6 +51,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     images,
     vin,
     vehicle_plate,
+    imgs_documents
   } = req.body;
 
   if (decode == false) {
@@ -113,6 +115,28 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
       }
     }
   }
+
+  if (imgs_documents) {
+    if (imgs_documents.length > 0) {
+      for (let i = 0; i < imgs_documents.length; i++) {
+        const imgResize = await desgloseImg(imgs_documents[i].image);
+
+        const filename = await uploadDocuments(imgResize);
+
+        let data = {
+          img: filename.secure_url,
+          public_id: filename.public_id
+        }
+
+        documents.push(data);
+      }
+    }
+  }
+
+  await vehicles.findOneAndUpdate(
+    { _id: newVehicle._id },
+    { imgs_documentation: documents }
+  );
 
   const mailOptions = {
     from: "Toyousado",

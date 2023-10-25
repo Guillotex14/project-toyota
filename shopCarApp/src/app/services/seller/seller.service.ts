@@ -65,19 +65,19 @@ export class SellerService {
   }
 
   public getNotifications(data:any){
-    return this.http.post(global.urlBase+'seller/getNotifications', data,this.authToken);
+    return this.http.post(global.urlBase+'user/getNotifications', data,this.authToken);
   }
 
   public updateNotification(data:any){
-    return this.http.post(global.urlBase+'seller/updateNotification', data,this.authToken);
+    return this.http.post(global.urlBase+'user/updateNotification', data,this.authToken);
   }
 
   public getCountNotifications(data:any){
-    return this.http.post(global.urlBase+'seller/countNotifications', data,this.authToken);
+    return this.http.post(global.urlBase+'user/countNotifications', data,this.authToken);
   }
 
   public notificationById(data:any){
-    return this.http.post(global.urlBase+'seller/notificationById', data,this.authToken);
+    return this.http.post(global.urlBase+'user/notificationById', data,this.authToken);
   }
 
   public getListByFilter(data:any){
@@ -85,15 +85,15 @@ export class SellerService {
   }
 
   public addImageVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/addImgVehicle', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/addImgVehicle', data,this.authToken);
   }
 
   public editImageVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/updateImgVehicle', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/updateImgVehicle', data,this.authToken);
   }
   
   public deleteImageVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/deleteImgVehicle', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/deleteImgVehicle', data,this.authToken);
   }
 
   public addImgDoc(data:any){

@@ -48,19 +48,19 @@ export class MechanicService {
   }
 
   public getNotifications(data:any){
-    return this.http.post(global.urlBase+'mechanic/getNotifications', data, this.authToken);
+    return this.http.post(global.urlBase+'user/getNotifications', data, this.authToken);
   }
 
   public updateNotification(data:any){
-    return this.http.post(global.urlBase+'mechanic/updateNotification', data, this.authToken);
+    return this.http.post(global.urlBase+'user/updateNotification', data, this.authToken);
   }
 
   public getCountNotifications(data:any){
-    return this.http.post(global.urlBase+'mechanic/countNotifications', data, this.authToken);
+    return this.http.post(global.urlBase+'user/countNotifications', data, this.authToken);
   }
 
   public notificationById(data:any){
-    return this.http.post(global.urlBase+'mechanic/notificationById', data, this.authToken);
+    return this.http.post(global.urlBase+'user/notificationById', data, this.authToken);
   }
 
   public allBrands(){
