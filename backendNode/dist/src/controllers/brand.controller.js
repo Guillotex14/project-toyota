@@ -127,7 +127,6 @@ brandController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         reponseJson.message = generar_jwt_1.default.message;
         reponseJson.status = false;
         reponseJson.data = null;
-        // return res.json(reponseJson);
     }
     if (!data) {
         data = {

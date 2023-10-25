@@ -13,9 +13,9 @@ mechanicRouter.post("/getVehicleById", mechanic_controller_1.default.getVehicleB
 mechanicRouter.post("/addMechanicalFile", mechanic_controller_1.default.addMechanicalFile);
 mechanicRouter.post("/updateMechanicalFile", mechanic_controller_1.default.updateMechanicalFile);
 mechanicRouter.post("/getMechanicFileByIdVehicle", mechanic_controller_1.default.getMechanicFileByIdVehicle);
-// nueva ruta post user/getNotifications
+// nueva ruta post user/getNotifications--
 mechanicRouter.post('/getNotifications', mechanic_controller_1.default.getNotifications);
-// nueva ruta post user/updateNotification
+// nueva ruta post user/updateNotification--
 mechanicRouter.post('/updateNotification', mechanic_controller_1.default.updateNotification);
 // nueva ruta post user/notificationById
 mechanicRouter.post('/notificationById', mechanic_controller_1.default.notificationById);

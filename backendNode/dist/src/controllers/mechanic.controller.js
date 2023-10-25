@@ -26,7 +26,7 @@ const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
 const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
 const mechanicController = {};
-// nueva ruta post vehicle/myVehicles
+// nueva ruta post vehicle/myVehicles--
 mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //aqui declaramos las respuestas
     const reponseJson = new Response_1.ResponseModel();
@@ -139,7 +139,7 @@ mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0,
     }
     res.json(reponseJson);
 });
-// nueva ruta post vehicle/inspections
+// nueva ruta post vehicle/inspections--
 mechanicController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_mechanic } = req.body;
@@ -209,7 +209,7 @@ mechanicController.inspections = (req, res) => __awaiter(void 0, void 0, void 0,
     }
     res.json(reponseJson);
 });
-// nueva ruta post vehicle/countInspections
+// nueva ruta post vehicle/countInspections--
 mechanicController.countInspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_mechanic } = req.body;
@@ -229,7 +229,7 @@ mechanicController.countInspections = (req, res) => __awaiter(void 0, void 0, vo
     reponseJson.data = vehiclesList;
     res.json(reponseJson);
 });
-// nueva ruta post vehicle/vehicleById
+// nueva ruta post vehicle/vehicleById--
 mechanicController.getVehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -289,7 +289,7 @@ mechanicController.getVehicleById = (req, res) => __awaiter(void 0, void 0, void
     }
     res.json(reponseJson);
 });
-// nueva ruta post vehicle/addMechanicalFile
+// nueva ruta post vehicle/addMechanicalFile--
 mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const reponseJson = new Response_1.ResponseModel();
@@ -455,7 +455,7 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
     }
     res.json(reponseJson);
 });
-// nueva ruta post vehicle/updateMechanicalFile
+// nueva ruta post vehicle/updateMechanicalFile--
 mechanicController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
@@ -483,7 +483,7 @@ mechanicController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0
     }
     return res.json(reponseJson);
 });
-// nueva ruta post vehicle/getMechanicFileByIdVehicle
+// nueva ruta post vehicle/getMechanicFileByIdVehicle--
 mechanicController.getMechanicFileByIdVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
@@ -510,7 +510,7 @@ mechanicController.getMechanicFileByIdVehicle = (req, res) => __awaiter(void 0, 
     }
     res.json(reponseJson);
 });
-// nueva ruta post user/getNotifications
+// nueva ruta post user/getNotifications--
 mechanicController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
@@ -537,7 +537,7 @@ mechanicController.getNotifications = (req, res) => __awaiter(void 0, void 0, vo
     }
     res.json(reponseJson);
 });
-// nueva ruta post user/updateNotification
+// nueva ruta post user/updateNotification--
 mechanicController.updateNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -564,7 +564,7 @@ mechanicController.updateNotification = (req, res) => __awaiter(void 0, void 0, 
     }
     res.json(reponseJson);
 });
-// nueva ruta post user/notificationById
+// nueva ruta post user/notificationById--
 mechanicController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
@@ -591,7 +591,7 @@ mechanicController.notificationById = (req, res) => __awaiter(void 0, void 0, vo
     }
     res.json(reponseJson);
 });
-// nueva ruta post user/countNotifications
+// nueva ruta post user/countNotifications--
 mechanicController.countNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
@@ -618,7 +618,7 @@ mechanicController.countNotifications = (req, res) => __awaiter(void 0, void 0, 
     }
     res.json(reponseJson);
 });
-// nueva ruta get vehicle/all-brands o all-paginator-brands
+// nueva ruta get vehicle/all-brands o all-paginator-brands--
 mechanicController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const brand = yield brands_schema_1.default.find();
@@ -635,7 +635,7 @@ mechanicController.allBrands = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
     res.json(jsonResponse);
 });
-// nueva ruta get vehicle/allModelVehicle o allModelPaginator
+// nueva ruta get vehicle/allModelVehicle o allModelPaginator--
 mechanicController.allModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonResponse = new Response_1.ResponseModel();
     const model = yield modelVehicle_schema_1.default.find();

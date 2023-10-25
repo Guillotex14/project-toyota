@@ -295,7 +295,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -348,6 +348,12 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     query.mechanicalFile = true;
     query.sold = false;
     query.id_seller_buyer = null;
+    if (decode.type_user == "mechanic") {
+        query.id_mechanic = decode.id_mechanic;
+    }
+    else if (decode.type_user == "seller") {
+        query.id_seller = decode.id_seller;
+    }
     const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {
         let arrayVehicles = [];
@@ -601,7 +607,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -688,7 +694,7 @@ vehicleController.repost = (req, res) => __awaiter(void 0, void 0, void 0, funct
 vehicleController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -719,7 +725,7 @@ vehicleController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, voi
 vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;

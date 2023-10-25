@@ -30,13 +30,17 @@ modelVehiclesController.all = async (req: Request, res: Response) => {
     search = {
       $or: [
         { _id: { $regex: ".*" + data.s + ".*",$options: "i" } },
-        { name: { $regex: ".*" + data.s + ".*",$options: "i" } },
+        { model: { $regex: ".*" + data.s + ".*",$options: "i" } },
+        { type_vehicle: { $regex: ".*" + data.s + ".*",$options: "i" } },
+        { brand: { $regex: ".*" + data.s + ".*",$options: "i" } },
       ],
     };
 
     project = {
       _id: "$_id",
-      name: 1,
+      model: 1,
+      type_vehicle: 1,
+      brand: 1,
     };
   let list = await models.aggregate([
     {
