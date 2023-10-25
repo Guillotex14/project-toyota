@@ -18,10 +18,10 @@ mechanicRouter.post("/updateMechanicalFile", mechanicController.updateMechanical
 
 mechanicRouter.post("/getMechanicFileByIdVehicle", mechanicController.getMechanicFileByIdVehicle);
 
-// nueva ruta post user/getNotifications
+// nueva ruta post user/getNotifications--
 mechanicRouter.post('/getNotifications', mechanicController.getNotifications);
 
-// nueva ruta post user/updateNotification
+// nueva ruta post user/updateNotification--
 mechanicRouter.post('/updateNotification',mechanicController.updateNotification);
 
 // nueva ruta post user/notificationById
