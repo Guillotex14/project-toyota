@@ -974,7 +974,7 @@ sellerController.filterVehiclesWithMongo = async (
   ) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const token: any = req.header("Authorization");
-    let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+    let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
   
     if (decode == false) {
       reponseJson.code = jwt.code;

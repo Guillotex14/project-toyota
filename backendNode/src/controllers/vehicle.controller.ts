@@ -333,7 +333,7 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   let query: any = {};
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -383,6 +383,12 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   query.mechanicalFile = true;
   query.sold = false;
   query.id_seller_buyer = null;
+  
+  if (decode.type_user=="mechanic") {
+    query.id_mechanic=decode.id_mechanic
+  }else if(decode.type_user=="seller"){
+    query.id_seller = decode.id_seller;
+  }
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
   if (vehiclesFiltered) {
@@ -667,7 +673,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_vehicle } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -772,7 +778,7 @@ vehicleController.repost = async (req: Request, res: Response) => {
 vehicleController.getVehicleByType = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -810,7 +816,7 @@ vehicleController.filterVehiclesWithMongo = async (
 ) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
