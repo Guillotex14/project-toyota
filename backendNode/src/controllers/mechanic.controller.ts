@@ -15,7 +15,7 @@ import models from '../schemas/modelVehicle.schema';
 
 const mechanicController: any = {};
 
-// nueva ruta post vehicle/myVehicles
+// nueva ruta post vehicle/myVehicles--
 
 mechanicController.getVehicles = async (req: Request, res: Response) => {
     
@@ -149,7 +149,7 @@ mechanicController.getVehicles = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post vehicle/inspections
+// nueva ruta post vehicle/inspections--
 mechanicController.inspections = async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_mechanic} = req.body;
@@ -226,7 +226,7 @@ mechanicController.inspections = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post vehicle/countInspections
+// nueva ruta post vehicle/countInspections--
 mechanicController.countInspections = async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_mechanic} = req.body;
@@ -252,7 +252,7 @@ mechanicController.countInspections = async (req: Request, res: Response) => {
 
 }
 
-// nueva ruta post vehicle/vehicleById
+// nueva ruta post vehicle/vehicleById--
 mechanicController.getVehicleById = async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id} = req.body;
@@ -318,7 +318,7 @@ mechanicController.getVehicleById = async (req: Request, res: Response) => {
 
 }
 
-// nueva ruta post vehicle/addMechanicalFile
+// nueva ruta post vehicle/addMechanicalFile--
 mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const token: any = req.header("Authorization");
@@ -560,7 +560,7 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post vehicle/updateMechanicalFile
+// nueva ruta post vehicle/updateMechanicalFile--
 mechanicController.updateMechanicalFile = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const token: any = req.header("Authorization");
@@ -592,7 +592,7 @@ mechanicController.updateMechanicalFile = async (req: Request, res: Response) =>
     return res.json(reponseJson);
 };
 
-// nueva ruta post vehicle/getMechanicFileByIdVehicle
+// nueva ruta post vehicle/getMechanicFileByIdVehicle--
 mechanicController.getMechanicFileByIdVehicle = async (req: Request, res: Response) => {
     const reponseJson:ResponseModel = new ResponseModel();
     const {id_vehicle} = req.body;
@@ -622,7 +622,7 @@ mechanicController.getMechanicFileByIdVehicle = async (req: Request, res: Respon
     res.json(reponseJson);
 }
 
-// nueva ruta post user/getNotifications
+// nueva ruta post user/getNotifications--
 mechanicController.getNotifications = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_user } = req.body;
@@ -653,7 +653,7 @@ mechanicController.getNotifications = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post user/updateNotification
+// nueva ruta post user/updateNotification--
 mechanicController.updateNotification = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id } = req.body;
@@ -684,7 +684,7 @@ mechanicController.updateNotification = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post user/notificationById
+// nueva ruta post user/notificationById--
 mechanicController.notificationById = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id } = req.body;
@@ -715,7 +715,7 @@ mechanicController.notificationById = async (req: Request, res: Response) => {
     res.json(reponseJson);
 }
 
-// nueva ruta post user/countNotifications
+// nueva ruta post user/countNotifications--
 mechanicController.countNotifications = async (req: Request, res: Response) => {
     const reponseJson: ResponseModel = new ResponseModel();
     const { id_user } = req.body;
@@ -748,7 +748,7 @@ mechanicController.countNotifications = async (req: Request, res: Response) => {
 
 }
 
-// nueva ruta get vehicle/all-brands o all-paginator-brands
+// nueva ruta get vehicle/all-brands o all-paginator-brands--
 mechanicController.allBrands = async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
@@ -771,7 +771,7 @@ mechanicController.allBrands = async (req: Request, res: Response) => {
     res.json(jsonResponse);
 };
 
-// nueva ruta get vehicle/allModelVehicle o allModelPaginator
+// nueva ruta get vehicle/allModelVehicle o allModelPaginator--
 mechanicController.allModels =  async (req: Request, res: Response) => {
     const jsonResponse: ResponseModel = new ResponseModel();
 
