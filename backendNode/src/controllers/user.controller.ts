@@ -8,6 +8,7 @@ import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import { sendEmail } from "../../nodemailer";
+import notifications from "../schemas/notifications.schema";
 
 const userController: any = {};
 
@@ -498,6 +499,134 @@ userController.allMechanic = async (req: Request, res: Response) => {
   }
 
   return res.json(reponseJson);
+};
+
+userController.getNotifications = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { id_user } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const notificationsUser = await notifications
+    .find({ id_user: id_user, status: false })
+    .sort({ date: -1 });
+
+  if (notificationsUser) {
+    reponseJson.code = 200;
+    reponseJson.message = "notificaciones obtenidas exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = notificationsUser;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "no se encontraron notificaciones";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+userController.updateNotification = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { id } = req.body;
+
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const notificationsUser = await notifications.findByIdAndUpdate(id, {
+    status: true,
+  });
+
+  if (notificationsUser) {
+    reponseJson.code = 200;
+    reponseJson.message = "notificacion actualizada exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = notificationsUser;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "error al actualizar notificacion";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+userController.notificationById = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const notificationsUser = await notifications.findById(id);
+
+  if (notificationsUser) {
+    reponseJson.code = 200;
+    reponseJson.message = "notificacion encontrada exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = notificationsUser;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "no se encontro notificacion";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+userController.countNotifications = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { id_user } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const countNotifies = await notifications.countDocuments({
+    id_user: id_user,
+    status: false,
+  });
+
+  if (countNotifies) {
+    reponseJson.code = 200;
+    reponseJson.message = "conteo de notificaciones exitoso";
+    reponseJson.status = true;
+    reponseJson.data = countNotifies;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "no se encontro notificacion";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
 };
 
 async function addOrUpdateUser(data: any) {

@@ -21,6 +21,7 @@ const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const nodemailer_1 = require("../../nodemailer");
+const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const userController = {};
 userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -464,6 +465,117 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
         reponseJson.status = true;
     }
     return res.json(reponseJson);
+});
+userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default
+        .find({ id_user: id_user, status: false })
+        .sort({ date: -1 });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificaciones obtenidas exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontraron notificaciones";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+userController.updateNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default.findByIdAndUpdate(id, {
+        status: true,
+    });
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificacion actualizada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "error al actualizar notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+userController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const notificationsUser = yield notifications_schema_1.default.findById(id);
+    if (notificationsUser) {
+        reponseJson.code = 200;
+        reponseJson.message = "notificacion encontrada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = notificationsUser;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontro notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+userController.countNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_user } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const countNotifies = yield notifications_schema_1.default.countDocuments({
+        id_user: id_user,
+        status: false,
+    });
+    if (countNotifies) {
+        reponseJson.code = 200;
+        reponseJson.message = "conteo de notificaciones exitoso";
+        reponseJson.status = true;
+        reponseJson.data = countNotifies;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no se encontro notificacion";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
 });
 function addOrUpdateUser(data) {
     return __awaiter(this, void 0, void 0, function* () {

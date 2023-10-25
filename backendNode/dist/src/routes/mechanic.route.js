@@ -13,11 +13,17 @@ mechanicRouter.post("/getVehicleById", mechanic_controller_1.default.getVehicleB
 mechanicRouter.post("/addMechanicalFile", mechanic_controller_1.default.addMechanicalFile);
 mechanicRouter.post("/updateMechanicalFile", mechanic_controller_1.default.updateMechanicalFile);
 mechanicRouter.post("/getMechanicFileByIdVehicle", mechanic_controller_1.default.getMechanicFileByIdVehicle);
+// nueva ruta post user/getNotifications
 mechanicRouter.post('/getNotifications', mechanic_controller_1.default.getNotifications);
+// nueva ruta post user/updateNotification
 mechanicRouter.post('/updateNotification', mechanic_controller_1.default.updateNotification);
+// nueva ruta post user/notificationById
 mechanicRouter.post('/notificationById', mechanic_controller_1.default.notificationById);
+// nueva ruta post user/countNotifications
 mechanicRouter.post('/countNotifications', mechanic_controller_1.default.countNotifications);
+// nueva ruta get vehicle/all-brands o all-paginator-brands
 mechanicRouter.get("/allBrands", mechanic_controller_1.default.allBrands);
+// nueva ruta get vehicle/allModelVehicle o allModelPaginator
 mechanicRouter.get("/allModels", mechanic_controller_1.default.allModels);
 exports.default = mechanicRouter;
 //# sourceMappingURL=mechanic.route.js.map
