@@ -62,7 +62,7 @@ modelVehiclesController.all = async (req: Request, res: Response) => {
 modelVehiclesController.get = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
   if (decode == false) {
       reponseJson.code = jwt.code;
       reponseJson.message = jwt.message;
@@ -71,31 +71,17 @@ modelVehiclesController.get = async (req: Request, res: Response) => {
       return res.json(reponseJson);
   }
 
-  reponseJson.code = 200;
-  reponseJson.message = "Vehículo agregado exitosamente";
-  reponseJson.status = true;
-  reponseJson.data = "";
-
-  res.json(reponseJson);
-};
-
-modelVehiclesController.modelVehicleById = async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-  if (decode == false) {
-      reponseJson.code = jwt.code;
-      reponseJson.message = jwt.message;
-      reponseJson.status = false;
-      reponseJson.data = null;
-      return res.json(reponseJson);
-  }
-
+  
+  const data = req.query;
+  let model: any;
+  if (data._id) {
+    model = await models.findOne({ _id: data._id });
+  } 
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";
   reponseJson.status = true;
-  reponseJson.data = "";
+  reponseJson.data = model;
 
   res.json(reponseJson);
 };
@@ -138,7 +124,7 @@ modelVehiclesController.allPaginator = async (req: Request, res: Response) => {
       _id: "$_id",
       model: 1,
       type_vehicle: 1,
-      brand: 1
+      brand: 1,
     };
 
     let sendata: any = {};
