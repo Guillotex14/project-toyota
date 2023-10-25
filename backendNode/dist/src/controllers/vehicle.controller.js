@@ -1340,9 +1340,9 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     }
     let seller = null;
     let user = null;
-    if (id_user) {
-        seller = yield Sellers_schema_2.default.findOne({ id_user: id_user });
-        user = yield Users_schema_1.default.findOne({ _id: id_user });
+    if (decode.type_user = "seller") {
+        seller = yield Sellers_schema_2.default.findOne({ id_user: decode.id_user });
+        user = yield Users_schema_1.default.findOne({ _id: decode.id_user });
         // if (seller && user.type_user != "admin") {
         //   mongQuery = {
         //     ...mongQuery,
@@ -1695,33 +1695,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     reponseJson.code = 200;
     reponseJson.message = "";
     reponseJson.status = true;
-    reponseJson.data = data;
-    res.json(reponseJson);
-});
-vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const { id_vehicle } = req.body;
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
-    }
-    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
-    if (mecFile) {
-        reponseJson.code = 200;
-        reponseJson.status = true;
-        reponseJson.message = "Ficha mecánica encontrada";
-        reponseJson.data = mecFile;
-    }
-    else {
-        reponseJson.code = 400;
-        reponseJson.status = false;
-        reponseJson.message = "No se encontro la ficha mecánica";
-    }
+    reponseJson.data = datos;
     res.json(reponseJson);
 });
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -57,7 +57,6 @@ vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.deleteModel);
 vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
 vehicleRouter.get("/allModelPaginator", modelVehiclesController.allPaginator);
 vehicleRouter.get("/get", modelVehiclesController.get);
-vehicleRouter.get("/modelVehicleById", modelVehiclesController.modelVehicleById);
 
 
 //---------------ficha mechanica--------------------

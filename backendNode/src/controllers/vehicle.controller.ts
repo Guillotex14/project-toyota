@@ -1621,9 +1621,9 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
 
   let seller: any = null;
   let user: any = null;
-  if (id_user) {
-    seller = await Sellers.findOne({ id_user: id_user });
-    user = await Users.findOne({ _id: id_user });
+  if (decode.type_user="seller") {
+    seller = await Sellers.findOne({ id_user: decode.id_user });
+    user = await Users.findOne({ _id: decode.id_user });
     // if (seller && user.type_user != "admin") {
     //   mongQuery = {
     //     ...mongQuery,
@@ -2009,42 +2009,11 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   reponseJson.code = 200;
   reponseJson.message = "";
   reponseJson.status = true;
-  reponseJson.data = data;
+  reponseJson.data = datos;
 
   res.json(reponseJson);
 };
 
-vehicleController.mechanicalFileByIdVehicle = async (
-  req: Request,
-  res: Response
-) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-  const { id_vehicle } = req.body;
-  const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
-
-  if (decode == false) {
-    reponseJson.code = jwt.code;
-    reponseJson.message = jwt.message;
-    reponseJson.status = false;
-    reponseJson.data = null;
-    return res.json(reponseJson);
-  }
-
-  const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
-  if (mecFile) {
-    reponseJson.code = 200;
-    reponseJson.status = true;
-    reponseJson.message = "Ficha mecánica encontrada";
-    reponseJson.data = mecFile;
-  } else {
-    reponseJson.code = 400;
-    reponseJson.status = false;
-    reponseJson.message = "No se encontro la ficha mecánica";
-  }
-
-  res.json(reponseJson);
-};
 
 
 
@@ -2449,6 +2418,8 @@ vehicleController.getMechanicFileByIdVehicle = async (req: Request, res: Respons
 
   res.json(reponseJson);
 }
+
+
 
 
 const desgloseImg = async (image: any) => {

@@ -66,7 +66,7 @@ modelVehiclesController.all = (req, res) => __awaiter(void 0, void 0, void 0, fu
 modelVehiclesController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -74,27 +74,15 @@ modelVehiclesController.get = (req, res) => __awaiter(void 0, void 0, void 0, fu
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    reponseJson.code = 200;
-    reponseJson.message = "Vehículo agregado exitosamente";
-    reponseJson.status = true;
-    reponseJson.data = "";
-    res.json(reponseJson);
-});
-modelVehiclesController.modelVehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
-    if (decode == false) {
-        reponseJson.code = generar_jwt_1.default.code;
-        reponseJson.message = generar_jwt_1.default.message;
-        reponseJson.status = false;
-        reponseJson.data = null;
-        return res.json(reponseJson);
+    const data = req.query;
+    let model;
+    if (data._id) {
+        model = yield modelVehicle_schema_1.default.findOne({ _id: data._id });
     }
     reponseJson.code = 200;
     reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
-    reponseJson.data = "";
+    reponseJson.data = model;
     res.json(reponseJson);
 });
 modelVehiclesController.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -130,7 +118,7 @@ modelVehiclesController.allPaginator = (req, res) => __awaiter(void 0, void 0, v
         _id: "$_id",
         model: 1,
         type_vehicle: 1,
-        brand: 1
+        brand: 1,
     };
     let sendata = {};
     let list = yield modelVehicle_schema_1.default.aggregate([

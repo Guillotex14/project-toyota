@@ -39,7 +39,6 @@ vehicleRouter.post("/deleteModelVehicle", modelsVehicles_controller_1.default.de
 vehicleRouter.get("/allModelVehicle", modelsVehicles_controller_1.default.all);
 vehicleRouter.get("/allModelPaginator", modelsVehicles_controller_1.default.allPaginator);
 vehicleRouter.get("/get", modelsVehicles_controller_1.default.get);
-vehicleRouter.get("/modelVehicleById", modelsVehicles_controller_1.default.modelVehicleById);
 //---------------ficha mechanica--------------------
 exports.default = vehicleRouter;
 //# sourceMappingURL=vehicle.route.js.map
