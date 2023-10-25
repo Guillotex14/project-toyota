@@ -150,6 +150,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     let data = {
       data: this.mechanicalFileDetail
     }
+  
     this.utils.presentLoading("Actualizando ficha mecánica")
     this.mechanicSrv.editFileMechanic(data).subscribe((res:any) => {
 
@@ -172,7 +173,6 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   }
 
   public generalCondition(event: any){
-  
     let total = Number(this.mechanicalFileDetail.part_emblems_complete) +
     Number(this.mechanicalFileDetail.wiper_shower_brushes_windshield) +
     Number(this.mechanicalFileDetail.paint_condition) +
@@ -222,7 +222,6 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     Number(this.mechanicalFileDetail.pipes_hoses_connections) +
     Number(this.mechanicalFileDetail.brake_discs);
 
-    console.log(total)
     this.mechanicalFileDetail.general_condition = total;
   }
 }

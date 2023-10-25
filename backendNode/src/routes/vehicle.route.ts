@@ -18,6 +18,12 @@ vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);
 
 vehicleRouter.post("/updateImgVehicle", vehicleController.updateImgVehicle);
 
+vehicleRouter.post("/addImgDoc", vehicleController.addImgDoc);
+
+vehicleRouter.post("/deleteImgDoc", vehicleController.deleteImgDoc);
+
+vehicleRouter.post("/updateImgDoc", vehicleController.updateImgDoc);
+
 vehicleRouter.post("/allVehicles", vehicleController.allVehicles);
 
 vehicleRouter.post("/myVehicles", vehicleController.myVehicles);

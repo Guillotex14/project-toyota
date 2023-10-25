@@ -52,6 +52,7 @@ export class CarDetailMechanicPage implements OnInit {
     this.carDetail.vin = "";
     this.carDetail.vehicle_plate = "";
     this.carDetail.images = [];
+    this.carDetail.imgs_documentation = [];
 
   }
 

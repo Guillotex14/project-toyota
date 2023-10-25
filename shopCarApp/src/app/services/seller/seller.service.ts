@@ -17,31 +17,27 @@ export class SellerService {
   }
 
   public addVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/addVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/addVehicle',data,this.authToken);
   }
 
   public getAllVehicles(){
-    return this.http.get(global.urlBase+'seller/allVehicles',this.authToken);
+    return this.http.get(global.urlBase+'vehicle/allVehicles',this.authToken);
   }
 
   public getMyVehicles(id:any){
-    return this.http.post(global.urlBase+'seller/myVehicles',id,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/myVehicles',id,this.authToken);
   }
 
   public vehicleById(id:any){
-    return this.http.post(global.urlBase+'seller/vehicleById',id,this.authToken);
-  }
-
-  public getVehicleByType(data:any){
-    return this.http.post(global.urlBase+'seller/getVehicleByType',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/vehicleById',id,this.authToken);
   }
 
   public mechanicFile(id:any){
-    return this.http.post(global.urlBase+'seller/mechanicalFileByIdVehicle',id,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/mechanicalFileByIdVehicle',id,this.authToken);
   }
 
   public updateVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/updateVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/updateVehicle',data,this.authToken);
   }
 
   public getMechanics(){
@@ -52,28 +48,20 @@ export class SellerService {
     return this.http.post(global.urlBase+'seller/mechanicByConcesionary',concesionary, this.authToken);
   }
 
-  public getZones(){
-    return this.http.get(global.urlBase+'seller/allZones',this.authToken);
-  }
-
-  public getConcesionaries(){
-    return this.http.get(global.urlBase+'seller/allConcesionaries',this.authToken);
-  }
-
   public allBrands(){
     return this.http.get(global.urlBase+'seller/allBrands',this.authToken);
   }
 
   public buyVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/buyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/buyVehicle',data,this.authToken);
   }
 
   public approveBuyVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/approveBuyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/approveBuyVehicle',data,this.authToken);
   }
 
   public rejectBuyVehicle(data:any){
-    return this.http.post(global.urlBase+'seller/rejectBuyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/rejectBuyVehicle',data,this.authToken);
   }
 
   public getNotifications(data:any){
@@ -93,7 +81,7 @@ export class SellerService {
   }
 
   public getListByFilter(data:any){
-    return this.http.post(global.urlBase+'seller/filterVehiclesWithMongo', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/filterVehiclesWithMongo', data,this.authToken);
   }
 
   public addImageVehicle(data:any){
@@ -108,6 +96,18 @@ export class SellerService {
     return this.http.post(global.urlBase+'seller/deleteImgVehicle', data,this.authToken);
   }
 
+  public addImgDoc(data:any){
+    return this.http.post(global.urlBase+'vehicle/addImgDoc', data,this.authToken);
+  }
+
+  public editImgDoc(data:any){
+    return this.http.post(global.urlBase+'vehicle/updateImgDoc', data,this.authToken);
+  }
+
+  public deleteImgDoc(data:any){
+    return this.http.post(global.urlBase+'vehicle/deleteImgDoc', data,this.authToken);
+  }
+
   public allModels(){
     return this.http.get(global.urlBase+'seller/allModels',this.authToken);
   }
@@ -117,11 +117,11 @@ export class SellerService {
   }
 
   public dispatched(data:any){
-    return this.http.post(global.urlBase+'seller/dispatchedCar', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/dispatchedCar', data,this.authToken);
   }
 
   public repost(data:any){
-    return this.http.post(global.urlBase+'seller/repost', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/repost', data,this.authToken);
   }
 
   public getGrafic(data:any){
