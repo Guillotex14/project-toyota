@@ -540,7 +540,7 @@ export class CarDetailPage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.takePhotoGalery();
@@ -565,7 +565,7 @@ export class CarDetailPage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();

@@ -116,7 +116,7 @@ export class AppComponent implements  OnInit{
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.takePhotoGalery();
@@ -141,7 +141,7 @@ export class AppComponent implements  OnInit{
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();

@@ -24,7 +24,7 @@ export class MechanicService {
   }
 
   public getVehicles(data: any){
-    return this.http.post(global.urlBase+"mechanic/getVehicles",data,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/myVehicles",data,this.authToken);
   }
 
   public addMechanicalFile(mechanicalFile: any){
@@ -33,10 +33,6 @@ export class MechanicService {
 
   public editFileMechanic(data: any){
     return this.http.post(global.urlBase+"vehicle/updateMechanicalFile",data,this.authToken);
-  }
-
-  public rejectMechanicalFile(id_vehicle: any){
-    return this.http.post(global.urlBase+"mechanic/rejectMechanicalFile",id_vehicle,this.authToken);
   }
 
   public getVehicleById(id_vehicle: any){
@@ -68,6 +64,6 @@ export class MechanicService {
   }
 
   public allModels(){
-    return this.http.get(global.urlBase+'mechanic/allModels', this.authToken);
+    return this.http.get(global.urlBase+'vehicle/allModelVehicle?s=', this.authToken);
   }
 }

@@ -339,25 +339,5 @@ export class MechanicalFilePage implements OnInit {
 
   }
 
-  public rejectMechanicalFile(){
-    let data = {
-      id_vehicle: this.id_vehicle
-    }
-    
-    this.mechanicSrv.rejectMechanicalFile(data).subscribe((res:any) => {
-      this.utils.presentLoading("Rechazando ficha mecánica")
-      if (res.data.status) {
-        this.utils.dismissLoading()
-        this.utils.presentToast("Se ha rechazado la ficha mecánica correctamente")
-        this.router.navigate(['mechanic'])
-      }else{
-        this.utils.dismissLoading()
-        this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecánica")
-      }
-    }
-    ,(err:any) => {
-      this.utils.presentToast("Ha ocurrido un error al rechazar la ficha mecánica")
-    })
-  }
 
 }

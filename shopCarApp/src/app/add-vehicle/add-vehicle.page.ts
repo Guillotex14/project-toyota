@@ -91,7 +91,7 @@ export class AddVehiclePage implements OnInit {
             }
           },
           {
-            text: 'Galeria',
+            text: 'Galería',
             icon: 'image',
             handler: () => {
               this.presentAlert(2);
@@ -121,7 +121,7 @@ export class AddVehiclePage implements OnInit {
             }
           },
           {
-            text: 'Galeria',
+            text: 'Galería',
             icon: 'image',
             handler: () => {
               this.takePhotoGalery();
@@ -466,7 +466,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.presentAlert(2);
@@ -491,7 +491,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria edit',
+        text: 'Galería edit',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();
@@ -524,7 +524,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.takePhotoGaleryDoc();
@@ -551,7 +551,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria edit',
+        text: 'Galería edit',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGaleryDoc();

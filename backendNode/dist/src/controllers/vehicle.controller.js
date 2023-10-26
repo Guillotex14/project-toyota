@@ -128,6 +128,9 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         }
     }
+    yield Vehicles_schema_2.default.findByIdAndUpdate(newVehicle._id, {
+        imgs_documentation: documents,
+    });
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic,
@@ -174,8 +177,8 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         city: infoSeller.city,
         title: "Tienes el siguiente vehículo para generar la ficha técnica",
     };
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     reponseJson.code = 200;
     reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
@@ -438,7 +441,6 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
-    console.log(decode);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -446,11 +448,12 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
         jsonRes.data = null;
         return res.json(jsonRes);
     }
-    if (decode.type_user == "mechanic") {
+    if (decode.type_user === "mechanic") {
         query.id_mechanic = decode.id_mechanic;
+        query.mechanicalFile = true;
     }
-    else if (decode.type_user == "seller") {
-        query.id_seller = decode.id_seller;
+    else if (decode.type_user === "seller") {
+        query.id_seller = decode.id_sell;
     }
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
@@ -477,17 +480,19 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     else {
         query.km = { $gte: minKm, $lte: maxKm };
     }
-    if (minPrice === 0 && maxPrice === 0) {
-        query.price = { $exists: true };
-    }
-    else if (minPrice !== 0 && maxPrice === 0) {
-        query.price = { $gte: minPrice, $ne: null };
-    }
-    else if (minPrice === 0 && maxPrice !== 0) {
-        query.price = { $lte: maxPrice, $ne: null };
-    }
-    else {
-        query.price = { $gte: minPrice, $lte: maxPrice };
+    if (decode.type_user == "seller") {
+        if (minPrice === 0 && maxPrice === 0) {
+            query.price = { $exists: true };
+        }
+        else if (minPrice !== 0 && maxPrice === 0) {
+            query.price = { $gte: minPrice, $ne: null };
+        }
+        else if (minPrice === 0 && maxPrice !== 0) {
+            query.price = { $lte: maxPrice, $ne: null };
+        }
+        else {
+            query.price = { $gte: minPrice, $lte: maxPrice };
+        }
     }
     query.city = { $regex: ubication, $options: "i" };
     query.brand = { $regex: brand, $options: "i" };

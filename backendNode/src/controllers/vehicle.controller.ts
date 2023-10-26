@@ -133,6 +133,10 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     }
   }
 
+  await vehicles.findByIdAndUpdate(newVehicle._id, {
+    imgs_documentation: documents,
+  });
+
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic,
@@ -186,10 +190,10 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     city: infoSeller!.city,
     title: "Tienes el siguiente vehículo para generar la ficha técnica",
   };
-
+  
+  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
   await sendEmail(mailOptions);
 
-  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";
@@ -494,7 +498,6 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
 
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["seller","admin","mechanic"]);
-  console.log(decode)
 
   if (decode == false) {
     jsonRes.code = jwt.code;
@@ -504,11 +507,12 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
     return res.json(jsonRes);
   }
 
-
-  if (decode.type_user=="mechanic") {
+  if (decode.type_user==="mechanic") {
     query.id_mechanic=decode.id_mechanic
-  }else if(decode.type_user=="seller"){
-    query.id_seller = decode.id_seller;
+    query.mechanicalFile = true;
+
+  }else if(decode.type_user==="seller"){
+    query.id_seller = decode.id_sell;
   }
   //aqui creamos las condiciones para el filtro de los vehículos y las querys
 
@@ -532,21 +536,22 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
     query.km = { $gte: minKm, $lte: maxKm };
   }
 
-  if (minPrice === 0 && maxPrice === 0) {
-    query.price = { $exists: true };
-  } else if (minPrice !== 0 && maxPrice === 0) {
-    query.price = { $gte: minPrice, $ne: null };
-  } else if (minPrice === 0 && maxPrice !== 0) {
-    query.price = { $lte: maxPrice, $ne: null };
-  } else {
-    query.price = { $gte: minPrice, $lte: maxPrice };
+  if (decode.type_user=="seller") {
+    if (minPrice === 0 && maxPrice === 0) {
+      query.price = { $exists: true };
+    } else if (minPrice !== 0 && maxPrice === 0) {
+      query.price = { $gte: minPrice, $ne: null };
+    } else if (minPrice === 0 && maxPrice !== 0) {
+      query.price = { $lte: maxPrice, $ne: null };
+    } else {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
   }
 
   query.city = { $regex: ubication, $options: "i" };
   query.brand = { $regex: brand, $options: "i" };
   query.model = { $regex: model, $options: "i" };
   query.type_vehicle = { $regex: type_vehicle, $options: "i" };
-
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
 
@@ -589,9 +594,9 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
         plate: vehiclesFiltered[i].plate,
         vin: vehiclesFiltered[i].vin,
         dispatched: vehiclesFiltered[i].dispatched,
-        images: (await ImgVehicle.findOne({
+        images: await ImgVehicle.findOne({
           id_vehicle: vehiclesFiltered[i]._id,
-        }))
+        })
           ? await ImgVehicle.findOne({ id_vehicle: vehiclesFiltered[i]._id })
           : "",
       };
