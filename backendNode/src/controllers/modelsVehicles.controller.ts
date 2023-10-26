@@ -86,7 +86,6 @@ modelVehiclesController.get = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
-
 modelVehiclesController.allPaginator = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
@@ -291,5 +290,37 @@ modelVehiclesController.addModel = async (req: Request, res: Response)=>{
 
   res.json(jsonRes);
 }
+
+modelVehiclesController.autoComplete = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { search } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const vehiclesFiltered = await models.find({
+    model: { $regex: search, $options: "i" },
+  });
+
+  if (vehiclesFiltered) {
+    reponseJson.code = 200;
+    reponseJson.message = "success";
+    reponseJson.status = true;
+    reponseJson.data = vehiclesFiltered;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "no existe";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
 
 export default modelVehiclesController;

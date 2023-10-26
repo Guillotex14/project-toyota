@@ -20,10 +20,6 @@ export class SellerService {
     return this.http.post(global.urlBase+'vehicle/addVehicle',data,this.authToken);
   }
 
-  public getAllVehicles(){
-    return this.http.get(global.urlBase+'vehicle/allVehicles',this.authToken);
-  }
-
   public getMyVehicles(id:any){
     return this.http.post(global.urlBase+'vehicle/myVehicles',id,this.authToken);
   }
@@ -40,16 +36,12 @@ export class SellerService {
     return this.http.post(global.urlBase+'vehicle/updateVehicle',data,this.authToken);
   }
 
-  public getMechanics(){
-    return this.http.get(global.urlBase+'seller/allMechanics',this.authToken);
-  }
-
   public getMechanicByConcesionary(concesionary:any){
     return this.http.post(global.urlBase+'seller/mechanicByConcesionary',concesionary, this.authToken);
   }
 
   public allBrands(){
-    return this.http.get(global.urlBase+'seller/allBrands',this.authToken);
+    return this.http.get(global.urlBase+'vehicle/all-brands?s=',this.authToken);
   }
 
   public buyVehicle(data:any){
@@ -109,11 +101,11 @@ export class SellerService {
   }
 
   public allModels(){
-    return this.http.get(global.urlBase+'seller/allModels',this.authToken);
+    return this.http.get(global.urlBase+'vehicle/allModelVehicle',this.authToken);
   }
 
   public autoComplete(data:any){
-    return this.http.post(global.urlBase+'seller/autocompleteModels', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/autocompleteModels', data,this.authToken);
   }
 
   public dispatched(data:any){

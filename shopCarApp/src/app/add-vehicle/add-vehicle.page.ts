@@ -191,7 +191,6 @@ export class AddVehiclePage implements OnInit {
     this.buttonsASDoc();
     this.buttonsAStEditDoc();
     this.getBrands();
-    this.getMechanics();
     this.filterMechanic();
     this.getAutoComplete();
   }
@@ -216,20 +215,6 @@ export class AddVehiclePage implements OnInit {
         console.log(err);
       });
 
-  }
-
-  public getMechanics(){
-    this.utils.presentLoading('Cargando técnicos...');
-    this.sellerSrv.getMechanics().subscribe((data: any) => {
-      if (data.status) {
-        this.arrayMechanics = data.data;
-        this.auxMechanic = data.data;
-        this.utils.dismissLoading();
-      }
-    }, error => {
-      this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los técnicos, intente nuevamente');
-    });
   }
 
   public addVehicle() {
