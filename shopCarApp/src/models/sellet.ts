@@ -25,11 +25,11 @@ export class CarDetailSeller{
   public city!: string;
   public dealer!: string;
   public concesionary!: string;
-  public traction_control!: boolean;
-  public performance!: boolean;
+  public traction_control!: string;
+  public performance!: string;
   public price!: number;
-  public comfort!: boolean;
-  public technology!: boolean;
+  public comfort!: string;
+  public technology!: string;
   public id_seller!: string;
   public id_mechanic!: string;
   public id_seller_buyer!: string;
@@ -43,6 +43,7 @@ export class CarDetailSeller{
   public price_ofert!: number;
   public final_price_sold!: number;
   public plate!: string;
+  public imgs_documentation!: any[];
 }
 
 export class CarDetailMechanicalFile{

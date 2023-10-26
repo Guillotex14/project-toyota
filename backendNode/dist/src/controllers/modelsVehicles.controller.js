@@ -257,5 +257,33 @@ modelVehiclesController.addModel = (req, res) => __awaiter(void 0, void 0, void 
     }
     res.json(jsonRes);
 });
+modelVehiclesController.autoComplete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { search } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const vehiclesFiltered = yield modelVehicle_schema_1.default.find({
+        model: { $regex: search, $options: "i" },
+    });
+    if (vehiclesFiltered) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = vehiclesFiltered;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
 exports.default = modelVehiclesController;
 //# sourceMappingURL=modelsVehicles.controller.js.map

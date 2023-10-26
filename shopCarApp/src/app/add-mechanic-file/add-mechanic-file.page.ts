@@ -256,12 +256,6 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
 
-    // if(this.newMechanicalFile.general_condition === "" || this.newMechanicalFile.general_condition === undefined){
-
-    //   this.utils.presentToast("El campo Condición general es requerido")
-    //   return;
-    // }
-//////////////////////////////////////////////////////////////
     if(this.newMechanicalFile.odometer === "" || this.newMechanicalFile.odometer === undefined){
 
       this.utils.presentToast("El campo odómetro es requerido")

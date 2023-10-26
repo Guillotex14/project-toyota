@@ -16,58 +16,54 @@ export class MechanicService {
   }
 
   public getInspections(id_mechanic: any){
-    return this.http.post(global.urlBase+"mechanic/inspections",id_mechanic, this.authToken);
+    return this.http.post(global.urlBase+"vehicle/inspections",id_mechanic, this.authToken);
   }
 
   public getCountInspections(id_mechanic: any){
-    return this.http.post(global.urlBase+"mechanic/countInspections",id_mechanic, this.authToken);
+    return this.http.post(global.urlBase+"vehicle/countInspections",id_mechanic, this.authToken);
   }
 
   public getVehicles(data: any){
-    return this.http.post(global.urlBase+"mechanic/getVehicles",data,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/myVehicles",data,this.authToken);
   }
 
   public addMechanicalFile(mechanicalFile: any){
-    return this.http.post(global.urlBase+"mechanic/addMechanicalFile",mechanicalFile,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/addMechanicalFile",mechanicalFile,this.authToken);
   }
 
   public editFileMechanic(data: any){
-    return this.http.post(global.urlBase+"mechanic/updateMechanicalFile",data,this.authToken);
-  }
-
-  public rejectMechanicalFile(id_vehicle: any){
-    return this.http.post(global.urlBase+"mechanic/rejectMechanicalFile",id_vehicle,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/updateMechanicalFile",data,this.authToken);
   }
 
   public getVehicleById(id_vehicle: any){
-    return this.http.post(global.urlBase+"mechanic/getVehicleById",id_vehicle,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/vehicleById",id_vehicle,this.authToken);
   }
 
   public getMechanicalFile(id_vehicle: any){
-    return this.http.post(global.urlBase+"mechanic/getMechanicFileByIdVehicle",id_vehicle,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/mechanicalFileByIdVehicle",id_vehicle,this.authToken);
   }
 
   public getNotifications(data:any){
-    return this.http.post(global.urlBase+'mechanic/getNotifications', data, this.authToken);
+    return this.http.post(global.urlBase+'user/getNotifications', data, this.authToken);
   }
 
   public updateNotification(data:any){
-    return this.http.post(global.urlBase+'mechanic/updateNotification', data, this.authToken);
+    return this.http.post(global.urlBase+'user/updateNotification', data, this.authToken);
   }
 
   public getCountNotifications(data:any){
-    return this.http.post(global.urlBase+'mechanic/countNotifications', data, this.authToken);
+    return this.http.post(global.urlBase+'user/countNotifications', data, this.authToken);
   }
 
   public notificationById(data:any){
-    return this.http.post(global.urlBase+'mechanic/notificationById', data, this.authToken);
+    return this.http.post(global.urlBase+'user/notificationById', data, this.authToken);
   }
 
   public allBrands(){
-    return this.http.get(global.urlBase+'mechanic/allBrands', this.authToken);
+    return this.http.get(global.urlBase+'vehicle/all-brands?s=', this.authToken);
   }
 
   public allModels(){
-    return this.http.get(global.urlBase+'mechanic/allModels', this.authToken);
+    return this.http.get(global.urlBase+'vehicle/allModelVehicle?s=', this.authToken);
   }
 }

@@ -26,6 +26,11 @@ vehicleRouter.get("/exportExcell", vehicle_controller_1.default.exportExcell);
 vehicleRouter.post("/dispatchedCar", vehicle_controller_1.default.dispatchedCar);
 vehicleRouter.post("/repost", vehicle_controller_1.default.repost);
 vehicleRouter.get("/filterGraphySale", vehicle_controller_1.default.filterGraphySale);
+vehicleRouter.post("/inspections", vehicle_controller_1.default.inspections);
+vehicleRouter.post("/countInspections", vehicle_controller_1.default.countInspections);
+vehicleRouter.post("/addMechanicalFile", vehicle_controller_1.default.addMechanicalFile);
+vehicleRouter.post("/updateMechanicalFile", vehicle_controller_1.default.updateMechanicalFile);
+vehicleRouter.post("/getMechanicFileByIdVehicle", vehicle_controller_1.default.getMechanicFileByIdVehicle);
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpdate);
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);
@@ -39,6 +44,7 @@ vehicleRouter.post("/deleteModelVehicle", modelsVehicles_controller_1.default.de
 vehicleRouter.get("/allModelVehicle", modelsVehicles_controller_1.default.all);
 vehicleRouter.get("/allModelPaginator", modelsVehicles_controller_1.default.allPaginator);
 vehicleRouter.get("/get", modelsVehicles_controller_1.default.get);
+vehicleRouter.post("/autoCompleteModels", modelsVehicles_controller_1.default.autoComplete);
 //---------------ficha mechanica--------------------
 exports.default = vehicleRouter;
 //# sourceMappingURL=vehicle.route.js.map

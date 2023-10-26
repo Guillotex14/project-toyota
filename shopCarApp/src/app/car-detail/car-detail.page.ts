@@ -22,6 +22,7 @@ export class CarDetailPage implements OnInit {
   invalidEmail: boolean = false;
   openASEdit: boolean = false;
   emptyEmail: boolean = false;
+  arrayDocuments: any[] = [];
   priceOfertAux: string = "";
   theCartegory: string = "";
   editCar: boolean = false;
@@ -86,17 +87,18 @@ export class CarDetailPage implements OnInit {
     this.carDetail.city = "";
     this.carDetail.dealer = "";
     this.carDetail.concesionary = "";
-    this.carDetail.traction_control = false;
-    this.carDetail.performance = false;
+    this.carDetail.traction_control = "";
+    this.carDetail.performance = "";
     this.carDetail.price = 0;
-    this.carDetail.comfort = false;
-    this.carDetail.technology = false;
+    this.carDetail.comfort = "";
+    this.carDetail.technology = "";
     this.carDetail.id_seller = "";
     this.carDetail.id_mechanic = "";
     this.carDetail.id_seller_buyer = "";
     this.carDetail.mechanicalFile = false;
     this.carDetail.sold = false;
     this.carDetail.images = [];
+    this.carDetail.imgs_documentation = [];
     this.carDetail.vin = "";
     this.carDetail.vehicle_plate = "";
     this.carDetail.price_ofert = 0;
@@ -160,6 +162,10 @@ export class CarDetailPage implements OnInit {
 
         if(this.carDetail.images.length > 0){
           this.arrayImages = this.carDetail.images;
+        }
+
+        if (this.carDetail.imgs_documentation.length > 0) {
+          this.arrayDocuments = this.carDetail.imgs_documentation;
         }
 
       }else{
@@ -534,7 +540,7 @@ export class CarDetailPage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.takePhotoGalery();
@@ -559,7 +565,7 @@ export class CarDetailPage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();

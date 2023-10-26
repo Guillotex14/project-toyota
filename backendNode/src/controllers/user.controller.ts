@@ -505,7 +505,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -538,7 +538,7 @@ userController.updateNotification = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -570,7 +570,7 @@ userController.notificationById = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -600,7 +600,7 @@ userController.countNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -628,8 +628,6 @@ userController.countNotifications = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
-
-
 
 async function addOrUpdateUser(data: any) {
   if (data.id_user) {

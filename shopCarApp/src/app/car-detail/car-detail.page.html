@@ -408,7 +408,7 @@
                 </ion-card-content>
               </ion-card>
             </ion-col>
-            
+
             <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId" style="text-align: center !important;">
               <ion-row>
                 <ion-col size="12">
@@ -430,29 +430,67 @@
 
             </ion-col>
 
+            <ion-col size="12">
+              <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
+                
+                <ion-accordion value="year">
+                  <ion-item slot="header">
+                    <ion-label>Documentos del vehículo</ion-label>
+                  </ion-item>
+  
+                  <ion-grid fixed class="ion-padding" slot="content">
+                    <ion-row>
+                      <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
+                        <ion-row>
+                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0" >
+                            <ion-icon name="image" class="noPhotoIcon" ></ion-icon>
+                            <br>
+                            <span class="noPhotoTitle" >Sin documentos cargados</span>
+                          </ion-col>
+            
+                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length > 0">
+                            <swiper-container [loop]="true" [pagination]="true">
+                              <swiper-slide *ngFor="let image of arrayDocuments; let i = index">
+                                <ion-row>
+                                  <ion-col size="12">
+                                    <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
+                                  </ion-col>
+                                </ion-row>
+                              </swiper-slide>
+                              <div class="swiper-pagination"></div>
+                            </swiper-container>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-accordion>
+              </ion-accordion-group>
+            </ion-col>
+
             <ion-col size="12" *ngIf="!editCar">
               <ion-card>
                 <ion-card-content>
                   <ion-row>
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.traction_control === true">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.traction_control === 'true'">
                       <ion-img src="assets/images/logo/traccion.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Control de tracción</p>
                       <span style="font-size: 10px; color: #898989">Estable y seguro</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.technology === true">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.technology === 'true'">
                       <ion-img src="assets/images/logo/tecnologia.png" style="width: 29% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Tecnología</p>
                       <span style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.performance === true">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.performance === 'true'">
                       <ion-img src="assets/images/logo/performance.png" style="width: 25% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Performance</p>
                       <span style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</span>
                     </ion-col>
 
-                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === true">
+                    <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngIf="carDetail.comfort === 'true'">
                       <ion-img src="assets/images/logo/confort.png" style="width: 20% !important;margin: 5px 0px !important"></ion-img>
                       <p style="font-size: 15px; font-weight: bold;">Confort</p>
                       <span style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y  ecológico</span>

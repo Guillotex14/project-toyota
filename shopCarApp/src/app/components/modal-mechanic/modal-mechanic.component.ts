@@ -22,21 +22,9 @@ export class ModalMechanicComponent  implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getMechanics();
   }
 
-  public getMechanics(){
-    this.utils.presentLoading('Cargando técnicos...');
-    this.sellerSrv.getMechanics().subscribe((data: any) => {
-      if (data.status) {
-        this.arrayMechanics = data.data;
-        this.utils.dismissLoading();
-      }
-    }, error => {
-      this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los técnicos, intente nuevamente');
-    });
-  }
+ 
 
   public dismissModal(){
     this.modalCtrl.dismiss({

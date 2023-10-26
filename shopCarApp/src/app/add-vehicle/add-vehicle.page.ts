@@ -91,7 +91,7 @@ export class AddVehiclePage implements OnInit {
             }
           },
           {
-            text: 'Galeria',
+            text: 'Galería',
             icon: 'image',
             handler: () => {
               this.presentAlert(2);
@@ -121,7 +121,7 @@ export class AddVehiclePage implements OnInit {
             }
           },
           {
-            text: 'Galeria',
+            text: 'Galería',
             icon: 'image',
             handler: () => {
               this.takePhotoGalery();
@@ -191,7 +191,6 @@ export class AddVehiclePage implements OnInit {
     this.buttonsASDoc();
     this.buttonsAStEditDoc();
     this.getBrands();
-    this.getMechanics();
     this.filterMechanic();
     this.getAutoComplete();
   }
@@ -218,22 +217,8 @@ export class AddVehiclePage implements OnInit {
 
   }
 
-  public getMechanics(){
-    this.utils.presentLoading('Cargando técnicos...');
-    this.sellerSrv.getMechanics().subscribe((data: any) => {
-      if (data.status) {
-        this.arrayMechanics = data.data;
-        this.auxMechanic = data.data;
-        this.utils.dismissLoading();
-      }
-    }, error => {
-      this.utils.dismissLoading();
-      this.utils.presentToast('Error al cargar los técnicos, intente nuevamente');
-    });
-  }
-
   public addVehicle() {
-    // this.utils.presentLoading("Agregando vehículo...");
+    this.utils.presentLoading("Agregando vehículo...");
 
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.emptyModel = true;
@@ -300,7 +285,7 @@ export class AddVehiclePage implements OnInit {
       this.emptyIdmechanic = true;
       return;
     }
-    return;
+    
     this.disabledSave = true;
     this.newVehicle.images = this.arrayImages;
     this.newVehicle.year = parseInt(this.year);
@@ -481,7 +466,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.presentAlert(2);
@@ -506,7 +491,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria edit',
+        text: 'Galería edit',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();
@@ -539,7 +524,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.takePhotoGaleryDoc();
@@ -566,7 +551,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galeria edit',
+        text: 'Galería edit',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGaleryDoc();

@@ -40,6 +40,15 @@ vehicleRouter.post("/repost", vehicleController.repost);
 
 vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
 
+vehicleRouter.post("/inspections",vehicleController.inspections);
+
+vehicleRouter.post("/countInspections",vehicleController.countInspections);
+
+vehicleRouter.post("/addMechanicalFile",vehicleController.addMechanicalFile);
+
+vehicleRouter.post("/updateMechanicalFile",vehicleController.updateMechanicalFile);
+
+vehicleRouter.post("/getMechanicFileByIdVehicle",vehicleController.getMechanicFileByIdVehicle);
 
 
 // ---------------------brand--------------------
@@ -57,6 +66,7 @@ vehicleRouter.post("/deleteModelVehicle", modelVehiclesController.deleteModel);
 vehicleRouter.get("/allModelVehicle", modelVehiclesController.all);
 vehicleRouter.get("/allModelPaginator", modelVehiclesController.allPaginator);
 vehicleRouter.get("/get", modelVehiclesController.get);
+vehicleRouter.post("/autoCompleteModels",modelVehiclesController.autoComplete);
 
 
 //---------------ficha mechanica--------------------
