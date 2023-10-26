@@ -1460,7 +1460,6 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     datos = {
         grupocard: cardsgroupmodel,
     };
-    console.log(datos);
     // Crear un nuevo archivo Excel
     const workbook = new ExcelJS.Workbook();
     // Establecer el estilo para el encabezado
@@ -1661,16 +1660,17 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
-    const fs = require("fs");
+    // const fs = require("fs");
     // ...
     // fs.unlinkSync(filePath);
+    let sendadta = {};
     workbook.xlsx
         .writeBuffer()
         .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
         // Convertir el buffer en base64
         const base64 = buffer.toString("base64");
         // Crear un objeto de respuesta con el archivo base64
-        const datos = {
+        sendadta = {
             fileName: now.getTime() + ".xlsx",
             path: sendUrl,
             base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
@@ -1680,7 +1680,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
             reponseJson.code = 200;
             reponseJson.message = "success";
             reponseJson.status = true;
-            reponseJson.data = datos;
+            reponseJson.data = sendadta;
         }
         else {
             reponseJson.code = 400;
@@ -1690,13 +1690,19 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     }))
         .catch((error) => {
-        console.log("Error al generar el archivo Excel:", error);
+        if (datos) {
+            reponseJson.code = 200;
+            reponseJson.message = "success";
+            reponseJson.status = true;
+            reponseJson.data = sendadta;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
+        res.json(reponseJson);
     });
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-    reponseJson.data = datos;
-    res.json(reponseJson);
 });
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();

@@ -1751,7 +1751,6 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   datos = {
     grupocard: cardsgroupmodel,
   };
-  console.log(datos);
 
   // Crear un nuevo archivo Excel
   const workbook = new ExcelJS.Workbook();
@@ -1969,12 +1968,12 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     await sendEmail(mailOptions);
   }
 
-  const fs = require("fs");
+  // const fs = require("fs");
 
   // ...
 
   // fs.unlinkSync(filePath);
-
+  let sendadta={}
   workbook.xlsx
     .writeBuffer()
     .then(async (buffer: any) => {
@@ -1982,19 +1981,18 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       const base64 = buffer.toString("base64");
 
       // Crear un objeto de respuesta con el archivo base64
-      const datos = {
+       sendadta = {
         fileName: now.getTime() + ".xlsx",
         path: sendUrl,
         base64Data:
           "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
           base64,
       };
-
       if (datos) {
         reponseJson.code = 200;
         reponseJson.message = "success";
         reponseJson.status = true;
-        reponseJson.data = datos;
+        reponseJson.data = sendadta;
       } else {
         reponseJson.code = 400;
         reponseJson.message = "no existe";
@@ -2003,15 +2001,20 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       res.json(reponseJson);
     })
     .catch((error: any) => {
-      console.log("Error al generar el archivo Excel:", error);
+      if (datos) {
+        reponseJson.code = 200;
+        reponseJson.message = "success";
+        reponseJson.status = true;
+        reponseJson.data = sendadta;
+      } else {
+        reponseJson.code = 400;
+        reponseJson.message = "no existe";
+        reponseJson.status = false;
+      }
+      res.json(reponseJson);
     });
 
-  reponseJson.code = 200;
-  reponseJson.message = "";
-  reponseJson.status = true;
-  reponseJson.data = datos;
 
-  res.json(reponseJson);
 };
 
 
