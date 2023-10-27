@@ -44,18 +44,25 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     const user = yield Users_schema_1.default.findOne({ email: data.email });
     let message = "";
+    let newUser = {};
     if (!user) {
         if (decode.type_user == "admin") {
             if (data.type_user == "admin") {
+                newUser = yield addOrUpdateUser(data);
                 message = `El usuario administrador fue creado con exito`;
             }
+            else if (data.type_user == "admin_concesionary") {
+                newUser = yield addOrUpdateUser(data);
+                message = `El usuario administrador de concesionario fue creado con exito`;
+            }
             if (data.type_user == "mechanic") {
+                newUser = yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue creado con exito`;
             }
             if (data.type_user == "seller") {
+                newUser = yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue creado con exito`;
             }
-            let newUser = yield addOrUpdateUser(data);
             data.id_user = newUser.id_user;
             if (newUser) {
                 const mailOptions = {
@@ -72,7 +79,7 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
         }
         else if (decode.type_user == "seller") {
-            let newUser = yield addOrUpdateUser(data);
+            let newUser = yield addOrUpdateMechanic(data);
             if (newUser) {
                 const mailOptions = {
                     from: "Toyousado",
@@ -104,74 +111,6 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
         reponseJson.status = false;
     }
     res.json(reponseJson);
-});
-userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reponseJson = new Response_1.ResponseModel();
-    let user = yield Users_schema_1.default.find();
-    for (let i = 0; i < user.length; i++) {
-        let element = user[i];
-        if (element.type_user == "admin") {
-            let admin = yield Sellers_schema_1.default.findOne({ id_user: element._id });
-            let data = {
-                fullName: null,
-                city: null,
-                concesionary: null,
-                date_created: null,
-                phone: null,
-                status: 1,
-            };
-            // await Users.findOneAndUpdate({ _id: element._id }, data);
-            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
-        }
-        if (element.type_user == "seller") {
-            let seller = yield Sellers_schema_1.default.findOne({ id_user: element._id });
-            // let data = {
-            //   fullName: seller?.fullName,
-            //   city: seller?.city,
-            //   concesionary: seller?.concesionary,
-            //   date_created: seller?.date_created ? seller?.date_created : null,
-            //   phone: seller?.phone ? seller?.phone : null,
-            //   status: 1,
-            // };
-            let data = {
-                fullName: null,
-                city: null,
-                concesionary: null,
-                date_created: null,
-                phone: null,
-                status: 1,
-            };
-            // await Users.findOneAndUpdate({ _id: element._id }, data);
-            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
-        }
-        if (element.type_user == "mechanic") {
-            let mechanic = yield Mechanics_schema_1.default.findOne({ id_user: element._id });
-            // let data = {
-            //   fullName: mechanic?.fullName,
-            //   city: mechanic?.city,
-            //   concesionary: mechanic?.concesionary,
-            //   date_created: mechanic?.date_created ? mechanic?.date_created : null,
-            //   phone: mechanic?.phone ? mechanic?.phone : null,
-            //   status: 1,
-            // };
-            let data = {
-                fullName: null,
-                city: null,
-                concesionary: null,
-                date_created: null,
-                phone: null,
-                status: 1,
-            };
-            // await Users.findOneAndUpdate({ _id: element._id }, data);
-            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
-        }
-    }
-    let otherUser = yield Users_schema_1.default.find();
-    reponseJson.code = 400;
-    reponseJson.message = "id_user requerido";
-    reponseJson.status = false;
-    reponseJson.data = otherUser;
-    return res.json(reponseJson);
 });
 userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -205,9 +144,16 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (decode.type_user == "admin") {
             if (data.type_user == "admin") {
                 message = `El usuario administrador fue modificado con exito`;
+                yield addOrUpdateUser(data);
+            }
+            else if (data.type_user == "admin_concesionary") {
+                message = `El usuario administrador de concesionario fue modificado con exito`;
+                yield addOrUpdateUser(data);
             }
             else if (data.type_user == "mechanic") {
+                yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue modificado con exito`;
+                yield addOrUpdateSeller(data);
             }
             else if (data.type_user == "seller") {
                 message = `El usuario vendedor fue modificado con exito`;
@@ -222,7 +168,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
         else if (decode.type_user == "seller") {
             if (data.type_user == "mechanic") {
                 message = `El usuario tecnico fue modificado con exito`;
-                yield addOrUpdateUser(data);
+                yield addOrUpdateMechanic(data);
             }
             else {
                 message = `No tiene permiso de modificar/agregar otro rol de usuario`;
@@ -709,16 +655,63 @@ function addOrUpdateUser(data) {
                 yield Users_schema_1.default.findOneAndUpdate(user, data);
             }
             else {
+                let userUpdate = {
+                    email: data.email,
+                    username: data.username,
+                    type_user: data.type_user,
+                };
+                if (data.type_user == "admin_concesionay") {
+                    userUpdate.id_concesionary = data.id_concesionary;
+                }
+                yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
+            }
+        }
+        else {
+            const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
+            const hash = yield bcrypt_1.default.hash(data.password, 12);
+            let _user = {
+                email: data.email,
+                password: hash,
+                username: data.username,
+                type_user: data.type_user,
+                date_created: date_created,
+                status: 1,
+            };
+            if (data.type_user == "admin_concesionay") {
+                _user.id_concesionary = data.id_concesionary;
+            }
+            const newUser = new Users_schema_1.default(_user);
+            yield newUser.save();
+            data.id_user = newUser._id;
+        }
+        return data;
+    });
+}
+function addOrUpdateMechanic(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (data.id_user) {
+            const user = { _id: data.id_user };
+            if (data.password != "") {
+                const hash = yield bcrypt_1.default.hash(data.password, 12);
+                data.password = hash;
+                yield Users_schema_1.default.findOneAndUpdate(user, data);
+            }
+            else {
                 const userUpdate = {
                     email: data.email,
                     username: data.username,
                     type_user: data.type_user,
+                };
+                const mechanicUpdate = {
                     fullName: data.fullName,
                     city: data.city,
                     concesionary: data.concesionary,
                     phone: data.phone,
                 };
+                const query = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
+                let mechanic = { _id: query._id };
                 yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
+                yield Mechanics_schema_1.default.findOneAndUpdate(mechanic, mechanicUpdate);
             }
         }
         else {
@@ -729,15 +722,77 @@ function addOrUpdateUser(data) {
                 password: hash,
                 username: data.username,
                 type_user: data.type_user,
+                date_created: date_created,
+                status: 1,
+            });
+            yield newUser.save();
+            data.id_user = newUser._id;
+            const newMechanic = new Mechanics_schema_1.default({
                 fullName: data.fullName,
                 city: data.city,
                 concesionary: data.concesionary,
                 date_created: date_created,
                 phone: data.phone,
+                id_user: data.id_user,
+                status: 1,
+            });
+            yield newMechanic.save();
+            data.id_mechanic = newMechanic._id;
+        }
+        return data;
+    });
+}
+function addOrUpdateSeller(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (data.id_user) {
+            const user = { _id: data.id_user };
+            if (data.password != "") {
+                const hash = yield bcrypt_1.default.hash(data.password, 12);
+                data.password = hash;
+                yield Users_schema_1.default.findOneAndUpdate(user, data);
+            }
+            else {
+                const userUpdate = {
+                    email: data.email,
+                    username: data.username,
+                    type_user: data.type_user,
+                };
+                const sellerUpdate = {
+                    fullName: data.fullName,
+                    city: data.city,
+                    concesionary: data.concesionary,
+                    phone: data.phone,
+                };
+                const query = yield Sellers_schema_1.default.findOne({ id_user: user._id });
+                let seller = { _id: query._id };
+                yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
+                yield Sellers_schema_1.default.findOneAndUpdate(seller, sellerUpdate);
+            }
+        }
+        else {
+            const date_created = (0, moment_1.default)().format("YYYY-MM-DD");
+            const hash = yield bcrypt_1.default.hash(data.password, 12);
+            const newUser = new Users_schema_1.default({
+                email: data.email,
+                password: hash,
+                username: data.username,
+                type_user: data.type_user,
+                date_created: date_created,
                 status: 1,
             });
             yield newUser.save();
             data.id_user = newUser._id;
+            const newSeller = new Sellers_schema_1.default({
+                fullName: data.fullName,
+                city: data.city,
+                concesionary: data.concesionary,
+                date_created: date_created,
+                phone: data.phone,
+                id_user: data.id_user,
+                status: 1,
+            });
+            yield newSeller.save();
+            data.id_seller = newSeller._id;
         }
         return data;
     });

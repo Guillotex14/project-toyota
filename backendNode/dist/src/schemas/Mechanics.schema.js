@@ -10,6 +10,7 @@ const MechanicSchema = new mongoose_1.Schema({
     id_user: {
         type: mongoose_1.Schema.Types.ObjectId
     },
+    status: Number,
 });
 exports.default = (0, mongoose_1.model)("Mechanic", MechanicSchema);
 //# sourceMappingURL=Mechanics.schema.js.map

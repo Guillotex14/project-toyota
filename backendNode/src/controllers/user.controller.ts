@@ -144,8 +144,14 @@ userController.update = async (req: Request, res: Response) => {
     if (decode.type_user == "admin") {
       if (data.type_user == "admin") {
         message = `El usuario administrador fue modificado con exito`;
+        await addOrUpdateUser(data);
+      } else if (data.type_user == "admin_concesionary") {
+        message = `El usuario administrador de concesionario fue modificado con exito`;
+        await addOrUpdateUser(data);
       } else if (data.type_user == "mechanic") {
+        await addOrUpdateMechanic(data);
         message = `El usuario tecnico fue modificado con exito`;
+        await addOrUpdateSeller(data);
       } else if (data.type_user == "seller") {
         message = `El usuario vendedor fue modificado con exito`;
       } else {
@@ -158,7 +164,7 @@ userController.update = async (req: Request, res: Response) => {
     } else if (decode.type_user == "seller") {
       if (data.type_user == "mechanic") {
         message = `El usuario tecnico fue modificado con exito`;
-        await addOrUpdateUser(data);
+        await addOrUpdateMechanic(data);
       } else {
         message = `No tiene permiso de modificar/agregar otro rol de usuario`;
         reponseJson.code = 400;
