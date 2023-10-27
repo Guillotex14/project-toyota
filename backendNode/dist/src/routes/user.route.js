@@ -12,7 +12,6 @@ userRouter.post("/update", user_controller_1.default.update);
 userRouter.post("/delete", user_controller_1.default.delete);
 userRouter.get("/get", user_controller_1.default.get);
 userRouter.get("/all", user_controller_1.default.all);
-userRouter.get("/modificarUsuario", user_controller_1.default.modificarUsuario);
 userRouter.post("/getNotifications", user_controller_1.default.getNotifications);
 userRouter.post("/updateNotification", user_controller_1.default.updateNotification);
 userRouter.post("/notificationById", user_controller_1.default.notificationById);

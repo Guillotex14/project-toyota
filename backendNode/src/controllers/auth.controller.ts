@@ -5,143 +5,157 @@ import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import notifications from "../schemas/notifications.schema";
-import { sendEmail } from '../../nodemailer';
+import { sendEmail } from "../../nodemailer";
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
+import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 
-const authController: any  = {};
+const authController: any = {};
 
 authController.login = async (req: Request, res: Response) => {
+  const jsonRes = new ResponseModel();
 
-    const jsonRes = new ResponseModel()
+  const { email, password } = req.body;
 
-    const { email, password } = req.body;
+  const user = await Users.findOne({ email: email });
 
-    const user = await Users.findOne({email: email});
+  if (user) {
+    jsonRes.code = 200;
+    jsonRes.message = "login success";
+    jsonRes.status = true;
+    const hash = bcrypt.compareSync(password, user.password!);
+    const userImg = await imgUser.findOne({ id_user: user._id! });
 
-    if (user){
-        jsonRes.code = 200;
-        jsonRes.message = "login success";
-        jsonRes.status = true;
-        const hash = bcrypt.compareSync(password, user.password!);
-        const userImg = await imgUser.findOne({id_user: user._id!});
+    if (hash) {
+      if (user.type_user === "seller") {
+        const seller = await sellers.findOne({ id_user: user._id! });
 
-        if (hash) {
-            if (user.type_user === "seller") {
-                const seller = await sellers.findOne({id_user: user._id!})
+        const infoSeller = {
+          id: user._id!,
+          id_sell: seller!._id,
+          fullName: seller!.fullName,
+          city: seller!.city,
+          concesionary: seller!.concesionary,
+          email: user.email!,
+          username: user.username!,
+          type_user: user.type_user!,
+          img: userImg ? userImg : null,
+        };
 
-                const infoSeller = {
-                    id: user._id!,
-                    id_sell: seller!._id,
-                    fullName: seller!.fullName,
-                    city: seller!.city,
-                    concesionary: seller!.concesionary,
-                    email: user.email!,
-                    username: user.username!,
-                    type_user: user.type_user!,
-                    img: userImg ? userImg : null
-                }
+        jsonRes.data = infoSeller;
+      } else if (user.type_user === "mechanic") {
+        const mechanic = await mechanics.findOne({ id_user: user._id! });
+        const infoMechanic = {
+          id: user._id!,
+          id_mechanic: mechanic!._id,
+          fullName: mechanic!.fullName,
+          city: mechanic!.city,
+          concesionary: mechanic!.concesionary,
+          email: user.email!,
+          username: user.username!,
+          type_user: user.type_user!,
+          img: userImg ? userImg : null,
+        };
 
-                jsonRes.data = infoSeller;
-            } else if (user.type_user === "mechanic") {
-                const mechanic = await mechanics.findOne({id_user: user._id!})
-                const infoMechanic = {
-                    id: user._id!,
-                    id_mechanic: mechanic!._id,
-                    fullName: mechanic!.fullName,
-                    city: mechanic!.city,
-                    concesionary: mechanic!.concesionary,
-                    email: user.email!,
-                    username: user.username!,
-                    type_user: user.type_user!,
-                    img: userImg ? userImg : null
-                }
-
-                jsonRes.data = infoMechanic;
-            }else{
-                let admin = {
-                    id: user._id,
-                    email: user.email,
-                    username: user.username,
-                    type_user: user.type_user,
-                    img: userImg ? userImg : null
-                }
-                jsonRes.data = admin;
-            }
-
-            let token=Jwt.generateToken(jsonRes.data);
-            jsonRes.data.token=token;
-        } else {
-            jsonRes.code = 400;
-            jsonRes.message = "Contraseña incorrecta";
-            jsonRes.status = false;
+        jsonRes.data = infoMechanic;
+      } else {
+        let admin: any = {
+          id: user._id,
+          email: user.email,
+          username: user.username,
+          type_user: user.type_user,
+          img: userImg ? userImg : null,
+        };
+        if (user.type_user == "admin_concesionary") {
+          let concesionary: any = await ConcesionariesSchema.findOne({
+            _id: user.id_concesionary,
+          });
+          admin.id_concesionary = user.id_concesionary;
+          admin.concesionary = concesionary.name;
         }
-    }else{
-        jsonRes.code = 400;
-        jsonRes.message = "Ususario no registrado";
-        jsonRes.status = false;
-    }
+        jsonRes.data = admin;
+      }
 
-    res.json(jsonRes);
-}
+      let token = Jwt.generateToken(jsonRes.data);
+      jsonRes.data.token = token;
+    } else {
+      jsonRes.code = 400;
+      jsonRes.message = "Contraseña incorrecta";
+      jsonRes.status = false;
+    }
+  } else {
+    jsonRes.code = 400;
+    jsonRes.message = "Ususario no registrado";
+    jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
+};
 
 authController.addImgProfile = async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
+  const reponseJson: ResponseModel = new ResponseModel();
 
-    const { id_user, image } = req.body;
+  const { id_user, image } = req.body;
 
-    const filename = await uploadImageUser(image);
+  const filename = await uploadImageUser(image);
 
-    const newImage = new imgUser({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+  const newImage = new imgUser({
+    img: filename.secure_url,
+    id_user: id_user,
+    public_id: filename.public_id,
+  });
 
-    await newImage.save();
+  await newImage.save();
 
-    if (newImage) {
+  if (newImage) {
     reponseJson.code = 200;
     reponseJson.message = "Imagen agregada exitosamente";
     reponseJson.status = true;
     reponseJson.data = newImage;
-    } else {
+  } else {
     reponseJson.code = 400;
     reponseJson.message = "No se pudo agregar la imagen";
     reponseJson.status = false;
-    }
+  }
 
-    res.json(reponseJson);
-}
+  res.json(reponseJson);
+};
 
 authController.updateImgProfile = async (req: Request, res: Response) => {
-    const reponseJson: ResponseModel = new ResponseModel();
+  const reponseJson: ResponseModel = new ResponseModel();
 
-    const { id_user, image, public_id } = req.body;
+  const { id_user, image, public_id } = req.body;
 
-    const delImg = await deleteImageUser(public_id);
+  const delImg = await deleteImageUser(public_id);
 
-    const delImgdb = await imgUser.findOneAndDelete({ public_id: public_id });
+  const delImgdb = await imgUser.findOneAndDelete({ public_id: public_id });
 
-    if (delImg.result == "ok" ) {
-    
+  if (delImg.result == "ok") {
     const filename = await uploadImageUser(image);
 
-    const newImage = new imgUser({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+    const newImage = new imgUser({
+      img: filename.secure_url,
+      id_user: id_user,
+      public_id: filename.public_id,
+    });
 
     if (newImage) {
-        reponseJson.message = "Imagen actualizada exitosamente";
-        reponseJson.status = true;
-        reponseJson.data = newImage;
+      reponseJson.message = "Imagen actualizada exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = newImage;
     } else {
-        reponseJson.code = 400;
-        reponseJson.message = "No se pudo actualizar la imagen";
-        reponseJson.status = false;
+      reponseJson.code = 400;
+      reponseJson.message = "No se pudo actualizar la imagen";
+      reponseJson.status = false;
     }
-    } else {
+  } else {
     reponseJson.code = 400;
     reponseJson.message = "No se pudo eliminar la imagen";
     reponseJson.status = false;
-    }
+  }
 
-    res.json(reponseJson);
-}
+  res.json(reponseJson);
+};
 
 export default authController;

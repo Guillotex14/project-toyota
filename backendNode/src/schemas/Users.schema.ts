@@ -5,12 +5,8 @@ const UsersSchema = new Schema({
     password: String,
     username: String,
     type_user: String,
-    fullName: String,
-    city: String,
-    concesionary: String,
-    phone: String,
+    id_concesionary: String,
     status: Number,
-    date_created: String,
 });
 
 export default model("Users", UsersSchema);
