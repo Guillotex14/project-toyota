@@ -1251,20 +1251,30 @@
               </ion-row>
             </ion-item>
 
-            <!-- <ion-item-divider>
-              <ion-label>¿SE REALIZARON LOS MANTENIMIENTOS REGULARES EN EL CONCESIONARIO?</ion-label>
+            <ion-item-divider *ngIf="mechanicalFileDetail.user">
+              <ion-label> 
+                INSPECCIÓN REALIZADA POR:
+              </ion-label>
+            </ion-item-divider>
+            
+            <ion-item *ngIf="mechanicalFileDetail.user" style="text-align: center;">
+              <span style="font-size: 20px; font-weight: 600;margin: auto;">
+                {{mechanicalFileDetail.user.fullName}}
+                
+              </span>
+            </ion-item>
+            
+            <ion-item-divider *ngIf="mechanicalFileDetail.created_at">
+              <ion-label> 
+                FECHA DE INSPECCIÓN:
+              </ion-label>
             </ion-item-divider>
 
-            <ion-item class="itemSegment">
-              <ion-segment [(ngModel)]="mechanicalFileDetail.dealer_maintenance" [class.mLeft]="android === true || web === true" [disabled]="edit" (ionChange)=" generalCondition($event)">
-                <ion-segment-button value="no" [class.segment-red]="mechanicalFileDetail.dealer_maintenance ==='no'">
-                  <ion-label>No</ion-label>
-                </ion-segment-button>
-                <ion-segment-button value="si" [class.segment-green]="mechanicalFileDetail.dealer_maintenance ==='si'">
-                  <ion-label>Sí</ion-label>
-                </ion-segment-button>
-              </ion-segment>
-            </ion-item> -->
+            <ion-item *ngIf="mechanicalFileDetail.created_at">
+              <span style="font-size: 20px; font-weight: 600;margin: auto;">
+                {{mechanicalFileDetail.created_at}}
+              </span>
+            </ion-item>
 
           </ion-item-group>
 
@@ -1280,13 +1290,13 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="edit" >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="edit && mechanicalFileDetail.vehicle.price_ofert===null" >
     <ion-fab-button (click)="editFile()">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="!edit" >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="!edit">
     <ion-fab-button (click)="saveFile()">
       <ion-icon name="checkmark-outline"></ion-icon>
     </ion-fab-button>

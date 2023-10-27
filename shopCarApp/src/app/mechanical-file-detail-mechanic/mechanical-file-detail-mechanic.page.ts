@@ -90,7 +90,13 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.mechanicalFileDetail.fuel_tank_cover = "";
     this.mechanicalFileDetail.pipes_hoses_connections = "";
     this.mechanicalFileDetail.brake_discs = "";
-
+    this.mechanicalFileDetail.vehicle = {
+      price_ofert: null
+    }
+    this.mechanicalFileDetail.user = {
+      fullName: null
+    }
+    
   }
 
 
@@ -113,6 +119,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.mechanicSrv.getMechanicalFile(data).subscribe((res:any)=>{
       if (res.status) {
         this.mechanicalFileDetail = res.data;
+        console.log(this.mechanicalFileDetail.vehicle.price_ofert)
         this.utils.dismissLoading();
       }else{
         this.utils.dismissLoading()

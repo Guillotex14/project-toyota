@@ -420,11 +420,23 @@
                       <ion-col size="3" style="text-align: center;">
                         <ion-icon name="logo-usd" style="font-size: 25px !important; margin: 5px auto !important"></ion-icon>
                       </ion-col>
-                      <ion-col size="9">
-                        <ion-input type="text" [value]="priceAux" (ionInput)="dotPrice($event.target)" style="height: 30px !important;" id="inputPasss" [disabled]="!editCar"></ion-input>
+                      <ion-col size="9" *ngIf="!editCar && !editPrice">
+                        <ion-input type="text" [value]="priceAux" (ionInput)="dotPrice($event.target)" style="height: 30px !important;" id="inputPasss" disabled></ion-input>
+                      </ion-col>
+                      <ion-col size="9" *ngIf="editCar || editPrice">
+                        <ion-input type="text" [value]="priceAux" (ionInput)="dotPrice($event.target)" style="height: 30px !important;" id="inputPasss"></ion-input>
                       </ion-col>
                     </ion-row>
                   </ion-col>
+                </ion-col>
+
+                <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null&& carDetail.sold===false">
+                  <ion-button (click)="onEditPrice()" expand="block" shape="round" class="btnSaveRed" *ngIf="!editPrice">
+                    Indicar Precio
+                  </ion-button>
+                  <ion-button (click)="updateVehicle()" expand="block" shape="round" class="btnSaveRed" *ngIf="editPrice">
+                    Guardar Precio
+                  </ion-button>
                 </ion-col>
               </ion-row>
 
@@ -583,7 +595,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== null ||carDetail.id_seller_buyer==='null' && carDetail.price !== null || carDetail.id_seller_buyer==='' && carDetail.price !== null&& carDetail.sold===false">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== 0 ||carDetail.id_seller_buyer==='null' && carDetail.price !== 0 || carDetail.id_seller_buyer==='' && carDetail.price !== 0&& carDetail.sold===false">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">

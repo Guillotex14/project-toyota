@@ -22,19 +22,19 @@ export class AdminService {
   }
 
   public getSellerById(id: any) {
-    return this.http.post(global.urlBase+"admin/sellerById",id,this.authToken);
+    return this.http.post(global.urlBase+"user/get",id,this.authToken);
   }
 
   public updateSeller(seller: any) {
-    return this.http.post(global.urlBase+"admin/updateSeller",seller,this.authToken);
+    return this.http.post(global.urlBase+"user/update",seller,this.authToken);
   }
 
   public deleteSeller(id: any) {
-    return this.http.post(global.urlBase+"admin/deleteSeller",id,this.authToken);
+    return this.http.post(global.urlBase+"user/delete",id,this.authToken);
   }
 
   public getVehicles(data: any) {
-    return this.http.post(global.urlBase+"admin/AllVehicles",data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/filterVehiclesWithMongo', data,this.authToken);
   }
 
   public getVehicleById(id: any) {
@@ -50,7 +50,7 @@ export class AdminService {
   }
 
   public allModels() {
-    return this.http.get(global.urlBase+"admin/allModels",this.authToken);
+    return this.http.get(global.urlBase+"vehicle/allModelVehicle?s=",this.authToken);
   }
 
   public getModelList(data:any){
@@ -58,7 +58,7 @@ export class AdminService {
   }
 
   public addModel(model: any) {
-    return this.http.post(global.urlBase+"admin/addModelVehicle",model,this.authToken);
+    return this.http.post(global.urlBase+"vehicle/addModelVehicle",model,this.authToken);
   }
 
   public updateModel(model: any){
@@ -86,7 +86,7 @@ export class AdminService {
   }
 
   public allBrands() {
-    return this.http.get(global.urlBase+"admin/allBrands",this.authToken);
+    return this.http.get(global.urlBase+"vehicle/all-brands?s=",this.authToken);
   }
 
   public addBrand(name: any) {

@@ -92,4 +92,7 @@ export class MechanicalFileDetail{
     public fuel_tank_cover!:string;
     public pipes_hoses_connections!:string;
     public brake_discs!:string;
+    public user!:any;
+    public vehicle!: any;
+    public created_at!: string;
 }

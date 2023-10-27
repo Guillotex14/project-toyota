@@ -24,6 +24,7 @@ export class CarDetailPage implements OnInit {
   emptyEmail: boolean = false;
   arrayDocuments: any[] = [];
   priceOfertAux: string = "";
+  editPrice: boolean = false;
   theCartegory: string = "";
   editCar: boolean = false;
   openAS: boolean = false;
@@ -303,7 +304,8 @@ export class CarDetailPage implements OnInit {
       if(data.status){
         this.utils.dismissLoading();
           this.utils.presentToast(data.message);
-          this.editCar=!this.editCar;
+          this.editCar=false;
+          this.editPrice = false;
           this.getVehicleById();
         }else{
           this.utils.dismissLoading();
@@ -732,6 +734,9 @@ export class CarDetailPage implements OnInit {
     }
   }
 
+  public onEditPrice(){
+    this.editPrice = true;
+  }
 
 
 }

@@ -60,7 +60,7 @@ const mechanicalFileSchema = new mongoose_1.Schema({
     fuel_tank_cover: String,
     pipes_hoses_connections: String,
     brake_discs: String,
-    date: String,
+    created_at: String,
     id_vehicle: {
         type: mongoose_1.Schema.Types.ObjectId,
     },

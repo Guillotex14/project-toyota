@@ -1266,6 +1266,31 @@
               </ion-segment>
             </ion-item>
 
+            <ion-item-divider *ngIf="mechanicalFile.user">
+              <ion-label> 
+                INSPECCIÓN REALIZADA POR:
+              </ion-label>
+            </ion-item-divider>
+            
+            <ion-item *ngIf="mechanicalFile.user" style="text-align: center;">
+              <span style="font-size: 20px; font-weight: 600;margin: auto;">
+                {{mechanicalFile.user.fullName}}
+                
+              </span>
+            </ion-item>
+            
+            <ion-item-divider *ngIf="mechanicalFile.created_at">
+              <ion-label> 
+                FECHA DE INSPECCIÓN:
+              </ion-label>
+            </ion-item-divider>
+
+            <ion-item *ngIf="mechanicalFile.created_at">
+              <span style="font-size: 20px; font-weight: 600;margin: auto;">
+                {{mechanicalFile.created_at}}
+              </span>
+            </ion-item>
+
           </ion-item-group>
 
         </ion-list>

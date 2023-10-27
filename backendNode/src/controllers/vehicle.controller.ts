@@ -15,6 +15,8 @@ import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
 import { deleteImageVehicle, uploadDocuments, uploadImageVehicle } from "../../cloudinaryMetods";
 import * as global from "../global";
+import mongoose from "mongoose";
+
 
 const vehicleController: any = {};
 
@@ -708,12 +710,124 @@ vehicleController.mechanicalFileByIdVehicle = async (
     return res.json(reponseJson);
   }
 
-  const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
+  // const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
+  //realizamos un aggregate con la tabla de fichas mecanicas y la tabla de vehiculo para obtener el valor de ofert en la tabla vehiculos
+
+  const mecFile = await mechanicalsFiles.aggregate([
+    {
+      $match: {
+        id_vehicle: new mongoose.Types.ObjectId(id_vehicle),
+      },
+    },
+    {
+      $lookup: {
+        from: "vehicles",
+        localField: "id_vehicle",
+        foreignField: "_id",
+        as: "vehicle",
+      },
+    },
+    {
+      $lookup: {
+        from: "mechanics",
+        localField: "id_mechanic",
+        foreignField: "_id",
+        as: "mechanic",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "mechanic.id_user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+
+    { $unwind: "$vehicle" },
+    { $unwind: "$user" },
+
+    {
+      $project: {
+        _id: 1,
+        id_vehicle: 1,
+        id_mechanic: 1,
+        part_emblems_complete: 1,
+        wiper_shower_brushes_windshield: 1,
+        hits: 1,
+        scratches: 1,
+        paint_condition: 1,
+        bugle_accessories: 1,
+        air_conditioning_system: 1,
+        radio_player: 1,
+        courtesy_lights: 1,
+        upholstery_condition: 1,
+        gts: 1,
+        board_lights: 1,
+        tire_pressure: 1,
+        tire_life: 1,
+        battery_status_terminals: 1,
+        transmitter_belts: 1,
+        motor_oil: 1,
+        engine_coolant_container: 1,
+        radiator_status: 1,
+        exhaust_pipe_bracket: 1,
+        fuel_tank_cover_pipes_hoses_connections: 1,
+        distribution_mail: 1,
+        spark_plugs_air_filter_fuel_filter_anti_pollen_filter: 1,
+        fuel_system: 1,
+        parking_break: 1,
+        brake_bands_drums: 1,
+        brake_pads_discs: 1,
+        brake_pipes_hoses: 1,
+        master_cylinder: 1,
+        brake_fluid: 1,
+        bushings_plateaus: 1,
+        stumps: 1,
+        terminals: 1,
+        stabilizer_bar: 1,
+        bearings: 1,
+        tripoids_rubbe_bands: 1,
+        shock_absorbers_coils: 1,
+        dealer_maintenance: 1,
+        headlights_lights: 1,
+        general_condition: 1,
+        odometer: 1,
+        engine_start: 1,
+        windshields_glass: 1,
+        hits_scratches: 1,
+        spark_plugs: 1,
+        injectors: 1,
+        fuel_filter_anti_pollen_filter: 1,
+        engine_noises: 1,
+        hits_scratches_sides: 1,
+        paint_condition_sides: 1,
+        trunk_hatch: 1,
+        spare_tire: 1,
+        hits_scratches_trunk: 1,
+        paint_condition_trunk: 1,
+        headlights_lights_trunk: 1,
+        fuel_tank_cover: 1,
+        pipes_hoses_connections: 1,
+        brake_discs: 1,
+        created_at: 1,
+        vehicle: {
+          price_ofert: 1
+        },
+        user: {
+          fullName: 1,
+        },
+      },
+    }
+
+  ]);
+
   if (mecFile) {
+    
     reponseJson.code = 200;
     reponseJson.status = true;
     reponseJson.message = "Ficha mecánica encontrada";
-    reponseJson.data = mecFile;
+    reponseJson.data = mecFile[0];
   } else {
     reponseJson.code = 400;
     reponseJson.status = false;
@@ -2281,7 +2395,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
       fuel_tank_cover,
       pipes_hoses_connections,
       brake_discs,
-      date_create: dateNow,
+      created_at: dateNow,
       id_vehicle,
       id_mechanic
   });
