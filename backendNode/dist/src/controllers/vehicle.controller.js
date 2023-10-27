@@ -2170,7 +2170,6 @@ const getWeekNumber = (date) => {
 const agruparPorWeek = (datos) => {
     const semanas = [];
     let contador = 1;
-    console.log(semanas[contador]);
     for (const dato of datos) {
         if (!semanas[contador]) {
             semanas[contador] = 0;

@@ -124,24 +124,40 @@ userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0
         }
         if (element.type_user == "seller") {
             let seller = yield Sellers_schema_1.default.findOne({ id_user: element._id });
+            // let data = {
+            //   fullName: seller?.fullName,
+            //   city: seller?.city,
+            //   concesionary: seller?.concesionary,
+            //   date_created: seller?.date_created ? seller?.date_created : null,
+            //   phone: seller?.phone ? seller?.phone : null,
+            //   status: 1,
+            // };
             let data = {
-                fullName: seller === null || seller === void 0 ? void 0 : seller.fullName,
-                city: seller === null || seller === void 0 ? void 0 : seller.city,
-                concesionary: seller === null || seller === void 0 ? void 0 : seller.concesionary,
-                date_created: (seller === null || seller === void 0 ? void 0 : seller.date_created) ? seller === null || seller === void 0 ? void 0 : seller.date_created : null,
-                phone: (seller === null || seller === void 0 ? void 0 : seller.phone) ? seller === null || seller === void 0 ? void 0 : seller.phone : null,
+                fullName: null,
+                city: null,
+                concesionary: null,
+                date_created: null,
+                phone: null,
                 status: 1,
             };
             yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
         }
         if (element.type_user == "mechanic") {
             let mechanic = yield Mechanics_schema_1.default.findOne({ id_user: element._id });
+            // let data = {
+            //   fullName: mechanic?.fullName,
+            //   city: mechanic?.city,
+            //   concesionary: mechanic?.concesionary,
+            //   date_created: mechanic?.date_created ? mechanic?.date_created : null,
+            //   phone: mechanic?.phone ? mechanic?.phone : null,
+            //   status: 1,
+            // };
             let data = {
-                fullName: mechanic === null || mechanic === void 0 ? void 0 : mechanic.fullName,
-                city: mechanic === null || mechanic === void 0 ? void 0 : mechanic.city,
-                concesionary: mechanic === null || mechanic === void 0 ? void 0 : mechanic.concesionary,
-                date_created: (mechanic === null || mechanic === void 0 ? void 0 : mechanic.date_created) ? mechanic === null || mechanic === void 0 ? void 0 : mechanic.date_created : null,
-                phone: (mechanic === null || mechanic === void 0 ? void 0 : mechanic.phone) ? mechanic === null || mechanic === void 0 ? void 0 : mechanic.phone : null,
+                fullName: null,
+                city: null,
+                concesionary: null,
+                date_created: null,
+                phone: null,
                 status: 1,
             };
             yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
@@ -329,53 +345,56 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         };
     }
     let type_user_table = "admin";
+    if (data.type_user == "seller") {
+        type_user_table = "sellers";
+    }
+    else if (data.type_user == "mechanic") {
+        type_user_table = "mechanics";
+    }
+    else if (data.type_user == "admin_concesionary" || data.type_user == "admin") {
+        type_user_table = "users";
+    }
     let sendata = {};
-    let user;
     let search;
     let project;
     search = {
         $or: [
-            { email: { $regex: ".*" + data.s + ".*" } },
-            { username: { $regex: ".*" + data.s + ".*" } },
-            { type_user: { $regex: ".*" + data.s + ".*" } },
-            { fullName: { $regex: ".*" + data.s + ".*" } },
-            { city: { $regex: ".*" + data.s + ".*" } },
-            { concesionary: { $regex: ".*" + data.s + ".*" } },
-            { date_created: { $regex: ".*" + data.s + ".*" } },
-            { phone: { $regex: ".*" + data.s + ".*" } },
+            { email: { $regex: data.s, $options: 'i' } },
+            { username: { $regex: data.s, $options: 'i' } },
+            { type_user: { $regex: data.s, $options: 'i' } },
+            { [`${type_user_table}.fullName`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+            { [`${type_user_table}.city`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+            { [`${type_user_table}.concesionary`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+            { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+            { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } }
         ],
     };
     project = {
+        id_user: "$_id",
         email: 1,
         username: 1,
         type_user: 1,
-        fullName: 1,
-        city: 1,
-        concesionary: 1,
-        date_created: 1,
-        phone: 1,
+        [`${type_user_table}._id`]: 1,
+        [`${type_user_table}.fullName`]: 1,
+        [`${type_user_table}.city`]: 1,
+        [`${type_user_table}.concesionary`]: 1,
+        [`${type_user_table}.date_created`]: 1,
+        [`${type_user_table}.date_created`]: 1
     };
     if (data.type_user != "all") {
         search = Object.assign(Object.assign({}, search), { type_user: data.type_user });
     }
     let list = yield Users_schema_1.default.aggregate([
         {
+            $lookup: { from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+        },
+        {
+            $unwind: `$${type_user_table}`
+        },
+        {
             $match: search,
         },
-        // {
-        //   $lookup: {
-        //     from: "imgusers",
-        //     localField: "_id",
-        //     foreignField: "id_user",
-        //     as: "imgusers",
-        //   },
-        // },
-        // {
-        //   $unwind: {
-        //     path: "$imgusers",
-        //     preserveNullAndEmptyArrays: true 
-        //   }
-        // },
+        { $project: project },
         {
             $skip: parseInt(data.lim) * parseInt(data.pos),
         },
@@ -388,13 +407,20 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         sendata.rows = list;
         for (let i = 0; i < sendata.rows.length; i++) {
             const element = sendata.rows[i];
-            const userImg = yield imgUser_schema_1.default.findOne({ id_user: element._id });
+            const userImg = yield imgUser_schema_1.default.findOne({ id_user: element.id_user });
             element.img = userImg ? userImg : null;
         }
         count = yield Users_schema_1.default.aggregate([
             {
+                $lookup: { from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+            },
+            {
+                $unwind: `$${type_user_table}`
+            },
+            {
                 $match: search,
             },
+            { $project: project },
             {
                 $count: "totalCount",
             },

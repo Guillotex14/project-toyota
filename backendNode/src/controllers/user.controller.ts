@@ -126,12 +126,20 @@ userController.modificarUsuario = async (req: Request, res: Response) => {
     }
     if (element.type_user == "seller") {
       let seller = await sellers.findOne({ id_user: element._id });
+      // let data = {
+      //   fullName: seller?.fullName,
+      //   city: seller?.city,
+      //   concesionary: seller?.concesionary,
+      //   date_created: seller?.date_created ? seller?.date_created : null,
+      //   phone: seller?.phone ? seller?.phone : null,
+      //   status: 1,
+      // };
       let data = {
-        fullName: seller?.fullName,
-        city: seller?.city,
-        concesionary: seller?.concesionary,
-        date_created: seller?.date_created ? seller?.date_created : null,
-        phone: seller?.phone ? seller?.phone : null,
+        fullName: null,
+        city: null,
+        concesionary: null,
+        date_created: null,
+        phone: null,
         status: 1,
       };
       await Users.findOneAndUpdate({ _id: element._id }, data);
@@ -139,12 +147,20 @@ userController.modificarUsuario = async (req: Request, res: Response) => {
 
     if (element.type_user == "mechanic") {
       let mechanic = await mechanics.findOne({ id_user: element._id });
+      // let data = {
+      //   fullName: mechanic?.fullName,
+      //   city: mechanic?.city,
+      //   concesionary: mechanic?.concesionary,
+      //   date_created: mechanic?.date_created ? mechanic?.date_created : null,
+      //   phone: mechanic?.phone ? mechanic?.phone : null,
+      //   status: 1,
+      // };
       let data = {
-        fullName: mechanic?.fullName,
-        city: mechanic?.city,
-        concesionary: mechanic?.concesionary,
-        date_created: mechanic?.date_created ? mechanic?.date_created : null,
-        phone: mechanic?.phone ? mechanic?.phone : null,
+        fullName: null,
+        city: null,
+        concesionary: null,
+        date_created: null,
+        phone: null,
         status: 1,
       };
       await Users.findOneAndUpdate({ _id: element._id }, data);
@@ -342,32 +358,42 @@ userController.all = async (req: Request, res: Response) => {
   }
   let type_user_table = "admin";
 
+  if (data.type_user=="seller") {
+    type_user_table="sellers";
+  }else if (data.type_user=="mechanic") {
+    type_user_table="mechanics";
+    
+  }else if (data.type_user=="admin_concesionary" || data.type_user=="admin") {
+    type_user_table="users";
+  }
+
   let sendata: any = {};
-  let user: any;
   let search: any;
   let project: any;
   search = {
     $or: [
-      { email: { $regex: ".*" + data.s + ".*" } },
-      { username: { $regex: ".*" + data.s + ".*" } },
-      { type_user: { $regex: ".*" + data.s + ".*" } },
-      { fullName: { $regex: ".*" + data.s + ".*" } },
-      { city: { $regex: ".*" + data.s + ".*" } },
-      { concesionary: { $regex: ".*" + data.s + ".*" } },
-      { date_created: { $regex: ".*" + data.s + ".*" } },
-      { phone: { $regex: ".*" + data.s + ".*" } },
+      { email: { $regex: data.s, $options: 'i' } },
+      { username: { $regex: data.s, $options: 'i' } },
+      { type_user: { $regex: data.s, $options: 'i' } },
+      { [`${type_user_table}.fullName`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+      { [`${type_user_table}.city`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+      { [`${type_user_table}.concesionary`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+      { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
+      { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } }
     ],
   };
 
   project = {
+    id_user: "$_id",
     email: 1,
     username: 1,
     type_user: 1,
-    fullName: 1,
-    city: 1,
-    concesionary: 1,
-    date_created: 1,
-    phone: 1,
+    [`${type_user_table}._id`]: 1,
+    [`${type_user_table}.fullName`]: 1,
+    [`${type_user_table}.city`]: 1,
+    [`${type_user_table}.concesionary`]: 1,
+    [`${type_user_table}.date_created`]: 1,
+    [`${type_user_table}.date_created`]: 1
   };
 
   if (data.type_user != "all") {
@@ -379,22 +405,15 @@ userController.all = async (req: Request, res: Response) => {
 
   let list = await Users.aggregate([
     {
+      $lookup:{ from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+    },
+    {
+      $unwind: `$${type_user_table}`
+    },
+    {
       $match: search,
     },
-    // {
-    //   $lookup: {
-    //     from: "imgusers",
-    //     localField: "_id",
-    //     foreignField: "id_user",
-    //     as: "imgusers",
-    //   },
-    // },
-    // {
-    //   $unwind: {
-    //     path: "$imgusers",
-    //     preserveNullAndEmptyArrays: true 
-    //   }
-    // },
+    { $project: project },
     {
       $skip: parseInt(data.lim) * parseInt(data.pos),
     },
@@ -411,14 +430,21 @@ userController.all = async (req: Request, res: Response) => {
     for (let i = 0; i < sendata.rows.length; i++) {
       
       const element = sendata.rows[i];
-      const userImg = await imgUser.findOne({id_user: element._id});
+      const userImg = await imgUser.findOne({id_user: element.id_user});
       element.img= userImg ? userImg : null;
     }
 
     count = await Users.aggregate([
       {
+        $lookup:{ from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+      },
+      {
+        $unwind: `$${type_user_table}`
+      },
+      {
         $match: search,
       },
+      { $project: project },
       {
         $count: "totalCount",
       },
