@@ -61,7 +61,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -313,7 +313,11 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     const reponseJson = new Response_1.ResponseModel();
     let query = {};
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -321,7 +325,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     //aqui creamos las condiciones para el filtro de los vehículos y las querys
     if (minYear === 0 && maxYear === 0) {
         query.year = { $gte: 0 };
@@ -439,9 +443,13 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     let arrayVehicles = [];
     let query = {};
     //aqui declaramos las variables que vamos a recibir
-    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle } = req.body;
+    const { minYear, maxYear, minKm, maxKm, minPrice, maxPrice, brand, model, ubication, type_vehicle, } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -563,7 +571,11 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
     const jsonRes = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -610,7 +622,9 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
                 ? mechanicalFile.general_condition
                 : "",
             images: imgsVehichle ? imgsVehichle : [],
-            imgs_documentation: infoVehicle.imgs_documentation ? infoVehicle.imgs_documentation : [],
+            imgs_documentation: infoVehicle.imgs_documentation
+                ? infoVehicle.imgs_documentation
+                : [],
         };
         jsonRes.code = 200;
         jsonRes.message = "success";
@@ -628,7 +642,11 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["mechanic", "seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "mechanic",
+        "seller",
+        "admin",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -821,7 +839,11 @@ vehicleController.repost = (req, res) => __awaiter(void 0, void 0, void 0, funct
 vehicleController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -852,7 +874,11 @@ vehicleController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, voi
 vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -1100,6 +1126,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             let groupByOneMonth = [];
             groupByWeek = agruparPorSemana(sendData);
             groupByOneMonth = agruparPorWeek(groupByWeek);
+            console.log(groupByOneMonth);
             const labels = groupByOneMonth.map((item) => item.semana);
             const total = groupByOneMonth.map((item) => item.total);
             datos = {
@@ -1467,9 +1494,9 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     }
     let seller = null;
     let user = null;
-    if (id_user) {
-        seller = yield Sellers_schema_2.default.findOne({ id_user: id_user });
-        user = yield Users_schema_1.default.findOne({ _id: id_user });
+    if ((decode.type_user = "seller")) {
+        seller = yield Sellers_schema_2.default.findOne({ id_user: decode.id_user });
+        user = yield Users_schema_1.default.findOne({ _id: decode.id_user });
         // if (seller && user.type_user != "admin") {
         //   mongQuery = {
         //     ...mongQuery,
@@ -1587,7 +1614,6 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     datos = {
         grupocard: cardsgroupmodel,
     };
-    console.log(datos);
     // Crear un nuevo archivo Excel
     const workbook = new ExcelJS.Workbook();
     // Establecer el estilo para el encabezado
@@ -1788,16 +1814,17 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
-    const fs = require("fs");
+    // const fs = require("fs");
     // ...
     // fs.unlinkSync(filePath);
+    let sendadta = {};
     workbook.xlsx
         .writeBuffer()
         .then((buffer) => __awaiter(void 0, void 0, void 0, function* () {
         // Convertir el buffer en base64
         const base64 = buffer.toString("base64");
         // Crear un objeto de respuesta con el archivo base64
-        const datos = {
+        sendadta = {
             fileName: now.getTime() + ".xlsx",
             path: sendUrl,
             base64Data: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," +
@@ -1807,7 +1834,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
             reponseJson.code = 200;
             reponseJson.message = "success";
             reponseJson.status = true;
-            reponseJson.data = datos;
+            reponseJson.data = sendadta;
         }
         else {
             reponseJson.code = 400;
@@ -1817,13 +1844,19 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     }))
         .catch((error) => {
-        console.log("Error al generar el archivo Excel:", error);
+        if (datos) {
+            reponseJson.code = 200;
+            reponseJson.message = "success";
+            reponseJson.status = true;
+            reponseJson.data = sendadta;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "no existe";
+            reponseJson.status = false;
+        }
+        res.json(reponseJson);
     });
-    reponseJson.code = 200;
-    reponseJson.message = "";
-    reponseJson.status = true;
-    reponseJson.data = data;
-    res.json(reponseJson);
 });
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -1837,7 +1870,9 @@ vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const vehiclesList = yield Vehicles_schema_2.default.find({ id_mechanic: id_mechanic, mechanicalFile: false }).sort({ date_create: -1 });
+    const vehiclesList = yield Vehicles_schema_2.default
+        .find({ id_mechanic: id_mechanic, mechanicalFile: false })
+        .sort({ date_create: -1 });
     if (vehiclesList.length > 0) {
         let arrayInpecciones = [];
         for (let i = 0; i < vehiclesList.length; i++) {
@@ -1878,7 +1913,9 @@ vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, 
                 date_create: vehiclesList[i].date_create,
                 plate: vehiclesList[i].plate,
                 vin: vehiclesList[i].vin,
-                image: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id })) ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id }) : "",
+                image: (yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id }))
+                    ? yield ImgVehicle_schema_1.default.findOne({ id_vehicle: vehiclesList[i]._id })
+                    : "",
             };
             arrayInpecciones.push(data);
         }
@@ -1906,7 +1943,10 @@ vehicleController.countInspections = (req, res) => __awaiter(void 0, void 0, voi
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const vehiclesList = yield Vehicles_schema_2.default.countDocuments({ id_mechanic: id_mechanic, mechanicalFile: false });
+    const vehiclesList = yield Vehicles_schema_2.default.countDocuments({
+        id_mechanic: id_mechanic,
+        mechanicalFile: false,
+    });
     reponseJson.code = 200;
     reponseJson.status = true;
     reponseJson.message = "Cantidad de vehículos";
@@ -1930,7 +1970,7 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
     let nameSeller = "";
     let conceSeller = "";
     let citySeller = "";
-    let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic, odometer, engine_start, windshields_glass, hits_scratches, spark_plugs, injectors, fuel_filter_anti_pollen_filter, engine_noises, hits_scratches_sides, paint_condition_sides, trunk_hatch, spare_tire, hits_scratches_trunk, paint_condition_trunk, headlights_lights_trunk, fuel_tank_cover, pipes_hoses_connections, brake_discs, } = req.body;
     const newMechanicFile = new mechanicalsFiles_schema_1.default({
         part_emblems_complete,
@@ -1993,10 +2033,12 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
         brake_discs,
         created_at: dateNow,
         id_vehicle,
-        id_mechanic
+        id_mechanic,
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
-    const vehicleUpdated = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, { mechanicalFile: true });
+    const vehicleUpdated = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
+        mechanicalFile: true,
+    });
     if (newMechanicFileSaved) {
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -2024,9 +2066,9 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
             infoMechanic.city = mechanic.city;
         }
         const mailOptions = {
-            from: 'Toyousado Notifications',
+            from: "Toyousado Notifications",
             to: mailSeller,
-            subject: 'Ficha mecánica creada',
+            subject: "Ficha mecánica creada",
             html: `<div>
           <p>Ficha técnica creada exitosamente para:</p>
           </div>
@@ -2066,7 +2108,7 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
             fullName: nameSeller,
             concesionary: conceSeller,
             city: citySeller,
-            title: "Ficha técnica creada exitosamente para:"
+            title: "Ficha técnica creada exitosamente para:",
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha técnica creada");
@@ -2235,6 +2277,7 @@ const getWeekNumber = (date) => {
 const agruparPorWeek = (datos) => {
     const semanas = [];
     let contador = 1;
+    console.log(semanas[contador]);
     for (const dato of datos) {
         if (!semanas[contador]) {
             semanas[contador] = 0;
@@ -2243,9 +2286,13 @@ const agruparPorWeek = (datos) => {
         contador++;
     }
     const result = [];
-    for (const semana in semanas) {
-        result.push({ semana: "Semana " + Number(semana), total: semanas[semana] });
-    }
+    result.push({ semana: "Semana " + Number(1), total: semanas[1] ? semanas[1] : 0 });
+    result.push({ semana: "Semana " + Number(2), total: semanas[2] ? semanas[2] : 0 });
+    result.push({ semana: "Semana " + Number(3), total: semanas[3] ? semanas[3] : 0 });
+    result.push({ semana: "Semana " + Number(4), total: semanas[4] ? semanas[4] : 0 });
+    // for (const semana in semanas) {
+    //   result.push({ semana: "Semana " + Number(semana), total: semanas[semana] });
+    // }
     return result;
 };
 function getMonthRange(startMonth, rangeMonths) {
