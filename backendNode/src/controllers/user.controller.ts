@@ -9,13 +9,18 @@ import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import { sendEmail } from "../../nodemailer";
 import notifications from "../schemas/notifications.schema";
+import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 
 const userController: any = {};
 
 userController.insert = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, [
+    "admin",
+    "seller",
+    "admin_concesionary",
+  ]);
   const data = req.body;
 
   if (decode == false) {
@@ -38,7 +43,10 @@ userController.insert = async (req: Request, res: Response) => {
   let message = "";
   let newUser: any = {};
   if (!user) {
-    if (decode.type_user == "admin") {
+    if (
+      decode.type_user == "admin" ||
+      decode.type_user == "admin_concesionary"
+    ) {
       if (data.type_user == "admin") {
         newUser = await addOrUpdateUser(data);
         message = `El usuario administrador fue creado con exito`;
@@ -46,15 +54,24 @@ userController.insert = async (req: Request, res: Response) => {
         newUser = await addOrUpdateUser(data);
         message = `El usuario administrador de concesionario fue creado con exito`;
       }
+
+      if (decode.type_user == "admin_concesionary") {
+        let concesionario: any = await ConcesionariesSchema.findOne({
+          _id: decode.id_concesionary,
+        });
+        data.concesionary = concesionario.name;
+      }
+
       if (data.type_user == "mechanic") {
         newUser = await addOrUpdateMechanic(data);
-
         message = `El usuario tecnico fue creado con exito`;
       }
       if (data.type_user == "seller") {
+        data.id_concesionary = decode.id_concesionary;
         newUser = await addOrUpdateSeller(data);
         message = `El usuario vendedor fue creado con exito`;
       }
+      
       data.id_user = newUser.id_user;
       if (newUser) {
         const mailOptions = {
@@ -112,7 +129,11 @@ userController.insert = async (req: Request, res: Response) => {
 userController.update = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, [
+    "admin",
+    "seller",
+    "admin_concesionary",
+  ]);
   const data = req.body;
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -193,7 +214,11 @@ userController.delete = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
 
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, [
+    "admin",
+    "seller",
+    "admin_concesionary",
+  ]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;

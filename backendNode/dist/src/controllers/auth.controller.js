@@ -20,6 +20,7 @@ const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -43,7 +44,7 @@ authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     email: user.email,
                     username: user.username,
                     type_user: user.type_user,
-                    img: userImg ? userImg : null
+                    img: userImg ? userImg : null,
                 };
                 jsonRes.data = infoSeller;
             }
@@ -58,7 +59,7 @@ authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     email: user.email,
                     username: user.username,
                     type_user: user.type_user,
-                    img: userImg ? userImg : null
+                    img: userImg ? userImg : null,
                 };
                 jsonRes.data = infoMechanic;
             }
@@ -68,8 +69,15 @@ authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     email: user.email,
                     username: user.username,
                     type_user: user.type_user,
-                    img: userImg ? userImg : null
+                    img: userImg ? userImg : null,
                 };
+                if (user.type_user == "admin_concesionary") {
+                    let concesionary = yield Concesionaries_schema_1.default.findOne({
+                        _id: user.id_concesionary,
+                    });
+                    admin.id_concesionary = user.id_concesionary;
+                    admin.concesionary = concesionary.name;
+                }
                 jsonRes.data = admin;
             }
             let token = generar_jwt_1.default.generateToken(jsonRes.data);
@@ -92,7 +100,11 @@ authController.addImgProfile = (req, res) => __awaiter(void 0, void 0, void 0, f
     const reponseJson = new Response_1.ResponseModel();
     const { id_user, image } = req.body;
     const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
-    const newImage = new imgUser_schema_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+    const newImage = new imgUser_schema_1.default({
+        img: filename.secure_url,
+        id_user: id_user,
+        public_id: filename.public_id,
+    });
     yield newImage.save();
     if (newImage) {
         reponseJson.code = 200;
@@ -114,7 +126,11 @@ authController.updateImgProfile = (req, res) => __awaiter(void 0, void 0, void 0
     const delImgdb = yield imgUser_schema_1.default.findOneAndDelete({ public_id: public_id });
     if (delImg.result == "ok") {
         const filename = yield (0, cloudinaryMetods_1.uploadImageUser)(image);
-        const newImage = new imgUser_schema_1.default({ img: filename.secure_url, id_user: id_user, public_id: filename.public_id });
+        const newImage = new imgUser_schema_1.default({
+            img: filename.secure_url,
+            id_user: id_user,
+            public_id: filename.public_id,
+        });
         if (newImage) {
             reponseJson.message = "Imagen actualizada exitosamente";
             reponseJson.status = true;

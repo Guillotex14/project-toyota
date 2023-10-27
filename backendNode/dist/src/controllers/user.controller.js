@@ -22,11 +22,16 @@ const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const nodemailer_1 = require("../../nodemailer");
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const userController = {};
 userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "admin",
+        "seller",
+        "admin_concesionary",
+    ]);
     const data = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -46,7 +51,8 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
     let message = "";
     let newUser = {};
     if (!user) {
-        if (decode.type_user == "admin") {
+        if (decode.type_user == "admin" ||
+            decode.type_user == "admin_concesionary") {
             if (data.type_user == "admin") {
                 newUser = yield addOrUpdateUser(data);
                 message = `El usuario administrador fue creado con exito`;
@@ -55,11 +61,18 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
                 newUser = yield addOrUpdateUser(data);
                 message = `El usuario administrador de concesionario fue creado con exito`;
             }
+            if (decode.type_user == "admin_concesionary") {
+                let concesionario = yield Concesionaries_schema_1.default.findOne({
+                    _id: decode.id_concesionary,
+                });
+                data.concesionary = concesionario.name;
+            }
             if (data.type_user == "mechanic") {
                 newUser = yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue creado con exito`;
             }
             if (data.type_user == "seller") {
+                data.id_concesionary = decode.id_concesionary;
                 newUser = yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue creado con exito`;
             }
@@ -115,7 +128,11 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
 userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "admin",
+        "seller",
+        "admin_concesionary",
+    ]);
     const data = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -198,7 +215,11 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
 userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "admin",
+        "seller",
+        "admin_concesionary",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
