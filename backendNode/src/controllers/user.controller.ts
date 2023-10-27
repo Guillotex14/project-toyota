@@ -36,21 +36,26 @@ userController.insert = async (req: Request, res: Response) => {
 
   const user = await Users.findOne({ email: data.email });
   let message = "";
-
+  let newUser: any = {};
   if (!user) {
     if (decode.type_user == "admin") {
       if (data.type_user == "admin") {
+        newUser = await addOrUpdateUser(data);
         message = `El usuario administrador fue creado con exito`;
+      } else if (data.type_user == "admin_concesionary") {
+        newUser = await addOrUpdateUser(data);
+        message = `El usuario administrador de concesionario fue creado con exito`;
       }
       if (data.type_user == "mechanic") {
+        newUser = await addOrUpdateMechanic(data);
+
         message = `El usuario tecnico fue creado con exito`;
       }
       if (data.type_user == "seller") {
+        newUser = await addOrUpdateSeller(data);
         message = `El usuario vendedor fue creado con exito`;
       }
-      let newUser = await addOrUpdateUser(data);
       data.id_user = newUser.id_user;
-
       if (newUser) {
         const mailOptions = {
           from: "Toyousado",
@@ -67,7 +72,7 @@ userController.insert = async (req: Request, res: Response) => {
         await sendEmail(mailOptions);
       }
     } else if (decode.type_user == "seller") {
-      let newUser = await addOrUpdateUser(data);
+      let newUser = await addOrUpdateMechanic(data);
 
       if (newUser) {
         const mailOptions = {
@@ -102,77 +107,6 @@ userController.insert = async (req: Request, res: Response) => {
   }
 
   res.json(reponseJson);
-};
-
-userController.modificarUsuario = async (req: Request, res: Response) => {
-  const reponseJson: ResponseModel = new ResponseModel();
-
-  let user = await Users.find();
-
-  for (let i = 0; i < user.length; i++) {
-    let element = user[i];
-
-    if (element.type_user == "admin") {
-      let admin = await sellers.findOne({ id_user: element._id });
-      let data = {
-        fullName: null,
-        city: null,
-        concesionary: null,
-        date_created: null,
-        phone: null,
-        status: 1,
-      };
-      await Users.findOneAndUpdate({ _id: element._id }, data);
-    }
-    if (element.type_user == "seller") {
-      let seller = await sellers.findOne({ id_user: element._id });
-      // let data = {
-      //   fullName: seller?.fullName,
-      //   city: seller?.city,
-      //   concesionary: seller?.concesionary,
-      //   date_created: seller?.date_created ? seller?.date_created : null,
-      //   phone: seller?.phone ? seller?.phone : null,
-      //   status: 1,
-      // };
-      let data = {
-        fullName: null,
-        city: null,
-        concesionary: null,
-        date_created: null,
-        phone: null,
-        status: 1,
-      };
-      await Users.findOneAndUpdate({ _id: element._id }, data);
-    }
-
-    if (element.type_user == "mechanic") {
-      let mechanic = await mechanics.findOne({ id_user: element._id });
-      // let data = {
-      //   fullName: mechanic?.fullName,
-      //   city: mechanic?.city,
-      //   concesionary: mechanic?.concesionary,
-      //   date_created: mechanic?.date_created ? mechanic?.date_created : null,
-      //   phone: mechanic?.phone ? mechanic?.phone : null,
-      //   status: 1,
-      // };
-      let data = {
-        fullName: null,
-        city: null,
-        concesionary: null,
-        date_created: null,
-        phone: null,
-        status: 1,
-      };
-      await Users.findOneAndUpdate({ _id: element._id }, data);
-    }
-  }
-  let otherUser = await Users.find();
-
-  reponseJson.code = 400;
-  reponseJson.message = "id_user requerido";
-  reponseJson.status = false;
-  reponseJson.data = otherUser;
-  return res.json(reponseJson);
 };
 
 userController.update = async (req: Request, res: Response) => {
@@ -298,14 +232,15 @@ userController.get = async (req: Request, res: Response) => {
   const data = req.query;
   let sendata: any = {};
   let user: any;
+  let seller: any;
+  let mechanic: any;
 
   if (data.id_user) {
     user = await Users.findOne({ _id: data.id_user });
   } else if (data.email) {
     user = await Users.findOne({ email: data.email });
   }
-  const userImg = await imgUser.findOne({id_user: user._id});
-  
+  const userImg = await imgUser.findOne({ id_user: user._id });
 
   if (user) {
     sendata = {
@@ -313,14 +248,21 @@ userController.get = async (req: Request, res: Response) => {
       email: user?.email,
       username: user?.username,
       type_user: user?.type_user,
-      fullName: user?.fullName,
-      city: user?.city,
-      concesionary: user?.concesionary,
-      date_created: user?.date_created,
-      phone: user?.phone,
-      status: user?.status,
-      img: userImg ? userImg : null
+      img: userImg ? userImg : null,
     };
+    if (user.type_user == "seller") {
+      seller = await sellers.findOne({ id_user: user._id });
+      sendata = {
+        ...sendata,
+        seller,
+      };
+    } else if (user.type_user == "mechanic") {
+      mechanic = await mechanics.findOne({ id_user: user._id });
+      sendata = {
+        ...sendata,
+        mechanic,
+      };
+    }
   } else {
     reponseJson.code = 400;
     reponseJson.message = "Usuario no encontrado";
@@ -358,13 +300,15 @@ userController.all = async (req: Request, res: Response) => {
   }
   let type_user_table = "admin";
 
-  if (data.type_user=="seller") {
-    type_user_table="sellers";
-  }else if (data.type_user=="mechanic") {
-    type_user_table="mechanics";
-    
-  }else if (data.type_user=="admin_concesionary" || data.type_user=="admin") {
-    type_user_table="users";
+  if (data.type_user == "seller") {
+    type_user_table = "sellers";
+  } else if (data.type_user == "mechanic") {
+    type_user_table = "mechanics";
+  } else if (
+    data.type_user == "admin_concesionary" ||
+    data.type_user == "admin"
+  ) {
+    type_user_table = "users";
   }
 
   let sendata: any = {};
@@ -372,15 +316,41 @@ userController.all = async (req: Request, res: Response) => {
   let project: any;
   search = {
     $or: [
-      { email: { $regex: data.s, $options: 'i' } },
-      { username: { $regex: data.s, $options: 'i' } },
-      { type_user: { $regex: data.s, $options: 'i' } },
-      { [`${type_user_table}.fullName`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-      { [`${type_user_table}.city`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-      { [`${type_user_table}.concesionary`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-      { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-      { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } }
+      { email: { $regex: data.s, $options: "i" } },
+      { username: { $regex: data.s, $options: "i" } },
+      { type_user: { $regex: data.s, $options: "i" } },
+      {
+        [`${type_user_table}.fullName`]: {
+          $regex: ".*" + data.s + ".*",
+          $options: "i",
+        },
+      },
+      {
+        [`${type_user_table}.city`]: {
+          $regex: ".*" + data.s + ".*",
+          $options: "i",
+        },
+      },
+      {
+        [`${type_user_table}.concesionary`]: {
+          $regex: ".*" + data.s + ".*",
+          $options: "i",
+        },
+      },
+      {
+        [`${type_user_table}.date_created`]: {
+          $regex: ".*" + data.s + ".*",
+          $options: "i",
+        },
+      },
+      {
+        [`${type_user_table}.phone`]: {
+          $regex: ".*" + data.s + ".*",
+          $options: "i",
+        },
+      },
     ],
+    type_user: data.type_user,
   };
 
   project = {
@@ -393,22 +363,20 @@ userController.all = async (req: Request, res: Response) => {
     [`${type_user_table}.city`]: 1,
     [`${type_user_table}.concesionary`]: 1,
     [`${type_user_table}.date_created`]: 1,
-    [`${type_user_table}.date_created`]: 1
+    [`${type_user_table}.phone`]: 1,
   };
-
-  if (data.type_user != "all") {
-    search = {
-      ...search,
-      type_user: data.type_user,
-    };
-  }
 
   let list = await Users.aggregate([
     {
-      $lookup:{ from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+      $lookup: {
+        from: type_user_table,
+        localField: "_id",
+        foreignField: "id_user",
+        as: type_user_table,
+      },
     },
     {
-      $unwind: `$${type_user_table}`
+      $unwind: `$${type_user_table}`,
     },
     {
       $match: search,
@@ -422,24 +390,58 @@ userController.all = async (req: Request, res: Response) => {
     },
   ]);
 
+  if (type_user_table == "users") {
+    search = {
+      $or: [
+        { email: { $regex: data.s, $options: "i" } },
+        { username: { $regex: data.s, $options: "i" } },
+        { type_user: { $regex: data.s, $options: "i" } },
+      ],
+      type_user: data.type_user,
+    };
+
+    project = {
+      id_user: "$_id",
+      email: 1,
+      username: 1,
+      type_user: 1,
+    };
+
+    list = await Users.aggregate([
+      {
+        $match: search,
+      },
+      { $project: project },
+      {
+        $skip: parseInt(data.lim) * parseInt(data.pos),
+      },
+      {
+        $limit: parseInt(data.lim),
+      },
+    ]);
+  }
+
   let count: any;
-  
+
   if (list.length > 0) {
     sendata.rows = list;
 
     for (let i = 0; i < sendata.rows.length; i++) {
-      
       const element = sendata.rows[i];
-      const userImg = await imgUser.findOne({id_user: element.id_user});
-      element.img= userImg ? userImg : null;
+      const userImg = await imgUser.findOne({ id_user: element.id_user });
+      element.img = userImg ? userImg : null;
     }
-
     count = await Users.aggregate([
       {
-        $lookup:{ from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+        $lookup: {
+          from: type_user_table,
+          localField: "_id",
+          foreignField: "id_user",
+          as: type_user_table,
+        },
       },
       {
-        $unwind: `$${type_user_table}`
+        $unwind: `$${type_user_table}`,
       },
       {
         $match: search,
@@ -449,6 +451,19 @@ userController.all = async (req: Request, res: Response) => {
         $count: "totalCount",
       },
     ]);
+
+    if (type_user_table == "users") {
+      count = await Users.aggregate([
+        {
+          $match: search,
+        },
+        { $project: project },
+        {
+          $count: "totalCount",
+        },
+      ]);
+    }
+
     reponseJson.code = 200;
     reponseJson.message = "Usuario encontrado con exito";
     reponseJson.status = true;
@@ -531,7 +546,11 @@ userController.getNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
+  let decode = await jwt.getAuthorization(token, [
+    "seller",
+    "admin",
+    "mechanic",
+  ]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -564,7 +583,11 @@ userController.updateNotification = async (req: Request, res: Response) => {
   const { id } = req.body;
 
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
+  let decode = await jwt.getAuthorization(token, [
+    "seller",
+    "admin",
+    "mechanic",
+  ]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -596,7 +619,11 @@ userController.notificationById = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
+  let decode = await jwt.getAuthorization(token, [
+    "seller",
+    "admin",
+    "mechanic",
+  ]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -626,7 +653,11 @@ userController.countNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_user } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic"]);
+  let decode = await jwt.getAuthorization(token, [
+    "seller",
+    "admin",
+    "mechanic",
+  ]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -663,16 +694,63 @@ async function addOrUpdateUser(data: any) {
       data.password = hash;
       await Users.findOneAndUpdate(user, data);
     } else {
+      let userUpdate: any = {
+        email: data.email,
+        username: data.username,
+        type_user: data.type_user,
+      };
+      if (data.type_user == "admin_concesionay") {
+        userUpdate.id_concesionary = data.id_concesionary;
+      }
+      await Users.findOneAndUpdate(user, userUpdate);
+    }
+  } else {
+    const date_created = moment().format("YYYY-MM-DD");
+
+    const hash = await bcrypt.hash(data.password, 12);
+    let _user: any = {
+      email: data.email,
+      password: hash,
+      username: data.username,
+      type_user: data.type_user,
+      date_created: date_created,
+      status: 1,
+    };
+    if (data.type_user == "admin_concesionay") {
+      _user.id_concesionary = data.id_concesionary;
+    }
+    const newUser = new Users(_user);
+
+    await newUser.save();
+
+    data.id_user = newUser._id;
+  }
+  return data;
+}
+
+async function addOrUpdateMechanic(data: any) {
+  if (data.id_user) {
+    const user = { _id: data.id_user };
+    if (data.password != "") {
+      const hash = await bcrypt.hash(data.password, 12);
+      data.password = hash;
+      await Users.findOneAndUpdate(user, data);
+    } else {
       const userUpdate = {
         email: data.email,
         username: data.username,
         type_user: data.type_user,
+      };
+      const mechanicUpdate = {
         fullName: data.fullName,
         city: data.city,
         concesionary: data.concesionary,
         phone: data.phone,
       };
+      const query: any = await mechanics.findOne({ id_user: user._id });
+      let mechanic = { _id: query._id };
       await Users.findOneAndUpdate(user, userUpdate);
+      await mechanics.findOneAndUpdate(mechanic, mechanicUpdate);
     }
   } else {
     const date_created = moment().format("YYYY-MM-DD");
@@ -683,17 +761,83 @@ async function addOrUpdateUser(data: any) {
       password: hash,
       username: data.username,
       type_user: data.type_user,
-      fullName: data.fullName,
-      city: data.city,
-      concesionary: data.concesionary,
       date_created: date_created,
-      phone: data.phone,
       status: 1,
     });
 
     await newUser.save();
 
     data.id_user = newUser._id;
+
+    const newMechanic = new mechanics({
+      fullName: data.fullName,
+      city: data.city,
+      concesionary: data.concesionary,
+      date_created: date_created,
+      phone: data.phone,
+      id_user: data.id_user,
+      status: 1,
+    });
+
+    await newMechanic.save();
+    data.id_mechanic = newMechanic._id;
+  }
+  return data;
+}
+
+async function addOrUpdateSeller(data: any) {
+  if (data.id_user) {
+    const user = { _id: data.id_user };
+    if (data.password != "") {
+      const hash = await bcrypt.hash(data.password, 12);
+      data.password = hash;
+      await Users.findOneAndUpdate(user, data);
+    } else {
+      const userUpdate = {
+        email: data.email,
+        username: data.username,
+        type_user: data.type_user,
+      };
+      const sellerUpdate = {
+        fullName: data.fullName,
+        city: data.city,
+        concesionary: data.concesionary,
+        phone: data.phone,
+      };
+      const query: any = await sellers.findOne({ id_user: user._id });
+      let seller = { _id: query._id };
+      await Users.findOneAndUpdate(user, userUpdate);
+      await sellers.findOneAndUpdate(seller, sellerUpdate);
+    }
+  } else {
+    const date_created = moment().format("YYYY-MM-DD");
+
+    const hash = await bcrypt.hash(data.password, 12);
+    const newUser = new Users({
+      email: data.email,
+      password: hash,
+      username: data.username,
+      type_user: data.type_user,
+      date_created: date_created,
+      status: 1,
+    });
+
+    await newUser.save();
+
+    data.id_user = newUser._id;
+
+    const newSeller = new sellers({
+      fullName: data.fullName,
+      city: data.city,
+      concesionary: data.concesionary,
+      date_created: date_created,
+      phone: data.phone,
+      id_user: data.id_user,
+      status: 1,
+    });
+
+    await newSeller.save();
+    data.id_seller = newSeller._id;
   }
   return data;
 }

@@ -120,7 +120,8 @@ userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0
                 phone: null,
                 status: 1,
             };
-            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+            // await Users.findOneAndUpdate({ _id: element._id }, data);
+            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
         }
         if (element.type_user == "seller") {
             let seller = yield Sellers_schema_1.default.findOne({ id_user: element._id });
@@ -140,7 +141,8 @@ userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0
                 phone: null,
                 status: 1,
             };
-            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+            // await Users.findOneAndUpdate({ _id: element._id }, data);
+            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
         }
         if (element.type_user == "mechanic") {
             let mechanic = yield Mechanics_schema_1.default.findOne({ id_user: element._id });
@@ -160,7 +162,8 @@ userController.modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0
                 phone: null,
                 status: 1,
             };
-            yield Users_schema_1.default.findOneAndUpdate({ _id: element._id }, data);
+            // await Users.findOneAndUpdate({ _id: element._id }, data);
+            yield Users_schema_1.default.updateMany({}, { $unset: { city: 1, concesionary: 1, fullName: 1, phone: 1, date_created: 1 } });
         }
     }
     let otherUser = yield Users_schema_1.default.find();
@@ -289,6 +292,8 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const data = req.query;
     let sendata = {};
     let user;
+    let seller;
+    let mechanic;
     if (data.id_user) {
         user = yield Users_schema_1.default.findOne({ _id: data.id_user });
     }
@@ -302,14 +307,16 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             email: user === null || user === void 0 ? void 0 : user.email,
             username: user === null || user === void 0 ? void 0 : user.username,
             type_user: user === null || user === void 0 ? void 0 : user.type_user,
-            fullName: user === null || user === void 0 ? void 0 : user.fullName,
-            city: user === null || user === void 0 ? void 0 : user.city,
-            concesionary: user === null || user === void 0 ? void 0 : user.concesionary,
-            date_created: user === null || user === void 0 ? void 0 : user.date_created,
-            phone: user === null || user === void 0 ? void 0 : user.phone,
-            status: user === null || user === void 0 ? void 0 : user.status,
-            img: userImg ? userImg : null
+            img: userImg ? userImg : null,
         };
+        if (user.type_user == "seller") {
+            seller = yield Sellers_schema_1.default.findOne({ id_user: user._id });
+            sendata = Object.assign(Object.assign({}, sendata), { seller });
+        }
+        else if (user.type_user == "mechanic") {
+            mechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
+            sendata = Object.assign(Object.assign({}, sendata), { mechanic });
+        }
     }
     else {
         reponseJson.code = 400;
@@ -351,7 +358,8 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     else if (data.type_user == "mechanic") {
         type_user_table = "mechanics";
     }
-    else if (data.type_user == "admin_concesionary" || data.type_user == "admin") {
+    else if (data.type_user == "admin_concesionary" ||
+        data.type_user == "admin") {
         type_user_table = "users";
     }
     let sendata = {};
@@ -359,15 +367,41 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let project;
     search = {
         $or: [
-            { email: { $regex: data.s, $options: 'i' } },
-            { username: { $regex: data.s, $options: 'i' } },
-            { type_user: { $regex: data.s, $options: 'i' } },
-            { [`${type_user_table}.fullName`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-            { [`${type_user_table}.city`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-            { [`${type_user_table}.concesionary`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-            { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } },
-            { [`${type_user_table}.date_created`]: { $regex: ".*" + data.s + ".*", $options: 'i' } }
+            { email: { $regex: data.s, $options: "i" } },
+            { username: { $regex: data.s, $options: "i" } },
+            { type_user: { $regex: data.s, $options: "i" } },
+            {
+                [`${type_user_table}.fullName`]: {
+                    $regex: ".*" + data.s + ".*",
+                    $options: "i",
+                },
+            },
+            {
+                [`${type_user_table}.city`]: {
+                    $regex: ".*" + data.s + ".*",
+                    $options: "i",
+                },
+            },
+            {
+                [`${type_user_table}.concesionary`]: {
+                    $regex: ".*" + data.s + ".*",
+                    $options: "i",
+                },
+            },
+            {
+                [`${type_user_table}.date_created`]: {
+                    $regex: ".*" + data.s + ".*",
+                    $options: "i",
+                },
+            },
+            {
+                [`${type_user_table}.phone`]: {
+                    $regex: ".*" + data.s + ".*",
+                    $options: "i",
+                },
+            },
         ],
+        type_user: data.type_user,
     };
     project = {
         id_user: "$_id",
@@ -379,17 +413,19 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         [`${type_user_table}.city`]: 1,
         [`${type_user_table}.concesionary`]: 1,
         [`${type_user_table}.date_created`]: 1,
-        [`${type_user_table}.date_created`]: 1
+        [`${type_user_table}.phone`]: 1,
     };
-    if (data.type_user != "all") {
-        search = Object.assign(Object.assign({}, search), { type_user: data.type_user });
-    }
     let list = yield Users_schema_1.default.aggregate([
         {
-            $lookup: { from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+            $lookup: {
+                from: type_user_table,
+                localField: "_id",
+                foreignField: "id_user",
+                as: type_user_table,
+            },
         },
         {
-            $unwind: `$${type_user_table}`
+            $unwind: `$${type_user_table}`,
         },
         {
             $match: search,
@@ -402,6 +438,34 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             $limit: parseInt(data.lim),
         },
     ]);
+    if (type_user_table == "users") {
+        search = {
+            $or: [
+                { email: { $regex: data.s, $options: "i" } },
+                { username: { $regex: data.s, $options: "i" } },
+                { type_user: { $regex: data.s, $options: "i" } },
+            ],
+            type_user: data.type_user,
+        };
+        project = {
+            id_user: "$_id",
+            email: 1,
+            username: 1,
+            type_user: 1,
+        };
+        list = yield Users_schema_1.default.aggregate([
+            {
+                $match: search,
+            },
+            { $project: project },
+            {
+                $skip: parseInt(data.lim) * parseInt(data.pos),
+            },
+            {
+                $limit: parseInt(data.lim),
+            },
+        ]);
+    }
     let count;
     if (list.length > 0) {
         sendata.rows = list;
@@ -412,10 +476,15 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         count = yield Users_schema_1.default.aggregate([
             {
-                $lookup: { from: type_user_table, localField: "_id", foreignField: "id_user", as: type_user_table }
+                $lookup: {
+                    from: type_user_table,
+                    localField: "_id",
+                    foreignField: "id_user",
+                    as: type_user_table,
+                },
             },
             {
-                $unwind: `$${type_user_table}`
+                $unwind: `$${type_user_table}`,
             },
             {
                 $match: search,
@@ -425,6 +494,17 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 $count: "totalCount",
             },
         ]);
+        if (type_user_table == "users") {
+            count = yield Users_schema_1.default.aggregate([
+                {
+                    $match: search,
+                },
+                { $project: project },
+                {
+                    $count: "totalCount",
+                },
+            ]);
+        }
         reponseJson.code = 200;
         reponseJson.message = "Usuario encontrado con exito";
         reponseJson.status = true;
@@ -496,7 +576,11 @@ userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -524,7 +608,11 @@ userController.updateNotification = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -552,7 +640,11 @@ userController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -578,7 +670,11 @@ userController.countNotifications = (req, res) => __awaiter(void 0, void 0, void
     const reponseJson = new Response_1.ResponseModel();
     const { id_user } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, [
+        "seller",
+        "admin",
+        "mechanic",
+    ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;

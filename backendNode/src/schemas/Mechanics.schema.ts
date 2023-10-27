@@ -9,6 +9,7 @@ const MechanicSchema = new Schema({
     id_user: {
         type: Schema.Types.ObjectId
     },
+    status: Number,
 });
 
 export default model("Mechanic", MechanicSchema);
