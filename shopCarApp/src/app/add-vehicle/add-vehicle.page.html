@@ -307,8 +307,6 @@
                           <ion-icon name="image" (click)="openASDocs()" class="noPhotoIcon" ></ion-icon>
                           <br>
                           <span class="noPhotoTitle" >Cargar Documentos</span>
-                          <!-- <br>
-                          <span class="noPhotoSubtitle" >Mínimo 5 fotos del vehículo (Delantera, trasera, ambos lados e interna)</span> -->
                         </ion-col>
           
                         <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length > 0">
@@ -316,7 +314,7 @@
                             <swiper-slide *ngFor="let image of arrayDocuments; let i = index">
                               <ion-row>
                                 <ion-col size="4">
-                                  <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImage(i)">
+                                  <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImageDoc(i)">
                                     <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
                                   </ion-button>
                                 </ion-col>

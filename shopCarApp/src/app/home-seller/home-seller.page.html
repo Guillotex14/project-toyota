@@ -241,6 +241,12 @@
           
           </ion-col>
 
+          <ion-col size="12" style="text-align: center;" *ngIf="notificationById.data.link">
+            <ion-button (click)="goDetail(notificationById.data.link)" expand="block" fill="clear" shape="round">
+              Ver
+            </ion-button>
+          </ion-col>
+
           <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.message">
             <span >{{notificationById.message}}</span>
           </ion-col>

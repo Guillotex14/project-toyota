@@ -175,6 +175,21 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
+        // const dataVehicle = {
+        //   model: vehicle!.model,
+        //   year: vehicle!.year,
+        //   plate: vehicle!.plate ? vehicle!.plate : "",
+        //   fullName: Userseller!.fullName,
+        //   concesionary: vehicle!.concesionary,
+        //   city: vehicle!.city,
+        //   title: "Oferta de vehículo aprobada",
+        //   link: `car-detail/${vehicle!._id}/home-seller`
+        // };
+        // sendNotification(
+        //   userbuyer!._id.toString(),
+        //   mailOptions.text,
+        //   "Oferta de vehículo aprobada"
+        // );
     }
     else {
         reponseJson.code = 400;

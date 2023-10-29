@@ -58,13 +58,28 @@ ion-accordion{
 
 .noPhotoIcon{
   font-size: 150px !important ;
-  }
-  
-  .noPhotoTitle{
+}
+
+.noPhotoTitle{
   font-size: 20px !important ;
-  }
-  
-  .noPhotoSubtitle{
+}
+
+.noPhotoSubtitle{
   color: #5D5D5D !important; 
   font-size: 12px !important ;
-  }
+}
+
+.segment-green{
+  --color-checked: #00A651 !important;
+  --color: #000 !important;
+  font-weight: bold;
+  --background-checked: rgb(0, 166, 81,0.1);
+  opacity: 1 !important;
+}
+.segment-red{
+  --color-checked: #EB0A1E !important;
+  --color: #000 !important;
+  font-weight: bold;
+  --background-checked: rgb(235, 10, 30,0.1);
+  opacity: 1 !important;
+}

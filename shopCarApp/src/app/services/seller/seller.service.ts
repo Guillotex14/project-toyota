@@ -45,15 +45,15 @@ export class SellerService {
   }
 
   public buyVehicle(data:any){
-    return this.http.post(global.urlBase+'vehicle/buyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'sale/buyVehicle',data,this.authToken);
   }
 
   public approveBuyVehicle(data:any){
-    return this.http.post(global.urlBase+'vehicle/approveBuyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'sale/approveBuyVehicle',data,this.authToken);
   }
 
   public rejectBuyVehicle(data:any){
-    return this.http.post(global.urlBase+'vehicle/rejectBuyVehicle',data,this.authToken);
+    return this.http.post(global.urlBase+'sale/rejectBuyVehicle',data,this.authToken);
   }
 
   public getNotifications(data:any){
@@ -89,15 +89,15 @@ export class SellerService {
   }
 
   public addImgDoc(data:any){
-    return this.http.post(global.urlBase+'vehicle/addImgDoc', data,this.authToken);
-  }
-
-  public editImgDoc(data:any){
-    return this.http.post(global.urlBase+'vehicle/updateImgDoc', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/addImgDocuments', data,this.authToken);
   }
 
   public deleteImgDoc(data:any){
-    return this.http.post(global.urlBase+'vehicle/deleteImgDoc', data,this.authToken);
+    return this.http.post(global.urlBase+'vehicle/deleteImgDocuments', data,this.authToken);
+  }
+
+  public editImgDoc(data:any){
+    return this.http.post(global.urlBase+'vehicle/updateImgDocuments', data,this.authToken);
   }
 
   public allModels(){
@@ -128,5 +128,8 @@ export class SellerService {
     return this.http.get(`${global.urlBase}vehicle/exportExcell?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}&yearCar=${data.yearCar}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&concesionary=${data.concesionary}&id_user=${data.id_user}`,this.authToken);
   }
 
+  public ofertInfo(data:any){
+    return this.http.get(`${global.urlBase}vehicle/ofertInfo?id=${data}`,this.authToken);
+  }
   
 }

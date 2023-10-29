@@ -551,7 +551,7 @@ export class AddVehiclePage implements OnInit {
         }
       },
       {
-        text: 'Galería edit',
+        text: 'Galería',
         icon: 'image',
         handler: () => {
           this.editTakePhotoGaleryDoc();

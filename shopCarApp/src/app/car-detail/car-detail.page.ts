@@ -1,7 +1,8 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
+import { AlertController, IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Share } from '@capacitor/share';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
@@ -23,6 +24,7 @@ export class CarDetailPage implements OnInit {
   openASEdit: boolean = false;
   emptyEmail: boolean = false;
   arrayDocuments: any[] = [];
+  aSBtnsEditDocs: any[] = [];
   priceOfertAux: string = "";
   editPrice: boolean = false;
   theCartegory: string = "";
@@ -30,8 +32,10 @@ export class CarDetailPage implements OnInit {
   openAS: boolean = false;
   arrayBrands: any[] = [];
   arrayImages: any[] = [];
+  aSBtnsDocs: any[] = [];
   priceOfert: number = 0;
   idImgEdit: string = "";
+  idImgEditDoc: string = "";
   theRoute: string = "";
   fullName: string = "";
   priceAux: string = "";
@@ -44,6 +48,7 @@ export class CarDetailPage implements OnInit {
   dni: string = "";
   id: string = "";
   aux: number = 0;
+  auxDocs: number = 0;
   km: string = "";
   me: any = null;
 
@@ -57,12 +62,14 @@ export class CarDetailPage implements OnInit {
 
   @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
   @ViewChild('actionSheet') actionSheet!: IonActionSheet;
+  @ViewChild('ActionSheetDocs') ActionSheetDocs!: IonActionSheet;
+  @ViewChild('ActionSheetEditDocs') ActionSheetEditDocs!: IonActionSheet;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('modalBuy') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
 
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService) {
+  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController) {
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
     if (this.actRoute.snapshot.params['category'] !== undefined) {
@@ -118,6 +125,8 @@ export class CarDetailPage implements OnInit {
     this.getVehicleById();
     this.buttonsActionSheet();
     this.buttonsActionSheetEdit();
+    this.buttonsASDoc();
+    this.buttonsAStEditDoc();
     this.getBrands();
   }
 
@@ -168,6 +177,11 @@ export class CarDetailPage implements OnInit {
         if (this.carDetail.imgs_documentation.length > 0) {
           this.arrayDocuments = this.carDetail.imgs_documentation;
         }
+        
+        if (this.myId === this.carDetail.id_seller && this.carDetail.price_ofert && !this.carDetail.sold) {
+          this.ofertAlert();
+        }
+
 
       }else{
         this.utils.dismissLoading();
@@ -219,7 +233,7 @@ export class CarDetailPage implements OnInit {
       this.emptyEmail = true;
       return;
     }
-    return;
+    // return;
     let data = {
       id_vehicle: this.id,
       id_seller: this.myId,
@@ -298,17 +312,13 @@ export class CarDetailPage implements OnInit {
     let data = {
       data: this.carDetail
     }
-    
-    this.sellerSrv.updateVehicle(data).subscribe((data:any) => {
-      this.utils.presentLoading("Actualizando...");
+        this.sellerSrv.updateVehicle(data).subscribe((data:any) => {
       if(data.status){
-        this.utils.dismissLoading();
-          this.utils.presentToast(data.message);
+        this.utils.presentToast(data.message);
           this.editCar=false;
           this.editPrice = false;
           this.getVehicleById();
         }else{
-          this.utils.dismissLoading();
           this.utils.presentToast(data.message);
         }
     
@@ -337,41 +347,20 @@ export class CarDetailPage implements OnInit {
     
   }
 
-  public addImage() {
-    this.fileInput.nativeElement.click();
-  }
-
-  public getImage(file:FileList){
-    this.utils.presentLoading("Cargando imagen...");
-    let reader = new FileReader();
-    reader.onload = (e:any)=>{
-      let info = e.target["result"];
-      let split = info.split("base64");
-      let split2 = split[0].split("/");
-      let type = split2[1];
-
-      this.addNewImage(info);
+  public deleteImageDoc(index:any, image:any){
+    this.utils.presentLoading("Eliminando...");
+    let data = {
+      public_id: image.public_id,
+      vehicle_id: this.id
     }
-    reader.readAsDataURL(file[0]);
-  }
-
-  public getImage2(file:FileList){
-    this.utils.presentLoading("Cargando imagen...");
-    let reader = new FileReader();
-    reader.onload = (e:any)=>{
-      let info = e.target["result"];
-      let split = info.split("base64");
-      let split2 = split[0].split("/");
-      let type = split2[1];
-      this.editImgVehicle(info);
-    }
-    reader.readAsDataURL(file[0]);
-  }
-
-  public editImage(index:any, _id:any){
-    this.aux = index;
-    this.idImgEdit = _id;
-    this.fileInput2.nativeElement.click();
+    this.sellerSrv.deleteImgDoc(data).subscribe((data:any) => {
+      this.zone.run(() => {
+        this.arrayDocuments.splice(index,1)
+        this.utils.dismissLoading();
+      });
+    }, (error:any) => {
+      console.log(error);
+    });
   }
 
   public async takePhoto(){
@@ -440,6 +429,73 @@ export class CarDetailPage implements OnInit {
     this.utils.dismissLoading();
   }
 
+  public async takePhotoDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then((imageData)=>{
+      this.addNewImgDocs(imageData.dataUrl);
+    },
+    (err)=>{
+      console.log(err)
+    })
+    this.utils.dismissLoading();
+  }
+
+  public async takePhotoGaleryDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then((imageData)=>{
+      this.addNewImgDocs(imageData.dataUrl);
+    },
+    (err)=>{
+      console.log(err)
+    })
+    this.utils.dismissLoading();
+  }
+
+  public async editTakePhotoDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then((imageData)=>{
+      this.editImgDocs(imageData.dataUrl);
+    },
+    (err)=>{
+      console.log(err)
+    })
+
+    this.utils.dismissLoading();
+  }
+
+  public async editTakePhotoGaleryDoc(){
+    this.utils.presentLoading("Cargando imagen...");
+    const camera = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    }).then((imageData)=>{
+      this.editImgDocs(imageData.dataUrl);
+    },
+    (err)=>{
+      console.log(err)
+    })
+
+    this.utils.dismissLoading();
+
+  }
+
   public openActionSheetEdit(index:any, image:any){
 
     this.idImgEdit = image.public_id;
@@ -451,6 +507,16 @@ export class CarDetailPage implements OnInit {
     this.actionSheet.present();
   }
   
+  public openASDocs(){
+    this.ActionSheetDocs.present();
+  }
+
+  public openASEditDocs(index:any, image:any){
+    this.auxDocs = index;
+    this.idImgEditDoc = image.public_id;
+    this.ActionSheetEditDocs.present();
+  }
+
   public addNewImage(image:any){
     let img = {
       id_vehicle: this.id,
@@ -484,6 +550,47 @@ export class CarDetailPage implements OnInit {
         for (let i = 0; i < this.arrayImages.length; i++) {
           if (this.arrayImages[i].public_id === this.idImgEdit) {
             this.arrayImages[i].img = imgAct.img;
+          }
+        }
+        this.utils.dismissLoading();
+      })
+    });
+  }
+
+  public addNewImgDocs(image:any){
+    let img = {
+      id_vehicle: this.id,
+      image: image
+    }
+
+    this.sellerSrv.addImgDoc(img).subscribe((data:any) => {
+        let newImg = {
+          img: data.data.img,
+          public_id: data.data.public_id
+        }
+
+        this.arrayDocuments.push(newImg);
+        this.carDetail.imgs_documentation.push(newImg);
+        this.utils.dismissLoading();
+    });
+  }
+
+  public editImgDocs(image:any){
+    let img = {
+      id_vehicle: this.id,
+      image: image,
+      public_id: this.idImgEditDoc,
+    }
+
+    this.sellerSrv.editImgDoc(img).subscribe((data:any) => {
+      console.log(data)
+      let imgAct= data.data;
+      this.zone.run(()=>{
+        this.carDetail.imgs_documentation.push(imgAct);
+        this.arrayDocuments.push(imgAct);
+        for (let i = 0; i < this.arrayDocuments.length; i++) {
+          if (this.arrayDocuments[i].public_id === this.idImgEditDoc) {
+            this.arrayDocuments.splice(i,1);
           }
         }
         this.utils.dismissLoading();
@@ -571,6 +678,57 @@ export class CarDetailPage implements OnInit {
         icon: 'image',
         handler: () => {
           this.editTakePhotoGalery();
+        }
+      },
+      {
+        text: 'Salir',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
+  }
+
+  public buttonsASDoc(){
+    this.aSBtnsDocs = [
+      {
+        text: 'Cámara',
+        icon: 'camera',
+        handler: () => {
+          this.takePhotoDoc();
+        }
+      },
+      {
+        text: 'Galería',
+        icon: 'image',
+        handler: () => {
+          this.takePhotoGaleryDoc();
+        }
+      },
+      {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ]
+    
+
+  }
+
+  public buttonsAStEditDoc(){
+
+    this.aSBtnsEditDocs = [
+      {
+        text: 'Cámara',
+        icon: 'camera',
+        handler: () => {
+          this.editTakePhotoDoc();
+        }
+      },
+      {
+        text: 'Galería',
+        icon: 'image',
+        handler: () => {
+          this.editTakePhotoGaleryDoc();
         }
       },
       {
@@ -737,6 +895,42 @@ export class CarDetailPage implements OnInit {
   public onEditPrice(){
     this.editPrice = true;
   }
+
+  public async share(){
+    await Share.share({
+      title: 'Carros',
+      text: 'Mira este carro',
+      url: 'https://www.google.com/'
+    });
+  }
+
+  public async ofertAlert(){
+    
+    this.sellerSrv.ofertInfo(this.id).subscribe(async (data:any) => {
+      console.log(data)
+      if (data.status) {
+        const alert = await this.alertCtrl.create({
+          cssClass: 'my-custom-class',
+          header: 'Tienes una oferta',
+          message: `El vendedor ${data.data.seller.fullName} del concesionario ${data.data.seller.concesionary} localizado en ${data.data.seller.city} te ha hecho una oferta de ${this.setDot(data.data.price_ofert)} por el vehículo ${this.carDetail.brand} ${this.carDetail.model} ${this.carDetail.year} `,
+          buttons: [
+            {
+              text: 'Aceptar',
+              handler: () => {
+              }
+            }
+          ]
+        });
+
+        await alert.present();
+
+      }
+    }, (error:any) => {
+      console.log(error);
+    });
+
+  }
+
 
 
 }

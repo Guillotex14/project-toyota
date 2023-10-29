@@ -73,6 +73,9 @@
                   ver detalle
                 </ion-button>
               </ion-card>
+              <ion-badge  class="red pulse" *ngIf="vehicle.price_ofert && !vehicle.sold">
+                <span style="visibility: hidden;">0</span>
+              </ion-badge>
             </ion-col>
 
           </ion-row>

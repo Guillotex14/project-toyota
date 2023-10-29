@@ -78,9 +78,6 @@
                           <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
                         </ion-col>
                       </ion-row>
-                      <!-- <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
-                        Agregar imagen
-                      </ion-button> -->
                     </swiper-slide>
                     <div class="swiper-pagination"></div>
                   </swiper-container>
@@ -454,16 +451,43 @@
                     <ion-row>
                       <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
                         <ion-row>
-                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0" >
-                            <ion-icon name="image" class="noPhotoIcon" ></ion-icon>
+
+                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0 && !editCar" >
+                            <ion-icon name="image"class="noPhotoIcon" ></ion-icon>
                             <br>
-                            <span class="noPhotoTitle" >Sin documentos cargados</span>
+                            <span class="noPhotoTitle" >
+                              Sin documentos cargados
+                            </span>
+                            <span class="noPhotoTitle" >Cargar Documentos</span>
+                          </ion-col>
+
+                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0 && editCar" (click)="openASDocs()">
+                            <ion-icon name="image" (click)="openASDocs()" class="noPhotoIcon" ></ion-icon>
+                            <br>
+                            <span class="noPhotoTitle" >
+                              Sin documentos cargados
+                            </span>
+                            <span class="noPhotoTitle" >Cargar Documentos</span>
                           </ion-col>
             
                           <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length > 0">
                             <swiper-container [loop]="true" [pagination]="true">
                               <swiper-slide *ngFor="let image of arrayDocuments; let i = index">
                                 <ion-row>
+                                  <ion-col size="4" *ngIf="editCar">
+                                    <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImageDoc(i,image)">
+                                      <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
+                                    </ion-button>
+                                  </ion-col>
+                                  <ion-col size="4" *ngIf="editCar">
+                                    
+                                    
+                                  </ion-col>
+                                  <ion-col size="4" *ngIf="editCar">
+                                    <ion-button expand="block" shape="round" (click)="openASEditDocs(i,image)" class="btnRed">
+                                      <ion-icon name="create" style="font-size: 30px;"></ion-icon>
+                                    </ion-button>
+                                  </ion-col>
                                   <ion-col size="12">
                                     <ion-img [src]="image.img" style="width: 100%;height: 200px;"></ion-img>
                                   </ion-col>
@@ -471,6 +495,9 @@
                               </swiper-slide>
                               <div class="swiper-pagination"></div>
                             </swiper-container>
+                            <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openASDocs()" class="btnSaveRed" *ngIf="editCar">
+                              Agregar imagen
+                            </ion-button>
                           </ion-col>
                         </ion-row>
                       </ion-col>
@@ -478,6 +505,12 @@
                   </ion-grid>
                 </ion-accordion>
               </ion-accordion-group>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-button (click)="share()" expand="block" shape="round" class="btnRed">
+                Compartir ficha del vehículo
+              </ion-button>
             </ion-col>
 
             <ion-col size="12" *ngIf="!editCar">
@@ -510,6 +543,24 @@
                   </ion-row>
                 </ion-card-content>
               </ion-card>
+            </ion-col>
+            
+            <ion-col size="12">
+              <ion-item-divider style="text-align: center;">
+                <ion-label style="margin: 10px auto;color: #000;">¿SE REALIZARON LOS MANTENIMIENTOS <br> REGULARES EN EL CONCESIONARIO?</ion-label>
+              </ion-item-divider>
+  
+              <ion-item class="itemSegment">
+                <ion-segment  disabled="true">
+                  <!-- [value]="mechanicalFile.dealer_maintenance" -->
+                  <ion-segment-button value="no" class="segment-red">
+                    <ion-label>No</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="si" class="segment-green">
+                    <ion-label>Sí</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+              </ion-item>
             </ion-col>
 
             <ion-col size="12" *ngIf="carDetail.mechanicalFile">
@@ -644,6 +695,7 @@
                 </ion-row>
               </ion-grid>
             </ion-col>
+
           </ion-row>
         </ion-grid>
       </ion-col>
@@ -787,7 +839,10 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
   <ion-action-sheet  header="Opciones" [buttons]="actionSheetButtons" #actionSheet></ion-action-sheet>
   <ion-action-sheet header="Opciones" [buttons]="actionSheetButtonsEdit" #actionSheetEdit></ion-action-sheet>
+  <ion-action-sheet header="Opciones" [buttons]="aSBtnsDocs" #ActionSheetDocs></ion-action-sheet>
+  <ion-action-sheet header="Opciones" [buttons]="aSBtnsEditDocs" #ActionSheetEditDocs></ion-action-sheet>
 </ion-content>
 

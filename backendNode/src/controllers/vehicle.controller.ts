@@ -21,7 +21,6 @@ import {
 import * as global from "../global";
 import mongoose from "mongoose";
 
-
 const vehicleController: any = {};
 
 vehicleController.addVehicle = async (req: Request, res: Response) => {
@@ -195,6 +194,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     concesionary: infoSeller!.concesionary,
     city: infoSeller!.city,
     title: "Tienes el siguiente vehículo para generar la ficha técnica",
+    link: `${newVehicle._id}`
   };
 
   sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
@@ -324,6 +324,138 @@ vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
   }
 
   res.json(reponseJson);
+};
+
+vehicleController.addImgDocuments = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  const { id_vehicle, image } = req.body;
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  const filename = await uploadDocuments(image);
+
+  const document = {
+    img: filename.secure_url,
+    public_id: filename.public_id,
+  }
+
+  let vehicle = await vehicles.findById(id_vehicle);
+
+  if (vehicle) {
+    vehicle.imgs_documentation.push(document);
+    vehicle.save();
+  }
+
+  if (vehicle) {
+    reponseJson.code = 200;
+    reponseJson.message = "Imagen agregada exitosamente";
+    reponseJson.status = true;
+    reponseJson.data = document;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo agregar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.deleteImgDocuments = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const { public_id, vehicle_id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let imgs_documentation: any[] = [];
+  let index: number = 0;
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  const delImg = await vehicles.findByIdAndUpdate(vehicle_id, {
+    $pull: { imgs_documentation: { public_id: public_id } },
+  });
+
+  if (delImg) {
+    reponseJson.code = 200;
+    reponseJson.message = "Imagen eliminada exitosamente";
+    reponseJson.status = true;
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo eliminar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.updateImgDocuments = async (req: Request, res: Response) => {
+
+  const reponseJson: ResponseModel = new ResponseModel();
+
+  const { id_vehicle, image, public_id } = req.body;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  const delImg = await vehicles.findByIdAndUpdate(id_vehicle, {
+    $pull: { imgs_documentation: { public_id: public_id } },
+  });
+
+  const delImag = await deleteImageVehicle(public_id);
+
+  if (delImg) {
+    let filename = await uploadDocuments(image);
+
+    const document = {
+      img: filename.secure_url,
+      public_id: filename.public_id,
+    }
+
+    let vehicle = await vehicles.findById(id_vehicle);
+
+    if (vehicle) {
+      vehicle.imgs_documentation.push(document);
+      vehicle.save();
+    }
+
+    if (vehicle) {
+      reponseJson.code = 200;
+      reponseJson.message = "Imagen actualizada exitosamente";
+      reponseJson.status = true;
+      reponseJson.data = document;
+    } else {
+      reponseJson.code = 400;
+      reponseJson.message = "No se pudo actualizar la imagen";
+      reponseJson.status = false;
+    }
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "No se pudo actualizar la imagen";
+    reponseJson.status = false;
+  }
+
+  res.json(reponseJson);
+
 };
 
 vehicleController.updateVehicle = async (req: Request, res: Response) => {
@@ -741,7 +873,6 @@ vehicleController.mechanicalFileByIdVehicle = async (
     return res.json(reponseJson);
   }
 
-  // const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
   //realizamos un aggregate con la tabla de fichas mecanicas y la tabla de vehiculo para obtener el valor de ofert en la tabla vehiculos
 
   const mecFile = await mechanicalsFiles.aggregate([
@@ -2532,6 +2663,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
       concesionary: conceSeller,
       city: citySeller,
       title: "Ficha técnica creada exitosamente para:",
+      link: `${vehicle!._id}`
     };
 
     await sendEmail(mailOptions);
@@ -2611,6 +2743,81 @@ vehicleController.getMechanicFileByIdVehicle = async (
     reponseJson.code = 400;
     reponseJson.status = false;
     reponseJson.message = "No se encontro la ficha mecánica";
+  }
+
+  res.json(reponseJson);
+};
+
+vehicleController.ofertInfo = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const id  = req.query;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "mechanic"]);
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+  
+  const vehicle = await vehicles.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(String(id?.id)),
+      },
+    },
+    {
+      $lookup: {
+        from: "sellers",
+        localField: "id_seller_buyer",
+        foreignField: "_id",
+        as: "seller",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "seller.id_user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$seller",
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $project: {
+        price_ofert: 1,
+        seller:{
+          fullName: 1,
+          phone: 1,
+          city: 1,
+          concesionary: 1,
+        },
+        user:{
+          email: 1,
+        },
+      },
+    },
+  ]);
+
+  console.log("vehicle", vehicle)
+
+  if (vehicle) {
+
+    reponseJson.code = 200;
+    reponseJson.status = true;
+    reponseJson.message = "Información de la oferta";
+    reponseJson.data = vehicle[0];
+  } else {
+    reponseJson.code = 400;
+    reponseJson.status = false;
+    reponseJson.message = "No se encontro el vehículo";
   }
 
   res.json(reponseJson);

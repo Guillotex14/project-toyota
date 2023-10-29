@@ -528,21 +528,6 @@
               </ion-radio-group>
             </ion-list>
 
-            <ion-item-divider>
-              <ion-label>
-                <!-- MANTENIMIENTO EN EL  <br class="br280">CONCESIONARIO  -->
-                ¿SE REALIZARON LOS MANTENIMIENTOS <br> REGULARES EN EL CONCESIONARIO?
-                
-              </ion-label>
-            </ion-item-divider>
-
-            <ion-list style="text-align: center;">
-              <ion-radio-group [(ngModel)]="newMechanicalFile.dealer_maintenance" (ionChange)="generalCondition($event)">
-                <ion-radio value="si" labelPlacement="end" justify="start" style="font-size: 20px !important;">Sí</ion-radio>
-                <ion-radio value="no" labelPlacement="end" justify="end" style="font-size: 20px !important;">No</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
           </ion-item-group>
 
         </ion-list>

@@ -64,7 +64,6 @@ export class AddMechanicFilePage implements OnInit {
     this.newMechanicalFile.bearings = "";
     this.newMechanicalFile.tripoids_rubbe_bands = "";
     this.newMechanicalFile.shock_absorbers_coils = "";
-    this.newMechanicalFile.dealer_maintenance = "";
     this.newMechanicalFile.odometer = "";
     this.newMechanicalFile.engine_start = "";
     this.newMechanicalFile.windshields_glass = "";
@@ -142,12 +141,6 @@ export class AddMechanicFilePage implements OnInit {
       this.utils.presentToast("El campo Luces de cortesía es requerido");
       return;
     }
-
-    if(this.newMechanicalFile.dealer_maintenance === "" || this.newMechanicalFile.dealer_maintenance === undefined){
-      this.utils.presentToast("El campo Mantenimiento en concesionario es requerido")
-      return;
-    }
-
 
     if(this.newMechanicalFile.engine_coolant_container === "" || this.newMechanicalFile.engine_coolant_container === undefined){
       this.utils.presentToast("El campo Refrigerante del motor - Envase es requerido")
@@ -394,7 +387,6 @@ export class AddMechanicFilePage implements OnInit {
         this.newMechanicalFile.bearings = "";
         this.newMechanicalFile.tripoids_rubbe_bands = "";
         this.newMechanicalFile.shock_absorbers_coils = "";
-        this.newMechanicalFile.dealer_maintenance = "";
         this.newMechanicalFile.general_condition = 0;
         this.newMechanicalFile.odometer = "";
         this.newMechanicalFile.engine_start = "";

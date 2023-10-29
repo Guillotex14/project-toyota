@@ -177,6 +177,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         concesionary: infoSeller.concesionary,
         city: infoSeller.city,
         title: "Tienes el siguiente vehículo para generar la ficha técnica",
+        link: `${newVehicle._id}`
     };
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     yield (0, nodemailer_1.sendEmail)(mailOptions);
@@ -275,6 +276,117 @@ vehicleController.updateImgVehicle = (req, res) => __awaiter(void 0, void 0, voi
         reponseJson.message = "Imagen actualizada exitosamente";
         reponseJson.data = data;
         reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo actualizar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+vehicleController.addImgDocuments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    const { id_vehicle, image } = req.body;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image);
+    const document = {
+        img: filename.secure_url,
+        public_id: filename.public_id,
+    };
+    let vehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
+    if (vehicle) {
+        vehicle.imgs_documentation.push(document);
+        vehicle.save();
+    }
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen agregada exitosamente";
+        reponseJson.status = true;
+        reponseJson.data = document;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo agregar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+vehicleController.deleteImgDocuments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { public_id, vehicle_id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let imgs_documentation = [];
+    let index = 0;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
+    const delImg = yield Vehicles_schema_2.default.findByIdAndUpdate(vehicle_id, {
+        $pull: { imgs_documentation: { public_id: public_id } },
+    });
+    if (delImg) {
+        reponseJson.code = 200;
+        reponseJson.message = "Imagen eliminada exitosamente";
+        reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "No se pudo eliminar la imagen";
+        reponseJson.status = false;
+    }
+    res.json(reponseJson);
+});
+vehicleController.updateImgDocuments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const { id_vehicle, image, public_id } = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const delImg = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
+        $pull: { imgs_documentation: { public_id: public_id } },
+    });
+    const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
+    if (delImg) {
+        let filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image);
+        const document = {
+            img: filename.secure_url,
+            public_id: filename.public_id,
+        };
+        let vehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
+        if (vehicle) {
+            vehicle.imgs_documentation.push(document);
+            vehicle.save();
+        }
+        if (vehicle) {
+            reponseJson.code = 200;
+            reponseJson.message = "Imagen actualizada exitosamente";
+            reponseJson.status = true;
+            reponseJson.data = document;
+        }
+        else {
+            reponseJson.code = 400;
+            reponseJson.message = "No se pudo actualizar la imagen";
+            reponseJson.status = false;
+        }
     }
     else {
         reponseJson.code = 400;
@@ -654,7 +766,6 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    // const mecFile = await mechanicalsFiles.findOne({ id_vehicle: id_vehicle });
     //realizamos un aggregate con la tabla de fichas mecanicas y la tabla de vehiculo para obtener el valor de ofert en la tabla vehiculos
     const mecFile = yield mechanicalsFiles_schema_1.default.aggregate([
         {
@@ -2033,7 +2144,7 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
         brake_discs,
         created_at: dateNow,
         id_vehicle,
-        id_mechanic,
+        id_mechanic
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
     const vehicleUpdated = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
@@ -2109,6 +2220,7 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
             concesionary: conceSeller,
             city: citySeller,
             title: "Ficha técnica creada exitosamente para:",
+            link: `${vehicle._id}`
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha técnica creada");
@@ -2170,6 +2282,75 @@ vehicleController.getMechanicFileByIdVehicle = (req, res) => __awaiter(void 0, v
         reponseJson.code = 400;
         reponseJson.status = false;
         reponseJson.message = "No se encontro la ficha mecánica";
+    }
+    res.json(reponseJson);
+});
+vehicleController.ofertInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const id = req.query;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "mechanic"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const vehicle = yield Vehicles_schema_2.default.aggregate([
+        {
+            $match: {
+                _id: new mongoose_1.default.Types.ObjectId(String(id === null || id === void 0 ? void 0 : id.id)),
+            },
+        },
+        {
+            $lookup: {
+                from: "sellers",
+                localField: "id_seller_buyer",
+                foreignField: "_id",
+                as: "seller",
+            },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "seller.id_user",
+                foreignField: "_id",
+                as: "user",
+            },
+        },
+        {
+            $unwind: "$seller",
+        },
+        {
+            $unwind: "$user",
+        },
+        {
+            $project: {
+                price_ofert: 1,
+                seller: {
+                    fullName: 1,
+                    phone: 1,
+                    city: 1,
+                    concesionary: 1,
+                },
+                user: {
+                    email: 1,
+                },
+            },
+        },
+    ]);
+    console.log("vehicle", vehicle);
+    if (vehicle) {
+        reponseJson.code = 200;
+        reponseJson.status = true;
+        reponseJson.message = "Información de la oferta";
+        reponseJson.data = vehicle[0];
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.status = false;
+        reponseJson.message = "No se encontro el vehículo";
     }
     res.json(reponseJson);
 });

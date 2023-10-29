@@ -18,6 +18,12 @@ vehicleRouter.post("/deleteImgVehicle", vehicleController.deleteImgVehicle);
 
 vehicleRouter.post("/updateImgVehicle", vehicleController.updateImgVehicle);
 
+vehicleRouter.post("/addImgDocuments", vehicleController.addImgDocuments);
+
+vehicleRouter.post("/deleteImgDocuments", vehicleController.deleteImgDocuments);
+
+vehicleRouter.post("/updateImgDocuments", vehicleController.updateImgDocuments);    
+
 vehicleRouter.post("/allVehicles", vehicleController.allVehicles);
 
 vehicleRouter.post("/myVehicles", vehicleController.myVehicles);
@@ -50,6 +56,7 @@ vehicleRouter.post("/updateMechanicalFile",vehicleController.updateMechanicalFil
 
 vehicleRouter.post("/getMechanicFileByIdVehicle",vehicleController.getMechanicFileByIdVehicle);
 
+vehicleRouter.get("/ofertInfo",vehicleController.ofertInfo);
 
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brandController.insertUpdate);

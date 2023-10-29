@@ -5,6 +5,7 @@ import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
 import { AdminService } from '../services/admin/admin.service';
+import { Share } from '@capacitor/share';
 import * as global from '../../models/global';
 
 @Component({
@@ -80,5 +81,13 @@ export class CarDetailAdminPage implements OnInit {
     }
       
 
+  }
+
+  public async share(){
+    await Share.share({
+      title: 'Carros',
+      text: 'Mira este carro',
+      url: 'https://www.google.com/'
+    });
   }
 }
