@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, MenuController, ModalController } from '@ionic/angular';
+import { IonInfiniteScroll, IonModal, MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { NotificationById } from 'src/models/sellet';
@@ -41,13 +41,18 @@ export class HomeMechanicPage implements OnInit {
   minKmsAux: string = "";
   maxKmsAux: string = "";
 
+  pageNotifies: any = {
+    pos: 0,
+    lim: 20
+  }
 
   arrayNotifies: any[] = [];
   notificationById: NotificationById = new NotificationById();
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
   @ViewChild('modalFilterHomeMechanic') modalFilter!: IonModal;
-  
+  @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
+
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private mechanicSrv: MechanicService, private modalCtrl: ModalController, private authSrv:AuthService) { 
     this.arrayUbication = states;
     this.me = this.authSrv.getMeData();
@@ -98,10 +103,10 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public goDetail(id: any){
-    let data = {
-      id: id,
-      route: "home-mechanic"
-    }
+
+    this.closeModal();
+    this.closeModalDetail();
+
     this.router.navigate(['car-detail-mechanic/'+id+'/home-mechanic']);
   }
 
@@ -189,13 +194,11 @@ export class HomeMechanicPage implements OnInit {
 
   public getNotifies(){
     
-    let data = {
-      id_user: this.me.id ? this.me.id : null
-    }
+    this.pageNotifies.id_user = this.me.id;
 
-    this.mechanicSrv.getNotifications(data).subscribe((data:any)=>{
+    this.mechanicSrv.getNotifications(this.pageNotifies).subscribe((data:any)=>{
       if (data.status) {
-        this.arrayNotifies = data.data;
+        this.arrayNotifies = data.data.rows;
       }
     });
   
@@ -259,12 +262,13 @@ export class HomeMechanicPage implements OnInit {
   }
 
   public closeModalDetail(){
-    if(this.arrayNotifies.length == 0){
-      this.filterModal.dismiss();
-      this.modal.dismiss();
-    }else{
-      this.filterModal.dismiss();
-    }
+    this.filterModal.dismiss();
+
+    // if(this.arrayNotifies.length == 0){
+    //   this.modal.dismiss();
+    // }else{
+    //   this.filterModal.dismiss();
+    // }
   }
 
   public openDetailNotification(id: any){
@@ -381,6 +385,22 @@ export class HomeMechanicPage implements OnInit {
   public applyFilter(){
     this.getvehicles();
     this.modalFilter.dismiss();
+  }
+
+  public loadData(eve:any){
+    this.pageNotifies.pos+=1;
+    let moreNotifies = []
+    this.mechanicSrv.getNotifications(this.pageNotifies).subscribe((resp:any)=>{
+      if (resp.status) {
+        if (resp.data.rows.length > 0) {
+          moreNotifies = resp.data.rows;
+          moreNotifies.map((data:any)=>{
+            this.arrayNotifies.push(data)
+          })
+        }
+      }
+    })
+    this.infiniteScroll.complete();
   }
 
 }

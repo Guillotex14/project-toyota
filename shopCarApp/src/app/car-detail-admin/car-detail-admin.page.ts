@@ -24,7 +24,7 @@ export class CarDetailAdminPage implements OnInit {
     this.theRoute = this.actRoute.snapshot.params['route'];
     this.carDetail.images = [];
     this.carDetail.imgs_documentation = [];
-
+    this.carDetail.concesionary_maintenance = false;
   }
 
   ngOnInit() {

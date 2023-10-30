@@ -15,7 +15,7 @@ userRouter.get("/get", userController.get);
 
 userRouter.get("/all", userController.all);
 
-userRouter.post("/getNotifications", userController.getNotifications);
+userRouter.get("/getNotifications", userController.getNotifications);
 
 userRouter.post("/updateNotification", userController.updateNotification);
 

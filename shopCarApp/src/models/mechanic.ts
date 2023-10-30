@@ -28,6 +28,7 @@ export class CarDetailMechanic{
     public id_seller_buyer!: string;
     public plate!: string
     public imgs_documentation!: any[];
+    public concesionary_maintenance!: boolean;
 }
 
 export class MechanicalFileDetail{

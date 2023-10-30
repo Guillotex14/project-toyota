@@ -61,7 +61,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, dealer, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -81,7 +81,6 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         transmission,
         traction,
         city,
-        dealer,
         concesionary,
         traction_control,
         performance,
@@ -97,6 +96,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         type_vehicle,
         vin,
         plate: vehicle_plate,
+        concesionary_maintenance
     });
     yield newVehicle.save();
     const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });

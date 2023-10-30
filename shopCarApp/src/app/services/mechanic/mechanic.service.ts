@@ -44,7 +44,7 @@ export class MechanicService {
   }
 
   public getNotifications(data:any){
-    return this.http.post(global.urlBase+'user/getNotifications', data, this.authToken);
+    return this.http.get(`${urlBase}user/getNotifications?id_user=${data.id_user}&pos=${data.pos}&lim=${data.lim}`, this.authToken);
   }
 
   public updateNotification(data:any){

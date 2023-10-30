@@ -44,7 +44,6 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     transmission,
     traction,
     city,
-    dealer,
     concesionary,
     traction_control,
     performance,
@@ -57,6 +56,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     vin,
     vehicle_plate,
     imgs_documents,
+    concesionary_maintenance
   } = req.body;
 
   if (decode == false) {
@@ -79,7 +79,6 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     transmission,
     traction,
     city,
-    dealer,
     concesionary,
     traction_control,
     performance,
@@ -95,6 +94,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     type_vehicle,
     vin,
     plate: vehicle_plate,
+    concesionary_maintenance
   });
 
   await newVehicle.save();

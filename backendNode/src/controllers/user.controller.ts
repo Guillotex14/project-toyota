@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import jwt from "../helpers/generar-jwt";
 import bcrypt from "bcrypt";
 import moment from "moment";
+import mongoose from "mongoose";
 import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
 import sellers from "../schemas/Sellers.schema";
@@ -575,7 +576,13 @@ userController.allMechanic = async (req: Request, res: Response) => {
 
 userController.getNotifications = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
-  const { id_user } = req.body;
+
+  let data: any = req.query;
+  let search: any;
+  let project: any;
+  let sendData: any = {};
+  let count: any;
+  let totalItems = 0;
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, [
     "seller",
@@ -591,22 +598,102 @@ userController.getNotifications = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  const notificationsUser = await notifications
-    .find({ id_user: id_user, status: false })
-    .sort({ date: -1 });
+  if (!data) {
+    data = {
+      pos: 0,
+      lim: 10,
+    };
+  }
 
-  if (notificationsUser) {
+  search = {
+    id_user: new mongoose.Types.ObjectId(data?.id_user),
+  };
+  
+  project = {
+    _id: "$_id",
+    id_user: 1,
+    title: 1,
+    message: 1,
+    date: 1,
+    data: 1,
+    status: 1,
+  };
+
+  let list = await notifications.aggregate([
+    {
+      $match: search,
+    },
+    {
+      $skip: parseInt(data.lim) * parseInt(data.pos),
+    },
+    {
+      $limit: parseInt(data.lim),
+    },
+    { $project: project },
+    {
+      $sort: { date: -1 },
+    }
+  ]);
+  
+  sendData.rows = list;
+
+  if (list.length > 0) {
+
+    count = await notifications.aggregate([
+      {
+        $match: search,
+      },
+      {
+        $count: "totalCount",
+      },
+    ]);
+
     reponseJson.code = 200;
     reponseJson.message = "notificaciones obtenidas exitosamente";
     reponseJson.status = true;
-    reponseJson.data = notificationsUser;
   } else {
     reponseJson.code = 400;
     reponseJson.message = "no se encontraron notificaciones";
     reponseJson.status = false;
   }
 
+  if (count) {
+    totalItems = count[0].totalCount;
+  }
+
+  let totalPages = Math.ceil(totalItems / data.lim);
+
+  sendData.count = totalItems;
+  sendData.pages = totalPages;
+
+  reponseJson.data = sendData;
+
   res.json(reponseJson);
+
+  // if (decode == false) {
+  //   reponseJson.code = jwt.code;
+  //   reponseJson.message = jwt.message;
+  //   reponseJson.status = false;
+  //   reponseJson.data = null;
+  //   return res.json(reponseJson);
+  // }
+  // console.log(id_user)
+  // const notificationsUser = await notifications
+  //   .find({ id_user: id_user, status: false })
+  //   .sort({ date: -1 });
+
+  // if (notificationsUser) {
+  //   reponseJson.code = 200;
+  //   reponseJson.message = "notificaciones obtenidas exitosamente";
+  //   reponseJson.status = true;
+  //   reponseJson.data = notificationsUser;
+  // } else {
+  //   reponseJson.code = 400;
+  //   reponseJson.message = "no se encontraron notificaciones";
+  //   reponseJson.status = false;
+  // }
+
+  // res.json(reponseJson);
 };
 
 userController.updateNotification = async (req: Request, res: Response) => {

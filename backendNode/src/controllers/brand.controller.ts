@@ -189,19 +189,20 @@ brandController.allPaginator = async (req: Request, res: Response) => {
 
   let search: any;
   let project: any;
-    search = {
-      $or: [
-        { _id: { $regex: ".*" + data.s + ".*",$options: "i" } },
-        { name: { $regex: ".*" + data.s + ".*",$options: "i" } },
-      ],
-    };
 
-    project = {
-      _id: "$_id",
-      name: 1,
-    };
+  search = {
+    $or: [
+      { _id: { $regex: ".*" + data.s + ".*",$options: "i" } },
+      { name: { $regex: ".*" + data.s + ".*",$options: "i" } },
+    ],
+  };
 
-    let sendata: any = {};
+  project = {
+    _id: "$_id",
+    name: 1,
+  };
+
+  let sendata: any = {};
 
   let list = await brands.aggregate([
     {
@@ -240,9 +241,11 @@ brandController.allPaginator = async (req: Request, res: Response) => {
   }
 
   let totalItems = 0;
+  
   if (count) {
     totalItems = count[0].totalCount;
   }
+
   let totalPages = Math.ceil(totalItems / data.lim);
 
   sendata.count = totalItems;

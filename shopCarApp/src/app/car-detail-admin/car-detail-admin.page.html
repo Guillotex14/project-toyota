@@ -264,18 +264,17 @@
               </ion-card>
             </ion-col>
 
-            <ion-col size="12">
+            <ion-col size="12" *ngIf="carDetail.concesionary_maintenance">
               <ion-item-divider style="text-align: center;">
                 <ion-label style="margin: 10px auto;color: #000;">¿SE REALIZARON LOS MANTENIMIENTOS <br> REGULARES EN EL CONCESIONARIO?</ion-label>
               </ion-item-divider>
   
               <ion-item class="itemSegment">
                 <ion-segment  disabled="true">
-                  <!-- [value]="mechanicalFile.dealer_maintenance" -->
-                  <ion-segment-button value="no" class="segment-red">
+                  <ion-segment-button [value]="false" class="segment-red">
                     <ion-label>No</ion-label>
                   </ion-segment-button>
-                  <ion-segment-button value="si" class="segment-green">
+                  <ion-segment-button [value]="true" class="segment-green">
                     <ion-label>Sí</ion-label>
                   </ion-segment-button>
                 </ion-segment>

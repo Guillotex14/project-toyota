@@ -124,6 +124,15 @@ ion-radio {
   --inner-border-radius: 2px
 }
 
+.green{
+  --background: #198754!important;
+  color: #fff;
+  ion-label{
+    margin: 0px auto !important;
+  }
+
+}
+
 .pulse {
   animation: pulse-animation 2s infinite;
   position: absolute;

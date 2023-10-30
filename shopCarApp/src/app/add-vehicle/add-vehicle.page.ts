@@ -67,6 +67,8 @@ export class AddVehiclePage implements OnInit {
   emptyVin: boolean = false;
   emptyKm: boolean = false;
 
+  concesionary_maintenance: string = '';
+
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheetEdit') ActionSheetEdit!: IonActionSheet;
@@ -163,6 +165,7 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.vin = '';
     this.newVehicle.vehicle_plate = '';
     this.newVehicle.imgs_documents = [];
+    this.newVehicle.concesionary_maintenance = false;
 
     this.newMechanic.email = "";
     this.newMechanic.password = "";
@@ -281,6 +284,11 @@ export class AddVehiclePage implements OnInit {
       return;
     }
 
+    if(this.concesionary_maintenance == "" || this.concesionary_maintenance == null || this.concesionary_maintenance == undefined){
+      this.emptyIdmechanic = true;
+      return;
+    }
+
     if(this.newVehicle.id_mechanic == "" || this.newVehicle.id_mechanic == null || this.newVehicle.id_mechanic == undefined){
       this.emptyIdmechanic = true;
       return;
@@ -290,9 +298,11 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.images = this.arrayImages;
     this.newVehicle.year = parseInt(this.year);
     this.newVehicle.imgs_documents = this.arrayDocuments;
+    this.newVehicle.concesionary_maintenance = Boolean(this.concesionary_maintenance);
     this.newVehicle.vin = this.newVehicle.vin.toUpperCase();
     this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
     this.newVehicle.vehicle_plate = this.newVehicle.vehicle_plate.toUpperCase();
+    
     this.sellerSrv.addVehicle(this.newVehicle).subscribe((resp:any) => {
       if(resp.status){
         this.utils.dismissLoading();
@@ -351,6 +361,7 @@ export class AddVehiclePage implements OnInit {
     this.mechanicName = '';
     this.year = '';
     this.km = '';
+    this.newVehicle.concesionary_maintenance = false;
   }
 
   public async modalMechanic(){

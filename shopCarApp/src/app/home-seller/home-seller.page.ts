@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UtilsService } from '../services/utils/utils.service';
-import { IonModal, MenuController, ModalController } from '@ionic/angular';
+import { IonInfiniteScroll, IonModal, MenuController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SellerService } from '../services/seller/seller.service';
 import { NotificationById, VehicleList } from 'src/models/sellet';
@@ -40,10 +40,17 @@ export class HomeSellerPage implements OnInit {
   countNotifies: number = 0;
   id_seller: string = "";
   id_user: string = "";
+
+  pageNotifies: any = {
+    pos: 0,
+    lim: 20
+  }
+
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
   @ViewChild('modalFilterHomeSeller') modalFilter!: IonModal;
-
+  @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
+  
   constructor(private router: Router, private utils: UtilsService, private menu: MenuController, private sellerSrv: SellerService, private modalCtrl: ModalController) {
     this.arrayUbication = states;
 
@@ -142,6 +149,8 @@ export class HomeSellerPage implements OnInit {
   }
 
   public goDetail(id: string){
+    this.closeModal();
+    this.closeModalDetail();
     this.router.navigate(['car-detail/'+id+'/home-seller']);
   }
 
@@ -339,4 +348,19 @@ export class HomeSellerPage implements OnInit {
     this.arrayVehicles.splice(i, 1);
   }
 
+  public loadData(eve:any){
+    this.pageNotifies.pos+=1;
+    let moreNotifies = []
+    this.sellerSrv.getNotifications(this.pageNotifies).subscribe((resp:any)=>{
+      if (resp.status) {
+        if (resp.data.rows.length > 0) {
+          moreNotifies = resp.data.rows;
+          moreNotifies.map((data:any)=>{
+            this.arrayNotifies.push(data)
+          })
+        }
+      }
+    })
+    this.infiniteScroll.complete();
+  }
 }

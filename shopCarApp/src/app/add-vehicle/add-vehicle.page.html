@@ -416,6 +416,23 @@
             </ion-row>
           </ion-col>
 
+          <ion-col size="12">
+            <ion-item-divider style="text-align: center;">
+              <ion-label style="margin: 10px auto;color: #000;">¿SE REALIZARON LOS MANTENIMIENTOS <br> REGULARES EN EL CONCESIONARIO?</ion-label>
+            </ion-item-divider>
+
+            <ion-item class="itemSegment">
+              <ion-segment [(ngModel)]="concesionary_maintenance">
+                <ion-segment-button value="no" class="segment-red">
+                  <ion-label>No</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="si" class="segment-green">
+                  <ion-label>Sí</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-item>
+          </ion-col>
+
           <ion-col size="12" *ngIf="newVehicle.id_mechanic === ''">
             <ion-card [class.borderRed]="emptyIdmechanic">
               <ion-card-header>

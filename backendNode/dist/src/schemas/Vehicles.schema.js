@@ -68,6 +68,9 @@ const vehicleSchema = new mongoose_1.Schema({
         type: Number,
         default: null
     },
+    concesionary_maintenance: {
+        type: Boolean
+    },
     id_seller: {
         type: mongoose_1.Schema.Types.ObjectId
     },

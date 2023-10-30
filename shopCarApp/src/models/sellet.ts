@@ -44,6 +44,7 @@ export class CarDetailSeller{
   public final_price_sold!: number;
   public plate!: string;
   public imgs_documentation!: any[];
+  public concesionary_maintenance!: boolean;
 }
 
 export class CarDetailMechanicalFile{
@@ -141,6 +142,7 @@ export class AddVehicle{
   public vin!: string;
   public vehicle_plate!: string;
   public imgs_documents!: any[];
+  public concesionary_maintenance!: boolean;
 }
 
 export class AddMechanicFile{
