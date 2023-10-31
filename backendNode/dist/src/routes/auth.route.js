@@ -10,5 +10,6 @@ const authRouter = (0, express_1.Router)();
 authRouter.post("/login", auth_controller_1.default.login);
 authRouter.post("/addImgProfile", auth_controller_1.default.addImgProfile);
 authRouter.post("/updateImgProfile", auth_controller_1.default.updateImgProfile);
+authRouter.get("/sendMail", auth_controller_1.default.sendMail);
 exports.default = authRouter;
 //# sourceMappingURL=auth.route.js.map

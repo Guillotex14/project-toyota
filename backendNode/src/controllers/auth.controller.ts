@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
+import VehiclesSchema from "../schemas/Vehicles.schema";
 
 const authController: any = {};
 
@@ -157,5 +158,114 @@ authController.updateImgProfile = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
+
+authController.sendMail = async (req: Request, res: Response) => {
+
+  const { id } = req.query;
+
+  // const vehicle = await VehiclesSchema.aggregate([
+  //   {
+  //     $match: {
+  //       _id: id
+  //       }
+  //   },
+
+  //   {
+  //     $lookup: {
+  //       from: "sellers",
+  //       localField: "id_seller",
+  //       foreignField: "_id",
+  //       as: "seller",
+  //     },
+  //   },
+  //   {
+  //     $unwind: "$seller",
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "users",
+  //       localField: "seller.id_user",
+  //       foreignField: "_id",
+  //       as: "user",
+  //     },
+  //   },
+  //   {
+  //     $unwind: "$user",
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "concesionaries",
+  //       localField: "seller.id_concesionary",
+  //       foreignField: "_id",
+  //       as: "concesionary",
+  //     },
+  //   },
+  //   {
+  //     $unwind: "$concesionary",
+  //   },
+  //   {
+  //     $project: {
+  //       _id: 1,
+  //       model: 1,
+  //       year: 1,
+  //       id_seller: 1,
+  //       seller: "$seller.fullName",
+  //       user: "$user.email",
+  //       concesionary: "$concesionary.name",
+  //     },
+  //   },
+  // ]);
+
+  const vehicle = await VehiclesSchema.findOne({_id: id});
+
+  // const mailOptions = {
+  //   from: 'Servicio de notificaciones',
+  //   to: 'jefersonmujica@gmail.com',
+  //   subject: 'Notificacion de prueba',
+  //   html: `
+  //       <div>
+  //       <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+  //       </div>
+  //       <div class="div-table" style="width: 100%;">
+  //       <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.model}</div>
+  //           </div>
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.year}</div>
+  //           </div>
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.plate}</div>
+  //           </div>
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+  //             vehicle?.id_seller
+  //           }</div>
+  //           </div>
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+  //             vehicle?.concesionary
+  //           }</div>
+  //           </div>
+  //           <div style=" display: table-row;border: 1px solid #000;">
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+  //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+  //             vehicle?.city
+  //           }</div>
+  //           </div>
+  //       </div>
+  //       </div>`,
+  // }
+
+  // const responseMail = await sendEmail(mailOptions);
+
+  // res.json(responseMail);
+
+}
 
 export default authController;

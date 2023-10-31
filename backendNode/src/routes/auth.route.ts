@@ -11,5 +11,4 @@ authRouter.post("/addImgProfile", authController.addImgProfile);
 
 authRouter.post("/updateImgProfile", authController.updateImgProfile);
 
-
 export default authRouter;
