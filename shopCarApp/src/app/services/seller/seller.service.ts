@@ -57,7 +57,7 @@ export class SellerService {
   }
 
   public getNotifications(data:any){
-    return this.http.post(global.urlBase+'user/getNotifications', data,this.authToken);
+    return this.http.get(`${global.urlBase}user/getNotifications?id_user=${data.id_user}&pos=${data.pos}&lim=${data.lim}`, this.authToken);
   }
 
   public updateNotification(data:any){

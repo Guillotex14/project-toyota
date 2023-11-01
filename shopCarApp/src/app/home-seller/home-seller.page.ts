@@ -109,13 +109,11 @@ export class HomeSellerPage implements OnInit {
 
   public getNotifies(){
     
-    let data = {
-      id_user: this.id_user
-    }
+    this.pageNotifies.id_user = this.id_user;
 
-    this.sellerSrv.getNotifications(data).subscribe((data:any)=>{
+    this.sellerSrv.getNotifications(this.pageNotifies).subscribe((data:any)=>{
       if (data.status) {
-        this.arrayNotifies = data.data;
+        this.arrayNotifies = data.data.rows;
       }
     });
   
