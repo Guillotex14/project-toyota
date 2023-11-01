@@ -100,7 +100,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     yield newVehicle.save();
     const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
-    emailmechanic = yield Users_schema_1.default.findOne({ _id: mec === null || mec === void 0 ? void 0 : mec.id_user });
+    emailmechanic = yield Users_schema_1.default.findOne({ _id: mec.id_user });
     infoSeller = yield Sellers_schema_1.default.findOne({ _id: id_seller });
     if (images) {
         if (images.length > 0) {
@@ -134,7 +134,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     const mailOptions = {
         from: "Toyousado",
-        to: emailmechanic,
+        to: emailmechanic.email,
         subject: "Revisión de vehículo",
         html: `
         <div>

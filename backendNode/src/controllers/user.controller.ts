@@ -597,7 +597,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-
+  
   if (!data) {
     data = {
       pos: 0,
