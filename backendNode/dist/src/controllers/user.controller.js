@@ -23,7 +23,7 @@ const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const nodemailer_1 = require("../../nodemailer");
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
-const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
+const concesionaries_schema_1 = __importDefault(require("../schemas/concesionaries.schema"));
 const userController = {};
 userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -62,18 +62,29 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
                 newUser = yield addOrUpdateUser(data);
                 message = `El usuario administrador de concesionario fue creado con exito`;
             }
-            if (decode.type_user == "admin_concesionary") {
-                let concesionario = yield Concesionaries_schema_1.default.findOne({
-                    _id: decode.id_concesionary,
+            if (data.type_user == "admin_concesionary") {
+                let concesionario = yield concesionaries_schema_1.default.findOne({
+                    _id: data.id_concesionary,
                 });
                 data.concesionary = concesionario.name;
             }
             if (data.type_user == "mechanic") {
+                if (decode.type_user == "admin_concesionary") {
+                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                        _id: decode.id_concesionary,
+                    });
+                    data.concesionary = concesionario.name;
+                }
                 newUser = yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue creado con exito`;
             }
             if (data.type_user == "seller") {
-                data.id_concesionary = decode.id_concesionary;
+                if (decode.type_user == "admin_concesionary") {
+                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                        _id: decode.id_concesionary,
+                    });
+                    data.concesionary = concesionario.name;
+                }
                 newUser = yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue creado con exito`;
             }
@@ -171,9 +182,9 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             else if (data.type_user == "mechanic") {
                 yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue modificado con exito`;
-                yield addOrUpdateSeller(data);
             }
             else if (data.type_user == "seller") {
+                yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue modificado con exito`;
             }
             else {
@@ -249,7 +260,7 @@ userController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function
 userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -302,7 +313,7 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -371,6 +382,16 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         ],
         type_user: data.type_user,
     };
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield concesionaries_schema_1.default.findOne({
+            _id: decode.id_concesionary,
+        });
+        console.log(concesionary);
+        search = Object.assign(Object.assign({}, search), { [`${type_user_table}.concesionary`]: {
+                $regex: ".*" + concesionary.name + ".*",
+                $options: "i",
+            } });
+    }
     project = {
         id_user: "$_id",
         email: 1,
@@ -495,7 +516,7 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     let mechanicsArray = [];
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -504,9 +525,15 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const search = {
+    let search = {
         type_user: "mechanic",
     };
+    if (decode.type_user == "admin_concesionary") {
+        let concesionario = yield concesionaries_schema_1.default.findOne({
+            _id: decode.id_concesionary,
+        });
+        search.concesionary = concesionario.name;
+    }
     const query = yield Users_schema_1.default.aggregate([
         {
             $match: search,
@@ -552,6 +579,7 @@ userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -651,6 +679,7 @@ userController.updateNotification = (req, res) => __awaiter(void 0, void 0, void
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -684,6 +713,7 @@ userController.notificationById = (req, res) => __awaiter(void 0, void 0, void 0
         "seller",
         "admin",
         "mechanic",
+        "admin_concesionary"
     ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -714,6 +744,7 @@ userController.countNotifications = (req, res) => __awaiter(void 0, void 0, void
         "seller",
         "admin",
         "mechanic",
+        "admin_concesionary"
     ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;

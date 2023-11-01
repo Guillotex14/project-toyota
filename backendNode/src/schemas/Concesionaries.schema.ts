@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
-const concesionarySchema = new Schema({
+const concesionariesSchema = new Schema({
     name: String,
-    zone: String,
+    state: String,
 })
 
-export default model("concesionary", concesionarySchema);
+export default model("concesionaries", concesionariesSchema);

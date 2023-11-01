@@ -4,7 +4,7 @@ import moment from "moment";
 import jwt from "../helpers/generar-jwt";
 import sharp from "sharp";
 import bcrypt from "bcrypt";
-import concesionary from "../schemas/Concesionaries.schema";
+import concesionary from "../schemas/concesionaries.schema";
 
 import vehicles from "../schemas/Vehicles.schema";
 import mechanics from "../schemas/Mechanics.schema";

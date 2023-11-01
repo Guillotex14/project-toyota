@@ -6,6 +6,7 @@ const UsersSchema = new Schema({
     username: String,
     type_user: String,
     id_concesionary: String,
+    concesionary: String,
     status: Number,
 });
 

@@ -136,38 +136,44 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         from: "Toyousado",
         to: emailmechanic,
         subject: "Revisión de vehículo",
-        html: `
-        <div>
-        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-        </div>
-        <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
-            </div>
-        </div>
-        </div>`,
+        // html: `
+        //     <div>
+        //     <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+        //     </div>
+        //     <div class="div-table" style="width: 100%;">
+        //     <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+        //         </div>
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+        //         </div>
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+        //         </div>
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+        //           infoSeller!.fullName
+        //         }</div>
+        //         </div>
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+        //           infoSeller!.concesionary
+        //         }</div>
+        //         </div>
+        //         <div style=" display: table-row;border: 1px solid #000;">
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+        //           infoSeller!.city
+        //         }</div>
+        //         </div>
+        //     </div>
+        //     </div>`,
     };
     const dataVehicle = {
         model: model,
@@ -428,6 +434,7 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -487,6 +494,9 @@ vehicleController.allVehicles = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
     else if (decode.type_user == "seller") {
         query.id_seller = decode.id_seller;
+    }
+    if (decode.type_user == "admin_concesionary") {
+        query.concesionary = decode.concesionary;
     }
     const vehiclesFiltered = yield Vehicles_schema_2.default.find(query).sort({ date_create: -1 });
     if (vehiclesFiltered) {

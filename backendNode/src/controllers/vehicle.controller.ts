@@ -496,6 +496,7 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -564,6 +565,10 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   } else if (decode.type_user == "seller") {
     query.id_seller = decode.id_seller;
   }
+if (decode.type_user=="admin_concesionary") {
+  query.concesionary=decode.concesionary
+}
+
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
   if (vehiclesFiltered) {
@@ -782,6 +787,7 @@ vehicleController.vehicleById = async (req: Request, res: Response) => {
     "seller",
     "admin",
     "mechanic",
+    "admin_concesionary",
   ]);
 
   if (decode == false) {
@@ -863,6 +869,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
     "mechanic",
     "seller",
     "admin",
+    "admin_concesionary",
   ]);
 
   if (decode == false) {
