@@ -5,6 +5,9 @@ const SellerSchema = new mongoose_1.Schema({
     fullName: String,
     city: String,
     concesionary: String,
+    id_concesionary: {
+        type: mongoose_1.Schema.Types.ObjectId
+    },
     phone: String,
     date_created: String,
     id_user: {

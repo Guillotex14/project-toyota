@@ -5,6 +5,9 @@ const MechanicSchema = new mongoose_1.Schema({
     fullName: String,
     city: String,
     concesionary: String,
+    id_concesionary: {
+        type: mongoose_1.Schema.Types.ObjectId
+    },
     date_created: String,
     phone: String,
     id_user: {

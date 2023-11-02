@@ -19,7 +19,7 @@ const brandController = {};
 brandController.insertUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "admin_concesionary"]);
     const data = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -65,7 +65,7 @@ brandController.insertUpdate = (req, res) => __awaiter(void 0, void 0, void 0, f
 brandController.delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -95,7 +95,7 @@ brandController.delete = (req, res) => __awaiter(void 0, void 0, void 0, functio
 brandController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -120,7 +120,7 @@ brandController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 brandController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -162,7 +162,7 @@ brandController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 brandController.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;

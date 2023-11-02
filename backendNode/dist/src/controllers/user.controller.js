@@ -58,32 +58,33 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
                 newUser = yield addOrUpdateUser(data);
                 message = `El usuario administrador fue creado con exito`;
             }
-            else if (data.type_user == "admin_concesionary") {
-                newUser = yield addOrUpdateUser(data);
-                message = `El usuario administrador de concesionario fue creado con exito`;
-            }
-            if (data.type_user == "admin_concesionary") {
+            else if (data.type_user == "admin_concesionary") { // admin creando un admin_concesionary
                 let concesionario = yield concesionaries_schema_1.default.findOne({
                     _id: data.id_concesionary,
                 });
                 data.concesionary = concesionario.name;
+                data.id_concesionary = concesionario._id;
+                newUser = yield addOrUpdateUser(data);
+                message = `El usuario administrador de concesionario fue creado con exito`;
             }
             if (data.type_user == "mechanic") {
-                if (decode.type_user == "admin_concesionary") {
+                if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario mechanic y asigandole su concesionario correspondiente
                     let concesionario = yield concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
+                    data.id_concesionary = concesionario._id;
                 }
                 newUser = yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue creado con exito`;
             }
             if (data.type_user == "seller") {
-                if (decode.type_user == "admin_concesionary") {
+                if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario seller y asigandole su concesionario correspondiente
                     let concesionario = yield concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
+                    data.id_concesionary = concesionario._id;
                 }
                 newUser = yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue creado con exito`;
@@ -170,20 +171,39 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
     const user = yield Users_schema_1.default.findOne({ _id: data.id_user });
     let message = "";
     if (user) {
-        if (decode.type_user == "admin") {
+        if (decode.type_user == "admin" || decode.type_user == "admin_concesionary") {
             if (data.type_user == "admin") {
                 message = `El usuario administrador fue modificado con exito`;
                 yield addOrUpdateUser(data);
             }
-            else if (data.type_user == "admin_concesionary") {
+            else if (data.type_user == "admin_concesionary") { // admin modificando un admin_concesionary
                 message = `El usuario administrador de concesionario fue modificado con exito`;
+                let concesionario = yield concesionaries_schema_1.default.findOne({
+                    _id: data.id_concesionary,
+                });
+                data.concesionary = concesionario.name;
+                data.id_concesionary = concesionario._id;
                 yield addOrUpdateUser(data);
             }
             else if (data.type_user == "mechanic") {
+                if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
+                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                        _id: decode.id_concesionary,
+                    });
+                    data.concesionary = concesionario.name;
+                    data.id_concesionary = concesionario._id;
+                }
                 yield addOrUpdateMechanic(data);
                 message = `El usuario tecnico fue modificado con exito`;
             }
             else if (data.type_user == "seller") {
+                if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
+                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                        _id: decode.id_concesionary,
+                    });
+                    data.concesionary = concesionario.name;
+                    data.id_concesionary = concesionario._id;
+                }
                 yield addOrUpdateSeller(data);
                 message = `El usuario vendedor fue modificado con exito`;
             }
@@ -382,11 +402,10 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         ],
         type_user: data.type_user,
     };
-    if (decode.type_user == "admin_concesionary") {
+    if (decode.type_user == "admin_concesionary") { // cuando el usuario admin_concesionary consulta
         let concesionary = yield concesionaries_schema_1.default.findOne({
             _id: decode.id_concesionary,
         });
-        console.log(concesionary);
         search = Object.assign(Object.assign({}, search), { [`${type_user_table}.concesionary`]: {
                 $regex: ".*" + concesionary.name + ".*",
                 $options: "i",
@@ -831,6 +850,7 @@ function addOrUpdateMechanic(data) {
                     fullName: data.fullName,
                     city: data.city,
                     concesionary: data.concesionary,
+                    id_concesionary: data.id_concesionary ? data.id_concesionary : null,
                     phone: data.phone,
                 };
                 const query = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
@@ -856,6 +876,7 @@ function addOrUpdateMechanic(data) {
                 fullName: data.fullName,
                 city: data.city,
                 concesionary: data.concesionary,
+                id_concesionary: data.id_concesionary ? data.id_concesionary : null,
                 date_created: date_created,
                 phone: data.phone,
                 id_user: data.id_user,
@@ -911,6 +932,7 @@ function addOrUpdateSeller(data) {
                 fullName: data.fullName,
                 city: data.city,
                 concesionary: data.concesionary,
+                id_concesionary: data.id_concesionary ? data.id_concesionary : null,
                 date_created: date_created,
                 phone: data.phone,
                 id_user: data.id_user,

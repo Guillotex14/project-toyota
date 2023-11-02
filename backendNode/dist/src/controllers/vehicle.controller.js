@@ -697,6 +697,7 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
         "seller",
         "admin",
         "mechanic",
+        "admin_concesionary",
     ]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
@@ -768,6 +769,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
         "mechanic",
         "seller",
         "admin",
+        "admin_concesionary",
     ]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;

@@ -19,7 +19,7 @@ const modelVehiclesController = {};
 modelVehiclesController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -66,7 +66,7 @@ modelVehiclesController.all = (req, res) => __awaiter(void 0, void 0, void 0, fu
 modelVehiclesController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -88,7 +88,7 @@ modelVehiclesController.get = (req, res) => __awaiter(void 0, void 0, void 0, fu
 modelVehiclesController.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "mechanic", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -172,7 +172,7 @@ modelVehiclesController.updateModel = (req, res) => __awaiter(void 0, void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const data = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -199,7 +199,7 @@ modelVehiclesController.deleteModel = (req, res) => __awaiter(void 0, void 0, vo
     const reponseJson = new Response_1.ResponseModel();
     const data = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -225,7 +225,7 @@ modelVehiclesController.deleteModel = (req, res) => __awaiter(void 0, void 0, vo
 modelVehiclesController.addModel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
         jsonRes.message = generar_jwt_1.default.message;
@@ -261,7 +261,7 @@ modelVehiclesController.autoComplete = (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { search } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
