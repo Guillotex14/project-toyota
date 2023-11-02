@@ -20,8 +20,8 @@ const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
-const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
+const concesionaries_schema_1 = __importDefault(require("../schemas/concesionaries.schema"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -73,7 +73,7 @@ authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     img: userImg ? userImg : null,
                 };
                 if (user.type_user == "admin_concesionary") {
-                    let concesionary = yield Concesionaries_schema_1.default.findOne({
+                    let concesionary = yield concesionaries_schema_1.default.findOne({
                         _id: user.id_concesionary,
                     });
                     admin.id_concesionary = user.id_concesionary;

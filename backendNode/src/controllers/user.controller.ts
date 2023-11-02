@@ -10,7 +10,7 @@ import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import { sendEmail } from "../../nodemailer";
 import notifications from "../schemas/notifications.schema";
-import ConcesionariesSchema from "../schemas/Concesionaries.schema";
+import concesionariesSchema from "../schemas/concesionaries.schema";
 
 const userController: any = {};
 
@@ -51,28 +51,40 @@ userController.insert = async (req: Request, res: Response) => {
       if (data.type_user == "admin") {
         newUser = await addOrUpdateUser(data);
         message = `El usuario administrador fue creado con exito`;
-      } else if (data.type_user == "admin_concesionary") {
+      } else if (data.type_user == "admin_concesionary") {  // admin creando un admin_concesionary
+        let concesionario: any = await concesionariesSchema.findOne({
+          _id: data.id_concesionary,
+        });
+        data.concesionary = concesionario.name;
+        data.id_concesionary = concesionario._id;
         newUser = await addOrUpdateUser(data);
         message = `El usuario administrador de concesionario fue creado con exito`;
       }
 
-      if (decode.type_user == "admin_concesionary") {
-        let concesionario: any = await ConcesionariesSchema.findOne({
-          _id: decode.id_concesionary,
-        });
-        data.concesionary = concesionario.name;
-      }
 
       if (data.type_user == "mechanic") {
+        if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario mechanic y asigandole su concesionario correspondiente
+          let concesionario: any = await concesionariesSchema.findOne({
+            _id: decode.id_concesionary,
+          });
+          data.concesionary = concesionario.name;
+          data.id_concesionary = concesionario._id;
+        }
         newUser = await addOrUpdateMechanic(data);
         message = `El usuario tecnico fue creado con exito`;
       }
       if (data.type_user == "seller") {
-        data.id_concesionary = decode.id_concesionary;
+        if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario seller y asigandole su concesionario correspondiente
+          let concesionario: any = await concesionariesSchema.findOne({
+            _id: decode.id_concesionary,
+          });
+          data.concesionary = concesionario.name;
+          data.id_concesionary = concesionario._id;
+        }
         newUser = await addOrUpdateSeller(data);
         message = `El usuario vendedor fue creado con exito`;
       }
-      
+
       data.id_user = newUser.id_user;
       if (newUser) {
         const mailOptions = {
@@ -163,18 +175,37 @@ userController.update = async (req: Request, res: Response) => {
   const user = await Users.findOne({ _id: data.id_user });
   let message = "";
   if (user) {
-    if (decode.type_user == "admin") {
+    if (decode.type_user == "admin" || decode.type_user == "admin_concesionary") {
       if (data.type_user == "admin") {
         message = `El usuario administrador fue modificado con exito`;
         await addOrUpdateUser(data);
-      } else if (data.type_user == "admin_concesionary") {
+      } else if (data.type_user == "admin_concesionary") { // admin modificando un admin_concesionary
         message = `El usuario administrador de concesionario fue modificado con exito`;
+        let concesionario: any = await concesionariesSchema.findOne({
+          _id: data.id_concesionary,
+        });
+        data.concesionary = concesionario.name;
+        data.id_concesionary = concesionario._id;
         await addOrUpdateUser(data);
       } else if (data.type_user == "mechanic") {
+        if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
+          let concesionario: any = await concesionariesSchema.findOne({
+            _id: decode.id_concesionary,
+          });
+          data.concesionary = concesionario.name;
+          data.id_concesionary = concesionario._id;
+        }
         await addOrUpdateMechanic(data);
         message = `El usuario tecnico fue modificado con exito`;
-        await addOrUpdateSeller(data);
       } else if (data.type_user == "seller") {
+        if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
+          let concesionario: any = await concesionariesSchema.findOne({
+            _id: decode.id_concesionary,
+          });
+          data.concesionary = concesionario.name;
+          data.id_concesionary = concesionario._id;
+        }
+        await addOrUpdateSeller(data);
         message = `El usuario vendedor fue modificado con exito`;
       } else {
         message = `El usuario no se encuentra en ese rol`;
@@ -253,7 +284,7 @@ userController.get = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
 
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;
@@ -312,7 +343,7 @@ userController.get = async (req: Request, res: Response) => {
 userController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "admin_concesionary"]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;
@@ -384,6 +415,19 @@ userController.all = async (req: Request, res: Response) => {
     ],
     type_user: data.type_user,
   };
+
+  if (decode.type_user == "admin_concesionary") { // cuando el usuario admin_concesionary consulta
+    let concesionary: any = await concesionariesSchema.findOne({
+      _id: decode.id_concesionary,
+    });
+    search = {
+      ...search,
+      [`${type_user_table}.concesionary`]: {
+        $regex: ".*" + concesionary.name + ".*",
+        $options: "i",
+      }
+    }
+  }
 
   project = {
     id_user: "$_id",
@@ -521,7 +565,7 @@ userController.all = async (req: Request, res: Response) => {
 userController.allMechanic = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
 
   let mechanicsArray: any[] = [];
 
@@ -533,9 +577,17 @@ userController.allMechanic = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
 
-  const search = {
+  let search: any = {
     type_user: "mechanic",
   };
+
+  if (decode.type_user == "admin_concesionary") {
+    let concesionario: any = await concesionariesSchema.findOne({
+      _id: decode.id_concesionary,
+    });
+    search.concesionary = concesionario.name;
+  }
+
 
   const query = await Users.aggregate([
     {
@@ -587,6 +639,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -608,7 +661,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
   search = {
     id_user: new mongoose.Types.ObjectId(data?.id_user),
   };
-  
+
   project = {
     _id: "$_id",
     id_user: 1,
@@ -634,7 +687,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
       $sort: { date: -1 },
     }
   ]);
-  
+
   sendData.rows = list;
 
   if (list.length > 0) {
@@ -704,6 +757,7 @@ userController.updateNotification = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -741,6 +795,7 @@ userController.notificationById = async (req: Request, res: Response) => {
     "seller",
     "admin",
     "mechanic",
+    "admin_concesionary"
   ]);
 
   if (decode == false) {
@@ -775,6 +830,7 @@ userController.countNotifications = async (req: Request, res: Response) => {
     "seller",
     "admin",
     "mechanic",
+    "admin_concesionary"
   ]);
 
   if (decode == false) {
@@ -863,6 +919,7 @@ async function addOrUpdateMechanic(data: any) {
         fullName: data.fullName,
         city: data.city,
         concesionary: data.concesionary,
+        id_concesionary: data.id_concesionary ? data.id_concesionary : null,
         phone: data.phone,
       };
       const query: any = await mechanics.findOne({ id_user: user._id });
@@ -891,6 +948,7 @@ async function addOrUpdateMechanic(data: any) {
       fullName: data.fullName,
       city: data.city,
       concesionary: data.concesionary,
+      id_concesionary: data.id_concesionary ? data.id_concesionary : null,
       date_created: date_created,
       phone: data.phone,
       id_user: data.id_user,
@@ -948,6 +1006,7 @@ async function addOrUpdateSeller(data: any) {
       fullName: data.fullName,
       city: data.city,
       concesionary: data.concesionary,
+      id_concesionary: data.id_concesionary ? data.id_concesionary : null,
       date_created: date_created,
       phone: data.phone,
       id_user: data.id_user,

@@ -9,8 +9,9 @@ import { sendEmail } from "../../nodemailer";
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
-import ConcesionariesSchema from "../schemas/Concesionaries.schema";
+import concesionarySchema from "../schemas/concesionaries.schema";
 import VehiclesSchema from "../schemas/Vehicles.schema";
+import concesionariesSchema from "../schemas/concesionaries.schema";
 
 const authController: any = {};
 
@@ -69,7 +70,7 @@ authController.login = async (req: Request, res: Response) => {
           img: userImg ? userImg : null,
         };
         if (user.type_user == "admin_concesionary") {
-          let concesionary: any = await ConcesionariesSchema.findOne({
+          let concesionary: any = await concesionariesSchema.findOne({
             _id: user.id_concesionary,
           });
           admin.id_concesionary = user.id_concesionary;

@@ -8,7 +8,7 @@ const modelVehiclesController: any = {};
 modelVehiclesController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -62,7 +62,7 @@ modelVehiclesController.all = async (req: Request, res: Response) => {
 modelVehiclesController.get = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   if (decode == false) {
       reponseJson.code = jwt.code;
       reponseJson.message = jwt.message;
@@ -89,7 +89,7 @@ modelVehiclesController.get = async (req: Request, res: Response) => {
 modelVehiclesController.allPaginator = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -186,7 +186,7 @@ modelVehiclesController.updateModel = async (req: Request, res: Response) =>{
   const reponseJson: ResponseModel = new ResponseModel();
   const data = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -218,7 +218,7 @@ modelVehiclesController.deleteModel = async (req: Request, res: Response) =>{
   const reponseJson: ResponseModel = new ResponseModel();
   const data = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -248,7 +248,7 @@ modelVehiclesController.deleteModel = async (req: Request, res: Response) =>{
 modelVehiclesController.addModel = async (req: Request, res: Response)=>{
   const jsonRes: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
 
   if (decode == false) {
     jsonRes.code = jwt.code;
@@ -295,7 +295,7 @@ modelVehiclesController.autoComplete = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { search } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;

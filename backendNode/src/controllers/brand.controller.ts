@@ -8,7 +8,7 @@ const brandController: any = {};
 brandController.insertUpdate = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin"]);
+  let decode = await jwt.getAuthorization(token, ["admin","admin_concesionary"]);
   const data = req.body;
 
   if (decode == false) {
@@ -59,7 +59,7 @@ brandController.delete = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
 
-  let decode = await jwt.getAuthorization(token, ["admin"]);
+  let decode = await jwt.getAuthorization(token, ["admin","admin_concesionary"]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;
@@ -92,7 +92,7 @@ brandController.get = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
 
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;
@@ -119,7 +119,7 @@ brandController.get = async (req: Request, res: Response) => {
 brandController.all = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -168,7 +168,7 @@ brandController.all = async (req: Request, res: Response) => {
 brandController.allPaginator = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic"]);
+  let decode = await jwt.getAuthorization(token, ["admin","seller","mechanic","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {

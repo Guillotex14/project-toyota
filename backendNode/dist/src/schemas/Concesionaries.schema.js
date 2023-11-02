@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const concesionarySchema = new mongoose_1.Schema({
+const concesionariesSchema = new mongoose_1.Schema({
     name: String,
-    zone: String,
+    state: String,
 });
-exports.default = (0, mongoose_1.model)("concesionary", concesionarySchema);
-//# sourceMappingURL=Concesionaries.schema.js.map
+exports.default = (0, mongoose_1.model)("concesionaries", concesionariesSchema);
+//# sourceMappingURL=concesionaries.schema.js.map
