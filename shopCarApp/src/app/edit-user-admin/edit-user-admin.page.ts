@@ -56,7 +56,11 @@ export class EditUserAdminPage implements OnInit {
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getSellerById(this.id).subscribe((res: any) => {
       if (res.status) {
-        this.seller = res.data;
+        this.seller = res.data.seller;
+        this.seller.email = res.data.email;
+        this.seller.username = res.data.username;
+        this.seller.id_user = res.data.id_user;
+        this.seller.type_user = res.data.type_user;
         this.utils.dismissLoading();
       }
     });

@@ -56,7 +56,12 @@ export class EditMechanicAdminPage implements OnInit {
       if (resp.status) {
         this.utils.dismissLoading();
         this.utils.presentToast("Técnico encontrado");
-        this.mechanic = resp.data;
+        this.mechanic = resp.data.mechanic;
+        this.mechanic.email = resp.data.email;
+        this.mechanic.username = resp.data.username;
+        this.mechanic.id_user = resp.data.id_user;
+        this.mechanic.type_user = resp.data.type_user;
+
         this.mechanicConce(this.mechanic.city!);
       } else {
         this.utils.dismissLoading();

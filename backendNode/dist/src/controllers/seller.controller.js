@@ -17,7 +17,7 @@ const moment_1 = __importDefault(require("moment"));
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const sharp_1 = __importDefault(require("sharp"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const concesionary_schema_1 = __importDefault(require("../schemas/concesionary.schema"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
@@ -1751,7 +1751,7 @@ sellerController.allConcesionaries = (req, res) => __awaiter(void 0, void 0, voi
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const ress = yield concesionary_schema_1.default
+    const ress = yield Concesionaries_schema_1.default
         .find()
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(res);

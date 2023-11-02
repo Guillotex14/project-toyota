@@ -10,7 +10,7 @@ import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import { sendEmail } from "../../nodemailer";
 import notifications from "../schemas/notifications.schema";
-import concesionariesSchema from "../schemas/concesionaries.schema";
+import concesionariesSchema from "../schemas/Concesionaries.schema";
 
 const userController: any = {};
 
@@ -215,6 +215,7 @@ userController.update = async (req: Request, res: Response) => {
       reponseJson.status = true;
       reponseJson.data = data;
     } else if (decode.type_user == "seller") {
+      
       if (data.type_user == "mechanic") {
         message = `El usuario tecnico fue modificado con exito`;
         await addOrUpdateMechanic(data);

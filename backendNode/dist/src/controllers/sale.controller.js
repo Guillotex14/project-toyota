@@ -88,49 +88,37 @@ saleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, func
         from: "Toyousado Notifications",
         to: email.email,
         subject: "Oferta de vehículo",
-        // html: `<div>
-        //     <p>Tienes una oferta de compra para:</p>
-        // </div>
-        // <div class="div-table" style="width: 100%;">
-        //     <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           getVehicle?.model
-        //         }</div>
-        //     </div>
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           getVehicle?.year
-        //         }</div>
-        //     </div>
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           getVehicle?.plate
-        //         }</div>
-        //     </div>
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           infoSeller?.fullName
-        //         }</div>
-        //     </div>
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           infoSeller!.concesionary
-        //         }</div>
-        //     </div>
-        //     <div style=" display: table-row;border: 1px solid #000;">
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-        //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-        //           infoSeller?.city
-        //         }</div>
-        //     </div>
-        //     </div>
-        //     </div>`,
+        html: `<div>
+          <p>Tienes una oferta de compra para:</p>
+      </div>
+      <div class="div-table" style="width: 100%;">
+          <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle === null || getVehicle === void 0 ? void 0 : getVehicle.model}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle === null || getVehicle === void 0 ? void 0 : getVehicle.year}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${getVehicle === null || getVehicle === void 0 ? void 0 : getVehicle.plate}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller === null || infoSeller === void 0 ? void 0 : infoSeller.fullName}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
+          </div>
+          <div style=" display: table-row;border: 1px solid #000;">
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+              <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller === null || infoSeller === void 0 ? void 0 : infoSeller.city}</div>
+          </div>
+          </div>
+          </div>`,
     };
     const dataVehicle = {
         model: getVehicle.model,

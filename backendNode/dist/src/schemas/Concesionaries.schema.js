@@ -6,4 +6,4 @@ const concesionariesSchema = new mongoose_1.Schema({
     state: String,
 });
 exports.default = (0, mongoose_1.model)("concesionaries", concesionariesSchema);
-//# sourceMappingURL=concesionaries.schema.js.map
+//# sourceMappingURL=Concesionaries.schema.js.map

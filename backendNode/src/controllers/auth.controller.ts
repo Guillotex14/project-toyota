@@ -9,9 +9,9 @@ import { sendEmail } from "../../nodemailer";
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
-import concesionarySchema from "../schemas/concesionaries.schema";
+import concesionarySchema from "../schemas/Concesionaries.schema";
 import VehiclesSchema from "../schemas/Vehicles.schema";
-import concesionariesSchema from "../schemas/concesionaries.schema";
+import concesionariesSchema from "../schemas/Concesionaries.schema";
 
 const authController: any = {};
 
