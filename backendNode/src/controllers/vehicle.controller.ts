@@ -20,13 +20,14 @@ import {
 } from "../../cloudinaryMetods";
 import * as global from "../global";
 import mongoose from "mongoose";
+import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 
 const vehicleController: any = {};
 
 vehicleController.addVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
@@ -211,7 +212,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
 vehicleController.addImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   const { id_vehicle, image } = req.body;
   if (decode == false) {
@@ -250,7 +251,7 @@ vehicleController.deleteImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { public_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -329,7 +330,7 @@ vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
 vehicleController.addImgDocuments = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   const { id_vehicle, image } = req.body;
   if (decode == false) {
@@ -371,7 +372,7 @@ vehicleController.deleteImgDocuments = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { public_id, vehicle_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
   let imgs_documentation: any[] = [];
   let index: number = 0;
 
@@ -408,7 +409,7 @@ vehicleController.updateImgDocuments = async (req: Request, res: Response) => {
 
   const { id_vehicle, image, public_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -657,6 +658,7 @@ vehicleController.myVehicles = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -1010,7 +1012,7 @@ vehicleController.dispatchedCar = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id, final_price_sold } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1043,7 +1045,7 @@ vehicleController.repost = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1088,6 +1090,7 @@ vehicleController.getVehicleByType = async (req: Request, res: Response) => {
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -1130,6 +1133,7 @@ vehicleController.filterVehiclesWithMongo = async (
   let decode = await jwt.getAuthorization(token, [
     "seller",
     "admin",
+    "admin_concesionary",
     "mechanic",
   ]);
 
@@ -1263,7 +1267,7 @@ vehicleController.filterVehiclesWithMongo = async (
 vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -1388,6 +1392,15 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     }
   }
 
+  if (decode.type_user == "admin_concesionary") {
+    let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+      mongQuery = {
+        ...mongQuery,
+        concesionary: { $regex: concesionary.name, $options: "i" },
+      };
+  }
+
+
   let sendData: any = [];
   let chartData: any = {};
 
@@ -1435,17 +1448,30 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       },
       { $sort: { _id: 1 } },
     ]);
+
+    let listCars:any = await Vehicles.aggregate([
+      {
+        $match: mongQuery,
+      }
+    ]);
+
+    for (let j = 0; j < listCars.length; j++) {
+      listCars[j].imgVehicle = null;
+      let imgvehicles = await ImgVehicle.findOne({
+        id_vehicle: listCars[j]._id,
+      });
+      listCars[j].imgVehicle = imgvehicles;
+    }
+
     sendData = getQuantityTotals(vehiclesFiltered);
 
     let cantMonth = calcularMeses(from, to);
-
     if (cantMonth == 1 || sendData.length == 1) {
       let groupByWeek = [];
       let groupByOneMonth = [];
 
       groupByWeek = agruparPorSemana(sendData);
       groupByOneMonth = agruparPorWeek(groupByWeek);
-      console.log(groupByOneMonth);
 
       const labels = groupByOneMonth.map((item) => item.semana);
       const total = groupByOneMonth.map((item) => item.total);
@@ -1457,15 +1483,18 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
             data: total, // total en el eje y
           },
         ],
+        list:listCars
       };
     } else {
-      const labels = sendData.map((dato: any) => dato.mes);
+      let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
+      const labels = dataAux.map((dato: any) => dato.mes);
       let nameArray = [];
       for (let i = 0; i < labels.length; i++) {
         nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
       }
-
-      const total = sendData.map((dato: any) => dato.total);
+      
+      const total = dataAux.map((dato: any) => dato.total);
+      
 
       datos = {
         labels: nameArray,
@@ -1475,6 +1504,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
             data: total,
           },
         ],
+        list:listCars
       };
     }
   } else {
@@ -1515,7 +1545,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       };
     }
 
-    console.log(conditionGroup);
+    console.log("aqui",conditionGroup);
     const cardsgroupmodel = await Vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1529,6 +1559,19 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         },
       },
     ]);
+    let listCars:any = await Vehicles.aggregate([
+      {
+        $match: mongQuery,
+      }
+    ]);
+
+    for (let j = 0; j < listCars.length; j++) {
+      listCars[j].imgVehicle = null;
+      let imgvehicles = await ImgVehicle.findOne({
+        id_vehicle: listCars[j]._id,
+      });
+      listCars[j].imgVehicle = imgvehicles;
+    }
 
     const result = groupAndSumByMonth(cardsgroupmodel);
 
@@ -1566,6 +1609,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
           fill: false,
         },
       ],
+      list:listCars
     };
 
     datos = chartData;
@@ -1588,7 +1632,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
 vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1711,6 +1755,14 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   //   }
   // }
 
+  if (decode.type_user == "admin_concesionary") {
+    let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+      mongQuery = {
+        ...mongQuery,
+        concesionary: { $regex: concesionary.name, $options: "i" },
+      };
+  }
+
   const cardsgroupmodel = await vehicles.aggregate([
     {
       $match: mongQuery,
@@ -1831,7 +1883,7 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
 vehicleController.exportExcell = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -3035,9 +3087,45 @@ const getNameMonth = (date: any) => {
     { month: "Noviembre", index: 11 },
     { month: "Diciembre", index: 12 },
   ];
-
   return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
+
+
+const llenarFechasFaltantes=(arr: any[], mesInicial: any, rango: any)=> {
+  const fechasFaltantes: string[] = [];
+  let rango_for=(parseInt(mesInicial) + parseInt(rango))>12 ? 12 :(parseInt(mesInicial) + parseInt(rango));
+  for (let i = mesInicial; i <= rango_for; i++) {
+    const fecha = `2023-${i.toString().padStart(2, '0')}-01`;
+    fechasFaltantes.push(fecha);
+  }
+
+
+  const resultado: any[] = [];
+
+  if (arr.length === 0) {
+    for (const fecha of fechasFaltantes) {
+      resultado.push({ mes: fecha, total: 0 });
+    }
+  } else {
+    for (const fecha of fechasFaltantes) {
+      const encontrado = arr.find(item => item.mes === fecha);
+      if (encontrado) {
+        resultado.push(encontrado);
+      } else {
+        resultado.push({ mes: fecha, total: 0 });
+      }
+    }
+    // Agregar elementos restantes del arreglo original
+    for (const elemento of arr) {
+      if (!fechasFaltantes.includes(elemento.mes)) {
+        resultado.push(elemento);
+      }
+    }
+  }
+
+  return resultado;
+}
+
 
 const sendNotification = async (
   id_seller: string,

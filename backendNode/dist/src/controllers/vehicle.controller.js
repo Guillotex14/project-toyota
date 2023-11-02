@@ -52,11 +52,12 @@ const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schem
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
@@ -190,7 +191,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
 vehicleController.addImgVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     const { id_vehicle, image } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -223,7 +224,7 @@ vehicleController.deleteImgVehicle = (req, res) => __awaiter(void 0, void 0, voi
     const reponseJson = new Response_1.ResponseModel();
     const { public_id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -287,7 +288,7 @@ vehicleController.updateImgVehicle = (req, res) => __awaiter(void 0, void 0, voi
 vehicleController.addImgDocuments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     const { id_vehicle, image } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -323,7 +324,7 @@ vehicleController.deleteImgDocuments = (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { public_id, vehicle_id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     let imgs_documentation = [];
     let index = 0;
     if (decode == false) {
@@ -353,7 +354,7 @@ vehicleController.updateImgDocuments = (req, res) => __awaiter(void 0, void 0, v
     const reponseJson = new Response_1.ResponseModel();
     const { id_vehicle, image, public_id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -564,6 +565,7 @@ vehicleController.myVehicles = (req, res) => __awaiter(void 0, void 0, void 0, f
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -895,7 +897,7 @@ vehicleController.dispatchedCar = (req, res) => __awaiter(void 0, void 0, void 0
     const reponseJson = new Response_1.ResponseModel();
     const { id, final_price_sold } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -921,7 +923,7 @@ vehicleController.repost = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const reponseJson = new Response_1.ResponseModel();
     const { id } = req.body;
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -959,6 +961,7 @@ vehicleController.getVehicleByType = (req, res) => __awaiter(void 0, void 0, voi
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -994,6 +997,7 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
     let decode = yield generar_jwt_1.default.getAuthorization(token, [
         "seller",
         "admin",
+        "admin_concesionary",
         "mechanic",
     ]);
     if (decode == false) {
@@ -1115,7 +1119,7 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
 vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -1192,6 +1196,10 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             }
         }
     }
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
     let sendData = [];
     let chartData = {};
     let datos = {};
@@ -1236,6 +1244,18 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             },
             { $sort: { _id: 1 } },
         ]);
+        let listCars = yield Vehicles_schema_1.default.aggregate([
+            {
+                $match: mongQuery,
+            }
+        ]);
+        for (let j = 0; j < listCars.length; j++) {
+            listCars[j].imgVehicle = null;
+            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({
+                id_vehicle: listCars[j]._id,
+            });
+            listCars[j].imgVehicle = imgvehicles;
+        }
         sendData = getQuantityTotals(vehiclesFiltered);
         let cantMonth = calcularMeses(from, to);
         if (cantMonth == 1 || sendData.length == 1) {
@@ -1243,7 +1263,6 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             let groupByOneMonth = [];
             groupByWeek = agruparPorSemana(sendData);
             groupByOneMonth = agruparPorWeek(groupByWeek);
-            console.log(groupByOneMonth);
             const labels = groupByOneMonth.map((item) => item.semana);
             const total = groupByOneMonth.map((item) => item.total);
             datos = {
@@ -1251,20 +1270,23 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 datasets: [
                     Object.assign(Object.assign({}, optionset), { data: total }),
                 ],
+                list: listCars
             };
         }
         else {
-            const labels = sendData.map((dato) => dato.mes);
+            let dataAux = llenarFechasFaltantes(sendData, data.month, data.rangMonths);
+            const labels = dataAux.map((dato) => dato.mes);
             let nameArray = [];
             for (let i = 0; i < labels.length; i++) {
                 nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
             }
-            const total = sendData.map((dato) => dato.total);
+            const total = dataAux.map((dato) => dato.total);
             datos = {
                 labels: nameArray,
                 datasets: [
                     Object.assign(Object.assign({}, optionset), { data: total }),
                 ],
+                list: listCars
             };
         }
     }
@@ -1307,7 +1329,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 maxAmount: { $max: "$price" },
             };
         }
-        console.log(conditionGroup);
+        console.log("aqui", conditionGroup);
         const cardsgroupmodel = yield Vehicles_schema_1.default.aggregate([
             {
                 $match: mongQuery,
@@ -1321,6 +1343,18 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 },
             },
         ]);
+        let listCars = yield Vehicles_schema_1.default.aggregate([
+            {
+                $match: mongQuery,
+            }
+        ]);
+        for (let j = 0; j < listCars.length; j++) {
+            listCars[j].imgVehicle = null;
+            let imgvehicles = yield ImgVehicle_schema_1.default.findOne({
+                id_vehicle: listCars[j]._id,
+            });
+            listCars[j].imgVehicle = imgvehicles;
+        }
         const result = groupAndSumByMonth(cardsgroupmodel);
         var labels = [];
         var minData = [];
@@ -1354,6 +1388,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                     fill: false,
                 },
             ],
+            list: listCars
         };
         datos = chartData;
     }
@@ -1373,7 +1408,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
 vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -1447,6 +1482,10 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     //     }
     //   }
     // }
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
     const cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
         {
             $match: mongQuery,
@@ -1552,7 +1591,7 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
 vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
-    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller"]);
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
     let data = req.query;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -2527,6 +2566,38 @@ const getNameMonth = (date) => {
         { month: "Diciembre", index: 12 },
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
+};
+const llenarFechasFaltantes = (arr, mesInicial, rango) => {
+    const fechasFaltantes = [];
+    let rango_for = (parseInt(mesInicial) + parseInt(rango)) > 12 ? 12 : (parseInt(mesInicial) + parseInt(rango));
+    for (let i = mesInicial; i <= rango_for; i++) {
+        const fecha = `2023-${i.toString().padStart(2, '0')}-01`;
+        fechasFaltantes.push(fecha);
+    }
+    const resultado = [];
+    if (arr.length === 0) {
+        for (const fecha of fechasFaltantes) {
+            resultado.push({ mes: fecha, total: 0 });
+        }
+    }
+    else {
+        for (const fecha of fechasFaltantes) {
+            const encontrado = arr.find(item => item.mes === fecha);
+            if (encontrado) {
+                resultado.push(encontrado);
+            }
+            else {
+                resultado.push({ mes: fecha, total: 0 });
+            }
+        }
+        // Agregar elementos restantes del arreglo original
+        for (const elemento of arr) {
+            if (!fechasFaltantes.includes(elemento.mes)) {
+                resultado.push(elemento);
+            }
+        }
+    }
+    return resultado;
 };
 const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
