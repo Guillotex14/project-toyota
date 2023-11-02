@@ -278,7 +278,7 @@ ion-card{
   }
 }
 
-@media screen and (max-width: 280px){
+@media screen and (max-width: 243px){
   .iconBlack{
     font-size: 75px !important;
   }
@@ -293,5 +293,11 @@ ion-card{
   }	
   .card{ 
     height: 105px !important;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 328px) {
+  .mecConcesionary{
+    font-size: 15px !important;
   }
 }
