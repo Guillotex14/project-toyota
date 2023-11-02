@@ -10,7 +10,7 @@ import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
 import { sendEmail } from "../../nodemailer";
 import notifications from "../schemas/notifications.schema";
-import concesionariesSchema from "../schemas/concesionaries.schema";
+import concesionariesSchema from "../schemas/Concesionaries.schema";
 
 const userController: any = {};
 
@@ -650,7 +650,7 @@ userController.getNotifications = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-
+  
   if (!data) {
     data = {
       pos: 0,

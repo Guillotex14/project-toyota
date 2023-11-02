@@ -23,7 +23,7 @@ const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const nodemailer_1 = require("../../nodemailer");
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
-const concesionaries_schema_1 = __importDefault(require("../schemas/concesionaries.schema"));
+const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const userController = {};
 userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -59,7 +59,7 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
                 message = `El usuario administrador fue creado con exito`;
             }
             else if (data.type_user == "admin_concesionary") { // admin creando un admin_concesionary
-                let concesionario = yield concesionaries_schema_1.default.findOne({
+                let concesionario = yield Concesionaries_schema_1.default.findOne({
                     _id: data.id_concesionary,
                 });
                 data.concesionary = concesionario.name;
@@ -69,7 +69,7 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             if (data.type_user == "mechanic") {
                 if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario mechanic y asigandole su concesionario correspondiente
-                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                    let concesionario = yield Concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
@@ -80,7 +80,7 @@ userController.insert = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             if (data.type_user == "seller") {
                 if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario seller y asigandole su concesionario correspondiente
-                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                    let concesionario = yield Concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
@@ -178,7 +178,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             else if (data.type_user == "admin_concesionary") { // admin modificando un admin_concesionary
                 message = `El usuario administrador de concesionario fue modificado con exito`;
-                let concesionario = yield concesionaries_schema_1.default.findOne({
+                let concesionario = yield Concesionaries_schema_1.default.findOne({
                     _id: data.id_concesionary,
                 });
                 data.concesionary = concesionario.name;
@@ -187,7 +187,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             else if (data.type_user == "mechanic") {
                 if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
-                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                    let concesionario = yield Concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
@@ -198,7 +198,7 @@ userController.update = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             else if (data.type_user == "seller") {
                 if (decode.type_user == "admin_concesionary") { //admin_concesionary modificando un usuario mechanic y asigandole su concesionario correspondiente
-                    let concesionario = yield concesionaries_schema_1.default.findOne({
+                    let concesionario = yield Concesionaries_schema_1.default.findOne({
                         _id: decode.id_concesionary,
                     });
                     data.concesionary = concesionario.name;
@@ -403,7 +403,7 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         type_user: data.type_user,
     };
     if (decode.type_user == "admin_concesionary") { // cuando el usuario admin_concesionary consulta
-        let concesionary = yield concesionaries_schema_1.default.findOne({
+        let concesionary = yield Concesionaries_schema_1.default.findOne({
             _id: decode.id_concesionary,
         });
         search = Object.assign(Object.assign({}, search), { [`${type_user_table}.concesionary`]: {
@@ -548,7 +548,7 @@ userController.allMechanic = (req, res) => __awaiter(void 0, void 0, void 0, fun
         type_user: "mechanic",
     };
     if (decode.type_user == "admin_concesionary") {
-        let concesionario = yield concesionaries_schema_1.default.findOne({
+        let concesionario = yield Concesionaries_schema_1.default.findOne({
             _id: decode.id_concesionary,
         });
         search.concesionary = concesionario.name;

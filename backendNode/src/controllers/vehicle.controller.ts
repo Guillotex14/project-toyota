@@ -100,7 +100,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   await newVehicle.save();
 
   const mec = await mechanics.findOne({ _id: id_mechanic });
-  emailmechanic = await Users.findOne({ _id: mec?.id_user });
+  emailmechanic = await Users.findOne({ _id: mec!.id_user });
 
   infoSeller = await sellers.findOne({ _id: id_seller });
 
@@ -144,46 +144,46 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
 
   const mailOptions = {
     from: "Toyousado",
-    to: emailmechanic,
+    to: emailmechanic.email,
     subject: "Revisión de vehículo",
-    // html: `
-    //     <div>
-    //     <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-    //     </div>
-    //     <div class="div-table" style="width: 100%;">
-    //     <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-    //         </div>
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-    //         </div>
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-    //         </div>
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //           infoSeller!.fullName
-    //         }</div>
-    //         </div>
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //           infoSeller!.concesionary
-    //         }</div>
-    //         </div>
-    //         <div style=" display: table-row;border: 1px solid #000;">
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-    //         <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //           infoSeller!.city
-    //         }</div>
-    //         </div>
-    //     </div>
-    //     </div>`,
+    html: `
+        <div>
+        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
+        </div>
+        <div class="div-table" style="width: 100%;">
+        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.fullName
+            }</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.concesionary
+            }</div>
+            </div>
+            <div style=" display: table-row;border: 1px solid #000;">
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
+              infoSeller!.city
+            }</div>
+            </div>
+        </div>
+        </div>`,
   };
 
   const dataVehicle = {
