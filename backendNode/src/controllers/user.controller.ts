@@ -215,6 +215,7 @@ userController.update = async (req: Request, res: Response) => {
       reponseJson.status = true;
       reponseJson.data = data;
     } else if (decode.type_user == "seller") {
+      
       if (data.type_user == "mechanic") {
         message = `El usuario tecnico fue modificado con exito`;
         await addOrUpdateMechanic(data);

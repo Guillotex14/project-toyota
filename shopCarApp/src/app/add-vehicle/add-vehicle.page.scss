@@ -277,3 +277,21 @@ ion-card{
     font-size: 12px !important;
   }
 }
+
+@media screen and (max-width: 280px){
+  .iconBlack{
+    font-size: 75px !important;
+  }
+  .mecFullname{
+    font-size: 12px !important;
+  }
+  .mecCity{
+    font-size: 11px !important;
+  }
+  .mecConcesionary{
+    font-size: 10px !important;
+  }	
+  .card{ 
+    height: 105px !important;
+  }
+}

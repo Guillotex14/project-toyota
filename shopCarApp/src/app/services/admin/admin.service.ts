@@ -22,7 +22,7 @@ export class AdminService {
   }
 
   public getSellerById(id: any) {
-    return this.http.post(global.urlBase+"user/get",id,this.authToken);
+    return this.http.get(global.urlBase+"user/get?id_user="+id.id,this.authToken);
   }
 
   public updateSeller(seller: any) {
