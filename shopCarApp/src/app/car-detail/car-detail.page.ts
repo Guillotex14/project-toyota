@@ -179,10 +179,9 @@ export class CarDetailPage implements OnInit {
           this.arrayDocuments = this.carDetail.imgs_documentation;
         }
         
-        if (this.myId === this.carDetail.id_seller && this.carDetail.price_ofert && !this.carDetail.sold) {
+        if (this.myId === this.carDetail.id_seller && this.carDetail.price_ofert && !this.carDetail.sold && this.carDetail.final_price_sold===null) {
           this.ofertAlert();
         }
-
 
       }else{
         this.utils.dismissLoading();

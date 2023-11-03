@@ -224,27 +224,27 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
 
     await sendEmail(mailOptions);
 
-    sendNotification(
-      userbuyer!._id.toString(),
-      mailOptions.text,
-      mailOptions.subject
-    );
-    // const dataVehicle = {
-    //   model: vehicle!.model,
-    //   year: vehicle!.year,
-    //   plate: vehicle!.plate ? vehicle!.plate : "",
-    //   fullName: Userseller!.fullName,
-    //   concesionary: vehicle!.concesionary,
-    //   city: vehicle!.city,
-    //   title: "Oferta de vehículo aprobada",
-    //   link: `car-detail/${vehicle!._id}/home-seller`
-    // };
-
     // sendNotification(
     //   userbuyer!._id.toString(),
     //   mailOptions.text,
-    //   "Oferta de vehículo aprobada"
+    //   mailOptions.subject
     // );
+    const dataVehicle = {
+      model: vehicle!.model,
+      year: vehicle!.year,
+      plate: vehicle!.plate ? vehicle!.plate : "",
+      fullName: infoSeller!.fullName,
+      concesionary: vehicle!.concesionary,
+      city: vehicle!.city,
+      title: "Oferta de vehículo aprobada",
+      link: id_vehicle,
+    };
+
+    sendNotification(
+      userbuyer!._id.toString(),
+      dataVehicle,
+      "Oferta de vehículo aprobada"
+    );
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al aprobar la oferta";
