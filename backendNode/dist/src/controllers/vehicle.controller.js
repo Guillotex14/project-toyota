@@ -1358,9 +1358,39 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             avgData.push(item.avgAmount); // Agregar el monto promedio
             maxData.push(item.maxAmount); // Agregar el monto máximo
         });
-        chartData = {
-            labels: labels,
-            datasets: [
+        let arrayMount = [];
+        if (data.triple_m == "max") {
+            arrayMount = [
+                {
+                    label: "Monto Máximo",
+                    data: maxData,
+                    borderColor: "red",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "mid") {
+            arrayMount = [
+                {
+                    label: "Monto Promedio",
+                    data: avgData,
+                    borderColor: "green",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "min") {
+            arrayMount = [
+                {
+                    label: "Monto Mínimo",
+                    data: minData,
+                    borderColor: "blue",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "all") {
+            arrayMount = [
                 {
                     label: "Monto Mínimo",
                     data: minData,
@@ -1378,8 +1408,12 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                     data: maxData,
                     borderColor: "red",
                     fill: false,
-                },
-            ],
+                }
+            ];
+        }
+        chartData = {
+            labels: labels,
+            datasets: arrayMount,
             list: listCars
         };
         datos = chartData;
