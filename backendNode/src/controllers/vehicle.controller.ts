@@ -1376,20 +1376,10 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let user: any = null;
 
   if (decode.type_user == "seller") {
-    user = await Users.findOne({ _id: decode.id });
-    if (user) {
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: user.concesionary, $options: "i" },
-      };
-    } else {
-      if (data.concesionary) {
         mongQuery = {
           ...mongQuery,
-          concesionary: { $regex: data.concesionary, $options: "i" },
-        };
-      }
-    }
+          concesionary: { $regex: decode.concesionary, $options: "i" },
+        };   
   }
 
   if (decode.type_user == "admin_concesionary") {
@@ -1760,6 +1750,14 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
       mongQuery = {
         ...mongQuery,
         concesionary: { $regex: concesionary.name, $options: "i" },
+      };
+  }
+
+  if (decode.type_user == "seller") {
+    // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+      mongQuery = {
+        ...mongQuery,
+        concesionary: { $regex: decode.concesionary, $options: "i" },
       };
   }
 

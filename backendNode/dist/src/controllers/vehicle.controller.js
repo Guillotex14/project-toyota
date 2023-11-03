@@ -1186,15 +1186,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
     }
     let user = null;
     if (decode.type_user == "seller") {
-        user = yield Users_schema_1.default.findOne({ _id: decode.id });
-        if (user) {
-            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: user.concesionary, $options: "i" } });
-        }
-        else {
-            if (data.concesionary) {
-                mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: data.concesionary, $options: "i" } });
-            }
-        }
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
     }
     if (decode.type_user == "admin_concesionary") {
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
@@ -1485,6 +1477,10 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     if (decode.type_user == "admin_concesionary") {
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
+    if (decode.type_user == "seller") {
+        // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
     }
     const cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
         {
