@@ -1149,9 +1149,9 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         rangArrayMonth = getMonthRange(data.month, data.rangMonths);
         firtsMonth = new Date(anioActual, data.month - 1, 1);
         if (rangArrayMonth.length > 1) {
-            last = new Date(anioActual, rangArrayMonth.length - 1);
-            lastDayLasyMont = getLastDayOfMonth(anioActual, rangArrayMonth.length - 1);
-            lastMonth = new Date(anioActual, rangArrayMonth.length - 1, lastDayLasyMont.getDate());
+            last = new Date(anioActual, (rangArrayMonth[rangArrayMonth.length - 1].index - 1));
+            lastDayLasyMont = getLastDayOfMonth(anioActual, (rangArrayMonth[rangArrayMonth.length - 1].index - 1));
+            lastMonth = new Date(anioActual, (rangArrayMonth[rangArrayMonth.length - 1].index - 1), lastDayLasyMont.getDate());
         }
         else {
             last = new Date(anioActual, data.month - 1);
@@ -1266,13 +1266,15 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             };
         }
         else {
-            let dataAux = llenarFechasFaltantes(sendData, data.month, data.rangMonths);
-            const labels = dataAux.map((dato) => dato.mes);
+            // let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
+            const labels = sendData.map((dato) => dato.mes);
             let nameArray = [];
             for (let i = 0; i < labels.length; i++) {
                 nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
             }
-            const total = dataAux.map((dato) => dato.total);
+            nameArray = orderMonths(nameArray);
+            console.log(nameArray);
+            const total = sendData.map((dato) => dato.total);
             datos = {
                 labels: nameArray,
                 datasets: [
@@ -1321,7 +1323,6 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 maxAmount: { $max: "$price" },
             };
         }
-        console.log("aqui", conditionGroup);
         const cardsgroupmodel = yield Vehicles_schema_1.default.aggregate([
             {
                 $match: mongQuery,
@@ -2572,7 +2573,7 @@ function getMonthRange(startMonth, rangeMonths) {
 }
 function getLastDayOfMonth(year, month) {
     // Ajustar el mes para que sea el siguiente
-    const nextMonth = month + 1;
+    const nextMonth = parseInt(month + 1);
     // Crear una nueva fecha con el primer día del mes siguiente
     const firstDayOfNextMonth = new Date(year, nextMonth, 1);
     // Restar un día para obtener el último día del mes actual
@@ -2596,6 +2597,25 @@ const getNameMonth = (date) => {
         { month: "Diciembre", index: 12 },
     ];
     return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
+};
+const orderMonths = (requiredMonths) => {
+    const months = [
+        { month: "Enero", index: 1 },
+        { month: "Febrero", index: 2 },
+        { month: "Marzo", index: 3 },
+        { month: "Abril", index: 4 },
+        { month: "Mayo", index: 5 },
+        { month: "Junio", index: 6 },
+        { month: "Julio", index: 7 },
+        { month: "Agosto", index: 8 },
+        { month: "Septiembre", index: 9 },
+        { month: "Octubre", index: 10 },
+        { month: "Noviembre", index: 11 },
+        { month: "Diciembre", index: 12 },
+    ];
+    const filteredMonths = months.filter((mes) => requiredMonths.includes(mes.month));
+    filteredMonths.sort((a, b) => a.index - b.index);
+    return filteredMonths.map((mes) => mes.month);
 };
 const llenarFechasFaltantes = (arr, mesInicial, rango) => {
     const fechasFaltantes = [];

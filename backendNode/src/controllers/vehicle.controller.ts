@@ -27,7 +27,7 @@ const vehicleController: any = {};
 vehicleController.addVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
@@ -167,21 +167,18 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
             </div>
             <div style=" display: table-row;border: 1px solid #000;">
             <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-              infoSeller!.fullName
-            }</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.fullName
+      }</div>
             </div>
             <div style=" display: table-row;border: 1px solid #000;">
             <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-              infoSeller!.concesionary
-            }</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.concesionary
+      }</div>
             </div>
             <div style=" display: table-row;border: 1px solid #000;">
             <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-              infoSeller!.city
-            }</div>
+            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.city
+      }</div>
             </div>
         </div>
         </div>`,
@@ -212,7 +209,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
 vehicleController.addImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   const { id_vehicle, image } = req.body;
   if (decode == false) {
@@ -251,7 +248,7 @@ vehicleController.deleteImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { public_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -330,7 +327,7 @@ vehicleController.updateImgVehicle = async (req: Request, res: Response) => {
 vehicleController.addImgDocuments = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   const { id_vehicle, image } = req.body;
   if (decode == false) {
@@ -372,7 +369,7 @@ vehicleController.deleteImgDocuments = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { public_id, vehicle_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
   let imgs_documentation: any[] = [];
   let index: number = 0;
 
@@ -409,7 +406,7 @@ vehicleController.updateImgDocuments = async (req: Request, res: Response) => {
 
   const { id_vehicle, image, public_id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -566,9 +563,9 @@ vehicleController.allVehicles = async (req: Request, res: Response) => {
   } else if (decode.type_user == "seller") {
     query.id_seller = decode.id_seller;
   }
-if (decode.type_user=="admin_concesionary") {
-  query.concesionary=decode.concesionary
-}
+  if (decode.type_user == "admin_concesionary") {
+    query.concesionary = decode.concesionary
+  }
 
 
   const vehiclesFiltered = await vehicles.find(query).sort({ date_create: -1 });
@@ -994,7 +991,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
   ]);
 
   if (mecFile) {
-    
+
     reponseJson.code = 200;
     reponseJson.status = true;
     reponseJson.message = "Ficha mecánica encontrada";
@@ -1012,7 +1009,7 @@ vehicleController.dispatchedCar = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id, final_price_sold } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1045,7 +1042,7 @@ vehicleController.repost = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id } = req.body;
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["seller", "admin","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1267,7 +1264,7 @@ vehicleController.filterVehiclesWithMongo = async (
 vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -1305,14 +1302,15 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     firtsMonth = new Date(anioActual, data.month - 1, 1);
 
     if (rangArrayMonth.length > 1) {
-      last = new Date(anioActual, rangArrayMonth.length - 1);
+      last = new Date(anioActual, (rangArrayMonth[rangArrayMonth.length - 1].index - 1));
       lastDayLasyMont = getLastDayOfMonth(
         anioActual,
-        rangArrayMonth.length - 1
+        (rangArrayMonth[rangArrayMonth.length - 1].index - 1)
+
       );
       lastMonth = new Date(
         anioActual,
-        rangArrayMonth.length - 1,
+        (rangArrayMonth[rangArrayMonth.length - 1].index - 1),
         lastDayLasyMont.getDate()
       );
     } else {
@@ -1326,23 +1324,21 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     }
   }
 
-  let from = `${firtsMonth.getFullYear()}-${
-    firtsMonth.getMonth() + 1 < 10
+  let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10
       ? "0" + (firtsMonth.getMonth() + 1)
       : firtsMonth.getMonth() + 1
-  }-${
-    firtsMonth.getDate() < 10
+    }-${firtsMonth.getDate() < 10
       ? "0" + firtsMonth.getDate()
       : firtsMonth.getDate()
-  }`;
+    }`;
 
-  let to = `${lastMonth.getFullYear()}-${
-    lastMonth.getMonth() + 1 < 10
+  let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10
       ? "0" + (lastMonth.getMonth() + 1)
       : lastMonth.getMonth() + 1
-  }-${
-    lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()
-  }`;
+    }-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()
+    }`;
+
+
   let mongQuery: any = {
     date_sell: {
       $gte: from, // Filtrar documentos a partir del 1 de enero del año
@@ -1372,22 +1368,21 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       model: { $regex: data.modelCar, $options: "i" },
     };
   }
-
   let user: any = null;
 
   if (decode.type_user == "seller") {
-        mongQuery = {
-          ...mongQuery,
-          concesionary: { $regex: decode.concesionary, $options: "i" },
-        };   
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: decode.concesionary, $options: "i" },
+    };
   }
 
   if (decode.type_user == "admin_concesionary") {
-    let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: concesionary.name, $options: "i" },
-      };
+    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary.name, $options: "i" },
+    };
   }
 
 
@@ -1439,7 +1434,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       { $sort: { _id: 1 } },
     ]);
 
-    let listCars:any = await Vehicles.aggregate([
+    let listCars: any = await Vehicles.aggregate([
       {
         $match: mongQuery,
       }
@@ -1473,18 +1468,21 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
             data: total, // total en el eje y
           },
         ],
-        list:listCars
+        list: listCars
       };
     } else {
-      let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
-      const labels = dataAux.map((dato: any) => dato.mes);
+      // let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
+
+      const labels = sendData.map((dato: any) => dato.mes);
       let nameArray = [];
       for (let i = 0; i < labels.length; i++) {
         nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
       }
-      
-      const total = dataAux.map((dato: any) => dato.total);
-      
+
+      nameArray = orderMonths(nameArray);
+      console.log(nameArray)
+      const total = sendData.map((dato: any) => dato.total);
+
 
       datos = {
         labels: nameArray,
@@ -1494,7 +1492,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
             data: total,
           },
         ],
-        list:listCars
+        list: listCars
       };
     }
   } else {
@@ -1535,7 +1533,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       };
     }
 
-    console.log("aqui",conditionGroup);
+
     const cardsgroupmodel = await Vehicles.aggregate([
       {
         $match: mongQuery,
@@ -1549,7 +1547,10 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         },
       },
     ]);
-    let listCars:any = await Vehicles.aggregate([
+
+
+
+    let listCars: any = await Vehicles.aggregate([
       {
         $match: mongQuery,
       }
@@ -1577,10 +1578,10 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       maxData.push(item.maxAmount); // Agregar el monto máximo
     });
 
-    let arrayMount:any[]=[];
+    let arrayMount: any[] = [];
 
     if (data.triple_m == "max") {
-      arrayMount=[
+      arrayMount = [
         {
           label: "Monto Máximo",
           data: maxData,
@@ -1589,7 +1590,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         }
       ];
     } else if (data.triple_m == "mid") {
-      arrayMount=[
+      arrayMount = [
         {
           label: "Monto Promedio",
           data: avgData,
@@ -1598,7 +1599,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         }
       ];
     } else if (data.triple_m == "min") {
-      arrayMount=[
+      arrayMount = [
         {
           label: "Monto Mínimo",
           data: minData,
@@ -1607,7 +1608,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         }
       ];
     } else if (data.triple_m == "all") {
-      arrayMount=[
+      arrayMount = [
         {
           label: "Monto Mínimo",
           data: minData,
@@ -1633,7 +1634,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     chartData = {
       labels: labels,
       datasets: arrayMount,
-      list:listCars
+      list: listCars
     };
 
     datos = chartData;
@@ -1656,7 +1657,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
 vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
 
   if (decode == false) {
     reponseJson.code = jwt.code;
@@ -1780,19 +1781,19 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   // }
 
   if (decode.type_user == "admin_concesionary") {
-    let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: concesionary.name, $options: "i" },
-      };
+    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary.name, $options: "i" },
+    };
   }
 
   if (decode.type_user == "seller") {
     // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-      mongQuery = {
-        ...mongQuery,
-        concesionary: { $regex: decode.concesionary, $options: "i" },
-      };
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: decode.concesionary, $options: "i" },
+    };
   }
 
   const cardsgroupmodel = await vehicles.aggregate([
@@ -1915,7 +1916,7 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
 vehicleController.exportExcell = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
-  let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
   let data: any = req.query;
 
   if (decode == false) {
@@ -2604,67 +2605,67 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
   } = req.body;
 
   const newMechanicFile = new mechanicalsFiles({
-      part_emblems_complete,
-      wiper_shower_brushes_windshield,
-      hits,
-      scratches,
-      paint_condition,
-      bugle_accessories,
-      air_conditioning_system,
-      radio_player,
-      courtesy_lights,
-      upholstery_condition,
-      gts,
-      board_lights,
-      tire_pressure,
-      tire_life,
-      battery_status_terminals,
-      transmitter_belts,
-      motor_oil,
-      engine_coolant_container,
-      radiator_status,
-      exhaust_pipe_bracket,
-      fuel_tank_cover_pipes_hoses_connections,
-      distribution_mail,
-      spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-      fuel_system,
-      parking_break,
-      brake_bands_drums,
-      brake_pads_discs,
-      brake_pipes_hoses,
-      master_cylinder,
-      brake_fluid,
-      bushings_plateaus,
-      stumps,
-      terminals,
-      stabilizer_bar,
-      bearings,
-      tripoids_rubbe_bands,
-      shock_absorbers_coils,
-      dealer_maintenance,
-      headlights_lights,
-      general_condition,
-      odometer,
-      engine_start,
-      windshields_glass,
-      hits_scratches,
-      spark_plugs,
-      injectors,
-      fuel_filter_anti_pollen_filter,
-      engine_noises,
-      hits_scratches_sides,
-      paint_condition_sides,
-      trunk_hatch,
-      spare_tire,
-      hits_scratches_trunk,
-      paint_condition_trunk,
-      headlights_lights_trunk,
-      fuel_tank_cover,
-      pipes_hoses_connections,
-      brake_discs,
-      created_at: dateNow,
-      id_vehicle,
-      id_mechanic
+    part_emblems_complete,
+    wiper_shower_brushes_windshield,
+    hits,
+    scratches,
+    paint_condition,
+    bugle_accessories,
+    air_conditioning_system,
+    radio_player,
+    courtesy_lights,
+    upholstery_condition,
+    gts,
+    board_lights,
+    tire_pressure,
+    tire_life,
+    battery_status_terminals,
+    transmitter_belts,
+    motor_oil,
+    engine_coolant_container,
+    radiator_status,
+    exhaust_pipe_bracket,
+    fuel_tank_cover_pipes_hoses_connections,
+    distribution_mail,
+    spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+    fuel_system,
+    parking_break,
+    brake_bands_drums,
+    brake_pads_discs,
+    brake_pipes_hoses,
+    master_cylinder,
+    brake_fluid,
+    bushings_plateaus,
+    stumps,
+    terminals,
+    stabilizer_bar,
+    bearings,
+    tripoids_rubbe_bands,
+    shock_absorbers_coils,
+    dealer_maintenance,
+    headlights_lights,
+    general_condition,
+    odometer,
+    engine_start,
+    windshields_glass,
+    hits_scratches,
+    spark_plugs,
+    injectors,
+    fuel_filter_anti_pollen_filter,
+    engine_noises,
+    hits_scratches_sides,
+    paint_condition_sides,
+    trunk_hatch,
+    spare_tire,
+    hits_scratches_trunk,
+    paint_condition_trunk,
+    headlights_lights_trunk,
+    fuel_tank_cover,
+    pipes_hoses_connections,
+    brake_discs,
+    created_at: dateNow,
+    id_vehicle,
+    id_mechanic
   });
 
   const newMechanicFileSaved = await newMechanicFile.save();
@@ -2714,21 +2715,18 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
               <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
               <div style=" display: table-row;border: 1px solid #000;">
                   <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-                    vehicle!.model
-                  }</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.model
+        }</div>
               </div>
               <div style=" display: table-row;border: 1px solid #000;">
                   <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-                    vehicle!.year
-                  }</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.year
+        }</div>
               </div>
               <div style=" display: table-row;border: 1px solid #000;">
                   <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-                    vehicle!.plate
-                  }</div>
+                  <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle!.plate
+        }</div>
               </div>
               <div style=" display: table-row;border: 1px solid #000;">
                   <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
@@ -2841,7 +2839,7 @@ vehicleController.getMechanicFileByIdVehicle = async (
 
 vehicleController.ofertInfo = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
-  const id  = req.query;
+  const id = req.query;
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["seller", "mechanic"]);
 
@@ -2852,7 +2850,7 @@ vehicleController.ofertInfo = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-  
+
   const vehicle = await vehicles.aggregate([
     {
       $match: {
@@ -2884,13 +2882,13 @@ vehicleController.ofertInfo = async (req: Request, res: Response) => {
     {
       $project: {
         price_ofert: 1,
-        seller:{
+        seller: {
           fullName: 1,
           phone: 1,
           city: 1,
           concesionary: 1,
         },
-        user:{
+        user: {
           email: 1,
         },
       },
@@ -3039,7 +3037,7 @@ const getWeekNumber = (date: any) => {
 };
 
 const agruparPorWeek = (datos: any) => {
-  const semanas:any[] = [];
+  const semanas: any[] = [];
   let contador = 1;
 
   for (const dato of datos) {
@@ -3052,10 +3050,10 @@ const agruparPorWeek = (datos: any) => {
 
 
   const result = [];
-  result.push({ semana: "Semana " + Number(1), total: semanas[1] ? semanas[1] :0 });
-  result.push({ semana: "Semana " + Number(2), total: semanas[2] ? semanas[2] :0 });
-  result.push({ semana: "Semana " + Number(3), total: semanas[3] ? semanas[3] :0 });
-  result.push({ semana: "Semana " + Number(4), total: semanas[4] ? semanas[4] :0 });
+  result.push({ semana: "Semana " + Number(1), total: semanas[1] ? semanas[1] : 0 });
+  result.push({ semana: "Semana " + Number(2), total: semanas[2] ? semanas[2] : 0 });
+  result.push({ semana: "Semana " + Number(3), total: semanas[3] ? semanas[3] : 0 });
+  result.push({ semana: "Semana " + Number(4), total: semanas[4] ? semanas[4] : 0 });
   // for (const semana in semanas) {
   //   result.push({ semana: "Semana " + Number(semana), total: semanas[semana] });
   // }
@@ -3090,7 +3088,7 @@ function getMonthRange(startMonth: any, rangeMonths: any) {
 
 function getLastDayOfMonth(year: any, month: any) {
   // Ajustar el mes para que sea el siguiente
-  const nextMonth = month + 1;
+  const nextMonth = parseInt(month + 1);
 
   // Crear una nueva fecha con el primer día del mes siguiente
   const firstDayOfNextMonth = new Date(year, nextMonth, 1);
@@ -3122,10 +3120,33 @@ const getNameMonth = (date: any) => {
   return months.filter((mes) => mes.index === parseInt(partsDate[1]))[0].month;
 };
 
+const orderMonths = (requiredMonths: any) => {
+  const months = [
+    { month: "Enero", index: 1 },
+    { month: "Febrero", index: 2 },
+    { month: "Marzo", index: 3 },
+    { month: "Abril", index: 4 },
+    { month: "Mayo", index: 5 },
+    { month: "Junio", index: 6 },
+    { month: "Julio", index: 7 },
+    { month: "Agosto", index: 8 },
+    { month: "Septiembre", index: 9 },
+    { month: "Octubre", index: 10 },
+    { month: "Noviembre", index: 11 },
+    { month: "Diciembre", index: 12 },
+  ];
 
-const llenarFechasFaltantes=(arr: any[], mesInicial: any, rango: any)=> {
+  const filteredMonths = months.filter((mes) => requiredMonths.includes(mes.month));
+
+  filteredMonths.sort((a, b) => a.index - b.index);
+
+  return filteredMonths.map((mes) => mes.month);
+};
+
+
+const llenarFechasFaltantes = (arr: any[], mesInicial: any, rango: any) => {
   const fechasFaltantes: string[] = [];
-  let rango_for=(parseInt(mesInicial) + parseInt(rango))>12 ? 12 :(parseInt(mesInicial) + parseInt(rango));
+  let rango_for = (parseInt(mesInicial) + parseInt(rango)) > 12 ? 12 : (parseInt(mesInicial) + parseInt(rango));
   for (let i = mesInicial; i <= rango_for; i++) {
     const fecha = `2023-${i.toString().padStart(2, '0')}-01`;
     fechasFaltantes.push(fecha);
