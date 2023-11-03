@@ -128,6 +128,7 @@ saleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, func
         concesionary: infoSeller.concesionary,
         city: infoSeller.city,
         title: "Tienes una oferta de compra para:",
+        link: getVehicle._id,
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
@@ -174,22 +175,22 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
             text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${Userseller.email} o al número telefono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
-        // const dataVehicle = {
-        //   model: vehicle!.model,
-        //   year: vehicle!.year,
-        //   plate: vehicle!.plate ? vehicle!.plate : "",
-        //   fullName: Userseller!.fullName,
-        //   concesionary: vehicle!.concesionary,
-        //   city: vehicle!.city,
-        //   title: "Oferta de vehículo aprobada",
-        //   link: `car-detail/${vehicle!._id}/home-seller`
-        // };
         // sendNotification(
         //   userbuyer!._id.toString(),
         //   mailOptions.text,
-        //   "Oferta de vehículo aprobada"
+        //   mailOptions.subject
         // );
+        const dataVehicle = {
+            model: vehicle.model,
+            year: vehicle.year,
+            plate: vehicle.plate ? vehicle.plate : "",
+            fullName: infoSeller.fullName,
+            concesionary: vehicle.concesionary,
+            city: vehicle.city,
+            title: "Oferta de vehículo aprobada",
+            link: id_vehicle,
+        };
+        sendNotification(userbuyer._id.toString(), dataVehicle, "Oferta de vehículo aprobada");
     }
     else {
         reponseJson.code = 400;

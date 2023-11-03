@@ -1278,6 +1278,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let now = new Date();
   let anioActual = now.getFullYear();
   let monthActual = now.getMonth() + 1;
+
   if (data.yearSold) {
     anioActual = data.yearSold;
   }
@@ -1335,9 +1336,8 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10
       ? "0" + (lastMonth.getMonth() + 1)
       : lastMonth.getMonth() + 1
-    }-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()
-    }`;
 
+    }-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()}`;
 
   let mongQuery: any = {
     date_sell: {

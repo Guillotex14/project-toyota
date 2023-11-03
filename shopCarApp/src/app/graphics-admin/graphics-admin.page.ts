@@ -46,7 +46,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   arrayLabels: any[] = [];
   arrayBrands: any[] = [];
   arrayModels: any[] = [];
-  genCondCar: any[] = [];
+  carListGraphic: any[] = [];
   arrayData: any = {};
   dataGraphy: any = {};
   arrayListCars: any[] = [];
@@ -66,7 +66,6 @@ export class GraphicsAdminPage implements AfterViewInit {
     private adminSrv: AdminService
   ) {
     Chart.register(...registerables);
-    this.genCondCar = [];
     this.arrayConcesionary = concesionaries;
     let data = JSON.parse(localStorage.getItem('me')!);
 
@@ -168,6 +167,11 @@ export class GraphicsAdminPage implements AfterViewInit {
           this.brandCar = ""
           this.modelCar = "";
           this.concesionary2 = "";
+
+          if (res.data.list.length > 0) {
+            this.carListGraphic = res.data.list;
+          }
+
         }else{
           this.utils.dismissLoading();
           this.utils.presentToast(res.message);
