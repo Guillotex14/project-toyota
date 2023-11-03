@@ -128,6 +128,7 @@ saleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, func
         concesionary: infoSeller.concesionary,
         city: infoSeller.city,
         title: "Tienes una oferta de compra para:",
+        link: getVehicle._id,
     };
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");

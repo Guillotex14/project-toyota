@@ -6,6 +6,7 @@ import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import * as moment from 'moment';
 import { Browser } from '@capacitor/browser';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-graphics',
@@ -13,6 +14,7 @@ import { Browser } from '@capacitor/browser';
   styleUrls: ['./graphics.page.scss'],
 })
 export class GraphicsPage implements AfterViewInit, OnInit {
+  me: any = null;
   today = new Date();
   lineChart: any;
   month: any = "";
@@ -23,6 +25,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   brandCar: string = '';
   modelCar: string = '';
   triple_m: string = '';
+  concesionary: string = '';
 
   //data filter 2
   dateTo: string = '';
@@ -38,7 +41,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayLabels: any[] = [];
   arrayBrands: any[] = [];
   arrayModels: any[] = [];
-  genCondCar: any[] = [];
+  carListGraphic: any[] = [];
   arrayData: any = {};
   arrayListCars: any[] = [];
   dataGraphy: any = {};
@@ -51,14 +54,13 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   constructor(
     private platform: Platform
     ,
-    private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService) {
+    private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService, private authSrv: AuthService) {
     Chart.register(...registerables);
-    this.genCondCar = [];
+    
+    this.me = this.authSrv.getMeData();
 
-    let data = JSON.parse(localStorage.getItem('me')!);
-
-    if (data) {
-      this.id_user = data.id;
+    if (this.me) {
+      this.id_user = this.me.id;
     }
 
   }
@@ -124,6 +126,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       brandCar: this.brandCar,
       modelCar: this.modelCar,
       triple_m: this.triple_m,
+      concesionary: this.concesionary,
     }
     this.utils.presentLoading('Cargando datos');
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
@@ -132,6 +135,11 @@ export class GraphicsPage implements AfterViewInit, OnInit {
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
           this.dataGraphy=res.data;
+
+          if (res.data.list.length > 0) {
+            this.carListGraphic = res.data.list;
+            
+          }
 
           this.lineChartMethod();
           this.month = 1;

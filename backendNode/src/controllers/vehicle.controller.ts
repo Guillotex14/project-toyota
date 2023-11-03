@@ -1269,7 +1269,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["admin", "seller","admin_concesionary"]);
   let data: any = req.query;
-
+  
   if (decode == false) {
     reponseJson.code = jwt.code;
     reponseJson.message = jwt.message;
@@ -1281,6 +1281,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let now = new Date();
   let anioActual = now.getFullYear();
   let monthActual = now.getMonth() + 1;
+
   if (data.yearSold) {
     anioActual = data.yearSold;
   }
@@ -1343,6 +1344,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   }-${
     lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()
   }`;
+
   let mongQuery: any = {
     date_sell: {
       $gte: from, // Filtrar documentos a partir del 1 de enero del año
@@ -1376,7 +1378,9 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let user: any = null;
 
   if (decode.type_user == "seller") {
-    user = await Users.findOne({ _id: decode.id });
+    // user = await Users.findOne({ _id: decode.id });
+
+    user = await sellers.findOne({ id_user: decode.id });
     if (user) {
       mongQuery = {
         ...mongQuery,

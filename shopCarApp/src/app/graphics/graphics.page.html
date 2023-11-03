@@ -27,11 +27,60 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      
+
       <ion-col size="12">
         <ion-button expand="block" shape="round" class="btnRed" (click)="openModal()" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
           filtro de gráfica
         </ion-button>
+      </ion-col>
+
+      <ion-col size="12" style="margin-top: 20px !important;">
+        <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
+              
+          <ion-accordion value="year">
+            <ion-item slot="header">
+              <ion-label>Vehículos filtro de gráfica</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+
+              <ion-list>
+                <ion-item *ngFor="let vehicle of carListGraphic">
+                  <ion-card (click)="detailCar(vehicle._id)">
+                    <ion-card-content>
+                      <ion-grid fixed>
+                        <ion-row>
+                          <ion-col size="5" class="colCardGraphImg">
+                            <ion-icon name="image" *ngIf="vehicle.imgVehicle === null" class="iconCard"></ion-icon>
+                            <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle !==null"></ion-img>
+                          </ion-col>
+                          <ion-col size="7" class="colCardGraphInfo">
+                            <ion-row>
+                              <ion-col size="12">
+                                <ion-card-title style="font-weight: bold;" class="modelCar">{{vehicle.model}}</ion-card-title>
+                                <ion-card-subtitle class="cityCar">Vendido/a en {{vehicle.city}}</ion-card-subtitle>
+                              </ion-col>
+                              <ion-col size="12" style="text-align: center;">
+                                <ion-card-title  class="priceCar">
+                                  <!-- {{vehicle.price | currency:'USD':true:'1.0-0'}} -->
+                                  ${{vehicle.price ? setDot(vehicle.price) : 0}}
+                                </ion-card-title>
+                                <ion-card-title class="dateCar">
+                                  {{vehicle.date_sell}}
+                                </ion-card-title>
+                              </ion-col>
+                            </ion-row>
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-item>
+      
+              </ion-list>
+            </div>
+
+          </ion-accordion>
+        </ion-accordion-group>        
       </ion-col>
 
       <ion-col size="12" style="border-bottom: 1px solid black !important;margin-top: 20px !important;">
@@ -57,6 +106,7 @@
         </ion-col>
         <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
       </ion-list-header>
+
       <ion-col size="12" style="margin-top: 20px !important;">
         <ion-list *ngFor="let modelCar of arrayListCars">
 
@@ -114,6 +164,7 @@
         </ion-list>
         
       </ion-col>
+
     </ion-row>
   </ion-grid>
 

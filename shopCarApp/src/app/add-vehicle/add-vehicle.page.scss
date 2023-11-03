@@ -210,6 +210,13 @@ ion-card{
   border: 1px solid #EB0A1E !important;
 }
 
+@media screen and (max-width: 425px) {
+  .mecConcesionary{
+    font-size: 14px !important;
+    line-height: 17px !important;
+  }
+}
+
 @media screen and (width: 280px){
   ion-input{
     height: 40px !important;

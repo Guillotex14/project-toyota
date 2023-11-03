@@ -1186,7 +1186,8 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
     }
     let user = null;
     if (decode.type_user == "seller") {
-        user = yield Users_schema_1.default.findOne({ _id: decode.id });
+        // user = await Users.findOne({ _id: decode.id });
+        user = yield Sellers_schema_1.default.findOne({ id_user: decode.id });
         if (user) {
             mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: user.concesionary, $options: "i" } });
         }

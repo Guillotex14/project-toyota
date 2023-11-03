@@ -152,6 +152,7 @@ saleController.buyVehicle = async (req: Request, res: Response) => {
       concesionary: infoSeller!.concesionary,
       city: infoSeller!.city,
       title: "Tienes una oferta de compra para:",
+      link: getVehicle!._id,
     };
   
     await sendEmail(mailOptions);
