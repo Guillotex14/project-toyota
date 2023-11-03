@@ -1186,6 +1186,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
     }
     let user = null;
     if (decode.type_user == "seller") {
+<<<<<<< HEAD
         // user = await Users.findOne({ _id: decode.id });
         user = yield Sellers_schema_1.default.findOne({ id_user: decode.id });
         if (user) {
@@ -1196,6 +1197,9 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: data.concesionary, $options: "i" } });
             }
         }
+=======
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
+>>>>>>> 34e027b1480bca72e5cd46db0d73f5c1286b37da
     }
     if (decode.type_user == "admin_concesionary") {
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
@@ -1367,9 +1371,39 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             avgData.push(item.avgAmount); // Agregar el monto promedio
             maxData.push(item.maxAmount); // Agregar el monto máximo
         });
-        chartData = {
-            labels: labels,
-            datasets: [
+        let arrayMount = [];
+        if (data.triple_m == "max") {
+            arrayMount = [
+                {
+                    label: "Monto Máximo",
+                    data: maxData,
+                    borderColor: "red",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "mid") {
+            arrayMount = [
+                {
+                    label: "Monto Promedio",
+                    data: avgData,
+                    borderColor: "green",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "min") {
+            arrayMount = [
+                {
+                    label: "Monto Mínimo",
+                    data: minData,
+                    borderColor: "blue",
+                    fill: false,
+                }
+            ];
+        }
+        else if (data.triple_m == "all") {
+            arrayMount = [
                 {
                     label: "Monto Mínimo",
                     data: minData,
@@ -1387,8 +1421,12 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                     data: maxData,
                     borderColor: "red",
                     fill: false,
-                },
-            ],
+                }
+            ];
+        }
+        chartData = {
+            labels: labels,
+            datasets: arrayMount,
             list: listCars
         };
         datos = chartData;
@@ -1486,6 +1524,10 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     if (decode.type_user == "admin_concesionary") {
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
+    if (decode.type_user == "seller") {
+        // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
     }
     const cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
         {
