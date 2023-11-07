@@ -1786,6 +1786,7 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
       ...mongQuery,
       concesionary: { $regex: concesionary.name, $options: "i" },
     };
+    
   }
 
   if (decode.type_user == "seller") {
@@ -2021,22 +2022,21 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
 
   let seller: any = null;
   let user: any = null;
-  if ((decode.type_user = "seller")) {
-    seller = await Sellers.findOne({ id_user: decode.id_user });
-    user = await Users.findOne({ _id: decode.id_user });
-    // if (seller && user.type_user != "admin") {
-    //   mongQuery = {
-    //     ...mongQuery,
-    //     concesionary: { $regex: seller.concesionary, $options: "i" },
-    //   };
-    // } else {
-    //   if (concesionary) {
-    //     mongQuery = {
-    //       ...mongQuery,
-    //       concesionary: { $regex: concesionary, $options: "i" },
-    //     };
-    //   }
-    // }
+  if (decode.type_user == "admin_concesionary") {
+    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary.name, $options: "i" },
+    };
+    
+  }
+
+  if (decode.type_user == "seller") {
+    // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: decode.concesionary, $options: "i" },
+    };
   }
 
   let cardsgroupmodel: any[] = [];
