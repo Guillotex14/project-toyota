@@ -33,6 +33,26 @@ export class AdminService {
     return this.http.post(global.urlBase+"user/delete",id,this.authToken);
   }
 
+  public addAdmin(data: any) {
+    return this.http.post(global.urlBase+"user/insert",data,this.authToken);
+  }
+
+  public allAdminsConcesionary(data:any){
+    return this.http.get(global.urlBase+`user/all?s=${data.s}&pos=${data.pos}&lim=${data.lim}&type_user=admin_concesionary`,this.authToken);
+  }
+
+  public getAdminById(id: any) {
+    return this.http.get(global.urlBase+"user/get?id_user="+id,this.authToken);
+  }
+
+  public updateAdmin(admin: any) {
+    return this.http.post(global.urlBase+"user/update",admin,this.authToken);
+  }
+
+  public deleteAdmin(id: any) {
+    return this.http.post(global.urlBase+"user/delete",id,this.authToken);
+  }
+
   public getVehicles(data: any) {
     return this.http.post(global.urlBase+'vehicle/filterVehiclesWithMongo', data,this.authToken);
   }
@@ -110,5 +130,12 @@ export class AdminService {
     return this.http.post(global.urlBase+'vehicle/delete-brand',id,this.authToken);
   }
 
+  public allConcesionaries(){
+    return this.http.get(global.urlBase+'vehicle/allConcesionaries?s=',this.authToken);
+  }
+
+  public allStates(){
+    return this.http.get(global.urlBase+'vehicle/allStates?s=',this.authToken);
+  }
 
 }

@@ -25,3 +25,13 @@ export class SellersList{
   public image!: any;
 }
 
+export class CreateAdminConcesionary {
+  public id?: string;
+  public email!: string;
+  public password!: string;
+  public password_confirm!: string;
+  public username!: string;
+  public city!: string;
+  public id_concesionary!: string;
+  public type_user: string = 'admin_concesionary'
+}

@@ -135,6 +135,18 @@ const routes: Routes = [
     path: 'list-models-vehicles',
     loadChildren: () => import('./list-model-admin/list-model-admin.module').then( m => m.ListModelAdminPageModule)
   },
+  {
+    path: 'add-admin-concesionary',
+    loadChildren: () => import('./add-admin-concesionary/add-admin-concesionary.module').then( m => m.AddAdminConcesionaryPageModule)
+  },
+  {
+    path: 'list-admin-concesionary',
+    loadChildren: () => import('./list-admin-concesionary/list-admin-concesionary.module').then( m => m.ListAdminConcesionaryPageModule)
+  },
+  {
+    path: 'edit-admin-concesionary/:id',
+    loadChildren: () => import('./edit-admin-concesionary/edit-admin-concesionary.module').then( m => m.EditAdminConcesionaryPageModule)
+  },
 ];
 
 @NgModule({
