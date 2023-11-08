@@ -175,12 +175,12 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
-        this.dateTo = ""
-        this.dateFrom = ""
-        this.yearCar2 = ""
-        this.brandCar2 = ""
-        this.modelCar2 = ""
-        this.concesionary2 = ""
+        // this.dateTo = ""
+        // this.dateFrom = ""
+        // this.yearCar2 = ""
+        // this.brandCar2 = ""
+        // this.modelCar2 = ""
+        // this.concesionary2 = ""
       }else{
         this.utils.presentToast(res.message);
       }

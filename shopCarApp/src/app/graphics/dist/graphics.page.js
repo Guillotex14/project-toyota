@@ -49,12 +49,14 @@ var chart_js_1 = require("chart.js");
 var moment = require("moment");
 var browser_1 = require("@capacitor/browser");
 var GraphicsPage = /** @class */ (function () {
-    function GraphicsPage(platform, router, menu, utils, sellerSrv) {
+    function GraphicsPage(platform, router, menu, utils, sellerSrv, authSrv) {
         this.platform = platform;
         this.router = router;
         this.menu = menu;
         this.utils = utils;
         this.sellerSrv = sellerSrv;
+        this.authSrv = authSrv;
+        this.me = null;
         this.today = new Date();
         this.month = "";
         this.yearSold = new Date().getFullYear();
@@ -63,6 +65,8 @@ var GraphicsPage = /** @class */ (function () {
         this.yearCarAux = '';
         this.brandCar = '';
         this.modelCar = '';
+        this.triple_m = '';
+        this.concesionary = '';
         //data filter 2
         this.dateTo = '';
         this.dateFrom = '';
@@ -75,15 +79,14 @@ var GraphicsPage = /** @class */ (function () {
         this.arrayLabels = [];
         this.arrayBrands = [];
         this.arrayModels = [];
-        this.genCondCar = [];
+        this.carListGraphic = [];
         this.arrayData = {};
         this.arrayListCars = [];
         this.dataGraphy = {};
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
-        this.genCondCar = [];
-        var data = JSON.parse(localStorage.getItem('me'));
-        if (data) {
-            this.id_user = data.id;
+        this.me = this.authSrv.getMeData();
+        if (this.me) {
+            this.id_user = this.me.id;
         }
     }
     GraphicsPage.prototype.ngOnInit = function () {
@@ -139,7 +142,8 @@ var GraphicsPage = /** @class */ (function () {
             yearCar: this.yearCar,
             brandCar: this.brandCar,
             modelCar: this.modelCar,
-            triple_m: ''
+            triple_m: this.triple_m,
+            concesionary: this.concesionary
         };
         this.utils.presentLoading('Cargando datos');
         this.sellerSrv.getGrafic(data).subscribe(function (res) {
@@ -148,6 +152,9 @@ var GraphicsPage = /** @class */ (function () {
                 _this.arrayLabels = res.data.labels;
                 _this.arrayData = res.data.datasets[0];
                 _this.dataGraphy = res.data;
+                if (res.data.list.length > 0) {
+                    _this.carListGraphic = res.data.list;
+                }
                 _this.lineChartMethod();
                 _this.month = 1;
                 _this.yearSold = new Date().getFullYear();
@@ -180,12 +187,12 @@ var GraphicsPage = /** @class */ (function () {
         this.sellerSrv.getListCars(data).subscribe(function (res) {
             if (res.status) {
                 _this.arrayListCars = res.data.grupocard;
-                _this.dateTo = "";
-                _this.dateFrom = "";
-                _this.yearCar2 = "";
-                _this.brandCar2 = "";
-                _this.modelCar2 = "";
-                _this.concesionary2 = "";
+                // this.dateTo = ""
+                // this.dateFrom = ""
+                // this.yearCar2 = ""
+                // this.brandCar2 = ""
+                // this.modelCar2 = ""
+                // this.concesionary2 = ""
             }
             else {
                 _this.utils.presentToast(res.message);
@@ -345,6 +352,11 @@ var GraphicsPage = /** @class */ (function () {
     };
     GraphicsPage.prototype.onDateToChange = function (event) {
         this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
+    };
+    GraphicsPage.prototype.setDot = function (data) {
+        var str = data.toString().split(".");
+        str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return str.join(".");
     };
     __decorate([
         core_1.ViewChild(angular_1.IonModal)

@@ -42,7 +42,6 @@ const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const moment_1 = __importDefault(require("moment"));
 const nodemailer_1 = require("../../nodemailer");
-const Sellers_schema_2 = __importDefault(require("../schemas/Sellers.schema"));
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const sharp_1 = __importDefault(require("sharp"));
@@ -1681,22 +1680,13 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     }
     let seller = null;
     let user = null;
-    if ((decode.type_user = "seller")) {
-        seller = yield Sellers_schema_2.default.findOne({ id_user: decode.id_user });
-        user = yield Users_schema_1.default.findOne({ _id: decode.id_user });
-        // if (seller && user.type_user != "admin") {
-        //   mongQuery = {
-        //     ...mongQuery,
-        //     concesionary: { $regex: seller.concesionary, $options: "i" },
-        //   };
-        // } else {
-        //   if (concesionary) {
-        //     mongQuery = {
-        //       ...mongQuery,
-        //       concesionary: { $regex: concesionary, $options: "i" },
-        //     };
-        //   }
-        // }
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
+    if (decode.type_user == "seller") {
+        // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
     }
     let cardsgroupmodel = [];
     cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
