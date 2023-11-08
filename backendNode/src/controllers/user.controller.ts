@@ -368,7 +368,7 @@ userController.all = async (req: Request, res: Response) => {
     reponseJson.message = jwt.message;
     reponseJson.status = false;
     reponseJson.data = null;
-    return res.json(reponseJson);
+    return res.json(reponseJson); 
   }
   let data: any = req.query;
 
