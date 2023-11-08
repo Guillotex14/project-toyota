@@ -1370,20 +1370,20 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   }
   let user: any = null;
 
-  if (decode.type_user == "seller") {
-    mongQuery = {
-      ...mongQuery,
-      concesionary: { $regex: decode.concesionary, $options: "i" },
-    };
-  }
+  // if (decode.type_user == "seller") {
+  //   mongQuery = {
+  //     ...mongQuery,
+  //     concesionary: { $regex: decode.concesionary, $options: "i" },
+  //   };
+  // }
 
-  if (decode.type_user == "admin_concesionary") {
-    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-    mongQuery = {
-      ...mongQuery,
-      concesionary: { $regex: concesionary.name, $options: "i" },
-    };
-  }
+  // if (decode.type_user == "admin_concesionary") {
+  //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+  //   mongQuery = {
+  //     ...mongQuery,
+  //     concesionary: { $regex: concesionary.name, $options: "i" },
+  //   };
+  // }
 
 
   let sendData: any = [];
@@ -1780,22 +1780,22 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   //   }
   // }
 
-  if (decode.type_user == "admin_concesionary") {
-    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-    mongQuery = {
-      ...mongQuery,
-      concesionary: { $regex: concesionary.name, $options: "i" },
-    };
+  // if (decode.type_user == "admin_concesionary") {
+  //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+  //   mongQuery = {
+  //     ...mongQuery,
+  //     concesionary: { $regex: concesionary.name, $options: "i" },
+  //   };
     
-  }
+  // }
 
-  if (decode.type_user == "seller") {
-    // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-    mongQuery = {
-      ...mongQuery,
-      concesionary: { $regex: decode.concesionary, $options: "i" },
-    };
-  }
+  // if (decode.type_user == "seller") {
+  //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+  //   mongQuery = {
+  //     ...mongQuery,
+  //     concesionary: { $regex: decode.concesionary, $options: "i" },
+  //   };
+  // }
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
