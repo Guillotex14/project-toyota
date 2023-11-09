@@ -48,6 +48,10 @@ const sharp_1 = __importDefault(require("sharp"));
 const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"));
 const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const fs_1 = __importDefault(require("fs"));
+const ejs_1 = __importDefault(require("ejs"));
+const puppeteer_1 = __importDefault(require("puppeteer"));
+const axios_1 = __importDefault(require("axios"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -1184,13 +1188,19 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: data.modelCar, $options: "i" } });
     }
     let user = null;
-    if (decode.type_user == "seller") {
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
-    }
-    if (decode.type_user == "admin_concesionary") {
-        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
-    }
+    // if (decode.type_user == "seller") {
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: decode.concesionary, $options: "i" },
+    //   };
+    // }
+    // if (decode.type_user == "admin_concesionary") {
+    //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: concesionary.name, $options: "i" },
+    //   };
+    // }
     let sendData = [];
     let chartData = {};
     let datos = {};
@@ -1508,14 +1518,20 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     //     }
     //   }
     // }
-    if (decode.type_user == "admin_concesionary") {
-        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
-    }
-    if (decode.type_user == "seller") {
-        // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
-    }
+    // if (decode.type_user == "admin_concesionary") {
+    //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: concesionary.name, $options: "i" },
+    //   };
+    // }
+    // if (decode.type_user == "seller") {
+    //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
+    //   mongQuery = {
+    //     ...mongQuery,
+    //     concesionary: { $regex: decode.concesionary, $options: "i" },
+    //   };
+    // }
     const cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
         {
             $match: mongQuery,
@@ -2035,6 +2051,112 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     });
 });
+vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const data = req.query;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
+    if (decode == false) {
+        jsonRes.code = generar_jwt_1.default.code;
+        jsonRes.message = generar_jwt_1.default.message;
+        jsonRes.status = false;
+        jsonRes.data = null;
+        return res.json(jsonRes);
+    }
+    const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
+    const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: data.id });
+    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    if (infoVehicle) {
+        let data = {
+            _id: infoVehicle._id,
+            model: infoVehicle.model,
+            brand: infoVehicle.brand,
+            year: infoVehicle.year,
+            displacement: infoVehicle.displacement,
+            km: infoVehicle.km,
+            engine_model: infoVehicle.engine_model,
+            titles: infoVehicle.titles,
+            fuel: infoVehicle.fuel,
+            transmission: infoVehicle.transmission,
+            city: infoVehicle.city,
+            dealer: infoVehicle.dealer,
+            concesionary: infoVehicle.concesionary,
+            traction_control: infoVehicle.traction_control,
+            performance: infoVehicle.performance,
+            price: infoVehicle.price,
+            comfort: infoVehicle.comfort,
+            technology: infoVehicle.technology,
+            mechanicalFile: infoVehicle.mechanicalFile,
+            dataSheet: mechanicalFile,
+            sold: infoVehicle.sold,
+            type_vehicle: infoVehicle.type_vehicle,
+            id_seller: infoVehicle.id_seller,
+            id_mechanic: infoVehicle.id_mechanic,
+            id_seller_buyer: infoVehicle.id_seller_buyer,
+            traction: infoVehicle.traction,
+            date_create: infoVehicle.date_create,
+            plate: infoVehicle.plate,
+            vin: infoVehicle.vin,
+            price_ofert: infoVehicle.price_ofert,
+            final_price_sold: infoVehicle.final_price_sold,
+            general_condition: mechanicalFile
+                ? mechanicalFile.general_condition
+                : "",
+            images: imgsVehichle ? imgsVehichle : [],
+            imgs_documentation: infoVehicle.imgs_documentation
+                ? infoVehicle.imgs_documentation
+                : [],
+        };
+        let img64 = "";
+        if (data.images) {
+            img64 = yield getImageAsBase64(data.images[0].img);
+        }
+        let now = new Date();
+        const fileName = now.getTime() + ".pdf";
+        let sendData = {
+            model: data.model,
+            brand: data.brand,
+            year: data.year,
+            km: data.km,
+            img: img64,
+        };
+        let result = yield generate_Pdf(sendData, fileName);
+        jsonRes.data = result;
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "No se pudo obtener la información del vehículo";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
+});
+const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
+    const filePath = "./public/dataSheetPdf/" + pdfName;
+    const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+    try {
+        const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
+        const browser = yield puppeteer_1.default.launch();
+        const page = yield browser.newPage();
+        yield page.setContent(html);
+        yield page.pdf({
+            path: filePath,
+            format: 'Letter',
+            printBackground: true
+        });
+        yield browser.close();
+        const base64Pdf = yield generateBase64(filePath);
+        return {
+            path: uploadUrl,
+            base64: "data:application/pdf;base64," + base64Pdf,
+        };
+    }
+    catch (error) {
+        return error;
+    }
+});
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_mechanic } = req.body;
@@ -2420,6 +2542,46 @@ vehicleController.ofertInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
     res.json(reponseJson);
 });
+function generateBase64(pdfPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fileStream = fs_1.default.createReadStream(pdfPath);
+        const chunks = [];
+        return new Promise((resolve, reject) => {
+            fileStream.on('data', (chunk) => {
+                chunks.push(chunk);
+            });
+            fileStream.on('end', () => {
+                const fileBuffer = Buffer.concat(chunks);
+                const base64String = fileBuffer.toString('base64');
+                resolve(base64String);
+            });
+            fileStream.on('error', (error) => {
+                reject(error);
+            });
+        });
+    });
+}
+function getImageAsBase64(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield axios_1.default.get(url, {
+                responseType: 'arraybuffer'
+            });
+            if (response.status === 200) {
+                const contentType = response.headers['content-type'];
+                const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+                const dataURI = `data:${contentType};base64,${base64Image}`;
+                return dataURI;
+            }
+            else {
+                throw new Error('Failed to fetch image from the URL');
+            }
+        }
+        catch (error) {
+            throw new Error('Error fetching the image: ' + error.message);
+        }
+    });
+}
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
     let imgBuff = Buffer.from(posr, "base64");

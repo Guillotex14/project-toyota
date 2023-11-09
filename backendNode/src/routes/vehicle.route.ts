@@ -46,6 +46,8 @@ vehicleRouter.post("/repost", vehicleController.repost);
 
 vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
 
+vehicleRouter.get("/generatePdf", vehicleController.generatePdf);
+
 vehicleRouter.post("/inspections",vehicleController.inspections);
 
 vehicleRouter.post("/countInspections",vehicleController.countInspections);
