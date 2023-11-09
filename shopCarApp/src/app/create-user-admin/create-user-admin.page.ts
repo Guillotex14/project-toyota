@@ -6,6 +6,7 @@ import { CreateSeller } from 'src/models/admin';
 import  {states}  from '../../assets/json/states';
 import { AdminService } from '../services/admin/admin.service';
 import { concesionaries } from '../../assets/json/concesionaries';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-create-user-admin',
@@ -15,15 +16,18 @@ import { concesionaries } from '../../assets/json/concesionaries';
 export class CreateUserAdminPage implements OnInit {
 
   newSeller: CreateSeller = new CreateSeller();
-  arrayCity: any[] = states;
-  arrayConcesionaries: any[] = concesionaries
-  auxConces: any[] = concesionaries;
+  arrayCity: any[] = [];
+  arrayConcesionaries: any[] = []
+  auxConces: any[] = [];
   typeInput: string = "password";
   typeInputConfirm: string = "password";
+  me: any = null
 
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService) {
-    // this.arrayCity = states;
-    // this.arrayConcesionaries = concesionaries;
+
+  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private authSrv: AuthService) {
+    
+    this.me = this.authSrv.getMeData();
+
     this.newSeller.fullName = "";
     this.newSeller.email = "";
     this.newSeller.username = "";
@@ -32,6 +36,8 @@ export class CreateUserAdminPage implements OnInit {
     this.newSeller.city = "";
     this.newSeller.phone = "";
     this.newSeller.concesionary = "";
+    this.allStates();
+    this.allConcesionaries();
 
   }
 
@@ -47,6 +53,32 @@ export class CreateUserAdminPage implements OnInit {
   public goTo() {
     this.utils.setLogin(true);
     this.router.navigate(['home-admin']);
+  }
+
+  public allConcesionaries() {
+    this.adminSrv.allConcesionaries().subscribe((res: any) => {
+      if (res.status) {
+        this.arrayConcesionaries = res.data;
+        this.auxConces = res.data;
+
+        if (this.me.type_user == "admin_concesionary" && this.me !== null) {
+          this.setConceAndState();
+        }
+
+      }else{
+        this.utils.presentToast(res.message);
+      }
+    });
+  }
+
+  public allStates() {
+    this.adminSrv.allStates().subscribe((res: any) => {
+      if (res.status) {
+        this.arrayCity = res.data;
+      }else{
+        this.utils.presentToast(res.message);
+      }
+    });
   }
 
   public addSeller() {
@@ -140,7 +172,7 @@ export class CreateUserAdminPage implements OnInit {
     }
   }
 
-  filterConces(event:any){
+  public filterConces(event:any){
     if (this.newSeller.city == '' || this.newSeller.city == undefined || this.newSeller.city == null) {
       this.auxConces = this.arrayConcesionaries;
     }else{
@@ -157,6 +189,18 @@ export class CreateUserAdminPage implements OnInit {
       }
 
     }
+
+  }
+
+  public setConceAndState(){
+    for (let i = 0; i < this.arrayConcesionaries.length; i++) {
+      if (this.arrayConcesionaries[i]._id === this.me.id_concesionary) {
+        this.newSeller.city = this.arrayConcesionaries[i].state;
+        this.newSeller.concesionary = this.arrayConcesionaries[i].name;
+        
+      }
+    }
+
 
   }
 }

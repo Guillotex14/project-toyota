@@ -74,7 +74,7 @@ export class AdminService {
   }
 
   public getModelList(data:any){
-    return this.http.get(`${global.urlBase}user/allModelPaginator?s=${data.s}&pos=${data.pos}&lim=${data.lim}`,this.authToken);
+    return this.http.get(`${global.urlBase}vehicle/allModelPaginator?s=${data.s}&pos=${data.pos}&lim=${data.lim}`,this.authToken);
   }
 
   public addModel(model: any) {

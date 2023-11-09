@@ -69,17 +69,17 @@
             </ion-col>
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label class="labelForm">Estado</ion-label>
-              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="newSeller.city" placeholder="Seleccione Estado" (ionChange)="filterConces($event)"> 
-                <ion-select-option *ngFor="let city of arrayCity" [value]="city.estado">{{city.estado}}</ion-select-option>
+              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="newSeller.city" placeholder="Seleccione Estado" (ionChange)="filterConces($event)" [disabled]="me.type_user ==='admin_concesionary'" [style]="me.type_user ==='admin_concesionary' ? 'opacity:1' : null "> 
+                <ion-select-option *ngFor="let city of arrayCity" [value]="city.name">{{city.name}}</ion-select-option>
               </ion-select>
             </ion-col>
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" >
               <ion-label style="margin-left: 10px;" class="labelForm">Concesionario</ion-label>
-              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="newSeller.concesionary" placeholder="Seleccione concesionario"> 
+              <ion-select interface="action-sheet" fill="outline" [(ngModel)]="newSeller.concesionary" placeholder="Seleccione concesionario" [disabled]="me.type_user ==='admin_concesionary'" [style]="me.type_user ==='admin_concesionary' ? 'opacity:1' : null "> 
                 <ion-select-option *ngFor="let conces of auxConces" [value]="conces.name">{{conces.name}}</ion-select-option>
               </ion-select>
             </ion-col>
-            <ion-col size="12" >
+            <ion-col size="12">
               <ion-button expand="block" shape="round" class="btnSaveRed" (click)="addSeller()" style="margin: 25px auto;">
                 Agregar
               </ion-button>

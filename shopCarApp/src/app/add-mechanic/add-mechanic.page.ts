@@ -7,6 +7,7 @@ import { states } from 'src/assets/json/states';
 import { UtilsService } from '../services/utils/utils.service';
 import { concesionaries } from 'src/assets/json/concesionaries';
 import { AuthService } from '../services/auth/auth.service';
+import { AdminService } from '../services/admin/admin.service';
 
 @Component({
   selector: 'app-add-mechanic',
@@ -16,15 +17,15 @@ import { AuthService } from '../services/auth/auth.service';
 export class AddMechanicPage implements OnInit {
 
   newMechanic: CreateMechanic = new CreateMechanic();
-  arrayCities: any[] = states;
-  arrayConcesionaries: any[] = concesionaries;
-  auxConces: any[] = concesionaries;
+  arrayCities: any[] = [];
+  arrayConcesionaries: any[] = [];
+  auxConces: any[] = [];
   typeInput: string = "password";
   typeInputConfirm: string = "password";
   isAdmin: boolean = false;
   user: any = null;
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils:UtilsService, private authSrv: AuthService) {
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils:UtilsService, private authSrv: AuthService, private adminSrv: AdminService) {
 
     this.newMechanic.email = "";
     this.newMechanic.password = "";
@@ -39,14 +40,8 @@ export class AddMechanicPage implements OnInit {
 
     if (this.user && this.user.type_user === 'seller') this.newMechanic.city = this.user.city; this.newMechanic.concesionary = this.user.concesionary;
     
-    // let data = JSON.parse(localStorage.getItem("me")!);
-
-    // if (data != null) {
-    //   this.newMechanic.city = data.city;
-    //   this.newMechanic.concesionary = data.concesionary;
-    // }
-
-
+    this.allStates();
+    this.allConcesionaries();
   }
 
   ngOnInit() {
@@ -58,7 +53,42 @@ export class AddMechanicPage implements OnInit {
   }
 
   public goBack() {
-    this.router.navigate(['seller']);
+    
+    if (this.user.type_user === 'admin_concesionary' || this.user.type_user === 'admin') {
+      this.router.navigate(['home-admin']);
+    }
+    
+    if (this.user.type_user === 'seller') {
+      this.router.navigate(['seller']);
+
+    }
+
+  }
+
+  public allConcesionaries() {
+    this.adminSrv.allConcesionaries().subscribe((res: any) => {
+      if (res.status) {
+        this.arrayConcesionaries = res.data;
+        this.auxConces = res.data;
+
+        if (this.user.type_user == "admin_concesionary" && this.user !== null) {
+          this.setConceAndState();
+        }
+
+      }else{
+        this.utils.presentToast(res.message);
+      }
+    });
+  }
+
+  public allStates() {
+    this.adminSrv.allStates().subscribe((res: any) => {
+      if (res.status) {
+        this.arrayCities = res.data;
+      }else{
+        this.utils.presentToast(res.message);
+      }
+    });
   }
 
   public addMechanic(){
@@ -144,7 +174,7 @@ export class AddMechanicPage implements OnInit {
     }
   }
 
-  filterConces(event:any){
+  public filterConces(event:any){
     if (this.newMechanic.city == '' || this.newMechanic.city == undefined || this.newMechanic.city == null) {
       this.auxConces = this.arrayConcesionaries;
     }else{
@@ -178,5 +208,15 @@ export class AddMechanicPage implements OnInit {
     } else {
       this.typeInputConfirm = "password";
     }
+  }
+
+  public setConceAndState(){
+    for (let i = 0; i < this.arrayConcesionaries.length; i++) {
+      if (this.arrayConcesionaries[i]._id === this.user.id_concesionary) {
+        this.newMechanic.city = this.arrayConcesionaries[i].state;
+        this.newMechanic.concesionary = this.arrayConcesionaries[i].name;
+      }
+    }
+
   }
 }

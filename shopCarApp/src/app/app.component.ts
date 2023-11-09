@@ -21,6 +21,7 @@ export class AppComponent implements  OnInit{
   idUser: string = "";
   image: any = null;
   aux: number = 0;
+  me: any = null;
   url: string = global.urlImgUser;
   actionSheetButtons: any[] = [];
   actionSheetButtonsEdit: any[] = [];
@@ -32,23 +33,23 @@ export class AppComponent implements  OnInit{
 
   constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService) {
 
-    let data = localStorage.getItem('me');
+    this.me = this.authSrv.getMeData();
 
-    // if(data){
-    //   let me = JSON.parse(data);
-    //   this.username = me.fullName;
-    //   this.image = me.img;
-    //   this.idUser = me.id;
+    if (this.me) {
+      this.username = this.me.fullName;
+      this.image = this.me.img;
+      this.idUser = this.me.id;
+      this.typeUser = this.me.type_user;
 
-    //   if(me.type_user == "admin"){
-    //     this.router.navigate(['home-admin']);
-    //   }else if(me.type_user == "seller"){
-    //     this.router.navigate(['seller']);
-    //   }else if(me.type_user == "mechanic"){
-    //     this.router.navigate(['mechanic']);
-    //   }
+      // if(this.typeUser === "admin" || this.typeUser === "admin_concessionary"){
+      //   this.router.navigate(['home-admin']);
+      // }else if(this.typeUser === "seller"){
+      //   this.router.navigate(['seller']);
+      // }else if(this.typeUser === "mechanic"){
+      //   this.router.navigate(['mechanic']);
+      // }
 
-    // }
+    }
 
 
     if (this.utils.isApp()) {
