@@ -27,11 +27,9 @@ export class ListMechanicAdminPage implements OnInit {
   ngOnInit() {
   }
 
-
   ionViewWillEnter(){
     this.getMechanicsList();
     this.data.pos = 0;
-
   }
 
   public goBack(){

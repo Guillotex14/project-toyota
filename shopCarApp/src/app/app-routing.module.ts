@@ -147,6 +147,10 @@ const routes: Routes = [
     path: 'edit-admin-concesionary/:id',
     loadChildren: () => import('./edit-admin-concesionary/edit-admin-concesionary.module').then( m => m.EditAdminConcesionaryPageModule)
   },
+  {
+    path: 'my-offerts',
+    loadChildren: () => import('./my-offerts/my-offerts.module').then( m => m.MyOffertsPageModule)
+  },
 ];
 
 @NgModule({

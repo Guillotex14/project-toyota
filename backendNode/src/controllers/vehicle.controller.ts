@@ -6,7 +6,6 @@ import mechanics from "../schemas/Mechanics.schema";
 import jwt from "../helpers/generar-jwt";
 import moment from "moment";
 import { sendEmail } from "../../nodemailer";
-import Sellers from "../schemas/Sellers.schema";
 import Vehicles from "../schemas/Vehicles.schema";
 import notifications from "../schemas/notifications.schema";
 import sharp from "sharp";
@@ -2908,6 +2907,164 @@ vehicleController.ofertInfo = async (req: Request, res: Response) => {
     reponseJson.status = false;
     reponseJson.message = "No se encontro el vehículo";
   }
+
+  res.json(reponseJson);
+};
+
+vehicleController.myOfferts = async (req: Request, res: Response) => {
+  
+  const reponseJson: ResponseModel = new ResponseModel();
+  let data: any = req.query;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller"]);
+  let query: any = {};
+  let search: any;
+  let project: any;
+  let count: any;
+  let sendData: any = {};
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    return res.json(reponseJson);
+  }
+
+  if (!data) {
+    data = {
+      s: "",
+      lim: 10,
+      pos: 0,
+      minYear: 0,
+      maxYear: 0,
+      minPrice: 0,
+      maxPrice: 0,
+      minKm: 0,
+      maxKm: 0,
+      model: "",
+      brand: "",
+    };
+  }
+
+  if (data.minPrice === '0' && data.maxPrice === '0') {
+    query.price = { $gte:0};
+  }else if (data.minPrice !== '0' && data.maxPrice === '0') {
+    query.price = { $gte:parseInt(data.minPrice)};
+  }else if (data.minPrice === '0' && data.maxPrice !== '0') {
+    query.price = { $lte:parseInt(data.maxPrice)};
+  }else{
+    query.price = { $gte:parseInt(data.minPrice), $lte:parseInt(data.maxPrice)};
+  }
+
+  if (data.minYear === '0' && data.maxYear === '0') {
+    query.year = { $gte:0 };
+  }else if (data.minYear !== '0' && data.maxYear === '0') {
+    query.year = { $gte:parseInt(data.minYear)};
+  }else if (data.minYear === '0' && data.maxYear !== '0') {
+    query.year = { $lte:parseInt(data.maxYear)};
+  }else{
+    query.year = { $gte:parseInt(data.minYear), $lte:parseInt(data.maxYear)};
+  }
+
+  if (data.minKm === '0' && data.maxKm === '0') {
+    query.km = { $gte:0};
+  }else if (data.minKm !== '0' && data.maxKm === '0') {
+    query.km = { $gte:parseInt(data.minKm)};
+  }else if (data.minKm === '0' && data.maxKm !== '0') {
+    query.km = { $lte:parseInt(data.maxKm)};
+  }else{
+    query.km = { $gte:parseInt(data.minKm), $lte:parseInt(data.maxKm)};
+  }
+
+  query.brand = { $regex: data.brand, $options: "i" };
+  query.model = { $regex: data.model, $options: "i" };
+  query.sold = false;
+  query.price_ofert = { $gte: 0, $ne: null };
+  query.mechanicalFile = true;
+
+  project = {
+    model: 1,
+    brand: 1,
+    year: 1,
+    displacement: 1,
+    km: 1,
+    engine_model: 1,
+    titles: 1,
+    fuel: 1,
+    transmission: 1,
+    traction: 1,
+    city: 1,
+    dealer: 1,
+    concesionary: 1,
+    traction_control: 1,
+    performance: 1,
+    price: 1,
+    comfort: 1,
+    technology: 1,
+    date_create: 1,
+    type_vehicle: 1,
+    vin: 1,
+    plate: 1,
+    mechanicalFile: 1,
+    sold: 1,
+    dispatched: 1,
+    date_sell: 1,
+    price_ofert: 1,
+    final_price_sold: 1,
+    concesionary_maintenance: 1
+  };
+
+  let list = await vehicles.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $skip: parseInt(data.lim) * parseInt(data.pos),
+      },
+      {
+        $limit: parseInt(data.lim),
+      },
+      {
+        $project: project,
+      },
+      
+  ]);
+
+  sendData.rows = list;
+
+  if (list.length > 0) {
+    count = await vehicles.aggregate([
+      {
+        $match: query
+      },
+      {
+        $count: "totalCount"
+      }
+    ]);
+
+    reponseJson.code = 200;
+    reponseJson.message = "Lista de modelos de vehiculos";
+    reponseJson.status = true;
+
+  } else {
+    reponseJson.code = 400;
+    reponseJson.message = "sin resultado";
+    reponseJson.status = true;
+  }
+
+  let totalItems = 0;
+  if (count) {
+    totalItems = count[0].totalCount;
+  }
+  let totalPages = Math.ceil(totalItems / data.lim);
+
+  sendData.count = totalItems;
+  sendData.pages = totalPages;
+
+  reponseJson.code = 200;
+  reponseJson.message = "Lista de ofertas";
+  reponseJson.status = true;
+  reponseJson.data = sendData;
 
   res.json(reponseJson);
 };

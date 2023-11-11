@@ -37,6 +37,7 @@ vehicleRouter.post("/addMechanicalFile", vehicle_controller_1.default.addMechani
 vehicleRouter.post("/updateMechanicalFile", vehicle_controller_1.default.updateMechanicalFile);
 vehicleRouter.post("/getMechanicFileByIdVehicle", vehicle_controller_1.default.getMechanicFileByIdVehicle);
 vehicleRouter.get("/ofertInfo", vehicle_controller_1.default.ofertInfo);
+vehicleRouter.get("/myOfferts", vehicle_controller_1.default.myOfferts);
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpdate);
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);

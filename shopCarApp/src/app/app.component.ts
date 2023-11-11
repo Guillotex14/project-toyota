@@ -14,8 +14,9 @@ import { AuthService } from './services/auth/auth.service';
 })
 export class AppComponent implements  OnInit{
 
-  openASEdit: boolean = false;
   typeConection: boolean = false;
+  openASEdit: boolean = false;
+  concesionary: string = "";
   typeUser: string = "";
   username: string = "";
   idUser: string = "";
@@ -33,23 +34,23 @@ export class AppComponent implements  OnInit{
 
   constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService) {
 
-    this.me = this.authSrv.getMeData();
+    let data = localStorage.getItem('me');
 
-    if (this.me) {
-      this.username = this.me.fullName;
-      this.image = this.me.img;
-      this.idUser = this.me.id;
-      this.typeUser = this.me.type_user;
+    // if(data){
+    //   let me = JSON.parse(data);
+    //   this.username = me.fullName;
+    //   this.image = me.img;
+    //   this.idUser = me.id;
 
-      // if(this.typeUser === "admin" || this.typeUser === "admin_concessionary"){
-      //   this.router.navigate(['home-admin']);
-      // }else if(this.typeUser === "seller"){
-      //   this.router.navigate(['seller']);
-      // }else if(this.typeUser === "mechanic"){
-      //   this.router.navigate(['mechanic']);
-      // }
+    //   if(me.type_user == "admin"){
+    //     this.router.navigate(['home-admin']);
+    //   }else if(me.type_user == "seller"){
+    //     this.router.navigate(['seller']);
+    //   }else if(me.type_user == "mechanic"){
+    //     this.router.navigate(['mechanic']);
+    //   }
 
-    }
+    // }
 
 
     if (this.utils.isApp()) {
@@ -81,11 +82,13 @@ export class AppComponent implements  OnInit{
         this.image = meJson.img;
         this.idUser = meJson.id;
         this.typeUser = meJson.type_user;
+        this.concesionary = meJson.concesionary;
       }else{
         this.username = "";
         this.image = null;
         this.idUser = "";
         this.typeUser = "";
+        this.concesionary = "";
       }
     });
   }
