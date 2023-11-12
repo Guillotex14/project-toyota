@@ -12,6 +12,10 @@ import sharp from "sharp";
 import vehicles from "../schemas/Vehicles.schema";
 import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
+import fs from 'fs';
+import ejs from 'ejs';
+import puppeteer from 'puppeteer';
+import axios from 'axios';
 import {
   deleteImageVehicle,
   uploadDocuments,
@@ -20,6 +24,7 @@ import {
 import * as global from "../global";
 import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
+import { templatesMails } from "../templates/mails/templates.mails";
 
 const vehicleController: any = {};
 
@@ -142,47 +147,6 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     imgs_documentation: documents,
   });
 
-  const mailOptions = {
-    from: "Toyousado",
-    to: emailmechanic.email,
-    subject: "Revisión de vehículo",
-    html: `
-        <div>
-        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-        </div>
-        <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.fullName
-      }</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.concesionary
-      }</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller!.city
-      }</div>
-            </div>
-        </div>
-        </div>`,
-  };
-
   const dataVehicle = {
     model: model,
     year: year,
@@ -192,6 +156,15 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     city: infoSeller!.city,
     title: "Tienes el siguiente vehículo para generar la ficha técnica",
     link: `${newVehicle._id}`
+  };
+
+  const template = templatesMails("newInspect", dataVehicle);
+
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
   };
 
   sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
@@ -1325,16 +1298,16 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   }
 
   let from = `${firtsMonth.getFullYear()}-${firtsMonth.getMonth() + 1 < 10
-      ? "0" + (firtsMonth.getMonth() + 1)
-      : firtsMonth.getMonth() + 1
+    ? "0" + (firtsMonth.getMonth() + 1)
+    : firtsMonth.getMonth() + 1
     }-${firtsMonth.getDate() < 10
       ? "0" + firtsMonth.getDate()
       : firtsMonth.getDate()
     }`;
 
   let to = `${lastMonth.getFullYear()}-${lastMonth.getMonth() + 1 < 10
-      ? "0" + (lastMonth.getMonth() + 1)
-      : lastMonth.getMonth() + 1
+    ? "0" + (lastMonth.getMonth() + 1)
+    : lastMonth.getMonth() + 1
 
     }-${lastMonth.getDate() < 10 ? "0" + lastMonth.getDate() : lastMonth.getDate()}`;
 
@@ -1785,7 +1758,7 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   //     ...mongQuery,
   //     concesionary: { $regex: concesionary.name, $options: "i" },
   //   };
-    
+
   // }
 
   // if (decode.type_user == "seller") {
@@ -2027,7 +2000,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       ...mongQuery,
       concesionary: { $regex: concesionary.name, $options: "i" },
     };
-    
+
   }
 
   if (decode.type_user == "seller") {
@@ -2412,6 +2385,166 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       }
       res.json(reponseJson);
     });
+};
+
+vehicleController.generatePdf = async (req: Request, res: Response) => {
+  const jsonRes: ResponseModel = new ResponseModel();
+  const data = req.query;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
+  if (decode == false) {
+    jsonRes.code = jwt.code;
+    jsonRes.message = jwt.message;
+    jsonRes.status = false;
+    jsonRes.data = null;
+    return res.json(jsonRes);
+  }
+
+
+  const infoVehicle: any = await vehicles.findOne({ _id: data.id });
+
+  const imgsVehichle = await ImgVehicle.find({ id_vehicle: data.id });
+  const mechanicalFile = await mechanicalsFiles.findOne({ id_vehicle: data.id });
+
+  if (infoVehicle) {
+    let data: any = {
+      _id: infoVehicle._id,
+      model: infoVehicle.model,
+      brand: infoVehicle.brand,
+      year: infoVehicle.year,
+      displacement: infoVehicle.displacement,
+      km: infoVehicle.km,
+      engine_model: infoVehicle.engine_model,
+      titles: infoVehicle.titles,
+      fuel: infoVehicle.fuel,
+      transmission: infoVehicle.transmission,
+      city: infoVehicle.city,
+      dealer: infoVehicle.dealer,
+      concesionary: infoVehicle.concesionary,
+      traction_control: infoVehicle.traction_control,
+      performance: infoVehicle.performance,
+      price: infoVehicle.price,
+      comfort: infoVehicle.comfort,
+      technology: infoVehicle.technology,
+      mechanicalFile: infoVehicle.mechanicalFile,
+      dataSheet: mechanicalFile,
+      sold: infoVehicle.sold,
+      type_vehicle: infoVehicle.type_vehicle,
+      id_seller: infoVehicle.id_seller,
+      id_mechanic: infoVehicle.id_mechanic,
+      id_seller_buyer: infoVehicle.id_seller_buyer,
+      traction: infoVehicle.traction,
+      date_create: infoVehicle.date_create,
+      plate: infoVehicle.plate,
+      vin: infoVehicle.vin,
+      price_ofert: infoVehicle.price_ofert,
+      final_price_sold: infoVehicle.final_price_sold,
+      general_condition: mechanicalFile!
+        ? mechanicalFile.general_condition
+        : "",
+      images: imgsVehichle ? imgsVehichle : [],
+      imgs_documentation: infoVehicle.imgs_documentation
+        ? infoVehicle.imgs_documentation
+        : [],
+    };
+    let img64 = "";
+    if (data.images) {
+      img64 = await getImageAsBase64(data.images[0].img);
+    }
+    let now = new Date();
+    const fileName = now.getTime() + ".pdf";
+    let sendData: any = {
+      model: data.model,
+      brand: data.brand,
+      year: data.year,
+      km: data.km,
+      img: img64,
+      fuel: data.fuel,
+      transmission: data.transmission,
+      part_emblems_complete: data.dataSheet.part_emblems_complete, 
+      wiper_shower_brushes_windshield: data.dataSheet.wiper_shower_brushes_windshield, 
+      hits: data.dataSheet.hits, 
+      scratches: data.dataSheet.scratches, 
+      paint_condition: data.dataSheet.paint_condition, 
+      bugle_accessories: data.dataSheet.bugle_accessories, 
+      air_conditioning_system: data.dataSheet.air_conditioning_system, 
+      radio_player: data.dataSheet.radio_player, 
+      courtesy_lights: data.dataSheet.courtesy_lights, 
+      upholstery_condition: data.dataSheet.upholstery_condition, 
+      gts: data.dataSheet.gts, 
+      board_lights: data.dataSheet.board_lights, 
+      tire_pressure: data.dataSheet.tire_pressure, 
+      tire_life: data.dataSheet.tire_life, 
+      battery_status_terminals: data.dataSheet.battery_status_terminals,
+      transmitter_belts: data.dataSheet.transmitter_belts, 
+      motor_oil: data.dataSheet.motor_oil, 
+      engine_coolant_container: data.dataSheet.engine_coolant_container, 
+      radiator_status: data.dataSheet.radiator_status, 
+      exhaust_pipe_bracket: data.dataSheet.exhaust_pipe_bracket, 
+      fuel_tank_cover_pipes_hoses_connections: data.dataSheet.fuel_tank_cover_pipes_hoses_connections,
+      distribution_mail: data.dataSheet.distribution_mail, 
+      spark_plugs_air_filter_fuel_filter_anti_pollen_filter: data.dataSheet.spark_plugs_air_filter_fuel_filter_anti_pollen_filter, 
+      fuel_system: data.dataSheet.fuel_system, 
+      parking_break: data.dataSheet.parking_break, 
+      brake_bands_drums: data.dataSheet.brake_bands_drums, 
+      brake_pads_discs: data.dataSheet.brake_pads_discs, 
+      brake_pipes_hoses: data.dataSheet.brake_pipes_hoses,
+      master_cylinder: data.dataSheet.master_cylinder, 
+      brake_fluid: data.dataSheet.brake_fluid,
+      bushings_plateaus: data.dataSheet.bushings_plateaus, 
+      stumps: data.dataSheet.stumps, 
+      terminals: data.dataSheet.terminals, 
+      stabilizer_bar: data.dataSheet.stabilizer_bar, 
+      bearings: data.dataSheet.bearings,
+      tripoids_rubbe_bands: data.dataSheet.tripoids_rubbe_bands, 
+      shock_absorbers_coils: data.dataSheet.shock_absorbers_coils, 
+      dealer_maintenance: data.dataSheet.dealer_maintenance, 
+      headlights_lights: data.dataSheet.headlights_lights, 
+      general_condition: data.dataSheet.general_condition,
+    }
+
+    let result: any = await generate_Pdf(sendData, fileName);
+    jsonRes.data = result;
+    jsonRes.code = 200;
+    jsonRes.message = "success";
+    jsonRes.status = true;
+  } else {
+    jsonRes.code = 400;
+    jsonRes.message = "No se pudo obtener la información del vehículo";
+    jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
+};
+
+const generate_Pdf = async (data: any, pdfName: any) => {
+
+  const filePath = "./public/dataSheetPdf/" + pdfName;
+  const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+
+  try {
+    const html: any = await ejs.renderFile('./src/views/template.ejs', data);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(html);
+
+    await page.pdf({
+      path: filePath,
+      format: 'Letter',
+      printBackground: true,
+      landscape: true
+    });
+
+    await browser.close();
+
+    const base64Pdf = await generateBase64(filePath);
+    return {
+      path: uploadUrl,
+      base64: "data:application/pdf;base64," + base64Pdf,
+    };
+  } catch (error) {
+    return error;
+  }
 };
 
 vehicleController.inspections = async (req: Request, res: Response) => {
@@ -3068,6 +3201,46 @@ vehicleController.myOfferts = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
+
+async function generateBase64(pdfPath: string): Promise<string> {
+  const fileStream = fs.createReadStream(pdfPath);
+  const chunks: any[] = [];
+
+  return new Promise((resolve, reject) => {
+    fileStream.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+
+    fileStream.on('end', () => {
+      const fileBuffer = Buffer.concat(chunks);
+      const base64String = fileBuffer.toString('base64');
+      resolve(base64String);
+    });
+
+    fileStream.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
+async function getImageAsBase64(url: string): Promise<string> {
+  try {
+    const response = await axios.get(url, {
+      responseType: 'arraybuffer'
+    });
+
+    if (response.status === 200) {
+      const contentType = response.headers['content-type'];
+      const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+      const dataURI = `data:${contentType};base64,${base64Image}`;
+      return dataURI;
+    } else {
+      throw new Error('Failed to fetch image from the URL');
+    }
+  } catch (error: any) {
+    throw new Error('Error fetching the image: ' + error.message);
+  }
+}
 
 const desgloseImg = async (image: any) => {
   let posr = image.split(";base64").pop();

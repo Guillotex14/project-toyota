@@ -7,7 +7,7 @@ import { sendEmail } from '../../nodemailer';
 import jwt from "../helpers/generar-jwt";
 import vehicles from "../schemas/Vehicles.schema";
 import moment from "moment";
-
+import { templatesMails } from "../templates/mails/templates.mails";
 
 const saleController: any  = {};
 
@@ -211,19 +211,6 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
     reponseJson.status = true;
     reponseJson.data = vehicle;
 
-    const mailOptions = {
-      from: "Toyousado Notifications",
-      to: userbuyer!.email,
-      subject: "Oferta de vehículo aprobada",
-      text: `Tu oferta del vehículo ${vehicle!.model} del concesionario ${
-        vehicle!.concesionary
-      } ha sido aceptada, para mas información comunicate con el vendedor al correo ${
-        Userseller!.email
-      } o al número telefono ${infoSeller!.phone}`,
-    };
-
-    await sendEmail(mailOptions);
-
     const dataVehicle = {
       model: vehicle!.model,
       year: vehicle!.year,
@@ -235,11 +222,23 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
       link: id_vehicle,
     };
 
+    const template = templatesMails("ofertApprove",dataVehicle);
+
+    const mailOptions = {
+      from: "Toyousado Notifications",
+      to: userbuyer!.email,
+      subject: "Oferta de vehículo aprobada",
+      html: template,
+    };
+
+    await sendEmail(mailOptions);
+
     sendNotification(
       userbuyer!._id.toString(),
       dataVehicle,
       "Oferta de vehículo aprobada"
     );
+
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al aprobar la oferta";

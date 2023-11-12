@@ -124,6 +124,10 @@ export class SellerService {
     return this.http.post(global.urlBase+'vehicle/repost', data,this.authSrv.getToken()!);
   }
 
+  public generatePdf(data:any){
+    return this.http.get(`${global.urlBase}vehicle/generatePdf?id=${data.id}`,this.authSrv.getToken()!);
+  }
+
   public getGrafic(data:any){
     return this.http.get(`${global.urlBase}vehicle/filterGraphySale?month=${data.month}&yearSold=${data.yearSold}&brandCar=${data.brandCar}&modelCar=${data.modelCar}&yearCar=${data.yearCar}&concesionary=${data.concesionary}&rangMonths=${data.rangMonths}&triple_m=${data.triple_m}`,this.authSrv.getToken()!);
   }

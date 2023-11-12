@@ -896,14 +896,6 @@ export class CarDetailPage implements OnInit {
     this.editPrice = true;
   }
 
-  public async share(){
-    await Share.share({
-      title: 'Carros',
-      text: 'Mira este carro',
-      url: 'https://www.google.com/'
-    });
-  }
-
   public async ofertAlert(){
     
     this.sellerSrv.ofertInfo(this.id).subscribe(async (data:any) => {
@@ -931,6 +923,28 @@ export class CarDetailPage implements OnInit {
 
   }
 
+  public generatePdf(){
+    this.utils.presentLoading("Generando PDF...");
+    
+    let data = {
+      id: this.id
+    }
+
+    this.sellerSrv.generatePdf(data).subscribe(async (res:any) => {
+      console.log(res)
+      if (res.status) {
+        this.utils.dismissLoading();
+        await Share.share({
+          title: 'Carros',
+          text: 'Mira este carro',
+          url: res.data.path
+        });
+      }
+    }, (error:any) => {
+      console.log(error);
+    });
+
+  }
 
 
 }

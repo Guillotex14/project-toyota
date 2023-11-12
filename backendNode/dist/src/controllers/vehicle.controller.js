@@ -48,6 +48,10 @@ const sharp_1 = __importDefault(require("sharp"));
 const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"));
 const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const fs_1 = __importDefault(require("fs"));
+const ejs_1 = __importDefault(require("ejs"));
+const puppeteer_1 = __importDefault(require("puppeteer"));
+const axios_1 = __importDefault(require("axios"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -2047,6 +2051,155 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     });
 });
+vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const data = req.query;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
+    if (decode == false) {
+        jsonRes.code = generar_jwt_1.default.code;
+        jsonRes.message = generar_jwt_1.default.message;
+        jsonRes.status = false;
+        jsonRes.data = null;
+        return res.json(jsonRes);
+    }
+    const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
+    const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: data.id });
+    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    if (infoVehicle) {
+        let data = {
+            _id: infoVehicle._id,
+            model: infoVehicle.model,
+            brand: infoVehicle.brand,
+            year: infoVehicle.year,
+            displacement: infoVehicle.displacement,
+            km: infoVehicle.km,
+            engine_model: infoVehicle.engine_model,
+            titles: infoVehicle.titles,
+            fuel: infoVehicle.fuel,
+            transmission: infoVehicle.transmission,
+            city: infoVehicle.city,
+            dealer: infoVehicle.dealer,
+            concesionary: infoVehicle.concesionary,
+            traction_control: infoVehicle.traction_control,
+            performance: infoVehicle.performance,
+            price: infoVehicle.price,
+            comfort: infoVehicle.comfort,
+            technology: infoVehicle.technology,
+            mechanicalFile: infoVehicle.mechanicalFile,
+            dataSheet: mechanicalFile,
+            sold: infoVehicle.sold,
+            type_vehicle: infoVehicle.type_vehicle,
+            id_seller: infoVehicle.id_seller,
+            id_mechanic: infoVehicle.id_mechanic,
+            id_seller_buyer: infoVehicle.id_seller_buyer,
+            traction: infoVehicle.traction,
+            date_create: infoVehicle.date_create,
+            plate: infoVehicle.plate,
+            vin: infoVehicle.vin,
+            price_ofert: infoVehicle.price_ofert,
+            final_price_sold: infoVehicle.final_price_sold,
+            general_condition: mechanicalFile
+                ? mechanicalFile.general_condition
+                : "",
+            images: imgsVehichle ? imgsVehichle : [],
+            imgs_documentation: infoVehicle.imgs_documentation
+                ? infoVehicle.imgs_documentation
+                : [],
+        };
+        let img64 = "";
+        if (data.images) {
+            img64 = yield getImageAsBase64(data.images[0].img);
+        }
+        let now = new Date();
+        const fileName = now.getTime() + ".pdf";
+        let sendData = {
+            model: data.model,
+            brand: data.brand,
+            year: data.year,
+            km: data.km,
+            img: img64,
+            fuel: data.fuel,
+            transmission: data.transmission,
+            part_emblems_complete: data.dataSheet.part_emblems_complete,
+            wiper_shower_brushes_windshield: data.dataSheet.wiper_shower_brushes_windshield,
+            hits: data.dataSheet.hits,
+            scratches: data.dataSheet.scratches,
+            paint_condition: data.dataSheet.paint_condition,
+            bugle_accessories: data.dataSheet.bugle_accessories,
+            air_conditioning_system: data.dataSheet.air_conditioning_system,
+            radio_player: data.dataSheet.radio_player,
+            courtesy_lights: data.dataSheet.courtesy_lights,
+            upholstery_condition: data.dataSheet.upholstery_condition,
+            gts: data.dataSheet.gts,
+            board_lights: data.dataSheet.board_lights,
+            tire_pressure: data.dataSheet.tire_pressure,
+            tire_life: data.dataSheet.tire_life,
+            battery_status_terminals: data.dataSheet.battery_status_terminals,
+            transmitter_belts: data.dataSheet.transmitter_belts,
+            motor_oil: data.dataSheet.motor_oil,
+            engine_coolant_container: data.dataSheet.engine_coolant_container,
+            radiator_status: data.dataSheet.radiator_status,
+            exhaust_pipe_bracket: data.dataSheet.exhaust_pipe_bracket,
+            fuel_tank_cover_pipes_hoses_connections: data.dataSheet.fuel_tank_cover_pipes_hoses_connections,
+            distribution_mail: data.dataSheet.distribution_mail,
+            spark_plugs_air_filter_fuel_filter_anti_pollen_filter: data.dataSheet.spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
+            fuel_system: data.dataSheet.fuel_system,
+            parking_break: data.dataSheet.parking_break,
+            brake_bands_drums: data.dataSheet.brake_bands_drums,
+            brake_pads_discs: data.dataSheet.brake_pads_discs,
+            brake_pipes_hoses: data.dataSheet.brake_pipes_hoses,
+            master_cylinder: data.dataSheet.master_cylinder,
+            brake_fluid: data.dataSheet.brake_fluid,
+            bushings_plateaus: data.dataSheet.bushings_plateaus,
+            stumps: data.dataSheet.stumps,
+            terminals: data.dataSheet.terminals,
+            stabilizer_bar: data.dataSheet.stabilizer_bar,
+            bearings: data.dataSheet.bearings,
+            tripoids_rubbe_bands: data.dataSheet.tripoids_rubbe_bands,
+            shock_absorbers_coils: data.dataSheet.shock_absorbers_coils,
+            dealer_maintenance: data.dataSheet.dealer_maintenance,
+            headlights_lights: data.dataSheet.headlights_lights,
+            general_condition: data.dataSheet.general_condition,
+        };
+        let result = yield generate_Pdf(sendData, fileName);
+        jsonRes.data = result;
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+    }
+    else {
+        jsonRes.code = 400;
+        jsonRes.message = "No se pudo obtener la información del vehículo";
+        jsonRes.status = false;
+    }
+    res.json(jsonRes);
+});
+const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
+    const filePath = "./public/dataSheetPdf/" + pdfName;
+    const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+    try {
+        const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
+        const browser = yield puppeteer_1.default.launch();
+        const page = yield browser.newPage();
+        yield page.setContent(html);
+        yield page.pdf({
+            path: filePath,
+            format: 'Letter',
+            printBackground: true,
+            landscape: true
+        });
+        yield browser.close();
+        const base64Pdf = yield generateBase64(filePath);
+        return {
+            path: uploadUrl,
+            base64: "data:application/pdf;base64," + base64Pdf,
+        };
+    }
+    catch (error) {
+        return error;
+    }
+});
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
     const { id_mechanic } = req.body;
@@ -2581,6 +2734,46 @@ vehicleController.myOfferts = (req, res) => __awaiter(void 0, void 0, void 0, fu
     reponseJson.data = sendData;
     res.json(reponseJson);
 });
+function generateBase64(pdfPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fileStream = fs_1.default.createReadStream(pdfPath);
+        const chunks = [];
+        return new Promise((resolve, reject) => {
+            fileStream.on('data', (chunk) => {
+                chunks.push(chunk);
+            });
+            fileStream.on('end', () => {
+                const fileBuffer = Buffer.concat(chunks);
+                const base64String = fileBuffer.toString('base64');
+                resolve(base64String);
+            });
+            fileStream.on('error', (error) => {
+                reject(error);
+            });
+        });
+    });
+}
+function getImageAsBase64(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield axios_1.default.get(url, {
+                responseType: 'arraybuffer'
+            });
+            if (response.status === 200) {
+                const contentType = response.headers['content-type'];
+                const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+                const dataURI = `data:${contentType};base64,${base64Image}`;
+                return dataURI;
+            }
+            else {
+                throw new Error('Failed to fetch image from the URL');
+            }
+        }
+        catch (error) {
+            throw new Error('Error fetching the image: ' + error.message);
+        }
+    });
+}
 const desgloseImg = (image) => __awaiter(void 0, void 0, void 0, function* () {
     let posr = image.split(";base64").pop();
     let imgBuff = Buffer.from(posr, "base64");

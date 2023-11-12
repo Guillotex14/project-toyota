@@ -12,6 +12,7 @@ import sellers from '../schemas/Sellers.schema';
 import users from '../schemas/Users.schema';
 import brands from '../schemas/brands.schema'
 import models from '../schemas/modelVehicle.schema';
+import { templatesMails } from "../templates/mails/templates.mails";
 
 const mechanicController: any = {};
 
@@ -500,43 +501,6 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
             infoMechanic.city = mechanic.city;
         }
 
-        const mailOptions = {
-            from: 'Toyousado Notifications',
-            to: mailSeller,
-            subject: 'Ficha mecánica creada',
-            html: `<div>
-            <p>Ficha técnica creada exitosamente para:</p>
-            </div>
-            <div class="div-table" style="width: 100%;">
-                <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.model}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.year}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.plate}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${nameSeller}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${conceSeller}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${citySeller}</div>
-                </div>
-                </div>
-            </div>`,
-        };
-        
         const dataVehicle = {
             model: vehicle?.model,
             year: vehicle?.year,
@@ -546,7 +510,16 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
             city: citySeller,
             title: "Ficha técnica creada exitosamente para:"
         }
-        
+
+        const template = templatesMails("addMechanicalFile",dataVehicle)
+
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: mailSeller,
+            subject: 'Ficha mecánica creada',
+            html: template,
+        };
+ 
         await sendEmail(mailOptions);
 
         sendNotification(vehicle!.id_seller?.toString()!, dataVehicle, "Ficha técnica creada");

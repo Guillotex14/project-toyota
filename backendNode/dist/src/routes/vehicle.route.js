@@ -31,6 +31,7 @@ vehicleRouter.get("/exportExcell", vehicle_controller_1.default.exportExcell);
 vehicleRouter.post("/dispatchedCar", vehicle_controller_1.default.dispatchedCar);
 vehicleRouter.post("/repost", vehicle_controller_1.default.repost);
 vehicleRouter.get("/filterGraphySale", vehicle_controller_1.default.filterGraphySale);
+vehicleRouter.get("/generatePdf", vehicle_controller_1.default.generatePdf);
 vehicleRouter.post("/inspections", vehicle_controller_1.default.inspections);
 vehicleRouter.post("/countInspections", vehicle_controller_1.default.countInspections);
 vehicleRouter.post("/addMechanicalFile", vehicle_controller_1.default.addMechanicalFile);
