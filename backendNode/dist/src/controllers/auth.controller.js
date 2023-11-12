@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,12 +40,11 @@ const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
-const nodemailer_1 = require("../../nodemailer");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
-const templates_mails_1 = require("../templates/mails/templates.mails");
+const global = __importStar(require("../global"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -153,17 +175,17 @@ authController.updateImgProfile = (req, res) => __awaiter(void 0, void 0, void 0
 });
 authController.sendMail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
-    const { id } = req.query;
-    const template = (0, templates_mails_1.templatesMails)("ofertByCar");
-    console.log(template);
-    const mailOptions = {
-        from: 'Servicio de notificaciones',
-        to: 'jefersonmujica@gmail.com',
-        subject: 'Notificacion de prueba',
-        html: template,
-    };
-    const responseMail = yield (0, nodemailer_1.sendEmail)(mailOptions);
-    res.json(template);
+    // const { id } = req.query;
+    // const template = templatesMails("ofertByCar");
+    // console.log(template);
+    // const mailOptions = {
+    //   from: 'Servicio de notificaciones',
+    //   to: 'jefersonmujica@gmail.com',
+    //   subject: 'Notificacion de prueba',
+    //   html: template,
+    // }
+    // const responseMail = await sendEmail(mailOptions);
+    res.json(global.urlBase);
 });
 exports.default = authController;
 //# sourceMappingURL=auth.controller.js.map

@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
 import concesionariesSchema from "../schemas/Concesionaries.schema";
-import { templatesMails } from "../templates/mails/templates.mails";
+import * as global from "../global";
 
 const authController: any = {};
 
@@ -160,22 +160,23 @@ authController.updateImgProfile = async (req: Request, res: Response) => {
 
 authController.sendMail = async (req: Request, res: Response) => {
   const jsonRes = new ResponseModel();
-  const { id } = req.query;
 
-  const template = templatesMails("ofertByCar");
+  // const { id } = req.query;
 
-  console.log(template);
+  // const template = templatesMails("ofertByCar");
 
-  const mailOptions = {
-    from: 'Servicio de notificaciones',
-    to: 'jefersonmujica@gmail.com',
-    subject: 'Notificacion de prueba',
-    html: template,
-  }
+  // console.log(template);
 
-  const responseMail = await sendEmail(mailOptions);
+  // const mailOptions = {
+  //   from: 'Servicio de notificaciones',
+  //   to: 'jefersonmujica@gmail.com',
+  //   subject: 'Notificacion de prueba',
+  //   html: template,
+  // }
 
-  res.json(template);
+  // const responseMail = await sendEmail(mailOptions);
+
+  res.json(global.urlBase);
 
 }
 

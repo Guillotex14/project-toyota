@@ -56,6 +56,7 @@ const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
+const templates_mails_1 = require("../templates/mails/templates.mails");
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -136,43 +137,6 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     yield Vehicles_schema_2.default.findByIdAndUpdate(newVehicle._id, {
         imgs_documentation: documents,
     });
-    const mailOptions = {
-        from: "Toyousado",
-        to: emailmechanic.email,
-        subject: "Revisión de vehículo",
-        html: `
-        <div>
-        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-        </div>
-        <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
-            </div>
-        </div>
-        </div>`,
-    };
     const dataVehicle = {
         model: model,
         year: year,
@@ -182,6 +146,13 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         city: infoSeller.city,
         title: "Tienes el siguiente vehículo para generar la ficha técnica",
         link: `${newVehicle._id}`
+    };
+    const template = (0, templates_mails_1.templatesMails)("newInspect", dataVehicle);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
     };
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     yield (0, nodemailer_1.sendEmail)(mailOptions);
