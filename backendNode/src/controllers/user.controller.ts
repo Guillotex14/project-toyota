@@ -48,7 +48,9 @@ userController.insert = async (req: Request, res: Response) => {
       decode.type_user == "admin" ||
       decode.type_user == "admin_concesionary"
     ) {
+
       if (data.type_user == "admin") {
+
         newUser = await addOrUpdateUser(data);
         message = `El usuario administrador fue creado con exito`;
       } else if (data.type_user == "admin_concesionary") {  // admin creando un admin_concesionary
@@ -73,6 +75,7 @@ userController.insert = async (req: Request, res: Response) => {
         newUser = await addOrUpdateMechanic(data);
         message = `El usuario tecnico fue creado con exito`;
       }
+
       if (data.type_user == "seller") {
         if (decode.type_user == "admin_concesionary") { //admin_concesionary creando un usuario seller y asigandole su concesionario correspondiente
           let concesionario: any = await concesionariesSchema.findOne({
@@ -101,7 +104,9 @@ userController.insert = async (req: Request, res: Response) => {
 
         await sendEmail(mailOptions);
       }
+
     } else if (decode.type_user == "seller") {
+
       let newUser = await addOrUpdateMechanic(data);
 
       if (newUser) {
@@ -119,7 +124,9 @@ userController.insert = async (req: Request, res: Response) => {
 
         await sendEmail(mailOptions);
       }
+
       message = `El usuario tecnico fue creado con exito`;
+
     } else {
       reponseJson.code = 400;
       reponseJson.message = "Usuario sin perimiso";
@@ -326,7 +333,18 @@ userController.get = async (req: Request, res: Response) => {
         ...sendata,
         mechanic,
       };
+    }else if(user.type_user == "admin_concesionary") {
+      let concesionary: any = await concesionariesSchema.findOne({
+        _id: user.id_concesionary,
+      });
+      sendata = {
+        ...sendata,
+        id_concesionary: user?.id_concesionary ? user?.id_concesionary : null,
+        concesionary
+      }
     }
+
+
   } else {
     reponseJson.code = 400;
     reponseJson.message = "Usuario no encontrado";
@@ -350,7 +368,7 @@ userController.all = async (req: Request, res: Response) => {
     reponseJson.message = jwt.message;
     reponseJson.status = false;
     reponseJson.data = null;
-    return res.json(reponseJson);
+    return res.json(reponseJson); 
   }
   let data: any = req.query;
 
@@ -475,6 +493,7 @@ userController.all = async (req: Request, res: Response) => {
         { type_user: { $regex: data.s, $options: "i" } },
       ],
       type_user: data.type_user,
+      status: 1
     };
 
     project = {
@@ -482,9 +501,25 @@ userController.all = async (req: Request, res: Response) => {
       email: 1,
       username: 1,
       type_user: 1,
+      id_concesionary: 1,
+      concesionary: {
+        name: 1,
+        state: 1,
+      },
     };
 
     list = await Users.aggregate([
+      {
+        $lookup: {
+          from: "concesionaries",
+          localField: "id_concesionary",
+          foreignField: "_id",
+          as: "concesionary",
+        }
+      },
+      {
+        $unwind: `$concesionary`,
+      },
       {
         $match: search,
       },
@@ -874,7 +909,7 @@ async function addOrUpdateUser(data: any) {
         username: data.username,
         type_user: data.type_user,
       };
-      if (data.type_user == "admin_concesionay") {
+      if (data.type_user == "admin_concesionary") {
         userUpdate.id_concesionary = data.id_concesionary;
       }
       await Users.findOneAndUpdate(user, userUpdate);
@@ -891,7 +926,7 @@ async function addOrUpdateUser(data: any) {
       date_created: date_created,
       status: 1,
     };
-    if (data.type_user == "admin_concesionay") {
+    if (data.type_user == "admin_concesionary") {
       _user.id_concesionary = data.id_concesionary;
     }
     const newUser = new Users(_user);

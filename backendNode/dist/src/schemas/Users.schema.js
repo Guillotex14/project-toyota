@@ -6,7 +6,10 @@ const UsersSchema = new mongoose_1.Schema({
     password: String,
     username: String,
     type_user: String,
-    id_concesionary: String,
+    id_concesionary: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Concesionaries"
+    },
     concesionary: String,
     status: Number,
 });

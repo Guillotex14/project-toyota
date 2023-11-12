@@ -11,6 +11,9 @@ import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
 import Jwt from "../helpers/generar-jwt";
 import VehiclesSchema from "../schemas/Vehicles.schema";
 import concesionariesSchema from "../schemas/Concesionaries.schema";
+import UsersSchema from "../schemas/Users.schema";
+import ImgVehicleSchema from "../schemas/ImgVehicle.schema";
+import mechanicalsFilesSchema from "../schemas/mechanicalsFiles.schema";
 
 const authController: any = {};
 

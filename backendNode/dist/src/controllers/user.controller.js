@@ -316,6 +316,12 @@ userController.get = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             mechanic = yield Mechanics_schema_1.default.findOne({ id_user: user._id });
             sendata = Object.assign(Object.assign({}, sendata), { mechanic });
         }
+        else if (user.type_user == "admin_concesionary") {
+            let concesionary = yield Concesionaries_schema_1.default.findOne({
+                _id: user.id_concesionary,
+            });
+            sendata = Object.assign(Object.assign({}, sendata), { id_concesionary: (user === null || user === void 0 ? void 0 : user.id_concesionary) ? user === null || user === void 0 ? void 0 : user.id_concesionary : null, concesionary });
+        }
     }
     else {
         reponseJson.code = 400;
@@ -454,14 +460,31 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 { type_user: { $regex: data.s, $options: "i" } },
             ],
             type_user: data.type_user,
+            status: 1
         };
         project = {
             id_user: "$_id",
             email: 1,
             username: 1,
             type_user: 1,
+            id_concesionary: 1,
+            concesionary: {
+                name: 1,
+                state: 1,
+            },
         };
         list = yield Users_schema_1.default.aggregate([
+            {
+                $lookup: {
+                    from: "concesionaries",
+                    localField: "id_concesionary",
+                    foreignField: "_id",
+                    as: "concesionary",
+                }
+            },
+            {
+                $unwind: `$concesionary`,
+            },
             {
                 $match: search,
             },
@@ -804,7 +827,7 @@ function addOrUpdateUser(data) {
                     username: data.username,
                     type_user: data.type_user,
                 };
-                if (data.type_user == "admin_concesionay") {
+                if (data.type_user == "admin_concesionary") {
                     userUpdate.id_concesionary = data.id_concesionary;
                 }
                 yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
@@ -821,7 +844,7 @@ function addOrUpdateUser(data) {
                 date_created: date_created,
                 status: 1,
             };
-            if (data.type_user == "admin_concesionay") {
+            if (data.type_user == "admin_concesionary") {
                 _user.id_concesionary = data.id_concesionary;
             }
             const newUser = new Users_schema_1.default(_user);

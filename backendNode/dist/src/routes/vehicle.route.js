@@ -8,6 +8,8 @@ const express_1 = require("express");
 const brand_controller_1 = __importDefault(require("../controllers/brand.controller"));
 const vehicle_controller_1 = __importDefault(require("../controllers/vehicle.controller"));
 const modelsVehicles_controller_1 = __importDefault(require("../controllers/modelsVehicles.controller"));
+const concesionary_controller_1 = __importDefault(require("../controllers/concesionary.controller"));
+const states_controller_1 = __importDefault(require("../controllers/states.controller"));
 const vehicleRouter = (0, express_1.Router)();
 // --------------vehiculos-------------------
 vehicleRouter.post("/addVehicle", vehicle_controller_1.default.addVehicle);
@@ -50,6 +52,9 @@ vehicleRouter.get("/allModelVehicle", modelsVehicles_controller_1.default.all);
 vehicleRouter.get("/allModelPaginator", modelsVehicles_controller_1.default.allPaginator);
 vehicleRouter.get("/get", modelsVehicles_controller_1.default.get);
 vehicleRouter.post("/autoCompleteModels", modelsVehicles_controller_1.default.autoComplete);
-//---------------ficha mechanica--------------------
+//---------------concesionarios--------------------
+vehicleRouter.get("/allConcesionaries", concesionary_controller_1.default.all);
+//---------------estados---------------------------
+vehicleRouter.get("/allStates", states_controller_1.default.all);
 exports.default = vehicleRouter;
 //# sourceMappingURL=vehicle.route.js.map

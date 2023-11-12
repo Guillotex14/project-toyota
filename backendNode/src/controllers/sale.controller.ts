@@ -224,11 +224,6 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
 
     await sendEmail(mailOptions);
 
-    // sendNotification(
-    //   userbuyer!._id.toString(),
-    //   mailOptions.text,
-    //   mailOptions.subject
-    // );
     const dataVehicle = {
       model: vehicle!.model,
       year: vehicle!.year,

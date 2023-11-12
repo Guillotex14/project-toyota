@@ -175,11 +175,6 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
             text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${Userseller.email} o al número telefono ${infoSeller.phone}`,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
-        // sendNotification(
-        //   userbuyer!._id.toString(),
-        //   mailOptions.text,
-        //   mailOptions.subject
-        // );
         const dataVehicle = {
             model: vehicle.model,
             year: vehicle.year,

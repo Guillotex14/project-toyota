@@ -5,7 +5,10 @@ const UsersSchema = new Schema({
     password: String,
     username: String,
     type_user: String,
-    id_concesionary: String,
+    id_concesionary: {
+        type: Schema.Types.ObjectId,
+        ref: "Concesionaries"
+    },
     concesionary: String,
     status: Number,
 });

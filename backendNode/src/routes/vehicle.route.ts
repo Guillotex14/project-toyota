@@ -4,6 +4,8 @@ import { Router } from "express";
 import brandController from "../controllers/brand.controller";
 import vehicleController from "../controllers/vehicle.controller";
 import modelVehiclesController from "../controllers/modelsVehicles.controller";
+import concesionaryController from "../controllers/concesionary.controller";
+import statesController from "../controllers/states.controller";
 
 const vehicleRouter = Router();
 
@@ -78,7 +80,10 @@ vehicleRouter.get("/get", modelVehiclesController.get);
 vehicleRouter.post("/autoCompleteModels",modelVehiclesController.autoComplete);
 
 
-//---------------ficha mechanica--------------------
+//---------------concesionarios--------------------
+vehicleRouter.get("/allConcesionaries", concesionaryController.all);
 
+//---------------estados---------------------------
+vehicleRouter.get("/allStates", statesController.all);
 
 export default vehicleRouter;

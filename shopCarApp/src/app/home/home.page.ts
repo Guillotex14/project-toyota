@@ -69,21 +69,21 @@ export class HomePage {
         localStorage.setItem('typeUser', res.data.type_user);
         this.utils.setLogin(true);
 
-        if (res.data.type_user == "seller") {
+        if (res.data.type_user === "seller") {
           this.router.navigate(['seller']);
         }
-        if (res.data.type_user == "mechanic") {
+        if (res.data.type_user === "mechanic") {
           this.router.navigate(['mechanic']);
         }
 
-        if (res.data.type_user == "admin") {
+        if (res.data.type_user === "admin" || res.data.type_user === "admin_concesionary") {
           this.router.navigate(['home-admin']);
         }
 
       }else{
         this.utils.presentToast(res.message);
-        if (res.message == 'Contraseña incorrecta') this.incorrectPass=true;
-        if (res.message == 'Ususario no registrado') this.incorrectUser=true;
+        if (res.message === 'Contraseña incorrecta') this.incorrectPass=true;
+        if (res.message === 'Ususario no registrado') this.incorrectUser=true;
       }
     });
 

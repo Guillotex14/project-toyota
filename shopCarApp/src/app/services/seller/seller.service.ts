@@ -104,6 +104,14 @@ export class SellerService {
     return this.http.get(global.urlBase+'vehicle/allModelVehicle?s=',this.authToken);
   }
 
+  public allConcesionaries(){
+    return this.http.get(global.urlBase+'vehicle/allConcesionaries',this.authToken);
+  }
+
+  public allStates(){
+    return this.http.get(global.urlBase+'vehicle/allStates',this.authToken);
+  }
+
   public autoComplete(data:any){
     return this.http.post(global.urlBase+'vehicle/autocompleteModels', data,this.authToken);
   }
