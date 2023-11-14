@@ -2510,6 +2510,8 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       concesionary_maintenance:data.concesionary_maintenance ?data.concesionary_maintenance:"false",
       general_condition:data.general_condition
     }
+
+
     let result: any = await generate_Pdf(sendData, fileName);
     jsonRes.data = result;
     jsonRes.code = 200;
@@ -2527,6 +2529,8 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 const generate_Pdf = async (data: any, pdfName: any) => {
 
   const filePath = "./public/dataSheetPdf/" + pdfName;
+  crearCarpetaSiNoExiste('./public/dataSheetPdf');
+
   const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
 
   try {
@@ -3072,6 +3076,15 @@ async function generateBase64(pdfPath: string): Promise<string> {
   });
 }
 
+
+const crearCarpetaSiNoExiste = (nombreCarpeta:any) => {
+  if (!fs.existsSync(nombreCarpeta)) {
+    fs.mkdirSync(nombreCarpeta);
+    console.log(`Carpeta "${nombreCarpeta}" creada exitosamente`);
+  } else {
+    console.log(`La carpeta "${nombreCarpeta}" ya existe`);
+  }
+};
 
 async function getImageAsBase64(url: string): Promise<string> {
   try {

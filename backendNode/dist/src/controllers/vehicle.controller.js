@@ -2153,6 +2153,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
 });
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
     const filePath = "./public/dataSheetPdf/" + pdfName;
+    crearCarpetaSiNoExiste('./public/dataSheetPdf');
     const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
     try {
         const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
@@ -2580,6 +2581,15 @@ function generateBase64(pdfPath) {
         });
     });
 }
+const crearCarpetaSiNoExiste = (nombreCarpeta) => {
+    if (!fs_1.default.existsSync(nombreCarpeta)) {
+        fs_1.default.mkdirSync(nombreCarpeta);
+        console.log(`Carpeta "${nombreCarpeta}" creada exitosamente`);
+    }
+    else {
+        console.log(`La carpeta "${nombreCarpeta}" ya existe`);
+    }
+};
 function getImageAsBase64(url) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
