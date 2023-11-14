@@ -711,6 +711,7 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
             vin: infoVehicle.vin,
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
+            concesionary_maintenance: infoVehicle.concesionary_maintenance,
             general_condition: mechanicalFile
                 ? mechanicalFile.general_condition
                 : "",
@@ -1069,6 +1070,7 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
                 date_create: vehiclesFiltered[i].date_create,
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
+                concesionary_maintenance: vehiclesFiltered[i].concesionary_maintenance,
                 image: (yield ImgVehicle_schema_1.default.findOne({
                     id_vehicle: vehiclesFiltered[i]._id,
                 }))
@@ -1950,6 +1952,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     });
     const fileName = now.getTime() + ".xlsx";
+    crearCarpetaSiNoExiste('./public/pdf');
     const filePath = "./public/pdf/" + fileName;
     const sendUrl = global.urlBase + "public/pdf/" + fileName;
     workbook.xlsx
@@ -1978,7 +1981,6 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
-    // const fs = require("fs");
     // ...
     // fs.unlinkSync(filePath);
     let sendadta = {};
@@ -2070,6 +2072,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             vin: infoVehicle.vin,
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
+            concesionary_maintenance: infoVehicle.concesionary_maintenance,
             general_condition: mechanicalFile
                 ? mechanicalFile.general_condition
                 : "",
@@ -2090,48 +2093,21 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             year: data.year,
             km: data.km,
             img: img64,
+            displacement: data.displacement,
             fuel: data.fuel,
+            titles: data.titles,
+            plate: data.plate,
             transmission: data.transmission,
-            part_emblems_complete: data.dataSheet.part_emblems_complete,
-            wiper_shower_brushes_windshield: data.dataSheet.wiper_shower_brushes_windshield,
-            hits: data.dataSheet.hits,
-            scratches: data.dataSheet.scratches,
-            paint_condition: data.dataSheet.paint_condition,
-            bugle_accessories: data.dataSheet.bugle_accessories,
-            air_conditioning_system: data.dataSheet.air_conditioning_system,
-            radio_player: data.dataSheet.radio_player,
-            courtesy_lights: data.dataSheet.courtesy_lights,
-            upholstery_condition: data.dataSheet.upholstery_condition,
-            gts: data.dataSheet.gts,
-            board_lights: data.dataSheet.board_lights,
-            tire_pressure: data.dataSheet.tire_pressure,
-            tire_life: data.dataSheet.tire_life,
-            battery_status_terminals: data.dataSheet.battery_status_terminals,
-            transmitter_belts: data.dataSheet.transmitter_belts,
-            motor_oil: data.dataSheet.motor_oil,
-            engine_coolant_container: data.dataSheet.engine_coolant_container,
-            radiator_status: data.dataSheet.radiator_status,
-            exhaust_pipe_bracket: data.dataSheet.exhaust_pipe_bracket,
-            fuel_tank_cover_pipes_hoses_connections: data.dataSheet.fuel_tank_cover_pipes_hoses_connections,
-            distribution_mail: data.dataSheet.distribution_mail,
-            spark_plugs_air_filter_fuel_filter_anti_pollen_filter: data.dataSheet.spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-            fuel_system: data.dataSheet.fuel_system,
-            parking_break: data.dataSheet.parking_break,
-            brake_bands_drums: data.dataSheet.brake_bands_drums,
-            brake_pads_discs: data.dataSheet.brake_pads_discs,
-            brake_pipes_hoses: data.dataSheet.brake_pipes_hoses,
-            master_cylinder: data.dataSheet.master_cylinder,
-            brake_fluid: data.dataSheet.brake_fluid,
-            bushings_plateaus: data.dataSheet.bushings_plateaus,
-            stumps: data.dataSheet.stumps,
-            terminals: data.dataSheet.terminals,
-            stabilizer_bar: data.dataSheet.stabilizer_bar,
-            bearings: data.dataSheet.bearings,
-            tripoids_rubbe_bands: data.dataSheet.tripoids_rubbe_bands,
-            shock_absorbers_coils: data.dataSheet.shock_absorbers_coils,
-            dealer_maintenance: data.dataSheet.dealer_maintenance,
-            headlights_lights: data.dataSheet.headlights_lights,
-            general_condition: data.dataSheet.general_condition,
+            traction: data.traction,
+            city: data.city,
+            concesionary: data.concesionary,
+            price: data.price,
+            traction_control: data.traction_control,
+            technology: data.technology,
+            performance: data.traction_control,
+            comfort: data.comfort,
+            concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
+            general_condition: data.general_condition
         };
         let result = yield generate_Pdf(sendData, fileName);
         jsonRes.data = result;
@@ -2149,6 +2125,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(data);
     const filePath = "./public/dataSheetPdf/" + pdfName;
+    crearCarpetaSiNoExiste('./public/dataSheetPdf');
     const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
     try {
         const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
@@ -2725,6 +2702,15 @@ function generateBase64(pdfPath) {
         });
     });
 }
+const crearCarpetaSiNoExiste = (nombreCarpeta) => {
+    if (!fs_1.default.existsSync(nombreCarpeta)) {
+        fs_1.default.mkdirSync(nombreCarpeta);
+        console.log(`Carpeta "${nombreCarpeta}" creada exitosamente`);
+    }
+    else {
+        console.log(`La carpeta "${nombreCarpeta}" ya existe`);
+    }
+};
 function getImageAsBase64(url) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
