@@ -2519,6 +2519,8 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 const generate_Pdf = async (data: any, pdfName: any) => {
 
+  console.log(data);
+
   const filePath = "./public/dataSheetPdf/" + pdfName;
   const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
 

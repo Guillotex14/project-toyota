@@ -20,7 +20,16 @@
         <ion-grid fixed>
           <ion-row>
             <ion-col size="12">
-              <p class="titlePage">Detalles del vehículo</p>
+              <ion-row>
+                <ion-col size="10">
+                  <p class="titlePage">Detalles del vehículo</p>
+                </ion-col>
+                <ion-col size="2">
+                  <ion-button expand="block" shape="round" style="width: 30px; height: 30px; margin: 15px auto !important" id="popover-comparison" class="">
+                    . . .
+                  </ion-button>
+                </ion-col>
+              </ion-row>
             </ion-col>
 
             <ion-col size="12" *ngIf="!editCar" style="text-align: center !important">
@@ -854,5 +863,13 @@
   <ion-action-sheet header="Opciones" [buttons]="actionSheetButtonsEdit" #actionSheetEdit></ion-action-sheet>
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsDocs" #ActionSheetDocs></ion-action-sheet>
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsEditDocs" #ActionSheetEditDocs></ion-action-sheet>
+
+  <ion-popover trigger="popover-comparison">
+    <ng-template>
+      <ion-content class="ion-padding">
+        Hola
+      </ion-content>
+    </ng-template>
+  </ion-popover>
 </ion-content>
 

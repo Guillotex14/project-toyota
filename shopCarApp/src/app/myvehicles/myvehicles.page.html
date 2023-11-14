@@ -66,7 +66,7 @@
                 <ion-chip *ngIf="vehicle.id_seller_buyer !== null && vehicle.sold === false" class="chipCard">
                   <ion-label>En negociación</ion-label>
                 </ion-chip>
-                <ion-chip *ngIf="vehicle.id_seller_buyer !== null && vehicle.sold === true" class="chipCard green">
+                <ion-chip *ngIf="vehicle.id_seller_buyer !== null && vehicle.sold === true" class="chipCard gray">
                   <ion-label style="margin: 0px auto;">Vendido</ion-label>
                 </ion-chip>
                 <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">

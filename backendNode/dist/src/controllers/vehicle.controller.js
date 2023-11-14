@@ -2147,6 +2147,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(jsonRes);
 });
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(data);
     const filePath = "./public/dataSheetPdf/" + pdfName;
     const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
     try {

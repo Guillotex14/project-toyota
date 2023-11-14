@@ -151,6 +151,10 @@ const routes: Routes = [
     path: 'my-offerts',
     loadChildren: () => import('./my-offerts/my-offerts.module').then( m => m.MyOffertsPageModule)
   },
+  {
+    path: 'comparison',
+    loadChildren: () => import('./comparison/comparison.module').then( m => m.ComparisonPageModule)
+  },
 ];
 
 @NgModule({

@@ -66,6 +66,10 @@
         <ion-label>Mis Ofertas</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('comparison')">
+        <ion-label>Mis Comparaciones</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
       <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
         <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
