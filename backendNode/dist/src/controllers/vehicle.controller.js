@@ -1981,6 +1981,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         });
     });
     const fileName = now.getTime() + ".xlsx";
+    crearCarpetaSiNoExiste('./public/pdf');
     const filePath = "./public/pdf/" + fileName;
     const sendUrl = global.urlBase + "public/pdf/" + fileName;
     workbook.xlsx
@@ -2009,7 +2010,6 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
-    // const fs = require("fs");
     // ...
     // fs.unlinkSync(filePath);
     let sendadta = {};
