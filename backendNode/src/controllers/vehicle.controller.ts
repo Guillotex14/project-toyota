@@ -2344,6 +2344,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   });
 
   const fileName = now.getTime() + ".xlsx";
+  crearCarpetaSiNoExiste('./public/pdf');
   const filePath = "./public/pdf/" + fileName;
   const sendUrl = global.urlBase + "public/pdf/" + fileName;
 
@@ -2374,7 +2375,6 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     await sendEmail(mailOptions);
   }
 
-  // const fs = require("fs");
 
   // ...
 
