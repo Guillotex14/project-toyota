@@ -25,9 +25,9 @@
                   <p class="titlePage">Detalles del vehículo</p>
                 </ion-col>
                 <ion-col size="2">
-                  <ion-button expand="block" shape="round" style="width: 30px; height: 30px; margin: 15px auto !important" id="popover-comparison" class="">
-                    . . .
-                  </ion-button>
+                  <!-- <ion-button style="margin: 15px auto !important;border-radius: 15px;" id="popover-comparison" class=""> -->
+                    <ion-icon name="ellipsis-vertical-circle-outline" class="iconComparison" id="popover-comparison"></ion-icon>
+                  <!-- </ion-button> -->
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -842,9 +842,21 @@
             </ion-col>
 
             <ion-col size="12">
-              <ion-button  expand="block" shape="round" class="btnSaveRed">
-                Solitud de Traslado
-              </ion-button>
+              <ion-row>
+                <ion-col size="12" style="text-align: center !important;">
+                  <ion-label>Solicitud de traslado</ion-label>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button  expand="block" shape="round" class="btnSaveRed">
+                    Si
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button  expand="block" shape="round" class="btnSaveRed">
+                    No
+                  </ion-button>
+                </ion-col>
+              </ion-row>
             </ion-col>
             
             <ion-col size="12" style="margin-top: 50px !important">
@@ -864,10 +876,10 @@
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsDocs" #ActionSheetDocs></ion-action-sheet>
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsEditDocs" #ActionSheetEditDocs></ion-action-sheet>
 
-  <ion-popover trigger="popover-comparison">
+  <ion-popover trigger="popover-comparison" dismissOnSelect>
     <ng-template>
       <ion-content class="ion-padding">
-        Hola
+        <ion-item [button]="true" (click)="addComparison()">Agregar a comparación</ion-item>
       </ion-content>
     </ng-template>
   </ion-popover>

@@ -11,9 +11,14 @@ import { UtilsService } from '../services/utils/utils.service';
 })
 export class ComparisonPage implements OnInit {
 
-  constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) { }
+  comparison: any[] = [];
+
+  constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) { 
+    this.getComparison();
+  }
 
   ngOnInit() {
+
   }
 
   
@@ -26,4 +31,12 @@ export class ComparisonPage implements OnInit {
     this.router.navigate(['/seller']);
   }
   
+  public getComparison() {
+    this.comparison = this.utils.getComparasion();
+  }
+
+  public deleteComparison(id: any) {
+    this.utils.deleteComparasion(id);
+    this.getComparison();
+  }
 }

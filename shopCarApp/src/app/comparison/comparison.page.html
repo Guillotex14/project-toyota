@@ -17,49 +17,123 @@
         </ion-grid>
       </ion-col>
 
+      <ion-col size="12" style="text-align: center;">
+        <p class="titlePage">Comparación</p>
+      </ion-col>
 
-      <!-- <ion-col size="12" *ngIf="arrayVehicles.length > 0">
+      <ion-col size="12" *ngIf="comparison.length > 0">
         <ion-grid fixed>
           <ion-row>
-            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of comparison; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <ion-icon name="image" *ngIf="vehicle.images ===''" class="iconCard"></ion-icon>
-                <ion-img [src]="vehicle.images.img" *ngIf="vehicle.images !==''"></ion-img>
+                <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images !==''"></ion-img>
                 <ion-card-content>
                   <p>
                     {{vehicle.model}}
                   </p>
-                  <span>
+                  <p>
+                    {{vehicle.year}}
+                  </p>
+                  <p>
                     {{vehicle.price | currency:'USD':true:'1.0-0'}}
-                  </span>
+                  </p>
                   <p>
                     {{vehicle.city}}
                   </p>
+                  <p>
+                    {{vehicle.km | number}} kms
+                  </p>
+                  <p>
+                    {{vehicle.concesionary}}
+                  </p>
+                  <p *ngIf="vehicle.general_condition">
+                    {{vehicle.general_condition < 76 ? 'Malo' : vehicle.general_condition >= 76 && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
+                  </p>
                 </ion-card-content>
-                <ion-chip *ngIf="vehicle.id_seller_buyer !== null && vehicle.sold === false" class="chipCard">
-                  <ion-label>En negociación</ion-label>
-                </ion-chip>
-                <ion-chip *ngIf="vehicle.id_seller_buyer !== null && vehicle.sold === true" class="chipCard green">
-                  <ion-label style="margin: 0px auto;">Vendido</ion-label>
-                </ion-chip>
-                <ion-button expand="block" shape="round" (click)="goDetail(vehicle._id)" [style]="vehicle.id_seller_buyer !== null ? 'margin-top: 15px': 'margin-top:10px'">
-                  ver detalle
+                <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteComparison(i)">
+                  X
                 </ion-button>
               </ion-card>
-              <ion-badge  class="red pulse" *ngIf="vehicle.price_ofert && !vehicle.sold">
-                <span style="visibility: hidden;">0</span>
-              </ion-badge>
+
+              <!-- <ion-accordion-group expand="inset">
+
+                <ion-accordion value="info">
+                  <ion-item slot="header">
+                    <ion-label>Más Info</ion-label>
+                  </ion-item>
+                  <div class="ion-padding" slot="content">
+                    <ion-list>
+                      <ion-list-header>
+                        <ion-label>Tipo de Vehiculo</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.type_vehicle}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Año</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.year}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Concesionario</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:11px ;">{{vehicle.concesionary}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>displacement</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.displacement}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Combustible</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.fuel}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Condición General</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.general_condition}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Títulos</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.titles}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Tracción</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.traction}}</ion-label>
+                      </ion-item>
+                      <ion-list-header>
+                        <ion-label>Transmisión</ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label style="font-size:16px ;">{{vehicle.transmission}}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </div>
+                </ion-accordion>
+              </ion-accordion-group> -->
+
             </ion-col>
 
           </ion-row>
         </ion-grid>
       </ion-col>
 
-      <ion-col size="12" *ngIf="arrayVehicles.length === 0" style="text-align: center;">
+      <ion-col size="12" *ngIf="comparison.length === 0" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
         <p class="titleNoInfo">No se encontraron vehículos</p>
-      </ion-col> -->
+      </ion-col>
 
     </ion-row>
   </ion-grid>

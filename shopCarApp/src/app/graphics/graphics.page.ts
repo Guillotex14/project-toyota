@@ -37,6 +37,13 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   concesionary2: string = '';
   id_user: string = '';
 
+  //breadcrumb
+  brand_breadcrumb: string = "";
+  model_breadcrumb: string = "";
+  year_breadcrumb: string = "";
+  rangMonths_breadcrumb: string = "";
+  month_breadcrumb: string = "";
+  triple_m_breadcrumb: string = "";
 
   arrayLabels: any[] = [];
   arrayBrands: any[] = [];
@@ -143,6 +150,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
           this.lineChartMethod();
           this.month = 1;
+          this.month_breadcrumb = "1";
           this.yearSold = new Date().getFullYear();
           this.rangMonths = "";
           this.yearCar = "";
@@ -328,6 +336,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       input.value = num;
       this.yearCarAux = num;
       this.yearCar = input.value.replace(/\./g,'');
+      this.year_breadcrumb = input.value.replace(/\./g,'');
     }else{ 
       
       input.value = input.value.replace(/[^\d\.]*/g,'');
@@ -365,4 +374,29 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
   }
+
+  public onChangeBrand(event:any){
+    this.brand_breadcrumb = event.detail.value;
+  }
+
+  public onChangeModel(event:any){
+    this.model_breadcrumb = event.detail.value;
+  }
+
+  public onInputYear(event:any){
+    this.year_breadcrumb = event.detail.value;
+  }
+
+  public onChangeRngMonth(event:any){
+    this.rangMonths_breadcrumb = event.detail.value;
+  }
+
+  public onChangeMonth(event:any){
+    this.month_breadcrumb = event.detail.value;
+  }
+
+  public onChangeTripleM(event:any){
+    this.triple_m_breadcrumb = event.detail.value;
+  }
+
 }

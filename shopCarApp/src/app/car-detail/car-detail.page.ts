@@ -946,5 +946,9 @@ export class CarDetailPage implements OnInit {
 
   }
 
+  public addComparison(){
+    this.utils.addComparasion(this.carDetail);
+  }
+
 
 }
