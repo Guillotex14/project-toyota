@@ -92,9 +92,20 @@ hr{
 }
 
 .chipCard{
-  position: fixed !important;
-  bottom: 25px !important;
-  margin: 5px auto !important;
+  // position: fixed !important;
+  // bottom: 25px !important;
+  // margin: 5px auto !important;
+  // --background: #ebc90a !important;
+  // --color: #000;
+  // font-size: 11px;
+  // font-weight: 900;
+  // width: 70% !important;
+  // height: 20px !important;
+  // text-transform: capitalize !important;
+  // ion-label {
+  //   // margin: 0px 6px !important;
+  // }
+  margin: auto 2px !important;
   --background: #ebc90a !important;
   --color: #000;
   font-size: 11px;
@@ -102,9 +113,6 @@ hr{
   width: 70% !important;
   height: 20px !important;
   text-transform: capitalize !important;
-  ion-label {
-    // margin: 0px 6px !important;
-  }
 }
 
 ion-badge{

@@ -68,14 +68,14 @@
             
           </ion-col>
 
-          <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12"style="margin-top: 15px;">
+          <!-- <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12"style="margin-top: 15px;">
             <ion-label class="labelBrand">Tipo Usuario</ion-label>
             <ion-input type="text" fill="outline" disabled value="Técnico" style="opacity: 1 !important;"></ion-input>
-          </ion-col>
+          </ion-col> -->
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label class="labelBrand">Estado</ion-label>
-            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.city" disabled style="opacity: 1 !important;" *ngIf="user.type_user ==='seller' || 'admin_concesionary'"></ion-input>
+            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.city" disabled style="opacity: 1 !important;" *ngIf="user.type_user ==='seller' || user.type_user === 'admin_concesionary'"></ion-input>
               <ion-select value="" placeholder="Estado" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.city" (ionChange)="filterConces($event)" *ngIf="user.type_user ==='admin'">
                 <ion-select-option value="">Estado</ion-select-option>
                 <ion-select-option *ngFor="let city of arrayCities" [value]="city.name">{{city.name}}</ion-select-option>
@@ -84,7 +84,7 @@
 
           <ion-col size="12" style="margin-top: 15px;">
             <ion-label class="labelBrand">Concesionario</ion-label>
-            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.concesionary" disabled style="opacity: 1 !important;" *ngIf="user.type_user ==='seller' || 'admin_concesionary'"></ion-input>
+            <ion-input type="text" fill="outline" [(ngModel)]="newMechanic.concesionary" disabled style="opacity: 1 !important;" *ngIf="user.type_user ==='seller' || user.type_user === 'admin_concesionary'"></ion-input>
             <ion-select value="" placeholder="Concesionario" fill="outline" interface="action-sheet" [(ngModel)]="newMechanic.concesionary" *ngIf="user.type_user ==='admin'">
               <ion-select-option value="">Concesionario</ion-select-option>
               <ion-select-option *ngFor="let conces of auxConces" [value]="conces.name">{{conces.name}}</ion-select-option>

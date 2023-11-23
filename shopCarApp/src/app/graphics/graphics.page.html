@@ -143,32 +143,37 @@
           <ion-item-divider >
             <ion-label style="font-size: 18px;color: #EB0A1E;font-weight: 600;">{{modelCar._id}}</ion-label>
           </ion-item-divider>
-
+          <ion-item-divider >
+            <ion-label style="font-size: 18px;color: #EB0A1E;font-weight: 600;">Precio global</ion-label>
+          </ion-item-divider>
           <ion-item>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Max. global</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Max</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPriceGlobal ? setDot(modelCar.maxPriceGlobal) : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Prom. global</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Prom</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPriceGlobal ? setDot(modelCar.avgPriceGlobal) : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Min. global</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Min</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPriceGlobal ? setDot(modelCar.minPriceGlobal) : 0}}</ion-label>
             </ion-col>
           </ion-item>
+          <ion-item-divider >
+            <ion-label style="font-size: 18px;color: #EB0A1E;font-weight: 600;">Precio de Concesionario</ion-label>
+          </ion-item-divider>
           <ion-item>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Max.</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Max</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.maxPrice ? setDot(modelCar.maxPrice) : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Prom.</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Prom</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.avgPrice ? setDot(modelCar.avgPrice) : 0}}</ion-label>
             </ion-col>
             <ion-col size="4" style="text-align: center !important;">
-              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Precio Min.</ion-label>
+              <ion-label style="font-size: 15px;color: #eb0a1ecc !important;font-weight: 600;">Min</ion-label>
               <ion-label style="font-size: 16px;color: black;font-weight: 600;">${{modelCar.minPrice ? setDot(modelCar.minPrice) : 0}}</ion-label>
             </ion-col>
           </ion-item>

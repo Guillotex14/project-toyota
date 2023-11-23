@@ -139,10 +139,11 @@ export class UtilsService {
     } else {
       
       let index = comparasion.find((item: any) => item._id == data._id);
-      console.log(index)
+      
       if (!index) {
         comparasion.push(data);
         localStorage.setItem('comparasion', JSON.stringify(comparasion));
+        this.presentToast('Vehiculo agregado a la comparacion');
       } else {
         this.presentToast('El vehiculo ya esta en la comparacion');
       }

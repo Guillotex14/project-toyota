@@ -886,6 +886,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
     },
 
     { $unwind: "$vehicle" },
+    { $unwind: "$mechanic" },
     { $unwind: "$user" },
 
     {
@@ -955,7 +956,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
         vehicle: {
           price_ofert: 1
         },
-        user: {
+        mechanic: {
           fullName: 1,
         },
       },

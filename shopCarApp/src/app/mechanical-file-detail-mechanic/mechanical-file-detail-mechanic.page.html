@@ -1251,15 +1251,15 @@
               </ion-row>
             </ion-item>
 
-            <ion-item-divider *ngIf="mechanicalFileDetail.user">
+            <ion-item-divider *ngIf="mechanicalFileDetail.mechanic">
               <ion-label> 
                 INSPECCIÓN REALIZADA POR:
               </ion-label>
             </ion-item-divider>
             
-            <ion-item *ngIf="mechanicalFileDetail.user" style="text-align: center;">
+            <ion-item *ngIf="mechanicalFileDetail.mechanic" style="text-align: center;">
               <span style="font-size: 20px; font-weight: 600;margin: auto;">
-                {{mechanicalFileDetail.user.fullName}}
+                {{mechanicalFileDetail.mechanic.fullName}}
                 
               </span>
             </ion-item>

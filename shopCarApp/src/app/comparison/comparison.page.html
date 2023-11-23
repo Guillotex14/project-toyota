@@ -17,18 +17,147 @@
         </ion-grid>
       </ion-col>
 
-      <ion-col size="12" style="text-align: center;">
+
+
+      <ion-col size="12" *ngIf="loading">
+        <ion-list>
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+      
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+      
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+      
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+      
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+      
+          <ion-list-header>
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-list-header>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+          
+        </ion-list>
+      </ion-col>
+
+      <ion-col size="12" style="text-align: center;" *ngIf="!loading">
         <p class="titlePage">Comparación</p>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0">
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" >
         <ion-grid fixed>
           <ion-row>
             <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of comparison; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
-                <ion-icon name="image" *ngIf="vehicle.images ===''" class="iconCard"></ion-icon>
-                <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images !==''"></ion-img>
+                <ion-icon name="image" *ngIf="vehicle.images ==='' || vehicle.image ===''" class="iconCard"></ion-icon>
+                <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images! !=='' && vehicle.images?.length"></ion-img>
+                
+                <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !=='' && vehicle.image"></ion-img>
                 <ion-card-content>
                   <p>
                     {{vehicle.model}}
@@ -36,20 +165,26 @@
                   <p>
                     {{vehicle.year}}
                   </p>
-                  <p>
+                  <p [style.color]="evaluateTitles(vehicle.titles)">
+                    {{vehicle.titles}}
+                  </p>
+                  <p [style.color]="vehicle.priceColor">
                     {{vehicle.price | currency:'USD':true:'1.0-0'}}
                   </p>
                   <p>
                     {{vehicle.city}}
                   </p>
-                  <p>
+                  <p [style.color]="vehicle.kmColor">
                     {{vehicle.km | number}} kms
                   </p>
                   <p>
                     {{vehicle.concesionary}}
                   </p>
-                  <p *ngIf="vehicle.general_condition">
+                  <p *ngIf="vehicle.general_condition" [style.color]="evaluateStatus(vehicle.general_condition)">
                     {{vehicle.general_condition < 76 ? 'Malo' : vehicle.general_condition >= 76 && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
+                  </p>
+                  <p *ngIf="!vehicle.general_condition" style="color: #EB0A1E;">
+                    Malo
                   </p>
                 </ion-card-content>
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteComparison(i)">
@@ -130,7 +265,7 @@
         </ion-grid>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length === 0" style="text-align: center;">
+      <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
         <p class="titleNoInfo">No se encontraron vehículos</p>
       </ion-col>

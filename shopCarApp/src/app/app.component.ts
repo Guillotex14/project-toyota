@@ -27,11 +27,101 @@ export class AppComponent implements  OnInit{
   actionSheetButtons: any[] = [];
   actionSheetButtonsEdit: any[] = [];
   
+
+  menuAdmin = [
+    {
+      title: "Inicio",
+      url: "/home-admin",
+      icon: "home",
+      active: false,
+    },
+    {
+      title: "Gráficas",
+      url: "graphics-admin",
+      icon: "stats-chart",
+      active: false,
+    },
+    {
+      title: "Listas",
+      open: false,
+      icon: "list-outline",
+      children: [
+        {
+          title: "Admins Concesionarios",
+          url: "list-admin-concesionary",
+          icon: "list-outline",
+          active: false
+        },
+        {
+          title: "Vendedores",
+          url: "list-user-admin",
+          icon: "list-outline",
+          active: false
+        },
+        {
+          title: "Técnicos",
+          url: "list-mechanic-admin",
+          icon: "list-outline",
+          active: false
+        },
+        {
+          title: "Marcas",
+          url: "list-brands",
+          icon: "list-outline",
+          active: false
+        },
+        {
+          title: "Modelos de Vehículos",
+          url: "list-models-vehicles",
+          icon: "list-outline",
+          active: false
+        }
+      ]
+    },
+    {
+      title: "Crear",
+      open: false,
+      icon: "add",
+      children: [
+        {
+          title: "Admin Concesionario",
+          url: "add-admin-concesionary",
+          icon: "add",
+          active: false
+        },
+        {
+          title: "Vendedor",
+          url: "create-user-admin",
+          icon: "add",
+          active: false
+        },
+        {
+          title: "Técnico",
+          url: "add-mechanic",
+          icon: "add",
+          active: false
+        },
+        {
+          title: "Marca",
+          url: "add-brand",
+          icon: "add",
+          active: false
+        },
+        {
+          title: "Modelo de vehículo",
+          url: "add-model-vehicle",
+          icon: "add",
+          active: false
+        }
+      ]
+    }
+  ]
+
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
   @ViewChild('ActionSheet') actionSheet!: IonActionSheet;
   @ViewChild('ActionSheetEdit') actionSheetEdit!: IonActionSheet;
-
+  
   constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService) {
 
     let data = localStorage.getItem('me');
@@ -336,4 +426,7 @@ export class AppComponent implements  OnInit{
     this.closeMenu()
   }
 
+  public closeItem(item:any){
+    item.open = !item.open;
+  }
 }

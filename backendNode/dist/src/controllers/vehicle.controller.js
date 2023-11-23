@@ -781,6 +781,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
             },
         },
         { $unwind: "$vehicle" },
+        { $unwind: "$mechanic" },
         { $unwind: "$user" },
         {
             $project: {
@@ -849,7 +850,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
                 vehicle: {
                     price_ofert: 1
                 },
-                user: {
+                mechanic: {
                     fullName: 1,
                 },
             },

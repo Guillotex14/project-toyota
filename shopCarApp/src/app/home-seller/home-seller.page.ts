@@ -361,4 +361,8 @@ export class HomeSellerPage implements OnInit {
     })
     this.infiniteScroll.complete();
   }
+
+  public addComparasion(data:any){
+    this.utils.addComparasion(data);
+  }
 }
