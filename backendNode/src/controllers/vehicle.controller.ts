@@ -3282,6 +3282,8 @@ vehicleController.commentRerportMechanicalFile = async (req: Request, res: Respo
 }
 
 vehicleController.allRerportMechanicalFile = async (req: Request, res: Response) => {
+  let data: any = req.query;
+
   const reponseJson: ResponseModel = new ResponseModel();
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
@@ -3292,7 +3294,7 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
     return res.json(reponseJson);
   }
 
-  const reports: any = await reportsMechanicalsFiles.find().sort({ date: -1 });
+  const reports: any = await reportsMechanicalsFiles.find({_id:data.id}).sort({ date: -1 });
   for (let i = 0; i < reports.length; i++) {
     const element = reports[i];
     let user = await Users.findOne({ _id: element.id_user });
