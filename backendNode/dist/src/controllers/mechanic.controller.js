@@ -25,6 +25,7 @@ const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
 const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
+const templates_mails_1 = require("../templates/mails/templates.mails");
 const mechanicController = {};
 // nueva ruta post vehicle/myVehicles--
 mechanicController.getVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -400,42 +401,6 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
             infoMechanic.concesionary = mechanic.concesionary;
             infoMechanic.city = mechanic.city;
         }
-        const mailOptions = {
-            from: 'Toyousado Notifications',
-            to: mailSeller,
-            subject: 'Ficha mecánica creada',
-            html: `<div>
-            <p>Ficha técnica creada exitosamente para:</p>
-            </div>
-            <div class="div-table" style="width: 100%;">
-                <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle === null || vehicle === void 0 ? void 0 : vehicle.model}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle === null || vehicle === void 0 ? void 0 : vehicle.year}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle === null || vehicle === void 0 ? void 0 : vehicle.plate}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${nameSeller}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${conceSeller}</div>
-                </div>
-                <div style=" display: table-row;border: 1px solid #000;">
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-                    <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${citySeller}</div>
-                </div>
-                </div>
-            </div>`,
-        };
         const dataVehicle = {
             model: vehicle === null || vehicle === void 0 ? void 0 : vehicle.model,
             year: vehicle === null || vehicle === void 0 ? void 0 : vehicle.year,
@@ -444,6 +409,13 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
             concesionary: conceSeller,
             city: citySeller,
             title: "Ficha técnica creada exitosamente para:"
+        };
+        const template = (0, templates_mails_1.templatesMails)("addMechanicalFile", dataVehicle);
+        const mailOptions = {
+            from: 'Toyousado Notifications',
+            to: mailSeller,
+            subject: 'Ficha mecánica creada',
+            html: template,
         };
         yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha técnica creada");

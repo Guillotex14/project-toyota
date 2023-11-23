@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -20,8 +43,8 @@ const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
-const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
+const global = __importStar(require("../global"));
 const authController = {};
 authController.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
@@ -151,104 +174,18 @@ authController.updateImgProfile = (req, res) => __awaiter(void 0, void 0, void 0
     res.json(reponseJson);
 });
 authController.sendMail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.query;
-    // const vehicle = await VehiclesSchema.aggregate([
-    //   {
-    //     $match: {
-    //       _id: id
-    //       }
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: "sellers",
-    //       localField: "id_seller",
-    //       foreignField: "_id",
-    //       as: "seller",
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$seller",
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: "users",
-    //       localField: "seller.id_user",
-    //       foreignField: "_id",
-    //       as: "user",
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$user",
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: "concesionaries",
-    //       localField: "seller.id_concesionary",
-    //       foreignField: "_id",
-    //       as: "concesionary",
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$concesionary",
-    //   },
-    //   {
-    //     $project: {
-    //       _id: 1,
-    //       model: 1,
-    //       year: 1,
-    //       id_seller: 1,
-    //       seller: "$seller.fullName",
-    //       user: "$user.email",
-    //       concesionary: "$concesionary.name",
-    //     },
-    //   },
-    // ]);
-    const vehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
+    const jsonRes = new Response_1.ResponseModel();
+    // const { id } = req.query;
+    // const template = templatesMails("ofertByCar");
+    // console.log(template);
     // const mailOptions = {
     //   from: 'Servicio de notificaciones',
     //   to: 'jefersonmujica@gmail.com',
     //   subject: 'Notificacion de prueba',
-    //   html: `
-    //       <div>
-    //       <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-    //       </div>
-    //       <div class="div-table" style="width: 100%;">
-    //       <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.model}</div>
-    //           </div>
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.year}</div>
-    //           </div>
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle?.plate}</div>
-    //           </div>
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //             vehicle?.id_seller
-    //           }</div>
-    //           </div>
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //             vehicle?.concesionary
-    //           }</div>
-    //           </div>
-    //           <div style=" display: table-row;border: 1px solid #000;">
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-    //           <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${
-    //             vehicle?.city
-    //           }</div>
-    //           </div>
-    //       </div>
-    //       </div>`,
+    //   html: template,
     // }
     // const responseMail = await sendEmail(mailOptions);
-    // res.json(responseMail);
+    res.json(global.urlBase);
 });
 exports.default = authController;
 //# sourceMappingURL=auth.controller.js.map

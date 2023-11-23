@@ -20,6 +20,7 @@ const nodemailer_1 = require("../../nodemailer");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const moment_1 = __importDefault(require("moment"));
+const templates_mails_1 = require("../templates/mails/templates.mails");
 const saleController = {};
 saleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = new Response_1.ResponseModel();
@@ -168,13 +169,6 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
         reponseJson.message = "aprobacion de oferta exitosa";
         reponseJson.status = true;
         reponseJson.data = vehicle;
-        const mailOptions = {
-            from: "Toyousado Notifications",
-            to: userbuyer.email,
-            subject: "Oferta de vehículo aprobada",
-            text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${Userseller.email} o al número telefono ${infoSeller.phone}`,
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         const dataVehicle = {
             model: vehicle.model,
             year: vehicle.year,
@@ -185,6 +179,14 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
             title: "Oferta de vehículo aprobada",
             link: id_vehicle,
         };
+        const template = (0, templates_mails_1.templatesMails)("ofertApprove", dataVehicle);
+        const mailOptions = {
+            from: "Toyousado Notifications",
+            to: userbuyer.email,
+            subject: "Oferta de vehículo aprobada",
+            html: template,
+        };
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), dataVehicle, "Oferta de vehículo aprobada");
     }
     else {

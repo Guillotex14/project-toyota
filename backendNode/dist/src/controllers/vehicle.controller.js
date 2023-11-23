@@ -56,6 +56,8 @@ const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
+const templates_mails_1 = require("../templates/mails/templates.mails");
+const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -136,43 +138,6 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     yield Vehicles_schema_2.default.findByIdAndUpdate(newVehicle._id, {
         imgs_documentation: documents,
     });
-    const mailOptions = {
-        from: "Toyousado",
-        to: emailmechanic.email,
-        subject: "Revisión de vehículo",
-        html: `
-        <div>
-        <p>Tienes el siguiente vehículo para generar la ficha técnica</p>
-        </div>
-        <div class="div-table" style="width: 100%;">
-        <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Modelo</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${model}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Año</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${year}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Placa</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${vehicle_plate}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Vendedor</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.fullName}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Concesionario</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.concesionary}</div>
-            </div>
-            <div style=" display: table-row;border: 1px solid #000;">
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#788199">Estado</div>
-            <div style="display: table-cell;padding: 8px;border-left: 1px solid #000;background:#b5bac9">${infoSeller.city}</div>
-            </div>
-        </div>
-        </div>`,
-    };
     const dataVehicle = {
         model: model,
         year: year,
@@ -182,6 +147,13 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         city: infoSeller.city,
         title: "Tienes el siguiente vehículo para generar la ficha técnica",
         link: `${newVehicle._id}`
+    };
+    const template = (0, templates_mails_1.templatesMails)("newInspect", dataVehicle);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
     };
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     yield (0, nodemailer_1.sendEmail)(mailOptions);
@@ -2152,6 +2124,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(jsonRes);
 });
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(data);
     const filePath = "./public/dataSheetPdf/" + pdfName;
     crearCarpetaSiNoExiste('./public/dataSheetPdf');
     const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
@@ -2355,6 +2328,16 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
         id_mechanic
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
+    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
+        campos: null,
+        type: "Nueva ficha mecanica",
+        comment: "",
+        id_mechanic_file: newMechanicFile._id,
+        id_user: decode.id,
+        date: now
+    });
+    yield newReportMechanicsFiles.save();
     const vehicleUpdated = yield Vehicles_schema_2.default.findByIdAndUpdate(id_vehicle, {
         mechanicalFile: true,
     });
@@ -2452,7 +2435,20 @@ vehicleController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0,
         reponseJson.data = null;
         return res.json(reponseJson);
     }
+    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    let dataFile = {
+        campos: null,
+        type: "Modificación de ficha mecanica",
+        comment: "",
+        id_mechanic_file: data._id,
+        id_user: decode.id,
+        date: now
+    };
+    const oldFicha = yield mechanicalsFiles_schema_1.default.findOne({ _id: data._id });
     const update = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(data._id, data);
+    dataFile.campos = setCampos(oldFicha, update);
+    const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default(dataFile);
+    yield newReportMechanicsFiles.save();
     if (update) {
         reponseJson.code = 200;
         reponseJson.message = "Ficha mecánica actualizada exitosamente";
@@ -2562,6 +2558,239 @@ vehicleController.ofertInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
     res.json(reponseJson);
 });
+vehicleController.myOfferts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let data = req.query;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller"]);
+    let query = {};
+    let search;
+    let project;
+    let count;
+    let sendData = {};
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        return res.json(reponseJson);
+    }
+    if (!data) {
+        data = {
+            s: "",
+            lim: 10,
+            pos: 0,
+            minYear: 0,
+            maxYear: 0,
+            minPrice: 0,
+            maxPrice: 0,
+            minKm: 0,
+            maxKm: 0,
+            model: "",
+            brand: "",
+        };
+    }
+    if (data.minPrice === '0' && data.maxPrice === '0') {
+        query.price = { $gte: 0 };
+    }
+    else if (data.minPrice !== '0' && data.maxPrice === '0') {
+        query.price = { $gte: parseInt(data.minPrice) };
+    }
+    else if (data.minPrice === '0' && data.maxPrice !== '0') {
+        query.price = { $lte: parseInt(data.maxPrice) };
+    }
+    else {
+        query.price = { $gte: parseInt(data.minPrice), $lte: parseInt(data.maxPrice) };
+    }
+    if (data.minYear === '0' && data.maxYear === '0') {
+        query.year = { $gte: 0 };
+    }
+    else if (data.minYear !== '0' && data.maxYear === '0') {
+        query.year = { $gte: parseInt(data.minYear) };
+    }
+    else if (data.minYear === '0' && data.maxYear !== '0') {
+        query.year = { $lte: parseInt(data.maxYear) };
+    }
+    else {
+        query.year = { $gte: parseInt(data.minYear), $lte: parseInt(data.maxYear) };
+    }
+    if (data.minKm === '0' && data.maxKm === '0') {
+        query.km = { $gte: 0 };
+    }
+    else if (data.minKm !== '0' && data.maxKm === '0') {
+        query.km = { $gte: parseInt(data.minKm) };
+    }
+    else if (data.minKm === '0' && data.maxKm !== '0') {
+        query.km = { $lte: parseInt(data.maxKm) };
+    }
+    else {
+        query.km = { $gte: parseInt(data.minKm), $lte: parseInt(data.maxKm) };
+    }
+    query.brand = { $regex: data.brand, $options: "i" };
+    query.model = { $regex: data.model, $options: "i" };
+    query.sold = false;
+    query.price_ofert = { $gte: 0, $ne: null };
+    query.mechanicalFile = true;
+    project = {
+        model: 1,
+        brand: 1,
+        year: 1,
+        displacement: 1,
+        km: 1,
+        engine_model: 1,
+        titles: 1,
+        fuel: 1,
+        transmission: 1,
+        traction: 1,
+        city: 1,
+        dealer: 1,
+        concesionary: 1,
+        traction_control: 1,
+        performance: 1,
+        price: 1,
+        comfort: 1,
+        technology: 1,
+        date_create: 1,
+        type_vehicle: 1,
+        vin: 1,
+        plate: 1,
+        mechanicalFile: 1,
+        sold: 1,
+        dispatched: 1,
+        date_sell: 1,
+        price_ofert: 1,
+        final_price_sold: 1,
+        concesionary_maintenance: 1
+    };
+    let list = yield Vehicles_schema_2.default.aggregate([
+        {
+            $match: query,
+        },
+        {
+            $skip: parseInt(data.lim) * parseInt(data.pos),
+        },
+        {
+            $limit: parseInt(data.lim),
+        },
+        {
+            $project: project,
+        },
+    ]);
+    sendData.rows = list;
+    if (list.length > 0) {
+        count = yield Vehicles_schema_2.default.aggregate([
+            {
+                $match: query
+            },
+            {
+                $count: "totalCount"
+            }
+        ]);
+        reponseJson.code = 200;
+        reponseJson.message = "Lista de modelos de vehiculos";
+        reponseJson.status = true;
+    }
+    else {
+        reponseJson.code = 400;
+        reponseJson.message = "sin resultado";
+        reponseJson.status = true;
+    }
+    let totalItems = 0;
+    if (count) {
+        totalItems = count[0].totalCount;
+    }
+    let totalPages = Math.ceil(totalItems / data.lim);
+    sendData.count = totalItems;
+    sendData.pages = totalPages;
+    reponseJson.code = 200;
+    reponseJson.message = "Lista de ofertas";
+    reponseJson.status = true;
+    reponseJson.data = sendData;
+    res.json(reponseJson);
+});
+vehicleController.addRerportMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let data = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        return res.json(reponseJson);
+    }
+    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
+        campos: null,
+        type: "Normal",
+        comment: data.comment,
+        id_mechanic_file: data.id_mechanic_file,
+        id_user: decode.id,
+        date: now
+    });
+    yield newReportMechanicsFiles.save();
+    data.id = newReportMechanicsFiles._id;
+    reponseJson.code = 200;
+    reponseJson.message = "nuevo reporte";
+    reponseJson.status = true;
+    reponseJson.data = data;
+    res.json(reponseJson);
+});
+vehicleController.commentRerportMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let data = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        return res.json(reponseJson);
+    }
+    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    if (data.id) {
+        yield reportsMechanicalsFiles_schema_1.default.findByIdAndUpdate(data.id, {
+            comment: data.comment + ". Fecha: " + now
+        });
+    }
+    else {
+        const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
+            campos: null,
+            type: "Comentario",
+            comment: data.comment,
+            id_mechanic_file: data.id_mechanic_file,
+            id_user: decode.id,
+            date: now
+        });
+        yield newReportMechanicsFiles.save();
+    }
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = null;
+    res.json(reponseJson);
+});
+vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        return res.json(reponseJson);
+    }
+    const reports = yield reportsMechanicalsFiles_schema_1.default.find().sort({ date: -1 });
+    for (let i = 0; i < reports.length; i++) {
+        const element = reports[i];
+        let user = yield Users_schema_1.default.findOne({ _id: element.id_user });
+        element.user = user;
+    }
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = reports;
+    res.json(reponseJson);
+});
 function generateBase64(pdfPath) {
     return __awaiter(this, void 0, void 0, function* () {
         const fileStream = fs_1.default.createReadStream(pdfPath);
@@ -2581,6 +2810,184 @@ function generateBase64(pdfPath) {
         });
     });
 }
+const setCampos = (oldFicha, update) => {
+    let campos = {};
+    if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
+        campos.part_emblems_complete = update.part_emblems_complete;
+    }
+    if (oldFicha.wiper_shower_brushes_windshield != update.wiper_shower_brushes_windshield) {
+        campos.wiper_shower_brushes_windshield = update.wiper_shower_brushes_windshield;
+    }
+    if (oldFicha.hits != update.hits) {
+        campos.hits = update.hits;
+    }
+    if (oldFicha.scratches != update.scratches) {
+        campos.scratches = update.scratches;
+    }
+    if (oldFicha.paint_condition != update.paint_condition) {
+        campos.paint_condition = update.paint_condition;
+    }
+    if (oldFicha.bugle_accessories != update.bugle_accessories) {
+        campos.bugle_accessories = update.bugle_accessories;
+    }
+    if (oldFicha.air_conditioning_system != update.air_conditioning_system) {
+        campos.air_conditioning_system = update.air_conditioning_system;
+    }
+    if (oldFicha.radio_player != update.radio_player) {
+        campos.radio_player = update.radio_player;
+    }
+    if (oldFicha.courtesy_lights != update.courtesy_lights) {
+        campos.courtesy_lights = update.courtesy_lights;
+    }
+    if (oldFicha.upholstery_condition != update.upholstery_condition) {
+        campos.upholstery_condition = update.upholstery_condition;
+    }
+    if (oldFicha.gts != update.gts) {
+        campos.gts = update.gts;
+    }
+    if (oldFicha.board_lights != update.board_lights) {
+        campos.board_lights = update.board_lights;
+    }
+    if (oldFicha.tire_pressure != update.tire_pressure) {
+        campos.tire_pressure = update.tire_pressure;
+    }
+    if (oldFicha.tire_life != update.tire_life) {
+        campos.tire_life = update.tire_life;
+    }
+    if (oldFicha.battery_status_terminals != update.battery_status_terminals) {
+        campos.battery_status_terminals = update.battery_status_terminals;
+    }
+    if (oldFicha.transmitter_belts != update.transmitter_belts) {
+        campos.transmitter_belts = update.transmitter_belts;
+    }
+    if (oldFicha.motor_oil != update.motor_oil) {
+        campos.motor_oil = update.motor_oil;
+    }
+    if (oldFicha.engine_coolant_container != update.engine_coolant_container) {
+        campos.engine_coolant_container = update.engine_coolant_container;
+    }
+    if (oldFicha.radiator_status != update.radiator_status) {
+        campos.radiator_status = update.radiator_status;
+    }
+    if (oldFicha.exhaust_pipe_bracket != update.exhaust_pipe_bracket) {
+        campos.exhaust_pipe_bracket = update.exhaust_pipe_bracket;
+    }
+    if (oldFicha.fuel_tank_cover_pipes_hoses_connections != update.fuel_tank_cover_pipes_hoses_connections) {
+        campos.fuel_tank_cover_pipes_hoses_connections = update.fuel_tank_cover_pipes_hoses_connections;
+    }
+    if (oldFicha.distribution_mail != update.distribution_mail) {
+        campos.distribution_mail = update.distribution_mail;
+    }
+    if (oldFicha.spark_plugs_air_filter_fuel_filter_anti_pollen_filter != update.spark_plugs_air_filter_fuel_filter_anti_pollen_filter) {
+        campos.spark_plugs_air_filter_fuel_filter_anti_pollen_filter = update.spark_plugs_air_filter_fuel_filter_anti_pollen_filter;
+    }
+    if (oldFicha.fuel_system != update.fuel_system) {
+        campos.fuel_system = update.fuel_system;
+    }
+    if (oldFicha.parking_break != update.parking_break) {
+        campos.parking_break = update.parking_break;
+    }
+    if (oldFicha.brake_bands_drums != update.brake_bands_drums) {
+        campos.brake_bands_drums = update.brake_bands_drums;
+    }
+    if (oldFicha.brake_pads_discs != update.brake_pads_discs) {
+        campos.brake_pads_discs = update.brake_pads_discs;
+    }
+    if (oldFicha.brake_pipes_hoses != update.brake_pipes_hoses) {
+        campos.brake_pipes_hoses = update.brake_pipes_hoses;
+    }
+    if (oldFicha.master_cylinder != update.master_cylinder) {
+        campos.master_cylinder = update.master_cylinder;
+    }
+    if (oldFicha.brake_fluid != update.brake_fluid) {
+        campos.brake_fluid = update.brake_fluid;
+    }
+    if (oldFicha.bushings_plateaus != update.bushings_plateaus) {
+        campos.bushings_plateaus = update.bushings_plateaus;
+    }
+    if (oldFicha.stumps != update.stumps) {
+        campos.stumps = update.stumps;
+    }
+    if (oldFicha.terminals != update.terminals) {
+        campos.terminals = update.terminals;
+    }
+    if (oldFicha.stabilizer_bar != update.stabilizer_bar) {
+        campos.stabilizer_bar = update.stabilizer_bar;
+    }
+    if (oldFicha.bearings != update.bearings) {
+        campos.bearings = update.bearings;
+    }
+    if (oldFicha.tripoids_rubbe_bands != update.tripoids_rubbe_bands) {
+        campos.tripoids_rubbe_bands = update.tripoids_rubbe_bands;
+    }
+    if (oldFicha.shock_absorbers_coils != update.shock_absorbers_coils) {
+        campos.shock_absorbers_coils = update.shock_absorbers_coils;
+    }
+    if (oldFicha.dealer_maintenance != update.dealer_maintenance) {
+        campos.dealer_maintenance = update.dealer_maintenance;
+    }
+    if (oldFicha.headlights_lights != update.headlights_lights) {
+        campos.headlights_lights = update.headlights_lights;
+    }
+    if (oldFicha.general_condition != update.general_condition) {
+        campos.general_condition = update.general_condition;
+    }
+    if (oldFicha.odometer != update.odometer) {
+        campos.odometer = update.odometer;
+    }
+    if (oldFicha.engine_start != update.engine_start) {
+        campos.engine_start = update.engine_start;
+    }
+    if (oldFicha.windshields_glass != update.windshields_glass) {
+        campos.windshields_glass = update.windshields_glass;
+    }
+    if (oldFicha.hits_scratches != update.hits_scratches) {
+        campos.hits_scratches = update.hits_scratches;
+    }
+    if (oldFicha.spark_plugs != update.spark_plugs) {
+        campos.spark_plugs = update.spark_plugs;
+    }
+    if (oldFicha.injectors != update.injectors) {
+        campos.injectors = update.injectors;
+    }
+    if (oldFicha.fuel_filter_anti_pollen_filter != update.fuel_filter_anti_pollen_filter) {
+        campos.fuel_filter_anti_pollen_filter = update.fuel_filter_anti_pollen_filter;
+    }
+    if (oldFicha.engine_noises != update.engine_noises) {
+        campos.engine_noises = update.engine_noises;
+    }
+    if (oldFicha.hits_scratches_sides != update.hits_scratches_sides) {
+        campos.hits_scratches_sides = update.hits_scratches_sides;
+    }
+    if (oldFicha.paint_condition_sides != update.paint_condition_sides) {
+        campos.paint_condition_sides = update.paint_condition_sides;
+    }
+    if (oldFicha.trunk_hatch != update.trunk_hatch) {
+        campos.trunk_hatch = update.trunk_hatch;
+    }
+    if (oldFicha.spare_tire != update.spare_tire) {
+        campos.spare_tire = update.spare_tire;
+    }
+    if (oldFicha.hits_scratches_trunk != update.hits_scratches_trunk) {
+        campos.hits_scratches_trunk = update.hits_scratches_trunk;
+    }
+    if (oldFicha.paint_condition_trunk != update.paint_condition_trunk) {
+        campos.paint_condition_trunk = update.paint_condition_trunk;
+    }
+    if (oldFicha.headlights_lights_trunk != update.headlights_lights_trunk) {
+        campos.headlights_lights_trunk = update.headlights_lights_trunk;
+    }
+    if (oldFicha.fuel_tank_cover != update.fuel_tank_cover) {
+        campos.fuel_tank_cover = update.fuel_tank_cover;
+    }
+    if (oldFicha.pipes_hoses_connections != update.pipes_hoses_connections) {
+        campos.pipes_hoses_connections = update.pipes_hoses_connections;
+    }
+    if (oldFicha.brake_discs != update.brake_discs) {
+        campos.brake_discs = update.brake_discs;
+    }
+    return campos;
+};
 const crearCarpetaSiNoExiste = (nombreCarpeta) => {
     if (!fs_1.default.existsSync(nombreCarpeta)) {
         fs_1.default.mkdirSync(nombreCarpeta);

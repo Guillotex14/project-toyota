@@ -18,11 +18,11 @@
           <ion-col size="12">
             <ion-row>
               <ion-col size="8">
-                <p class="sidebarUsename" *ngIf="typeUser === 'seller'||'mechanic'"> {{username}}</p>
-                <p class="sidebarUsename" *ngIf="typeUser === 'admin'"> {{username? username : "Administrador"}}</p>
-                <p class="sidebarUsename" *ngIf="typeUser === 'admin_concesionary'">{{me.concesionary}}</p>
+                <p class="sidebarUsename" *ngIf="typeUser === 'seller'|| typeUser === 'mechanic'"> {{username}}</p>
+                <p class="sidebarUsename" *ngIf="typeUser === 'admin'"> {{username ? username : "Administrador"}}</p>
+                <p class="sidebarUsename" *ngIf="typeUser === 'admin_concesionary'">{{concesionary}}</p>
                 <p class="sidebarTypeuser">
-                  <span *ngIf="typeUser === 'admin' || 'add-admin-concesionary'">Administrador</span>
+                  <span *ngIf="typeUser === 'admin' || typeUser === 'add-admin-concesionary'">Administrador</span>
                   <span *ngIf="typeUser === 'seller'">Vendedor</span>
                   <span *ngIf="typeUser === 'mechanic'">Técnico</span>
                 </p>
@@ -36,17 +36,6 @@
                 <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite" (click)="openActionSheet()"></ion-icon>
 
               </ion-col>
-
-              <!-- <ion-col size="4" *ngIf="!typeConection">
-                <ion-avatar *ngIf="image !==null" (click)="editImage()">
-                  <img [src]="image.img" />
-                </ion-avatar>
-
-                <ion-icon name="person-circle" *ngIf="image ===null" class="iconWhite" (click)="addImage()"></ion-icon>
-
-                <input type="file" style="width: 0px;height: 0px;" #fileInput (change)="getImage($any($event).target.files)">
-                <input type="file" style="width: 0px;height: 0px;" #fileInput2 (change)="getImage2($any($event).target.files)">
-              </ion-col> -->
             </ion-row>
             
           </ion-col>
@@ -73,6 +62,14 @@
         <ion-label>Mis Vehículos</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('my-offerts')">
+        <ion-label>Mis Ofertas</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
+      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('comparison')">
+        <ion-label>Mis Comparaciones</ion-label>
+        <ion-icon name="home"></ion-icon>
+      </ion-item>
       <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
         <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
@@ -93,7 +90,7 @@
       </ion-item>
 
       <!-- buttons admin -->
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('home-admin')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('home-admin')">
         <ion-label>Inicio</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
@@ -105,35 +102,35 @@
         <ion-label>Crear Admin de Concesionarios</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('list-user-admin')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-user-admin')">
         <ion-label>Lista de Vendedores</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('create-user-admin')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('create-user-admin')">
         <ion-label>Crear Vendedor</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('list-mechanic-admin')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-mechanic-admin')">
         <ion-label>Lista de Técnicos</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('add-mechanic')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-mechanic')">
         <ion-label>Crear Técnico</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('list-brands')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-brands')">
         <ion-label>Lista de Marcas</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('add-brand')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-brand')">
         <ion-label>Crear Marca</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('list-models-vehicles')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-models-vehicles')">
         <ion-label>Lista modelos de vehículos</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || 'admin_concesionary'" (click)="goTo('add-model-vehicle')">
+      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-model-vehicle')">
         <ion-label>Crear Modelo Vehículo</ion-label>
         <ion-icon name="add"></ion-icon>
       </ion-item>

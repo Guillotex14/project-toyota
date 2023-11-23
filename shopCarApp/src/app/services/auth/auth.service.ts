@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as global from '../../../models/global';
+import { UtilsService } from '../utils/utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class AuthService {
   user:any="";
   authToken:string="";
 
-  constructor(private http:HttpClient) { 
-    
+  constructor(private http:HttpClient, public utils: UtilsService) { 
+    this.setToken();
   }
 
   public saveData(data:any){
@@ -55,4 +56,14 @@ export class AuthService {
     return this.http.post(global.urlBase+'auth/updateImgProfile', data);
   }
 
+  public setToken(){
+    console.log("setToken")
+    this.utils.getLogin().subscribe((data) => {
+      if (data === true) {
+        this.getToken();
+      }else{
+        this.getToken();
+      }
+    });
+  }
 }

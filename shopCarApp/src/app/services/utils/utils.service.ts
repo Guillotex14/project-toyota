@@ -121,4 +121,47 @@ export class UtilsService {
     return re.test(String(email).toLowerCase());
   }
 
+
+  ////************************* servicio de comparacion ***************************////
+
+  public addComparasion(data: any){
+
+    let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
+
+    if (comparasion != null && comparasion.length == 4) {
+
+      this.presentToast('Solo se pueden agregar 4 vehiculos a la comparacion');
+      return;
+    }
+
+    if (comparasion == null) {
+      localStorage.setItem('comparasion', JSON.stringify([data]));
+    } else {
+      
+      let index = comparasion.find((item: any) => item._id == data._id);
+      console.log(index)
+      if (!index) {
+        comparasion.push(data);
+        localStorage.setItem('comparasion', JSON.stringify(comparasion));
+      } else {
+        this.presentToast('El vehiculo ya esta en la comparacion');
+      }
+
+    }
+
+
+  }
+
+  public getComparasion(){
+    let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
+    return comparasion;
+  }
+
+  public deleteComparasion(id: any){
+    let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
+    let index = comparasion.findIndex((item: any) => item.id == id);
+    comparasion.splice(index, 1);
+    localStorage.setItem('comparasion', JSON.stringify(comparasion));
+  }
+
 }

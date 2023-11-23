@@ -62,6 +62,15 @@ vehicleRouter.post("/getMechanicFileByIdVehicle",vehicleController.getMechanicFi
 
 vehicleRouter.get("/ofertInfo",vehicleController.ofertInfo);
 
+vehicleRouter.get("/myOfferts",vehicleController.myOfferts);
+
+vehicleRouter.post("/addRerportMechanicalFile",vehicleController.addRerportMechanicalFile);
+
+vehicleRouter.post("/commentRerportMechanicalFile",vehicleController.commentRerportMechanicalFile);
+
+vehicleRouter.get("/allRerportMechanicalFile",vehicleController.allRerportMechanicalFile);
+
+
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brandController.insertUpdate);
 vehicleRouter.post("/delete-brand", brandController.delete);
