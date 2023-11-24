@@ -93,7 +93,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.mechanicalFileDetail.vehicle = {
       price_ofert: null
     }
-    this.mechanicalFileDetail.user = {
+    this.mechanicalFileDetail.mechanic = {
       fullName: null
     }
     

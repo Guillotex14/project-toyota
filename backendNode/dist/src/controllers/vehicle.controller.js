@@ -782,6 +782,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
             },
         },
         { $unwind: "$vehicle" },
+        { $unwind: "$mechanic" },
         { $unwind: "$user" },
         {
             $project: {
@@ -850,7 +851,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
                 vehicle: {
                     price_ofert: 1
                 },
-                user: {
+                mechanic: {
                     fullName: 1,
                 },
             },
@@ -1966,22 +1967,19 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         .catch((error) => {
         console.log("Error al generar el archivo Excel:", error);
     });
-    let sendUser = yield Users_schema_1.default.findOne({ _id: id_user });
-    if (sendUser) {
-        const mailOptions = {
-            from: "Toyousado",
-            to: sendUser.email,
-            subject: "Exportar excell",
-            text: "puede descargar el excell " + fileName,
-            attachments: [
-                {
-                    filename: fileName,
-                    path: sendUrl, // ruta completa del archivo a adjuntar
-                },
-            ],
-        };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
-    }
+    const mailOptions = {
+        from: "Toyousado",
+        to: "eduanc2@gmail.com",
+        subject: "Exportar excell",
+        text: "puede descargar el excell " + fileName,
+        attachments: [
+            {
+                filename: fileName,
+                path: sendUrl, // ruta completa del archivo a adjuntar
+            },
+        ],
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     // ...
     // fs.unlinkSync(filePath);
     let sendadta = {};
@@ -2770,6 +2768,7 @@ vehicleController.commentRerportMechanicalFile = (req, res) => __awaiter(void 0,
     res.json(reponseJson);
 });
 vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let data = req.query;
     const reponseJson = new Response_1.ResponseModel();
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
@@ -2779,7 +2778,7 @@ vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    const reports = yield reportsMechanicalsFiles_schema_1.default.find().sort({ date: -1 });
+    const reports = yield reportsMechanicalsFiles_schema_1.default.find({ _id: data.id }).sort({ date: -1 });
     for (let i = 0; i < reports.length; i++) {
         const element = reports[i];
         let user = yield Users_schema_1.default.findOne({ _id: element.id_user });

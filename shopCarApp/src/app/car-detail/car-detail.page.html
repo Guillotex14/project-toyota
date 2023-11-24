@@ -25,9 +25,7 @@
                   <p class="titlePage">Detalles del vehículo</p>
                 </ion-col>
                 <ion-col size="2">
-                  <!-- <ion-button style="margin: 15px auto !important;border-radius: 15px;" id="popover-comparison" class=""> -->
-                    <ion-icon name="ellipsis-vertical-circle-outline" class="iconComparison" id="popover-comparison"></ion-icon>
-                  <!-- </ion-button> -->
+                  <ion-icon name="ellipsis-vertical-circle-outline" class="iconComparison" (click)="presentPopover($event)"></ion-icon>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -876,7 +874,7 @@
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsDocs" #ActionSheetDocs></ion-action-sheet>
   <ion-action-sheet header="Opciones" [buttons]="aSBtnsEditDocs" #ActionSheetEditDocs></ion-action-sheet>
 
-  <ion-popover trigger="popover-comparison" dismissOnSelect>
+  <ion-popover #popComparasion [isOpen]="openPop" (didDismiss)="openPop = false">
     <ng-template>
       <ion-content class="ion-padding">
         <ion-item [button]="true" (click)="addComparison()">Agregar a comparación</ion-item>

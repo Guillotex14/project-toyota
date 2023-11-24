@@ -36,15 +36,11 @@ export class AddMechanicPage implements OnInit {
     this.newMechanic.username = "";
     this.newMechanic.phone = "";
 
-    this.user = this.authSrv.getMeData();
-
-    if (this.user && this.user.type_user === 'seller') this.newMechanic.city = this.user.city; this.newMechanic.concesionary = this.user.concesionary;
-    
-    this.allStates();
-    this.allConcesionaries();
   }
 
   ngOnInit() {
+    this.allStates();
+    this.allConcesionaries();
   }
 
   public openMenu() {
@@ -66,6 +62,7 @@ export class AddMechanicPage implements OnInit {
   }
 
   public allConcesionaries() {
+    this.setMe();
     this.adminSrv.allConcesionaries().subscribe((res: any) => {
       if (res.status) {
         this.arrayConcesionaries = res.data;
@@ -82,7 +79,9 @@ export class AddMechanicPage implements OnInit {
   }
 
   public allStates() {
+    this.setMe();
     this.adminSrv.allStates().subscribe((res: any) => {
+      
       if (res.status) {
         this.arrayCities = res.data;
       }else{
@@ -218,5 +217,16 @@ export class AddMechanicPage implements OnInit {
       }
     }
 
+  }
+
+  public setMe(){
+    let data = localStorage.getItem('me');
+
+    if (data !== null) {
+      let me = JSON.parse(data);
+      this.user = me;
+    }
+    
+    if (this.user && this.user.type_user === 'seller') this.newMechanic.city = this.user.city; this.newMechanic.concesionary = this.user.concesionary;
   }
 }

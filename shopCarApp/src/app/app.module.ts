@@ -12,9 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalAddMechanicComponent } from './components/modal-add-mechanic/modal-add-mechanic.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { ModalMechanicComponent } from './components/modal-mechanic/modal-mechanic.component';
+import { SkeletonComponent } from './components/skeleton/skeleton.component';
 
 @NgModule({
-  declarations: [AppComponent, ModalAddMechanicComponent, ModalMechanicComponent],
+  declarations: [AppComponent, ModalAddMechanicComponent, ModalMechanicComponent, SkeletonComponent],
   imports: [BrowserModule, RouterModule, FormsModule, HttpClientModule, AppRoutingModule, IonicModule.forRoot({ innerHTMLTemplatesEnabled: true }), AgGridModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

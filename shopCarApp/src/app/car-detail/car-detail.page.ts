@@ -60,6 +60,8 @@ export class CarDetailPage implements OnInit {
   emptyDni: boolean = false;
   emptyPrice: boolean = false;
 
+  openPop: boolean = false;
+
   @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
   @ViewChild('actionSheet') actionSheet!: IonActionSheet;
   @ViewChild('ActionSheetDocs') ActionSheetDocs!: IonActionSheet;
@@ -68,6 +70,7 @@ export class CarDetailPage implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('modalBuy') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
+  @ViewChild('popComparasion') popComparasion!:any
 
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController) {
     this.id = this.actRoute.snapshot.params['id'];
@@ -946,9 +949,18 @@ export class CarDetailPage implements OnInit {
 
   }
 
-  public addComparison(){
-    this.utils.addComparasion(this.carDetail);
+  public openPopover(){
+    this.openPop = true;
   }
 
+  public addComparison(){
+    this.utils.addComparasion(this.carDetail);
+    this.openPop = false;
+  }
+
+  presentPopover(e: Event) {
+    this.popComparasion.event = e;
+    this.openPop = true;
+  }
 
 }

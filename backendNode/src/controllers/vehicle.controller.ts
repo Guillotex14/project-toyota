@@ -887,6 +887,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
     },
 
     { $unwind: "$vehicle" },
+    { $unwind: "$mechanic" },
     { $unwind: "$user" },
 
     {
@@ -956,7 +957,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
         vehicle: {
           price_ofert: 1
         },
-        user: {
+        mechanic: {
           fullName: 1,
         },
       },
@@ -2327,11 +2328,10 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     .catch((error: any) => {
       console.log("Error al generar el archivo Excel:", error);
     });
-  let sendUser: any = await Users.findOne({ _id: id_user });
-  if (sendUser) {
+
     const mailOptions = {
       from: "Toyousado",
-      to: sendUser.email,
+      to: decode.email,
       subject: "Exportar excell",
       text: "puede descargar el excell " + fileName,
       attachments: [
@@ -2342,7 +2342,6 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       ],
     };
     await sendEmail(mailOptions);
-  }
 
 
   // ...

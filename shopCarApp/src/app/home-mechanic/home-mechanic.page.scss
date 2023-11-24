@@ -149,6 +149,15 @@ hr{
 
 }
 
+.gray{
+  --background: #ADB5BD!important;
+  color: #000;
+  ion-label{
+    margin: 0px auto !important;
+  }
+
+}
+
 ion-badge{
   --background: #EB0A1E !important;
   --color: white !important;

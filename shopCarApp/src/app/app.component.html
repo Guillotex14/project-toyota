@@ -43,105 +43,90 @@
       </ion-grid>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">
+  
+  <ion-content class="ion-padding"  *ngIf="typeUser === 'seller'">
     <ion-list>
       <!-- buttons seller -->
-      <ion-item button (click)="goTo('seller')" *ngIf="typeUser === 'seller'">
+      <ion-item button (click)="goTo('seller')">
         <ion-label>Inicio</ion-label>
         <ion-icon slot="end" name="home"></ion-icon>
       </ion-item>
-      <ion-item button (click)="goTo('add-vehicle')" *ngIf="typeUser === 'seller'">
+      <ion-item button (click)="goTo('add-vehicle')">
         <ion-label>Vender</ion-label>
         <ion-icon slot="end" name="logo-usd"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('buy-car')">
+      <ion-item button (click)="goTo('buy-car')">
         <ion-label>Comprar</ion-label>
         <ion-icon slot="end" name="cash-outline"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('my-vehicles')">
+      <ion-item button (click)="goTo('my-vehicles')">
         <ion-label>Mis Vehículos</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('my-offerts')">
+      <ion-item button (click)="goTo('my-offerts')">
         <ion-label>Mis Ofertas</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('comparison')">
-        <ion-label>Mis Comparaciones</ion-label>
+      <ion-item button (click)="goTo('comparison')">
+        <ion-label>Comparar Vehículos</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
-      <ion-item button (click)="goTo('graphics')" *ngIf="typeUser === 'seller'">
+      <ion-item button (click)="goTo('graphics')">
         <ion-label>Gráficas</ion-label>
         <ion-icon name="stats-chart"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'seller'" (click)="goTo('add-mechanic')">
+      <ion-item button (click)="goTo('add-mechanic')">
         <ion-label>Añadir técnico</ion-label>
         <ion-icon name="construct-outline"></ion-icon>
       </ion-item>
+    </ion-list>
 
+  </ion-content>
+
+  <ion-content class="ion-padding"  *ngIf="typeUser === 'mechanic'">
+    <ion-list>
       <!-- buttons mechanics -->
-      <ion-item button *ngIf="typeUser === 'mechanic'" (click)="goTo('mechanic')">
+      <ion-item button (click)="goTo('mechanic')">
         <ion-label>Inicio</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-item>
-      <ion-item button *ngIf="typeUser === 'mechanic'" (click)="goTo('inspections')">
+      <ion-item button (click)="goTo('inspections')">
         <ion-label>Inspecciones</ion-label>
         <ion-icon name="create"></ion-icon>
       </ion-item>
 
-      <!-- buttons admin -->
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('home-admin')">
-        <ion-label>Inicio</ion-label>
-        <ion-icon name="home"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('list-admin-concesionary')">
-        <ion-label>Lista de Admins Concesionarios</ion-label>
-        <ion-icon name="create"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('add-admin-concesionary')">
-        <ion-label>Crear Admin de Concesionarios</ion-label>
-        <ion-icon name="add"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-user-admin')">
-        <ion-label>Lista de Vendedores</ion-label>
-        <ion-icon name="create"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('create-user-admin')">
-        <ion-label>Crear Vendedor</ion-label>
-        <ion-icon name="add"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-mechanic-admin')">
-        <ion-label>Lista de Técnicos</ion-label>
-        <ion-icon name="create"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-mechanic')">
-        <ion-label>Crear Técnico</ion-label>
-        <ion-icon name="add"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-brands')">
-        <ion-label>Lista de Marcas</ion-label>
-        <ion-icon name="create"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-brand')">
-        <ion-label>Crear Marca</ion-label>
-        <ion-icon name="add"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('list-models-vehicles')">
-        <ion-label>Lista modelos de vehículos</ion-label>
-        <ion-icon name="create"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'" (click)="goTo('add-model-vehicle')">
-        <ion-label>Crear Modelo Vehículo</ion-label>
-        <ion-icon name="add"></ion-icon>
-      </ion-item>
-      <ion-item button *ngIf="typeUser === 'admin'" (click)="goTo('graphics-admin')">
-        <ion-label>Gráficas</ion-label>
-        <ion-icon name="stats-chart"></ion-icon>
-      </ion-item>
-      
     </ion-list>
 
   </ion-content>
+
+  <ion-content class="ion-padding" *ngIf="typeUser === 'admin' || typeUser === 'admin_concesionary'">
+    <div *ngFor="let item of menuAdmin">
+      <ion-menu-toggle *ngIf="item.url">
+        <ion-item button (click)="goTo(item.url)" [class.active]="item.active">
+          <ion-icon slot="start" [name]="item.icon"></ion-icon>
+          <ion-label>{{item.title}}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      
+      <ion-item *ngIf="item.children" (click)="item.open = !item.open" detail="false" [class.active-parent]="item.open">
+        
+        <ion-icon slot="start" [name]="item.icon"></ion-icon>
+        <ion-label>{{item.title}}</ion-label>
+        <ion-icon slot="end" [name]="item.open ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
+      </ion-item>
+
+      <ion-list *ngIf="item.open">
+        <ion-menu-toggle >
+          <ion-item button *ngFor="let sub of item.children" (click)="goTo(sub.url)" [class.active]="sub.active">
+            <ion-icon slot="start" [name]="sub.icon"></ion-icon>
+            <ion-label>{{sub.title}}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+    </div>
+  </ion-content>
+
   <ion-footer>
     <ion-list>
       <ion-item button (click)="logout()">
