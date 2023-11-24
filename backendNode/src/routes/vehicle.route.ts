@@ -68,6 +68,8 @@ vehicleRouter.post("/addRerportMechanicalFile",vehicleController.addRerportMecha
 
 vehicleRouter.post("/commentRerportMechanicalFile",vehicleController.commentRerportMechanicalFile);
 
+vehicleRouter.post("/acceptUpdateMechanicalFile",vehicleController.acceptUpdateMechanicalFile);
+
 vehicleRouter.get("/allRerportMechanicalFile",vehicleController.allRerportMechanicalFile);
 
 
