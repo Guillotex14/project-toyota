@@ -51,12 +51,13 @@ var concesionaries_1 = require("src/assets/json/concesionaries");
 var browser_1 = require("@capacitor/browser");
 moment;
 var GraphicsAdminPage = /** @class */ (function () {
-    function GraphicsAdminPage(router, menu, utils, sellerSrv, platform) {
+    function GraphicsAdminPage(router, menu, utils, sellerSrv, platform, adminSrv) {
         this.router = router;
         this.menu = menu;
         this.utils = utils;
         this.sellerSrv = sellerSrv;
         this.platform = platform;
+        this.adminSrv = adminSrv;
         this.today = new Date();
         this.month = "";
         this.yearSold = new Date().getFullYear();
@@ -65,6 +66,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.yearCarAux = '';
         this.brandCar = '';
         this.modelCar = '';
+        this.triple_m = '';
         //data filter 2
         this.dateTo = '';
         this.dateFrom = '';
@@ -77,13 +79,12 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.arrayLabels = [];
         this.arrayBrands = [];
         this.arrayModels = [];
-        this.genCondCar = [];
+        this.carListGraphic = [];
         this.arrayData = {};
         this.dataGraphy = {};
         this.arrayListCars = [];
         this.arrayConcesionary = [];
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
-        this.genCondCar = [];
         this.arrayConcesionary = concesionaries_1.concesionaries;
         var data = JSON.parse(localStorage.getItem('me'));
         if (data) {
@@ -105,7 +106,7 @@ var GraphicsAdminPage = /** @class */ (function () {
     };
     GraphicsAdminPage.prototype.getBrands = function () {
         var _this = this;
-        this.sellerSrv.allBrands().subscribe(function (res) {
+        this.adminSrv.allBrands().subscribe(function (res) {
             if (res.status) {
                 _this.arrayBrands = res.data;
             }
@@ -118,7 +119,7 @@ var GraphicsAdminPage = /** @class */ (function () {
     };
     GraphicsAdminPage.prototype.getModels = function () {
         var _this = this;
-        this.sellerSrv.allModels().subscribe(function (res) {
+        this.adminSrv.allModels().subscribe(function (res) {
             if (res.status) {
                 _this.arrayModels = res.data;
             }
@@ -159,9 +160,9 @@ var GraphicsAdminPage = /** @class */ (function () {
             brandCar: this.brandCar,
             modelCar: this.modelCar,
             concesionary: this.concesionary2,
-            triple_m: ''
+            triple_m: this.triple_m
         };
-        this.utils.presentLoading("Cargando datos...");
+        this.utils.presentLoading("Cargando datos...", 500);
         this.sellerSrv.getGrafic(data).subscribe(function (res) {
             if (res.status) {
                 _this.utils.dismissLoading();
@@ -176,6 +177,19 @@ var GraphicsAdminPage = /** @class */ (function () {
                 _this.brandCar = "";
                 _this.modelCar = "";
                 _this.concesionary2 = "";
+                var emptyGraphy = 0;
+                for (var i = 0; i < _this.dataGraphy.datasets[0].data.length; i++) {
+                    var element = _this.dataGraphy.datasets[0].data[i];
+                    if (element == 0) {
+                        emptyGraphy++;
+                    }
+                }
+                if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
+                    _this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+                }
+                if (res.data.list.length > 0) {
+                    _this.carListGraphic = res.data.list;
+                }
             }
             else {
                 _this.utils.dismissLoading();
@@ -201,12 +215,12 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.sellerSrv.getListCars(data).subscribe(function (res) {
             if (res.status) {
                 _this.arrayListCars = res.data.grupocard;
-                _this.dateTo = "";
-                _this.dateFrom = "";
-                _this.yearCar2 = "";
-                _this.brandCar2 = "";
-                _this.modelCar2 = "";
-                _this.concesionary2 = "";
+                // this.dateTo="";
+                // this.dateFrom="";
+                // this.yearCar2="";
+                // this.brandCar2="";
+                // this.modelCar2="";
+                // this.concesionary2="";
             }
             else {
                 _this.utils.presentToast(res.message);
@@ -379,6 +393,11 @@ var GraphicsAdminPage = /** @class */ (function () {
     };
     GraphicsAdminPage.prototype.onDateToChange = function (event) {
         this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
+    };
+    GraphicsAdminPage.prototype.setDot = function (data) {
+        var str = data.toString().split(".");
+        str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return str.join(".");
     };
     __decorate([
         core_1.ViewChild(angular_1.IonModal)

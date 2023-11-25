@@ -90,14 +90,14 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.menu.open();
   }
 
-  public getBrands(){
-    this.adminSrv.allBrands().subscribe((res:any)=>{
+  public getBrands() {
+    this.adminSrv.allBrands().subscribe((res: any) => {
       if (res.status) {
         this.arrayBrands = res.data;
-      }else{
+      } else {
         this.utils.presentToast(res.message);
       }
-    } , (err:any)=>{
+    }, (err: any) => {
       this.utils.presentToast("Error de servidor");
     });
   }
@@ -123,11 +123,11 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: this.dataGraphy,
-      options:{
-        plugins:{
-          tooltip:{
-            callbacks:{
-              label: function(tooltipItem:any) {
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (tooltipItem: any) {
                 console.log(tooltipItem)
                 // Redondear el valor numérico al entero más cercano
                 var value = Math.round(tooltipItem.yLabel);
@@ -152,40 +152,54 @@ export class GraphicsAdminPage implements AfterViewInit {
       concesionary: this.concesionary2,
       triple_m: this.triple_m,
     }
-    this.utils.presentLoading("Cargando datos...");
-    this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
-        if (res.status) {
-          this.utils.dismissLoading();
-          this.arrayLabels = res.data.labels;
-          this.arrayData = res.data.datasets[0];
-          this.dataGraphy=res.data;
-          this.lineChartMethod();
-          this.month = 1;
-          this.yearSold = new Date().getFullYear();
-          this.rangMonths = "";
-          this.yearCar = "";
-          this.brandCar = ""
-          this.modelCar = "";
-          this.concesionary2 = "";
+    this.utils.presentLoading("Cargando datos...",500);
+    this.sellerSrv.getGrafic(data).subscribe((res: any) => {
+      if (res.status) {
+        this.utils.dismissLoading();
+        this.arrayLabels = res.data.labels;
+        this.arrayData = res.data.datasets[0];
+        this.dataGraphy = res.data;
 
-          if (res.data.list.length > 0) {
-            this.carListGraphic = res.data.list;
+        this.lineChartMethod();
+        this.month = 1;
+        this.yearSold = new Date().getFullYear();
+        this.rangMonths = "";
+        this.yearCar = "";
+        this.brandCar = ""
+        this.modelCar = "";
+        this.concesionary2 = "";
+
+        let emptyGraphy = 0;
+        for (let i = 0; i < this.dataGraphy.datasets[0].data.length; i++) {
+          const element = this.dataGraphy.datasets[0].data[i];
+          if (element == 0) {
+            emptyGraphy++;
           }
 
-        }else{
-          this.utils.dismissLoading();
-          this.utils.presentToast(res.message);
         }
-    } , (err:any)=>{
+        if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
+          this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+        }
+
+        if (res.data.list.length > 0) {
+          this.carListGraphic = res.data.list;
+        }
+
+
+      } else {
+        this.utils.dismissLoading();
+        this.utils.presentToast(res.message);
+      }
+    }, (err: any) => {
       console.log(err);
       this.utils.dismissLoading();
       this.utils.presentToast("Error de servidor");
     });
-  
+
   }
 
-  public getCarList(){
-    
+  public getCarList() {
+
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -195,23 +209,23 @@ export class GraphicsAdminPage implements AfterViewInit {
       concesionary: this.concesionary2,
       id_user: this.id_user,
     }
-    this.sellerSrv.getListCars(data).subscribe((res:any)=>{
+    this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
 
         this.arrayListCars = res.data.grupocard;
-        this.dateTo="";
-        this.dateFrom="";
-        this.yearCar2="";
-        this.brandCar2="";
-        this.modelCar2="";
-        this.concesionary2="";
-      }else{
+        // this.dateTo="";
+        // this.dateFrom="";
+        // this.yearCar2="";
+        // this.brandCar2="";
+        // this.modelCar2="";
+        // this.concesionary2="";
+      } else {
         this.utils.presentToast(res.message);
       }
     }
-    , (err:any)=>{
-      this.utils.presentToast("Error de servidor");
-    });
+      , (err: any) => {
+        this.utils.presentToast("Error de servidor");
+      });
 
   }
 
@@ -228,15 +242,15 @@ export class GraphicsAdminPage implements AfterViewInit {
 
     this.utils.showLoading().then((_) => {
       this.sellerSrv.exportExcel(data).subscribe(
-       async (res: any) => {
+        async (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
-                this.descargarArchivo(res.data.fileName,res.data.base64Data)
+            this.descargarArchivo(res.data.fileName, res.data.base64Data)
             this.utils.presentToast(
-              'Se mandado un correo de la exportación del excel ' +res.data.fileName
-                
+              'Se mandado un correo de la exportación del excel ' + res.data.fileName
+
             );
-              // this.platform.ready().then(async (d) => {
+            // this.platform.ready().then(async (d) => {
             //   if (this.platform.is('mobile')) {
             //     const directorioDescargas = await Filesystem.getUri({
             //       directory: Directory.External,
@@ -278,7 +292,7 @@ export class GraphicsAdminPage implements AfterViewInit {
 
 
             this.utils.presentToast(
-              'Se mandado un correo de la exportación del excel ' +res.data.fileName               
+              'Se mandado un correo de la exportación del excel ' + res.data.fileName
             );
           }
         },
@@ -289,17 +303,17 @@ export class GraphicsAdminPage implements AfterViewInit {
     });
   }
 
-  async  descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
+  async descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
     try {
       // Abrir una nueva ventana del navegador con el archivo
-      const url=dataBase64;
+      const url = dataBase64;
       await Browser.open({ url });
     } catch (error) {
       console.error('Error al descargar el archivo:', error);
     }
   }
 
-  public openModal(){
+  public openModal() {
     this.modalFilter.present();
     this.month = 1;
     this.yearSold = new Date().getFullYear();
@@ -308,7 +322,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.yearCarAux = '';
     this.brandCar = '';
     this.modelCar = '';
-    
+
   }
 
   public closeModal() {
@@ -394,7 +408,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
   }
 
-  public setDot(data:any){
+  public setDot(data: any) {
     var str = data.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
