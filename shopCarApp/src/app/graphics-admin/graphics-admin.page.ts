@@ -52,6 +52,16 @@ export class GraphicsAdminPage implements AfterViewInit {
   arrayListCars: any[] = [];
   arrayConcesionary: any[] = []
 
+   //breadcrumb
+  brand_breadcrumb: string = "";
+  model_breadcrumb: string = "";
+  year_breadcrumb: string = "";
+  rangMonths_breadcrumb: string = "";
+  month_breadcrumb: string = "";
+  triple_m_breadcrumb: string = "";
+
+  typeUser: string = 'admin';
+
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterGraphicAdmin') modalFilter!: IonModal;
   @ViewChild('ModalFilterVehicleAdmin') modalVehicle!: IonModal;
@@ -71,6 +81,7 @@ export class GraphicsAdminPage implements AfterViewInit {
 
     if (data) {
       this.id_user = data.id;
+      this.typeUser = data.type_user;
     }
   }
 
@@ -398,5 +409,29 @@ export class GraphicsAdminPage implements AfterViewInit {
     var str = data.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
+  }
+
+  public onChangeBrand(event:any){
+    this.brand_breadcrumb = event.detail.value;
+  }
+
+  public onChangeModel(event:any){
+    this.model_breadcrumb = event.detail.value;
+  }
+
+  public onInputYear(event:any){
+    this.year_breadcrumb = event.detail.value;
+  }
+
+  public onChangeRngMonth(event:any){
+    this.rangMonths_breadcrumb = event.detail.value;
+  }
+
+  public onChangeMonth(event:any){
+    this.month_breadcrumb = event.detail.value;
+  }
+
+  public onChangeTripleM(event:any){
+    this.triple_m_breadcrumb = event.detail.value;
   }
 }

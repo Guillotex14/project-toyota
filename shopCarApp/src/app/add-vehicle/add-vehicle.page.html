@@ -292,6 +292,7 @@
           </ion-col>
 
           <ion-col size="12">
+            <input type="file" #inputDocs style="width: 0px !important;height: 0px !important;" accept="application/pdf, .pdf" (change)="fileSelect($any($event).target.files)">
             <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
               
               <ion-accordion value="year">
@@ -304,7 +305,7 @@
                     <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
                       <ion-row>
                         <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0" (click)="openASDocs()">
-                          <ion-icon name="image" (click)="openASDocs()" class="noPhotoIcon" ></ion-icon>
+                          <ion-icon name="image" class="noPhotoIcon" ></ion-icon>
                           <br>
                           <span class="noPhotoTitle" >Cargar Documentos</span>
                         </ion-col>
@@ -329,6 +330,7 @@
                                 </ion-col>
                                 <ion-col size="12">
                                   <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
+                                  <!-- <iframe [src]="transform(image.image)"></iframe> -->
                                 </ion-col>
                               </ion-row>
                             </swiper-slide>

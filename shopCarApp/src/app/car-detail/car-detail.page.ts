@@ -2,17 +2,28 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { PrivacyScreen } from '@capacitor-community/privacy-screen';
 import { Share } from '@capacitor/share';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
+import * as util from '../services/utils/utils.service';
 import { AuthService } from '../services/auth/auth.service';
+
+const enable = async () => {
+  await PrivacyScreen.enable();
+}
+
+const disable = async () => {
+  await PrivacyScreen.disable();
+}
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.page.html',
   styleUrls: ['./car-detail.page.scss'],
 })
+
 export class CarDetailPage implements OnInit {
   carDetail: CarDetailSeller = new CarDetailSeller();
   actionSheetButtonsEdit: any[] = [];
@@ -73,6 +84,7 @@ export class CarDetailPage implements OnInit {
   @ViewChild('popComparasion') popComparasion!:any
 
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController) {
+    disable();
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
     if (this.actRoute.snapshot.params['category'] !== undefined) {
@@ -114,6 +126,7 @@ export class CarDetailPage implements OnInit {
     this.carDetail.vehicle_plate = "";
     this.carDetail.price_ofert = 0;
     this.carDetail.concesionary_maintenance = false;
+    this.carDetail.general_condition = "";
 
     this.me = this.authSrv.getMeData();
     if (this.me !== null) {
@@ -123,6 +136,7 @@ export class CarDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    disable();
   }
 
   ionViewWillEnter(){
@@ -368,6 +382,7 @@ export class CarDetailPage implements OnInit {
 
   public async takePhoto(){
     this.utils.presentLoading("Cargando imagen...");
+    enable()
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -384,6 +399,7 @@ export class CarDetailPage implements OnInit {
 
   public async takePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -400,6 +416,7 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhoto(){
     this.utils.presentLoading("Cargando imagen...");
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -417,6 +434,7 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -434,6 +452,12 @@ export class CarDetailPage implements OnInit {
 
   public async takePhotoDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -450,6 +474,12 @@ export class CarDetailPage implements OnInit {
 
   public async takePhotoGaleryDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -466,6 +496,12 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhotoDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -483,6 +519,12 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhotoGaleryDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
+    enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -532,7 +574,7 @@ export class CarDetailPage implements OnInit {
           _id: data.data._id,
           public_id: data.data.public_id
         }
-
+        disable();
         this.arrayImages.push(newImg);
         this.carDetail.images.push(newImg);
         this.utils.dismissLoading();
@@ -549,6 +591,7 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.editImageVehicle(img).subscribe((data:any) => {
       let imgAct= data.data.imgEdit;
       this.zone.run(()=>{
+        disable();
         this.carDetail.images = data.data.images;
         for (let i = 0; i < this.arrayImages.length; i++) {
           if (this.arrayImages[i].public_id === this.idImgEdit) {
@@ -571,7 +614,7 @@ export class CarDetailPage implements OnInit {
           img: data.data.img,
           public_id: data.data.public_id
         }
-
+        disable();
         this.arrayDocuments.push(newImg);
         this.carDetail.imgs_documentation.push(newImg);
         this.utils.dismissLoading();
@@ -596,6 +639,7 @@ export class CarDetailPage implements OnInit {
             this.arrayDocuments.splice(i,1);
           }
         }
+        disable();
         this.utils.dismissLoading();
       })
     });
@@ -940,7 +984,7 @@ export class CarDetailPage implements OnInit {
         await Share.share({
           title: 'Carros',
           text: 'Mira este carro',
-          url: res.data.path
+          url: res.data.url
         });
       }
     }, (error:any) => {
@@ -958,9 +1002,51 @@ export class CarDetailPage implements OnInit {
     this.openPop = false;
   }
 
-  presentPopover(e: Event) {
+  public presentPopover(e: Event) {
     this.popComparasion.event = e;
     this.openPop = true;
   }
 
+  public async alertTransfer(option:any){
+    
+    if (option === 'no') {
+      const alert = await this.alertCtrl.create({
+        cssClass: 'my-custom-class',
+        header: 'Solictud de translado de vehículo',
+        message: `Ha rechazado la solicitud de translado de vehículo`,
+        buttons: [
+          {
+            text: 'Aceptar',
+            handler: () => {
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
+    if (option === 'si') {
+      const alert = await this.alertCtrl.create({
+        cssClass: 'my-custom-class',
+        header: 'Solictud de translado de vehículo',
+        message: `Tú solicitud de traslado será procesada. Serás contactado por el vendedor para concretar el precio`,
+        buttons: [
+          {
+            text: 'Aceptar',
+            handler: () => {
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+  }
+
+  public enablePrivacy(){
+    enable();
+  }
+
+  public disablePrivacy(){
+    disable();
+  }
 }

@@ -54,6 +54,7 @@ export class CarDetailMechanicPage implements OnInit {
     this.carDetail.images = [];
     this.carDetail.imgs_documentation = [];
     this.carDetail.concesionary_maintenance = false;
+    this.carDetail.general_condition = "";
 
   }
 
