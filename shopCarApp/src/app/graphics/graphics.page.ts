@@ -143,6 +143,18 @@ export class GraphicsPage implements AfterViewInit, OnInit {
           this.arrayData = res.data.datasets[0];
           this.dataGraphy=res.data;
 
+          let emptyGraphy = 0;
+          for (let i = 0; i < this.dataGraphy.datasets[0].data.length; i++) {
+            const element = this.dataGraphy.datasets[0].data[i];
+            if (element == 0) {
+              emptyGraphy++;
+            }
+  
+          }
+          if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
+            this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+          }
+
           if (res.data.list.length > 0) {
             this.carListGraphic = res.data.list;
             

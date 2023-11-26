@@ -80,10 +80,11 @@ export class UtilsService {
 
   }
 
-  async presentLoading(message: string) {
+  async presentLoading(message: string,duration:number=1000) {
     const loading = await this.loadCtrl.create({
       message,
-      spinner: 'bubbles'
+      spinner: 'bubbles',
+      duration: duration,
     });
     return await loading.present();
   }
@@ -110,6 +111,18 @@ export class UtilsService {
           }
         }
       ]
+    });
+
+    await alert.present();
+  }
+
+
+  async presentAlert(message: string, header: string,subHeader:string) {
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: ['OK'],
     });
 
     await alert.present();

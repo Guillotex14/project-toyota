@@ -76,6 +76,13 @@ var GraphicsPage = /** @class */ (function () {
         this.modelCar2 = '';
         this.concesionary2 = '';
         this.id_user = '';
+        //breadcrumb
+        this.brand_breadcrumb = "";
+        this.model_breadcrumb = "";
+        this.year_breadcrumb = "";
+        this.rangMonths_breadcrumb = "";
+        this.month_breadcrumb = "";
+        this.triple_m_breadcrumb = "";
         this.arrayLabels = [];
         this.arrayBrands = [];
         this.arrayModels = [];
@@ -152,11 +159,22 @@ var GraphicsPage = /** @class */ (function () {
                 _this.arrayLabels = res.data.labels;
                 _this.arrayData = res.data.datasets[0];
                 _this.dataGraphy = res.data;
+                var emptyGraphy = 0;
+                for (var i = 0; i < _this.dataGraphy.datasets[0].data.length; i++) {
+                    var element = _this.dataGraphy.datasets[0].data[i];
+                    if (element == 0) {
+                        emptyGraphy++;
+                    }
+                }
+                if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
+                    _this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+                }
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
                 }
                 _this.lineChartMethod();
                 _this.month = 1;
+                _this.month_breadcrumb = "1";
                 _this.yearSold = new Date().getFullYear();
                 _this.rangMonths = "";
                 _this.yearCar = "";
@@ -326,6 +344,7 @@ var GraphicsPage = /** @class */ (function () {
             input.value = num;
             this.yearCarAux = num;
             this.yearCar = input.value.replace(/\./g, '');
+            this.year_breadcrumb = input.value.replace(/\./g, '');
         }
         else {
             input.value = input.value.replace(/[^\d\.]*/g, '');
@@ -357,6 +376,24 @@ var GraphicsPage = /** @class */ (function () {
         var str = data.toString().split(".");
         str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         return str.join(".");
+    };
+    GraphicsPage.prototype.onChangeBrand = function (event) {
+        this.brand_breadcrumb = event.detail.value;
+    };
+    GraphicsPage.prototype.onChangeModel = function (event) {
+        this.model_breadcrumb = event.detail.value;
+    };
+    GraphicsPage.prototype.onInputYear = function (event) {
+        this.year_breadcrumb = event.detail.value;
+    };
+    GraphicsPage.prototype.onChangeRngMonth = function (event) {
+        this.rangMonths_breadcrumb = event.detail.value;
+    };
+    GraphicsPage.prototype.onChangeMonth = function (event) {
+        this.month_breadcrumb = event.detail.value;
+    };
+    GraphicsPage.prototype.onChangeTripleM = function (event) {
+        this.triple_m_breadcrumb = event.detail.value;
     };
     __decorate([
         core_1.ViewChild(angular_1.IonModal)
