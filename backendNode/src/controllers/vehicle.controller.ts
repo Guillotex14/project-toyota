@@ -20,6 +20,7 @@ import {
   deleteImageVehicle,
   uploadDocuments,
   uploadImageVehicle,
+  uploadPdf,
 } from "../../cloudinaryMetods";
 import * as global from "../global";
 import mongoose from "mongoose";
@@ -61,7 +62,8 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     vin,
     vehicle_plate,
     imgs_documents,
-    concesionary_maintenance
+    concesionary_maintenance,
+    general_condition
   } = req.body;
 
   if (decode == false) {
@@ -99,7 +101,8 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     type_vehicle,
     vin,
     plate: vehicle_plate,
-    concesionary_maintenance
+    concesionary_maintenance,
+    general_condition
   });
 
   await newVehicle.save();
@@ -2497,12 +2500,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 const generate_Pdf = async (data: any, pdfName: any) => {
 
-  console.log(data);
-
   const filePath = "./public/dataSheetPdf/" + pdfName;
-  crearCarpetaSiNoExiste('./public/dataSheetPdf');
+  // crearCarpetaSiNoExiste('./public/dataSheetPdf');
 
-  const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+  // const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
 
   try {
     const html: any = await ejs.renderFile('./src/views/template.ejs', data);
@@ -2520,9 +2521,13 @@ const generate_Pdf = async (data: any, pdfName: any) => {
     await browser.close();
 
     const base64Pdf = await generateBase64(filePath);
+
+    const fileName = await uploadPdf(`data:application/pdf;base64,${base64Pdf}`);
+
     return {
-      path: uploadUrl,
-      base64: "data:application/pdf;base64," + base64Pdf,
+      // path: uploadUrl,
+      // base64: "data:application/pdf;base64," + base64Pdf,
+      url: fileName.secure_url
     };
   } catch (error) {
     return error;
@@ -3465,7 +3470,6 @@ const orderMonths = (requiredMonths: any) => {
   return filteredMonths.map((mes) => mes.month);
 };
 
-
 const llenarFechasFaltantes = (arr: any[], mesInicial: any, rango: any) => {
   const fechasFaltantes: string[] = [];
   let rango_for = (parseInt(mesInicial) + parseInt(rango)) > 12 ? 12 : (parseInt(mesInicial) + parseInt(rango));
@@ -3500,7 +3504,6 @@ const llenarFechasFaltantes = (arr: any[], mesInicial: any, rango: any) => {
 
   return resultado;
 }
-
 
 const sendNotification = async (
   id_seller: string,

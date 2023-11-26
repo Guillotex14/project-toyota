@@ -66,7 +66,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance, general_condition } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -101,7 +101,8 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         type_vehicle,
         vin,
         plate: vehicle_plate,
-        concesionary_maintenance
+        concesionary_maintenance,
+        general_condition
     });
     yield newVehicle.save();
     const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
@@ -2124,10 +2125,9 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(jsonRes);
 });
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(data);
     const filePath = "./public/dataSheetPdf/" + pdfName;
-    crearCarpetaSiNoExiste('./public/dataSheetPdf');
-    const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+    // crearCarpetaSiNoExiste('./public/dataSheetPdf');
+    // const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
     try {
         const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
         const browser = yield puppeteer_1.default.launch();
@@ -2141,9 +2141,11 @@ const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, functi
         });
         yield browser.close();
         const base64Pdf = yield generateBase64(filePath);
+        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${base64Pdf}`);
         return {
-            path: uploadUrl,
-            base64: "data:application/pdf;base64," + base64Pdf,
+            // path: uploadUrl,
+            // base64: "data:application/pdf;base64," + base64Pdf,
+            url: fileName.secure_url
         };
     }
     catch (error) {

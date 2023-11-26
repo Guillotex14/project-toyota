@@ -36,3 +36,10 @@ export const uploadDocuments = async (file: any) =>{
 export const deleteDocuments = async (public_id: string) =>{
     return await cloudinary.uploader.destroy(public_id);
 }
+
+export const uploadPdf = async (file: any) =>{
+    //guardar en la carpeta pdf_files con tiempo de expiracion de 1 hora
+    return await cloudinary.uploader.upload(file,{
+        folder: "pdf_files",
+    });
+}
