@@ -1970,7 +1970,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
     });
     const mailOptions = {
         from: "Toyousado",
-        to: "eduanc2@gmail.com",
+        to: decode.email,
         subject: "Exportar excell",
         text: "puede descargar el excell " + fileName,
         attachments: [
@@ -2131,15 +2131,17 @@ const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, functi
         const browser = yield puppeteer_1.default.launch();
         const page = yield browser.newPage();
         yield page.setContent(html);
-        yield page.pdf({
+        const newpdf = yield page.pdf({
             path: filePath,
             format: 'Letter',
             printBackground: true,
             landscape: true
         });
         yield browser.close();
-        const base64Pdf = yield generateBase64(filePath);
-        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${base64Pdf}`);
+        // const base64Pdf = await generateBase64(filePath);
+        const bs64 = newpdf.toString('base64');
+        // console.log(bs64);
+        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${bs64}`);
         return {
             // path: uploadUrl,
             // base64: "data:application/pdf;base64," + base64Pdf,
@@ -2769,6 +2771,46 @@ vehicleController.commentRerportMechanicalFile = (req, res) => __awaiter(void 0,
     reponseJson.data = null;
     res.json(reponseJson);
 });
+vehicleController.acceptUpdateMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    let data = req.body;
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "mechanic", "admin_concesionary"]);
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        return res.json(reponseJson);
+    }
+    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    if (data.accept == "Si" || data.accept == "si") {
+        const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
+            campos: null,
+            type: "Aceptar modificacion de ficha mecanica",
+            comment: "",
+            id_mechanic_file: data.id_mechanic_file,
+            id_user: decode.id,
+            date: now
+        });
+        yield newReportMechanicsFiles.save();
+    }
+    else {
+        const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
+            campos: null,
+            type: "Cancelar modificacion de ficha mecanica",
+            comment: "",
+            id_mechanic_file: data.id_mechanic_file,
+            id_user: decode.id,
+            date: now
+        });
+        yield newReportMechanicsFiles.save();
+    }
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = null;
+    res.json(reponseJson);
+});
 vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.query;
     const reponseJson = new Response_1.ResponseModel();
@@ -2795,7 +2837,9 @@ vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
 function generateBase64(pdfPath) {
     return __awaiter(this, void 0, void 0, function* () {
         const fileStream = fs_1.default.createReadStream(pdfPath);
+        console.log("fileStream", fileStream);
         const chunks = [];
+        console.log("chunks", chunks);
         return new Promise((resolve, reject) => {
             fileStream.on('data', (chunk) => {
                 chunks.push(chunk);

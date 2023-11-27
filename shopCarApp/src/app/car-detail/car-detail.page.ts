@@ -7,7 +7,6 @@ import { Share } from '@capacitor/share';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
-import * as util from '../services/utils/utils.service';
 import { AuthService } from '../services/auth/auth.service';
 
 const enable = async () => {
@@ -982,8 +981,8 @@ export class CarDetailPage implements OnInit {
       if (res.status) {
         this.utils.dismissLoading();
         await Share.share({
-          title: 'Carros',
-          text: 'Mira este carro',
+          title: 'Vehiculo compartido',
+          text: 'Visualiza las Caracteristicas del vehiculo que te comparto',
           url: res.data.url
         });
       }

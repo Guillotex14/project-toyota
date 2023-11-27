@@ -2510,7 +2510,7 @@ const generate_Pdf = async (data: any, pdfName: any) => {
     const page = await browser.newPage();
     await page.setContent(html);
 
-    await page.pdf({
+    const newpdf = await page.pdf({
       path: filePath,
       format: 'Letter',
       printBackground: true,
@@ -2519,13 +2519,13 @@ const generate_Pdf = async (data: any, pdfName: any) => {
 
     await browser.close();
 
-    const base64Pdf = await generateBase64(filePath);
+    // const base64Pdf = await generateBase64(filePath);
+    
+    const bs64 = newpdf.toString('base64');
 
-    const fileName = await uploadPdf(`data:application/pdf;base64,${base64Pdf}`);
+    const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
 
     return {
-      // path: uploadUrl,
-      // base64: "data:application/pdf;base64," + base64Pdf,
       url: fileName.secure_url
     };
   } catch (error) {
@@ -3360,8 +3360,9 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
 
 async function generateBase64(pdfPath: string): Promise<string> {
   const fileStream = fs.createReadStream(pdfPath);
+  console.log("fileStream", fileStream)
   const chunks: any[] = [];
-
+  console.log("chunks", chunks)
   return new Promise((resolve, reject) => {
     fileStream.on('data', (chunk) => {
       chunks.push(chunk);
