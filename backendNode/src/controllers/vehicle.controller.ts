@@ -2484,7 +2484,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 
     let result: any = await generate_Pdf(sendData, fileName);
-    jsonRes.data = result;
+    
+    jsonRes.data = result = {
+      url: "www.google.com"
+    };
     jsonRes.code = 200;
     jsonRes.message = "success";
     jsonRes.status = true;
