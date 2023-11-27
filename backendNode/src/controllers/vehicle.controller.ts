@@ -2485,9 +2485,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
     let result: any = await generate_Pdf(sendData, fileName);
     
-    jsonRes.data = result = {
-      url: "www.google.com"
-    };
+    jsonRes.data = result;
     jsonRes.code = 200;
     jsonRes.message = "success";
     jsonRes.status = true;
@@ -2514,7 +2512,7 @@ const generate_Pdf = async (data: any, pdfName: any) => {
     await page.setContent(html);
 
     const newpdf = await page.pdf({
-      path: filePath,
+      // path: filePath,
       format: 'Letter',
       printBackground: true,
       landscape: true
