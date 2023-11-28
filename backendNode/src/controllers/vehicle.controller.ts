@@ -27,6 +27,7 @@ import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
+import { templatePdf } from "../templates/pdf/template.pdf";
 
 const vehicleController: any = {};
 
@@ -2486,9 +2487,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
     // try {
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
+      const htmlpdf: any = templatePdf();
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
-      await page.setContent(html);
+      await page.setContent(htmlpdf);
   
       const newpdf = await page.pdf({
         // path: filePath,

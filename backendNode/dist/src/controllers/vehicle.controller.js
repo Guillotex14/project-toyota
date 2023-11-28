@@ -58,7 +58,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const templates_mails_1 = require("../templates/mails/templates.mails");
 const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
-const template_pdf_1 = require("../templates/pdf/template.pdf");
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -2111,33 +2110,32 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             general_condition: data.general_condition
         };
         // let result: any = await generate_Pdf(sendData, fileName);
-        try {
-            const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
-            const htmlpdf = (0, template_pdf_1.templatePdf)();
-            const browser = yield puppeteer_1.default.launch();
-            const page = yield browser.newPage();
-            yield page.setContent(htmlpdf);
-            const newpdf = yield page.pdf({
-                // path: filePath,
-                format: 'Letter',
-                printBackground: true,
-                landscape: true
-            });
-            yield browser.close();
-            // const base64Pdf = await generateBase64(filePath);
-            const bs64 = newpdf.toString('base64');
-            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${bs64}`);
-            jsonRes.data = fileName.secure_url;
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
-            // return {
-            //   url: fileName.secure_url
-            // };
-        }
-        catch (error) {
-            return error;
-        }
+        // try {
+        const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
+        // const htmlpdf: any = templatePdf(html);
+        const browser = yield puppeteer_1.default.launch();
+        const page = yield browser.newPage();
+        yield page.setContent(html);
+        const newpdf = yield page.pdf({
+            // path: filePath,
+            format: 'Letter',
+            printBackground: true,
+            landscape: true
+        });
+        yield browser.close();
+        // const base64Pdf = await generateBase64(filePath);
+        const bs64 = newpdf.toString('base64');
+        const fileNamebs64 = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${bs64}`);
+        jsonRes.data = fileNamebs64.secure_url;
+        jsonRes.code = 200;
+        jsonRes.message = "success";
+        jsonRes.status = true;
+        // return {
+        //   url: fileName.secure_url
+        // };
+        // } catch (error) {
+        //   return error;
+        // }
     }
     else {
         jsonRes.code = 400;
