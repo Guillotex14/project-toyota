@@ -2485,42 +2485,38 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     // let result: any = await generate_Pdf(sendData, fileName);
 
     // try {
-    //   const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
-    //   const browser = await puppeteer.launch();
-    //   const page = await browser.newPage();
-    //   await page.setContent(html);
+      const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.setContent(html);
   
-    //   const newpdf = await page.pdf({
-    //     // path: filePath,
-    //     format: 'Letter',
-    //     printBackground: true,
-    //     landscape: true
-    //   });
+      const newpdf = await page.pdf({
+        // path: filePath,
+        format: 'Letter',
+        printBackground: true,
+        landscape: true
+      });
   
-    //   await browser.close();
+      await browser.close();
   
-    //   // const base64Pdf = await generateBase64(filePath);
+      // const base64Pdf = await generateBase64(filePath);
       
-    //   const bs64 = newpdf.toString('base64');
+      const bs64 = newpdf.toString('base64');
   
-    //   const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
+      const fileNamebs64 = await uploadPdf(`data:application/pdf;base64,${bs64}`);
       
-    //   jsonRes.data = fileName.secure_url;
-    //   jsonRes.code = 200;
-    //   jsonRes.message = "success";
-    //   jsonRes.status = true;
+      jsonRes.data = fileNamebs64.secure_url;
+      jsonRes.code = 200;
+      jsonRes.message = "success";
+      jsonRes.status = true;
   
-    //   // return {
-    //   //   url: fileName.secure_url
-    //   // };
+      // return {
+      //   url: fileName.secure_url
+      // };
     // } catch (error) {
     //   return error;
     // }
 
-    jsonRes.data = "https://res.cloudinary.com/dopy0eoxs/image/upload/v1701144557/pdf_files/h7fuoi3cmpqaplthjfef.pdf";
-    jsonRes.code = 200;
-    jsonRes.message = "success";
-    jsonRes.status = true;
     
   } else {
     jsonRes.code = 400;
