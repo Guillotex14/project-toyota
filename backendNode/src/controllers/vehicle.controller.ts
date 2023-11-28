@@ -2507,7 +2507,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
   
       const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
       
-      jsonRes.data = bs64;
+      jsonRes.data = "https://res.cloudinary.com/dopy0eoxs/image/upload/v1701144557/pdf_files/h7fuoi3cmpqaplthjfef.pdf";
       jsonRes.code = 200;
       jsonRes.message = "success";
       jsonRes.status = true;
