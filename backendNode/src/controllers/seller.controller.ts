@@ -1807,7 +1807,7 @@ sellerController.getNotifications = async (req: Request, res: Response) => {
   }
 
   const notificationsUser = await notifications
-    .find({ id_user: id_user, status: false })
+    .find({ id_user: id_user})
     .sort({ date: -1 });
 
   if (notificationsUser) {

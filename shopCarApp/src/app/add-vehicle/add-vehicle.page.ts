@@ -9,6 +9,7 @@ import { ModalMechanicComponent } from '../components/modal-mechanic/modal-mecha
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { states } from 'src/assets/json/states';
 import { concesionaries } from 'src/assets/json/concesionaries';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -50,6 +51,7 @@ export class AddVehiclePage implements OnInit {
   auxConces: any[] = concesionaries;
   typeInput: string = "password";
   typeInputConfirm: string = "password";
+  pdfImg = "assets/images/logo/pdf_logo.png";
 
   emptyDisplacement: boolean = false;
   emptyTransmission: boolean = false;
@@ -78,7 +80,7 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
-
+  @ViewChild('inputDocs') inputDocs!: any;
   buttonPhoto = [
     {
       text: 'Aceptar',
@@ -139,7 +141,7 @@ export class AddVehiclePage implements OnInit {
     }
   ]
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService) {
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService, private sanitizer: DomSanitizer) {
 
     this.newVehicle.brand = '';
     this.newVehicle.city = '';
@@ -794,6 +796,11 @@ export class AddVehiclePage implements OnInit {
   public async takePhotoDoc(){
     
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+          this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -813,6 +820,11 @@ export class AddVehiclePage implements OnInit {
 
   public async takePhotoGaleryDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+          this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -833,6 +845,11 @@ export class AddVehiclePage implements OnInit {
 
   public async editTakePhotoDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -849,6 +866,11 @@ export class AddVehiclePage implements OnInit {
 
   public async editTakePhotoGaleryDoc(){
     this.utils.presentLoading("Cargando imagen...");
+    if(this.arrayDocuments.length === 5){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      return
+    };
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -979,5 +1001,55 @@ export class AddVehiclePage implements OnInit {
 
   }
 
+  public openInputDocs(){
+    this.inputDocs.nativeElement.click();
+  }
 
+  public fileSelect(file:FileList){
+    let reader = new FileReader();
+    reader.onload = (e:any) => {
+      console.log(e.target.result)
+      let img = {
+        image: e.target.result,
+      }
+      this.arrayDocuments.push(img);
+      console.log(this.arrayDocuments)
+    }
+    reader.readAsDataURL(file[0]);
+  }
+
+  public fileSelect2(file:FileList){
+    let reader = new FileReader();
+    reader.onload = (e:any) => {
+      let img = {
+        image: e.target.result,
+      }
+      this.arrayImages.push(img);
+    }
+    reader.readAsDataURL(file[0]);
+  }
+
+  public async  transform(data:any){
+    let pdf = await this.convertFileToBase64String(data);
+    console.log(pdf)
+    return this.sanitizer.bypassSecurityTrustResourceUrl(data);
+  }
+
+  public convertFileToBase64String(file: File) {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        const result = reader.result;
+  
+        if (!result) {
+          reject('result is null');
+          return;
+        }
+  
+        resolve(reader.result.toString());
+      });
+      reader.addEventListener('error', reject);
+      reader.readAsDataURL(file);
+    });
+  }
 }

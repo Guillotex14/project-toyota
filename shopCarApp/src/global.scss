@@ -1795,7 +1795,17 @@ ion-segment {
       margin-top: 110% !important;
     }
   }
-
+  
+  app-list-brand-admin, app-list-user-admin, app-list-model-admin,  app-list-mechanic-admin, app-list-admin-concesionary{
+    .header{
+      .headerTitle{
+        font-size: 22px !important;
+      }
+      .iconMenu {
+        margin-top: 85% !important;
+      }
+    }
+  }
 
   .iconNoInfo{
     font-size: 180px !important;

@@ -713,15 +713,15 @@ userController.getNotifications = async (req: Request, res: Response) => {
       $match: search,
     },
     {
+      $sort: { date: -1 },
+    },
+    {
       $skip: parseInt(data.lim) * parseInt(data.pos),
     },
     {
       $limit: parseInt(data.lim),
     },
-    { $project: project },
-    {
-      $sort: { date: -1 },
-    }
+    { $project: project }
   ]);
 
   sendData.rows = list;
@@ -735,6 +735,9 @@ userController.getNotifications = async (req: Request, res: Response) => {
       {
         $count: "totalCount",
       },
+      {
+        $sort: { date: -1 },
+      }
     ]);
 
     reponseJson.code = 200;

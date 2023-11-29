@@ -654,15 +654,15 @@ userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0
             $match: search,
         },
         {
+            $sort: { date: -1 },
+        },
+        {
             $skip: parseInt(data.lim) * parseInt(data.pos),
         },
         {
             $limit: parseInt(data.lim),
         },
-        { $project: project },
-        {
-            $sort: { date: -1 },
-        }
+        { $project: project }
     ]);
     sendData.rows = list;
     if (list.length > 0) {
@@ -673,6 +673,9 @@ userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0
             {
                 $count: "totalCount",
             },
+            {
+                $sort: { date: -1 },
+            }
         ]);
         reponseJson.code = 200;
         reponseJson.message = "notificaciones obtenidas exitosamente";

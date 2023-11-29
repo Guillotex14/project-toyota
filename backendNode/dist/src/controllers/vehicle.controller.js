@@ -67,7 +67,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance, general_condition } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -102,7 +102,8 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         type_vehicle,
         vin,
         plate: vehicle_plate,
-        concesionary_maintenance
+        concesionary_maintenance,
+        general_condition
     });
     yield newVehicle.save();
     const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
@@ -2103,16 +2104,98 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             price: data.price,
             traction_control: data.traction_control,
             technology: data.technology,
-            performance: data.traction_control,
+            performance: data.performance,
             comfort: data.comfort,
             concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
-            general_condition: data.general_condition
+            general_condition: data.general_condition,
+            general_condition_excelente: "",
+            general_condition_bueno: "",
+            general_condition_regular: "",
+            general_condition_malo: ""
         };
-        let result = yield generate_Pdf(sendData, fileName);
-        jsonRes.data = result;
-        jsonRes.code = 200;
-        jsonRes.message = "success";
-        jsonRes.status = true;
+        if (data.general_condition === "excelente" || data.general_condition > 96) {
+            data.general_condition_excelente = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">
+          Excelente</p>
+      </div>`;
+        }
+        else if (data.general_condition === "bueno" || (data.general_condition >= 86 && data.general_condition < 96)) {
+            data.general_condition_bueno = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">
+          Bueno</p>
+      </div>`;
+        }
+        else if (data.general_condition === "regular" || (data.general_condition >= 76 && data.general_condition < 86)) {
+            data.general_condition_regular = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">
+          Regular</p>
+      </div>`;
+        }
+        else if (data.general_condition === "malo" || data.general_condition > 76) {
+            data.general_condition_malo = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">
+          Malo</p>
+      </div>`;
+        }
+        // let result: any = await generate_Pdf(sendData, fileName);
+        try {
+            var pdf = require("pdf-creator-node");
+            var html = fs_1.default.readFileSync("./src/views/template.html", "utf8");
+            // const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
+            var options = {
+                format: "Letter",
+                orientation: "landscape",
+            };
+            var document = {
+                html: html,
+                data: sendData,
+                // path: "./output.pdf",
+                type: "buffer",
+            };
+            let base64;
+            base64 = yield pdf.create(document, options);
+            const fileBuffer = base64;
+            const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+            // const browser = await puppeteer.launch();
+            // const page = await browser.newPage();
+            // await page.setContent(html);
+            // const newpdf = await page.pdf({
+            //   // path: filePath,
+            //   format: 'Letter',
+            //   printBackground: true,
+            //   landscape: true
+            // });
+            // await browser.close();
+            // // const base64Pdf = await generateBase64(filePath);
+            // const bs64 = newpdf.toString('base64');
+            // const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
+            jsonRes.data = base64Data;
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
+            // // return {
+            // //   url: fileName.secure_url
+            // // };
+        }
+        catch (error) {
+            return error;
+        }
     }
     else {
         jsonRes.code = 400;
@@ -2122,26 +2205,26 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(jsonRes);
 });
 const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(data);
     const filePath = "./public/dataSheetPdf/" + pdfName;
-    crearCarpetaSiNoExiste('./public/dataSheetPdf');
-    const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
+    // crearCarpetaSiNoExiste('./public/dataSheetPdf');
+    // const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
     try {
         const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
         const browser = yield puppeteer_1.default.launch();
         const page = yield browser.newPage();
         yield page.setContent(html);
-        yield page.pdf({
-            path: filePath,
+        const newpdf = yield page.pdf({
+            // path: filePath,
             format: 'Letter',
             printBackground: true,
             landscape: true
         });
         yield browser.close();
-        const base64Pdf = yield generateBase64(filePath);
+        // const base64Pdf = await generateBase64(filePath);
+        const bs64 = newpdf.toString('base64');
+        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${bs64}`);
         return {
-            path: uploadUrl,
-            base64: "data:application/pdf;base64," + base64Pdf,
+            url: fileName.secure_url
         };
     }
     catch (error) {
@@ -2833,7 +2916,9 @@ vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
 function generateBase64(pdfPath) {
     return __awaiter(this, void 0, void 0, function* () {
         const fileStream = fs_1.default.createReadStream(pdfPath);
+        console.log("fileStream", fileStream);
         const chunks = [];
+        console.log("chunks", chunks);
         return new Promise((resolve, reject) => {
             fileStream.on('data', (chunk) => {
                 chunks.push(chunk);

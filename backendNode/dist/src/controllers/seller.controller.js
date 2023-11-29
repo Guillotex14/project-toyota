@@ -1428,7 +1428,7 @@ sellerController.getNotifications = (req, res) => __awaiter(void 0, void 0, void
         return res.json(reponseJson);
     }
     const notificationsUser = yield notifications_schema_1.default
-        .find({ id_user: id_user, status: false })
+        .find({ id_user: id_user })
         .sort({ date: -1 });
     if (notificationsUser) {
         reponseJson.code = 200;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteDocuments = exports.uploadDocuments = exports.deleteImageVehicle = exports.uploadImageVehicle = exports.deleteImageUser = exports.uploadImageUser = void 0;
+exports.uploadPdf = exports.deleteDocuments = exports.uploadDocuments = exports.deleteImageVehicle = exports.uploadImageVehicle = exports.deleteImageUser = exports.uploadImageUser = void 0;
 const cloudinary_1 = require("cloudinary");
 const enviroments_1 = require("./enviroments");
 cloudinary_1.v2.config({
@@ -47,4 +47,11 @@ const deleteDocuments = (public_id) => __awaiter(void 0, void 0, void 0, functio
     return yield cloudinary_1.v2.uploader.destroy(public_id);
 });
 exports.deleteDocuments = deleteDocuments;
+const uploadPdf = (file) => __awaiter(void 0, void 0, void 0, function* () {
+    //guardar en la carpeta pdf_files con tiempo de expiracion de 1 hora
+    return yield cloudinary_1.v2.uploader.upload(file, {
+        folder: "pdf_files",
+    });
+});
+exports.uploadPdf = uploadPdf;
 //# sourceMappingURL=cloudinaryMetods.js.map
