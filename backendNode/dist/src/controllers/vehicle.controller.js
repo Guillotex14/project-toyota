@@ -2037,9 +2037,9 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.json(jsonRes);
     }
     const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
-    const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: data.id });
-    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
     if (infoVehicle) {
+        const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: infoVehicle._id });
+        const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: infoVehicle._id });
         let data = {
             _id: infoVehicle._id,
             model: infoVehicle.model,
@@ -2108,52 +2108,20 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             comfort: data.comfort,
             concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
             general_condition: data.general_condition,
-            general_condition_excelente: "",
-            general_condition_bueno: "",
-            general_condition_regular: "",
-            general_condition_malo: ""
+            general_condition_end: "",
         };
-        if (data.general_condition === "excelente" || data.general_condition > 96) {
-            data.general_condition_excelente = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">
-          Excelente</p>
-      </div>`;
+        if (sendData.general_condition === "excelente" || sendData.general_condition > "96") {
+            sendData.general_condition_end = `excelente`;
         }
-        else if (data.general_condition === "bueno" || (data.general_condition >= 86 && data.general_condition < 96)) {
-            data.general_condition_bueno = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">
-          Bueno</p>
-      </div>`;
+        else if (sendData.general_condition === "bueno" || (sendData.general_condition >= "86" && sendData.general_condition < "96")) {
+            sendData.general_condition_end = `bueno`;
         }
-        else if (data.general_condition === "regular" || (data.general_condition >= 76 && data.general_condition < 86)) {
-            data.general_condition_regular = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">
-          Regular</p>
-      </div>`;
+        else if (sendData.general_condition === "regular" || (sendData.general_condition >= "76" && sendData.general_condition < "86")) {
+            sendData.general_condition_end = `regular`;
         }
-        else if (data.general_condition === "malo" || data.general_condition > 76) {
-            data.general_condition_malo = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">
-          Malo</p>
-      </div>`;
+        else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
+            sendData.general_condition_end = `malo`;
         }
-        // let result: any = await generate_Pdf(sendData, fileName);
         try {
             var pdf = require("pdf-creator-node");
             var html = fs_1.default.readFileSync("./src/views/template.html", "utf8");
@@ -2172,27 +2140,12 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             base64 = yield pdf.create(document, options);
             const fileBuffer = base64;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-            // const browser = await puppeteer.launch();
-            // const page = await browser.newPage();
-            // await page.setContent(html);
-            // const newpdf = await page.pdf({
-            //   // path: filePath,
-            //   format: 'Letter',
-            //   printBackground: true,
-            //   landscape: true
-            // });
-            // await browser.close();
-            // // const base64Pdf = await generateBase64(filePath);
-            // const bs64 = newpdf.toString('base64');
-            // const fileName = await uploadPdf(base64Data);
-            jsonRes.data = base64Data;
-            // jsonRes.data = fileName.secure_url;
+            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
+            // jsonRes.data = base64Data;
+            jsonRes.data = fileName.secure_url;
             jsonRes.code = 200;
             jsonRes.message = "success";
             jsonRes.status = true;
-            // // return {
-            // //   url: fileName.secure_url
-            // // };
         }
         catch (error) {
             return error;

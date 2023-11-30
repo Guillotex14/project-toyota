@@ -41,7 +41,7 @@ const mechanicalFileSchema = new mongoose_1.Schema({
     shock_absorbers_coils: String,
     dealer_maintenance: String,
     headlights_lights: String,
-    general_condition: Number,
+    general_condition: String,
     odometer: String,
     engine_start: String,
     windshields_glass: String,

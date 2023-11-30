@@ -2408,10 +2408,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
   const infoVehicle: any = await vehicles.findOne({ _id: data.id });
 
-  const imgsVehichle = await ImgVehicle.find({ id_vehicle: data.id });
-  const mechanicalFile = await mechanicalsFiles.findOne({ id_vehicle: data.id });
 
   if (infoVehicle) {
+    const imgsVehichle: any = await ImgVehicle.find({ id_vehicle: infoVehicle._id });
+    const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: infoVehicle._id });
     let data: any = {
       _id: infoVehicle._id,
       model: infoVehicle.model,
@@ -2445,7 +2445,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
       concesionary_maintenance: infoVehicle.concesionary_maintenance,
-      general_condition: mechanicalFile!
+      general_condition: mechanicalFile
         ? mechanicalFile.general_condition
         : "",
       images: imgsVehichle ? imgsVehichle : [],
@@ -2454,9 +2454,11 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
         : [],
     };
     let img64 = "";
+
     if (data.images) {
       img64 = await getImageAsBase64(data.images[0].img);
     }
+
     let now = new Date();
     const fileName = now.getTime() + ".pdf";
     let sendData: any = {
@@ -2480,53 +2482,21 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       comfort: data.comfort,
       concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
       general_condition: data.general_condition,
-      general_condition_excelente: "",
-      general_condition_bueno: "",
-      general_condition_regular: "",
-      general_condition_malo: ""
+      general_condition_end: "",
     }
 
-    if (data.general_condition === "excelente" || data.general_condition > 96) {
-      data.general_condition_excelente = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">
-          Excelente</p>
-      </div>`;
-    } else if (data.general_condition === "bueno" || (data.general_condition >= 86 && data.general_condition < 96)) {
-      data.general_condition_bueno = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">
-          Bueno</p>
-      </div>`;
+    if (sendData.general_condition === "excelente" || sendData.general_condition > "96") {
+      sendData.general_condition_end = `excelente`;
 
-    } else if (data.general_condition === "regular" || (data.general_condition >= 76 && data.general_condition < 86)) {
-      data.general_condition_regular = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">
-          Regular</p>
-      </div>`;
+    } else if (sendData.general_condition === "bueno" || (sendData.general_condition >= "86" && sendData.general_condition < "96")) {
+      sendData.general_condition_end = `bueno`;
 
-    } else if (data.general_condition === "malo" || data.general_condition > 76) {
-      data.general_condition_malo = `<div class="col-12 condiciones">
-                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
-              </div><div class="col-5"></div>
-      <div class="col-7">
-        <p
-          style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">
-          Malo</p>
-      </div>`
+    } else if (sendData.general_condition === "regular" || (sendData.general_condition >= "76" && sendData.general_condition < "86")) {
+      sendData.general_condition_end = `regular`;
+
+    } else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
+      sendData.general_condition_end = `malo`;
     }
-
-    // let result: any = await generate_Pdf(sendData, fileName);
 
     try {
       var pdf = require("pdf-creator-node");
@@ -2549,34 +2519,16 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       base64 = await pdf.create(document, options);
       const fileBuffer: Buffer = base64;
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-      // const browser = await puppeteer.launch();
-      // const page = await browser.newPage();
-      // await page.setContent(html);
-
-      // const newpdf = await page.pdf({
-      //   // path: filePath,
-      //   format: 'Letter',
-      //   printBackground: true,
-      //   landscape: true
-      // });
-
-      // await browser.close();
-
-      // // const base64Pdf = await generateBase64(filePath);
-
-      // const bs64 = newpdf.toString('base64');
 
       const fileName = await uploadPdf(base64Data);
-      // jsonRes.data=base64Data;
+      // jsonRes.data = base64Data;
       jsonRes.data = fileName.secure_url;
 
       jsonRes.code = 200;
       jsonRes.message = "success";
       jsonRes.status = true;
 
-      // // return {
-      // //   url: fileName.secure_url
-      // // };
+
     } catch (error) {
       return error;
     }
