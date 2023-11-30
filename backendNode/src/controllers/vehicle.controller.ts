@@ -2476,48 +2476,111 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       price: data.price,
       traction_control: data.traction_control,
       technology: data.technology,
-      performance: data.traction_control,
+      performance: data.performance,
       comfort: data.comfort,
       concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
-      general_condition: data.general_condition
+      general_condition: data.general_condition,
+      general_condition_excelente: "",
+      general_condition_bueno: "",
+      general_condition_regular: "",
+      general_condition_malo: ""
+    }
+
+    if (data.general_condition === "excelente" || data.general_condition > 96) {
+      data.general_condition_excelente = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #11D800 !important;font-weight: bold;margin: 10px auto !important;">
+          Excelente</p>
+      </div>`;
+    } else if (data.general_condition === "bueno" || (data.general_condition >= 86 && data.general_condition < 96)) {
+      data.general_condition_bueno = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">
+          Bueno</p>
+      </div>`;
+
+    } else if (data.general_condition === "regular" || (data.general_condition >= 76 && data.general_condition < 86)) {
+      data.general_condition_regular = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #F7941D !important;font-weight: bold;margin: 10px auto !important;">
+          Regular</p>
+      </div>`;
+
+    } else if (data.general_condition === "malo" || data.general_condition > 76) {
+      data.general_condition_malo = `<div class="col-12 condiciones">
+                <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
+              </div><div class="col-5"></div>
+      <div class="col-7">
+        <p
+          style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">
+          Malo</p>
+      </div>`
     }
 
     // let result: any = await generate_Pdf(sendData, fileName);
 
     try {
-      const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.setContent(html);
-      
-      const newpdf = await page.pdf({
-        // path: filePath,
-        format: 'Letter',
-        printBackground: true,
-        landscape: true
-      });
-  
-      await browser.close();
-  
-      // const base64Pdf = await generateBase64(filePath);
-      
-      const bs64 = newpdf.toString('base64');
-  
-      const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
-      
-      jsonRes.data = fileName.secure_url;
+      var pdf = require("pdf-creator-node");
+      var html = fs.readFileSync("./src/views/template.html", "utf8");
+      var options = {
+        format: "Letter",
+        orientation: "landscape",
+      };
+
+      var document = {
+        html: html,
+        data: sendData,
+        // path: "./output.pdf",
+        type: "buffer",
+      };
+
+      let base64: any;
+
+      base64 = await pdf.create(document, options);
+      const fileBuffer: Buffer = base64;
+      const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+      const fileUpload = await uploadPdf(base64Data);
+      jsonRes.data=fileUpload.secure_url;
       jsonRes.code = 200;
       jsonRes.message = "success";
       jsonRes.status = true;
-  
-      // return {
-      //   url: fileName.secure_url
-      // };
+      // const browser = await puppeteer.launch();
+      // const page = await browser.newPage();
+      // await page.setContent(html);
+
+      // const newpdf = await page.pdf({
+      //   // path: filePath,
+      //   format: 'Letter',
+      //   printBackground: true,
+      //   landscape: true
+      // });
+
+      // await browser.close();
+
+      // // const base64Pdf = await generateBase64(filePath);
+
+      // const bs64 = newpdf.toString('base64');
+
+      // jsonRes.data = fileName.secure_url;
+
+
+      // // return {
+      // //   url: fileName.secure_url
+      // // };
     } catch (error) {
       return error;
     }
 
-    
+
   } else {
     jsonRes.code = 400;
     jsonRes.message = "No se pudo obtener la información del vehículo";
@@ -2550,7 +2613,7 @@ const generate_Pdf = async (data: any, pdfName: any) => {
     await browser.close();
 
     // const base64Pdf = await generateBase64(filePath);
-    
+
     const bs64 = newpdf.toString('base64');
 
     const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
