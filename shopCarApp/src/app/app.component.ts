@@ -49,31 +49,31 @@ export class AppComponent implements  OnInit{
         {
           title: "Admins Concesionarios",
           url: "list-admin-concesionary",
-          icon: "list-outline",
+          icon: "person",
           active: false
         },
         {
           title: "Vendedores",
           url: "list-user-admin",
-          icon: "list-outline",
+          icon: "people",
           active: false
         },
         {
           title: "Técnicos",
           url: "list-mechanic-admin",
-          icon: "list-outline",
+          icon: "construct",
           active: false
         },
         {
           title: "Marcas",
           url: "list-brands",
-          icon: "list-outline",
+          icon: "pricetag",
           active: false
         },
         {
           title: "Modelos de Vehículos",
           url: "list-models-vehicles",
-          icon: "list-outline",
+          icon: "car-sport",
           active: false
         }
       ]
@@ -86,31 +86,31 @@ export class AppComponent implements  OnInit{
         {
           title: "Admin Concesionario",
           url: "add-admin-concesionary",
-          icon: "add",
+          icon: "person",
           active: false
         },
         {
           title: "Vendedor",
           url: "create-user-admin",
-          icon: "add",
+          icon: "people",
           active: false
         },
         {
           title: "Técnico",
           url: "add-mechanic",
-          icon: "add",
+          icon: "construct",
           active: false
         },
         {
           title: "Marca",
           url: "add-brand",
-          icon: "add",
+          icon: "pricetag",
           active: false
         },
         {
           title: "Modelo de vehículo",
           url: "add-model-vehicle",
-          icon: "add",
+          icon: "car-sport",
           active: false
         }
       ]

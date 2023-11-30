@@ -117,11 +117,13 @@
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
-            <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect" (ionChange)="validateBrand($event)" [class.borderRedSelect]="emptyBrand">
+            <!-- <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect" (ionChange)="validateBrand($event)" [class.borderRedSelect]="emptyBrand">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
               
-            </ion-select>
+            </ion-select> -->
+
+            <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.brand" [class.borderRed]="emptyBrand" disabled style="opacity: 1;"></ion-input>
           </ion-col>
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="emptyBrand">

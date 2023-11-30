@@ -2489,7 +2489,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.setContent(html);
-  
+      
       const newpdf = await page.pdf({
         // path: filePath,
         format: 'Letter',
