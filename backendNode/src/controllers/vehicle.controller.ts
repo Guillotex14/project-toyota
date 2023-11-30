@@ -2566,8 +2566,9 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
       // const bs64 = newpdf.toString('base64');
 
-      const fileName = await uploadPdf(base64Data);
-      jsonRes.data = fileName.secure_url;
+      // const fileName = await uploadPdf(base64Data);
+      jsonRes.data=base64Data;
+      // jsonRes.data = fileName.secure_url;
 
       jsonRes.code = 200;
       jsonRes.message = "success";

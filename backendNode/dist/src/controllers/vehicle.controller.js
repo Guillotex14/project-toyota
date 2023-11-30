@@ -2184,8 +2184,9 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             // await browser.close();
             // // const base64Pdf = await generateBase64(filePath);
             // const bs64 = newpdf.toString('base64');
-            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            jsonRes.data = fileName.secure_url;
+            // const fileName = await uploadPdf(base64Data);
+            jsonRes.data = base64Data;
+            // jsonRes.data = fileName.secure_url;
             jsonRes.code = 200;
             jsonRes.message = "success";
             jsonRes.status = true;
