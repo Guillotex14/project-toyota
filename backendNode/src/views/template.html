@@ -7,9 +7,13 @@
   <title>Document</title>
 </head>
 <style>
-  table{
-  width: 100%;
-  height: 100%;
+  table {
+    width: 100%;
+    height: 100%;
+  }
+  
+  td{
+    width: 40%;
   }
   .content-header {
     background-color: #de1c1c;
@@ -19,7 +23,8 @@
     color: #fff;
     border-radius: 15px;
   }
-  .content-header h1{
+
+  .content-header h1 {
     text-align: center;
   }
 
@@ -38,6 +43,34 @@
     margin: auto;
   }
 
+  .list-group {
+    border-radius: 15px;
+    width: 100%;
+  }
+
+  .list-group .header {
+    padding: 10px;
+    margin: 0px;
+    color: #fff;
+    background-color: #de1c1c;
+    font-size: 24px;
+  }
+
+  .item-info {
+    width: 33%;
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+  }
+  .item-info span{
+    margin: auto;
+  
+  }
+
+  .item-info strong{
+    margin: auto;
+
+  }
 </style>
 
 <body>
@@ -58,101 +91,74 @@
                 <img src="{{ img }}" alt="">
               </div>
             </div>
-            <div class="row content-caracteristicas">
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span>Marca:</span>
-                  <strong>{{ brand }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span>Modelo:</span>
-                  <strong>{{ model }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span>Año:</span>
-                  <strong>{{ year }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span>Km:</span>
-                  <strong>{{ km }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span>Cilindrada:</span>
-                  <strong>{{ displacement }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Combustible:</span>
-                  <strong class="">{{ fuel }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Titulos:</span>
-                  <strong class="">{{ titles }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Placa del vehiculo:</span>
-                  <strong class="">{{ plate }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Transmisión:</span>
-                  <strong class="">{{ transmission }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Tracción:</span>
-                  <strong class="">{{ traction }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Estado:</span>
-                  <strong class="">{{ city }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Concesionario:</span>
-                  <strong class="">{{ concesionary }}</strong>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="item-info">
-    
-                  <span class="">Precio:</span>
-                  <strong class="">${{ price }}</strong>
-                </div>
-              </div>
+            <div class="item-info">
+
+              <span>Marca:</span>
+              <strong>{{ brand }}</strong>
             </div>
-    
-          </div>
+            <div class="item-info">
+
+              <span>Modelo:</span>
+              <strong>{{ model }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span>Año:</span>
+              <strong>{{ year }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span>Km:</span>
+              <strong>{{ km }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span>Cilindrada:</span>
+              <strong>{{ displacement }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span class="">Combustible:</span>
+              <strong class="">{{ fuel }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span class="">Titulos:</span>
+              <strong class="">{{ titles }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span class="">Placa del vehiculo:</span>
+              <strong class="">{{ plate }}</strong>
+            </div>
+            <div class="item-info">
+
+              <span class="">Transmisión:</span>
+              <strong class="">{{ transmission }}</strong>
+            </div>
+            <div class="col-4">
+              <div class="item-info">
+
+                <span class="">Tracción:</span>
+                <strong class="">{{ traction }}</strong>
+              </div>
+              <div class="item-info">
+
+                <span class="">Estado:</span>
+                <strong class="">{{ city }}</strong>
+              </div>
+              <div class="item-info">
+
+                <span class="">Concesionario:</span>
+                <strong class="">{{ concesionary }}</strong>
+              </div>
+              <div class="item-info">
+
+                <span class="">Precio:</span>
+                <strong class="">${{ price }}</strong>
+              </div>
+
+            </div>
         </td>
         <td>
           <div class="col-5 content-left">
@@ -165,10 +171,10 @@
                 </div>
               </div>
             </div>
-    
+
             <div class="row rowimg mt-4">
               {{#ifCond traction_control "===" 'true' }}
-    
+
               <div class="col-4 ">
                 <p>Control de tracción</p>
                 <img width=""
@@ -176,11 +182,11 @@
                   alt="">
                 <p style="font-size: 10px; color: #898989">stable y seguro</p>
               </div>
-    
+
               {{/ifCond}}
-    
+
               {{#ifCond technology "===" 'true' }}
-    
+
               <div class="col-4">
                 <p>Tecnología</p>
                 <img width=""
@@ -188,11 +194,11 @@
                   alt="">
                 <p style="font-size: 10px; color: #898989">Control de estabilidad(VSC)</p>
               </div>
-    
+
               {{/ifCond}}
-    
+
               {{#ifCond performance "===" 'true' }}
-    
+
               <div class="col-4">
                 <p>Performance</p>
                 <img width=""
@@ -200,10 +206,10 @@
                   alt="">
                 <p style="font-size: 10px; color: #898989">V6 Twin Turbo (V35A-FTS)</p>
               </div>
-    
+
               {{/ifCond}}
               {{#ifCond comfort "===" 'true' }}
-    
+
               <div class="col-4">
                 <p>Confort</p>
                 <img width=""
@@ -211,10 +217,10 @@
                   alt="">
                 <p style="font-size: 10px; color: #898989">Asientos tapizados en cuero natural y ecológico</p>
               </div>
-    
+
               {{/ifCond}}
             </div>
-    
+
             <div class="row mt-4">
               <div class="col-12">
                 <p style="margin: 10px auto;color: #000; text-align: center;">
@@ -226,17 +232,17 @@
                     <p>Si</p>
                   </div>
                   {{/ifCond}}
-    
+
                   {{#ifCond concesionary_maintenance "===" "false" }}
                   <div class="col-6 segment-green">
                     <p>No</p>
                   </div>
                   {{/ifCond}}
-    
+
                 </div>
               </div>
             </div>
-    
+
             <div class="row mt-4">
               <div class="col-12">
                 <div class="row">
@@ -244,12 +250,12 @@
                   {{ general_condition_bueno }}
                   {{ general_condition_regular }}
                   {{ general_condition_malo }}
-    
+
                 </div>
               </div>
-    
+
             </div>
-    
+
           </div>
         </td>
       </tr>

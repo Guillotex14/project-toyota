@@ -2570,8 +2570,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
       // const bs64 = newpdf.toString('base64');
 
-      // jsonRes.data = fileName.secure_url;
-
+      // jsonRes.data=base64Data;
 
       // // return {
       // //   url: fileName.secure_url
