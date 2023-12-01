@@ -36,6 +36,8 @@ export class HomeAdminPage implements OnInit {
   minKmsAux: string = "";
   maxKmsAux: string = "";
 
+  loading: boolean = true;
+
   @ViewChild('modalFilterHomeAdmin') modalFilter!: IonModal;
 
   constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController) { 
@@ -134,6 +136,7 @@ export class HomeAdminPage implements OnInit {
     this.utils.presentLoading("Cargando vehículos");
     this.adminSrv.getVehicles(data).subscribe((data:any)=>{
       if (data.status) {
+        this.loading = false;
         this.utils.dismissLoading();
         this.arrayVehicles = data.data;
       }else{

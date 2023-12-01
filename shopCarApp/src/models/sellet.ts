@@ -225,6 +225,7 @@ export class VehicleList{
   public year!: number;
   public price!: number;
   public city!: string;
+  public sold!: boolean;
   public id_seller_buyer!: string;
 }
 

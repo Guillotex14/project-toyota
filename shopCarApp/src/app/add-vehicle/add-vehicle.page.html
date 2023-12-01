@@ -117,11 +117,13 @@
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
             <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
-            <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect" (ionChange)="validateBrand($event)" [class.borderRedSelect]="emptyBrand">
+            <!-- <ion-select [(ngModel)]="newVehicle.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect" (ionChange)="validateBrand($event)" [class.borderRedSelect]="emptyBrand">
               <ion-select-option value="">Todos</ion-select-option>
               <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
               
-            </ion-select>
+            </ion-select> -->
+
+            <ion-input type="text" fill="outline" [(ngModel)]="newVehicle.brand" [class.borderRed]="emptyBrand" disabled style="opacity: 1;"></ion-input>
           </ion-col>
 
           <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="emptyBrand">
@@ -304,7 +306,7 @@
                   <ion-row>
                     <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
                       <ion-row>
-                        <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0" (click)="openASDocs()">
+                        <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length === 0" (click)="openInputDocs()">
                           <ion-icon name="image" class="noPhotoIcon" ></ion-icon>
                           <br>
                           <span class="noPhotoTitle" >Cargar Documentos</span>
@@ -329,14 +331,24 @@
                                   </ion-button>
                                 </ion-col>
                                 <ion-col size="12">
-                                  <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img>
+                                  <!-- <ion-img [src]="image.image" style="width: 100%;height: 200px;"></ion-img> -->
                                   <!-- <iframe [src]="transform(image.image)"></iframe> -->
+                                  <!-- <object 
+                                  type="application/pdf"
+                                  width="100%"
+                                  height="100%"
+                                  style="min-width: 100%;"
+                                  [data]="transform(image.urlSanitizer
+                                  )"
+                                  > -->
+
+                                  <!-- </object> -->
                                 </ion-col>
                               </ion-row>
                             </swiper-slide>
                             <div class="swiper-pagination"></div>
                           </swiper-container>
-                          <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openASDocs()" class="btnSaveRed">
+                          <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openInputDocs()" class="btnSaveRed">
                             Agregar imagen
                           </ion-button>
                         </ion-col>

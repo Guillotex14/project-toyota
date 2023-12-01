@@ -2501,7 +2501,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     try {
       var pdf = require("pdf-creator-node");
       var html = fs.readFileSync("./src/views/template.html", "utf8");
-      // const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
       var options = {
         format: "Letter",
         orientation: "landscape",

@@ -257,4 +257,33 @@ export class ComparisonPage implements OnInit {
 
     return color;
   }
+
+  public bestKm(){
+    let best = 0;
+    let second = 0;
+    let third = 0;
+    let fourth = 0;
+    for (let i = 0; i < this.comparison.length; i++) {
+      //capta el menor kilometraje
+      if (this.comparison[0].km < this.comparison[1].km && this.comparison[0].km < this.comparison[2].km && this.comparison[0].km < this.comparison[3].km ) {
+        best = this.comparison[0].km;
+      } 
+      //capta el segundo menor kilometraje
+      if (this.comparison[1].km < this.comparison[0].km && this.comparison[1].km < this.comparison[2].km && this.comparison[1].km < this.comparison[3].km ) {
+        second = this.comparison[1].km;
+      }
+
+      //capta el tercer menor kilometraje
+      if (this.comparison[2].km < this.comparison[0].km && this.comparison[2].km < this.comparison[1].km && this.comparison[2].km < this.comparison[3].km ) {
+        third = this.comparison[2].km;
+      }
+
+      //capta el cuarto menor kilometraje
+      if (this.comparison[3].km < this.comparison[0].km && this.comparison[3].km < this.comparison[1].km && this.comparison[3].km < this.comparison[2].km ) {
+        fourth = this.comparison[3].km;
+      }
+    }
+    console.log(best, second, third, fourth);
+
+  }
 }

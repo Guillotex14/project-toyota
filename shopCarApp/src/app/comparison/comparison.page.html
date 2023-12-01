@@ -192,77 +192,26 @@
                 </ion-button>
               </ion-card>
 
-              <!-- <ion-accordion-group expand="inset">
-
-                <ion-accordion value="info">
-                  <ion-item slot="header">
-                    <ion-label>Más Info</ion-label>
-                  </ion-item>
-                  <div class="ion-padding" slot="content">
-                    <ion-list>
-                      <ion-list-header>
-                        <ion-label>Tipo de Vehiculo</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.type_vehicle}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Año</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.year}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Concesionario</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:11px ;">{{vehicle.concesionary}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>displacement</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.displacement}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Combustible</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.fuel}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Condición General</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.general_condition}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Títulos</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.titles}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Tracción</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.traction}}</ion-label>
-                      </ion-item>
-                      <ion-list-header>
-                        <ion-label>Transmisión</ion-label>
-                      </ion-list-header>
-                      <ion-item>
-                        <ion-label style="font-size:16px ;">{{vehicle.transmission}}</ion-label>
-                      </ion-item>
-                    </ion-list>
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group> -->
-
             </ion-col>
 
           </ion-row>
         </ion-grid>
+      </ion-col>
+
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+        <ion-col size="12">
+          <ion-label>Kilometraje</ion-label>
+          <ul>
+            <li *ngFor="let vehicle of comparison">
+              <p style="font-size: 13px;">
+                {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}
+              </p>
+              <!-- <ion-label [style.color]="vehicle.kmColor">
+                {{vehicle.km | number}}kms
+              </ion-label> -->
+            </li>
+          </ul>
+        </ion-col>
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">
