@@ -2157,7 +2157,6 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         try {
             var pdf = require("pdf-creator-node");
             var html = fs_1.default.readFileSync("./src/views/template.html", "utf8");
-            // const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
             var options = {
                 format: "Letter",
                 orientation: "landscape",
@@ -2172,6 +2171,11 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             base64 = yield pdf.create(document, options);
             const fileBuffer = base64;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+            const fileUpload = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
+            jsonRes.data = fileUpload.secure_url;
+            jsonRes.code = 200;
+            jsonRes.message = "success";
+            jsonRes.status = true;
             // const browser = await puppeteer.launch();
             // const page = await browser.newPage();
             // await page.setContent(html);
@@ -2184,12 +2188,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             // await browser.close();
             // // const base64Pdf = await generateBase64(filePath);
             // const bs64 = newpdf.toString('base64');
-            const fileUpload = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            jsonRes.data = fileUpload.secure_url;
-            // jsonRes.data = fileName.secure_url;
-            jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
+            // jsonRes.data=base64Data;
             // // return {
             // //   url: fileName.secure_url
             // // };

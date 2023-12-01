@@ -46,6 +46,8 @@ export class HomeMechanicPage implements OnInit {
     lim: 20
   }
 
+  loading: boolean = true;
+
   arrayNotifies: any[] = [];
   notificationById: NotificationById = new NotificationById();
   @ViewChild('modalNotifications') modal!: IonModal;

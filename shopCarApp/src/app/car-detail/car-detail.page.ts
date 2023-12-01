@@ -983,7 +983,7 @@ export class CarDetailPage implements OnInit {
         await Share.share({
           title: 'Vehiculo compartido',
           text: 'Visualiza las Caracteristicas del vehiculo que te comparto',
-          url: res.data.url
+          url: res.data
         });
       }
     }, (error:any) => {

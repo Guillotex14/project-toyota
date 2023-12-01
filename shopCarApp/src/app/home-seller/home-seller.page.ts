@@ -45,6 +45,7 @@ export class HomeSellerPage implements OnInit {
     pos: 0,
     lim: 20
   }
+  loading: boolean = true;
 
   @ViewChild('modalNotifications') modal!: IonModal;
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
@@ -245,6 +246,7 @@ export class HomeSellerPage implements OnInit {
     this.utils.presentLoading("Cargando vehículos");
     this.sellerSrv.getListByFilter(data).subscribe((data:any)=>{
       if (data.status) {
+        this.loading = false;
         this.arrayVehicles = data.data;
         this.utils.dismissLoading();
       }else{

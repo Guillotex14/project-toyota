@@ -160,7 +160,7 @@ authController.updateImgProfile = async (req: Request, res: Response) => {
 
 authController.sendMail = async (req: Request, res: Response) => {
   const jsonRes = new ResponseModel();
-
+  
   // const { id } = req.query;
 
   // const template = templatesMails("ofertByCar");
