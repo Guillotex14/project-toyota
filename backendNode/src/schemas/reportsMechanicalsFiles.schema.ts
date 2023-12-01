@@ -2,7 +2,7 @@ import { json } from "express";
 import { Schema, model } from "mongoose";
 
 const reportsmechanicalsfilesSchema = new Schema({
-    campos: {
+    campos_actualizados: {
         type: Object
     },
     type: String,
@@ -12,6 +12,9 @@ const reportsmechanicalsfilesSchema = new Schema({
     },
     id_user:{
         type: Schema.Types.ObjectId
+    },
+    campos_anteriores: {
+        type: Object
     },
     date: String
 });
