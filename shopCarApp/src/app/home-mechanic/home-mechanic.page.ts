@@ -155,6 +155,7 @@ export class HomeMechanicPage implements OnInit {
     this.mechanicSrv.getVehicles(data).subscribe(
       (res: any) => {
         if (res.status) {
+          this.loading = false;
           this.arrayVehicles = res.data;
           this.auxVehicles = res.data;
           this.utils.dismissLoading();

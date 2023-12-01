@@ -152,7 +152,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   
           }
           if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
-            this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+            this.utils.presentAlert("", "Gráfica sin resultado", "");
           }
 
           if (res.data.list.length > 0) {
