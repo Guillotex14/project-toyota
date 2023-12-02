@@ -2407,15 +2407,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     jsonRes.data = null;
     return res.json(jsonRes);
   }
-  var pdf2 = require('html-pdf');
-  var phantomjs = require('phantomjs-prebuilt')
-  var binPath = phantomjs.path
-  var path = require('path');
-  var childArgs = [
-    path.join(__dirname, 'phantomjs-script.js'),
-    'some other argument (passed to phantomjs script)'
-  ]
-   
+
 
 
   const infoVehicle: any = await vehicles.findOne({ _id: data.id });
@@ -2509,7 +2501,8 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-      var pdf = require("pdf-creator-node");
+      var pdf = require('html-pdf');
+ // var pdf = require("pdf-creator-node");
       var html = fs.readFileSync("./src/views/template.html", "utf8");
       var options = {
         format: "Letter",
