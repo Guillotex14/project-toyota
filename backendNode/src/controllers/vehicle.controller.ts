@@ -2518,7 +2518,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
         html: html,
         data: sendData,
         // path: "./output.pdf",
-        type: "buffer", //ds
+        type: "buffer", //dsd
       };
 
       let base64: any;
