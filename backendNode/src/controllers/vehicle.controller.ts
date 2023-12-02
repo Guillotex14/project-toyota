@@ -2511,6 +2511,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const browser = await puppeteer.launch({
         headless: 'new'
       });
+      
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
 
