@@ -28,7 +28,7 @@ import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
 
 
- 
+
 const vehicleController: any = {};
 
 vehicleController.addVehicle = async (req: Request, res: Response) => {
@@ -2399,7 +2399,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
 
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
-  const data:any = req.query;
+  const data: any = req.query;
   const token: any = req.header("Authorization");//....sadas
   let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
   if (decode == false) {
@@ -2451,12 +2451,12 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       vin: infoVehicle.vin,
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
-      
+
       concesionary_maintenance: infoVehicle.concesionary_maintenance,
       general_condition: mechanicalFile
         ? mechanicalFile.general_condition
         : "",
-        images: imgsVehichle ? imgsVehichle : [],
+      images: imgsVehichle ? imgsVehichle : [],
       imgs_documentation: infoVehicle.imgs_documentation
         ? infoVehicle.imgs_documentation
         : [],
@@ -2509,32 +2509,30 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     try {
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
-      const browser = await puppeteer.launch({headless: 'new'});
-  const page = await browser.newPage();
-  // Navigate the page to a URL
-  await page.goto('https://developer.chrome.com/');
-  await page.setContent(html);
-  const pdfBuffer = await page.pdf({ 
-    format: 'Letter',
-    printBackground: true,
-    landscape: true
-  });
-//
-console.log(page);
-  await browser.close();
-  const fileBuffer: Buffer = pdfBuffer;
-  const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+      const browser = await puppeteer.launch({ headless: false });
+      const page = await browser.newPage();
+      await page.goto('https://developer.chrome.com/');
+      await page.setContent(html);
+      const pdfBuffer = await page.pdf({
+        format: 'Letter',
+        printBackground: true,
+        landscape: true
+      });
+      //
+      await browser.close();
+      const fileBuffer: Buffer = pdfBuffer;
+      const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
-  const fileName = await uploadPdf(base64Data);
+      const fileName = await uploadPdf(base64Data);
       // jsonRes.data=base64Data;//
       jsonRes.data = fileName.secure_url;
-    jsonRes.code = 200;
-    jsonRes.message = "";
-    jsonRes.status = true;
-    } catch (error:any) {
+      jsonRes.code = 200;
+      jsonRes.message = "";
+      jsonRes.status = true;
+    } catch (error: any) {
       jsonRes.code = 400;
-    jsonRes.message = error;
-    jsonRes.status = false;
+      jsonRes.message = error;
+      jsonRes.status = false;
     }
 
 
