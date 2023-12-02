@@ -2509,7 +2509,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     try {
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
-      const browser = await puppeteer.launch({ headless: true });
+      const browser = await puppeteer.launch({ headless: 'new' });
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
       await page.setContent(html);
@@ -2518,6 +2518,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
         printBackground: true,
         landscape: true
       });
+      console.log(pdfBuffer);
       //
       await browser.close();
       const fileBuffer: Buffer = pdfBuffer;

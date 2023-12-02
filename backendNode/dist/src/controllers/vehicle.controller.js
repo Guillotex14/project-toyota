@@ -57,7 +57,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const templates_mails_1 = require("../templates/mails/templates.mails");
 const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -2127,10 +2126,10 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             sendData.general_condition_end = `malo`;
         }
         try {
+            const puppeteer = require('puppeteer');
             const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
-            const browser = yield puppeteer_1.default.launch();
+            const browser = yield puppeteer.launch({ headless: 'new' });
             const page = yield browser.newPage();
-            // Navigate the page to a URL
             yield page.goto('https://developer.chrome.com/');
             yield page.setContent(html);
             const pdfBuffer = yield page.pdf({
@@ -2138,15 +2137,17 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
                 printBackground: true,
                 landscape: true
             });
+            console.log(pdfBuffer);
+            //
             yield browser.close();
             const fileBuffer = pdfBuffer;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
             const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            // jsonRes.data=base64Data;
+            // jsonRes.data=base64Data;//
             jsonRes.data = fileName.secure_url;
             jsonRes.code = 200;
             jsonRes.message = "";
-            jsonRes.status = false;
+            jsonRes.status = true;
         }
         catch (error) {
             jsonRes.code = 400;
