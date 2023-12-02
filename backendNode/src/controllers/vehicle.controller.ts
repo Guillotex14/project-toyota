@@ -2398,7 +2398,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const data = req.query;
-  const token: any = req.header("Authorization");
+  const token: any = req.header("Authorization");//....
   let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
   if (decode == false) {
     jsonRes.code = jwt.code;
