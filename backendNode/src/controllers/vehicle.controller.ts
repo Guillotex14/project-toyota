@@ -2519,7 +2519,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     printBackground: true,
     landscape: true
   });
-
+//
   await browser.close();
   const fileBuffer: Buffer = pdfBuffer;
   const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
