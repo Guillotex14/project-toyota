@@ -84,11 +84,20 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.dataGraphy = {};
         this.arrayListCars = [];
         this.arrayConcesionary = [];
+        //breadcrumb
+        this.brand_breadcrumb = "";
+        this.model_breadcrumb = "";
+        this.year_breadcrumb = "";
+        this.rangMonths_breadcrumb = "";
+        this.month_breadcrumb = "";
+        this.triple_m_breadcrumb = "";
+        this.typeUser = 'admin';
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
         this.arrayConcesionary = concesionaries_1.concesionaries;
         var data = JSON.parse(localStorage.getItem('me'));
         if (data) {
             this.id_user = data.id;
+            this.typeUser = data.type_user;
         }
     }
     GraphicsAdminPage.prototype.ngAfterViewInit = function () {
@@ -185,7 +194,7 @@ var GraphicsAdminPage = /** @class */ (function () {
                     }
                 }
                 if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
-                    _this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+                    _this.utils.presentAlert("", "Gráfica sin resultado", "");
                 }
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
@@ -398,6 +407,24 @@ var GraphicsAdminPage = /** @class */ (function () {
         var str = data.toString().split(".");
         str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         return str.join(".");
+    };
+    GraphicsAdminPage.prototype.onChangeBrand = function (event) {
+        this.brand_breadcrumb = event.detail.value;
+    };
+    GraphicsAdminPage.prototype.onChangeModel = function (event) {
+        this.model_breadcrumb = event.detail.value;
+    };
+    GraphicsAdminPage.prototype.onInputYear = function (event) {
+        this.year_breadcrumb = event.detail.value;
+    };
+    GraphicsAdminPage.prototype.onChangeRngMonth = function (event) {
+        this.rangMonths_breadcrumb = event.detail.value;
+    };
+    GraphicsAdminPage.prototype.onChangeMonth = function (event) {
+        this.month_breadcrumb = event.detail.value;
+    };
+    GraphicsAdminPage.prototype.onChangeTripleM = function (event) {
+        this.triple_m_breadcrumb = event.detail.value;
     };
     __decorate([
         core_1.ViewChild(angular_1.IonModal)

@@ -167,7 +167,7 @@ var GraphicsPage = /** @class */ (function () {
                     }
                 }
                 if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
-                    _this.utils.presentAlert("Sin resultado", "Grafica sin resultado", "");
+                    _this.utils.presentAlert("", "Gráfica sin resultado", "");
                 }
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
@@ -387,6 +387,7 @@ var GraphicsPage = /** @class */ (function () {
         this.year_breadcrumb = event.detail.value;
     };
     GraphicsPage.prototype.onChangeRngMonth = function (event) {
+        console.log(event.detail.value);
         this.rangMonths_breadcrumb = event.detail.value;
     };
     GraphicsPage.prototype.onChangeMonth = function (event) {
