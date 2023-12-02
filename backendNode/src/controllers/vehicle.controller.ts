@@ -28,7 +28,6 @@ import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
 
 
-import puppeteer from 'puppeteer';
  
 const vehicleController: any = {};
 
@@ -2508,7 +2507,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-      
+      const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
       const browser = await puppeteer.launch();
   const page = await browser.newPage();
