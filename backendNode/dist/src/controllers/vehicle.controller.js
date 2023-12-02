@@ -52,6 +52,7 @@ const fs_1 = __importDefault(require("fs"));
 const axios_1 = __importDefault(require("axios"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
+const pdf = __importStar(require("html-pdf"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const templates_mails_1 = require("../templates/mails/templates.mails");
@@ -2029,7 +2030,7 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
 vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const data = req.query;
-    const token = req.header("Authorization");
+    const token = req.header("Authorization"); //....sadas
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
     if (decode == false) {
         jsonRes.code = generar_jwt_1.default.code;
@@ -2040,7 +2041,6 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
     const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
     if (infoVehicle) {
-        const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: infoVehicle._id });
         const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: infoVehicle._id });
         let data = {
             _id: infoVehicle._id,
@@ -2078,7 +2078,6 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             general_condition: mechanicalFile
                 ? mechanicalFile.general_condition
                 : "",
-            images: imgsVehichle ? imgsVehichle : [],
             imgs_documentation: infoVehicle.imgs_documentation
                 ? infoVehicle.imgs_documentation
                 : [],
@@ -2125,12 +2124,15 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             sendData.general_condition_end = `malo`;
         }
         try {
-            var pdf = require("pdf-creator-node");
-            var html = fs_1.default.readFileSync("./src/views/template.html", "utf8");
-            var options = {
-                format: "Letter",
-                orientation: "landscape",
-            };
+            const phantomPath = require('phantomjs-prebuilt').path;
+            const html = '<p>Este es un PDF de prueba generado a partir de HTML.</p>';
+            const options = { phantomPath };
+            // var pdf = require("pdf-creator-node");
+            // var html = fs.readFileSync("./src/views/template.html", "utf8");
+            // var options:any = {
+            //   format: "Letter",
+            //   orientation: "landscape",
+            // };
             var document = {
                 html: html,
                 data: sendData,
