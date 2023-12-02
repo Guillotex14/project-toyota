@@ -81,6 +81,7 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
   @ViewChild('inputDocs') inputDocs!: any;
+  @ViewChild('inputDocs2') inputDocs2!: any;
   buttonPhoto = [
     {
       text: 'Aceptar',
@@ -224,6 +225,12 @@ export class AddVehiclePage implements OnInit {
 
   public addVehicle() {
     this.utils.presentLoading("Agregando vehículo...");
+
+    if(this.arrayImages.length == 0){
+      this.utils.dismissLoading();
+      this.utils.presentToast("Debe agregar al menos una imagen");
+      return;
+    }
 
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.emptyModel = true;
@@ -1005,15 +1012,26 @@ export class AddVehiclePage implements OnInit {
     this.inputDocs.nativeElement.click();
   }
 
+  public editInputDocs(index:any){
+    this.aux = index;
+    this.inputDocs2.nativeElement.click();
+  }
+
   public fileSelect(file:FileList){
+
+    if (this.arrayDocuments.length === 5) {
+      this.utils.presentToast("Solo se pueden agregar 5 documentos");
+      return
+    }
+
     let reader = new FileReader();
     reader.onload = (e:any) => {
-      console.log(e.target.result)
+
       let img = {
         image: e.target.result,
+        name: file[0].name
       }
       this.arrayDocuments.push(img);
-      console.log(this.arrayDocuments)
     }
     reader.readAsDataURL(file[0]);
   }
@@ -1024,7 +1042,9 @@ export class AddVehiclePage implements OnInit {
       let img = {
         image: e.target.result,
       }
-      this.arrayImages.push(img);
+
+      this.arrayDocuments[this.aux].image = e.target.result;
+      this.arrayDocuments[this.aux].name = file[0].name;
     }
     reader.readAsDataURL(file[0]);
   }

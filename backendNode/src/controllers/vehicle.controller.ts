@@ -132,13 +132,14 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   if (imgs_documents) {
     if (imgs_documents.length > 0) {
       for (let i = 0; i < imgs_documents.length; i++) {
-        const imgResize = await desgloseImg(imgs_documents[i].image);
+        // const imgResize = await desgloseImg(imgs_documents[i].image);
 
-        const filename = await uploadDocuments(imgResize);
+        const filename = await uploadDocuments(imgs_documents[i].image);
 
         let data = {
           img: filename.secure_url,
           public_id: filename.public_id,
+          name: imgs_documents[i].name,
         };
 
         documents.push(data);
@@ -312,11 +313,12 @@ vehicleController.addImgDocuments = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-  const filename = await uploadDocuments(image);
+  const filename = await uploadDocuments(image.image);
 
   const document = {
     img: filename.secure_url,
     public_id: filename.public_id,
+    name: image.name,
   }
 
   let vehicle = await vehicles.findById(id_vehicle);
@@ -397,11 +399,12 @@ vehicleController.updateImgDocuments = async (req: Request, res: Response) => {
   const delImag = await deleteImageVehicle(public_id);
 
   if (delImg) {
-    let filename = await uploadDocuments(image);
+    let filename = await uploadDocuments(image.image);
 
     const document = {
       img: filename.secure_url,
       public_id: filename.public_id,
+      name: image.name,
     }
 
     let vehicle = await vehicles.findById(id_vehicle);

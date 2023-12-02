@@ -126,11 +126,12 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     if (imgs_documents) {
         if (imgs_documents.length > 0) {
             for (let i = 0; i < imgs_documents.length; i++) {
-                const imgResize = yield desgloseImg(imgs_documents[i].image);
-                const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgResize);
+                // const imgResize = await desgloseImg(imgs_documents[i].image);
+                const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgs_documents[i].image);
                 let data = {
                     img: filename.secure_url,
                     public_id: filename.public_id,
+                    name: imgs_documents[i].name,
                 };
                 documents.push(data);
             }
@@ -273,10 +274,11 @@ vehicleController.addImgDocuments = (req, res) => __awaiter(void 0, void 0, void
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image);
+    const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image.image);
     const document = {
         img: filename.secure_url,
         public_id: filename.public_id,
+        name: image.name,
     };
     let vehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
     if (vehicle) {
@@ -343,10 +345,11 @@ vehicleController.updateImgDocuments = (req, res) => __awaiter(void 0, void 0, v
     });
     const delImag = yield (0, cloudinaryMetods_1.deleteImageVehicle)(public_id);
     if (delImg) {
-        let filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image);
+        let filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image.image);
         const document = {
             img: filename.secure_url,
             public_id: filename.public_id,
+            name: image.name,
         };
         let vehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
         if (vehicle) {

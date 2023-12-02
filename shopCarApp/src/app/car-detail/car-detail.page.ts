@@ -8,6 +8,7 @@ import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
 import { AuthService } from '../services/auth/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const enable = async () => {
   await PrivacyScreen.enable();
@@ -81,8 +82,9 @@ export class CarDetailPage implements OnInit {
   @ViewChild('modalBuy') modal!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
   @ViewChild('popComparasion') popComparasion!:any
-
-  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController) {
+  @ViewChild('inputDocs') inputDocs!: any;
+  @ViewChild('inputDocs2') inputDocs2!: any;
+  constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
     disable();
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
@@ -611,7 +613,8 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.addImgDoc(img).subscribe((data:any) => {
         let newImg = {
           img: data.data.img,
-          public_id: data.data.public_id
+          public_id: data.data.public_id,
+          name: data.data.name
         }
         disable();
         this.arrayDocuments.push(newImg);
@@ -1048,4 +1051,51 @@ export class CarDetailPage implements OnInit {
   public disablePrivacy(){
     disable();
   }
+
+  public openInputDocs(){
+    this.inputDocs.nativeElement.click();
+  }
+
+  public editInputDocs(index:any, image:any){
+    this.auxDocs = index;
+    this.idImgEditDoc = image.public_id;
+    this.inputDocs2.nativeElement.click();
+  }
+
+  public fileSelect(file:FileList){
+
+    if (this.arrayDocuments.length === 5) {
+      this.utils.presentToast("Solo se pueden agregar 5 documentos");
+      return
+    }
+
+    let reader = new FileReader();
+    reader.onload = (e:any) => {
+
+      let img = {
+        image: e.target.result,
+        name: file[0].name
+      }
+      this.addNewImgDocs(img);
+    }
+    reader.readAsDataURL(file[0]);
+  }
+
+  public fileSelect2(file:FileList){
+    let reader = new FileReader();
+    reader.onload = (e:any) => {
+      let img = {
+        image: e.target.result,
+        name: file[0].name
+      }
+      this.editImgDocs(img);
+      // this.arrayDocuments[this.aux].image = e.target.result;
+      // this.arrayDocuments[this.aux].name = file[0].name;
+    }
+    reader.readAsDataURL(file[0]);
+  }
+
+  public transform(url:any){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);}
+
 }
