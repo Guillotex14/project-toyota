@@ -2533,8 +2533,9 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       jsonRes.message = "";
       jsonRes.status = true;
     } catch (error: any) {
+      console.log(error);
       jsonRes.code = 400;
-      jsonRes.message = "error de dependecia";
+      jsonRes.message = "error de dependencia";
       jsonRes.status = false;
     }
 
