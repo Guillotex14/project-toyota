@@ -27,6 +27,9 @@ import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
 
+
+import puppeteer from 'puppeteer';
+ 
 const vehicleController: any = {};
 
 vehicleController.addVehicle = async (req: Request, res: Response) => {
@@ -2397,7 +2400,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
 
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
-  const data = req.query;
+  const data:any = req.query;
   const token: any = req.header("Authorization");//....sadas
   let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
   if (decode == false) {
@@ -2412,8 +2415,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
   const infoVehicle: any = await vehicles.findOne({ _id: data.id });
 
+  const imgsVehichle = await ImgVehicle.find({ id_vehicle: data.id });
 
   if (infoVehicle) {
+
     const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: infoVehicle._id });
     let data: any = {
       _id: infoVehicle._id,
@@ -2447,10 +2452,12 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       vin: infoVehicle.vin,
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
+      
       concesionary_maintenance: infoVehicle.concesionary_maintenance,
       general_condition: mechanicalFile
         ? mechanicalFile.general_condition
         : "",
+        images: imgsVehichle ? imgsVehichle : [],
       imgs_documentation: infoVehicle.imgs_documentation
         ? infoVehicle.imgs_documentation
         : [],
@@ -2501,38 +2508,33 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-  
- // var pdf = require("pdf-creator-node");
-      var html = fs.readFileSync("./src/views/template.html", "utf8");
-      var options:any = {
-        format: "Letter",
-        orientation: "landscape",
-      };
+      
+      const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
+      const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  // Navigate the page to a URL
+  await page.goto('https://developer.chrome.com/');
+  await page.setContent(html);
+  const pdfBuffer = await page.pdf({ 
+    format: 'Letter',
+    printBackground: true,
+    landscape: true
+  });
 
-      var document:any = {
-        html: html,
-        data: sendData,
-        // path: "./output.pdf",
-        type: "buffer",
-      };
+  await browser.close();
+  const fileBuffer: Buffer = pdfBuffer;
+  const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
-      let base64: any;
-
-      // base64 = await pdf.create(document, options);
-      const fileBuffer: Buffer = base64;
-      const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-
-      const fileName = await uploadPdf(base64Data);
-      // jsonRes.data = base64Data;
+  const fileName = await uploadPdf(base64Data);
+      // jsonRes.data=base64Data;
       jsonRes.data = fileName.secure_url;
-
-      jsonRes.code = 200;
-      jsonRes.message = "success";
-      jsonRes.status = true;
-
-
-    } catch (error) {
-      return error;
+    jsonRes.code = 200;
+    jsonRes.message = "";
+    jsonRes.status = true;
+    } catch (error:any) {
+      jsonRes.code = 400;
+    jsonRes.message = error;
+    jsonRes.status = false;
     }
 
 

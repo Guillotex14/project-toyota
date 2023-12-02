@@ -49,14 +49,15 @@ const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"))
 const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const fs_1 = __importDefault(require("fs"));
+const ejs_1 = __importDefault(require("ejs"));
 const axios_1 = __importDefault(require("axios"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
-const pdf = __importStar(require("html-pdf"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const templates_mails_1 = require("../templates/mails/templates.mails");
 const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
+const puppeteer_1 = __importDefault(require("puppeteer"));
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -2040,6 +2041,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.json(jsonRes);
     }
     const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
+    const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: data.id });
     if (infoVehicle) {
         const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: infoVehicle._id });
         let data = {
@@ -2078,6 +2080,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             general_condition: mechanicalFile
                 ? mechanicalFile.general_condition
                 : "",
+            images: imgsVehichle ? imgsVehichle : [],
             imgs_documentation: infoVehicle.imgs_documentation
                 ? infoVehicle.imgs_documentation
                 : [],
@@ -2124,34 +2127,31 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             sendData.general_condition_end = `malo`;
         }
         try {
-            const phantomPath = require('phantomjs-prebuilt').path;
-            const html = '<p>Este es un PDF de prueba generado a partir de HTML.</p>';
-            const options = { phantomPath };
-            // var pdf = require("pdf-creator-node");
-            // var html = fs.readFileSync("./src/views/template.html", "utf8");
-            // var options:any = {
-            //   format: "Letter",
-            //   orientation: "landscape",
-            // };
-            var document = {
-                html: html,
-                data: sendData,
-                // path: "./output.pdf",
-                type: "buffer",
-            };
-            let base64;
-            base64 = yield pdf.create(document, options);
-            const fileBuffer = base64;
+            const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
+            const browser = yield puppeteer_1.default.launch();
+            const page = yield browser.newPage();
+            // Navigate the page to a URL
+            yield page.goto('https://developer.chrome.com/');
+            yield page.setContent(html);
+            const pdfBuffer = yield page.pdf({
+                format: 'Letter',
+                printBackground: true,
+                landscape: true
+            });
+            yield browser.close();
+            const fileBuffer = pdfBuffer;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
             const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            // jsonRes.data = base64Data;
+            // jsonRes.data=base64Data;
             jsonRes.data = fileName.secure_url;
             jsonRes.code = 200;
-            jsonRes.message = "success";
-            jsonRes.status = true;
+            jsonRes.message = "";
+            jsonRes.status = false;
         }
         catch (error) {
-            return error;
+            jsonRes.code = 400;
+            jsonRes.message = error;
+            jsonRes.status = false;
         }
     }
     else {
