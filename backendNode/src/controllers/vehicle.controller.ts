@@ -22,6 +22,7 @@ import {
   uploadPdf,
 } from "../../cloudinaryMetods";
 import * as global from "../global";
+import * as pdf from 'html-pdf';
 import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
@@ -2501,15 +2502,15 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-      var pdf = require('html-pdf');
+  
  // var pdf = require("pdf-creator-node");
       var html = fs.readFileSync("./src/views/template.html", "utf8");
-      var options = {
+      var options:any = {
         format: "Letter",
         orientation: "landscape",
       };
 
-      var document = {
+      var document:any = {
         html: html,
         data: sendData,
         // path: "./output.pdf",
