@@ -2506,12 +2506,12 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       sendData.general_condition_end = `malo`;
     }
 
+    try {
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
       const browser = await puppeteer.launch({
         headless: 'new'
       });
-      
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
 
@@ -2526,13 +2526,17 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const fileBuffer: Buffer = pdfBuffer;
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
-      const fileName:any = await uploadPdf(base64Data);
+      const fileName = await uploadPdf(base64Data);
       // jsonRes.data=base64Data;//
       jsonRes.data = fileName.secure_url;
       jsonRes.code = 200;
       jsonRes.message = "";
       jsonRes.status = true;
- 
+    } catch (error: any) {
+      jsonRes.code = 400;
+      jsonRes.message = "error de dependecia";
+      jsonRes.status = false;
+    }
 
 
   } else {
