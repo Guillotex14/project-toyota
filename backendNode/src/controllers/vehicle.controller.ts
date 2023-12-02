@@ -2512,6 +2512,17 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const browser = await puppeteer.launch({ headless: 'new' });
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
+      // Set screen size
+  await page.setViewport({width: 1080, height: 1024});
+
+  // Type into search box
+  await page.type('.search-box__input', 'automate beyond recorder');
+
+  // Wait and click on first result
+  const searchResultSelector = '.search-box__link';
+  await page.waitForSelector(searchResultSelector);
+  await page.click(searchResultSelector);
+
       await page.setContent(html);
       const pdfBuffer = await page.pdf({
         format: 'Letter',
