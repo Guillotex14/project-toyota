@@ -2502,13 +2502,17 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-  
+      const phantomPath = require('phantomjs-prebuilt').path;
+
+      const html = '<p>Este es un PDF de prueba generado a partir de HTML.</p>';
+      const options = { phantomPath };
+      
  // var pdf = require("pdf-creator-node");
-      var html = fs.readFileSync("./src/views/template.html", "utf8");
-      var options:any = {
-        format: "Letter",
-        orientation: "landscape",
-      };
+      // var html = fs.readFileSync("./src/views/template.html", "utf8");
+      // var options:any = {
+      //   format: "Letter",
+      //   orientation: "landscape",
+      // };
 
       var document:any = {
         html: html,
