@@ -2089,7 +2089,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             img64 = yield getImageAsBase64(data.images[0].img);
         }
         let now = new Date();
-        const fileName = now.getTime() + ".pdf";
+        // const fileName = now.getTime() + ".pdf";
         let sendData = {
             model: data.model,
             brand: data.brand,
@@ -2125,37 +2125,29 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
             sendData.general_condition_end = `malo`;
         }
-        console.log(sendData);
-        try {
-            const puppeteer = require('puppeteer');
-            const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
-            const browser = yield puppeteer.launch({
-                headless: 'new'
-            });
-            const page = yield browser.newPage();
-            yield page.goto('https://developer.chrome.com/');
-            yield page.setContent(html);
-            const pdfBuffer = yield page.pdf({
-                format: 'Letter',
-                printBackground: true,
-                landscape: true
-            });
-            //
-            yield browser.close();
-            const fileBuffer = pdfBuffer;
-            const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            // jsonRes.data=base64Data;//
-            jsonRes.data = fileName.secure_url;
-            jsonRes.code = 200;
-            jsonRes.message = "";
-            jsonRes.status = true;
-        }
-        catch (error) {
-            jsonRes.code = 400;
-            jsonRes.message = error;
-            jsonRes.status = false;
-        }
+        const puppeteer = require('puppeteer');
+        const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
+        const browser = yield puppeteer.launch({
+            headless: 'new'
+        });
+        const page = yield browser.newPage();
+        yield page.goto('https://developer.chrome.com/');
+        yield page.setContent(html);
+        const pdfBuffer = yield page.pdf({
+            format: 'Letter',
+            printBackground: true,
+            landscape: true
+        });
+        //
+        yield browser.close();
+        const fileBuffer = pdfBuffer;
+        const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
+        // jsonRes.data=base64Data;//
+        jsonRes.data = fileName.secure_url;
+        jsonRes.code = 200;
+        jsonRes.message = "";
+        jsonRes.status = true;
     }
     else {
         jsonRes.code = 400;
