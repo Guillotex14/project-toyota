@@ -22,7 +22,6 @@ import {
   uploadPdf,
 } from "../../cloudinaryMetods";
 import * as global from "../global";
-import * as pdf from 'html-pdf';
 import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
@@ -2502,28 +2501,24 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     }
 
     try {
-      const phantomPath = require('phantomjs-prebuilt').path;
-
-      const html = '<p>Este es un PDF de prueba generado a partir de HTML.</p>';
-      const options = { phantomPath };
-      
+  
  // var pdf = require("pdf-creator-node");
-      // var html = fs.readFileSync("./src/views/template.html", "utf8");
-      // var options:any = {
-      //   format: "Letter",
-      //   orientation: "landscape",
-      // };
+      var html = fs.readFileSync("./src/views/template.html", "utf8");
+      var options:any = {
+        format: "Letter",
+        orientation: "landscape",
+      };
 
       var document:any = {
         html: html,
         data: sendData,
         // path: "./output.pdf",
-        type: "buffer", //dsdsas
+        type: "buffer",
       };
 
       let base64: any;
 
-      base64 = await pdf.create(document, options);
+      // base64 = await pdf.create(document, options);
       const fileBuffer: Buffer = base64;
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
