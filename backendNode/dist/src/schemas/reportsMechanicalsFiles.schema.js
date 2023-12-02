@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const reportsmechanicalsfilesSchema = new mongoose_1.Schema({
-    campos: {
+    campos_actualizados: {
         type: Object
     },
     type: String,
@@ -12,6 +12,9 @@ const reportsmechanicalsfilesSchema = new mongoose_1.Schema({
     },
     id_user: {
         type: mongoose_1.Schema.Types.ObjectId
+    },
+    campos_anteriores: {
+        type: Object
     },
     date: String
 });

@@ -14,7 +14,6 @@ import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
 import fs from 'fs';
 import ejs from 'ejs';
-import puppeteer from 'puppeteer';
 import axios from 'axios';
 import {
   deleteImageVehicle,
@@ -2542,41 +2541,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
   res.json(jsonRes);
 };
 
-const generate_Pdf = async (data: any, pdfName: any) => {
 
-  const filePath = "./public/dataSheetPdf/" + pdfName;
-  // crearCarpetaSiNoExiste('./public/dataSheetPdf');
-
-  // const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
-
-  try {
-    const html: any = await ejs.renderFile('./src/views/template.ejs', data);
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(html);
-
-    const newpdf = await page.pdf({
-      // path: filePath,
-      format: 'Letter',
-      printBackground: true,
-      landscape: true
-    });
-
-    await browser.close();
-
-    // const base64Pdf = await generateBase64(filePath);
-
-    const bs64 = newpdf.toString('base64');
-
-    const fileName = await uploadPdf(`data:application/pdf;base64,${bs64}`);
-
-    return {
-      url: fileName.secure_url
-    };
-  } catch (error) {
-    return error;
-  }
-};
 
 vehicleController.inspections = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
