@@ -2125,10 +2125,13 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
             sendData.general_condition_end = `malo`;
         }
+        console.log(sendData);
         try {
             const puppeteer = require('puppeteer');
             const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
-            const browser = yield puppeteer.launch({ headless: 'new' });
+            const browser = yield puppeteer.launch({
+                headless: 'new'
+            });
             const page = yield browser.newPage();
             yield page.goto('https://developer.chrome.com/');
             yield page.setContent(html);
@@ -2137,7 +2140,6 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
                 printBackground: true,
                 landscape: true
             });
-            console.log(pdfBuffer);
             //
             yield browser.close();
             const fileBuffer = pdfBuffer;

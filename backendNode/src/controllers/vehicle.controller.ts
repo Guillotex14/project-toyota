@@ -2505,23 +2505,17 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     } else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
       sendData.general_condition_end = `malo`;
     }
+      console.log(sendData);
 
     try {
+
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
-      const browser = await puppeteer.launch({ headless: 'new' });
+      const browser = await puppeteer.launch({
+        headless: 'new'
+      });
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
-      // Set screen size
-  await page.setViewport({width: 1080, height: 1024});
-
-  // Type into search box
-  await page.type('.search-box__input', 'automate beyond recorder');
-
-  // Wait and click on first result
-  const searchResultSelector = '.search-box__link';
-  await page.waitForSelector(searchResultSelector);
-  await page.click(searchResultSelector);
 
       await page.setContent(html);
       const pdfBuffer = await page.pdf({
@@ -2529,7 +2523,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
         printBackground: true,
         landscape: true
       });
-      console.log(pdfBuffer);
       //
       await browser.close();
       const fileBuffer: Buffer = pdfBuffer;
