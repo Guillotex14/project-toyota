@@ -128,7 +128,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
       }
     }
   }
-  // ...
+  // ...................
 
   if (imgs_documents) {
     if (imgs_documents.length > 0) {
