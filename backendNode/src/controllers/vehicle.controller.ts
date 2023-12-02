@@ -2413,7 +2413,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 
   if (infoVehicle) {
-    const imgsVehichle: any = await ImgVehicle.find({ id_vehicle: infoVehicle._id });
     const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: infoVehicle._id });
     let data: any = {
       _id: infoVehicle._id,
@@ -2451,7 +2450,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       general_condition: mechanicalFile
         ? mechanicalFile.general_condition
         : "",
-      images: imgsVehichle ? imgsVehichle : [],
       imgs_documentation: infoVehicle.imgs_documentation
         ? infoVehicle.imgs_documentation
         : [],

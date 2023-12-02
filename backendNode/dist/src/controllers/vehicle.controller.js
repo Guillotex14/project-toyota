@@ -49,8 +49,6 @@ const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"))
 const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const fs_1 = __importDefault(require("fs"));
-const ejs_1 = __importDefault(require("ejs"));
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const axios_1 = __importDefault(require("axios"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const global = __importStar(require("../global"));
@@ -123,6 +121,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         }
     }
+    // ...................
     if (imgs_documents) {
         if (imgs_documents.length > 0) {
             for (let i = 0; i < imgs_documents.length; i++) {
@@ -2159,33 +2158,6 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         jsonRes.status = false;
     }
     res.json(jsonRes);
-});
-const generate_Pdf = (data, pdfName) => __awaiter(void 0, void 0, void 0, function* () {
-    const filePath = "./public/dataSheetPdf/" + pdfName;
-    // crearCarpetaSiNoExiste('./public/dataSheetPdf');
-    // const uploadUrl = global.urlBase + "public/dataSheetPdf/" + pdfName;
-    try {
-        const html = yield ejs_1.default.renderFile('./src/views/template.ejs', data);
-        const browser = yield puppeteer_1.default.launch();
-        const page = yield browser.newPage();
-        yield page.setContent(html);
-        const newpdf = yield page.pdf({
-            // path: filePath,
-            format: 'Letter',
-            printBackground: true,
-            landscape: true
-        });
-        yield browser.close();
-        // const base64Pdf = await generateBase64(filePath);
-        const bs64 = newpdf.toString('base64');
-        const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(`data:application/pdf;base64,${bs64}`);
-        return {
-            url: fileName.secure_url
-        };
-    }
-    catch (error) {
-        return error;
-    }
 });
 vehicleController.inspections = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
