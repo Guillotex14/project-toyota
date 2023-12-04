@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CarDetailAdminPageRoutingModule } from './car-detail-admin-routing.module';
 
 import { CarDetailAdminPage } from './car-detail-admin.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CarDetailAdminPageRoutingModule
+    CarDetailAdminPageRoutingModule,
+    ComponentModule
   ],
   declarations: [CarDetailAdminPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

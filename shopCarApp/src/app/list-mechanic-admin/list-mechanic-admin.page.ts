@@ -20,6 +20,8 @@ export class ListMechanicAdminPage implements OnInit {
     lim: 10
   }
 
+  loading: boolean = true;
+
   constructor(private utils: UtilsService, private adminSrv: AdminService, private menu: MenuController, private router:Router, private alertCtrl: AlertController) {
     this.utils.presentLoading("Cargando Técnicos");
   }
@@ -46,6 +48,7 @@ export class ListMechanicAdminPage implements OnInit {
     console.log(this.data.pos)
     this.adminSrv.allMechanics(this.data).subscribe((resp:any)=>{
       if (resp.status) {
+        this.loading = false;
         this.utils.dismissLoading();
         this.mechanicList = resp.data.rows;
       }else{

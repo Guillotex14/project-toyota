@@ -32,9 +32,9 @@
     
   .cardVehicles{
     background-repeat: no-repeat;
-    background-position: right;
-    background-size: 35px 235px;
-    background-position-x: 107%;
+    background-position: center;
+    background-size: 35px 100%;
+    background-position-x: 100%;
     background-color: #F9F9F9 !important;
     color: #1c1c1d !important;
     box-shadow: none !important;
@@ -45,11 +45,12 @@
       margin: 18px 0px 0px 0px !important;
       img{
         width: 95% !important;
+        color: #00A651
       }
     }
   
     p{
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
     }
     span{
@@ -90,6 +91,10 @@
     }
   }
   
+  app-skeleton{
+    width: 100% !important;
+    height: 100% !important;
+  }
   
   ion-item::part(native){
     color: #fff !important;

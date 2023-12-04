@@ -23,7 +23,7 @@ export class EditMechanicAdminPage implements OnInit {
   arrayCities: any[] = states;
   arrayConcesionaries: any[] = concesionaries;
   auxConces: any[] = concesionaries;
-
+  loading: boolean = true;
   constructor(private utils: UtilsService, private adminSrv: AdminService, private router: Router, private actRoute: ActivatedRoute, private menu: MenuController, private alertCtrl: AlertController) {
     this.id.id_user = this.actRoute.snapshot.params['id'];
     this.getMechanicById();
@@ -54,6 +54,7 @@ export class EditMechanicAdminPage implements OnInit {
     this.utils.presentLoading("Cargando Técnico");
     this.adminSrv.getMechanicById(this.id).subscribe((resp:any)=>{
       if (resp.status) {
+        this.loading = false;
         this.utils.dismissLoading();
         this.utils.presentToast("Técnico encontrado");
         this.mechanic = resp.data.mechanic;

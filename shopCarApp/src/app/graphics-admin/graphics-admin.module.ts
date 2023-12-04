@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { GraphicsAdminPageRoutingModule } from './graphics-admin-routing.module';
 import { GraphicsAdminPage } from './graphics-admin.page';
+import { ComponentModule } from '../component/component.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { GraphicsAdminPage } from './graphics-admin.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    GraphicsAdminPageRoutingModule
+    GraphicsAdminPageRoutingModule,
+    ComponentModule
   ],
   declarations: [GraphicsAdminPage]
 })

@@ -21,7 +21,7 @@ export class CarDetailMechanicPage implements OnInit {
   theRoute: string = "";
   urlImg: string = global.urlImgvehicles;
   carDetail: CarDetailMechanic = new CarDetailMechanic();
-
+  loading: boolean = true;
   constructor(private router:Router, private utils:UtilsService, private menu: MenuController, private mechanicSrv: MechanicService, private actRouter: ActivatedRoute) {
 
     this.id_vehicle.id = this.actRouter.snapshot.params['id'];
@@ -88,6 +88,7 @@ export class CarDetailMechanicPage implements OnInit {
     this.mechanicSrv.getVehicleById(this.id_vehicle).subscribe(
       (res: any) => {
         if(res.status){
+          this.loading = false;
           this.carDetail = res.data
           this.utils.dismissLoading();
         }else{

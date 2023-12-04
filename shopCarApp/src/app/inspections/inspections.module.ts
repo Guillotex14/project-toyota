@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { InspectionsPageRoutingModule } from './inspections-routing.module';
 
 import { InspectionsPage } from './inspections.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InspectionsPageRoutingModule
+    InspectionsPageRoutingModule,
+    ComponentModule
   ],
   declarations: [InspectionsPage]
 })

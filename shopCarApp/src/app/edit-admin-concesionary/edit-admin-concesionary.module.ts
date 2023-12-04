@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EditAdminConcesionaryPageRoutingModule } from './edit-admin-concesionary-routing.module';
 
 import { EditAdminConcesionaryPage } from './edit-admin-concesionary.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditAdminConcesionaryPageRoutingModule
+    EditAdminConcesionaryPageRoutingModule,
+    ComponentModule
   ],
   declarations: [EditAdminConcesionaryPage]
 })

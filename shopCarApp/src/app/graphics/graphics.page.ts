@@ -53,6 +53,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayListCars: any[] = [];
   dataGraphy: any = {};
   
+  loading: boolean = true;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterVehicleSeller') modalVehicle!: IonModal;
   @ViewChild('ModalFilterGraphicSeller') modalFilter!: IonModal;
@@ -90,6 +91,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   public getBrands(){
     this.sellerSrv.allBrands().subscribe((res:any)=>{
       if (res.status) {
+        this.loading = false;
         this.arrayBrands = res.data;
       }
     } , (err:any)=>{
@@ -100,6 +102,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   public getModels(){
     this.sellerSrv.allModels().subscribe((res:any)=>{
       if (res.status) {
+        this.loading = false;
         this.arrayModels = res.data;
       }
     } , (err:any)=>{
@@ -138,6 +141,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.utils.presentLoading('Cargando datos');
     this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
         if (res.status) {
+          this.loading = false;
           this.utils.dismissLoading();
           this.arrayLabels = res.data.labels;
           this.arrayData = res.data.datasets[0];
@@ -193,7 +197,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     }
     this.sellerSrv.getListCars(data).subscribe((res:any)=>{
       if (res.status) {
-
+        this.loading = false
         this.arrayListCars = res.data.grupocard;
         // this.dateTo = ""
         // this.dateFrom = ""

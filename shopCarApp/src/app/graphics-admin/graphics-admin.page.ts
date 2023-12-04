@@ -62,6 +62,7 @@ export class GraphicsAdminPage implements AfterViewInit {
 
   typeUser: string = 'admin';
 
+  loading: boolean = true;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterGraphicAdmin') modalFilter!: IonModal;
   @ViewChild('ModalFilterVehicleAdmin') modalVehicle!: IonModal;
@@ -104,6 +105,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   public getBrands() {
     this.adminSrv.allBrands().subscribe((res: any) => {
       if (res.status) {
+        this.loading = false;
         this.arrayBrands = res.data;
       } else {
         this.utils.presentToast(res.message);
@@ -117,6 +119,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.adminSrv.allModels().subscribe(
       (res: any) => {
         if (res.status) {
+          this.loading = false;
           this.arrayModels = res.data;
         }
       },
@@ -166,6 +169,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.utils.presentLoading("Cargando datos...",500);
     this.sellerSrv.getGrafic(data).subscribe((res: any) => {
       if (res.status) {
+        this.loading = false;
         this.utils.dismissLoading();
         this.arrayLabels = res.data.labels;
         this.arrayData = res.data.datasets[0];
@@ -222,7 +226,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     }
     this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
-
+        this.loading = false;
         this.arrayListCars = res.data.grupocard;
         // this.dateTo="";
         // this.dateFrom="";

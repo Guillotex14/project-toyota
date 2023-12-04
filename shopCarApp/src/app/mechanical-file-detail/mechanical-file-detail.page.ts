@@ -18,6 +18,7 @@ export class MechanicalFileDetailPage implements OnInit {
   backToTop: boolean = false;
   id: string = "";
   theRoute: string = "";
+  loading: boolean = true;
   mechanicalFile: CarDetailMechanicalFile = new CarDetailMechanicalFile(); 
   @ViewChild(IonContent) content!: IonContent;
 
@@ -114,6 +115,7 @@ export class MechanicalFileDetailPage implements OnInit {
     this.sellerSrv.mechanicFile(data).subscribe((data:any) => {
 
       if(data.status){
+        this.loading = false;
         this.mechanicalFile = data.data;
         this.utils.dismissLoading();
 

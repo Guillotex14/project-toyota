@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MechanicalFileDetailMechanicPageRoutingModule } from './mechanical-file-detail-mechanic-routing.module';
 
 import { MechanicalFileDetailMechanicPage } from './mechanical-file-detail-mechanic.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MechanicalFileDetailMechanicPageRoutingModule
+    MechanicalFileDetailMechanicPageRoutingModule,
+    ComponentModule
   ],
   declarations: [MechanicalFileDetailMechanicPage]
 })

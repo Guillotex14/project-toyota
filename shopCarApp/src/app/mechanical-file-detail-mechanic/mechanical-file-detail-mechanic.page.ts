@@ -20,6 +20,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   id: string = "";
   me :any = null
   theRoute: string = "";
+  loading: boolean = true;
   mechanicalFileDetail: MechanicalFileDetail = new MechanicalFileDetail();
   @ViewChild(IonContent) content!: IonContent;
 
@@ -118,6 +119,7 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     this.utils.presentLoading("Cargando ficha...");
     this.mechanicSrv.getMechanicalFile(data).subscribe((res:any)=>{
       if (res.status) {
+        this.loading = false;
         this.mechanicalFileDetail = res.data;
         console.log(this.mechanicalFileDetail.vehicle.price_ofert)
         this.utils.dismissLoading();

@@ -83,6 +83,7 @@ export class AddMechanicFilePage implements OnInit {
     this.newMechanicalFile.pipes_hoses_connections = "";
     this.newMechanicalFile.brake_discs = "";
     this.newMechanicalFile.general_condition = 0;
+    this.newMechanicalFile.dealer_maintenance = "";
     this.newMechanicalFile.id_vehicle = this.id_vehicle;
   }
 
@@ -351,6 +352,11 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
 
+    if(this.newMechanicalFile.dealer_maintenance === "" || this.newMechanicalFile.dealer_maintenance === undefined){
+      this.utils.presentToast("El campo Discos de frenos es requerido")
+      return;
+    }
+
     this.disabledSave = true;
     this.utils.presentToast("Creando ficha mecánica")
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {
@@ -406,6 +412,7 @@ export class AddMechanicFilePage implements OnInit {
         this.newMechanicalFile.fuel_tank_cover = "";
         this.newMechanicalFile.pipes_hoses_connections = "";
         this.newMechanicalFile.brake_discs = "";
+        this.newMechanicalFile.dealer_maintenance = "";
       }else{
         this.utils.dismissLoading()
         this.utils.presentToast("Ha ocurrido un error al crear la ficha mecánica")

@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Browser } from '@capacitor/browser';
 import { PrivacyScreen } from '@capacitor-community/privacy-screen';
 import { Share } from '@capacitor/share';
 import { UtilsService } from '../services/utils/utils.service';
@@ -9,6 +10,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
 import { AuthService } from '../services/auth/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
+
 
 const enable = async () => {
   await PrivacyScreen.enable();
@@ -72,7 +74,7 @@ export class CarDetailPage implements OnInit {
   emptyPrice: boolean = false;
 
   openPop: boolean = false;
-
+  loading: boolean = true;
   @ViewChild('actionSheetEdit') actionSheetEdit!: IonActionSheet;
   @ViewChild('actionSheet') actionSheet!: IonActionSheet;
   @ViewChild('ActionSheetDocs') ActionSheetDocs!: IonActionSheet;
@@ -176,6 +178,7 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.vehicleById(data).subscribe((data:any) => {
 
       if(data.status){
+        this.loading = false;
         this.carDetail = data.data;
         this.km = JSON.stringify(this.setDot(this.carDetail.km));
         this.km = this.km.replace('"','');
@@ -1095,7 +1098,7 @@ export class CarDetailPage implements OnInit {
     reader.readAsDataURL(file[0]);
   }
 
-  public transform(url:any){
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);}
-
+  public async openPdf(url:any){
+    await Browser.open({url: url});
+  }
 }

@@ -7,13 +7,15 @@ import { IonicModule, } from '@ionic/angular';
 import { ComparisonPageRoutingModule } from './comparison-routing.module';
 
 import { ComparisonPage } from './comparison.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComparisonPageRoutingModule
+    ComparisonPageRoutingModule,
+    ComponentModule
   ],
   declarations: [ComparisonPage],
   schemas: [

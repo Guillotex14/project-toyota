@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ListMechanicAdminPageRoutingModule } from './list-mechanic-admin-routing.module';
 
 import { ListMechanicAdminPage } from './list-mechanic-admin.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListMechanicAdminPageRoutingModule
+    ListMechanicAdminPageRoutingModule,
+    ComponentModule
   ],
   declarations: [ListMechanicAdminPage]
 })

@@ -7,11 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { HomeSellerPageRoutingModule } from './home-seller-routing.module';
 
 import { HomeSellerPage } from './home-seller.page';
-import { KmModalFilterComponent } from '../components/km-modal-filter/km-modal-filter.component';
-import { ModelsModalFilterComponent } from '../components/models-modal-filter/models-modal-filter.component';
-import { PriceModalFilterComponent } from '../components/price-modal-filter/price-modal-filter.component';
-import { UbicationModalFilterComponent } from '../components/ubication-modal-filter/ubication-modal-filter.component';
-import { YearsModalFilterComponent } from '../components/years-modal-filter/years-modal-filter.component';
+import { ComponentModule } from '../component/component.module';
+
 
 
 @NgModule({
@@ -19,8 +16,9 @@ import { YearsModalFilterComponent } from '../components/years-modal-filter/year
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeSellerPageRoutingModule
+    HomeSellerPageRoutingModule,
+    ComponentModule
   ],
-  declarations: [HomeSellerPage, YearsModalFilterComponent, KmModalFilterComponent, ModelsModalFilterComponent, PriceModalFilterComponent, UbicationModalFilterComponent]
+  declarations: [HomeSellerPage]
 })
 export class HomeSellerPageModule {}

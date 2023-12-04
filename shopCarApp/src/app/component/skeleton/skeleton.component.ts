@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'tyt-skeleton',
+  selector: 'app-skeleton',
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
 })

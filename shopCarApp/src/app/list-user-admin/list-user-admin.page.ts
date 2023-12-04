@@ -25,6 +25,7 @@ export class ListUserAdminPage implements OnInit {
     lim: 10
   }
   
+  loading: boolean = true;
 
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) {
     
@@ -52,6 +53,7 @@ export class ListUserAdminPage implements OnInit {
 
     this.adminSrv.allSellers(this.dataSearch).subscribe((resp:any) => {
       if (resp.status) {
+        this.loading = false;
         this.arraySellers = resp.data.rows;
         this.countPage = resp.data.pages;
         this.totalData = resp.data.count;

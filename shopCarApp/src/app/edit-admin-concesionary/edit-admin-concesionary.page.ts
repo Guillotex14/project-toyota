@@ -21,6 +21,7 @@ export class EditAdminConcesionaryPage implements OnInit {
   typeInputConfirm: string = "password";
   password: string = "";
   password_confirm: string = "";
+  loading: boolean = true;
 
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private actRoute: ActivatedRoute, private alertCtrl: AlertController) { 
     this.id = this.actRoute.snapshot.params['id'];
@@ -56,6 +57,7 @@ export class EditAdminConcesionaryPage implements OnInit {
     this.adminSrv.allConcesionaries().subscribe((res: any) => {
       
       if (res.status) {
+        this.loading = false;
         this.arrayConcesionaries = res.data;
         this.auxConces = this.arrayConcesionaries;
       }else{
@@ -70,6 +72,7 @@ export class EditAdminConcesionaryPage implements OnInit {
   public allStates() {
     this.adminSrv.allStates().subscribe((res: any) => {
         if (res.status) {
+          this.loading = false;
           this.arrayCity = res.data;
         }else{
           this.utils.presentToast(res.message);

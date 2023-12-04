@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { GraphicsPageRoutingModule } from './graphics-routing.module';
 
 import { GraphicsPage } from './graphics.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GraphicsPageRoutingModule
+    GraphicsPageRoutingModule,
+    ComponentModule
   ],
   declarations: [GraphicsPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -244,3 +244,32 @@ export class ImagesVehicle{
   public img!: string;
   public public_id!: string;
 }
+
+export class comparisonModel{
+  brand!: string;
+  city!: string;
+  concesionary!: string;
+  displacement!: string;
+  images!: ImagesVehicle[];
+  image!: ImagesVehicle;
+  kmColor!: string;
+  km!: number;
+  model!: string;
+  price!: number;
+  priceColor!: string;
+  firstKm!: boolean;
+  secondKm!: boolean;
+  thirdKm!: boolean;
+  fourthKm!: boolean;
+  iqualKm!: boolean;
+  firstPrice!: boolean;
+  secondPrice!: boolean;
+  thirdPrice!: boolean;
+  fourthPrice!: boolean;
+  iqualPrice!: boolean;
+  titles!: string;
+  year!: string;
+  general_condition!: any
+}
+
+

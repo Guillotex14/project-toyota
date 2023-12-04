@@ -585,6 +585,26 @@
       </ion-col>
 
       <ion-col size="12">
+        <ion-list>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-label>
+                ¿ Se realizaron reparaciones en el taller/concesionario luego de su ingreso. ?
+              </ion-label>
+            </ion-item-divider>
+
+            <ion-list>
+              <ion-radio-group [(ngModel)]="newMechanicalFile.dealer_maintenance">
+                <ion-radio value="si" labelPlacement="end" class="radioSmall">Si</ion-radio>
+                <ion-radio value="no" labelPlacement="end" class="radioSmall">No</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+          </ion-item-group>
+        </ion-list>
+      </ion-col>
+
+      <ion-col size="12">
         <ion-button expand="block" shape="round" class="btnSaveRed" (click)="saveMechanicalFile()" style="margin: auto 6px !important;" [disabled]="disabledSave">
           Cargar
         </ion-button>

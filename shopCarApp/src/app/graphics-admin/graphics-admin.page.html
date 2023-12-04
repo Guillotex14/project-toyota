@@ -15,12 +15,12 @@
             </ion-col>
           </ion-row>
       </ion-col>
-
-      <ion-col size="12" style="text-align: left; margin: 10px auto !important;">
+      <app-skeleton *ngIf="loading"></app-skeleton>
+      <ion-col size="12" style="text-align: left; margin: 10px auto !important;" *ngIf="!loading">
         <ion-title class="titlePage">Gráfica de ventas</ion-title>
       </ion-col>
 
-      <ion-col size="12">
+      <ion-col size="12" *ngIf="!loading">
         <ion-breadcrumbs>
           <ion-breadcrumb *ngIf="brand_breadcrumb !==''">
             {{brand_breadcrumb === '' ? 'Todas las marcas' : brand_breadcrumb}}
@@ -50,7 +50,7 @@
         </ion-breadcrumbs>
       </ion-col>
 
-      <ion-col size="12">
+      <ion-col size="12" *ngIf="!loading">
         <ion-card class="cardChart">
           <ion-card-content >
             <canvas #lineCanvas style="position: relative; height:20vh!important; width:40vw!important"></canvas>
@@ -58,13 +58,13 @@
         </ion-card>
       </ion-col>
       
-      <ion-col size="12">
+      <ion-col size="12" *ngIf="!loading">
         <ion-button expand="block" shape="round" class="btnRed" (click)="openModal()" style="width: 90% !important; margin: auto !important;text-transform: capitalize;">
           filtro de gráfica
         </ion-button>
       </ion-col>
 
-      <ion-col size="12" style="margin-top: 20px !important;">
+      <ion-col size="12" style="margin-top: 20px !important;" *ngIf="!loading">
         <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
               
           <ion-accordion value="year">
@@ -113,10 +113,10 @@
         </ion-accordion-group>
       </ion-col>
 
-      <ion-col size="12" style="border-bottom: 1px solid black !important;margin-top: 20px !important;">
+      <ion-col size="12" style="border-bottom: 1px solid black !important;margin-top: 20px !important;" *ngIf="!loading">
       </ion-col>
 
-      <ion-col size="12" style="text-align: left; margin: 30px auto auto auto !important;">
+      <ion-col size="12" style="text-align: left; margin: 30px auto auto auto !important;" *ngIf="!loading">
         <ion-title class="titlePage">
           Lista de vehículos <br>
           <span style="font-size: 14px;"> 
@@ -125,7 +125,7 @@
         </ion-title>
       </ion-col>
 
-      <ion-list-header class="headerList">
+      <ion-list-header class="headerList" *ngIf="!loading">
         <ion-col sizeXl="4" sizeLg="4" sizeMd="5" sizeSm="5" sizeXs="5">
           <ion-button (click)="exportExcel()" expand="block" shape="round" class="btnRed" style="text-transform: capitalize;" >Exportar</ion-button>
         </ion-col>
@@ -136,7 +136,7 @@
         </ion-col>
         <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
       </ion-list-header>
-      <ion-col size="12" style="margin-top: 20px !important;">
+      <ion-col size="12" style="margin-top: 20px !important;" *ngIf="!loading">
         <ion-list *ngFor="let modelCar of arrayListCars">
 
           <ion-item-divider >

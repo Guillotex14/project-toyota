@@ -24,6 +24,7 @@ export class ListAdminConcesionaryPage implements OnInit {
     lim: 10
   }
 
+  loading: boolean = true;
   constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) { }
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class ListAdminConcesionaryPage implements OnInit {
     this.adminSrv.allAdminsConcesionary(this.dataSearch).subscribe((resp:any) => {
       console.log(resp)
       if (resp.status) {
+        this.loading = false;
         this.arrayAdmins = resp.data.rows;
         this.countPage = resp.data.pages;
         this.totalData = resp.data.count;

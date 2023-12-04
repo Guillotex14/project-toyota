@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { HomeAdminPageRoutingModule } from './home-admin-routing.module';
 
 import { HomeAdminPage } from './home-admin.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeAdminPageRoutingModule
+    HomeAdminPageRoutingModule,
+    ComponentModule
   ],
   declarations: [HomeAdminPage]
 })

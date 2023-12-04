@@ -16,6 +16,7 @@
           </ion-row>
         </ion-grid>
       </ion-col>
+
       <ion-col size="12" class="colFilter">
         <ion-row>
 
@@ -36,7 +37,8 @@
 
         </ion-row>
       </ion-col>
-      <ion-col size="12" *ngIf="arrayVehicles.length > 0">
+
+      <ion-col size="12" *ngIf="arrayVehicles.length > 0 && !loading">
         <ion-grid fixed>
           <ion-row>
             <!-- searchbar -->
@@ -79,10 +81,13 @@
           </ion-row>
         </ion-grid>
       </ion-col>
-      <ion-col size="12" *ngIf="arrayVehicles.length === 0" style="text-align: center;">
+
+      <ion-col size="12" *ngIf="arrayVehicles.length === 0 && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
         <p class="titleNoInfo">No se encontraron vehículos</p>
       </ion-col>
+
+      <app-skeleton *ngIf="loading"></app-skeleton>
     </ion-row>
   </ion-grid>
   

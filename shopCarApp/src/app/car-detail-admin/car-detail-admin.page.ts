@@ -18,7 +18,7 @@ export class CarDetailAdminPage implements OnInit {
   urlImg = global.urlImgvehicles;
   theRoute: string = "";
   carDetail: CarDetailSeller = new CarDetailSeller();
-  
+  loading: boolean = true;
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute:ActivatedRoute, private sellerSrv: SellerService, private adminSrv: AdminService) {
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
@@ -53,6 +53,7 @@ export class CarDetailAdminPage implements OnInit {
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getVehicleById(data).subscribe((data:any) => {
       if(data.status){
+        this.loading = false;
         this.carDetail = data.data;
         this.utils.dismissLoading();
       }else{

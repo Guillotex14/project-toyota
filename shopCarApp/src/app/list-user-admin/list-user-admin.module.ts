@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ListUserAdminPageRoutingModule } from './list-user-admin-routing.module';
 
 import { ListUserAdminPage } from './list-user-admin.page';
+import { ComponentModule } from '../component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListUserAdminPageRoutingModule
+    ListUserAdminPageRoutingModule,
+    ComponentModule
   ],
   declarations: [ListUserAdminPage]
 })

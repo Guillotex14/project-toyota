@@ -17,132 +17,8 @@
         </ion-grid>
       </ion-col>
 
+      <app-skeleton *ngIf="loading"></app-skeleton>
 
-
-      <ion-col size="12" *ngIf="loading">
-        <ion-list>
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-      
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-      
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-      
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-      
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-      
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-          
-        </ion-list>
-      </ion-col>
 
       <ion-col size="12" style="text-align: center;" *ngIf="!loading">
         <p class="titlePage">Comparación</p>
@@ -154,10 +30,12 @@
             <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of comparison; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.webp )'">
-                <ion-icon name="image" *ngIf="vehicle.images ==='' || vehicle.image ===''" class="iconCard"></ion-icon>
-                <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images! !=='' && vehicle.images?.length"></ion-img>
+                <ion-icon name="image" *ngIf="vehicle.images?.length === 0" class="iconCard"></ion-icon>
+                <ion-icon name="image" *ngIf="vehicle.image === null" class="iconCard"></ion-icon>
+                <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images?.length"></ion-img>
+                <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image"></ion-img>
                 
-                <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !=='' && vehicle.image"></ion-img>
+                <!-- <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !=='' && vehicle.image"></ion-img> -->
                 <ion-card-content>
                   <p>
                     {{vehicle.model}}
@@ -181,11 +59,11 @@
                     {{vehicle.concesionary}}
                   </p>
                   <p *ngIf="vehicle.general_condition" [style.color]="evaluateStatus(vehicle.general_condition)">
-                    {{vehicle.general_condition < 76 ? 'Malo' : vehicle.general_condition >= 76 && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
+                    {{ vehicle.general_condition && vehicle.general_condition < 76 ? '': vehicle.general_condition < 76 ? 'Malo' : vehicle.general_condition >= 76 && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
                   </p>
-                  <p *ngIf="!vehicle.general_condition" style="color: #EB0A1E;">
+                  <!-- <p *ngIf="!vehicle.general_condition" style="color: #EB0A1E;">
                     Malo
-                  </p>
+                  </p> -->
                 </ion-card-content>
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteComparison(i)">
                   X
@@ -199,19 +77,122 @@
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
-        <ion-col size="12">
-          <ion-label>Kilometraje</ion-label>
-          <ul>
-            <li *ngFor="let vehicle of comparison">
-              <p style="font-size: 13px;">
-                {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}
+        <ion-list>
+          <ion-list-header>
+            Kilometraje
+          </ion-list-header>
+          <ion-item *ngFor="let vehicle of comparison">
+            <p style="font-size: 13px;" *ngIf="vehicle.firstKm">
+              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el mejor que los demás carros comparados.
+            </p>
+            <p *ngIf="vehicle.secondKm" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el segundo mejor que los demás carros comparados.
+            {{vehicle.thirdKm}}
+            </p>
+            <p *ngIf="vehicle.thirdKm" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el tercer mejor que los demás carros comparados.
+            </p>
+            <p *ngIf="vehicle.fourthKm" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el cuarto mejor que los demás carros comparados.
+            </p>
+
+            <p *ngIf="vehicle.iqualKm" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es igual entre los demás carros comparados.
+            </p>
+          </ion-item>
+        </ion-list>
+
+      </ion-col>
+
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+        <ion-list>
+          <ion-list-header>
+            Precio
+          </ion-list-header>
+          <ion-item *ngFor="let vehicle of comparison">
+            <p style="font-size: 13px;" *ngIf="vehicle.firstPrice">
+              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el mejor que los demás carros comparados.
+            </p>
+            <p *ngIf="vehicle.secondPrice" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el segundo mejor que los demás carros comparados.
+            </p>
+            <p *ngIf="vehicle.thirdPrice" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el tercer mejor que los demás carros comparados.
+            </p>
+            <p *ngIf="vehicle.fourthPrice" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el cuarto mejor que los demás carros comparados.
+            </p>
+
+            <p *ngIf="vehicle.iqualPrice" style="font-size: 13px;">
+              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es igual entre los demás carros comparados.
+            </p>
+            
+          </ion-item>
+        </ion-list>
+      </ion-col>
+
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+        <ion-list>
+          <ion-list-header>
+            Titulos
+          </ion-list-header>
+          <ion-item *ngFor="let vehicle of comparison">
+          <p *ngIf="bestTitles(vehicle.titles)===1" style="font-size: 13px;">
+            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el mejor carro a nivel de titulares.
+          </p>
+
+          <p *ngIf="bestTitles(vehicle.titles)===2" style="font-size: 13px;">
+            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el segundo mejor carro a nivel de titulares.
+          </p>
+
+          <p *ngIf="bestTitles(vehicle.titles)===3" style="font-size: 13px;">
+            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el posee mayor nivel de titulares.
+          </p>
+
+          </ion-item>
+        </ion-list>
+      </ion-col>
+
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+        <ion-list>
+          <ion-list-header>
+            Estado del vehículo
+          </ion-list-header>
+
+          <div *ngFor="let vehicle of comparison">
+            <ion-item  *ngIf="vehicle.general_condition">
+              <p *ngIf="vehicle.general_condition < 76" style="font-size: 13px;">
+                Tiene un estado del vehículo en mal estado. Es el peor carro a nivel de estado.
               </p>
-              <!-- <ion-label [style.color]="vehicle.kmColor">
-                {{vehicle.km | number}}kms
-              </ion-label> -->
-            </li>
-          </ul>
-        </ion-col>
+  
+              <p *ngIf="vehicle.general_condition >= 76 && vehicle.general_condition < 86" style="font-size: 13px;">
+                Tiene un estado del vehículo en regular estado. Es el segundo peor carro a nivel de estado.
+              </p>
+  
+              <p *ngIf="vehicle.general_condition >= 86 && vehicle.general_condition < 96" style="font-size: 13px;">
+                Tiene un estado del vehículo en buen estado. Es el segundo mejor carro a nivel de estado.
+              </p>
+  
+              <p *ngIf="vehicle.general_condition < 96" style="font-size: 13px;">
+                Tiene un estado del vehículo en excelente estado. Es el mejor carro a nivel de estado.
+              </p>
+  
+            </ion-item>
+
+            <ion-item *ngIf="!vehicle.general_condition">
+              <p style="font-size: 13px">
+                {{vehicle.model}}:  No se encontró información del estado del vehículo.
+              </p>
+            </ion-item>
+          </div>
+        </ion-list>
+      </ion-col>
+
+      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+        <ion-label>Conclisión</ion-label>
+        <p style="font-size: 13px;">
+          {{conclution()}}
+        </p>
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">

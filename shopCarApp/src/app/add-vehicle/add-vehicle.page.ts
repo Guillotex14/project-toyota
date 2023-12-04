@@ -1049,27 +1049,4 @@ export class AddVehiclePage implements OnInit {
     reader.readAsDataURL(file[0]);
   }
 
-  public async  transform(data:any){
-    let pdf = await this.convertFileToBase64String(data);
-    console.log(pdf)
-    return this.sanitizer.bypassSecurityTrustResourceUrl(data);
-  }
-
-  public convertFileToBase64String(file: File) {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        const result = reader.result;
-  
-        if (!result) {
-          reject('result is null');
-          return;
-        }
-  
-        resolve(reader.result.toString());
-      });
-      reader.addEventListener('error', reject);
-      reader.readAsDataURL(file);
-    });
-  }
 }

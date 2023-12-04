@@ -12,7 +12,7 @@
         </ion-row>
       </ion-col>
 
-      <ion-col size="12" style="text-align: center; margin-top: 15px !important;">
+      <ion-col size="12" style="text-align: center; margin-top: 15px !important;" *ngIf="!loading">
         <ion-row *ngIf="mechanicalFile.general_condition ==='excelente' || mechanicalFile.general_condition >= 96">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -61,7 +61,7 @@
         </ion-row>
       </ion-col>
 
-      <ion-col size="12" style="margin-bottom: 50px !important;">
+      <ion-col size="12" style="margin-bottom: 50px !important;" *ngIf="!loading">
         <ion-list>
           <ion-item-group class="itemGroupSegment">
             <ion-item-divider>
@@ -1251,6 +1251,24 @@
               </ion-row>
             </ion-item>
 
+            <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
+                <ion-col size="12">
+                  <ion-label>¿Se realizaron reparaciones en el taller/concesionario luego de su ingreso.?</ion-label>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-segment [value]="mechanicalFile.dealer_maintenance" disabled="true">
+                    <ion-segment-button value="no" class="segment-red">
+                      <ion-label>No</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="si" class="segment-green">
+                      <ion-label>Sí</ion-label>
+                    </ion-segment-button>
+                  </ion-segment>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+
             <ion-item-divider *ngIf="mechanicalFile.mechanic">
               <ion-label> 
                 INSPECCIÓN REALIZADA POR:
@@ -1280,6 +1298,8 @@
 
         </ion-list>
       </ion-col>
+
+      <app-skeleton *ngIf="loading"></app-skeleton>
 
     </ion-row>
   </ion-grid>

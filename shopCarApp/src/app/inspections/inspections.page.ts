@@ -15,7 +15,7 @@ export class InspectionsPage implements OnInit {
   id_mechanic: string = "";
   arrayInspections: any[] = [];
   me: any = null;
-
+  loading: boolean = true;
   constructor(private router: Router, private utils: UtilsService, private mechanicSrv: MechanicService, private menuctrl: MenuController, private authSrv:AuthService) {
 
     this.me = this.authSrv.getMeData();
@@ -50,6 +50,7 @@ export class InspectionsPage implements OnInit {
       (data:any) => {
 
         if (data.status) {
+          this.loading = false;
           this.arrayInspections = data.data;
           this.utils.dismissLoading();
         }else{

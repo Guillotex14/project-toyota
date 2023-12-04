@@ -24,7 +24,7 @@ export class ListModelAdminPage implements OnInit {
     pos: 0,
     lim: 10
   }
-
+  loading: boolean = true;
   constructor(private utils: UtilsService, private menu: MenuController, private router: Router, private adminSrv: AdminService, private alertCtrl: AlertController) { }
 
   ngOnInit() {
@@ -60,6 +60,7 @@ export class ListModelAdminPage implements OnInit {
     this.utils.presentLoading("cargando data...")
     this.adminSrv.getModelList(this.search).subscribe((resp:any)=>{
       if (resp.status) {
+        this.loading = false;
         this.utils.dismissLoading()
         this.modelList = resp.data.rows
       }else{

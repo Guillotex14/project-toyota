@@ -23,7 +23,7 @@ export class EditUserAdminPage implements OnInit {
   arrayCities: any[] = states;
   arrayConcesionaries: any[] = concesionaries;
   auxConces: any[] = concesionaries;
-
+  loading: boolean = true;
   constructor(private router: Router, private menu: MenuController, private actRoute: ActivatedRoute, private adminSrv: AdminService, private utils: UtilsService, private alertCtrl:AlertController) {
 
     this.id.id = this.actRoute.snapshot.params['id'];
@@ -56,6 +56,7 @@ export class EditUserAdminPage implements OnInit {
     this.utils.presentLoading("Cargando...");
     this.adminSrv.getSellerById(this.id).subscribe((res: any) => {
       if (res.status) {
+        this.loading = false;
         this.seller = res.data.seller;
         this.seller.email = res.data.email;
         this.seller.username = res.data.username;

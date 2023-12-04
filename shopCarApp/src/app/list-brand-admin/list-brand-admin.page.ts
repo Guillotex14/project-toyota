@@ -23,6 +23,8 @@ export class ListBrandAdminPage implements OnInit {
     lim: 10
   }
 
+  loading: boolean = true;
+
   constructor(private utils: UtilsService, private menu: MenuController, private router: Router, private adminSrv:AdminService, private alertCtrl: AlertController) { }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class ListBrandAdminPage implements OnInit {
     this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
       console.log(resp.data)
       if (resp.status) {
+        this.loading = false;
         this.utils.dismissLoading()
         this.brandList = resp.data.rows
       }else{

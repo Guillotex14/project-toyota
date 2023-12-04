@@ -34,6 +34,7 @@ export class MyvehiclesPage implements OnInit {
   maxPriceAux: string = "";
   minKmsAux: string = "";
   maxKmsAux: string = "";
+  loading: boolean = true;
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('modalFilterMyVehicles') modalFilter!: IonModal;
@@ -107,6 +108,7 @@ export class MyvehiclesPage implements OnInit {
     this.sellerSrv.getMyVehicles(data).subscribe((data:any) => {
 
       if(data.status){
+        this.loading = false;
         this.arrayVehicles = data.data;
         this.utils.dismissLoading();
         
