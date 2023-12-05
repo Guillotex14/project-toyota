@@ -1349,7 +1349,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   if (data.modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: data.modelCar,
+      model: data.modelCar.replace("%20"," "),
     };
   }
   let user: any = null;
@@ -1724,15 +1724,15 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
       brand: { $regex: brandCar, $options: "i" },
     };
   }
-  
+
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar,
+      model: modelCar.replace("%20"," "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar,
+      model: modelCar.replace("%20"," "),
     };
   }
 
@@ -1990,11 +1990,11 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar,
+      model: modelCar.replace("%20"," "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar,
+      model: modelCar.replace("%20"," "),
     };
   }
   if (concesionary) {
