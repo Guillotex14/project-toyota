@@ -1164,7 +1164,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         mongQuery = Object.assign(Object.assign({}, mongQuery), { brand: { $regex: data.brandCar, $options: "i" } });
     }
     if (data.modelCar) {
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: data.modelCar, $options: "i" } });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: data.modelCar });
     }
     let user = null;
     // if (decode.type_user == "seller") {
@@ -1471,9 +1471,10 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
         mongQuery = Object.assign(Object.assign({}, mongQuery), { brand: { $regex: brandCar, $options: "i" } });
         otherMong = Object.assign(Object.assign({}, otherMong), { brand: { $regex: brandCar, $options: "i" } });
     }
+    console.log(modelCar);
     if (modelCar) {
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
-        otherMong = Object.assign(Object.assign({}, otherMong), { model: { $regex: modelCar, $options: "i" } });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: modelCar });
+        otherMong = Object.assign(Object.assign({}, otherMong), { model: modelCar });
     }
     if (concesionary) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
@@ -1667,8 +1668,8 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         otherMong = Object.assign(Object.assign({}, otherMong), { brand: { $regex: brandCar, $options: "i" } });
     }
     if (modelCar) {
-        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: { $regex: modelCar, $options: "i" } });
-        otherMong = Object.assign(Object.assign({}, otherMong), { model: { $regex: modelCar, $options: "i" } });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { model: modelCar });
+        otherMong = Object.assign(Object.assign({}, otherMong), { model: modelCar });
     }
     if (concesionary) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary, $options: "i" } });
