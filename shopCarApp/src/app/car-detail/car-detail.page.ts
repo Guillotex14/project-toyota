@@ -12,13 +12,13 @@ import { AuthService } from '../services/auth/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 
-const enable = async () => {
-  await PrivacyScreen.enable();
-}
+// const enable = async () => {
+//   await PrivacyScreen.enable();
+// }
 
-const disable = async () => {
-  await PrivacyScreen.disable();
-}
+// const disable = async () => {
+//   await PrivacyScreen.disable();
+// }
 
 @Component({
   selector: 'app-car-detail',
@@ -87,7 +87,7 @@ export class CarDetailPage implements OnInit {
   @ViewChild('inputDocs') inputDocs!: any;
   @ViewChild('inputDocs2') inputDocs2!: any;
   constructor(private router:Router, private menu: MenuController, private utils: UtilsService, private actRoute: ActivatedRoute, private sellerSrv: SellerService, private zone: NgZone, private authSrv: AuthService, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
-    disable();
+    //this.screenShotDisables();
     this.id = this.actRoute.snapshot.params['id'];
     this.theRoute = this.actRoute.snapshot.params['route'];
     if (this.actRoute.snapshot.params['category'] !== undefined) {
@@ -139,7 +139,7 @@ export class CarDetailPage implements OnInit {
   }
 
   ngOnInit() {
-    disable();
+    // disable();
   }
 
   ionViewWillEnter(){
@@ -149,6 +149,8 @@ export class CarDetailPage implements OnInit {
     this.buttonsASDoc();
     this.buttonsAStEditDoc();
     this.getBrands();
+    // disable();
+    // this.screenShotDisables();
   }
 
   goBack(){
@@ -386,7 +388,8 @@ export class CarDetailPage implements OnInit {
 
   public async takePhoto(){
     this.utils.presentLoading("Cargando imagen...");
-    enable()
+    // enable()
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -403,7 +406,8 @@ export class CarDetailPage implements OnInit {
 
   public async takePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -420,7 +424,8 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhoto(){
     this.utils.presentLoading("Cargando imagen...");
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -438,7 +443,7 @@ export class CarDetailPage implements OnInit {
 
   public async editTakePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
-    enable();
+    // enable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -461,7 +466,8 @@ export class CarDetailPage implements OnInit {
       this.utils.presentToast("Solo se pueden agregar 5 documentos") 
       return
     };
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -483,7 +489,8 @@ export class CarDetailPage implements OnInit {
       this.utils.presentToast("Solo se pueden agregar 5 documentos") 
       return
     };
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -505,7 +512,8 @@ export class CarDetailPage implements OnInit {
       this.utils.presentToast("Solo se pueden agregar 5 documentos") 
       return
     };
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -528,7 +536,8 @@ export class CarDetailPage implements OnInit {
       this.utils.presentToast("Solo se pueden agregar 5 documentos") 
       return
     };
-    enable();
+    // enable();
+    // this.screenShotEnable();
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -578,7 +587,8 @@ export class CarDetailPage implements OnInit {
           _id: data.data._id,
           public_id: data.data.public_id
         }
-        disable();
+        // disable();
+        // this.screenShotDisables();
         this.arrayImages.push(newImg);
         this.carDetail.images.push(newImg);
         this.utils.dismissLoading();
@@ -595,7 +605,8 @@ export class CarDetailPage implements OnInit {
     this.sellerSrv.editImageVehicle(img).subscribe((data:any) => {
       let imgAct= data.data.imgEdit;
       this.zone.run(()=>{
-        disable();
+        // disable();
+        // this.screenShotDisables();
         this.carDetail.images = data.data.images;
         for (let i = 0; i < this.arrayImages.length; i++) {
           if (this.arrayImages[i].public_id === this.idImgEdit) {
@@ -619,7 +630,8 @@ export class CarDetailPage implements OnInit {
           public_id: data.data.public_id,
           name: data.data.name
         }
-        disable();
+        // disable();
+        // this.screenShotDisables();
         this.arrayDocuments.push(newImg);
         this.carDetail.imgs_documentation.push(newImg);
         this.utils.dismissLoading();
@@ -644,7 +656,8 @@ export class CarDetailPage implements OnInit {
             this.arrayDocuments.splice(i,1);
           }
         }
-        disable();
+        // disable();
+        // this.screenShotDisables();
         this.utils.dismissLoading();
       })
     });
@@ -1048,11 +1061,11 @@ export class CarDetailPage implements OnInit {
   }
 
   public enablePrivacy(){
-    enable();
+    // enable();
   }
 
   public disablePrivacy(){
-    disable();
+    // disable();
   }
 
   public openInputDocs(){
@@ -1101,4 +1114,12 @@ export class CarDetailPage implements OnInit {
   public async openPdf(url:any){
     await Browser.open({url: url});
   }
+
+  // public async screenShotDisables(){
+  //   await PrivacyScreen.disable().then((res:any)=>{console.log(res)});
+  // }
+
+  // public async screenShotEnable(){
+  //   await PrivacyScreen.enable().then((res:any)=>{console.log(res)});
+  // }
 }

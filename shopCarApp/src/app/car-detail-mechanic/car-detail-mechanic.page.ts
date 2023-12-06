@@ -5,6 +5,7 @@ import { UtilsService } from '../services/utils/utils.service';
 import { MenuController } from '@ionic/angular';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { CarDetailMechanic } from 'src/models/mechanic';
+import { Browser } from '@capacitor/browser';
 import * as global from '../../models/global';
 
 register();
@@ -113,4 +114,9 @@ export class CarDetailMechanicPage implements OnInit {
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
   }
+
+  public async openPdf(url:any){
+    await Browser.open({ url: url });
+  }
+
 }

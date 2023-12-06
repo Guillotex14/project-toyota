@@ -208,7 +208,7 @@
                             <span class="noPhotoTitle" >Sin documentos cargados</span>
                           </ion-col>
             
-                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="carDetail.imgs_documentation.length > 0">
+                          <!-- <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="carDetail.imgs_documentation.length > 0">
                             <swiper-container [loop]="true" [pagination]="true">
                               <swiper-slide *ngFor="let image of carDetail.imgs_documentation; let i = index">
                                 <ion-row>
@@ -219,6 +219,20 @@
                               </swiper-slide>
                               <div class="swiper-pagination"></div>
                             </swiper-container>
+                          </ion-col> -->
+
+                          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="carDetail.imgs_documentation.length > 0">
+                            <ion-list>
+                              <ion-grid fixed>
+                                <ion-row *ngFor="let doc of carDetail.imgs_documentation; let i = index">
+                                  <ion-col size="12">
+                                    <ion-button expand="block" shape="round" class="btnRed" (click)="openPdf(doc.img)">
+                                      <span>{{doc.name}}</span>
+                                    </ion-button>
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                            </ion-list>
                           </ion-col>
                         </ion-row>
                       </ion-col>
@@ -229,7 +243,7 @@
             </ion-col>
 
             <ion-col size="12">
-              <ion-button (click)="share()" expand="block" shape="round" class="btnRed">
+              <ion-button (click)="generatePdf()" expand="block" shape="round" class="btnRed">
                 Compartir ficha del vehículo
               </ion-button>
             </ion-col>

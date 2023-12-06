@@ -6,6 +6,7 @@ import { SellerService } from '../services/seller/seller.service';
 import { CarDetailSeller } from 'src/models/sellet';
 import { AdminService } from '../services/admin/admin.service';
 import { Share } from '@capacitor/share';
+import { Browser } from '@capacitor/browser';
 import * as global from '../../models/global';
 
 @Component({
@@ -90,5 +91,32 @@ export class CarDetailAdminPage implements OnInit {
       text: 'Mira este carro',
       url: 'https://www.google.com/'
     });
+  }
+
+  public async openPdf(url:any){
+    await Browser.open({ url: url });
+  }
+
+  public generatePdf(){
+    this.utils.presentLoading("Generando PDF...");
+    
+    let data = {
+      id: this.id
+    }
+
+    this.sellerSrv.generatePdf(data).subscribe(async (res:any) => {
+      console.log(res)
+      if (res.status) {
+        this.utils.dismissLoading();
+        await Share.share({
+          title: 'Vehiculo compartido',
+          text: 'Visualiza las Caracteristicas del vehiculo que te comparto',
+          url: res.data
+        });
+      }
+    }, (error:any) => {
+      console.log(error);
+    });
+
   }
 }
