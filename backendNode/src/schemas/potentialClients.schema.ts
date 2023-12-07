@@ -9,6 +9,9 @@ const potentialClientsSchema = new Schema({
     approximate_budget:Number,
     status:Number,
     date_created:String,
+    id_user: {
+        type: Schema.Types.ObjectId
+    },
 });
 
 

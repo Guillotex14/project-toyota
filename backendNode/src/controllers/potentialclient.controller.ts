@@ -42,6 +42,7 @@ potentialclient.add = async (req: Request, res: Response) => {
             phone: data.phone,
             date_created: now,
             approximate_budget: data.approximate_budget,
+            id_user:decode.id_user,
             status: 1
         });
 
