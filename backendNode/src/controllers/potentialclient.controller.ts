@@ -2,7 +2,7 @@
 import { Request, Response, response } from "express";
 import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
-import sellers from "../schemas/Sellers.schema";
+import Sellers from "../schemas/Sellers.schema";
 import notifications from "../schemas/notifications.schema";
 import { sendEmail } from '../../nodemailer';
 import jwt from "../helpers/generar-jwt";
@@ -153,6 +153,14 @@ potentialclient.get = async (req: Request, res: Response) => {
         getClient = await client.findOne({ name: data.name });
     }
 
+    if (getClient) {
+        let user = await Users.findOne({_id:getClient.id_user});
+        let seller = await Sellers.findOne({id_user:user?._id});
+        getClient.seller=seller;
+        getClient.user=user;
+        
+    }
+
     reponseJson.code = 200;
     reponseJson.message = "Cliente encontrada con exito";
     reponseJson.data = getClient;
@@ -216,6 +224,15 @@ potentialclient.all = async (req: Request, res: Response) => {
             $project: project,
         },
     ]);
+
+    for (let i = 0; i < list.length; i++) {
+        const element = list[i];
+        let user = await Users.findOne({_id:element.id_user});
+        let seller = await Sellers.findOne({id_user:user?._id});
+        element.seller=seller;
+        element.user=user;
+        
+    }
 
     reponseJson.code = 200;
     reponseJson.message = "";
@@ -292,6 +309,15 @@ potentialclient.allPaginator = async (req: Request, res: Response) => {
             $project: project,
         },
     ]);
+
+    for (let i = 0; i < list.length; i++) {
+        const element = list[i];
+        let user = await Users.findOne({_id:element.id_user});
+        let seller = await Sellers.findOne({id_user:user?._id});
+        element.seller=seller;
+        element.user=user;
+        
+    }
 
     sendata.rows = list;
     let count: any;
