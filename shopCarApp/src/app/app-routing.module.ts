@@ -155,6 +155,14 @@ const routes: Routes = [
     path: 'comparison',
     loadChildren: () => import('./comparison/comparison.module').then( m => m.ComparisonPageModule)
   },
+  {
+    path: 'customers',
+    loadChildren: () => import('./customer/customer.module').then( m => m.CustomerPageModule)
+  },
+  {
+    path: 'list-customers',
+    loadChildren: () => import('./list-customers/list-customers.module').then( m => m.ListCustomersPageModule)
+  },
 ];
 
 @NgModule({

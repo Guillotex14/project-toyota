@@ -74,9 +74,7 @@ brandController.delete = (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.json(reponseJson);
     }
     const data = req.body;
-    console.log(data);
     const brand = yield brands_schema_1.default.findOne({ _id: data._id });
-    console.log(brand);
     if (brand) {
         const ress = yield brands_schema_1.default.findOneAndDelete({ _id: data._id });
     }
@@ -217,7 +215,7 @@ brandController.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, f
             },
         ]);
         reponseJson.code = 200;
-        reponseJson.message = "Usuario encontrado con exito";
+        reponseJson.message = "Cliente encontrado con exito";
         reponseJson.status = true;
     }
     else {

@@ -68,9 +68,7 @@ brandController.delete = async (req: Request, res: Response) => {
     return res.json(reponseJson);
   }
   const data = req.body;
-  console.log(data);
   const brand = await brands.findOne({ _id: data._id });
-  console.log(brand)
   if (brand) {
     const ress = await brands.findOneAndDelete({ _id: data._id });
 
@@ -232,7 +230,7 @@ brandController.allPaginator = async (req: Request, res: Response) => {
       },
     ]);
     reponseJson.code = 200;
-    reponseJson.message = "Usuario encontrado con exito";
+    reponseJson.message = "Cliente encontrado con exito";
     reponseJson.status = true;
   } else {
     reponseJson.code = 400;

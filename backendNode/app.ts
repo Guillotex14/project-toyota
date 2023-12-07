@@ -1,4 +1,4 @@
-import  Express  from "express";
+import Express from "express";
 import mechanicRouter from "./src/routes/mechanic.route"
 import sellerRouter from "./src/routes/seller.route";
 import adminRouter from "./src/routes/admin.route";
@@ -9,6 +9,7 @@ import path from "path"
 import userRouter from "./src/routes/user.route";
 import vehicleRouter from "./src/routes/vehicle.route";
 import saleRouter from "./src/routes/sale.route";
+import clientRouter from "./src/routes/client.route";
 
 export class App {
     app: Express.Application;
@@ -25,19 +26,20 @@ export class App {
     }
 
     middlewares() {
-        this.app.use(Express.json({limit: '512mb'}));
-        this.app.use(Express.urlencoded({limit: '512mb', extended: true}));
+        this.app.use(Express.json({ limit: '512mb' }));
+        this.app.use(Express.urlencoded({ limit: '512mb', extended: true }));
         this.app.use(cors());
     }
 
     routes() {
-        this.app.use("/auth", authRouter );
-        this.app.use("/user", userRouter );
-        this.app.use("/vehicle", vehicleRouter );
-        this.app.use("/admin", adminRouter );
+        this.app.use("/auth", authRouter);
+        this.app.use("/user", userRouter);
+        this.app.use("/vehicle", vehicleRouter);
+        this.app.use("/admin", adminRouter);
         this.app.use("/seller", sellerRouter);
-        this.app.use("/mechanic", mechanicRouter)
-        this.app.use("/sale", saleRouter)
+        this.app.use("/mechanic", mechanicRouter);
+        this.app.use("/sale", saleRouter);
+        this.app.use("/client", clientRouter);
         this.app.use("/public", Express.static("public"));
         this.app.use(Express.static("public"));
     }

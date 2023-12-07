@@ -71,4 +71,6 @@ sellerRouter.post("/notificationById", sellerController.notificationById);
 
 sellerRouter.post("/countNotifications", sellerController.countNotifications);
 
+
+
 export default sellerRouter;

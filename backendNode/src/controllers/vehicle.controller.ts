@@ -2547,8 +2547,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
   res.json(jsonRes);
 };
 
-
-
 vehicleController.inspections = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_mechanic } = req.body;

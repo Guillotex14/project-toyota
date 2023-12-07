@@ -272,4 +272,11 @@ export class comparisonModel{
   general_condition!: any
 }
 
-
+export class CustomerModel{
+  public name!: string;
+  public lastname!: string;
+  public phone!: string;
+  public email!: string;
+  public model!: string;
+  public quote!: string;
+}
