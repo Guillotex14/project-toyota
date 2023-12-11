@@ -1001,7 +1001,7 @@ export class CarDetailPage implements OnInit {
         this.utils.dismissLoading();
         await Share.share({
           title: 'Vehiculo compartido',
-          text: 'Visualiza las Caracteristicas del vehiculo que te comparto',
+          text: 'Visualiza las características del vehículo que te comparto',
           url: res.data
         });
       }
@@ -1030,8 +1030,8 @@ export class CarDetailPage implements OnInit {
     if (option === 'no') {
       const alert = await this.alertCtrl.create({
         cssClass: 'my-custom-class',
-        header: 'Solictud de translado de vehículo',
-        message: `Ha rechazado la solicitud de translado de vehículo`,
+        header: 'Solicitud de traslado de vehículo',
+        message: `Ha rechazado la solicitud de traslado de vehículo`,
         buttons: [
           {
             text: 'Aceptar',
@@ -1046,7 +1046,7 @@ export class CarDetailPage implements OnInit {
     if (option === 'si') {
       const alert = await this.alertCtrl.create({
         cssClass: 'my-custom-class',
-        header: 'Solictud de translado de vehículo',
+        header: 'Solicitud de traslado de vehículo',
         message: `Tú solicitud de traslado será procesada. Serás contactado por el vendedor para concretar el precio`,
         buttons: [
           {

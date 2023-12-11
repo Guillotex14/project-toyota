@@ -97,7 +97,7 @@ export class ListMechanicAdminPage implements OnInit {
       id_user: id
     }
 
-    this.utils.presentLoading("Elimnando técnico");
+    this.utils.presentLoading("Eliminando técnico");
     this.adminSrv.deleteMechanic(data).subscribe((resp:any)=>{  
       if (resp.status) {
         this.utils.dismissLoading();

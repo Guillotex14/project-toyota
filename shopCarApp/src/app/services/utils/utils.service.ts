@@ -117,7 +117,7 @@ export class UtilsService {
   }
 
 
-  async presentAlert(message: string, header: string,subHeader:string) {
+  async presentAlert(message?: string, header?: string,subHeader?:string) {
     const alert = await this.alertController.create({
       header: header,
       subHeader: subHeader,
@@ -128,6 +128,7 @@ export class UtilsService {
     await alert.present();
   }
 
+  
   public validateEmail(email: string): boolean {
     var re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -142,8 +143,7 @@ export class UtilsService {
     let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
 
     if (comparasion != null && comparasion.length == 4) {
-
-      this.presentToast('Solo se pueden agregar 4 vehiculos a la comparacion');
+      this.presentAlert('Solo se pueden agregar 4 vehiculos a la comparacion', 'Comparacion', '');
       return;
     }
 
@@ -156,9 +156,11 @@ export class UtilsService {
       if (!index) {
         comparasion.push(data);
         localStorage.setItem('comparasion', JSON.stringify(comparasion));
-        this.presentToast('Vehiculo agregado a la comparacion');
+        // this.presentToast('Vehiculo agregado a la comparacion');
+        this.presentAlert('Vehiculo agregado a la comparacion', 'Comparacion', '')
       } else {
-        this.presentToast('El vehiculo ya esta en la comparacion');
+        // this.presentToast('El vehiculo ya esta en la comparacion');
+        this.presentAlert('El vehiculo ya esta en la comparacion', 'Comparacion')
       }
 
     }

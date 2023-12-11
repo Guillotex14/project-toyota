@@ -224,13 +224,6 @@ export class AddVehiclePage implements OnInit {
   }
 
   public addVehicle() {
-    this.utils.presentLoading("Agregando vehículo...");
-
-    if(this.arrayImages.length == 0){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Debe agregar al menos una imagen");
-      return;
-    }
 
     if(this.newVehicle.model == "" || this.newVehicle.model == null || this.newVehicle.model == undefined){
       this.emptyModel = true;
@@ -302,7 +295,14 @@ export class AddVehiclePage implements OnInit {
       this.emptyIdmechanic = true;
       return;
     }
+
+    if(this.arrayImages.length == 0){
+      this.utils.presentToast("Debe agregar al menos una imagen");
+      this.utils.presentAlert("Debe agregar al menos una imagen", "Información", "");
+      return;
+    }
     
+    this.utils.presentLoading("Agregando vehículo...");
     this.disabledSave = true;
     this.newVehicle.images = this.arrayImages;
     this.newVehicle.year = parseInt(this.year);

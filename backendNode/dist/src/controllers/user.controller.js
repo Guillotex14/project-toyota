@@ -407,6 +407,7 @@ userController.all = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             },
         ],
         type_user: data.type_user,
+        status: 1
     };
     if (decode.type_user == "admin_concesionary") { // cuando el usuario admin_concesionary consulta
         let concesionary = yield Concesionaries_schema_1.default.findOne({

@@ -134,7 +134,7 @@
       <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
         <ion-list>
           <ion-list-header>
-            Titulos
+            Títulos
           </ion-list-header>
           <ion-item *ngFor="let vehicle of comparison">
           <p *ngIf="bestTitles(vehicle.titles)===1" style="font-size: 13px;">
@@ -189,7 +189,7 @@
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
-        <ion-label>Conclisión</ion-label>
+        <ion-label>Nuestra recomendación</ion-label>
         <p style="font-size: 13px;">
           {{conclution()}}
         </p>
