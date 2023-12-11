@@ -15,6 +15,7 @@ const path_1 = __importDefault(require("path"));
 const user_route_1 = __importDefault(require("./src/routes/user.route"));
 const vehicle_route_1 = __importDefault(require("./src/routes/vehicle.route"));
 const sale_route_1 = __importDefault(require("./src/routes/sale.route"));
+const client_route_1 = __importDefault(require("./src/routes/client.route"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -38,6 +39,7 @@ class App {
         this.app.use("/seller", seller_route_1.default);
         this.app.use("/mechanic", mechanic_route_1.default);
         this.app.use("/sale", sale_route_1.default);
+        this.app.use("/client", client_route_1.default);
         this.app.use("/public", express_1.default.static("public"));
         this.app.use(express_1.default.static("public"));
     }

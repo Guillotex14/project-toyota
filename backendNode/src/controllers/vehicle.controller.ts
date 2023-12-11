@@ -1376,7 +1376,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   let datos: any = {};
 
   let optionset = {
-    label: "Cantidad de autos vendido Mensuales",
+    label: "Cantidad de autos vendidos mensuales",
     fill: false,
     backgroundColor: "rgba(75,192,192,0.4)",
     borderColor: "rgba(75,192,192,1)",
