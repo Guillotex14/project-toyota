@@ -148,4 +148,7 @@ export class SellerService {
     return this.http.get(`${global.urlBase}vehicle/myOfferts?s=${data.s}&brand=${data.brand}&model=${data.model}&minYear=${data.minYear}&maxYear=${data.maxYear}&minPrice=${data.minPrice}&maxPrice=${data.maxPrice}&minKm=${data.minKm}&maxKm=${data.maxKm}&lim=${data.lim}&pos=${data.pos}`,this.authSrv.getToken()!);
   }
   
+  public saveCustomer(data:any){
+    return this.http.post(global.urlBase+'client/add', data,this.authSrv.getToken()!);
+  }
 }

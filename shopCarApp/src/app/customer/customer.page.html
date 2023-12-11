@@ -23,34 +23,88 @@
           <ion-row>
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Nombre(s)</ion-label>
-              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.name"></ion-input>
+              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.name" (ionInput)="validateName($event)" [class.borderRed]="emptyName"></ion-input>
             </ion-col>
+
+            <ion-col size="12" *ngIf="emptyName">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span style="color:red; font-size: 15px;">El campo nombre es obligatorio</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Apellido(s)</ion-label>
-              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.lastname"></ion-input>
+              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.last_name" (ionInput)="validateLastName($event)" [class.borderRed]="emptyLastName"></ion-input>
             </ion-col>
+
+            <ion-col size="12" *ngIf="emptyLastName">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span style="color:red; font-size: 15px;">El campo apellido es obligatorio</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Correo Electrónico</ion-label>
-              <ion-input type="email" fill="outline" [(ngModel)]="newCustomer.email"></ion-input>
+              <ion-input type="email" fill="outline" [(ngModel)]="newCustomer.email" (ionInput)="validEmail($event)" [class.borderRed]="invalidEmail || incorrectUser || emptyEmail"></ion-input>
             </ion-col>
+
+            <ion-col *ngIf="invalidEmail || incorrectUser || emptyEmail">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span *ngIf="invalidEmail" style="color:red; font-size: 15px;">Ingrese email válido</span>
+                  <span *ngIf="incorrectUser" style="color:red; font-size: 15px;">Usuario/correo no registrado</span>
+                  <span *ngIf="emptyEmail" style="color:red; font-size: 15px;">El campo correo electrónico es obligatorio</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Número Telefónico</ion-label>
-              <ion-input type="email" fill="outline" [(ngModel)]="newCustomer.phone"></ion-input>
+              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.phone" (ionInput)="validatePhone($event)" [class.borderRed]="emptyPhone"></ion-input>
             </ion-col>
+
+            <ion-col size="12" *ngIf="emptyPhone">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span style="color:red; font-size: 15px;">El campo Teléfono es obligatorio</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Modelo del Vehiculo</ion-label>
-              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.model"></ion-input>
+              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.interested_car_model" (ionInput)="validateModel($event)" [class.borderRed]="emptyModel"></ion-input>
             </ion-col>
+
+            <ion-col size="12" *ngIf="emptyModel">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span style="color:red; font-size: 15px;">El campo modelo del vehículo es obligatorio</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+
             <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Presupuesto</ion-label>
-              <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.quote"></ion-input>
+              <ion-input type="number" fill="outline" [value]="budget" (ionInput)="setDotKm($event.target)" (ionInput)="validateBudget($event)" [class.borderRed]="emptyBudget"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="emptyBudget">
+              <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                  <span style="color:red; font-size: 15px;">El campo km es obligatorio</span>
+                </ion-col>
+              </ion-row>
             </ion-col>
 
             <ion-col size="12">
-              <ion-button expand="block" shape="round" class="btnSaveRed" style="margin: 25px auto;">
-                Agregar
+              <ion-button expand="block" shape="round" class="btnSaveRed" style="margin: 25px auto;" (click)="saveCustomer()">
+                Agregar Cliente
               </ion-button>
-              <!-- (click)="addSeller()"  -->
             </ion-col>
           </ion-row>
         </ion-grid>

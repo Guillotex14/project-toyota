@@ -10,6 +10,9 @@ const potentialClientsSchema = new mongoose_1.Schema({
     approximate_budget: Number,
     status: Number,
     date_created: String,
+    id_user: {
+        type: mongoose_1.Schema.Types.ObjectId
+    },
 });
 exports.default = (0, mongoose_1.model)("potentialclients", potentialClientsSchema);
 //# sourceMappingURL=potentialClients.schema.js.map

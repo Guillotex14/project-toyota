@@ -1184,7 +1184,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
     let chartData = {};
     let datos = {};
     let optionset = {
-        label: "Cantidad de autos vendido Mensuales",
+        label: "Cantidad de autos vendidos mensuales",
         fill: false,
         backgroundColor: "rgba(75,192,192,0.4)",
         borderColor: "rgba(75,192,192,1)",
