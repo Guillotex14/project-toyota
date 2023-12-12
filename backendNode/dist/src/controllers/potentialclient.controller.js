@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Response_1 = require("../models/Response");
+const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
+const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const moment_1 = __importDefault(require("moment"));
 const potentialClients_schema_1 = __importDefault(require("../schemas/potentialClients.schema"));
@@ -45,6 +47,7 @@ potentialclient.add = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             phone: data.phone,
             date_created: now,
             approximate_budget: data.approximate_budget,
+            id_user: decode.id_user,
             status: 1
         });
         yield newClient.save();
@@ -138,6 +141,12 @@ potentialclient.get = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     else if (data.name) {
         getClient = yield potentialClients_schema_1.default.findOne({ name: data.name });
     }
+    if (getClient) {
+        let user = yield Users_schema_1.default.findOne({ _id: getClient.id_user });
+        let seller = yield Sellers_schema_1.default.findOne({ id_user: user === null || user === void 0 ? void 0 : user._id });
+        getClient.seller = seller;
+        getClient.user = user;
+    }
     reponseJson.code = 200;
     reponseJson.message = "Cliente encontrada con exito";
     reponseJson.data = getClient;
@@ -191,6 +200,13 @@ potentialclient.all = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             $project: project,
         },
     ]);
+    for (let i = 0; i < list.length; i++) {
+        const element = list[i];
+        let user = yield Users_schema_1.default.findOne({ _id: element.id_user });
+        let seller = yield Sellers_schema_1.default.findOne({ id_user: user === null || user === void 0 ? void 0 : user._id });
+        element.seller = seller;
+        element.user = user;
+    }
     reponseJson.code = 200;
     reponseJson.message = "";
     reponseJson.status = true;
@@ -253,6 +269,13 @@ potentialclient.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, f
             $project: project,
         },
     ]);
+    for (let i = 0; i < list.length; i++) {
+        const element = list[i];
+        let user = yield Users_schema_1.default.findOne({ _id: element.id_user });
+        let seller = yield Sellers_schema_1.default.findOne({ id_user: user === null || user === void 0 ? void 0 : user._id });
+        element.seller = seller;
+        element.user = user;
+    }
     sendata.rows = list;
     let count;
     if (list.length > 0) {

@@ -2517,7 +2517,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const pdfBuffer = await page.pdf({
         format: 'Letter',
         printBackground: true,
-        landscape: true
+        landscape: false
       });
       //
       await browser.close();
