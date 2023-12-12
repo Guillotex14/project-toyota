@@ -2027,6 +2027,41 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     });
 });
+vehicleController.applyCertificate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
+    let data = req.body;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    let auxCertificate = false;
+    if (mechanicalFile) {
+        if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
+            auxCertificate = true;
+            reponseJson.code = 200;
+            reponseJson.status = true;
+            reponseJson.message = "Certificado aprobado";
+        }
+        else {
+            auxCertificate = false;
+            reponseJson.code = 200;
+            reponseJson.status = false;
+            reponseJson.message = "Certificado no aprobado";
+        }
+    }
+    const vehicleUpdated = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(mechanicalFile._id, {
+        certificate: auxCertificate,
+    });
+    const mechanicalFileAux = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    reponseJson.data = mechanicalFileAux.certificate;
+    res.json(reponseJson);
+});
 vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const data = req.query;

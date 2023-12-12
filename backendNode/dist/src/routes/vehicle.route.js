@@ -43,6 +43,7 @@ vehicleRouter.post("/addRerportMechanicalFile", vehicle_controller_1.default.add
 vehicleRouter.post("/commentRerportMechanicalFile", vehicle_controller_1.default.commentRerportMechanicalFile);
 vehicleRouter.post("/acceptUpdateMechanicalFile", vehicle_controller_1.default.acceptUpdateMechanicalFile);
 vehicleRouter.get("/allRerportMechanicalFile", vehicle_controller_1.default.allRerportMechanicalFile);
+vehicleRouter.post("/applyCertificate", vehicle_controller_1.default.applyCertificate);
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brand_controller_1.default.insertUpdate);
 vehicleRouter.post("/delete-brand", brand_controller_1.default.delete);

@@ -2415,28 +2415,29 @@ vehicleController.applyCertificate = async (req: Request, res: Response) => {
 
 
   const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
-
+  let auxCertificate:boolean=false;
   if (mechanicalFile) {
     if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
-      data.certificate = true;
+      auxCertificate = true;
 
       reponseJson.code = 200;
       reponseJson.status = true;
       reponseJson.message = "Certificado aprobado";
-      reponseJson.data = null;
     } else {
-      data.certificate = false;
+      auxCertificate = false;
 
       reponseJson.code = 200;
       reponseJson.status = false;
       reponseJson.message = "Certificado no aprobado";
-      reponseJson.data = null;
     }
   }
 
-  const vehicleUpdated = await mechanicalsFiles.findByIdAndUpdate(data.id, {
-    certificate: data.certificate,
+  const vehicleUpdated:any = await mechanicalsFiles.findByIdAndUpdate(mechanicalFile._id, {
+    certificate: auxCertificate,
   });
+  const mechanicalFileAux: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
+
+  reponseJson.data = mechanicalFileAux.certificate;
 
   res.json(reponseJson);
 
