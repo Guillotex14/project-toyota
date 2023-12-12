@@ -65,7 +65,8 @@ const mechanicalFileSchema = new Schema({
     },
     id_mechanic: {
         type: Schema.Types.ObjectId,
-    }
+    },
+    certificate:Boolean
 });
 
 export default model("mechanicalFile", mechanicalFileSchema);

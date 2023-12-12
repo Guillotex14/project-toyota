@@ -1349,7 +1349,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   if (data.modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: data.modelCar.replace("%20"," "),
+      model: data.modelCar.replace("%20", " "),
     };
   }
   let user: any = null;
@@ -1728,11 +1728,11 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
   }
 
@@ -1911,6 +1911,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
+
   let {
     dateTo,
     dateFrom,
@@ -1990,11 +1991,11 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
   }
   if (concesionary) {
@@ -2396,6 +2397,52 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
       res.json(reponseJson);
     });
 };
+
+
+vehicleController.applyCertificate = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
+  let data: any = req.body;
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+
+  const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
+
+  if (mechanicalFile) {
+    if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
+      data.certificate = true;
+
+      reponseJson.code = 200;
+      reponseJson.status = true;
+      reponseJson.message = "Certificado aprobado";
+      reponseJson.data = null;
+    } else {
+      data.certificate = false;
+
+      reponseJson.code = 200;
+      reponseJson.status = false;
+      reponseJson.message = "Certificado no aprobado";
+      reponseJson.data = null;
+    }
+  }
+
+  const vehicleUpdated = await mechanicalsFiles.findByIdAndUpdate(data.id, {
+    certificate: data.certificate,
+  });
+
+  res.json(reponseJson);
+
+
+};
+
 
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();

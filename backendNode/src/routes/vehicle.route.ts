@@ -72,6 +72,8 @@ vehicleRouter.post("/acceptUpdateMechanicalFile",vehicleController.acceptUpdateM
 
 vehicleRouter.get("/allRerportMechanicalFile",vehicleController.allRerportMechanicalFile);
 
+vehicleRouter.post("/applyCertificate", vehicleController.applyCertificate);
+
 
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brandController.insertUpdate);
