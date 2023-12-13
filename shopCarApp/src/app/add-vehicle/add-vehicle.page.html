@@ -462,15 +462,52 @@
             </ion-item-divider>
 
             <ion-item class="itemSegment">
-              <ion-segment [(ngModel)]="concesionary_maintenance">
-                <ion-segment-button value="no" class="segment-red">
-                  <ion-label>No</ion-label>
-                </ion-segment-button>
+              <ion-segment [(ngModel)]="concesionary_maintenance" (ionChange)="validateMaintenance($event)">
                 <ion-segment-button value="si" class="segment-green">
                   <ion-label>Sí</ion-label>
                 </ion-segment-button>
+                <ion-segment-button value="no" class="segment-red">
+                  <ion-label>No</ion-label>
+                </ion-segment-button>
               </ion-segment>
             </ion-item>
+          </ion-col>
+
+          <ion-col size="12" *ngIf="emptyMaintenance">
+            <ion-row>
+              <ion-col size="12" style="text-align: center;">
+                <span style="color:red; font-size: 15px;">
+                  Debe seleccionar si se realizaron los mantenimientos regulares en el concesionario
+                </span>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+
+          <ion-col size="12">
+            <ion-item-divider style="text-align: center;">
+              <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
+            </ion-item-divider>
+
+            <ion-item class="itemSegment">
+              <ion-segment [(ngModel)]="certified" (ionChange)="validateCertified($event)">
+                <ion-segment-button value="si" class="segment-green">
+                  <ion-label>Sí</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="no" class="segment-red">
+                  <ion-label>No</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="12" *ngIf="emptyCertified">
+            <ion-row>
+              <ion-col size="12" style="text-align: center;">
+                <span style="color:red; font-size: 15px;">
+                  Debe seleccionar si el vehículo califica para certificación
+                </span>
+              </ion-col>
+            </ion-row>
           </ion-col>
 
           <ion-col size="12" *ngIf="newVehicle.id_mechanic === ''">

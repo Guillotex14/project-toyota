@@ -27,8 +27,6 @@ import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
 
-
-
 const vehicleController: any = {};
 
 vehicleController.addVehicle = async (req: Request, res: Response) => {
@@ -65,6 +63,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     vehicle_plate,
     imgs_documents,
     concesionary_maintenance,
+    certified,
     general_condition
   } = req.body;
 
@@ -104,6 +103,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     vin,
     plate: vehicle_plate,
     concesionary_maintenance,
+    certified,
     general_condition
   });
 
@@ -817,6 +817,7 @@ vehicleController.vehicleById = async (req: Request, res: Response) => {
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
       concesionary_maintenance: infoVehicle.concesionary_maintenance,
+      certified: infoVehicle.certified,
       general_condition: mechanicalFile!
         ? mechanicalFile.general_condition
         : "",
@@ -3264,7 +3265,6 @@ vehicleController.addRerportMechanicalFile = async (req: Request, res: Response)
   res.json(reponseJson);
 }
 
-
 vehicleController.commentRerportMechanicalFile = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   let data: any = req.body;
@@ -3377,7 +3377,6 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
 
   res.json(reponseJson);
 }
-
 
 async function generateBase64(pdfPath: string): Promise<string> {
   const fileStream = fs.createReadStream(pdfPath);
@@ -3868,7 +3867,6 @@ const setCamposAnteriores = (oldFicha: any, update: any) => {
 
   return campos;
 }
-
 
 const crearCarpetaSiNoExiste = (nombreCarpeta: any) => {
   if (!fs.existsSync(nombreCarpeta)) {

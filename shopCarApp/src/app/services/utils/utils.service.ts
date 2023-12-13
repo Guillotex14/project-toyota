@@ -122,7 +122,7 @@ export class UtilsService {
       header: header,
       subHeader: subHeader,
       message: message,
-      buttons: ['OK'],
+      buttons: ['Aceptar'],
     });
 
     await alert.present();
@@ -143,7 +143,7 @@ export class UtilsService {
     let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
 
     if (comparasion != null && comparasion.length == 4) {
-      this.presentAlert('Solo se pueden agregar 4 vehiculos a la comparacion', 'Comparacion', '');
+      this.presentAlert('Solo se pueden agregar 4 vehículos a la comparación', 'Comparación', '');
       return;
     }
 
@@ -157,10 +157,10 @@ export class UtilsService {
         comparasion.push(data);
         localStorage.setItem('comparasion', JSON.stringify(comparasion));
         // this.presentToast('Vehiculo agregado a la comparacion');
-        this.presentAlert('Vehiculo agregado a la comparacion', 'Comparacion', '')
+        this.presentAlert('Vehículo agregado a la comparación', 'Comparación', '')
       } else {
         // this.presentToast('El vehiculo ya esta en la comparacion');
-        this.presentAlert('El vehiculo ya esta en la comparacion', 'Comparacion')
+        this.presentAlert('El vehículo se encuentra en comparación', 'Comparación')
       }
 
     }

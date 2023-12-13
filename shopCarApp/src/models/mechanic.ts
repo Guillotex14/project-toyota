@@ -29,6 +29,7 @@ export class CarDetailMechanic{
     public plate!: string
     public imgs_documentation!: any[];
     public concesionary_maintenance!: boolean;
+    public certified!: boolean;
 }
 
 export class MechanicalFileDetail{

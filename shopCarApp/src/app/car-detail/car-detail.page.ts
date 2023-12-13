@@ -129,6 +129,7 @@ export class CarDetailPage implements OnInit {
     this.carDetail.vehicle_plate = "";
     this.carDetail.price_ofert = 0;
     this.carDetail.concesionary_maintenance = false;
+    this.carDetail.certified = false;
     this.carDetail.general_condition = "";
 
     this.me = this.authSrv.getMeData();

@@ -45,6 +45,7 @@ export class CarDetailSeller{
   public plate!: string;
   public imgs_documentation!: any[];
   public concesionary_maintenance!: boolean;
+  public certified!: boolean;
 }
 
 export class CarDetailMechanicalFile{
@@ -143,6 +144,7 @@ export class AddVehicle{
   public vehicle_plate!: string;
   public imgs_documents!: any[];
   public concesionary_maintenance!: boolean;
+  public certified!: boolean;
 }
 
 export class AddMechanicFile{

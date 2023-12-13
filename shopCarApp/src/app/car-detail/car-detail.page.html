@@ -644,11 +644,28 @@
   
               <ion-item class="itemSegment">
                 <ion-segment [disabled]="!editCar" [(ngModel)]="carDetail.concesionary_maintenance">
+                  <ion-segment-button [value]="true" class="segment-green">
+                    <ion-label>Sí</ion-label>
+                  </ion-segment-button>
                   <ion-segment-button [value]="false" class="segment-red">
                     <ion-label>No</ion-label>
                   </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.certified">
+              <ion-item-divider style="text-align: center;">
+                <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
+              </ion-item-divider>
+  
+              <ion-item class="itemSegment">
+                <ion-segment [(ngModel)]="carDetail.certified" [disabled]="!editCar">
                   <ion-segment-button [value]="true" class="segment-green">
                     <ion-label>Sí</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button [value]="false" class="segment-red">
+                    <ion-label>No</ion-label>
                   </ion-segment-button>
                 </ion-segment>
               </ion-item>

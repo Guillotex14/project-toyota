@@ -290,11 +290,28 @@
   
               <ion-item class="itemSegment">
                 <ion-segment  disabled="true" [(ngModel)]="carDetail.concesionary_maintenance">
+                  <ion-segment-button [value]="true" class="segment-green">
+                    <ion-label>Sí</ion-label>
+                  </ion-segment-button>
                   <ion-segment-button [value]="false" class="segment-red">
                     <ion-label>No</ion-label>
                   </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.certified">
+              <ion-item-divider style="text-align: center;">
+                <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
+              </ion-item-divider>
+  
+              <ion-item class="itemSegment">
+                <ion-segment [value]="carDetail.certified" [disabled]="true">
                   <ion-segment-button [value]="true" class="segment-green">
                     <ion-label>Sí</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button [value]="false" class="segment-red">
+                    <ion-label>No</ion-label>
                   </ion-segment-button>
                 </ion-segment>
               </ion-item>
@@ -384,7 +401,7 @@
 
       <ion-col size="12" *ngIf="!carDetail && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
-        <p class="titleNoInfo">No se encontraron vehículos</p>
+        <p class="titleNoInfo">No se encontro vehículos</p>
       </ion-col>
     </ion-row>
   </ion-grid>

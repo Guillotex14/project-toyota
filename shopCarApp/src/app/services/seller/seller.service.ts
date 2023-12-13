@@ -151,4 +151,8 @@ export class SellerService {
   public saveCustomer(data:any){
     return this.http.post(global.urlBase+'client/add', data,this.authSrv.getToken()!);
   }
+
+  public getCustomers(){
+    return this.http.get(`${global.urlBase}client/all?s=`,this.authSrv.getToken()!);
+  }
 }

@@ -68,7 +68,11 @@ export class AddVehiclePage implements OnInit {
   validVin: boolean = false;
   emptyVin: boolean = false;
   emptyKm: boolean = false;
+  emptyMaintenance: boolean = false;
+  emptyCertified: boolean = false;
 
+
+  certified: string = '';
   concesionary_maintenance: string = '';
 
   @ViewChild('fileInput') fileInput: any;
@@ -287,7 +291,12 @@ export class AddVehiclePage implements OnInit {
     }
 
     if(this.concesionary_maintenance == "" || this.concesionary_maintenance == null || this.concesionary_maintenance == undefined){
-      this.emptyIdmechanic = true;
+      this.emptyMaintenance = true;
+      return;
+    }
+
+    if(this.certified == "" || this.certified == null || this.certified == undefined){
+      this.emptyCertified = true;
       return;
     }
 
@@ -297,7 +306,6 @@ export class AddVehiclePage implements OnInit {
     }
 
     if(this.arrayImages.length == 0){
-      this.utils.presentToast("Debe agregar al menos una imagen");
       this.utils.presentAlert("Debe agregar al menos una imagen", "Información", "");
       return;
     }
@@ -307,7 +315,8 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.images = this.arrayImages;
     this.newVehicle.year = parseInt(this.year);
     this.newVehicle.imgs_documents = this.arrayDocuments;
-    this.newVehicle.concesionary_maintenance = Boolean(this.concesionary_maintenance);
+    this.newVehicle.concesionary_maintenance = this.concesionary_maintenance === "si" ? true : false;
+    this.newVehicle.certified = this.certified === "si" ? true : false;
     this.newVehicle.vin = this.newVehicle.vin.toUpperCase();
     this.newVehicle.km = parseInt(this.km.replace(/\./g,''));
     this.newVehicle.vehicle_plate = this.newVehicle.vehicle_plate.toUpperCase();
@@ -371,6 +380,13 @@ export class AddVehiclePage implements OnInit {
     this.year = '';
     this.km = '';
     this.newVehicle.concesionary_maintenance = false;
+    this.newVehicle.certified = false;
+    this.arrayImages = [];
+    this.arrayDocuments = [];
+    this.newVehicle.imgs_documents = [];
+    this.newVehicle.id_mechanic = '';
+    this.concesionary_maintenance = '';
+    this.certified = '';
   }
 
   public async modalMechanic(){
@@ -1004,6 +1020,22 @@ export class AddVehiclePage implements OnInit {
     
     if (e.target.value != "") {
       this.emptyYear = false;
+    }
+
+  }
+
+  public validateMaintenance(e:any){
+    console.log(e)
+    if (e.target.value != "") {
+      this.emptyMaintenance = false;
+    }
+
+  }
+
+  public validateCertified(e:any){
+    console.log(e)
+    if (e.target.value != "") {
+      this.emptyCertified = false;
     }
 
   }

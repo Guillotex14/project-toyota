@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuController, AlertController, IonInfiniteScroll } from '@ionic/angular';
 import { AdminService } from '../services/admin/admin.service';
 import { UtilsService } from '../services/utils/utils.service';
+import { SellerService } from '../services/seller/seller.service';
 
 @Component({
   selector: 'app-list-customers',
@@ -22,13 +23,14 @@ export class ListCustomersPage implements OnInit {
 
   loading: boolean = true;
 
-  constructor(private utils: UtilsService, private adminSrv: AdminService, private menu: MenuController, private router:Router, private alertCtrl: AlertController) { }
+  constructor(private utils: UtilsService, private adminSrv: AdminService, private menu: MenuController, private router:Router, private alertCtrl: AlertController, private sellerSrv: SellerService) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
     this.data.pos = 0;
+    this.getCustomers();
   }
 
   public goBack(){
@@ -39,6 +41,20 @@ export class ListCustomersPage implements OnInit {
   public openMenu(){
     this.utils.setLogin(true);
     this.menu.open();
+  }
+
+  public getCustomers(){
+    this.loading = true;
+    this.sellerSrv.getCustomers().subscribe((resp:any)=>{
+      if (resp.status) {
+        this.customersList = resp.data;
+        this.loading = false;
+      }
+    },(err:any)=>{
+      this.loading = false;
+    }
+    )
+
   }
 
   public loadData(eve:any){

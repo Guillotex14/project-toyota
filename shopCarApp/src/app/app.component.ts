@@ -50,31 +50,50 @@ export class AppComponent implements  OnInit{
           title: "Admins Concesionarios",
           url: "list-admin-concesionary",
           icon: "person",
-          active: false
+          active: false,
+          users: [
+            "admin",
+          ]
         },
         {
           title: "Vendedores",
           url: "list-user-admin",
           icon: "people",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Técnicos",
           url: "list-mechanic-admin",
           icon: "construct",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Marcas",
           url: "list-brands",
           icon: "pricetag",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Modelos de Vehículos",
           url: "list-models-vehicles",
           icon: "car-sport",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         }
       ]
     },
@@ -87,31 +106,50 @@ export class AppComponent implements  OnInit{
           title: "Admin Concesionario",
           url: "add-admin-concesionary",
           icon: "person",
-          active: false
+          active: false,
+          users: [
+            "admin",
+          ]
         },
         {
           title: "Vendedor",
           url: "create-user-admin",
           icon: "people",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Técnico",
           url: "add-mechanic",
           icon: "construct",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Marca",
           url: "add-brand",
           icon: "pricetag",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         },
         {
           title: "Modelo de vehículo",
           url: "add-model-vehicle",
           icon: "car-sport",
-          active: false
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
         }
       ]
     }
