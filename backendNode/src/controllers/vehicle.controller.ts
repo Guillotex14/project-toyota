@@ -26,7 +26,7 @@ import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
-
+import { templatesNotifies } from "../templates/notifications/templates.notifications";
 
 
 const vehicleController: any = {};
@@ -184,6 +184,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
 
   res.json(reponseJson);
 };
+
 
 vehicleController.addImgVehicle = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -2415,7 +2416,7 @@ vehicleController.applyCertificate = async (req: Request, res: Response) => {
 
 
   const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
-  let auxCertificate:boolean=false;
+  let auxCertificate: boolean = false;
   if (mechanicalFile) {
     if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
       auxCertificate = true;
@@ -2432,7 +2433,7 @@ vehicleController.applyCertificate = async (req: Request, res: Response) => {
     }
   }
 
-  const vehicleUpdated:any = await mechanicalsFiles.findByIdAndUpdate(mechanicalFile._id, {
+  const vehicleUpdated: any = await mechanicalsFiles.findByIdAndUpdate(mechanicalFile._id, {
     certificate: auxCertificate,
   });
   const mechanicalFileAux: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
@@ -3425,6 +3426,129 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
 
   res.json(reponseJson);
 }
+
+vehicleController.add_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller"]);
+  let data: any = req.body;
+
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+
+  infoSeller = await sellers.findOne({ _id: decode.id_sell });
+  let infoConsecionary: any = await ConcesionariesSchema.findOne({ name: infoSeller.concesionary })
+  emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+
+  const template = templatesNotifies("add_request_models_brands", data);
+
+  // const mailOptions = {
+  //   from: "Toyousado",
+  //   to: emailmechanic.email,
+  //   subject: "Revisión de vehículo",
+  //   html: template,
+  // };
+  // await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+};
+
+vehicleController.approve_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  infoSeller = await sellers.findOne({ _id: decode.id_sell });
+  let infoConsecionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+  emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+
+  const template = templatesNotifies("approve_request_models_brands", data);
+
+  // const mailOptions = {
+  //   from: "Toyousado",
+  //   to: emailmechanic.email,
+  //   subject: "Revisión de vehículo",
+  //   html: template,
+  // };
+  // await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
+
+vehicleController.success_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  const template = templatesNotifies("success_request_models_brands", data);
+
+  // const mailOptions = {
+  //   from: "Toyousado",
+  //   to: emailmechanic.email,
+  //   subject: "Revisión de vehículo",
+  //   html: template,
+  // };
+  // await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
+vehicleController.cancel_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  const template = templatesNotifies("cancel_request_models_brands", data);
+
+
+  // const mailOptions = {
+  //   from: "Toyousado",
+  //   to: emailmechanic.email,
+  //   subject: "Revisión de vehículo",
+  //   html: template,
+  // };
+  // await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
 
 
 async function generateBase64(pdfPath: string): Promise<string> {

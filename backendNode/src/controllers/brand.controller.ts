@@ -257,5 +257,7 @@ brandController.allPaginator = async (req: Request, res: Response) => {
   res.json(reponseJson);
 };
 
+
+
 export default brandController;
 

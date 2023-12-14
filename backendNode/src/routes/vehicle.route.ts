@@ -99,4 +99,13 @@ vehicleRouter.get("/allConcesionaries", concesionaryController.all);
 //---------------estados---------------------------
 vehicleRouter.get("/allStates", statesController.all);
 
+
+// request models and branch
+vehicleRouter.post("/add_request_models_brands",modelVehiclesController.add_request_models_brands);
+vehicleRouter.post("/approve_request_models_brands",modelVehiclesController.approve_request_models_brands);
+vehicleRouter.post("/success_request_models_brands",modelVehiclesController.success_request_models_brands);
+vehicleRouter.post("/cancel_request_models_brands",modelVehiclesController.cancel_request_models_brands);
+
+
+
 export default vehicleRouter;
