@@ -30,7 +30,7 @@
       </ion-col>
 
       <!-- filtro -->
-      <ion-col size="12" class="colFilter" *ngIf="!loadData">
+      <ion-col size="12" class="colFilter" *ngIf="!loading">
         <ion-row>
 
           <ion-col sizeXl="5" sizeLg="5" sizeMd="5" sizeSm="5" sizeXs="5" class="colResultFilter">
@@ -51,7 +51,7 @@
         </ion-row>
       </ion-col>
 
-      <ion-col size="12" *ngIf="!loadData && arrayVehicles.length > 0">
+      <ion-col size="12" *ngIf="!loading && arrayVehicles.length > 0">
         <ion-grid fixed>
           <ion-row>
 

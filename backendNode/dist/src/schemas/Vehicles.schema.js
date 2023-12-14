@@ -71,6 +71,9 @@ const vehicleSchema = new mongoose_1.Schema({
     concesionary_maintenance: {
         type: Boolean
     },
+    certified: {
+        type: Boolean
+    },
     id_seller: {
         type: mongoose_1.Schema.Types.ObjectId
     },

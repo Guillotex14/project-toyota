@@ -42,7 +42,6 @@ export class ComparisonPage implements OnInit {
     let labels = ['firstKm', 'secondKm', 'thirdKm', 'fourthKm'];
     let labelsPrice = ['firstPrice', 'secondPrice', 'thirdPrice', 'fourthPrice'];
     let labelsTitle = ['firstTitle', 'secondTitle', 'thirdTitle', 'fourthTitle'];
-    let labelsCondition = ['firstCondition', 'secondCondition', 'thirdCondition', 'fourthCondition'];
 
     this.comparison = this.assignColorsAndLabels('km', colors, labels);
     this.comparison = this.assignColorsAndLabels('price', colors, labelsPrice);
@@ -351,7 +350,6 @@ export class ComparisonPage implements OnInit {
     //   }
     // }
 
-    console.log(this.comparison)
     setTimeout(() => {
       this.loading = false;
     }, 2000);

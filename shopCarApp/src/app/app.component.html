@@ -124,11 +124,13 @@
       </ion-item>
 
       <ion-list *ngIf="item.open">
-        <ion-menu-toggle >
-          <ion-item button *ngFor="let sub of item.children" (click)="goTo(sub.url)" [class.active]="sub.active">
-            <ion-icon slot="start" [name]="sub.icon"></ion-icon>
-            <ion-label>{{sub.title}}</ion-label>
-          </ion-item>
+        <ion-menu-toggle>
+          <div *ngFor="let sub of item.children">
+            <ion-item button (click)="goTo(sub.url)" [class.active]="sub.active" *ngIf="sub.users.includes(typeUser)">
+              <ion-icon slot="start" [name]="sub.icon"></ion-icon>
+              <ion-label>{{sub.title}}</ion-label>
+            </ion-item>
+          </div>
         </ion-menu-toggle>
       </ion-list>
 

@@ -433,6 +433,7 @@ userController.all = async (req: Request, res: Response) => {
       },
     ],
     type_user: data.type_user,
+    status: 1
   };
 
   if (decode.type_user == "admin_concesionary") { // cuando el usuario admin_concesionary consulta

@@ -1804,7 +1804,7 @@ ion-segment {
   app-list-brand-admin, app-list-user-admin, app-list-model-admin,  app-list-mechanic-admin, app-list-admin-concesionary{
     .header{
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 20px !important;
       }
       .iconMenu {
         margin-top: 85% !important;
@@ -2483,6 +2483,11 @@ ion-segment {
 
 @media screen and (max-width:260px) {
   
+  .headerTitle{
+    font-size: 20px !important;
+
+  }
+
   .colFilter{
     height: 40px !important;
     .colResultFilter{

@@ -172,7 +172,7 @@
                     <span class="spanLabel">Combustible</span>
                   </ion-col>
                   <ion-col size="12" >
-                    <p class="pText">{{carDetail.fuel}}</p>
+                    <p class="pText">{{carDetail.fuel === 'hibrido' ? 'híbrido': carDetail.fuel}}</p>
                   </ion-col>
                 </ion-col>
     
@@ -270,7 +270,7 @@
                   <ion-select [(ngModel)]="carDetail.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible">
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="gasolina">Gasolina</ion-select-option>
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="diesel">Diesel</ion-select-option>
-                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="hibrido">Hibrido</ion-select-option>
+                    <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="hibrido">Híbrido</ion-select-option>
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="eléctrico">Eléctrico</ion-select-option>
                   </ion-select>
                 </ion-col>
@@ -644,11 +644,28 @@
   
               <ion-item class="itemSegment">
                 <ion-segment [disabled]="!editCar" [(ngModel)]="carDetail.concesionary_maintenance">
+                  <ion-segment-button [value]="true" class="segment-green">
+                    <ion-label>Sí</ion-label>
+                  </ion-segment-button>
                   <ion-segment-button [value]="false" class="segment-red">
                     <ion-label>No</ion-label>
                   </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" *ngIf="carDetail.certified">
+              <ion-item-divider style="text-align: center;">
+                <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
+              </ion-item-divider>
+  
+              <ion-item class="itemSegment">
+                <ion-segment [(ngModel)]="carDetail.certified" [disabled]="!editCar">
                   <ion-segment-button [value]="true" class="segment-green">
                     <ion-label>Sí</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button [value]="false" class="segment-red">
+                    <ion-label>No</ion-label>
                   </ion-segment-button>
                 </ion-segment>
               </ion-item>

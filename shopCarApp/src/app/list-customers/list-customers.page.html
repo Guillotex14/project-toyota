@@ -23,7 +23,7 @@
           <ion-row>
 
             <ion-col size="12">
-              <ion-grid fixed size="12" class="card" *ngFor="let mechanic of customersList">
+              <ion-grid fixed size="12" class="card" *ngFor="let customer of customersList">
                 <ion-row>
                   <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="5" size-xs="5" style="text-align: center;">
                     <!-- <ion-img [src]="mechanic.image.img" style="margin: 50px auto auto auto;" *ngIf="mechanic.image !==''" ></ion-img> -->
@@ -34,12 +34,12 @@
                     <ion-grid fixed>
                       <ion-row>
                         <ion-col size="12">
-                          <p class="pTitle">{{mechanic.mechanics.fullName}}</p>
-                          <span class="spanSubtitle" style="font-size: 15px;">Técnico</span>
+                          <p class="pTitle">Nombre: {{customer.name+' '+customer.last_name}}</p>
+                          <p class="pTitle">Modelo de interes: {{customer.interested_car_model}}</p>
                         </ion-col>
                         <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12" style="margin-top: 5px">
-                          <p class="pTitle">{{mechanic.mechanics.city}}</p>
-                          <span class="spanSubtitle">{{mechanic.mechanics.date_created}}</span>
+                          <p class="pTitle">Email: {{customer.email}}</p>
+                          <p class="pTitle">Teléfono: {{customer.phone}}</p>
                         </ion-col>
                         <ion-col sizeXl="6" sizeLg="6" sizeMd="12" sizeSm="12" sizeXs="12">
 <!-- 

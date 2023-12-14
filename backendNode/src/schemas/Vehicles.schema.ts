@@ -70,6 +70,9 @@ const vehicleSchema = new Schema({
     concesionary_maintenance: {
         type: Boolean
     },
+    certified:{
+        type: Boolean
+    },
     id_seller: {
         type: Schema.Types.ObjectId
     },

@@ -45,6 +45,7 @@ export class CarDetailSeller{
   public plate!: string;
   public imgs_documentation!: any[];
   public concesionary_maintenance!: boolean;
+  public certified!: boolean;
 }
 
 export class CarDetailMechanicalFile{
@@ -143,6 +144,7 @@ export class AddVehicle{
   public vehicle_plate!: string;
   public imgs_documents!: any[];
   public concesionary_maintenance!: boolean;
+  public certified!: boolean;
 }
 
 export class AddMechanicFile{
@@ -273,10 +275,10 @@ export class comparisonModel{
 }
 
 export class CustomerModel{
-  public name!: string;
-  public lastname!: string;
-  public phone!: string;
   public email!: string;
-  public model!: string;
-  public quote!: string;
+  public name!: string;
+  public last_name!: string;
+  public interested_car_model!: string;
+  public phone!: string;
+  public approximate_budget!: string;
 }
