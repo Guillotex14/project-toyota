@@ -2877,7 +2877,7 @@ vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    const reports = yield reportsMechanicalsFiles_schema_1.default.find({ _id: data.id }).sort({ date: -1 });
+    const reports = yield reportsMechanicalsFiles_schema_1.default.find({ id_mechanic_file: data.id }).sort({ date: -1 });
     for (let i = 0; i < reports.length; i++) {
         const element = reports[i];
         let user = yield Users_schema_1.default.findOne({ _id: element.id_user });

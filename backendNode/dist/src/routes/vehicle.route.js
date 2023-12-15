@@ -63,9 +63,9 @@ vehicleRouter.get("/allConcesionaries", concesionary_controller_1.default.all);
 //---------------estados---------------------------
 vehicleRouter.get("/allStates", states_controller_1.default.all);
 // request models and branch
-vehicleRouter.post("/add_request_models_brands", modelsVehicles_controller_1.default.add_request_models_brands);
-vehicleRouter.post("/approve_request_models_brands", modelsVehicles_controller_1.default.approve_request_models_brands);
-vehicleRouter.post("/success_request_models_brands", modelsVehicles_controller_1.default.success_request_models_brands);
-vehicleRouter.post("/cancel_request_models_brands", modelsVehicles_controller_1.default.cancel_request_models_brands);
+vehicleRouter.post("/add_request_models_brands", vehicle_controller_1.default.add_request_models_brands);
+vehicleRouter.post("/approve_request_models_brands", vehicle_controller_1.default.approve_request_models_brands);
+vehicleRouter.post("/success_request_models_brands", vehicle_controller_1.default.success_request_models_brands);
+vehicleRouter.post("/cancel_request_models_brands", vehicle_controller_1.default.cancel_request_models_brands);
 exports.default = vehicleRouter;
 //# sourceMappingURL=vehicle.route.js.map

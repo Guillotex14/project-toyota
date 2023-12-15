@@ -3415,7 +3415,7 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
     return res.json(reponseJson);
   }
 
-  const reports: any = await reportsMechanicalsFiles.find({ _id: data.id }).sort({ date: -1 });
+  const reports: any = await reportsMechanicalsFiles.find({ id_mechanic_file: data.id }).sort({ date: -1 });
   for (let i = 0; i < reports.length; i++) {
     const element = reports[i];
     let user = await Users.findOne({ _id: element.id_user });
@@ -3446,13 +3446,13 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
 
   const template = templatesNotifies("add_request_models_brands", data);
 
-  // const mailOptions = {
-  //   from: "Toyousado",
-  //   to: emailmechanic.email,
-  //   subject: "Revisión de vehículo",
-  //   html: template,
-  // };
-  // await sendEmail(mailOptions);
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "";
@@ -3477,13 +3477,13 @@ vehicleController.approve_request_models_brands = async (req: Request, res: Resp
 
   const template = templatesNotifies("approve_request_models_brands", data);
 
-  // const mailOptions = {
-  //   from: "Toyousado",
-  //   to: emailmechanic.email,
-  //   subject: "Revisión de vehículo",
-  //   html: template,
-  // };
-  // await sendEmail(mailOptions);
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "";
@@ -3506,13 +3506,13 @@ vehicleController.success_request_models_brands = async (req: Request, res: Resp
 
   const template = templatesNotifies("success_request_models_brands", data);
 
-  // const mailOptions = {
-  //   from: "Toyousado",
-  //   to: emailmechanic.email,
-  //   subject: "Revisión de vehículo",
-  //   html: template,
-  // };
-  // await sendEmail(mailOptions);
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "";
@@ -3535,13 +3535,13 @@ vehicleController.cancel_request_models_brands = async (req: Request, res: Respo
   const template = templatesNotifies("cancel_request_models_brands", data);
 
 
-  // const mailOptions = {
-  //   from: "Toyousado",
-  //   to: emailmechanic.email,
-  //   subject: "Revisión de vehículo",
-  //   html: template,
-  // };
-  // await sendEmail(mailOptions);
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "";
