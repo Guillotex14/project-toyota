@@ -2854,7 +2854,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
 
   const newMechanicFileSaved = await newMechanicFile.save();
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
   const newReportMechanicsFiles = new reportsMechanicalsFiles({
     campos_anteriores: null,
     campos_actualizados: null,
@@ -2999,9 +2999,10 @@ vehicleController.updateMechanicalFile = async (
 
   const update: any = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
 
-  dataFile.campos_actualizados = setCamposActualizados(oldFicha, update);
-  dataFile.campos_anteriores = setCamposAnteriores(oldFicha, update);
+  const updateFicha:any=await mechanicalsFiles.findOne({ _id: data._id });
 
+  dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);
+  dataFile.campos_anteriores = setCamposAnteriores(oldFicha, updateFicha);
   const newReportMechanicsFiles = new reportsMechanicalsFiles(dataFile);
   await newReportMechanicsFiles.save();
 
@@ -3296,7 +3297,7 @@ vehicleController.addRerportMechanicalFile = async (req: Request, res: Response)
     reponseJson.status = false;
     return res.json(reponseJson);
   }
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
   const newReportMechanicsFiles = new reportsMechanicalsFiles({
     campos_anteriores: null,
     campos_actualizados: null,
@@ -3328,7 +3329,7 @@ vehicleController.commentRerportMechanicalFile = async (req: Request, res: Respo
     return res.json(reponseJson);
   }
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
 
   if (data.id) {
     await reportsMechanicalsFiles.findByIdAndUpdate(data.id, {
@@ -3367,7 +3368,7 @@ vehicleController.acceptUpdateMechanicalFile = async (req: Request, res: Respons
     return res.json(reponseJson);
   }
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
 
   if (data.accept == "Si" || data.accept == "si") {
     const newReportMechanicsFiles = new reportsMechanicalsFiles({
@@ -3415,12 +3416,18 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
     return res.json(reponseJson);
   }
 
-  const reports: any = await reportsMechanicalsFiles.find({ id_mechanic_file: data.id }).sort({ date: -1 });
+  let reports: any = await reportsMechanicalsFiles.find({ id_mechanic_file: data.id }).sort({ date: -1 });
+  
   for (let i = 0; i < reports.length; i++) {
-    const element = reports[i];
-    let user = await Users.findOne({ _id: element.id_user });
-    element.user = user;
+    reports[i].user = {};
+    let user = await Users.findOne({ _id: reports[i].id_user });
+    reports[i] = {
+      ...reports[i]._doc,
+      user:user
+    }
+    
   }
+
   reponseJson.code = 200;
   reponseJson.message = "";
   reponseJson.status = true;
@@ -3576,6 +3583,7 @@ async function generateBase64(pdfPath: string): Promise<string> {
 }
 
 const setCamposActualizados = (oldFicha: any, update: any) => {
+    console.log(oldFicha,update);
   let campos: any = {}
   if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
     campos.part_emblems_complete = update.part_emblems_complete;
@@ -3805,7 +3813,7 @@ const setCamposActualizados = (oldFicha: any, update: any) => {
   if (oldFicha.brake_discs != update.brake_discs) {
     campos.brake_discs = update.brake_discs;
   }
-
+console.log(campos);
   return campos;
 }
 
