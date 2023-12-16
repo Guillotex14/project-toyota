@@ -203,7 +203,34 @@ var UtilsService = /** @class */ (function () {
                             header: header,
                             subHeader: subHeader,
                             message: message,
-                            buttons: ['OK']
+                            buttons: ['Aceptar']
+                        })];
+                    case 1:
+                        alert = _a.sent();
+                        return [4 /*yield*/, alert.present()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UtilsService.prototype.presentAlertComment = function (message, header, subHeader) {
+        return __awaiter(this, void 0, void 0, function () {
+            var alert;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.alertController.create({
+                            header: "",
+                            subHeader: subHeader,
+                            message: message,
+                            inputs: [
+                                {
+                                    type: 'textarea',
+                                    placeholder: 'Comentario'
+                                },
+                            ],
+                            buttons: ['Aceptar']
                         })];
                     case 1:
                         alert = _a.sent();
@@ -223,7 +250,7 @@ var UtilsService = /** @class */ (function () {
     UtilsService.prototype.addComparasion = function (data) {
         var comparasion = JSON.parse(localStorage.getItem('comparasion'));
         if (comparasion != null && comparasion.length == 4) {
-            this.presentToast('Solo se pueden agregar 4 vehiculos a la comparacion');
+            this.presentAlert('Solo se pueden agregar 4 vehículos a la comparación', 'Comparación', '');
             return;
         }
         if (comparasion == null) {
@@ -234,10 +261,12 @@ var UtilsService = /** @class */ (function () {
             if (!index) {
                 comparasion.push(data);
                 localStorage.setItem('comparasion', JSON.stringify(comparasion));
-                this.presentToast('Vehiculo agregado a la comparacion');
+                // this.presentToast('Vehiculo agregado a la comparacion');
+                this.presentAlert('Vehículo agregado a la comparación', 'Comparación', '');
             }
             else {
-                this.presentToast('El vehiculo ya esta en la comparacion');
+                // this.presentToast('El vehiculo ya esta en la comparacion');
+                this.presentAlert('El vehículo se encuentra en comparación', 'Comparación');
             }
         }
     };
