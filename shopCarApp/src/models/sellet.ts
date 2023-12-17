@@ -36,7 +36,7 @@ export class CarDetailSeller{
   public mechanicalFile!: boolean;
   public type_vehicle!: string;
   public sold!: boolean;
-  public general_condition!: any;
+  public general_condition!: number;
   public images!: ImagesVehicle[];
   public vin!: string;
   public vehicle_plate!: string;

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, IonActionSheet, IonModal, IonPopover, MenuController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Browser } from '@capacitor/browser';
-import { PrivacyScreen } from '@capacitor-community/privacy-screen';
+// import { PrivacyScreen } from '@capacitor-community/privacy-screen';
 import { Share } from '@capacitor/share';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
@@ -130,7 +130,7 @@ export class CarDetailPage implements OnInit {
     this.carDetail.price_ofert = 0;
     this.carDetail.concesionary_maintenance = false;
     this.carDetail.certified = false;
-    this.carDetail.general_condition = "";
+    this.carDetail.general_condition = 0;
 
     this.me = this.authSrv.getMeData();
     if (this.me !== null) {
@@ -1114,6 +1114,28 @@ export class CarDetailPage implements OnInit {
 
   public async openPdf(url:any){
     await Browser.open({url: url});
+  }
+
+  public changeMaintenece(eve:any){
+
+    // if (eve) {
+      console.log(eve)
+      
+      if (eve.detail.value === "true") {
+        console.log(this.carDetail.concesionary_maintenance, "true")
+        this.carDetail.general_condition = Number(this.carDetail.general_condition)+10
+        
+      }
+
+      if (eve.detail.value === "false") {
+        console.log(this.carDetail.concesionary_maintenance, "true")
+        this.carDetail.general_condition = Number(this.carDetail.general_condition)- 10
+      }
+
+
+      // this.carDetail.general_condition = this.carDetail.concesionary_maintenance === true ? Number(this.carDetail.general_condition)+10 : Number(this.carDetail.general_condition)- 10
+    // }
+    console.log(this.carDetail.general_condition)
   }
 
   // public async screenShotDisables(){

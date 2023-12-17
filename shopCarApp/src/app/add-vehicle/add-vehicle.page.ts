@@ -74,6 +74,16 @@ export class AddVehiclePage implements OnInit {
 
   certified: string = '';
   concesionary_maintenance: string = '';
+  photoNumber: number = 1;
+  photoNumberEdit: number = 0;
+
+  titlesModal: any[] = [ 
+    "Lateral completo",
+    "Tres cuartos frente conductor",
+    "Tres cuartos trasero copiloto",
+    "Interior frente torpedo completo",
+    "Interior frente tablero de instrumentos (visualización del kilometraje)"
+  ]
 
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('fileInput2') fileInput2: any;
@@ -83,68 +93,71 @@ export class AddVehiclePage implements OnInit {
   @ViewChild('ActionSheetEditDocs') ActionSheetEditDocs!: IonActionSheet;
   @ViewChild('modalMechanic') modal!: IonModal;
   @ViewChild('modalAddMechanic') modalAddMechanic!: IonModal;
+  @ViewChild('modalStep') modalStep!: IonModal;
+  @ViewChild('modalStepEdit') modalStepEdit!: IonModal;
   @ViewChild('autoComplete') autoComplete!: IonPopover;
   @ViewChild('inputDocs') inputDocs!: any;
   @ViewChild('inputDocs2') inputDocs2!: any;
-  buttonPhoto = [
-    {
-      text: 'Aceptar',
-      handler: () =>{
-        this.takePhoto();
-        this.actionSheetButtons = [
-          {
-            text: 'Cámara',
-            icon: 'camera',
-            handler: () => {
-              this.takePhoto();
-            }
-          },
-          {
-            text: 'Galería',
-            icon: 'image',
-            handler: () => {
-              this.presentAlert(2);
-            }
-          },
-          {
-            text: 'Cancelar',
-            icon: 'close',
-            role: 'cancel'
-          }
-        ];
-      }
-    }
-  ]
 
-  buttonGallery = [
-    {
-      text: 'Aceptar',
-      handler: () =>{
-        this.takePhotoGalery();
-        this.actionSheetButtons = [
-          {
-            text: 'Cámara',
-            icon: 'camera',
-            handler: () => {
-              this.presentAlert(1);
-            }
-          },
-          {
-            text: 'Galería',
-            icon: 'image',
-            handler: () => {
-              this.takePhotoGalery();
-            }
-          },
-          {
-            text: 'Cancelar',
-            icon: 'close',
-            role: 'cancel'
-          }
-        ];
-      }
-    }
-  ]
+  // buttonPhoto = [
+  //   {
+  //     text: 'Aceptar',
+  //     handler: () =>{
+  //       this.takePhoto();
+  //       this.actionSheetButtons = [
+  //         {
+  //           text: 'Cámara',
+  //           icon: 'camera',
+  //           handler: () => {
+  //             this.takePhoto();
+  //           }
+  //         },
+  //         {
+  //           text: 'Galería',
+  //           icon: 'image',
+  //           handler: () => {
+  //             this.presentAlert(2);
+  //           }
+  //         },
+  //         {
+  //           text: 'Cancelar',
+  //           icon: 'close',
+  //           role: 'cancel'
+  //         }
+  //       ];
+  //     }
+  //   }
+  // ]
+
+  // buttonGallery = [
+  //   {
+  //     text: 'Aceptar',
+  //     handler: () =>{
+  //       this.takePhotoGalery();
+  //       this.actionSheetButtons = [
+  //         {
+  //           text: 'Cámara',
+  //           icon: 'camera',
+  //           handler: () => {
+  //             this.presentAlert(1);
+  //           }
+  //         },
+  //         {
+  //           text: 'Galería',
+  //           icon: 'image',
+  //           handler: () => {
+  //             this.takePhotoGalery();
+  //           }
+  //         },
+  //         {
+  //           text: 'Cancelar',
+  //           icon: 'close',
+  //           role: 'cancel'
+  //         }
+  //       ];
+  //     }
+  //   }
+  // ]
 
   constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService, private sanitizer: DomSanitizer) {
 
@@ -412,6 +425,35 @@ export class AddVehiclePage implements OnInit {
   public async takePhoto(){
     
     this.utils.presentLoading("Cargando imagen...");
+
+    if (this.arrayImages.length === 2){
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 3){
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 4){
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 5) {
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.modalStep.dismiss();
+      return
+    }
+
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -420,8 +462,14 @@ export class AddVehiclePage implements OnInit {
     }).then((imageData)=>{
       let img = {
         image: imageData.dataUrl,
+        number: this.photoNumber
       }
       this.arrayImages.push(img);
+      this.photoNumber++;
+      if (this.arrayImages.length > 5) {
+        this.photoNumber = 1;
+        this.modalStep.dismiss();
+      }
     },
     (err)=>{
       console.log(err)
@@ -431,6 +479,14 @@ export class AddVehiclePage implements OnInit {
 
   public async takePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
+
+    if (this.arrayImages.length === 5) {
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.modalStep.dismiss();
+      return
+    }
+
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -439,8 +495,14 @@ export class AddVehiclePage implements OnInit {
     }).then(async (imageData) => {
       let img = {
         image: imageData.dataUrl,
+        number: this.photoNumber
       }
       this.arrayImages.push(img);
+      this.photoNumber++;
+      if (this.arrayImages.length > 5) {
+        this.photoNumber = 1;
+        this.modalStep.dismiss();
+      }
     } ,
     (err)=>{
       console.log(err)
@@ -451,6 +513,14 @@ export class AddVehiclePage implements OnInit {
 
   public async editTakePhoto(){
     this.utils.presentLoading("Cargando imagen...");
+
+    if (this.arrayImages.length === 5) {
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.modalStepEdit.dismiss();
+      return
+    }
+
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -458,7 +528,7 @@ export class AddVehiclePage implements OnInit {
       source: CameraSource.Camera,
     }).then (async (imageData) => {
       this.arrayImages[this.aux].image = imageData.dataUrl;
-      // this.utils.dismissLoading();
+      this.modalStepEdit.dismiss();
     } ,
     (err)=>{
       console.log(err)
@@ -468,6 +538,14 @@ export class AddVehiclePage implements OnInit {
 
   public async editTakePhotoGalery(){
     this.utils.presentLoading("Cargando imagen...");
+
+    if (this.arrayImages.length === 5) {
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.modalStepEdit.dismiss();
+      return
+    }
+
     const camera = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -475,6 +553,7 @@ export class AddVehiclePage implements OnInit {
       source: CameraSource.Photos,
     }).then (async (imageData) => {
       this.arrayImages[this.aux].image = imageData.dataUrl;
+      this.modalStepEdit.dismiss();
     } ,
     (err)=>{
       console.log(err)
@@ -483,9 +562,10 @@ export class AddVehiclePage implements OnInit {
 
   }
   
-  public openActionSheetEdit(index:any){
+  public openActionSheetEdit(){
     this.ActionSheetEdit.present();
-    this.aux = index;
+    // this.aux = index;
+    // this.photoNumberEdit = index + 1;
   }
 
   public openActionSheet(){
@@ -498,14 +578,14 @@ export class AddVehiclePage implements OnInit {
         text: 'Cámara',
         icon: 'camera',
         handler: () => {
-          this.presentAlert(1);
+          this.takePhoto();
         }
       },
       {
         text: 'Galería',
         icon: 'image',
         handler: () => {
-          this.presentAlert(2);
+          this.takePhotoGalery();
         }
       },
       {
@@ -807,21 +887,12 @@ export class AddVehiclePage implements OnInit {
     }
   }
 
-  public async presentAlert(data:any) {
-    const alert = await this.alertCtrl.create({
-      header: 'Información',
-      message: new IonicSafeString('<p>1. Lateral completo</p> <p>2. Tres cuartos frente conductor</p> <p>3. Tres cuartos trasero copiloto</p> <p>4.Interior frente torpedo completo</p> <p>5.Interior frente tablero de instrumentos (visualización del kilometraje)</p>'),
-      buttons: data === 1 ? this.buttonPhoto : this.buttonGallery
-    });
-    await alert.present();
-  }
-
   public async takePhotoDoc(){
     
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
-          this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", ""); 
       return
     };
     const camera = await Camera.getPhoto({
@@ -844,8 +915,8 @@ export class AddVehiclePage implements OnInit {
   public async takePhotoGaleryDoc(){
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
-          this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.dismissLoading();
+      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -870,7 +941,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -891,7 +962,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -1052,7 +1123,7 @@ export class AddVehiclePage implements OnInit {
   public fileSelect(file:FileList){
 
     if (this.arrayDocuments.length === 5) {
-      this.utils.presentToast("Solo se pueden agregar 5 documentos");
+      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "");
       return
     }
 
@@ -1080,5 +1151,65 @@ export class AddVehiclePage implements OnInit {
     }
     reader.readAsDataURL(file[0]);
   }
+
+  ////////////------------------ steps de agregar imagenes del vehiculo -----------------////////////
+
+  public openModalStep(){
+
+    if (this.arrayImages.length === 0) {
+      this.modalStep.present();
+    }
+
+    if (this.arrayImages.length === 2) {
+      this.modalStep.present();
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      console.log(aux)
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 3) {
+      this.modalStep.present();
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 4) {
+      this.modalStep.present();
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+    }
+
+    if (this.arrayImages.length === 5) {
+      
+      this.alertCtrl.create({
+        header: "Información",
+        message: "Solo se pueden agregar 5 imágenes",
+        buttons: [
+          {
+            text: "Aceptar",
+            role: "cancel"
+          }
+        ]
+      }).then((alert)=>{
+        alert.present();
+      })
+
+      return
+    }
+  }
+
+  public openStepEdit(index:any){
+    this.modalStepEdit.present();
+    this.aux = index;
+    this.photoNumberEdit = index + 1;
+  }
+
+
 
 }

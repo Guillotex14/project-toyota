@@ -7,12 +7,12 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https'
   },
-  plugins: {
-    PrivacyScreen: {
-      enable: true,
-      imageName: 'SplashScreen',
-    }
-  }
+  // plugins: {
+  //   PrivacyScreen: {
+  //     enable: true,
+  //     imageName: 'SplashScreen',
+  //   }
+  // }
 };
 
 export default config;

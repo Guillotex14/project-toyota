@@ -330,7 +330,7 @@
                     <ion-row>
                       <ion-col size="12">
                         
-                        <ion-row *ngIf="carDetail.general_condition ==='excelente' || carDetail.general_condition >= 96">
+                        <ion-row *ngIf="carDetail.general_condition >= 96">
                           <ion-col size="12">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -342,7 +342,7 @@
                           </ion-col>
                         </ion-row>
                 
-                        <ion-row *ngIf="carDetail.general_condition ==='bueno' || carDetail.general_condition >= 86 && carDetail.general_condition < 96">
+                        <ion-row *ngIf="carDetail.general_condition >= 86 && carDetail.general_condition < 96">
                           <ion-col size="12">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -354,7 +354,7 @@
                           </ion-col>
                         </ion-row>
                         
-                        <ion-row *ngIf="carDetail.general_condition ==='regular' || carDetail.general_condition >= 76 && carDetail.general_condition < 86 ">
+                        <ion-row *ngIf="carDetail.general_condition >= 76 && carDetail.general_condition < 86 ">
                           <ion-col size="12">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -366,7 +366,7 @@
                           </ion-col>
                         </ion-row>
                 
-                        <ion-row *ngIf="carDetail.general_condition ==='malo' || carDetail.general_condition < 76">
+                        <ion-row *ngIf="carDetail.general_condition < 76">
                           <ion-col size="12">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>

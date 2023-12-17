@@ -25,8 +25,8 @@
 
           <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="text-align: center;">
             <ion-row>
-              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openActionSheet()">
-                <ion-icon name="image" (click)="openActionSheet()" class="noPhotoIcon" ></ion-icon>
+              <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0" (click)="openModalStep()">
+                <ion-icon name="image" (click)="openModalStep()" class="noPhotoIcon" ></ion-icon>
                 <br>
                 <span class="noPhotoTitle" >Cargar imágenes</span>
                 <br>
@@ -46,7 +46,7 @@
 
                       </ion-col>
                       <ion-col size="4">
-                        <ion-button expand="block" shape="round" (click)="openActionSheetEdit(i)" class="btnRed">
+                        <ion-button expand="block" shape="round" (click)="openStepEdit(i)" class="btnRed">
                           <ion-icon name="create" style="font-size: 30px;"></ion-icon>
                         </ion-button>
                       </ion-col>
@@ -57,7 +57,7 @@
                   </swiper-slide>
                   <div class="swiper-pagination"></div>
                 </swiper-container>
-                <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openActionSheet()" class="btnSaveRed">
+                <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openModalStep()" class="btnSaveRed">
                   Agregar imagen
                 </ion-button>
               </ion-col>
@@ -708,5 +708,74 @@
 
     </ng-template>
   </ion-modal>
-  
+
+  <!-- modal de steps para las imagenes del vehiculo -->
+  <ion-modal #modalStep>
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="modalStep.dismiss()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Imagenes del vehiculo</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12" style="text-align: center;">
+              <p class="titlePage" style="margin-top: 20%;">Agregar imagen de {{titlesModal[photoNumber-1]}}</p>
+            </ion-col>
+            <ion-col size="12" class="divImgModal">
+              <span style="margin-left: 15px;">Ejemplo:</span>
+              <ion-img src="assets/images/modal/img-{{photoNumber}}.jpeg"></ion-img>
+            </ion-col>
+            <ion-col size="12">
+              <ion-button expand="block" shape="round" style="margin-top: 35% !important;" (click)="openActionSheet()" class="btnSaveRed">
+                Agregar imagen
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalStepEdit>
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="modalStepEdit.dismiss()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Imagenes del vehiculo</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12" style="text-align: center;">
+              <p class="titlePage" style="margin-top: 20%;">Agregar imagen de {{titlesModal[photoNumberEdit]}}</p>
+            </ion-col>
+            <ion-col size="12" class="divImgModal">
+              <span style="margin-left: 15px;">Ejemplo:</span>
+              <ion-img src="assets/images/modal/img-{{photoNumberEdit}}.jpeg"></ion-img>
+            </ion-col>
+            <ion-col size="12">
+              <ion-button expand="block" shape="round" style="margin-top: 35% !important;" (click)="openActionSheetEdit()" class="btnSaveRed">
+                Agregar imagen
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

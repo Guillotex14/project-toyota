@@ -66,7 +66,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
-    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance, general_condition } = req.body;
+    const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance, certified, general_condition } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -102,6 +102,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         vin,
         plate: vehicle_plate,
         concesionary_maintenance,
+        certified,
         general_condition
     });
     yield newVehicle.save();
@@ -717,6 +718,7 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
             concesionary_maintenance: infoVehicle.concesionary_maintenance,
+            certified: infoVehicle.certified,
             general_condition: mechanicalFile
                 ? mechanicalFile.general_condition
                 : "",
