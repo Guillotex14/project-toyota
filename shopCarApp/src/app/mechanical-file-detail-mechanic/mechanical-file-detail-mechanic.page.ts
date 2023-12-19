@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent, Platform } from '@ionic/angular';
+import { AlertController, IonContent, Platform } from '@ionic/angular';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { MechanicalFileDetail } from 'src/models/mechanic';
 import { UtilsService } from '../services/utils/utils.service';
 import { AuthService } from '../services/auth/auth.service';
+import { SellerService } from '../services/seller/seller.service';
 
 @Component({
   selector: 'app-mechanical-file-detail-mechanic',
@@ -22,9 +23,10 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
   theRoute: string = "";
   loading: boolean = true;
   mechanicalFileDetail: MechanicalFileDetail = new MechanicalFileDetail();
+  reportes: any[] = [];
   @ViewChild(IonContent) content!: IonContent;
 
-  constructor(private platform:Platform, private route:Router, private actRoute: ActivatedRoute, private mechanicSrv: MechanicService, private utils: UtilsService, private authSrv: AuthService) {
+  constructor(private platform:Platform, private route:Router, private actRoute: ActivatedRoute, private mechanicSrv: MechanicService, private utils: UtilsService, private authSrv: AuthService, private sellerSrv: SellerService, private alertCtrl: AlertController) {
     
     this.id = this.actRoute.snapshot.params['id']
     this.theRoute = this.actRoute.snapshot.params['route']
@@ -232,5 +234,92 @@ export class MechanicalFileDetailMechanicPage implements OnInit {
     Number(this.mechanicalFileDetail.brake_discs);
 
     this.mechanicalFileDetail.general_condition = total;
+  }
+
+  public getListReport(data: any) {
+    this.sellerSrv.getReportList({ id: data._id }).subscribe((r: any) => {
+      if (r.status) {
+        this.reportes = r.data;
+        for (let i = 0; i < this.reportes.length; i++) {
+          this.reportes[i].showcontent = true;
+          this.reportes[i].campos_actualizados_list = [];
+          this.reportes[i].show_actualizados_list = false;
+          for (const clave in this.reportes[i].campos_actualizados) {
+            this.reportes[i].campos_actualizados_list.push(`${clave}: ${this.reportes[i].campos_actualizados[clave]}`);
+          }
+          this.reportes[i].campos_anteriores_list = [];
+          this.reportes[i].show_anteriores_list = false;
+          for (const clave in this.reportes[i].campos_anteriores) {
+            this.reportes[i].campos_anteriores_list.push(`${clave}: ${this.reportes[i].campos_anteriores[clave]}`);
+          }
+        }
+      }
+    });
+  }
+
+  public seeCamposActualizados(item: any) {
+    for (let i = 0; i < this.reportes.length; i++) {
+      if (this.reportes[i]._id == item._id) {
+        this.reportes[i].showcontent = !this.reportes[i].showcontent
+        this.reportes[i].show_actualizados_list = !this.reportes[i].show_actualizados_list;
+      }
+    }
+  }
+
+  public seeCamposAnteriores(item: any) {
+    for (let i = 0; i < this.reportes.length; i++) {
+      if (this.reportes[i]._id == item._id) {
+        this.reportes[i].showcontent = !this.reportes[i].showcontent
+        this.reportes[i].show_anteriores_list = !this.reportes[i].show_anteriores_list;
+
+      }
+    }
+  }
+
+  async addReport(item: any) {
+    const alert = await this.alertCtrl.create({
+      header: "Nuevo reporte",
+      subHeader: "",
+      message: "",
+      inputs: [
+        {
+          name: 'comentario', // Agregar un nombre al input
+          type: 'textarea',
+          placeholder: 'Comentario',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+          }
+        }, {
+          text: 'Aceptar',
+          handler: (data:any) => {
+            let report: any = {
+              comment: data.comentario,
+              id_mechanic_file: item._id
+            }
+            this.sellerSrv.addRerport(report).subscribe((r: any) => {
+              this.getListReport(item)
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+    // this.reportes.push({
+    //   _id:0,
+    //   campos_actualizados:{},
+    //   campos_anteriores:{},
+    //   comment:"",
+    //   date:"",
+    //   id_mechanic_file:0,
+    //   id_user:0,
+    //   type:"Normal",
+    //   user:null,
+    // });
   }
 }

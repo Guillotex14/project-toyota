@@ -8,6 +8,7 @@ const potentialClientsSchema = new mongoose_1.Schema({
     interested_car_model: String,
     phone: String,
     approximate_budget: Number,
+    concesionary: String,
     status: Number,
     date_created: String,
     id_user: {

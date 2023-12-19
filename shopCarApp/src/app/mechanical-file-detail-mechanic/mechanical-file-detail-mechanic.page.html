@@ -1305,6 +1305,76 @@
         </ion-button>
       </ion-col>
 
+      
+      <div class="listReport" *ngIf="me.id_mechanic === mechanicalFileDetail.id_mechanic">
+        <ion-row>
+          <ion-col size="12">
+            <ion-button (click)="addReport(mechanicalFileDetail)" expand="block" shape="round" class="btnSaveRed">agregar reporte</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="reportes.length>0">
+          <ion-col size="12" *ngFor="let item of reportes">
+            <ion-card>
+              <ion-card-content>
+                <ion-list [inset]="true" *ngIf="item.showcontent">
+                  <ion-item>
+                    <ion-label>Fecha:</ion-label>
+                    <p>{{ item.date }}</p>
+                  </ion-item>
+                  <ion-item *ngIf="item.type!=='Normal'" class="campos_actualizados_list">
+                    <ion-label>Campos actualizados:</ion-label>
+                    <ion-icon name="eye-outline" (click)="seeCamposActualizados(item)"></ion-icon>
+
+                  </ion-item>
+                  <ion-item *ngIf="item.type!=='Normal'" class="campos_anteriores_list">
+                    <ion-label>Campos anteriores:</ion-label>
+                    <ion-icon name="eye-outline" (click)="seeCamposAnteriores(item)"></ion-icon>
+
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Comentario:</ion-label>
+                    <p>{{ item.comment }} </p>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Tipo:</ion-label>
+                    <p>{{ item.type }} </p>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Usuario:</ion-label>
+                    <p>{{ item.user.username }}</p>
+                  </ion-item>
+                </ion-list>
+                <div class="show_actualizados_list" *ngIf="item.show_actualizados_list">
+                  <div class="">
+                    <h3>Actuales</h3>
+                    <ion-icon name="close-outline" (click)="seeCamposActualizados(item)"></ion-icon>
+                  </div>
+                  <div class="">
+                    <ul>
+                      <li *ngFor="let act of item.campos_actualizados_list">{{ act }}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="show_anteriores_list" *ngIf="item.show_anteriores_list">
+                  <div class="">
+                    <h3>Anteriores</h3>
+                    <ion-icon name="close-outline" (click)="seeCamposAnteriores(item)"></ion-icon>
+                  </div>
+                  <div class="">
+                    <ul>
+                      <li *ngFor="let ant of item.campos_anteriores_list">{{ ant }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="reportes.length===0">
+          <p>Sin reportes</p>
+        </ion-row>
+      </div>
+
       <app-skeleton *ngIf="loading"></app-skeleton>
     </ion-row>
   </ion-grid>

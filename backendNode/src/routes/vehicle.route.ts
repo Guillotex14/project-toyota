@@ -72,6 +72,8 @@ vehicleRouter.post("/acceptUpdateMechanicalFile",vehicleController.acceptUpdateM
 
 vehicleRouter.get("/allRerportMechanicalFile",vehicleController.allRerportMechanicalFile);
 
+vehicleRouter.post("/applyCertificate", vehicleController.applyCertificate);
+
 
 // ---------------------brand--------------------
 vehicleRouter.post("/insert-update-brand", brandController.insertUpdate);
@@ -96,5 +98,14 @@ vehicleRouter.get("/allConcesionaries", concesionaryController.all);
 
 //---------------estados---------------------------
 vehicleRouter.get("/allStates", statesController.all);
+
+
+// request models and branch
+vehicleRouter.post("/add_request_models_brands",vehicleController.add_request_models_brands);
+vehicleRouter.post("/approve_request_models_brands",vehicleController.approve_request_models_brands);
+vehicleRouter.post("/success_request_models_brands",vehicleController.success_request_models_brands);
+vehicleRouter.post("/cancel_request_models_brands",vehicleController.cancel_request_models_brands);
+
+
 
 export default vehicleRouter;

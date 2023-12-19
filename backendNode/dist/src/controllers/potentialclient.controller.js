@@ -18,6 +18,7 @@ const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const moment_1 = __importDefault(require("moment"));
 const potentialClients_schema_1 = __importDefault(require("../schemas/potentialClients.schema"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const potentialclient = {};
 potentialclient.add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -47,7 +48,8 @@ potentialclient.add = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             phone: data.phone,
             date_created: now,
             approximate_budget: data.approximate_budget,
-            id_user: decode.id_user,
+            id_user: decode.id_user ? decode.id_user : decode.id,
+            concesionary: decode.concesionary,
             status: 1
         });
         yield newClient.save();
@@ -181,6 +183,7 @@ potentialclient.all = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             { interested_car_model: { $regex: ".*" + data.s + ".*", $options: "i" } },
             { phone: { $regex: ".*" + data.s + ".*", $options: "i" } },
             { approximate_budget: { $regex: ".*" + data.s + ".*", $options: "i" } },
+            { concesionary: decode.concesionary ? decode.concesionary : "" }
         ],
     };
     project = {
@@ -245,6 +248,12 @@ potentialclient.allPaginator = (req, res) => __awaiter(void 0, void 0, void 0, f
             { approximate_budget: { $regex: ".*" + data.s + ".*", $options: "i" } },
         ],
     };
+    if (decode.type_user === "admin_concesionary") {
+        search.$and = [{ concesionary: decode.concesionary }];
+    }
+    if (decode.type_user === "seller") {
+        search.$and = [{ id_user: new mongoose_1.default.Types.ObjectId(decode.id) }];
+    }
     project = {
         _id: "$_id",
         name: 1,

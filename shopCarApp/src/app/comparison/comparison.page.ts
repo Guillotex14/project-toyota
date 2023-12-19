@@ -13,6 +13,10 @@ import { comparisonModel } from 'src/models/sellet';
 export class ComparisonPage implements OnInit {
   
   comparison: any[] = [];
+  arrayEqualKm: any[] = [];
+  arrayEqualPrice: any[] = [];
+  arrayEqualTitle: any[] = [];
+  arrayEqualCondition: any[] = [];
   loading: boolean = true;
   constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) { 
   }
@@ -39,12 +43,12 @@ export class ComparisonPage implements OnInit {
     this.comparison = this.utils.getComparasion();
 
     let colors = ['#00A651', '#F9D616', '#F7941D', '#EB0A1E'];
-    let labels = ['firstKm', 'secondKm', 'thirdKm', 'fourthKm'];
-    let labelsPrice = ['firstPrice', 'secondPrice', 'thirdPrice', 'fourthPrice'];
-    let labelsTitle = ['firstTitle', 'secondTitle', 'thirdTitle', 'fourthTitle'];
+    let labels = ['firstKm', 'secondKm', 'thirdKm', 'fourthKm', 'equalKM'];
+    let labelsPrice = ['firstPrice', 'secondPrice', 'thirdPrice', 'fourthPrice', 'equalPrice'];
+    let labelsTitle = ['firstTitle', 'secondTitle', 'thirdTitle', 'fourthTitle', 'equalTitle'];
 
-    this.comparison = this.assignColorsAndLabels('km', colors, labels);
-    this.comparison = this.assignColorsAndLabels('price', colors, labelsPrice);
+    this.comparison = this.assignColorsAndLabelsKm('km', colors, labels);
+    this.comparison = this.assignColorsAndLabelsPrice('price', colors, labelsPrice);
     this.comparison = this.assignBestTitle('titles', labelsTitle);
     // if (this.comparison.length === 1) {
     //   this.comparison[0].kmColor = '#00A651'
@@ -352,6 +356,7 @@ export class ComparisonPage implements OnInit {
 
     setTimeout(() => {
       this.loading = false;
+      console.log(this.comparison)
     }, 2000);
   }
 
@@ -422,12 +427,51 @@ export class ComparisonPage implements OnInit {
     return null;
   }
   
-  public assignColorsAndLabels(property: string, colors: string[], labels: string[]) {
+  public assignColorsAndLabelsKm(property: string, colors: string[], labels: string[]) {
+
     let sortedComparison = [...this.comparison].sort((a, b) => a[property] - b[property]);
+
     for (let i = 0; i < sortedComparison.length; i++) {
       sortedComparison[i][`${property}Color`] = colors[i];
       sortedComparison[i][labels[i]] = true;
+      sortedComparison[i].equalKm = false;
     }
+
+    //relizamos un loop para buscar los vehiculos que tengan el mismo kilometraje y no le asignamos color, solo la propiedad equalKm
+
+    for (let i = 0; i < sortedComparison.length; i++) {
+      for (let j = 0; j < sortedComparison.length; j++) {
+        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+          sortedComparison[i].equalKM = true;
+          this.arrayEqualKm.push(sortedComparison[i]);
+        }
+      }
+    }
+    console.log(sortedComparison)
+    return sortedComparison;
+  }
+
+  public assignColorsAndLabelsPrice(property: string, colors: string[], labels: string[]) {
+    let sortedComparison = [...this.comparison].sort((a, b) => a[property] - b[property]);
+
+    for (let i = 0; i < sortedComparison.length; i++) {
+      sortedComparison[i][`${property}Color`] = colors[i];
+      sortedComparison[i][labels[i]] = true;
+      sortedComparison[i].equalPrice = false;
+    }
+
+    //relizamos un loop para buscar los vehiculos que tengan el mismo precio y no le asignamos color, solo la propiedad equalPrice
+
+    for (let i = 0; i < sortedComparison.length; i++) {
+      for (let j = 0; j < sortedComparison.length; j++) {
+        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+          sortedComparison[i].equalPrice = true;
+          this.arrayEqualPrice.push(sortedComparison[i]);
+        }
+      }
+    }
+
+
     return sortedComparison;
   }
 
@@ -446,13 +490,82 @@ export class ComparisonPage implements OnInit {
       '10-1'
     ]
 
-    let sortedComparison = [...this.comparison].sort((a, b) => typesTitles.indexOf(a[property]) - typesTitles.indexOf(b[property]));
+    // let sortedComparison = [...this.comparison].sort((a, b) => typesTitles.indexOf(a[property]) - typesTitles.indexOf(b[property]));
+    // for (let i = 0; i < sortedComparison.length; i++) {
+    //   sortedComparison[i][labels[i]] = true;
+    //   sortedComparison[i].equalTitle = false;
+    // }
+
+    
+    //realizamos un sort para ordenar los titulos de los vehiculos de menor a mayor donde el titulo le realiza un split y se obtiene el primer valor que es el numero de titulos
+
+    let sortedComparison = [...this.comparison].sort((a, b) => Number(a[property].split('-')[0]) - Number(b[property].split('-')[0]));
     for (let i = 0; i < sortedComparison.length; i++) {
       sortedComparison[i][labels[i]] = true;
+      sortedComparison[i].equalTitle = false;
+    }
+
+    //relizamos un loop para buscar los vehiculos que tengan el mismo titulo y no le asignamos color, solo la propiedad equalTitle
+
+    for (let i = 0; i < sortedComparison.length; i++) {
+      for (let j = 0; j < sortedComparison.length; j++) {
+        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+          sortedComparison[i].equalTitle = true;
+          this.arrayEqualTitle.push(sortedComparison[i]);
+          
+          if (sortedComparison[i].firstTitle) {
+            sortedComparison[i].firstTitle = false;
+          }
+
+          if (sortedComparison[i].secondTitle) {
+            sortedComparison[i].secondTitle = false;
+          }
+
+          if (sortedComparison[i].thirdTitle) {
+            sortedComparison[i].thirdTitle = false;
+          }
+
+          if (sortedComparison[i].fourthTitle) {
+            sortedComparison[i].fourthTitle = false;
+          }
+
+        }
+      }
     }
 
     return sortedComparison;
 
+  }
+
+  public renderIqualTitle() {
+    let models = this.arrayEqualTitle.filter((item: any) => {return item.model });
+    let content = `
+      Los vehículos ${this.arrayEqualTitle.map((item: any) => {return item.model })} tienen la misma cantidad de titulos.
+    `
+
+    return content;
+
+   
+    
+  }
+
+  public renderIqualKm() {
+    let models = this.arrayEqualKm.filter((item: any) => {return item.model });
+    let content = `
+      Los vehículos ${this.arrayEqualKm.map((item: any) => {return item.model })} tienen el mismo kilometraje.
+    `
+
+    return content;
+  }
+
+
+  public renderIqualPrice() {
+    let models = this.arrayEqualPrice.filter((item: any) => {return item.model });
+    let content = `
+      Los vehículos ${this.arrayEqualPrice.map((item: any) => {return item.model })} tienen el mismo precio.
+    `
+
+    return content;
   }
 
   public conclution() {

@@ -128,6 +128,25 @@ export class UtilsService {
     await alert.present();
   }
 
+  async presentAlertComment(message?: string, header?: string,subHeader?:string) {
+    const alert = await this.alertController.create({
+      header: "",
+      subHeader: subHeader,
+      message: message,
+      inputs:[
+        {
+          type: 'textarea',
+          placeholder: 'Comentario',
+        },
+      ],
+
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+
+
   
   public validateEmail(email: string): boolean {
     var re =

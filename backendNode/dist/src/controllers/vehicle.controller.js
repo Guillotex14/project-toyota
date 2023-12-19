@@ -57,6 +57,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Concesionaries_schema_1 = __importDefault(require("../schemas/Concesionaries.schema"));
 const templates_mails_1 = require("../templates/mails/templates.mails");
 const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
+const templates_notifications_1 = require("../templates/notifications/templates.notifications");
 const vehicleController = {};
 vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -2029,6 +2030,41 @@ vehicleController.exportExcell = (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(reponseJson);
     });
 });
+vehicleController.applyCertificate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
+    let data = req.body;
+    if (decode == false) {
+        reponseJson.code = generar_jwt_1.default.code;
+        reponseJson.message = generar_jwt_1.default.message;
+        reponseJson.status = false;
+        reponseJson.data = null;
+        return res.json(reponseJson);
+    }
+    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    let auxCertificate = false;
+    if (mechanicalFile) {
+        if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
+            auxCertificate = true;
+            reponseJson.code = 200;
+            reponseJson.status = true;
+            reponseJson.message = "Certificado aprobado";
+        }
+        else {
+            auxCertificate = false;
+            reponseJson.code = 200;
+            reponseJson.status = false;
+            reponseJson.message = "Certificado no aprobado";
+        }
+    }
+    const vehicleUpdated = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(mechanicalFile._id, {
+        certificate: auxCertificate,
+    });
+    const mechanicalFileAux = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    reponseJson.data = mechanicalFileAux.certificate;
+    res.json(reponseJson);
+});
 vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const data = req.query;
@@ -2137,7 +2173,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             const pdfBuffer = yield page.pdf({
                 format: 'Letter',
                 printBackground: true,
-                landscape: true
+                landscape: false
             });
             //
             yield browser.close();
@@ -2342,7 +2378,7 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
         id_mechanic
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
-    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    let now = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
         campos_anteriores: null,
         campos_actualizados: null,
@@ -2462,8 +2498,9 @@ vehicleController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0,
     };
     const oldFicha = yield mechanicalsFiles_schema_1.default.findOne({ _id: data._id });
     const update = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(data._id, data);
-    dataFile.campos_actualizados = setCamposActualizados(oldFicha, update);
-    dataFile.campos_anteriores = setCamposAnteriores(oldFicha, update);
+    const updateFicha = yield mechanicalsFiles_schema_1.default.findOne({ _id: data._id });
+    dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);
+    dataFile.campos_anteriores = setCamposAnteriores(oldFicha, updateFicha);
     const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default(dataFile);
     yield newReportMechanicsFiles.save();
     if (update) {
@@ -2735,7 +2772,7 @@ vehicleController.addRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    let now = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
         campos_anteriores: null,
         campos_actualizados: null,
@@ -2764,7 +2801,7 @@ vehicleController.commentRerportMechanicalFile = (req, res) => __awaiter(void 0,
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    let now = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     if (data.id) {
         yield reportsMechanicalsFiles_schema_1.default.findByIdAndUpdate(data.id, {
             comment: data.comment + ". Fecha: " + now
@@ -2799,7 +2836,7 @@ vehicleController.acceptUpdateMechanicalFile = (req, res) => __awaiter(void 0, v
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    let now = (0, moment_1.default)().format("YYYY-MM-DD");
+    let now = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     if (data.accept == "Si" || data.accept == "si") {
         const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default({
             campos_anteriores: null,
@@ -2841,17 +2878,115 @@ vehicleController.allRerportMechanicalFile = (req, res) => __awaiter(void 0, voi
         reponseJson.status = false;
         return res.json(reponseJson);
     }
-    const reports = yield reportsMechanicalsFiles_schema_1.default.find({ _id: data.id }).sort({ date: -1 });
+    let reports = yield reportsMechanicalsFiles_schema_1.default.find({ id_mechanic_file: data.id }).sort({ date: -1 });
     for (let i = 0; i < reports.length; i++) {
-        const element = reports[i];
-        let user = yield Users_schema_1.default.findOne({ _id: element.id_user });
-        element.user = user;
+        reports[i].user = {};
+        let user = yield Users_schema_1.default.findOne({ _id: reports[i].id_user });
+        reports[i] = Object.assign(Object.assign({}, reports[i]._doc), { user: user });
     }
     reponseJson.code = 200;
     reponseJson.message = "";
     reponseJson.status = true;
     reponseJson.data = reports;
     res.json(reponseJson);
+});
+vehicleController.add_request_models_brands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller"]);
+    let data = req.body;
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
+    let documents = [];
+    infoSeller = yield Sellers_schema_1.default.findOne({ _id: decode.id_sell });
+    let infoConsecionary = yield Concesionaries_schema_1.default.findOne({ name: infoSeller.concesionary });
+    emailmechanic = yield Users_schema_1.default.findOne({ id_concesionary: infoConsecionary._id });
+    const template = (0, templates_notifications_1.templatesNotifies)("add_request_models_brands", data);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = template;
+    return reponseJson;
+});
+vehicleController.approve_request_models_brands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin_concesionary"]);
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
+    let documents = [];
+    let data = req.body;
+    infoSeller = yield Sellers_schema_1.default.findOne({ _id: decode.id_sell });
+    let infoConsecionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+    emailmechanic = yield Users_schema_1.default.findOne({ id_concesionary: infoConsecionary._id });
+    const template = (0, templates_notifications_1.templatesNotifies)("approve_request_models_brands", data);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = template;
+    return reponseJson;
+});
+vehicleController.success_request_models_brands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin_concesionary"]);
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
+    let documents = [];
+    let data = req.body;
+    const template = (0, templates_notifications_1.templatesNotifies)("success_request_models_brands", data);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = template;
+    return reponseJson;
+});
+vehicleController.cancel_request_models_brands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reponseJson = new Response_1.ResponseModel();
+    const token = req.header("Authorization");
+    let decode = yield generar_jwt_1.default.getAuthorization(token, ["admin_concesionary"]);
+    let emailmechanic = "";
+    let infoSeller = {};
+    let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
+    let documents = [];
+    let data = req.body;
+    const template = (0, templates_notifications_1.templatesNotifies)("cancel_request_models_brands", data);
+    const mailOptions = {
+        from: "Toyousado",
+        to: emailmechanic.email,
+        subject: "Revisión de vehículo",
+        html: template,
+    };
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
+    reponseJson.code = 200;
+    reponseJson.message = "";
+    reponseJson.status = true;
+    reponseJson.data = template;
+    return reponseJson;
 });
 function generateBase64(pdfPath) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -2875,6 +3010,7 @@ function generateBase64(pdfPath) {
     });
 }
 const setCamposActualizados = (oldFicha, update) => {
+    console.log(oldFicha, update);
     let campos = {};
     if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
         campos.part_emblems_complete = update.part_emblems_complete;
@@ -3050,6 +3186,7 @@ const setCamposActualizados = (oldFicha, update) => {
     if (oldFicha.brake_discs != update.brake_discs) {
         campos.brake_discs = update.brake_discs;
     }
+    console.log(campos);
     return campos;
 };
 const setCamposAnteriores = (oldFicha, update) => {

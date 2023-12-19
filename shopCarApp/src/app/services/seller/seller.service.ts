@@ -152,7 +152,15 @@ export class SellerService {
     return this.http.post(global.urlBase+'client/add', data,this.authSrv.getToken()!);
   }
 
-  public getCustomers(){
-    return this.http.get(`${global.urlBase}client/all?s=`,this.authSrv.getToken()!);
+  public getCustomers(data:any){
+    return this.http.get(`${global.urlBase}client/allPaginator?s=${data.s}&pos=${data.pos}&lim=${data.lim}`,this.authSrv.getToken()!);
+  }
+
+  public getReportList(data:any){
+    return this.http.get(`${global.urlBase}vehicle/allRerportMechanicalFile`,{params:data,headers:this.authSrv.getToken()?.headers!});
+  }
+
+  public addRerport(data:any){
+    return this.http.post(global.urlBase+'vehicle/addRerportMechanicalFile', data,this.authSrv.getToken()!);
   }
 }

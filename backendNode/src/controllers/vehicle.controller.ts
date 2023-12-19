@@ -26,6 +26,8 @@ import mongoose from "mongoose";
 import ConcesionariesSchema from "../schemas/Concesionaries.schema";
 import { templatesMails } from "../templates/mails/templates.mails";
 import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
+import { templatesNotifies } from "../templates/notifications/templates.notifications";
+
 
 const vehicleController: any = {};
 
@@ -1350,7 +1352,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   if (data.modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: data.modelCar.replace("%20"," "),
+      model: data.modelCar.replace("%20", " "),
     };
   }
   let user: any = null;
@@ -1729,11 +1731,11 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
   }
 
@@ -1912,6 +1914,7 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
+
   let {
     dateTo,
     dateFrom,
@@ -1991,11 +1994,11 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
   if (modelCar) {
     mongQuery = {
       ...mongQuery,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
     otherMong = {
       ...otherMong,
-      model: modelCar.replace("%20"," "),
+      model: modelCar.replace("%20", " "),
     };
   }
   if (concesionary) {
@@ -2398,6 +2401,53 @@ vehicleController.exportExcell = async (req: Request, res: Response) => {
     });
 };
 
+
+vehicleController.applyCertificate = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin", "seller", "admin_concesionary"]);
+  let data: any = req.body;
+
+  if (decode == false) {
+    reponseJson.code = jwt.code;
+    reponseJson.message = jwt.message;
+    reponseJson.status = false;
+    reponseJson.data = null;
+    return res.json(reponseJson);
+  }
+
+
+  const mechanicalFile: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
+  let auxCertificate: boolean = false;
+  if (mechanicalFile) {
+    if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
+      auxCertificate = true;
+
+      reponseJson.code = 200;
+      reponseJson.status = true;
+      reponseJson.message = "Certificado aprobado";
+    } else {
+      auxCertificate = false;
+
+      reponseJson.code = 200;
+      reponseJson.status = false;
+      reponseJson.message = "Certificado no aprobado";
+    }
+  }
+
+  const vehicleUpdated: any = await mechanicalsFiles.findByIdAndUpdate(mechanicalFile._id, {
+    certificate: auxCertificate,
+  });
+  const mechanicalFileAux: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
+
+  reponseJson.data = mechanicalFileAux.certificate;
+
+  res.json(reponseJson);
+
+
+};
+
+
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const data: any = req.query;
@@ -2518,7 +2568,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       const pdfBuffer = await page.pdf({
         format: 'Letter',
         printBackground: true,
-        landscape: true
+        landscape: false
       });
       //
       await browser.close();
@@ -2803,7 +2853,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
 
   const newMechanicFileSaved = await newMechanicFile.save();
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
   const newReportMechanicsFiles = new reportsMechanicalsFiles({
     campos_anteriores: null,
     campos_actualizados: null,
@@ -2948,9 +2998,10 @@ vehicleController.updateMechanicalFile = async (
 
   const update: any = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
 
-  dataFile.campos_actualizados = setCamposActualizados(oldFicha, update);
-  dataFile.campos_anteriores = setCamposAnteriores(oldFicha, update);
+  const updateFicha:any=await mechanicalsFiles.findOne({ _id: data._id });
 
+  dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);
+  dataFile.campos_anteriores = setCamposAnteriores(oldFicha, updateFicha);
   const newReportMechanicsFiles = new reportsMechanicalsFiles(dataFile);
   await newReportMechanicsFiles.save();
 
@@ -3245,7 +3296,7 @@ vehicleController.addRerportMechanicalFile = async (req: Request, res: Response)
     reponseJson.status = false;
     return res.json(reponseJson);
   }
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
   const newReportMechanicsFiles = new reportsMechanicalsFiles({
     campos_anteriores: null,
     campos_actualizados: null,
@@ -3277,7 +3328,7 @@ vehicleController.commentRerportMechanicalFile = async (req: Request, res: Respo
     return res.json(reponseJson);
   }
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
 
   if (data.id) {
     await reportsMechanicalsFiles.findByIdAndUpdate(data.id, {
@@ -3316,7 +3367,7 @@ vehicleController.acceptUpdateMechanicalFile = async (req: Request, res: Respons
     return res.json(reponseJson);
   }
 
-  let now = moment().format("YYYY-MM-DD");
+  let now = moment().format("YYYY-MM-DD HH:mm:ss");
 
   if (data.accept == "Si" || data.accept == "si") {
     const newReportMechanicsFiles = new reportsMechanicalsFiles({
@@ -3364,12 +3415,18 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
     return res.json(reponseJson);
   }
 
-  const reports: any = await reportsMechanicalsFiles.find({ _id: data.id }).sort({ date: -1 });
+  let reports: any = await reportsMechanicalsFiles.find({ id_mechanic_file: data.id }).sort({ date: -1 });
+  
   for (let i = 0; i < reports.length; i++) {
-    const element = reports[i];
-    let user = await Users.findOne({ _id: element.id_user });
-    element.user = user;
+    reports[i].user = {};
+    let user = await Users.findOne({ _id: reports[i].id_user });
+    reports[i] = {
+      ...reports[i]._doc,
+      user:user
+    }
+    
   }
+
   reponseJson.code = 200;
   reponseJson.message = "";
   reponseJson.status = true;
@@ -3377,6 +3434,130 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
 
   res.json(reponseJson);
 }
+
+vehicleController.add_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller"]);
+  let data: any = req.body;
+
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+
+  infoSeller = await sellers.findOne({ _id: decode.id_sell });
+  let infoConsecionary: any = await ConcesionariesSchema.findOne({ name: infoSeller.concesionary })
+  emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+
+  const template = templatesNotifies("add_request_models_brands", data);
+
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+};
+
+vehicleController.approve_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  infoSeller = await sellers.findOne({ _id: decode.id_sell });
+  let infoConsecionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+  emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+
+  const template = templatesNotifies("approve_request_models_brands", data);
+
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
+
+vehicleController.success_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  const template = templatesNotifies("success_request_models_brands", data);
+
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
+vehicleController.cancel_request_models_brands = async (req: Request, res: Response) => {
+  const reponseJson: ResponseModel = new ResponseModel();
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["admin_concesionary"]);
+  let emailmechanic: any = "";
+  let infoSeller: any = {};
+  let dateNow = moment().format("YYYY-MM-DD");
+  let documents: any[] = [];
+  let data: any = req.body;
+
+  const template = templatesNotifies("cancel_request_models_brands", data);
+
+
+  const mailOptions = {
+    from: "Toyousado",
+    to: emailmechanic.email,
+    subject: "Revisión de vehículo",
+    html: template,
+  };
+  await sendEmail(mailOptions);
+
+  reponseJson.code = 200;
+  reponseJson.message = "";
+  reponseJson.status = true;
+  reponseJson.data = template;
+  return reponseJson;
+
+};
+
+
 
 async function generateBase64(pdfPath: string): Promise<string> {
   const fileStream = fs.createReadStream(pdfPath);
@@ -3401,6 +3582,7 @@ async function generateBase64(pdfPath: string): Promise<string> {
 }
 
 const setCamposActualizados = (oldFicha: any, update: any) => {
+    console.log(oldFicha,update);
   let campos: any = {}
   if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
     campos.part_emblems_complete = update.part_emblems_complete;
@@ -3630,7 +3812,7 @@ const setCamposActualizados = (oldFicha: any, update: any) => {
   if (oldFicha.brake_discs != update.brake_discs) {
     campos.brake_discs = update.brake_discs;
   }
-
+console.log(campos);
   return campos;
 }
 

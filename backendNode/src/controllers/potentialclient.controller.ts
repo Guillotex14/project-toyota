@@ -3,13 +3,14 @@ import { Request, Response, response } from "express";
 import { ResponseModel } from "../models/Response";
 import Users from "../schemas/Users.schema";
 import Sellers from "../schemas/Sellers.schema";
-import notifications from "../schemas/notifications.schema";
-import { sendEmail } from '../../nodemailer';
 import jwt from "../helpers/generar-jwt";
-import vehicles from "../schemas/Vehicles.schema";
 import moment from "moment";
-import { templatesMails } from "../templates/mails/templates.mails";
 import client from "../schemas/potentialClients.schema";
+import mongoose from "mongoose";
+import { sendEmail } from '../../nodemailer';
+import vehicles from "../schemas/Vehicles.schema";
+import { templatesMails } from "../templates/mails/templates.mails";
+import notifications from "../schemas/notifications.schema";
 
 
 const potentialclient: any = {}
@@ -42,7 +43,8 @@ potentialclient.add = async (req: Request, res: Response) => {
             phone: data.phone,
             date_created: now,
             approximate_budget: data.approximate_budget,
-            id_user:decode.id_user,
+            id_user: decode.id_user? decode.id_user : decode.id,
+            concesionary: decode.concesionary,
             status: 1
         });
 
@@ -203,6 +205,7 @@ potentialclient.all = async (req: Request, res: Response) => {
             { interested_car_model: { $regex: ".*" + data.s + ".*", $options: "i" } },
             { phone: { $regex: ".*" + data.s + ".*", $options: "i" } },
             { approximate_budget: { $regex: ".*" + data.s + ".*", $options: "i" } },
+            { concesionary: decode.concesionary ? decode.concesionary : "" }
         ],
     };
 
@@ -282,6 +285,14 @@ potentialclient.allPaginator = async (req: Request, res: Response) => {
             { approximate_budget: { $regex: ".*" + data.s + ".*", $options: "i" } },
         ],
     };
+
+    if (decode.type_user === "admin_concesionary" ) {
+        search.$and = [{ concesionary: decode.concesionary }];
+    }
+
+    if (decode.type_user === "seller") {
+        search.$and = [{ id_user: new mongoose.Types.ObjectId(decode.id) }];
+    }
 
     project = {
         _id: "$_id",

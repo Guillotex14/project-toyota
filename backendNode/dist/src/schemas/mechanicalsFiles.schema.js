@@ -66,7 +66,8 @@ const mechanicalFileSchema = new mongoose_1.Schema({
     },
     id_mechanic: {
         type: mongoose_1.Schema.Types.ObjectId,
-    }
+    },
+    certificate: Boolean
 });
 exports.default = (0, mongoose_1.model)("mechanicalFile", mechanicalFileSchema);
 //# sourceMappingURL=mechanicalsFiles.schema.js.map

@@ -94,7 +94,17 @@ export class AppComponent implements  OnInit{
             "admin",
             "admin_concesionary"
           ]
-        }
+        },
+        {
+          title: "Clientes potenciales",
+          url: "list-customers",
+          icon: "people",
+          active: false,
+          users: [
+            "admin",
+            "admin_concesionary"
+          ]
+        },
       ]
     },
     {
@@ -148,6 +158,15 @@ export class AppComponent implements  OnInit{
           active: false,
           users: [
             "admin",
+            "admin_concesionary"
+          ]
+        },
+        {
+          title: "Cliente potencial",
+          url: "customers",
+          icon: "people",
+          active: false,
+          users: [
             "admin_concesionary"
           ]
         }

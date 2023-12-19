@@ -1118,24 +1118,16 @@ export class CarDetailPage implements OnInit {
 
   public changeMaintenece(eve:any){
 
-    // if (eve) {
-      console.log(eve)
+    if (eve.detail.value === "true") {
+      console.log(this.carDetail.concesionary_maintenance, "true")
+      this.carDetail.general_condition = Number(this.carDetail.general_condition)+10
       
-      if (eve.detail.value === "true") {
-        console.log(this.carDetail.concesionary_maintenance, "true")
-        this.carDetail.general_condition = Number(this.carDetail.general_condition)+10
-        
-      }
+    }
 
-      if (eve.detail.value === "false") {
-        console.log(this.carDetail.concesionary_maintenance, "true")
-        this.carDetail.general_condition = Number(this.carDetail.general_condition)- 10
-      }
-
-
-      // this.carDetail.general_condition = this.carDetail.concesionary_maintenance === true ? Number(this.carDetail.general_condition)+10 : Number(this.carDetail.general_condition)- 10
-    // }
-    console.log(this.carDetail.general_condition)
+    if (eve.detail.value === "false") {
+      console.log(this.carDetail.concesionary_maintenance, "true")
+      this.carDetail.general_condition = Number(this.carDetail.general_condition)-10
+    }
   }
 
   // public async screenShotDisables(){

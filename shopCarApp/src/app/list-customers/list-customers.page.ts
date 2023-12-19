@@ -23,7 +23,7 @@ export class ListCustomersPage implements OnInit {
 
   loading: boolean = true;
 
-  constructor(private utils: UtilsService, private adminSrv: AdminService, private menu: MenuController, private router:Router, private alertCtrl: AlertController, private sellerSrv: SellerService) { }
+  constructor(private utils: UtilsService, private menu: MenuController, private router:Router, private sellerSrv: SellerService) { }
 
   ngOnInit() {
   }
@@ -45,9 +45,9 @@ export class ListCustomersPage implements OnInit {
 
   public getCustomers(){
     this.loading = true;
-    this.sellerSrv.getCustomers().subscribe((resp:any)=>{
+    this.sellerSrv.getCustomers(this.data).subscribe((resp:any)=>{
       if (resp.status) {
-        this.customersList = resp.data;
+        this.customersList = resp.data.rows;
         this.loading = false;
       }
     },(err:any)=>{
@@ -59,19 +59,19 @@ export class ListCustomersPage implements OnInit {
 
   public loadData(eve:any){
     this.data.pos+=1;
-    let moreMechanics = []
-    // this.adminSrv.allMechanics(this.data).subscribe((resp:any)=>{
-    //   if (resp.status) {
-    //     if (resp.data.rows.length > 0) {
+    let moreCustomers = []
+    this.sellerSrv.getCustomers(this.data).subscribe((resp:any)=>{
+      if (resp.status) {
+        if (resp.data.rows.length > 0) {
 
-    //       moreMechanics = resp.data.rows;
-    //       moreMechanics.map((data:any)=>{
-    //         this.mechanicList.push(data)
-    //       })
+          moreCustomers = resp.data.rows;
+          moreCustomers.map((data:any)=>{
+            this.customersList.push(data)
+          })
 
-    //     }
-    //   }
-    // })
+        }
+      }
+    })
     this.infiniteScroll.complete();
   }
 }

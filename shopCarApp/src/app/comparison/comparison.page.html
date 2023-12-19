@@ -82,22 +82,23 @@
             Kilometraje
           </ion-list-header>
           <ion-item *ngFor="let vehicle of comparison">
-            <p style="font-size: 13px;" *ngIf="vehicle.firstKm">
+            
+            <p style="font-size: 13px;" *ngIf="vehicle.firstKm===true && vehicle.equalKm===false">
               {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el mejor que los demás carros comparados.
             </p>
-            <p *ngIf="vehicle.secondKm" style="font-size: 13px;">
+            <p *ngIf="vehicle.secondKm===true && vehicle.equalKm===false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el segundo mejor que los demás carros comparados.
-            {{vehicle.thirdKm}}
             </p>
-            <p *ngIf="vehicle.thirdKm" style="font-size: 13px;">
+            <p *ngIf="vehicle.thirdKm===true && vehicle.equalKm===false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el tercer mejor que los demás carros comparados.
             </p>
-            <p *ngIf="vehicle.fourthKm" style="font-size: 13px;">
+            <p *ngIf="vehicle.fourthKm===true && vehicle.equalKm===false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el cuarto mejor que los demás carros comparados.
             </p>
-
-            <p *ngIf="vehicle.iqualKm" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es igual entre los demás carros comparados.
+          </ion-item>
+          <ion-item *ngIf="arrayEqualKm.length>0">
+            <p  style="font-size: 13px;">
+              {{renderIqualKm()}}
             </p>
           </ion-item>
         </ion-list>
@@ -110,23 +111,24 @@
             Precio
           </ion-list-header>
           <ion-item *ngFor="let vehicle of comparison">
-            <p style="font-size: 13px;" *ngIf="vehicle.firstPrice">
+            <p style="font-size: 13px;" *ngIf="vehicle.firstPrice === true && vehicle.equalPrice === false">
               {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el mejor que los demás carros comparados.
             </p>
-            <p *ngIf="vehicle.secondPrice" style="font-size: 13px;">
+            <p *ngIf="vehicle.secondPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el segundo mejor que los demás carros comparados.
             </p>
-            <p *ngIf="vehicle.thirdPrice" style="font-size: 13px;">
+            <p *ngIf="vehicle.thirdPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el tercer mejor que los demás carros comparados.
             </p>
-            <p *ngIf="vehicle.fourthPrice" style="font-size: 13px;">
+            <p *ngIf="vehicle.fourthPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
               {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el cuarto mejor que los demás carros comparados.
             </p>
-
-            <p *ngIf="vehicle.iqualPrice" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es igual entre los demás carros comparados.
-            </p>
             
+          </ion-item>
+          <ion-item *ngIf="arrayEqualPrice.length>0">
+            <p  style="font-size: 13px;">
+              {{renderIqualPrice()}}
+            </p>
           </ion-item>
         </ion-list>
       </ion-col>
@@ -148,7 +150,6 @@
           <p *ngIf="bestTitles(vehicle.titles)===3" style="font-size: 13px;">
             Tiene un cantidad de titulares de {{vehicle.titles}}. Es el posee mayor nivel de titulares.
           </p>
-
           </ion-item>
         </ion-list>
       </ion-col>
@@ -189,10 +190,17 @@
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
-        <ion-label>Nuestra recomendación</ion-label>
-        <p style="font-size: 13px;">
-          {{conclution()}}
-        </p>
+        <ion-list>
+          <ion-list-header>
+            Nuestra recomendación
+          </ion-list-header>
+          <ion-item>
+            <p style="font-size: 13px;text-align: justify;">
+              {{conclution()}}
+            </p>
+          </ion-item>
+        </ion-list>
+
       </ion-col>
 
       <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">

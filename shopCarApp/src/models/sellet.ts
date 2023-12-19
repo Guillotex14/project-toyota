@@ -49,6 +49,8 @@ export class CarDetailSeller{
 }
 
 export class CarDetailMechanicalFile{
+  public _id!: string;
+
   public air_conditioning_system!: string;
   public battery_status_terminals!: string;
   public bearings!: string;
@@ -281,4 +283,5 @@ export class CustomerModel{
   public interested_car_model!: string;
   public phone!: string;
   public approximate_budget!: string;
+  public concesionary!: string;
 }
