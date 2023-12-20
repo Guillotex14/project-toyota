@@ -155,7 +155,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     );
   }
 
-  public getChartGrafic() {
+  public getChartGrafic(formFilter?: any) {
     let data = {
       month: this.month,
       yearSold: this.yearSold,
@@ -192,8 +192,11 @@ export class GraphicsAdminPage implements AfterViewInit {
           }
 
         }
-        if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
-          this.utils.presentAlert("", "Gráfica sin resultado", "");
+        if (formFilter) {
+          if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
+            this.utils.presentAlert("", "Gráfica sin resultado", "");
+          }
+          
         }
 
         if (res.data.list.length > 0) {
@@ -349,7 +352,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       this.lineChart.destroy();
     }
 
-    this.getChartGrafic();
+    this.getChartGrafic(true);
     this.modal.dismiss();
   }
 

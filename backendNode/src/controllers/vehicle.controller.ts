@@ -1357,20 +1357,6 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
   }
   let user: any = null;
 
-  // if (decode.type_user == "seller") {
-  //   mongQuery = {
-  //     ...mongQuery,
-  //     concesionary: { $regex: decode.concesionary, $options: "i" },
-  //   };
-  // }
-
-  // if (decode.type_user == "admin_concesionary") {
-  //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-  //   mongQuery = {
-  //     ...mongQuery,
-  //     concesionary: { $regex: concesionary.name, $options: "i" },
-  //   };
-  // }
 
 
   let sendData: any = [];
@@ -1434,15 +1420,14 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       });
       listCars[j].imgVehicle = imgvehicles;
     }
-
-    sendData = getQuantityTotals(vehiclesFiltered);
-
+    
+    // sendData = getQuantityTotals(vehiclesFiltered);
+    
     let cantMonth = calcularMeses(from, to);
-    if (cantMonth == 1 || sendData.length == 1) {
+    if (cantMonth == 1 || sendData.length == 1){
       let groupByWeek = [];
       let groupByOneMonth = [];
-
-      groupByWeek = agruparPorSemana(sendData);
+      groupByWeek = agruparPorSemana(vehiclesFiltered);
       groupByOneMonth = agruparPorWeek(groupByWeek);
 
       const labels = groupByOneMonth.map((item) => item.semana);
@@ -1458,9 +1443,8 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         list: listCars
       };
     } else {
-      // let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
 
-      const labels = sendData.map((dato: any) => dato.mes);
+      const labels = vehiclesFiltered.map((dato: any) => dato.mes);
       let nameArray = [];
       for (let i = 0; i < labels.length; i++) {
         nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
@@ -1468,7 +1452,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
 
       nameArray = orderMonths(nameArray);
       console.log(nameArray)
-      const total = sendData.map((dato: any) => dato.total);
+      const total = vehiclesFiltered.map((dato: any) => dato.total);
 
 
       datos = {

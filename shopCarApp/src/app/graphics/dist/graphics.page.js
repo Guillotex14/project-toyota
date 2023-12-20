@@ -90,6 +90,7 @@ var GraphicsPage = /** @class */ (function () {
         this.arrayData = {};
         this.arrayListCars = [];
         this.dataGraphy = {};
+        this.loading = true;
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
         this.me = this.authSrv.getMeData();
         if (this.me) {
@@ -111,6 +112,7 @@ var GraphicsPage = /** @class */ (function () {
         var _this = this;
         this.sellerSrv.allBrands().subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayBrands = res.data;
             }
         }, function (err) {
@@ -121,6 +123,7 @@ var GraphicsPage = /** @class */ (function () {
         var _this = this;
         this.sellerSrv.allModels().subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayModels = res.data;
             }
         }, function (err) {
@@ -140,7 +143,7 @@ var GraphicsPage = /** @class */ (function () {
             data: this.dataGraphy
         });
     };
-    GraphicsPage.prototype.getChartGrafic = function () {
+    GraphicsPage.prototype.getChartGrafic = function (formFilter) {
         var _this = this;
         var data = {
             month: this.month,
@@ -155,6 +158,7 @@ var GraphicsPage = /** @class */ (function () {
         this.utils.presentLoading('Cargando datos');
         this.sellerSrv.getGrafic(data).subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.utils.dismissLoading();
                 _this.arrayLabels = res.data.labels;
                 _this.arrayData = res.data.datasets[0];
@@ -166,8 +170,10 @@ var GraphicsPage = /** @class */ (function () {
                         emptyGraphy++;
                     }
                 }
-                if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
-                    _this.utils.presentAlert("", "Gráfica sin resultado", "");
+                if (formFilter) {
+                    if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
+                        _this.utils.presentAlert("", "Gráfica sin resultado", "");
+                    }
                 }
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
@@ -204,6 +210,7 @@ var GraphicsPage = /** @class */ (function () {
         };
         this.sellerSrv.getListCars(data).subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayListCars = res.data.grupocard;
                 // this.dateTo = ""
                 // this.dateFrom = ""
@@ -316,7 +323,7 @@ var GraphicsPage = /** @class */ (function () {
         if (this.lineChart) {
             this.lineChart.destroy();
         }
-        this.getChartGrafic();
+        this.getChartGrafic(true);
         this.modal.dismiss();
     };
     GraphicsPage.prototype.openModalVehicle = function () {
