@@ -92,6 +92,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.month_breadcrumb = "";
         this.triple_m_breadcrumb = "";
         this.typeUser = 'admin';
+        this.loading = true;
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
         this.arrayConcesionary = concesionaries_1.concesionaries;
         var data = JSON.parse(localStorage.getItem('me'));
@@ -117,6 +118,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         var _this = this;
         this.adminSrv.allBrands().subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayBrands = res.data;
             }
             else {
@@ -130,6 +132,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         var _this = this;
         this.adminSrv.allModels().subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayModels = res.data;
             }
         }, function (err) {
@@ -159,7 +162,7 @@ var GraphicsAdminPage = /** @class */ (function () {
             }
         });
     };
-    GraphicsAdminPage.prototype.getChartGrafic = function () {
+    GraphicsAdminPage.prototype.getChartGrafic = function (formFilter) {
         var _this = this;
         var data = {
             month: this.month,
@@ -174,6 +177,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.utils.presentLoading("Cargando datos...", 500);
         this.sellerSrv.getGrafic(data).subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.utils.dismissLoading();
                 _this.arrayLabels = res.data.labels;
                 _this.arrayData = res.data.datasets[0];
@@ -193,8 +197,10 @@ var GraphicsAdminPage = /** @class */ (function () {
                         emptyGraphy++;
                     }
                 }
-                if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
-                    _this.utils.presentAlert("", "Gráfica sin resultado", "");
+                if (formFilter) {
+                    if (emptyGraphy == _this.dataGraphy.datasets[0].data.length) {
+                        _this.utils.presentAlert("", "Gráfica sin resultado", "");
+                    }
                 }
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
@@ -223,6 +229,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         };
         this.sellerSrv.getListCars(data).subscribe(function (res) {
             if (res.status) {
+                _this.loading = false;
                 _this.arrayListCars = res.data.grupocard;
                 // this.dateTo="";
                 // this.dateFrom="";
@@ -338,7 +345,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         if (this.lineChart) {
             this.lineChart.destroy();
         }
-        this.getChartGrafic();
+        this.getChartGrafic(true);
         this.modal.dismiss();
     };
     GraphicsAdminPage.prototype.openModalVehicle = function () {

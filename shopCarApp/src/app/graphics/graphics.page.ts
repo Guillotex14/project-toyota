@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonModal, MenuController,Platform } from '@ionic/angular';
+import { IonModal, MenuController, Platform } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { Chart, registerables } from 'chart.js';
 import { SellerService } from 'src/app/services/seller/seller.service';
@@ -20,7 +20,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   month: any = "";
   yearSold: number = new Date().getFullYear();
   rangMonths: any = '';
-  yearCar: string="";
+  yearCar: string = "";
   yearCarAux: string = '';
   brandCar: string = '';
   modelCar: string = '';
@@ -52,7 +52,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   arrayData: any = {};
   arrayListCars: any[] = [];
   dataGraphy: any = {};
-  
+
   loading: boolean = true;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterVehicleSeller') modalVehicle!: IonModal;
@@ -62,9 +62,9 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   constructor(
     private platform: Platform
     ,
-    private router:Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService, private authSrv: AuthService) {
+    private router: Router, private menu: MenuController, private utils: UtilsService, private sellerSrv: SellerService, private authSrv: AuthService) {
     Chart.register(...registerables);
-    
+
     this.me = this.authSrv.getMeData();
 
     if (this.me) {
@@ -72,7 +72,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     }
 
   }
-  
+
   ngOnInit() {
   }
 
@@ -81,31 +81,31 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.getBrands();
     this.getModels();
     this.getCarList();
-    
+
   }
 
-  public goBack(){
+  public goBack() {
     this.router.navigate(['seller']);
   }
 
-  public getBrands(){
-    this.sellerSrv.allBrands().subscribe((res:any)=>{
+  public getBrands() {
+    this.sellerSrv.allBrands().subscribe((res: any) => {
       if (res.status) {
         this.loading = false;
         this.arrayBrands = res.data;
       }
-    } , (err:any)=>{
+    }, (err: any) => {
       console.log(err);
     });
   }
 
-  public getModels(){
-    this.sellerSrv.allModels().subscribe((res:any)=>{
+  public getModels() {
+    this.sellerSrv.allModels().subscribe((res: any) => {
       if (res.status) {
         this.loading = false;
         this.arrayModels = res.data;
       }
-    } , (err:any)=>{
+    }, (err: any) => {
       console.log(err);
     });
   }
@@ -114,7 +114,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.router.navigate(['mechanical-file']);
   }
 
-  public openMenu(){
+  public openMenu() {
     this.utils.setLogin(true);
     this.menu.open();
   }
@@ -127,7 +127,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     });
   }
 
-  public getChartGrafic(){
+  public getChartGrafic(formFilter?: any) {
     let data = {
       month: this.month,
       yearSold: this.yearSold,
@@ -139,53 +139,55 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       concesionary: this.concesionary,
     }
     this.utils.presentLoading('Cargando datos');
-    this.sellerSrv.getGrafic(data).subscribe((res:any)=>{
-        if (res.status) {
-          this.loading = false;
-          this.utils.dismissLoading();
-          this.arrayLabels = res.data.labels;
-          this.arrayData = res.data.datasets[0];
-          this.dataGraphy=res.data;
+    this.sellerSrv.getGrafic(data).subscribe((res: any) => {
+      if (res.status) {
+        this.loading = false;
+        this.utils.dismissLoading();
+        this.arrayLabels = res.data.labels;
+        this.arrayData = res.data.datasets[0];
+        this.dataGraphy = res.data;
 
-          let emptyGraphy = 0;
-          for (let i = 0; i < this.dataGraphy.datasets[0].data.length; i++) {
-            const element = this.dataGraphy.datasets[0].data[i];
-            if (element == 0) {
-              emptyGraphy++;
-            }
-  
+        let emptyGraphy = 0;
+        for (let i = 0; i < this.dataGraphy.datasets[0].data.length; i++) {
+          const element = this.dataGraphy.datasets[0].data[i];
+          if (element == 0) {
+            emptyGraphy++;
           }
+
+        }
+        if (formFilter) {
           if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
             this.utils.presentAlert("", "Gráfica sin resultado", "");
           }
-
-          if (res.data.list.length > 0) {
-            this.carListGraphic = res.data.list;
-            
-          }
-
-          this.lineChartMethod();
-          this.month = 1;
-          this.month_breadcrumb = "1";
-          this.yearSold = new Date().getFullYear();
-          this.rangMonths = "";
-          this.yearCar = "";
-          this.brandCar = "";
-          this.modelCar = "";
-        }else{
-          this.utils.dismissLoading();
-          this.utils.presentToast(res.message);
         }
-    } , (err:any)=>{
+
+        if (res.data.list.length > 0) {
+          this.carListGraphic = res.data.list;
+
+        }
+
+        this.lineChartMethod();
+        this.month = 1;
+        this.month_breadcrumb = "1";
+        this.yearSold = new Date().getFullYear();
+        this.rangMonths = "";
+        this.yearCar = "";
+        this.brandCar = "";
+        this.modelCar = "";
+      } else {
+        this.utils.dismissLoading();
+        this.utils.presentToast(res.message);
+      }
+    }, (err: any) => {
 
       console.log(err);
       this.utils.dismissLoading();
       this.utils.presentToast('Error de servidor');
     });
-  
+
   }
 
-  public getCarList(){
+  public getCarList() {
     let data = {
       dateTo: this.dateTo,
       dateFrom: this.dateFrom,
@@ -195,7 +197,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       concesionary: this.concesionary2,
       id_user: this.id_user,
     }
-    this.sellerSrv.getListCars(data).subscribe((res:any)=>{
+    this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false
         this.arrayListCars = res.data.grupocard;
@@ -205,14 +207,14 @@ export class GraphicsPage implements AfterViewInit, OnInit {
         // this.brandCar2 = ""
         // this.modelCar2 = ""
         // this.concesionary2 = ""
-      }else{
+      } else {
         this.utils.presentToast(res.message);
       }
     }
-    , (err:any)=>{
-      console.log(err);
-      this.utils.presentToast('Error de servidor');
-    });
+      , (err: any) => {
+        console.log(err);
+        this.utils.presentToast('Error de servidor');
+      });
 
   }
 
@@ -232,7 +234,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
         (res: any) => {
           this.utils.dismissLoading2();
           if (res.status) {
-            this.descargarArchivo(res.data.fileName,res.data.base64Data)
+            this.descargarArchivo(res.data.fileName, res.data.base64Data)
 
             // this.platform.ready().then(async (d) => {
             //   if (this.platform.is('mobile')) {
@@ -275,10 +277,10 @@ export class GraphicsPage implements AfterViewInit, OnInit {
             // });
 
 
-                  this.utils.presentToast(
-                    'Se mandado un correo de la exportación del excel ' +res.data.fileName
-                      
-                  );
+            this.utils.presentToast(
+              'Se mandado un correo de la exportación del excel ' + res.data.fileName
+
+            );
           }
         },
         (err: any) => {
@@ -288,17 +290,17 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     });
   }
 
-  async  descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
+  async descargarArchivo(nombreArchivo: string, dataBase64: string): Promise<void> {
     try {
       // Abrir una nueva ventana del navegador con el archivo
-      const url=dataBase64;
+      const url = dataBase64;
       await Browser.open({ url });
     } catch (error) {
       console.error('Error al descargar el archivo:', error);
     }
   }
 
-  public openModal(){
+  public openModal() {
     this.modalFilter.present();
     this.month = 1;
     this.yearSold = new Date().getFullYear();
@@ -309,22 +311,22 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.modelCar = '';
   }
 
-  public closeModal(){
+  public closeModal() {
     this.modalFilter.dismiss();
-    
+
   }
 
-  public applyFilter(){
+  public applyFilter() {
 
     if (this.lineChart) {
       this.lineChart.destroy();
     }
 
-    this.getChartGrafic();
+    this.getChartGrafic(true);
     this.modal.dismiss();
   }
 
-  public openModalVehicle(){
+  public openModalVehicle() {
     this.modalVehicle.present();
     this.dateTo = '';
     this.dateFrom = '';
@@ -335,84 +337,84 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.concesionary2 = '';
   }
 
-  public closeModal2(){
+  public closeModal2() {
     this.modalVehicle.dismiss();
   }
 
-  public applyFilter2(){
+  public applyFilter2() {
     this.getCarList();
     this.modalVehicle.dismiss();
   }
 
-  public dotMinYear(input:any){
-    var num = input.value.replace(/\./g,'');
-    if(!isNaN(num)){
-      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+  public dotMinYear(input: any) {
+    var num = input.value.replace(/\./g, '');
+    if (!isNaN(num)) {
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/, '');
       input.value = num;
       this.yearCarAux = num;
-      this.yearCar = input.value.replace(/\./g,'');
-      this.year_breadcrumb = input.value.replace(/\./g,'');
-    }else{ 
-      
-      input.value = input.value.replace(/[^\d\.]*/g,'');
+      this.yearCar = input.value.replace(/\./g, '');
+      this.year_breadcrumb = input.value.replace(/\./g, '');
+    } else {
+
+      input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }
 
-  public dotMinYear2(input:any){
-    var num = input.value.replace(/\./g,'');
-    if(!isNaN(num)){
-      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-      num = num.split('').reverse().join('').replace(/^[\.]/,'');
+  public dotMinYear2(input: any) {
+    var num = input.value.replace(/\./g, '');
+    if (!isNaN(num)) {
+      num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/, '');
       input.value = num;
       this.yearCarAux2 = num;
-      this.yearCar2 = input.value.replace(/\./g,'');
-    }else{ 
-      
-      input.value = input.value.replace(/[^\d\.]*/g,'');
+      this.yearCar2 = input.value.replace(/\./g, '');
+    } else {
+
+      input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }
 
-  public detailCar(id:any){
-    this.router.navigate(['car-detail/'+id+'/graphics']);
+  public detailCar(id: any) {
+    this.router.navigate(['car-detail/' + id + '/graphics']);
   }
 
-  public onDateFromChange(event:any){
+  public onDateFromChange(event: any) {
     this.dateFrom = moment(event.detail.value).format('YYYY-MM-DD');
   }
 
-  public onDateToChange(event:any){
+  public onDateToChange(event: any) {
     this.dateTo = moment(event.detail.value).format('YYYY-MM-DD');
   }
 
-  public setDot(data:any){
+  public setDot(data: any) {
     var str = data.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return str.join(".");
   }
 
-  public onChangeBrand(event:any){
+  public onChangeBrand(event: any) {
     this.brand_breadcrumb = event.detail.value;
   }
 
-  public onChangeModel(event:any){
+  public onChangeModel(event: any) {
     this.model_breadcrumb = event.detail.value;
   }
 
-  public onInputYear(event:any){
+  public onInputYear(event: any) {
     this.year_breadcrumb = event.detail.value;
   }
 
-  public onChangeRngMonth(event:any){
+  public onChangeRngMonth(event: any) {
     console.log(event.detail.value)
     this.rangMonths_breadcrumb = event.detail.value;
   }
 
-  public onChangeMonth(event:any){
+  public onChangeMonth(event: any) {
     this.month_breadcrumb = event.detail.value;
   }
 
-  public onChangeTripleM(event:any){
+  public onChangeTripleM(event: any) {
     this.triple_m_breadcrumb = event.detail.value;
   }
 

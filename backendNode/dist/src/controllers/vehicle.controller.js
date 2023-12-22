@@ -1170,19 +1170,6 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         mongQuery = Object.assign(Object.assign({}, mongQuery), { model: data.modelCar.replace("%20", " ") });
     }
     let user = null;
-    // if (decode.type_user == "seller") {
-    //   mongQuery = {
-    //     ...mongQuery,
-    //     concesionary: { $regex: decode.concesionary, $options: "i" },
-    //   };
-    // }
-    // if (decode.type_user == "admin_concesionary") {
-    //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-    //   mongQuery = {
-    //     ...mongQuery,
-    //     concesionary: { $regex: concesionary.name, $options: "i" },
-    //   };
-    // }
     let sendData = [];
     let chartData = {};
     let datos = {};
@@ -1239,12 +1226,12 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             });
             listCars[j].imgVehicle = imgvehicles;
         }
-        sendData = getQuantityTotals(vehiclesFiltered);
+        // sendData = getQuantityTotals(vehiclesFiltered);
         let cantMonth = calcularMeses(from, to);
         if (cantMonth == 1 || sendData.length == 1) {
             let groupByWeek = [];
             let groupByOneMonth = [];
-            groupByWeek = agruparPorSemana(sendData);
+            groupByWeek = agruparPorSemana(vehiclesFiltered);
             groupByOneMonth = agruparPorWeek(groupByWeek);
             const labels = groupByOneMonth.map((item) => item.semana);
             const total = groupByOneMonth.map((item) => item.total);
@@ -1257,15 +1244,14 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
             };
         }
         else {
-            // let dataAux=llenarFechasFaltantes(sendData,data.month,data.rangMonths);
-            const labels = sendData.map((dato) => dato.mes);
+            const labels = vehiclesFiltered.map((dato) => dato.mes);
             let nameArray = [];
             for (let i = 0; i < labels.length; i++) {
                 nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
             }
             nameArray = orderMonths(nameArray);
             console.log(nameArray);
-            const total = sendData.map((dato) => dato.total);
+            const total = vehiclesFiltered.map((dato) => dato.total);
             datos = {
                 labels: nameArray,
                 datasets: [
