@@ -163,6 +163,10 @@ const routes: Routes = [
     path: 'list-customers',
     loadChildren: () => import('./list-customers/list-customers.module').then( m => m.ListCustomersPageModule)
   },
+  {
+    path: 'request-add/:data',
+    loadChildren: () => import('./request-add/request-add.module').then( m => m.RequestAddPageModule)
+  },
 ];
 
 @NgModule({

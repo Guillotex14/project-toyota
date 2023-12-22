@@ -163,4 +163,8 @@ export class SellerService {
   public addRerport(data:any){
     return this.http.post(global.urlBase+'vehicle/addRerportMechanicalFile', data,this.authSrv.getToken()!);
   }
+
+  public requestAdd(data:any){
+    return this.http.post(global.urlBase+'vehicle/add_request_models_brands', data,this.authSrv.getToken()!);
+  }
 }

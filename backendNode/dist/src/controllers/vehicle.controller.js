@@ -2895,26 +2895,38 @@ vehicleController.add_request_models_brands = (req, res) => __awaiter(void 0, vo
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller"]);
     let data = req.body;
-    let emailmechanic = "";
+    let emailmechanic = {};
+    let emailAdmin = {};
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
     let documents = [];
     infoSeller = yield Sellers_schema_1.default.findOne({ _id: decode.id_sell });
     let infoConsecionary = yield Concesionaries_schema_1.default.findOne({ name: infoSeller.concesionary });
     emailmechanic = yield Users_schema_1.default.findOne({ id_concesionary: infoConsecionary._id });
+    emailAdmin = yield Users_schema_1.default.findOne({ type_user: "admin" });
+    const dataVehicle = {
+        model: data.model,
+        brand: data.brand,
+        type_vehicle: data.type_vehicle,
+        fullName: infoSeller.fullName,
+        concesionary: infoSeller.concesionary,
+        city: infoSeller.city,
+        title: !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
+    };
     const template = (0, templates_notifications_1.templatesNotifies)("add_request_models_brands", data);
     const mailOptions = {
         from: "Toyousado",
-        to: emailmechanic.email,
+        to: emailmechanic.email ? emailmechanic.email : emailAdmin.email,
         subject: "Revisión de vehículo",
         html: template,
     };
+    yield sendNotificationAdmin(emailmechanic._id ? emailmechanic._id : emailAdmin._id, dataVehicle, !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo");
     yield (0, nodemailer_1.sendEmail)(mailOptions);
     reponseJson.code = 200;
     reponseJson.message = "";
     reponseJson.status = true;
     reponseJson.data = template;
-    return reponseJson;
+    res.json(reponseJson);
 });
 vehicleController.approve_request_models_brands = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();
@@ -3629,6 +3641,16 @@ const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, v
         });
         yield notify.save();
     }
+});
+const sendNotificationAdmin = (id, data, title) => __awaiter(void 0, void 0, void 0, function* () {
+    const notify = new notifications_schema_1.default({
+        id_user: id,
+        title: title,
+        data: data,
+        date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),
+        status: false,
+    });
+    yield notify.save();
 });
 exports.default = vehicleController;
 //# sourceMappingURL=vehicle.controller.js.map

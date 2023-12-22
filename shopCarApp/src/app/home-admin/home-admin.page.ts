@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {  Router } from '@angular/router';
-import { IonModal, MenuController, ModalController } from '@ionic/angular';
+import { IonInfiniteScroll, IonModal, MenuController, ModalController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { AdminService } from '../services/admin/admin.service';
-import { VehicleList } from 'src/models/sellet';
+import { NotificationById, VehicleList } from 'src/models/sellet';
 import { states } from 'src/assets/json/states';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-home-admin',
@@ -38,10 +39,24 @@ export class HomeAdminPage implements OnInit {
 
   loading: boolean = true;
 
-  @ViewChild('modalFilterHomeAdmin') modalFilter!: IonModal;
+  pageNotifies: any = {
+    pos: 0,
+    lim: 20
+  }
+  arrayNotifies: any[] = [];
+  countNotifies: number = 0;
+  notificationById: NotificationById = new NotificationById();
 
-  constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController) { 
+  @ViewChild('modalFilterHomeAdmin') modalFilter!: IonModal;
+  @ViewChild('modalNotifications') modal!: IonModal;
+  @ViewChild('modalDetailNotification') filterModal!: IonModal;
+  @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
+  me: any;
+  mechanicSrv: any;
+  
+  constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController, private authSrv: AuthService) { 
     this.arrayUbication = states;
+    this.me = this.authSrv.getMeData;
     // this.getVehicles();
     // this.getBrands();
     // this.getModels();
@@ -55,6 +70,8 @@ export class HomeAdminPage implements OnInit {
     this.getVehicles();
     this.getBrands();
     this.getModels();
+    this.getNotifies();
+    this.getCountNotifies();
   }
 
   public getBrands(){
@@ -234,4 +251,106 @@ export class HomeAdminPage implements OnInit {
     }
   }
   
+  public getNotifies(){
+    
+    this.pageNotifies.id_user = this.me.id;
+
+    this.mechanicSrv.getNotifications(this.pageNotifies).subscribe((data:any)=>{
+      if (data.status) {
+        this.arrayNotifies = data.data.rows;
+      }
+    });
+  
+  }
+
+  public updateNotification(){
+    let data = {
+      id: this.notificationById._id
+    }
+
+    this.mechanicSrv.updateNotification(data).subscribe((data:any)=>{
+      if (data.status) {
+        this.getNotifies();
+        this.getCountNotifies();
+      }
+    })
+  }
+
+  public getCountNotifies() {
+    let data = {
+      id_user: this.me.id ? this.me.id : null
+    }
+
+    this.mechanicSrv.getCountNotifications(data).subscribe((data:any)=>{
+      if (data.status) {
+        this.countNotifies = data.data;
+      }else{
+        this.countNotifies = 0;
+      }
+    });
+  }
+
+  public openModalNotification(){
+    if (this.arrayNotifies.length > 0 ) {
+      this.modal.present();
+    }
+  }
+
+
+  public openDetailNotification(id: any){
+    
+
+    let data = {
+      id: id
+    }
+
+    this.mechanicSrv.notificationById(data).subscribe((data:any)=>{
+      if (data.status) {
+        this.notificationById = data.data;
+        this.filterModal.present();
+        this.updateNotification();
+        this.getNotifies();
+        this.getCountNotifies();
+      }
+
+    })
+  }
+
+  public loadData(eve:any){
+    this.pageNotifies.pos+=1;
+    let moreNotifies = []
+    this.mechanicSrv.getNotifications(this.pageNotifies).subscribe((resp:any)=>{
+      if (resp.status) {
+        if (resp.data.rows.length > 0) {
+          moreNotifies = resp.data.rows;
+          moreNotifies.map((data:any)=>{
+            this.arrayNotifies.push(data)
+          })
+        }
+      }
+    })
+    this.infiniteScroll.complete();
+  }
+
+  public closeModal(){
+    this.modal.dismiss();
+  }
+
+  public closeModalDetail(){
+    this.filterModal.dismiss();
+
+    // if(this.arrayNotifies.length == 0){
+    //   this.modal.dismiss();
+    // }else{
+    //   this.filterModal.dismiss();
+    // }
+  }
+
+  public goDetail(id: any){
+
+    this.closeModal();
+    this.closeModalDetail();
+
+    this.router.navigate(['car-detail-mechanic/'+id+'/home-mechanic']);
+  }
 }

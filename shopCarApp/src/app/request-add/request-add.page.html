@@ -1,0 +1,81 @@
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="12" class="header">
+        <ion-grid fixed >
+          <ion-row>
+            <ion-col size="2">
+              <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goBack()"></ion-icon>
+            </ion-col>
+            <ion-col size="8" style="text-align: center;">
+              <p class="headerTitle">Solicitud de {{title}} </p>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+
+      <!-- marca -->
+
+      <ion-col size="12" style="margin-top: 50px;" *ngIf="title === 'marca'">
+        <ion-row>
+
+          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" style="margin-top: 20px;">
+            <ion-label class="labelBrand">Nombre de la marca</ion-label>
+            <ion-input type="text" fill="outline" [(ngModel)]="brand"></ion-input>
+          </ion-col>
+
+          <ion-col size="12"  size="12" sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12"style="margin-top: 20px;">
+            <ion-button expand="block" shape="round" class="btnSaveRed" (click)="sendRequestBrand()">
+              Agregar marca
+            </ion-button>
+          </ion-col>
+
+        </ion-row>
+      </ion-col>
+
+      <!-- modelo -->
+
+      <ion-col size="12" style="margin-top: 50px;"  *ngIf="title === 'modelo'">
+        <ion-row>
+
+          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12"style="margin-top: 20px;">
+            <ion-label style="font-size: 15px; color: #898989; margin: 10px 0px !important;margin: 15px auto !important;">Modelo</ion-label>
+            <ion-input type="text" fill="outline" [(ngModel)]="model"></ion-input>
+          </ion-col> 
+
+          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehículo</ion-label>
+            <ion-select [(ngModel)]="type_vehicle" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
+              <ion-select-option value="">Todos</ion-select-option>
+              <ion-select-option value="pickup">Pick-up y carga</ion-select-option>
+              <ion-select-option value="suv">SUV</ion-select-option>
+              <ion-select-option value="sedan">Sedan</ion-select-option>
+              <ion-select-option value="hatchback">Hatchback</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+          <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
+            <ion-select [(ngModel)]="brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
+              <ion-select-option value="">Todos</ion-select-option>
+              <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
+              
+            </ion-select>
+          </ion-col>
+
+          <ion-col size="12" style="margin-top: 20px;">
+            <ion-button expand="block" shape="round" class="btnSaveRed" (click)="sendRequestModel()">
+              Agregar modelo
+            </ion-button>
+          </ion-col>
+
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

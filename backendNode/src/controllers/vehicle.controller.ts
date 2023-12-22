@@ -3441,7 +3441,8 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
   let decode = await jwt.getAuthorization(token, ["seller"]);
   let data: any = req.body;
 
-  let emailmechanic: any = "";
+  let emailmechanic: any = {};
+  let emailAdmin: any = {};
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
   let documents: any[] = [];
@@ -3449,22 +3450,41 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
   infoSeller = await sellers.findOne({ _id: decode.id_sell });
   let infoConsecionary: any = await ConcesionariesSchema.findOne({ name: infoSeller.concesionary })
   emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+  emailAdmin = await Users.findOne({ type_user: "admin" });
+
+  const dataVehicle = {
+    model: data.model,
+    brand: data.brand,
+    type_vehicle: data.type_vehicle,
+    fullName: infoSeller!.fullName,
+    concesionary: infoSeller!.concesionary,
+    city: infoSeller!.city,
+    title: !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
+  };
 
   const template = templatesNotifies("add_request_models_brands", data);
 
   const mailOptions = {
     from: "Toyousado",
-    to: emailmechanic.email,
+    to: emailmechanic.email ? emailmechanic.email : emailAdmin.email,
     subject: "Revisión de vehículo",
     html: template,
   };
+
+  await sendNotificationAdmin(
+    emailmechanic._id ? emailmechanic._id : emailAdmin._id,
+    dataVehicle,
+    !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo"
+  );
+
   await sendEmail(mailOptions);
 
   reponseJson.code = 200;
   reponseJson.message = "";
   reponseJson.status = true;
   reponseJson.data = template;
-  return reponseJson;
+  
+  res.json(reponseJson);
 };
 
 vehicleController.approve_request_models_brands = async (req: Request, res: Response) => {
@@ -3497,8 +3517,7 @@ vehicleController.approve_request_models_brands = async (req: Request, res: Resp
   reponseJson.data = template;
   return reponseJson;
 
-};
-
+}
 
 vehicleController.success_request_models_brands = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -4364,6 +4383,17 @@ const sendNotification = async (
 
     await notify.save();
   }
+};
+
+const sendNotificationAdmin = async (id: string, data: any, title: string) => {
+  const notify = new notifications({
+    id_user: id,
+    title: title,
+    data: data,
+    date: moment().format("YYYY-MM-DD HH:mm:ss"),
+    status: false,
+  });
+  await notify.save(); 
 };
 
 export default vehicleController;

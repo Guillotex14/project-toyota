@@ -15,8 +15,12 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col size="8" style="text-align: center ">
-              <p class="headerTitle">Tu Toyota Usado</p>
+            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' ">
+              <p class="headerTitle" [style]="arrayNotifies.length > 0 ? 'font-size: 22px !important':'font-size: 25px !important'">Tu Toyota Usado</p>
+            </ion-col>
+            <ion-col size="2" *ngIf="arrayNotifies.length > 0">
+              <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
+              <ion-icon name="notifications" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0" class="iconNotify"></ion-icon>
             </ion-col>
             <ion-col size="2">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
@@ -264,4 +268,111 @@
 
     </ng-template>
   </ion-modal>
+
+  <ion-modal #modalNotifications>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Notificaciones</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="closeModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item button *ngFor="let notis of arrayNotifies" (click)="openDetailNotification(notis._id)">
+            <ion-label>
+              <p style="font-size:20px !important">
+                {{notis.title}}
+              </p> 
+              <p style="display: flex !important; align-items: center !important;">
+                <ion-icon name="time-outline" style="font-size: 18px !important;
+                margin: auto 5px auto 0px !important;"></ion-icon>
+                <span>
+                  {{notis.date}}
+                </span>
+              </p>
+            </ion-label>
+            <ion-icon slot="end" name="ellipse" *ngIf="!notis.status" class="iconRed"></ion-icon>
+          </ion-item>
+        </ion-list>
+        <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)" #infiniteScroll>
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando notificaciones">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalDetailNotification>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Notificación</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="closeModalDetail()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-row>
+          <ion-col size="12" style="text-align: center !important; margin-top: 30px;">
+            <ion-title>{{notificationById.title}}</ion-title>
+          </ion-col>
+
+          <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.data">
+
+            <div class="div-table" style="width: 100%;">
+              <div class="table">
+                <div class="tr">
+                  <div class="td bg_gray_1">Modelo</div>
+                  <div class="td bg_gray_2">{{notificationById.data.model}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Año</div>
+                  <div class="td bg_gray_2">{{notificationById.data.year}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Placa</div>
+                  <div class="td bg_gray_2">{{notificationById.data.plate ? notificationById.data.plate : notificationById.data.vehicle_plate}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Vendedor</div>
+                  <div class="td bg_gray_2">{{notificationById.data.fullName}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Concesionario</div>
+                  <div class="td bg_gray_2">{{notificationById.data.concesionary}}</div>
+                </div>
+                <div class="tr">
+                  <div class="td bg_gray_1">Estado</div>
+                  <div class="td bg_gray_2">{{notificationById.data.city}}</div>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+
+          
+          <ion-col size="12" style="text-align: center;" *ngIf="notificationById.data">
+            <ion-button (click)="goDetail(notificationById.data.link)" expand="block" shape="round" class="btnRed" style="width: 60%;margin: 10px auto;" *ngIf="notificationById.data.link">
+              Ver
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="12" style="text-align: center !important; margin-top: 15px;" *ngIf="notificationById.message">
+            <span>{{notificationById.message}}</span>
+          </ion-col>
+
+          <ion-col size="12" style="margin-top: 15px;">
+            {{notificationById.date}}
+          </ion-col>
+
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
