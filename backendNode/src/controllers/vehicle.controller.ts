@@ -1420,11 +1420,11 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       });
       listCars[j].imgVehicle = imgvehicles;
     }
-    
+
     // sendData = getQuantityTotals(vehiclesFiltered);
-    
+
     let cantMonth = calcularMeses(from, to);
-    if (cantMonth == 1 || sendData.length == 1){
+    if (cantMonth == 1 || sendData.length == 1) {
       let groupByWeek = [];
       let groupByOneMonth = [];
       groupByWeek = agruparPorSemana(vehiclesFiltered);
@@ -2582,6 +2582,181 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
   res.json(jsonRes);
 };
 
+
+
+vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => {
+  const jsonRes: ResponseModel = new ResponseModel();
+  const data: any = req.query;
+  const token: any = req.header("Authorization");
+  let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
+  if (decode == false) {
+    jsonRes.code = jwt.code;
+    jsonRes.message = jwt.message;
+    jsonRes.status = false;
+    jsonRes.data = null;
+    return res.json(jsonRes);
+  }
+
+  const mecFile = await mechanicalsFiles.aggregate([
+    {
+      $match: {
+        id_vehicle: new mongoose.Types.ObjectId(data.id_vehicle),
+      },
+    },
+    {
+      $lookup: {
+        from: "vehicles",
+        localField: "id_vehicle",
+        foreignField: "_id",
+        as: "vehicle",
+      },
+    },
+    {
+      $lookup: {
+        from: "mechanics",
+        localField: "id_mechanic",
+        foreignField: "_id",
+        as: "mechanic",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "mechanic.id_user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+
+    { $unwind: "$vehicle" },
+    { $unwind: "$mechanic" },
+    { $unwind: "$user" },
+
+    {
+      $project: {
+        _id: 1,
+        id_vehicle: 1,
+        id_mechanic: 1,
+        part_emblems_complete: 1,
+        wiper_shower_brushes_windshield: 1,
+        hits: 1,
+        scratches: 1,
+        paint_condition: 1,
+        bugle_accessories: 1,
+        air_conditioning_system: 1,
+        radio_player: 1,
+        courtesy_lights: 1,
+        upholstery_condition: 1,
+        gts: 1,
+        board_lights: 1,
+        tire_pressure: 1,
+        tire_life: 1,
+        battery_status_terminals: 1,
+        transmitter_belts: 1,
+        motor_oil: 1,
+        engine_coolant_container: 1,
+        radiator_status: 1,
+        exhaust_pipe_bracket: 1,
+        fuel_tank_cover_pipes_hoses_connections: 1,
+        distribution_mail: 1,
+        spark_plugs_air_filter_fuel_filter_anti_pollen_filter: 1,
+        fuel_system: 1,
+        parking_break: 1,
+        brake_bands_drums: 1,
+        brake_pads_discs: 1,
+        brake_pipes_hoses: 1,
+        master_cylinder: 1,
+        brake_fluid: 1,
+        bushings_plateaus: 1,
+        stumps: 1,
+        terminals: 1,
+        stabilizer_bar: 1,
+        bearings: 1,
+        tripoids_rubbe_bands: 1,
+        shock_absorbers_coils: 1,
+        dealer_maintenance: 1,
+        headlights_lights: 1,
+        general_condition: 1,
+        odometer: 1,
+        engine_start: 1,
+        windshields_glass: 1,
+        hits_scratches: 1,
+        spark_plugs: 1,
+        injectors: 1,
+        fuel_filter_anti_pollen_filter: 1,
+        engine_noises: 1,
+        hits_scratches_sides: 1,
+        paint_condition_sides: 1,
+        trunk_hatch: 1,
+        spare_tire: 1,
+        hits_scratches_trunk: 1,
+        paint_condition_trunk: 1,
+        headlights_lights_trunk: 1,
+        fuel_tank_cover: 1,
+        pipes_hoses_connections: 1,
+        brake_discs: 1,
+        created_at: 1,
+        certificate: 1,
+        vehicle: {
+          price_ofert: 1
+        },
+        mechanic: {
+          fullName: 1,
+        },
+      },
+    }
+
+  ]);
+  if(mecFile[0].certificate){
+    mecFile[0].certificateStr="si"
+  }else{
+    mecFile[0].certificateStr="no"
+  }
+
+  if (mecFile) {
+
+    try {
+      const puppeteer = require('puppeteer');
+      const html: any = await ejs.renderFile('./src/views/templateFichaMecanica.ejs', mecFile[0]);
+      const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+      const page = await browser.newPage();
+      await page.goto('https://developer.chrome.com/');
+
+      await page.setContent(html);
+      const pdfBuffer = await page.pdf({
+        format: 'Letter',
+        printBackground: true,
+        landscape: false
+      });
+      //
+      await browser.close();
+      const fileBuffer: Buffer = pdfBuffer;
+      const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+
+      // const fileName = await uploadPdf(base64Data);
+      jsonRes.data=base64Data;//
+      // jsonRes.data = mecFile;
+      jsonRes.code = 200;
+      jsonRes.message = "";
+      jsonRes.status = true;
+    } catch (error: any) {
+      console.log(error);
+      jsonRes.code = 400;
+      jsonRes.message = "error de dependencia";
+      jsonRes.status = false;
+    }
+
+
+  } else {
+    jsonRes.code = 400;
+    jsonRes.message = "No se pudo obtener la información del vehículo";
+    jsonRes.status = false;
+  }
+
+  res.json(jsonRes);
+};
+
+
 vehicleController.inspections = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
   const { id_mechanic } = req.body;
@@ -2982,7 +3157,7 @@ vehicleController.updateMechanicalFile = async (
 
   const update: any = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
 
-  const updateFicha:any=await mechanicalsFiles.findOne({ _id: data._id });
+  const updateFicha: any = await mechanicalsFiles.findOne({ _id: data._id });
 
   dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);
   dataFile.campos_anteriores = setCamposAnteriores(oldFicha, updateFicha);
@@ -3400,15 +3575,15 @@ vehicleController.allRerportMechanicalFile = async (req: Request, res: Response)
   }
 
   let reports: any = await reportsMechanicalsFiles.find({ id_mechanic_file: data.id }).sort({ date: -1 });
-  
+
   for (let i = 0; i < reports.length; i++) {
     reports[i].user = {};
     let user = await Users.findOne({ _id: reports[i].id_user });
     reports[i] = {
       ...reports[i]._doc,
-      user:user
+      user: user
     }
-    
+
   }
 
   reponseJson.code = 200;
@@ -3467,7 +3642,7 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
   reponseJson.message = "";
   reponseJson.status = true;
   reponseJson.data = template;
-  
+
   res.json(reponseJson);
 };
 
@@ -3585,7 +3760,7 @@ async function generateBase64(pdfPath: string): Promise<string> {
 }
 
 const setCamposActualizados = (oldFicha: any, update: any) => {
-    console.log(oldFicha,update);
+  console.log(oldFicha, update);
   let campos: any = {}
   if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
     campos.part_emblems_complete = update.part_emblems_complete;
@@ -3815,7 +3990,7 @@ const setCamposActualizados = (oldFicha: any, update: any) => {
   if (oldFicha.brake_discs != update.brake_discs) {
     campos.brake_discs = update.brake_discs;
   }
-console.log(campos);
+  console.log(campos);
   return campos;
 }
 
@@ -4377,7 +4552,7 @@ const sendNotificationAdmin = async (id: string, data: any, title: string) => {
     date: moment().format("YYYY-MM-DD HH:mm:ss"),
     status: false,
   });
-  await notify.save(); 
+  await notify.save();
 };
 
 export default vehicleController;
