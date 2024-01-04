@@ -2740,9 +2740,9 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
       const fileBuffer: Buffer = pdfBuffer;
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
-      // const fileName = await uploadPdf(base64Data);
-      jsonRes.data=base64Data;//
-      // jsonRes.data = mecFile;
+      const fileName = await uploadPdf(base64Data);
+      // jsonRes.data=base64Data;//
+      jsonRes.data = fileName.secure_url;
       jsonRes.code = 200;
       jsonRes.message = "";
       jsonRes.status = true;
