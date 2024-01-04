@@ -2591,7 +2591,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 
 
-vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => { //ajsbdkjandaksndaksjdn asdnaslkdnaskjdn
+vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const data: any = req.query;
   const token: any = req.header("Authorization");
@@ -2740,9 +2740,9 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
       const fileBuffer: Buffer = pdfBuffer;
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
-      const fileName = await uploadPdf(base64Data);
-      // jsonRes.data=base64Data;//
-      jsonRes.data = fileName.secure_url;
+      // const fileName = await uploadPdf(base64Data);
+      jsonRes.data=base64Data;//
+      // jsonRes.data = mecFile;
       jsonRes.code = 200;
       jsonRes.message = "";
       jsonRes.status = true;

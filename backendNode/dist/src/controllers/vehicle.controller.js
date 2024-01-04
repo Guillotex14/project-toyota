@@ -2335,9 +2335,15 @@ vehicleController.generatePdfFichaTecnica = (req, res) => __awaiter(void 0, void
             yield browser.close();
             const fileBuffer = pdfBuffer;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
+<<<<<<< HEAD
             const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
             // jsonRes.data=base64Data;//
             jsonRes.data = fileName.secure_url;
+=======
+            // const fileName = await uploadPdf(base64Data);
+            jsonRes.data = base64Data; //
+            // jsonRes.data = mecFile;
+>>>>>>> fef2af6 (pdf ficha mecanica)
             jsonRes.code = 200;
             jsonRes.message = "";
             jsonRes.status = true;
