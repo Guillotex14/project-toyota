@@ -2523,6 +2523,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       technology: data.technology,
       performance: data.performance,
       comfort: data.comfort,
+      certificate: data.dataSheet.certificate,
       concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
       general_condition: data.general_condition,
       general_condition_end: "",
@@ -2539,6 +2540,12 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
     } else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
       sendData.general_condition_end = `malo`;
+    }
+
+    if(sendData.certificate){
+      sendData.certificateStr="si"
+    }else{
+      sendData.certificateStr="no"
     }
 
     try {

@@ -2133,6 +2133,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             technology: data.technology,
             performance: data.performance,
             comfort: data.comfort,
+            certificate: data.dataSheet.certificate,
             concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
             general_condition: data.general_condition,
             general_condition_end: "",
@@ -2148,6 +2149,12 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         }
         else if (sendData.general_condition === "malo" || sendData.general_condition > "76") {
             sendData.general_condition_end = `malo`;
+        }
+        if (sendData.certificate) {
+            sendData.certificateStr = "si";
+        }
+        else {
+            sendData.certificateStr = "no";
         }
         try {
             const puppeteer = require('puppeteer');
@@ -2328,9 +2335,9 @@ vehicleController.generatePdfFichaTecnica = (req, res) => __awaiter(void 0, void
             yield browser.close();
             const fileBuffer = pdfBuffer;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-            // const fileName = await uploadPdf(base64Data);
-            jsonRes.data = base64Data; //
-            // jsonRes.data = mecFile;
+            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
+            // jsonRes.data=base64Data;//
+            jsonRes.data = fileName.secure_url;
             jsonRes.code = 200;
             jsonRes.message = "";
             jsonRes.status = true;
