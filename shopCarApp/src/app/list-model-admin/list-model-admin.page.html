@@ -9,7 +9,7 @@
               <ion-icon name="arrow-back-circle-sharp" (click)="goBack()" class="iconBack"></ion-icon>
             </ion-col>
             <ion-col size="8" style="text-align: center;">
-              <p class="headerTitle">Lista de Modelos</p>
+              <p class="headerTitle">Lista de Vehículo</p>
             </ion-col>
             <ion-col size="2">
               <ion-icon name="menu-outline" (click)="openMenu()" class="iconMenu"></ion-icon>
@@ -62,7 +62,9 @@
 
       <ion-col size="12" *ngIf="modelList.length === 0 && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
-        <p class="titleNoInfo">No se encontraron vehículos</p>
+        <p class="titleNoInfo">
+          Sin data de modelos de vehículos
+        </p>
       </ion-col>
 
       <app-skeleton *ngIf="loading"></app-skeleton>

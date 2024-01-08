@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import * as global from '../models/global';
 import { AuthService } from './services/auth/auth.service';
+import { NotificationsService } from './services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -179,8 +180,8 @@ export class AppComponent implements  OnInit{
   @ViewChild('ActionSheet') actionSheet!: IonActionSheet;
   @ViewChild('ActionSheetEdit') actionSheetEdit!: IonActionSheet;
   
-  constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService) {
-
+  constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService, private notiSrv: NotificationsService) {
+    this.notiSrv.initNotifies();
     let data = localStorage.getItem('me');
 
     // if(data){

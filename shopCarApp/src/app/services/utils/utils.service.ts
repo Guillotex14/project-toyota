@@ -162,7 +162,7 @@ export class UtilsService {
     let comparasion = JSON.parse(localStorage.getItem('comparasion')!);
 
     if (comparasion != null && comparasion.length == 4) {
-      this.presentAlert('Solo se pueden agregar 4 vehículos a la comparación', 'Comparación', '');
+      this.presentAlert('Solo se pueden añadir 4 vehículos a la comparación', 'Comparación', '');
       return;
     }
 

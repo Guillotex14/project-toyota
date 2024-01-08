@@ -80,6 +80,7 @@ ion-search-bar{
   color: #1c1c1d !important;
   box-shadow: none !important;
   width: 160px !important;
+  
   ion-img{
     width: 130px;
     height: 70px;
@@ -93,11 +94,13 @@ ion-search-bar{
     font-size: 12px;
     font-weight: 900;
   }
+
   span{
     font-size: 12px;
     font-weight: 900;
     color: #1c1c1d;
   }
+
   ion-button{
     --border-radius: 30px !important;
     --background: #EB0A1E !important;

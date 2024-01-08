@@ -15,7 +15,9 @@ buildscript {
     }
 }
 
+
 apply from: "variables.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 allprojects {
     repositories {
@@ -27,3 +29,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

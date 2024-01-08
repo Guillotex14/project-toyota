@@ -136,3 +136,40 @@ font-size: 12px !important ;
   font-size: 40px;
   margin: 13px auto;
 }
+
+
+@media (max-width: 320px) {
+  
+  ion-item-divider{
+    font-size: 12px !important;
+    // ion-label{
+    // }
+  }
+}
+
+@media (max-width: 300px) {
+  
+  ion-item-divider{
+    font-size: 11px !important;
+    // ion-label{
+    // }
+  }
+}
+
+@media (max-width: 280px) {
+  
+  ion-item-divider{
+    font-size: 10px !important;
+    // ion-label{
+    // }
+  }
+}
+
+@media (max-width: 260px) {
+  
+  ion-item-divider{
+    font-size: 9px !important;
+    // ion-label{
+    // }
+  }
+}

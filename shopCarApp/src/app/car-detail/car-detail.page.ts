@@ -464,7 +464,7 @@ export class CarDetailPage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
       return
     };
     // enable();
@@ -487,7 +487,7 @@ export class CarDetailPage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
       return
     };
     // enable();
@@ -510,7 +510,7 @@ export class CarDetailPage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
       return
     };
     // enable();
@@ -534,7 +534,7 @@ export class CarDetailPage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden agregar 5 documentos") 
+      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
       return
     };
     // enable();
@@ -1082,7 +1082,7 @@ export class CarDetailPage implements OnInit {
   public fileSelect(file:FileList){
 
     if (this.arrayDocuments.length === 5) {
-      this.utils.presentToast("Solo se pueden agregar 5 documentos");
+      this.utils.presentToast("Solo se pueden añadir 5 documentos");
       return
     }
 

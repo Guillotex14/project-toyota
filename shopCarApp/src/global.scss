@@ -559,10 +559,11 @@ ion-segment {
         width: 100% !important;
       }
     }
-    .colCardGraphImg{
-
-    }
     .colCardGraphInfo{
+      text-align: center !important;
+    }
+
+    .colCardGraphInfoAccordion{
       text-align: center !important;
     }
   }
@@ -581,6 +582,10 @@ ion-segment {
     }
 
     .colCardGraphInfo{
+      text-align: center !important;
+    }
+
+    .colCardGraphInfoAccordion{
       text-align: center !important;
     }
   }
@@ -967,6 +972,30 @@ ion-segment {
     .cardDataPlus{
       span{
         font-size: 12px !important;
+      }
+    }
+  }
+
+  app-home-seller{
+    .header{
+      .headerTitle{
+        font-size: 24px !important;
+      }
+    }
+  }
+
+  app-home-mechanic{
+    .header{
+      .headerTitle{
+        font-size: 24px !important;
+      }
+    }
+  }
+
+  app-home-admin{
+    .header{
+      .headerTitle{
+        font-size: 24px !important;
       }
     }
   }
@@ -1423,10 +1452,12 @@ ion-segment {
   app-mechanical-file-detail{
     .colSegment{
       width: 365px !important;
-      margin-left: -10px !important;
+      margin-left: -4px !important;
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: -4px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1439,10 +1470,12 @@ ion-segment {
   app-mechanical-file-detail-admin{
     .colSegment{
       width: 365px !important;
-      margin-left: -10px !important;
+      margin-left: -4px !important;
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: -4px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1455,10 +1488,12 @@ ion-segment {
   app-mechanical-file-detail-mechanic{
     .colSegment{
       width: 365px !important;
-      margin-left: -10px !important;
+      margin-left: -4px !important;
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: -4px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1715,11 +1750,18 @@ ion-segment {
 
   app-mechanical-file-detail{
     .colSegment{
-      width: 365px !important;
-      margin-left: -10px !important;
+      // width: 365px !important;
+      width: 325px !important;
+      margin-left: 5px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: 5px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1731,11 +1773,17 @@ ion-segment {
 
   app-mechanical-file-detail-admin{
     .colSegment{
-      width: 365px !important;
-      margin-left: -10px !important;
+      width: 325px !important;
+      margin-left: 5px !important;
+
+      .segmentConce{
+        width: 62% !important;
+      }
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: 5px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1747,11 +1795,14 @@ ion-segment {
 
   app-mechanical-file-detail-mechanic{
     .colSegment{
-      width: 365px !important;
-      margin-left: -10px !important;
+      width: 325px !important;
+      margin-left: 5px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
     }
     ion-segment{
-      margin-left: -10px !important;
+      margin-left: 5px !important;
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -1785,11 +1836,140 @@ ion-segment {
       }
     }
   }
+
+  app-mechanical-file-detail{
+    .colSegment{
+      // width: 365px !important;
+      width: 325px !important;
+      margin-left: 2px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: 2px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-admin{
+    .colSegment{
+      width: 325px !important;
+      margin-left: 2px !important;
+
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: 2px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-mechanic{
+    .colSegment{
+      width: 325px !important;
+      margin-left: 2px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: 2px !important;
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
 }
 
 @media screen and (max-width: 340px){
   .colCardVehicles{
     margin: 3% 20% !important;
+  }
+
+  app-mechanical-file-detail{
+    .colSegment{
+      // width: 365px !important;
+      width: 325px !important;
+      margin-left: -2px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -2px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-admin{
+    .colSegment{
+      width: 325px !important;
+      margin-left: -2px !important;
+
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -2px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-mechanic{
+    .colSegment{
+      width: 325px !important;
+      margin-left: -2px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -2px !important;
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
   }
 }
 
@@ -1984,7 +2164,7 @@ ion-segment {
         top: 35% !important;  
       }
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 20px !important;
       }
       .iconMenu{
         margin-top: 110% !important;
@@ -2076,6 +2256,70 @@ ion-segment {
       }
     }
   }
+
+  app-mechanical-file-detail{
+    .colSegment{
+      // width: 365px !important;
+      width: 325px !important;
+      margin-left: -9px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -9px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-admin{
+    .colSegment{
+      width: 325px !important;
+      margin-left: -9px !important;
+
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -9px !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-mechanic{
+    .colSegment{
+      width: 325px !important;
+      margin-left: -9px !important;
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      margin-left: -9px !important;
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
 }
 
 @media screen and (max-width:299px) {
@@ -2088,6 +2332,51 @@ ion-segment {
       .radioBig{
         margin: auto 5px !important;
       }
+    }
+  }
+
+  app-mechanical-file-detail{
+    .colSegment{
+      .segmentConce{
+        width: 62% !important;
+      }
+    }
+    ion-segment{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-admin{
+    .colSegment{
+    }
+    ion-segment{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+    }
+    .br375{
+      display: block !important;
+    }
+  }
+
+  app-mechanical-file-detail-mechanic{
+    .colSegment{
+    }
+    ion-segment{
+      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+      // ion-segment-button{
+      //   margin: auto 16px !important;
+      // }
+    }
+    .br375{
+      display: block !important;
     }
   }
 }
