@@ -319,7 +319,7 @@ export class AddVehiclePage implements OnInit {
     }
 
     if(this.arrayImages.length == 0){
-      this.utils.presentAlert("Debe agregar al menos una imagen", "Información", "");
+      this.utils.presentAlert("Debe añadir al menos una imagen", "Información", "");
       return;
     }
     
@@ -344,7 +344,7 @@ export class AddVehiclePage implements OnInit {
         this.router.navigate(['/seller']);
       }else{
         this.utils.dismissLoading();
-        this.utils.presentToast("Error al agregar vehículo");
+        this.utils.presentToast("Error al añadir vehículo");
       }
     },
     (err:any) => {
@@ -428,28 +428,28 @@ export class AddVehiclePage implements OnInit {
 
     if (this.arrayImages.length === 2){
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       this.photoNumber = aux[0];
     }
 
     if (this.arrayImages.length === 3){
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       this.photoNumber = aux[0];
     }
 
     if (this.arrayImages.length === 4){
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       this.photoNumber = aux[0];
     }
 
     if (this.arrayImages.length === 5) {
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.utils.presentAlert("Solo se pueden añadir 5 imágenes", "Información", "");
       this.modalStep.dismiss();
       return
     }
@@ -482,7 +482,7 @@ export class AddVehiclePage implements OnInit {
 
     if (this.arrayImages.length === 5) {
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.utils.presentAlert("Solo se pueden añadir 5 imágenes", "Información", "");
       this.modalStep.dismiss();
       return
     }
@@ -516,7 +516,7 @@ export class AddVehiclePage implements OnInit {
 
     if (this.arrayImages.length === 5) {
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.utils.presentAlert("Solo se pueden añadir 5 imágenes", "Información", "");
       this.modalStepEdit.dismiss();
       return
     }
@@ -541,7 +541,7 @@ export class AddVehiclePage implements OnInit {
 
     if (this.arrayImages.length === 5) {
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 imágenes", "Información", "");
+      this.utils.presentAlert("Solo se pueden añadir 5 imágenes", "Información", "");
       this.modalStepEdit.dismiss();
       return
     }
@@ -892,7 +892,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", ""); 
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", ""); 
       return
     };
     const camera = await Camera.getPhoto({
@@ -916,7 +916,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -941,7 +941,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -962,7 +962,7 @@ export class AddVehiclePage implements OnInit {
     this.utils.presentLoading("Cargando imagen...");
     if(this.arrayDocuments.length === 5){
       this.utils.dismissLoading();
-      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "") 
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "") 
       return
     };
     const camera = await Camera.getPhoto({
@@ -1123,7 +1123,7 @@ export class AddVehiclePage implements OnInit {
   public fileSelect(file:FileList){
 
     if (this.arrayDocuments.length === 5) {
-      this.utils.presentAlert("Solo se pueden agregar 5 documentos", "Información", "");
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
       return
     }
 
@@ -1152,7 +1152,7 @@ export class AddVehiclePage implements OnInit {
     reader.readAsDataURL(file[0]);
   }
 
-  ////////////------------------ steps de agregar imagenes del vehiculo -----------------////////////
+  ////////////------------------ steps de añadir imagenes del vehiculo -----------------////////////
 
   public openModalStep(){
 
@@ -1163,7 +1163,7 @@ export class AddVehiclePage implements OnInit {
     if (this.arrayImages.length === 2) {
       this.modalStep.present();
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       console.log(aux)
       this.photoNumber = aux[0];
@@ -1172,7 +1172,7 @@ export class AddVehiclePage implements OnInit {
     if (this.arrayImages.length === 3) {
       this.modalStep.present();
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       this.photoNumber = aux[0];
     }
@@ -1180,7 +1180,7 @@ export class AddVehiclePage implements OnInit {
     if (this.arrayImages.length === 4) {
       this.modalStep.present();
       let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por agregar comparando el array de numeros con el valor number del array de imagenes
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
       this.photoNumber = aux[0];
     }
@@ -1189,7 +1189,7 @@ export class AddVehiclePage implements OnInit {
       
       this.alertCtrl.create({
         header: "Información",
-        message: "Solo se pueden agregar 5 imágenes",
+        message: "Solo se pueden añadir 5 imágenes",
         buttons: [
           {
             text: "Aceptar",

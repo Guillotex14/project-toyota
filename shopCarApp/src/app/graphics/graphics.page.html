@@ -67,7 +67,7 @@
       </ion-col>
 
       <ion-col size="12" style="margin-top: 20px !important;" *ngIf="!loading">
-        <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
+        <ion-accordion-group expand="inset" style="width: 90%; margin: 10px auto;">
               
           <ion-accordion value="year">
             <ion-item slot="header">
@@ -81,22 +81,22 @@
                     <ion-card-content>
                       <ion-grid fixed>
                         <ion-row>
-                          <ion-col size="5" class="colCardGraphImg">
-                            <ion-icon name="image" *ngIf="vehicle.imgVehicle === null" class="iconCard"></ion-icon>
+                          <ion-col size="6" class="colCardGraphImgAccordion">
+                            <ion-icon name="image" *ngIf="vehicle.imgVehicle === null" class="iconCardAccordion"></ion-icon>
                             <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle !==null"></ion-img>
                           </ion-col>
-                          <ion-col size="7" class="colCardGraphInfo">
+                          <ion-col size="6" class="colCardGraphInfoAccordion">
                             <ion-row>
                               <ion-col size="12">
-                                <ion-card-title style="font-weight: bold;" class="modelCar">{{vehicle.model}}</ion-card-title>
-                                <ion-card-subtitle class="cityCar">Vendido/a en {{vehicle.city}}</ion-card-subtitle>
+                                <ion-card-title style="font-weight: bold;" class="modelCarAccordion">{{vehicle.model}}</ion-card-title>
+                                <ion-card-subtitle class="cityCarAccordion">Vendido/a en {{vehicle.city}}</ion-card-subtitle>
                               </ion-col>
                               <ion-col size="12" style="text-align: center;">
-                                <ion-card-title  class="priceCar">
+                                <ion-card-title  class="priceCarAccordion">
                                   <!-- {{vehicle.price | currency:'USD':true:'1.0-0'}} -->
                                   ${{vehicle.price ? setDot(vehicle.price) : 0}}
                                 </ion-card-title>
-                                <ion-card-title class="dateCar">
+                                <ion-card-title class="dateCarAccordion">
                                   {{vehicle.date_sell}}
                                 </ion-card-title>
                               </ion-col>
@@ -110,7 +110,6 @@
       
               </ion-list>
             </div>
-
           </ion-accordion>
         </ion-accordion-group>        
       </ion-col>

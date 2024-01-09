@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "509064345766",
+    "project_id": "tytnotifications",
+    "storage_bucket": "tytnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509064345766:android:d3d33f299aaa1b5caf5c67",
+        "android_client_info": {
+          "package_name": "com.tytnotifies.tyt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvEZ3DPYrB0MAbT4iFaz-UYAgTKcJXse0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

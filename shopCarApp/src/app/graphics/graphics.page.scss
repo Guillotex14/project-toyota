@@ -134,6 +134,24 @@ font-size: 17px !important;
   font-size: 14px !important;
 }
 
+.cityCarAccordion{
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: black !important;
+}
+
+.priceCarAccordion{
+font-weight: bold !important; 
+color: green !important; 
+font-size: 17px !important;
+}
+
+.dateCarAccordion{
+  color: black !important; 
+  font-weight: 600 !important; 
+  font-size: 14px !important;
+}
+
 ion-breadcrumb{
   font-size: 13px !important;
   margin: 0px !important;
@@ -183,10 +201,9 @@ ion-breadcrumb{
 
 @media screen and (max-width:375px){
   ion-card{
-    ion-card-subtitle{
-      font-size: 10px !important; 
-
-    }
+    // ion-card-subtitle{
+    //   font-size: 10px !important; 
+    // }
     ion-img{
       width: 110px !important;
       height: 70px !important;
@@ -232,6 +249,23 @@ ion-breadcrumb{
     font-size: 13px !important;
   }
 
+  
+  .modelCarAccordion{
+    font-size: 17px !important;
+  }
+
+  .cityCarAccordion{
+    font-size: 13px !important;
+  }
+  
+  .priceCarAccordion{
+    font-size: 13px !important;
+  }
+
+  .dateCarAccordion{
+    font-size: 13px !important;
+  }
+
   .titlePage{
     font-size: 19px !important;
   }
@@ -240,6 +274,11 @@ ion-breadcrumb{
     font-size: 13px !important;
   }
 
+  .colCardGraphImgAccordion{
+    ion-img{
+      width: 100px !important;
+    }
+  }
 }
 
 @media screen and (max-width:360px){
@@ -252,6 +291,41 @@ ion-breadcrumb{
       width: 95px !important;
       height: 65px !important;
       margin: 15px 0px !important;
+    }
+  }
+
+  ion-accordion-group{
+    ion-accordion{
+        ion-item{
+          ion-label{
+            font-size: 15px !important;
+          }
+        }
+        .ion-padding{
+          padding: 0px !important;
+        }
+    }
+  }
+
+  .priceCarAccordion{
+    font-size: 14px !important;
+  }
+
+  .dateCarAccordion{
+    font-size: 11px !important;
+  }
+
+  .cityCarAccordion{
+    font-size: 12px !important;
+  }
+
+  .modelCarAccordion{
+    font-size: 15px !important;
+  }
+
+  .colCardGraphImgAccordion{
+    ion-img{
+      width: 75px !important;
     }
   }
 }
@@ -267,6 +341,41 @@ ion-breadcrumb{
       font-size: 11px !important;
     }
   }
+
+  ion-accordion-group{
+    ion-accordion{
+        ion-item{
+          ion-label{
+            font-size: 15px !important;
+          }
+        }
+        .ion-padding{
+          padding: 0px !important;
+        }
+    }
+  }
+
+  .priceCarAccordion{
+    font-size: 14px !important;
+  }
+
+  .dateCarAccordion{
+    font-size: 11px !important;
+  }
+
+  .cityCarAccordion{
+    font-size: 12px !important;
+  }
+
+  .modelCarAccordion{
+    font-size: 15px !important;
+  }
+
+  .colCardGraphImgAccordion{
+    ion-img{
+      width: 75px !important;
+    }
+  }
 }
 
 @media screen and (max-width:320px){
@@ -276,6 +385,41 @@ ion-breadcrumb{
       width: 70px !important;
       height: 60px !important;
       margin: 15px 0px !important;
+    }
+  }
+
+  ion-accordion-group{
+    ion-accordion{
+        ion-item{
+          ion-label{
+            font-size: 15px !important;
+          }
+        }
+        .ion-padding{
+          padding: 0px !important;
+        }
+    }
+  }
+
+  .priceCarAccordion{
+    font-size: 14px !important;
+  }
+
+  .dateCarAccordion{
+    font-size: 11px !important;
+  }
+
+  .cityCarAccordion{
+    font-size: 12px !important;
+  }
+
+  .modelCarAccordion{
+    font-size: 15px !important;
+  }
+
+  .colCardGraphImgAccordion{
+    ion-img{
+      width: 75px !important;
     }
   }
 }

@@ -278,3 +278,15 @@ ion-img{
     height: 25px !important;
   }
 }
+
+@media screen and (max-width: 260px){
+  .header{
+    .headerTitle{
+      font-size: 17px !important;
+    }
+  }
+  .btnOutlineBlack, 
+  .btnOutlineRed{
+    width: 100% !important;
+  }
+}

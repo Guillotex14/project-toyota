@@ -7,12 +7,18 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https'
   },
-  // plugins: {
-  //   PrivacyScreen: {
+  plugins: {
+  
+    LocalNotifications: {
+      smallIcon: 'ic_stat_icon_config_sample',
+      iconColor: '#CE0B24',
+      sound: 'beep.wav',
+    },
+    //   PrivacyScreen: {
   //     enable: true,
   //     imageName: 'SplashScreen',
   //   }
-  // }
+  }
 };
 
 export default config;
