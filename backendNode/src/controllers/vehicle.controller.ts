@@ -2591,7 +2591,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
 
 
-vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => {
+vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => { //ajsbdkjandaksndaksjdn asdnaslkdnaskjdn
   const jsonRes: ResponseModel = new ResponseModel();
   const data: any = req.query;
   const token: any = req.header("Authorization");
