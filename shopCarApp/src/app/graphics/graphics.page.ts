@@ -18,7 +18,8 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   today = new Date();
   lineChart: any;
   month: any = "";
-  yearSold: number = new Date().getFullYear();
+  yearSold: any =new Date().getFullYear();
+  yearSoldAux: any = "";
   rangMonths: any = '';
   yearCar: string = "";
   yearCarAux: string = '';
@@ -357,6 +358,24 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       this.year_breadcrumb = input.value.replace(/\./g, '');
     } else {
 
+      input.value = input.value.replace(/[^\d\.]*/g, '');
+    }
+  }
+
+  public dotMinYearSold(input: any) {
+    var num = input.value.replace(/\./g, '');
+    if (!isNaN(num)) {
+      num = num
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+      num = num.split('').reverse().join('').replace(/^[\.]/, '');
+      input.value = num;
+      this.yearSoldAux = num;
+      this.yearSold = input.value.replace(/\./g, '');
+    } else {
       input.value = input.value.replace(/[^\d\.]*/g, '');
     }
   }

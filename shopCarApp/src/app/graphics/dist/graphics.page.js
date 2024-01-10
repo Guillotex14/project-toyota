@@ -60,6 +60,7 @@ var GraphicsPage = /** @class */ (function () {
         this.today = new Date();
         this.month = "";
         this.yearSold = new Date().getFullYear();
+        this.yearSoldAux = "";
         this.rangMonths = '';
         this.yearCar = "";
         this.yearCarAux = '';
@@ -352,6 +353,24 @@ var GraphicsPage = /** @class */ (function () {
             this.yearCarAux = num;
             this.yearCar = input.value.replace(/\./g, '');
             this.year_breadcrumb = input.value.replace(/\./g, '');
+        }
+        else {
+            input.value = input.value.replace(/[^\d\.]*/g, '');
+        }
+    };
+    GraphicsPage.prototype.dotMinYearSold = function (input) {
+        var num = input.value.replace(/\./g, '');
+        if (!isNaN(num)) {
+            num = num
+                .toString()
+                .split('')
+                .reverse()
+                .join('')
+                .replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+            num = num.split('').reverse().join('').replace(/^[\.]/, '');
+            input.value = num;
+            this.yearSoldAux = num;
+            this.yearSold = input.value.replace(/\./g, '');
         }
         else {
             input.value = input.value.replace(/[^\d\.]*/g, '');
