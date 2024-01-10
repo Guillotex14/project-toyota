@@ -4,6 +4,7 @@ import { Platform, IonContent, AlertController } from '@ionic/angular';
 import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { CarDetailMechanicalFile } from 'src/models/sellet';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-mechanical-file-detail',
@@ -133,7 +134,7 @@ export class MechanicalFileDetailPage implements OnInit {
     });
   }
 
-  getListReport(data: any) {
+  public getListReport(data: any) {
     this.sellerSrv.getReportList({ id: data._id }).subscribe((r: any) => {
       if (r.status) {
         this.reportes = r.data;
@@ -154,11 +155,11 @@ export class MechanicalFileDetailPage implements OnInit {
     });
   }
 
-  scrollToTop() {
+  public scrollToTop() {
     this.content.scrollToTop(500);
   }
 
-  seeCamposActualizados(item: any) {
+  public seeCamposActualizados(item: any) {
     for (let i = 0; i < this.reportes.length; i++) {
       if (this.reportes[i]._id == item._id) {
         this.reportes[i].showcontent = !this.reportes[i].showcontent
@@ -167,7 +168,7 @@ export class MechanicalFileDetailPage implements OnInit {
     }
   }
 
-  seeCamposAnteriores(item: any) {
+  public seeCamposAnteriores(item: any) {
     for (let i = 0; i < this.reportes.length; i++) {
       if (this.reportes[i]._id == item._id) {
         this.reportes[i].showcontent = !this.reportes[i].showcontent
@@ -224,4 +225,23 @@ export class MechanicalFileDetailPage implements OnInit {
     // });
   }
 
+  public generatePdf() {
+    this.utils.presentLoading("Generando PDF...");
+
+    this.sellerSrv.generatePdfMechanical(this.mechanicalFile.id_vehicle).subscribe((r: any) => {
+      if (r.status) {
+        this.utils.dismissLoading();
+        this.utils.presentToast("PDF generado");
+        Browser.open({ url: r.data });
+      } else {
+        this.utils.dismissLoading();
+        this.utils.presentToast(r.message);
+      }
+    },
+      error => {
+        this.utils.dismissLoading();
+        this.utils.presentToast("Error de servidor");
+      }  
+    );
+  }
 }

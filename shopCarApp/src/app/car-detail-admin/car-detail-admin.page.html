@@ -26,7 +26,12 @@
             </ion-col>
 
             <ion-col size="12" style="text-align: center !important">
-              
+              <ion-img 
+                src="assets/images/logo/vehiculo_certificado.png"
+                class="certificate"
+                *ngIf="carDetail.certified === true && carDetail.general_condition >= 96"
+              >
+              </ion-img>
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="carDetail.images.length === 0">
                 <ion-icon name="information-circle" class="iconSwipper" ></ion-icon>
                 <br>

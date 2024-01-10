@@ -1130,6 +1130,12 @@ export class CarDetailPage implements OnInit {
     }
   }
 
+  public randomName(){
+    let name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    name = name+".pdf";
+    return name;
+  }
+
   // public async screenShotDisables(){
   //   await PrivacyScreen.disable().then((res:any)=>{console.log(res)});
   // }

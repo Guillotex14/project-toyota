@@ -85,3 +85,13 @@
   --background-checked: rgb(235, 10, 30,0.1);
   opacity: 1 !important;
 }
+
+.certificate{
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  z-index: 10;
+  top:0;
+  right:0;
+  margin-top: -20px;
+}

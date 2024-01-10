@@ -50,6 +50,8 @@ vehicleRouter.get("/filterGraphySale", vehicleController.filterGraphySale);
 
 vehicleRouter.get("/generatePdf", vehicleController.generatePdf);
 
+vehicleRouter.get("/generatePdfFichaTecnica", vehicleController.generatePdfFichaTecnica);
+
 vehicleRouter.post("/inspections",vehicleController.inspections);
 
 vehicleRouter.post("/countInspections",vehicleController.countInspections);

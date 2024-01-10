@@ -31,7 +31,12 @@
             </ion-col>
 
             <ion-col size="12" *ngIf="!editCar" style="text-align: center !important">
-              
+              <ion-img 
+                src="assets/images/logo/vehiculo_certificado.png"
+                class="certificate"
+                *ngIf="carDetail.certified === true && carDetail.general_condition >= 96"
+              >
+              </ion-img>
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0">
                 <ion-icon name="information-circle" class="iconSwipper"></ion-icon>
                 <br>
@@ -583,7 +588,7 @@
                                 <ion-row *ngFor="let doc of arrayDocuments; let i = index">
                                   <ion-col size="12">
                                     <ion-button expand="block" shape="round" class="btnRed" (click)="openPdf(doc.img)">
-                                      <span>{{doc.name}}</span>
+                                      <span>{{doc.name ? doc.name : randomName()}}</span>
                                     </ion-button>
                                   </ion-col>
                                 </ion-row>

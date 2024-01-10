@@ -6,6 +6,7 @@ import { AdminService } from '../services/admin/admin.service';
 import { NotificationById, VehicleList } from 'src/models/sellet';
 import { states } from 'src/assets/json/states';
 import { AuthService } from '../services/auth/auth.service';
+import { MechanicService } from '../services/mechanic/mechanic.service';
 
 @Component({
   selector: 'app-home-admin',
@@ -52,20 +53,16 @@ export class HomeAdminPage implements OnInit {
   @ViewChild('modalDetailNotification') filterModal!: IonModal;
   @ViewChild('infiniteScroll') infiniteScroll!: IonInfiniteScroll;
   me: any;
-  mechanicSrv: any;
   
-  constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController, private authSrv: AuthService) { 
+  constructor(private menu: MenuController, private router: Router, private utils: UtilsService, private adminSrv: AdminService, private modalCtrl: ModalController, private authSrv: AuthService, private mechanicSrv: MechanicService) { 
     this.arrayUbication = states;
-    this.me = this.authSrv.getMeData;
+    this.me = this.authSrv.getMeData();
     // this.getVehicles();
     // this.getBrands();
     // this.getModels();
     
   }
-
-  ngOnInit() {
-  }
-
+  
   ionViewWillEnter(){
     this.getVehicles();
     this.getBrands();
@@ -73,6 +70,9 @@ export class HomeAdminPage implements OnInit {
     this.getNotifies();
     this.getCountNotifies();
   }
+  ngOnInit() {
+  }
+
 
   public getBrands(){
     this.adminSrv.allBrands().subscribe((res: any) => {
