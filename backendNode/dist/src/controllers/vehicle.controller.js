@@ -2335,21 +2335,9 @@ vehicleController.generatePdfFichaTecnica = (req, res) => __awaiter(void 0, void
             yield browser.close();
             const fileBuffer = pdfBuffer;
             const base64Data = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
-<<<<<<< HEAD
-<<<<<<< HEAD
             const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
             // jsonRes.data=base64Data;//
             jsonRes.data = fileName.secure_url;
-=======
-            // const fileName = await uploadPdf(base64Data);
-            jsonRes.data = base64Data; //
-            // jsonRes.data = mecFile;
->>>>>>> fef2af6 (pdf ficha mecanica)
-=======
-            const fileName = yield (0, cloudinaryMetods_1.uploadPdf)(base64Data);
-            // jsonRes.data=base64Data;//
-            jsonRes.data = fileName.secure_url;
->>>>>>> b0445f2 (pdf ficha mecanica)
             jsonRes.code = 200;
             jsonRes.message = "";
             jsonRes.status = true;
@@ -3070,7 +3058,7 @@ vehicleController.add_request_models_brands = (req, res) => __awaiter(void 0, vo
     let documents = [];
     infoSeller = yield Sellers_schema_1.default.findOne({ _id: decode.id_sell });
     let infoConsecionary = yield Concesionaries_schema_1.default.findOne({ name: infoSeller.concesionary });
-    // emailmechanic = await Users.findOne({ id_concesionary: infoConsecionary._id });
+    emailmechanic = yield Users_schema_1.default.findOne({ id_concesionary: infoConsecionary._id });
     emailAdmin = yield Users_schema_1.default.findOne({ type_user: "admin" });
     const dataVehicle = {
         model: data.model,
@@ -3811,9 +3799,6 @@ const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, v
     }
 });
 const sendNotificationAdmin = (id, data, title) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("id", id);
-    console.log("data", data);
-    console.log("title", title);
     const notify = new notifications_schema_1.default({
         id_user: id,
         title: title,

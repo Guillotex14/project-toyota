@@ -1130,9 +1130,9 @@ export class CarDetailPage implements OnInit {
     }
   }
 
-  public randomName(){
-    let name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    name = name+".pdf";
+  public randomName(public_name:any){
+    let name = public_name.split("/");
+    name = name[1]+".pdf";
     return name;
   }
 

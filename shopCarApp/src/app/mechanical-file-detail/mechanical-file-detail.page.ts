@@ -86,7 +86,7 @@ export class MechanicalFileDetailPage implements OnInit {
     this.mechanicalFile.fuel_tank_cover = "";
     this.mechanicalFile.pipes_hoses_connections = "";
     this.mechanicalFile.brake_discs = "";
-
+    this.mechanicalFile.id_vehicle = ""
   }
 
   ngOnInit() {
@@ -227,12 +227,12 @@ export class MechanicalFileDetailPage implements OnInit {
 
   public generatePdf() {
     this.utils.presentLoading("Generando PDF...");
-
-    this.sellerSrv.generatePdfMechanical(this.mechanicalFile.id_vehicle).subscribe((r: any) => {
+    this.sellerSrv.generatePdfMechanical(this.id).subscribe((r: any) => {
       if (r.status) {
         this.utils.dismissLoading();
         this.utils.presentToast("PDF generado");
-        Browser.open({ url: r.data });
+
+        this.openPdf(r.data);
       } else {
         this.utils.dismissLoading();
         this.utils.presentToast(r.message);
@@ -244,4 +244,9 @@ export class MechanicalFileDetailPage implements OnInit {
       }  
     );
   }
+
+  public async openPdf(url: string) {
+    await Browser.open({ url: url });
+  }
+
 }

@@ -129,7 +129,7 @@ export class SellerService {
   }
 
   public generatePdfMechanical(data:any){
-    return this.http.get(`${global.urlBase}vehicle/generatePdfFichaTecnica?id_vehicle=${data.id}`,this.authSrv.getToken()!);
+    return this.http.get(`${global.urlBase}vehicle/generatePdfFichaTecnica?id_vehicle=${data}`,this.authSrv.getToken()!);
   }
 
   public getGrafic(data:any){
