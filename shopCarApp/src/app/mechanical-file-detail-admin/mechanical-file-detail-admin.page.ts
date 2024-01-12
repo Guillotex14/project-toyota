@@ -138,11 +138,11 @@ export class MechanicalFileDetailAdminPage implements OnInit {
   public generatePdf() {
     this.utils.presentLoading("Generando PDF...");
 
-    this.sellerSrv.generatePdfMechanical(this.mechanicalFile.id_vehicle).subscribe((r: any) => {
+    this.sellerSrv.generatePdfMechanical(this.mechanicalFile.id_vehicle).subscribe(async(r: any) => {
       if (r.status) {
         this.utils.dismissLoading();
         this.utils.presentToast("PDF generado");
-        Browser.open({ url: r.data });
+        await Browser.open({ url: r.data });
       } else {
         this.utils.dismissLoading();
         this.utils.presentToast(r.message);
