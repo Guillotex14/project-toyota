@@ -127,7 +127,13 @@
             </ion-col>
 
             <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
-
+              <!-- <ion-icon name="ribbon-sharp" class="iconCertified"></ion-icon> -->
+              <!-- <ion-img 
+                src="assets/images/logo/vehiculo_certificado.png"
+                class="iconCertified"
+                
+              > 
+              </ion-img>-->
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.webp )'">
                 <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
                 <ion-img [src]="vehicle.image.img" *ngIf="vehicle.image !==''"></ion-img>
@@ -154,6 +160,7 @@
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteArray(i)" *ngIf="arrayVehicles.length>1">
                   X
                 </ion-button>
+                
               </ion-card>
             </ion-col>
           </ion-row>

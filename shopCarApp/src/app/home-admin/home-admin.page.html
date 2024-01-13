@@ -327,17 +327,17 @@
 
             <div class="div-table" style="width: 100%;">
               <div class="table">
-                <div class="tr">
+                <div class="tr" *ngIf="notificationById.data.model">
                   <div class="td bg_gray_1">Modelo</div>
                   <div class="td bg_gray_2">{{notificationById.data.model}}</div>
                 </div>
-                <div class="tr">
-                  <div class="td bg_gray_1">Año</div>
-                  <div class="td bg_gray_2">{{notificationById.data.year}}</div>
+                <div class="tr" *ngIf="notificationById.data.brand">
+                  <div class="td bg_gray_1">Marca</div>
+                  <div class="td bg_gray_2">{{notificationById.data.brand}}</div>
                 </div>
-                <div class="tr">
-                  <div class="td bg_gray_1">Placa</div>
-                  <div class="td bg_gray_2">{{notificationById.data.plate ? notificationById.data.plate : notificationById.data.vehicle_plate}}</div>
+                <div class="tr" *ngIf="notificationById.data.type_vehicle">
+                  <div class="td bg_gray_1">Tipo de vehículo</div>
+                  <div class="td bg_gray_2">{{notificationById.data.type_vehicle}}</div>
                 </div>
                 <div class="tr">
                   <div class="td bg_gray_1">Vendedor</div>

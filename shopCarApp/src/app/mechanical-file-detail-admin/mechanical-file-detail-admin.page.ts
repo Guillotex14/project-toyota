@@ -5,6 +5,7 @@ import { UtilsService } from '../services/utils/utils.service';
 import { SellerService } from '../services/seller/seller.service';
 import { MechanicalFileDetail } from 'src/models/mechanic';
 import { CarDetailMechanicalFile } from 'src/models/sellet';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-mechanical-file-detail-admin',
@@ -132,6 +133,26 @@ export class MechanicalFileDetailAdminPage implements OnInit {
 
   public scrollToTop() {
     this.content.scrollToTop(500);
+  }
+
+  public generatePdf() {
+    this.utils.presentLoading("Generando PDF...");
+
+    this.sellerSrv.generatePdfMechanical(this.mechanicalFile.id_vehicle).subscribe(async(r: any) => {
+      if (r.status) {
+        this.utils.dismissLoading();
+        this.utils.presentToast("PDF generado");
+        await Browser.open({ url: r.data });
+      } else {
+        this.utils.dismissLoading();
+        this.utils.presentToast(r.message);
+      }
+    },
+      error => {
+        this.utils.dismissLoading();
+        this.utils.presentToast("Error de servidor");
+      }  
+    );
   }
 
 }

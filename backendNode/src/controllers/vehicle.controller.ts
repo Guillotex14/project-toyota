@@ -2431,7 +2431,6 @@ vehicleController.applyCertificate = async (req: Request, res: Response) => {
 
 };
 
-
 vehicleController.generatePdf = async (req: Request, res: Response) => {
   const jsonRes: ResponseModel = new ResponseModel();
   const data: any = req.query;
@@ -2588,8 +2587,6 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
 
   res.json(jsonRes);
 };
-
-
 
 vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) => { //ajsbdkjandaksndaksjdn asdnaslkdnaskjdn
   const jsonRes: ResponseModel = new ResponseModel();
@@ -2762,7 +2759,6 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
 
   res.json(jsonRes);
 };
-
 
 vehicleController.inspections = async (req: Request, res: Response) => {
   const reponseJson: ResponseModel = new ResponseModel();
@@ -3633,7 +3629,7 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic.email ? emailmechanic.email : emailAdmin.email,
-    subject: "Revisión de vehículo",
+    subject:!data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
     html: template,
   };
 
@@ -3741,8 +3737,6 @@ vehicleController.cancel_request_models_brands = async (req: Request, res: Respo
   return reponseJson;
 
 };
-
-
 
 async function generateBase64(pdfPath: string): Promise<string> {
   const fileStream = fs.createReadStream(pdfPath);

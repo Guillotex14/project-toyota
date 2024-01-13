@@ -181,7 +181,7 @@ export class AppComponent implements  OnInit{
   @ViewChild('ActionSheetEdit') actionSheetEdit!: IonActionSheet;
   
   constructor(private menu: MenuController, private utils: UtilsService, private router: Router, private platform: Platform, private authSrv: AuthService, private notiSrv: NotificationsService) {
-    this.notiSrv.initNotifies();
+    // this.notiSrv.initNotifies();
     let data = localStorage.getItem('me');
 
     // if(data){

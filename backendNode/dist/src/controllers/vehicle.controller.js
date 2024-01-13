@@ -3073,7 +3073,7 @@ vehicleController.add_request_models_brands = (req, res) => __awaiter(void 0, vo
     const mailOptions = {
         from: "Toyousado",
         to: emailmechanic.email ? emailmechanic.email : emailAdmin.email,
-        subject: "Revisión de vehículo",
+        subject: !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
         html: template,
     };
     yield sendNotificationAdmin(emailmechanic._id ? emailmechanic._id : emailAdmin._id, dataVehicle, !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo");

@@ -182,6 +182,17 @@ ion-radio {
   vertical-align: top !important;
   text-align: left !important;
 }
+
+.iconCertified{
+  font-size: 27px;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  z-index: 999999;
+  top: 2px;
+  right: 10px;
+  color: goldenrod;
+}
 // @media screen and (max-width:480px){
 //   .header{
 //     .iconMenu{
