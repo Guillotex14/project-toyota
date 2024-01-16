@@ -10,7 +10,7 @@ import Vehicles from "../schemas/Vehicles.schema";
 import notifications from "../schemas/notifications.schema";
 import sharp from "sharp";
 import vehicles from "../schemas/Vehicles.schema";
-import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
+import mechanicalsFiles from "../schemas/mechanicalFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
 import fs from 'fs';
 import ejs from 'ejs';

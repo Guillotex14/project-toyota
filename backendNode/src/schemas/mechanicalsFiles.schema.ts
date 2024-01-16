@@ -9,7 +9,7 @@ const mechanicalFileSchema = new Schema({
     bugle_accessories: String,
     air_conditioning_system: String,
     radio_player: String,
-    courtesy_lights: String,
+    courtesy_lights: String, //igual
     upholstery_condition: String,
     gts: String,
     board_lights: String,
@@ -32,15 +32,15 @@ const mechanicalFileSchema = new Schema({
     master_cylinder: String,
     brake_fluid: String,
     bushings_plateaus: String,
-    stumps: String,
+    stumps: String, // igual
     terminals: String,
     stabilizer_bar: String,
-    bearings: String,
+    bearings: String, // igual
     tripoids_rubbe_bands: String,
     shock_absorbers_coils: String,
     dealer_maintenance: String,
     headlights_lights: String,
-    general_condition: String,
+    general_condition: String, //igual
     odometer: String,
     engine_start: String,
     windshields_glass: String,
@@ -48,7 +48,7 @@ const mechanicalFileSchema = new Schema({
     spark_plugs: String,
     injectors: String,
     fuel_filter_anti_pollen_filter: String,
-    engine_noises: String,
+    engine_noises: String, // igual
     hits_scratches_sides: String,
     paint_condition_sides: String,
     trunk_hatch: String,

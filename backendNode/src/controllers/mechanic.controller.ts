@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import jwt from "../helpers/generar-jwt";
 import moment from 'moment';
 import { sendEmail } from '../../nodemailer';
-import mechanicalsFiles from '../schemas/mechanicalsFiles.schema';
+import mechanicalsFiles from '../schemas/mechanicalFiles.schema';
 import notifications from '../schemas/notifications.schema';
 import ImgVehicle from '../schemas/ImgVehicle.schema';
 import mechanics from '../schemas/Mechanics.schema';

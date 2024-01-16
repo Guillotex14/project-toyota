@@ -10,7 +10,7 @@ import vehicles from "../schemas/Vehicles.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import sellers from "../schemas/Sellers.schema";
 import users from "../schemas/Users.schema";
-import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
+import mechanicalsFiles from "../schemas/mechanicalFiles.schema";
 import notifications from "../schemas/notifications.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
 import { sendEmail } from "../../nodemailer";

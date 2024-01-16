@@ -1,12 +1,13 @@
-import { Schema, model } from "mongoose";
-
-const mechanicalFileSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const mechanicalFileSchema = new mongoose_1.Schema({
     created_at: String,
     id_vehicle: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
     },
     id_mechanic: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
     },
     certificate: Boolean,
     steering_wheel: String,
@@ -63,8 +64,6 @@ const mechanicalFileSchema = new Schema({
     paint: String,
     tire_condition: String,
     wheel_ornaments: String,
-    general_condition: String,
-
 });
-
-export default model("filemechanical", mechanicalFileSchema)
+exports.default = (0, mongoose_1.model)("filemechanical", mechanicalFileSchema);
+//# sourceMappingURL=mechanicalFiles.schema.js.map
