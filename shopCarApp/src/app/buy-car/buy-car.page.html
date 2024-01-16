@@ -6,7 +6,7 @@
       <ion-col size="12" class="header">
         <ion-grid fixed >
           <ion-row>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-row>
                 <ion-col size="12">
                   <ion-img src="assets/images/logo/flag_vzla.png" class="flagVnzl"></ion-img>
@@ -16,10 +16,10 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col size="8" style="text-align: center;">
+            <ion-col size="8" style="text-align: center;" sizeMd="10">
               <p class="headerTitle">Tu Toyota Usado</p>
             </ion-col>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
@@ -62,7 +62,7 @@
               <span>Todos los modelos</span>
             </ion-col>
 
-            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
+            <ion-col sizeXl="4" sizeLg="4" sizeMd="4" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <ion-icon name="image" *ngIf="vehicle.image ===''" class="iconCard"></ion-icon>
