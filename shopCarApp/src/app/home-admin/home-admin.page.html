@@ -15,14 +15,14 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' ">
-              <p class="headerTitle" [style]="arrayNotifies.length > 0 ? 'font-size: 22px !important':'font-size: 25px !important'">Tu Toyota Usado</p>
+            <ion-col [size]="arrayNotifies.length > 0 ? '6': '8'" [style]="arrayNotifies.length > 0 ? 'text-align: left':'text-align: center' " sizeMd="8">
+              <p class="headerTitle" [style]="arrayNotifies.length > 0 ? 'font-size: 22px':'font-size: 25px'">Tu Toyota Usado</p>
             </ion-col>
-            <ion-col size="2" *ngIf="arrayNotifies.length > 0">
+            <ion-col size="2" sizeMd="1" *ngIf="arrayNotifies.length > 0">
               <ion-badge mode="ios" *ngIf="countNotifies>0" class="badgeNotify">{{countNotifies}}</ion-badge>
               <ion-icon name="notifications" (click)="openModalNotification()" *ngIf="arrayNotifies.length > 0" class="iconNotify"></ion-icon>
             </ion-col>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
@@ -59,7 +59,7 @@
               <span class="pText">Todos los modelos</span>
             </ion-col>
 
-            <ion-col size-xl="6" size-lg="6" size-md="6" size-sm="6" size-xs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
+            <ion-col sizeXl="4" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
 
               <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.image ===''"></ion-img> -->

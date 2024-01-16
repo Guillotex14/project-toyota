@@ -941,6 +941,776 @@ ion-segment {
   }
 }
 
+@media (min-width:426px){
+  
+  app-home-seller{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+  }
+
+  app-home-admin{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+  }
+
+  app-home-mechanic{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+  }
+
+  app-add-vehicle{
+    .header{
+      .colIconMenu2{
+        text-align: right !important;
+      }
+    }
+
+    .dividerCertificate{
+      margin-top: 15px !important;
+    }
+
+    .sendButton{
+      margin: 15% auto !important;
+      width: 80% !important;
+    }
+  }
+
+  app-buy-car{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    
+  }
+
+  app-myVehicles{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    
+  }
+
+  app-my-offerts{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    
+  }
+
+  app-comparison{
+
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    .colKm{
+      ion-list-header{
+        font-size: 19px !important;
+      }
+
+      ion-item{
+        p{
+          font-size: 17px !important;
+        }
+      }
+    }
+
+    .colPrice{
+      ion-list-header{
+        font-size: 19px !important;
+      }
+
+      ion-item{
+        p{
+          font-size: 17px !important;
+        }
+      }
+    }
+
+    .colTitles{
+      ion-list-header{
+        font-size: 19px !important;
+      }
+
+      ion-item{
+        p{
+          font-size: 17px !important;
+        }
+      }
+    }
+
+    .colStates{
+      ion-list-header{
+        font-size: 19px !important;
+      }
+
+      ion-item{
+        p{
+          font-size: 17px !important;
+        }
+      }
+    }
+
+    .colRecomendation{
+      ion-list-header{
+        font-size: 19px !important;
+      }
+
+      ion-item{
+        p{
+          font-size: 17px !important;
+        }
+      }
+    }
+
+
+  }
+
+  app-graphics{
+    .cardChart{
+      width: 80% !important;
+      canvas{
+        width: 100% !important;
+      }
+    }
+
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+  }
+
+  app-list-customers{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    .colInfoListUser{
+    
+      .pTitle{
+        font-size: 16px !important;
+      
+      }
+    }
+  }
+
+  app-add-mechanic{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    .colInfoListUser{
+    
+      .pTitle{
+        font-size: 16px !important;
+      
+      }
+    }
+
+    .btnSaveRed{
+      margin: 15% auto !important;
+      width: 80% !important;
+
+    }
+  }
+
+  app-request-add{
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 18px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .colIconMenu2{
+        text-align: right !important;
+      }
+    }
+
+    .colInfoListUser{
+    
+      .pTitle{
+        font-size: 16px !important;
+      
+      }
+    }
+
+    .btnSaveRed{
+      // margin: 15% auto !important;
+      width: 80% !important;
+
+    }
+
+    .colModelInput{
+      margin-top: 0px !important;
+    }
+
+    .colBtnSend{
+      margin-top: 25px !important;
+    }
+  
+  }
+}
+
+@media screen and (max-width: 425px) {
+  app-home-seller{
+    .header {
+      .headerTitle{
+        font-size: 22px !important;
+      }
+    }
+  }
+
+  app-home-mechanic{
+    .header {
+      .headerTitle{
+        font-size: 22px !important;
+      }
+    }
+  }
+
+  app-home-admin{
+    .header {
+      .headerTitle{
+        font-size: 22px !important;
+      }
+    }
+  }
+}
+
 @media screen and (max-width:412px) {
   app-car-detail-admin{
     .colPriceCar{

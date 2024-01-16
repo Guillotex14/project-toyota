@@ -5,13 +5,13 @@
       <ion-col size="12" class="header">
         <ion-grid fixed >
           <ion-row>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goTo()"></ion-icon>
             </ion-col>
-            <ion-col size="8" style="text-align: center;">
+            <ion-col size="8" sizeMd="10" style="text-align: center;">
               <p class="headerTitle">Añadir Cliente</p>
             </ion-col>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
@@ -21,7 +21,7 @@
       <ion-col size="12">
         <ion-grid fixed>
           <ion-row>
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Nombre(s)</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.name" (ionInput)="validateName($event)" [class.borderRed]="emptyName"></ion-input>
             </ion-col>
@@ -34,7 +34,7 @@
               </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Apellido(s)</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.last_name" (ionInput)="validateLastName($event)" [class.borderRed]="emptyLastName"></ion-input>
             </ion-col>
@@ -47,7 +47,7 @@
               </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Correo Electrónico</ion-label>
               <ion-input type="email" fill="outline" [(ngModel)]="newCustomer.email" (ionInput)="validEmail($event)" [class.borderRed]="invalidEmail || incorrectUser || emptyEmail"></ion-input>
             </ion-col>
@@ -62,7 +62,7 @@
               </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Número Telefónico</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.phone" (ionInput)="validatePhone($event)" [class.borderRed]="emptyPhone"></ion-input>
             </ion-col>
@@ -75,7 +75,7 @@
               </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Modelo del Vehiculo</ion-label>
               <ion-input type="text" fill="outline" [(ngModel)]="newCustomer.interested_car_model" (ionInput)="validateModel($event)" [class.borderRed]="emptyModel"></ion-input>
             </ion-col>
@@ -88,7 +88,7 @@
               </ion-row>
             </ion-col>
 
-            <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12">
+            <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
               <ion-label style="margin-left: 10px;" class="labelForm">Presupuesto</ion-label>
               <ion-input type="number" fill="outline" [value]="budget" (ionInput)="setDotKm($event.target)" (ionInput)="validateBudget($event)" [class.borderRed]="emptyBudget"></ion-input>
             </ion-col>
