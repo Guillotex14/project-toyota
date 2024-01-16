@@ -41,7 +41,7 @@ const mechanicalFileSchema = new Schema({
     stabilizer_bars: String,
     bearings: String,
     joints_dust_covers: String,
-    shock_absorbers: String,
+    shock_absorbers: String, //
     spirals: String,
     upper_lower_plateaus: String,
     stumps: String,
