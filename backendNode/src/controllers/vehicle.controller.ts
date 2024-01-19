@@ -2716,7 +2716,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
 
     try {
       const puppeteer = require('puppeteer');
-      const html: any = await ejs.renderFile('./src/views/templateFichaMecanica.ejs', mecFile[0]);
+      const html: any = await ejs.renderFile('./src/views/templateFichaMecanicaNew.ejs', mecFile[0]);
       const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');

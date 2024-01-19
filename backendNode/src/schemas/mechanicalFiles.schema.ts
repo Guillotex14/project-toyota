@@ -70,8 +70,9 @@ const mechanicalFileSchema = new Schema({
     paint: String,
     tire_condition: String,
     wheel_ornaments: String,
-    // ------general-------
+    // ------other-------
     general_condition: String,
+    dealer_maintenance:String,
 
 });
 
