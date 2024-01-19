@@ -64,6 +64,7 @@ const mechanicalFileSchema = new mongoose_1.Schema({
     paint: String,
     tire_condition: String,
     wheel_ornaments: String,
+    general_condition: String,
 });
 exports.default = (0, mongoose_1.model)("filemechanical", mechanicalFileSchema);
 //# sourceMappingURL=mechanicalFiles.schema.js.map

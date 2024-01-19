@@ -22,7 +22,7 @@ const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"))
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
-const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const mechanicalFiles_schema_1 = __importDefault(require("../schemas/mechanicalFiles.schema"));
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const nodemailer_1 = require("../../nodemailer");
@@ -538,7 +538,7 @@ sellerController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
     const infoVehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
     const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
-    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
+    const mechanicalFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
         let data = {
             _id: infoVehicle._id,
@@ -600,7 +600,7 @@ sellerController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, voi
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
+    const mecFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;

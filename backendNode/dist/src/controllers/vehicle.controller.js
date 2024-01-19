@@ -46,7 +46,7 @@ const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"))
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const sharp_1 = __importDefault(require("sharp"));
 const Vehicles_schema_2 = __importDefault(require("../schemas/Vehicles.schema"));
-const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const mechanicalFiles_schema_1 = __importDefault(require("../schemas/mechanicalFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const fs_1 = __importDefault(require("fs"));
 const ejs_1 = __importDefault(require("ejs"));
@@ -685,7 +685,7 @@ vehicleController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
     const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: id });
     const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
-    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
+    const mechanicalFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
         let data = {
             _id: infoVehicle._id,
@@ -758,7 +758,7 @@ vehicleController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, vo
         return res.json(reponseJson);
     }
     //realizamos un aggregate con la tabla de fichas mecanicas y la tabla de vehiculo para obtener el valor de ofert en la tabla vehiculos
-    const mecFile = yield mechanicalsFiles_schema_1.default.aggregate([
+    const mecFile = yield mechanicalFiles_schema_1.default.aggregate([
         {
             $match: {
                 id_vehicle: new mongoose_1.default.Types.ObjectId(id_vehicle),
@@ -2028,7 +2028,7 @@ vehicleController.applyCertificate = (req, res) => __awaiter(void 0, void 0, voi
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    const mechanicalFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: data.id });
     let auxCertificate = false;
     if (mechanicalFile) {
         if (mechanicalFile.general_condition === "excelente" || mechanicalFile.general_condition > "96") {
@@ -2044,10 +2044,10 @@ vehicleController.applyCertificate = (req, res) => __awaiter(void 0, void 0, voi
             reponseJson.message = "Certificado no aprobado";
         }
     }
-    const vehicleUpdated = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(mechanicalFile._id, {
+    const vehicleUpdated = yield mechanicalFiles_schema_1.default.findByIdAndUpdate(mechanicalFile._id, {
         certificate: auxCertificate,
     });
-    const mechanicalFileAux = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: data.id });
+    const mechanicalFileAux = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: data.id });
     reponseJson.data = mechanicalFileAux.certificate;
     res.json(reponseJson);
 });
@@ -2066,7 +2066,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
     const infoVehicle = yield Vehicles_schema_2.default.findOne({ _id: data.id });
     const imgsVehichle = yield ImgVehicle_schema_1.default.find({ id_vehicle: data.id });
     if (infoVehicle) {
-        const mechanicalFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: infoVehicle._id });
+        const mechanicalFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: infoVehicle._id });
         let data = {
             _id: infoVehicle._id,
             model: infoVehicle.model,
@@ -2205,7 +2205,7 @@ vehicleController.generatePdfFichaTecnica = (req, res) => __awaiter(void 0, void
         jsonRes.data = null;
         return res.json(jsonRes);
     }
-    const mecFile = yield mechanicalsFiles_schema_1.default.aggregate([
+    const mecFile = yield mechanicalFiles_schema_1.default.aggregate([
         {
             $match: {
                 id_vehicle: new mongoose_1.default.Types.ObjectId(data.id_vehicle),
@@ -2469,69 +2469,64 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
     let conceSeller = "";
     let citySeller = "";
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
-    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic, odometer, engine_start, windshields_glass, hits_scratches, spark_plugs, injectors, fuel_filter_anti_pollen_filter, engine_noises, hits_scratches_sides, paint_condition_sides, trunk_hatch, spare_tire, hits_scratches_trunk, paint_condition_trunk, headlights_lights_trunk, fuel_tank_cover, pipes_hoses_connections, brake_discs, } = req.body;
-    const newMechanicFile = new mechanicalsFiles_schema_1.default({
-        part_emblems_complete,
-        wiper_shower_brushes_windshield,
-        hits,
-        scratches,
-        paint_condition,
-        bugle_accessories,
-        air_conditioning_system,
-        radio_player,
+    const { steering_wheel, pedals, gauges_dashboard_lights, transmission_shift_lever, brake_lever, accessories, internal_upholstery, courtesy_lights, windshield, window_glass_operation, door_locks_handles, operation_manual_electric_mirrors, seat_belts, front_bumpers, front_grill, headlights_low_beams_cocuyos, fog_lights, bonnet, engine_ignition, fluid_reservoirs, spark_plugs_coils_general_condition, air_filter, transmission_belts, appearance_hoses_caps_seals_connections, battery_condition_terminal_tightness_corrosion, fluid_leak, general_engine_compression_condition, stabilizer_bars, bearings, joints_dust_covers, shock_absorbers, spirals, upper_lower_plateaus, stumps, terminal_blocks, brakes, cardan_transmission_shaft, engine_transmission_oil_leaks, hydraulic_oil_leak_steering_box, excessive_rust_on_frame_compact, exhaust_pipe, doors, stop, fuel_pump_door, trunk_door, trunk_interior, replacement_rubber_tool_set, complete_emblems, bodywork, paint, tire_condition, wheel_ornaments, general_condition_fluids, id_vehicle, id_mechanic, } = req.body;
+    const newMechanicFile = new mechanicalFiles_schema_1.default({
+        steering_wheel,
+        pedals,
+        gauges_dashboard_lights,
+        transmission_shift_lever,
+        brake_lever,
+        accessories,
+        internal_upholstery,
         courtesy_lights,
-        upholstery_condition,
-        gts,
-        board_lights,
-        tire_pressure,
-        tire_life,
-        battery_status_terminals,
-        transmitter_belts,
-        motor_oil,
-        engine_coolant_container,
-        radiator_status,
-        exhaust_pipe_bracket,
-        fuel_tank_cover_pipes_hoses_connections,
-        distribution_mail,
-        spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-        fuel_system,
-        parking_break,
-        brake_bands_drums,
-        brake_pads_discs,
-        brake_pipes_hoses,
-        master_cylinder,
-        brake_fluid,
-        bushings_plateaus,
-        stumps,
-        terminals,
-        stabilizer_bar,
+        windshield,
+        window_glass_operation,
+        door_locks_handles,
+        operation_manual_electric_mirrors,
+        seat_belts,
+        front_bumpers,
+        front_grill,
+        headlights_low_beams_cocuyos,
+        fog_lights,
+        bonnet,
+        engine_ignition,
+        fluid_reservoirs,
+        spark_plugs_coils_general_condition,
+        air_filter,
+        transmission_belts,
+        appearance_hoses_caps_seals_connections,
+        battery_condition_terminal_tightness_corrosion,
+        fluid_leak,
+        general_engine_compression_condition,
+        stabilizer_bars,
         bearings,
-        tripoids_rubbe_bands,
-        shock_absorbers_coils,
-        dealer_maintenance,
-        headlights_lights,
-        general_condition,
-        odometer,
-        engine_start,
-        windshields_glass,
-        hits_scratches,
-        spark_plugs,
-        injectors,
-        fuel_filter_anti_pollen_filter,
-        engine_noises,
-        hits_scratches_sides,
-        paint_condition_sides,
-        trunk_hatch,
-        spare_tire,
-        hits_scratches_trunk,
-        paint_condition_trunk,
-        headlights_lights_trunk,
-        fuel_tank_cover,
-        pipes_hoses_connections,
-        brake_discs,
-        created_at: dateNow,
+        joints_dust_covers,
+        shock_absorbers,
+        spirals,
+        upper_lower_plateaus,
+        stumps,
+        terminal_blocks,
+        brakes,
+        cardan_transmission_shaft,
+        engine_transmission_oil_leaks,
+        hydraulic_oil_leak_steering_box,
+        excessive_rust_on_frame_compact,
+        exhaust_pipe,
+        doors,
+        stop,
+        fuel_pump_door,
+        trunk_door,
+        trunk_interior,
+        replacement_rubber_tool_set,
+        complete_emblems,
+        bodywork,
+        paint,
+        tire_condition,
+        wheel_ornaments,
+        general_condition_fluids,
         id_vehicle,
-        id_mechanic
+        id_mechanic,
+        created_at: dateNow,
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
     let now = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
@@ -2652,9 +2647,9 @@ vehicleController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0,
         id_user: decode.id,
         date: now
     };
-    const oldFicha = yield mechanicalsFiles_schema_1.default.findOne({ _id: data._id });
-    const update = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(data._id, data);
-    const updateFicha = yield mechanicalsFiles_schema_1.default.findOne({ _id: data._id });
+    const oldFicha = yield mechanicalFiles_schema_1.default.findOne({ _id: data._id });
+    const update = yield mechanicalFiles_schema_1.default.findByIdAndUpdate(data._id, data);
+    const updateFicha = yield mechanicalFiles_schema_1.default.findOne({ _id: data._id });
     dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);
     dataFile.campos_anteriores = setCamposAnteriores(oldFicha, updateFicha);
     const newReportMechanicsFiles = new reportsMechanicalsFiles_schema_1.default(dataFile);
@@ -2685,7 +2680,7 @@ vehicleController.getMechanicFileByIdVehicle = (req, res) => __awaiter(void 0, v
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
+    const mecFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;
