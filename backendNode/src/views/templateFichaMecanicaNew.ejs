@@ -892,24 +892,16 @@
               <div class="col-12" class="itemGroupSegment">
                 <h3>INTERNAL</h3>
               </div>
-              <% if (odometer!=""){ %>
+              <% if (steering_wheel!=""){ %>
               <div class="col-12 itemSegment">
               <div class="row rowSegment">
                 <div class="col-12">
-                  <label for="">Odómetro</label>
+                  <label for="">Volante</label>
                 </div>
                 <div class="col-12 colSegment">
                   <div class="row">
-                    <div class="col-3">
-                      <% if (odometer ==='malo' || odometer === '0'){ %>
-                      <label class="segment-red" for="">Malo</label>
-                      <% }else{ %>
-                      <label for="">Malo</label>
-
-                      <%}%>
-                      </div>
                       <div class="col-3">
-                        <% if (odometer ==='regular' || odometer === '1'){ %>
+                        <% if (steering_wheel ==='regular' || steering_wheel === '1'){ %>
                       <label class="segment-orange" for="">Regular</label>
                       <% }else{ %>
                       <label for="">Regular</label>
@@ -917,7 +909,7 @@
                       <%}%>
                       </div>
                       <div class="col-3">
-                        <% if (odometer ==='rueno' || odometer === '1.5'){ %>
+                        <% if (steering_wheel ==='rueno' || steering_wheel === '1.5'){ %>
                       <label class="segment-yellow" for="">Bueno</label>
                       <% }else{ %>
                       <label for="">Bueno</label>
@@ -925,7 +917,7 @@
                       <%}%>
                       </div>
                       <div class="col-3">
-                        <% if (odometer ==='excelente' || odometer === '2'){ %>
+                        <% if (steering_wheel ==='excelente' || steering_wheel === '2'){ %>
                       <label class="segment-green" for="">Excelente</label>
                       <% }else{ %>
                       <label for="">Excelente</label>
@@ -936,37 +928,2011 @@
                     </div>
                   </div>
               <% } %>
+              <% if (pedals!=""){ %>
+                <div class="col-12 itemSegment">
+                <div class="row rowSegment">
+                  <div class="col-12">
+                    <label for="">Pedales</label>
+                  </div>
+                  <div class="col-12 colSegment">
+                    <div class="row">
+                        <div class="col-3">
+                          <% if (pedals ==='regular' || pedals === '0'){ %>
+                        <label class="segment-orange" for="">Regular</label>
+                        <% }else{ %>
+                        <label for="">Regular</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (pedals ==='rueno' || pedals === '0.5'){ %>
+                        <label class="segment-yellow" for="">Bueno</label>
+                        <% }else{ %>
+                        <label for="">Bueno</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (pedals ==='excelente' || pedals === '1'){ %>
+                        <label class="segment-green" for="">Excelente</label>
+                        <% }else{ %>
+                        <label for="">Excelente</label>
+                        <%}%>
+                        </div>
+                      </div>
+                    </div>
+                      </div>
+                    </div>
+                <% } %>
+                <% if (gauges_dashboard_lights!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Medidores y luces del tablero</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (gauges_dashboard_lights ==='regular' || gauges_dashboard_lights === '1'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (gauges_dashboard_lights ==='rueno' || gauges_dashboard_lights === '1.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (gauges_dashboard_lights ==='excelente' || gauges_dashboard_lights === '2'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+
+                  <% if (transmission_shift_lever!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Palanca de cambio de transmisión</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (transmission_shift_lever ==='regular' || transmission_shift_lever === '0'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (transmission_shift_lever ==='rueno' || transmission_shift_lever === '0.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (transmission_shift_lever ==='excelente' || transmission_shift_lever === '1'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+                    <% if (brake_lever!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Palanca de freno</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (brake_lever ==='regular' || brake_lever === '1'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (brake_lever ==='rueno' || brake_lever === '1.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (brake_lever ==='excelente' || brake_lever === '2'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                     <% if (accessories!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Accesorios</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (accessories ==='regular' || accessories === '1'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (accessories ==='rueno' || accessories === '1.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (accessories ==='excelente' || accessories === '2'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+
+                    <% if (internal_upholstery!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Tapicería interna</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (internal_upholstery ==='regular' || internal_upholstery === '0'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (internal_upholstery ==='rueno' || internal_upholstery === '0.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (internal_upholstery ==='excelente' || internal_upholstery === '1'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                      <% if (courtesy_lights!=""){ %>
+                        <div class="col-12 itemSegment">
+                        <div class="row rowSegment">
+                          <div class="col-12">
+                            <label for="">Luces de cortesía</label>
+                          </div>
+                          <div class="col-12 colSegment">
+                            <div class="row">
+                                <div class="col-3">
+                                  <% if (courtesy_lights ==='regular' || courtesy_lights === '1'){ %>
+                                <label class="segment-orange" for="">Regular</label>
+                                <% }else{ %>
+                                <label for="">Regular</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (courtesy_lights ==='rueno' || courtesy_lights === '1.5'){ %>
+                                <label class="segment-yellow" for="">Bueno</label>
+                                <% }else{ %>
+                                <label for="">Bueno</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (courtesy_lights ==='excelente' || courtesy_lights === '2'){ %>
+                                <label class="segment-green" for="">Excelente</label>
+                                <% }else{ %>
+                                <label for="">Excelente</label>
+                                <%}%>
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                            </div>
+                        <% } %>
+                        <% if (windshield!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Parabrisas</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (windshield ==='regular' || windshield === '1'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (windshield ==='rueno' || windshield === '1.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (windshield ==='excelente' || windshield === '2'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
+                          <% if (window_glass_operation!=""){ %>
+                            <div class="col-12 itemSegment">
+                            <div class="row rowSegment">
+                              <div class="col-12">
+                                <label for="">Funcionamiento de vidrios de ventana</label>
+                              </div>
+                              <div class="col-12 colSegment">
+                                <div class="row">
+                                    <div class="col-3">
+                                      <% if (window_glass_operation ==='regular' || window_glass_operation === '0'){ %>
+                                    <label class="segment-orange" for="">Regular</label>
+                                    <% }else{ %>
+                                    <label for="">Regular</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (window_glass_operation ==='rueno' || window_glass_operation === '0.5'){ %>
+                                    <label class="segment-yellow" for="">Bueno</label>
+                                    <% }else{ %>
+                                    <label for="">Bueno</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (window_glass_operation ==='excelente' || window_glass_operation === '1'){ %>
+                                    <label class="segment-green" for="">Excelente</label>
+                                    <% }else{ %>
+                                    <label for="">Excelente</label>
+                                    <%}%>
+                                    </div>
+                                  </div>
+                                </div>
+                                  </div>
+                                </div>
+                            <% } %>
+
+                        <% if (door_locks_handles!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Seguros y manillas de puerta</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='regular' || door_locks_handles === '0'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='rueno' || door_locks_handles === '0.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='excelente' || window_glass_operation === '1'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
+
+                          
+                        <% if (door_locks_handles!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Seguros y manillas de puerta</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='regular' || door_locks_handles === '0'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='rueno' || door_locks_handles === '0.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (door_locks_handles ==='excelente' || door_locks_handles === '1'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
+
+                          <% if (operation_manual_electric_mirrors!=""){ %>
+                            <div class="col-12 itemSegment">
+                            <div class="row rowSegment">
+                              <div class="col-12">
+                                <label for="">Operación de Retrovisores manuales o eléctricos</label>
+                              </div>
+                              <div class="col-12 colSegment">
+                                <div class="row">
+                                    <div class="col-3">
+                                      <% if (operation_manual_electric_mirrors ==='regular' || operation_manual_electric_mirrors === '0'){ %>
+                                    <label class="segment-orange" for="">Regular</label>
+                                    <% }else{ %>
+                                    <label for="">Regular</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (operation_manual_electric_mirrors ==='rueno' || operation_manual_electric_mirrors === '0.5'){ %>
+                                    <label class="segment-yellow" for="">Bueno</label>
+                                    <% }else{ %>
+                                    <label for="">Bueno</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (operation_manual_electric_mirrors ==='excelente' || operation_manual_electric_mirrors === '1'){ %>
+                                    <label class="segment-green" for="">Excelente</label>
+                                    <% }else{ %>
+                                    <label for="">Excelente</label>
+                                    <%}%>
+                                    </div>
+                                  </div>
+                                </div>
+                                  </div>
+                                </div>
+                            <% } %>
+                            <% if (seat_belts!=""){ %>
+                              <div class="col-12 itemSegment">
+                              <div class="row rowSegment">
+                                <div class="col-12">
+                                  <label for="">Cinturones de Seguridad</label>
+                                </div>
+                                <div class="col-12 colSegment">
+                                  <div class="row">
+                                      <div class="col-3">
+                                        <% if (seat_belts ==='regular' || seat_belts === '0'){ %>
+                                      <label class="segment-orange" for="">Regular</label>
+                                      <% }else{ %>
+                                      <label for="">Regular</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (seat_belts ==='rueno' || seat_belts === '0.5'){ %>
+                                      <label class="segment-yellow" for="">Bueno</label>
+                                      <% }else{ %>
+                                      <label for="">Bueno</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (seat_belts ==='excelente' || seat_belts === '1'){ %>
+                                      <label class="segment-green" for="">Excelente</label>
+                                      <% }else{ %>
+                                      <label for="">Excelente</label>
+                                      <%}%>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    </div>
+                                  </div>
+                              <% } %>
+                
             </div>
 
               <hr>
-              <div class="col-12 itemGroupSegment">
-                <h3>FRONTAL</h3>
+
+              <div class="row">
+                <div class="col-12 itemGroupSegment">
+                  <h3>FRONTAL</h3>
+                </div>
+                <% if (front_bumpers!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Parachoques delanteros </label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (front_bumpers ==='regular' || front_bumpers === '0'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (front_bumpers ==='rueno' || front_bumpers === '0.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (front_bumpers ==='excelente' || front_bumpers === '1'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+                  <% if (front_grill!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Parrilla frontal </label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (front_grill ==='regular' || front_grill === '0'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (front_grill ==='rueno' || front_grill === '0.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (front_grill ==='excelente' || front_grill === '1'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+
+                    <% if (headlights_low_beams_cocuyos!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Faros, luces de cruce y cocuyos </label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (headlights_low_beams_cocuyos ==='regular' || headlights_low_beams_cocuyos === '0'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (headlights_low_beams_cocuyos ==='rueno' || headlights_low_beams_cocuyos === '0.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (headlights_low_beams_cocuyos ==='excelente' || headlights_low_beams_cocuyos === '1'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                  <% if (fog_lights!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Faros antinieblas</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (fog_lights ==='regular' || fog_lights === '0'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (fog_lights ==='rueno' || fog_lights === '0.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (fog_lights ==='excelente' || fog_lights === '1'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+                
               </div>
 
               <hr>
+            <div class="row">
               <div class="col-12" class="itemGroupSegment">
                 <h3>COMPARTIMIENTO DEL MOTOR</h3>
               </div>
+              <% if (bonnet!=""){ %>
+                <div class="col-12 itemSegment">
+                <div class="row rowSegment">
+                  <div class="col-12">
+                    <label for="">Capot</label>
+                  </div>
+                  <div class="col-12 colSegment">
+                    <div class="row">
+                        <div class="col-3">
+                          <% if (bonnet ==='regular' || bonnet === '0'){ %>
+                        <label class="segment-orange" for="">Regular</label>
+                        <% }else{ %>
+                        <label for="">Regular</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (bonnet ==='rueno' || bonnet === '0.5'){ %>
+                        <label class="segment-yellow" for="">Bueno</label>
+                        <% }else{ %>
+                        <label for="">Bueno</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (bonnet ==='excelente' || bonnet === '1'){ %>
+                        <label class="segment-green" for="">Excelente</label>
+                        <% }else{ %>
+                        <label for="">Excelente</label>
+                        <%}%>
+                        </div>
+                      </div>
+                    </div>
+                      </div>
+                    </div>
+                <% } %>
+                <% if (engine_ignition!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Encendido del motor</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (engine_ignition ==='regular' || engine_ignition === '0'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (engine_ignition ==='rueno' || engine_ignition === '0.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (engine_ignition ==='excelente' || engine_ignition === '1'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+                  <% if (engine_noises!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Ruidos de motor</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (engine_noises ==='regular' || engine_noises <= '2'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (engine_noises ==='rueno' || engine_noises === '2.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (engine_noises ==='excelente' || engine_noises === '3'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+                    <% if (general_condition_fluids!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Fluidos estado general</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (general_condition_fluids ==='regular' || general_condition_fluids <= '1'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (general_condition_fluids ==='rueno' || general_condition_fluids === '1.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (general_condition_fluids ==='excelente' || general_condition_fluids === '2'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                      <% if (fluid_reservoirs!=""){ %>
+                        <div class="col-12 itemSegment">
+                        <div class="row rowSegment">
+                          <div class="col-12">
+                            <label for="">Depósitos de fluidos</label>
+                          </div>
+                          <div class="col-12 colSegment">
+                            <div class="row">
+                                <div class="col-3">
+                                  <% if (fluid_reservoirs ==='regular' || fluid_reservoirs <= '1'){ %>
+                                <label class="segment-orange" for="">Regular</label>
+                                <% }else{ %>
+                                <label for="">Regular</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (fluid_reservoirs ==='rueno' || fluid_reservoirs === '1.5'){ %>
+                                <label class="segment-yellow" for="">Bueno</label>
+                                <% }else{ %>
+                                <label for="">Bueno</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (fluid_reservoirs ==='excelente' || fluid_reservoirs === '2'){ %>
+                                <label class="segment-green" for="">Excelente</label>
+                                <% }else{ %>
+                                <label for="">Excelente</label>
+                                <%}%>
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                            </div>
+                        <% } %>
+                        <% if (spark_plugs_coils_general_condition!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Bujías  y bobinas condición general</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (spark_plugs_coils_general_condition ==='regular' || spark_plugs_coils_general_condition <= '1'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (spark_plugs_coils_general_condition ==='rueno' || spark_plugs_coils_general_condition === '1.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (spark_plugs_coils_general_condition ==='excelente' || spark_plugs_coils_general_condition === '2'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
+                          <% if (air_filter!=""){ %>
+                            <div class="col-12 itemSegment">
+                            <div class="row rowSegment">
+                              <div class="col-12">
+                                <label for="">Bujías  y bobinas condición general</label>
+                              </div>
+                              <div class="col-12 colSegment">
+                                <div class="row">
+                                    <div class="col-3">
+                                      <% if (air_filter ==='regular' || air_filter <= '0'){ %>
+                                    <label class="segment-orange" for="">Regular</label>
+                                    <% }else{ %>
+                                    <label for="">Regular</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (air_filter ==='rueno' || air_filter === '0.5'){ %>
+                                    <label class="segment-yellow" for="">Bueno</label>
+                                    <% }else{ %>
+                                    <label for="">Bueno</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (air_filter ==='excelente' || air_filter === '1'){ %>
+                                    <label class="segment-green" for="">Excelente</label>
+                                    <% }else{ %>
+                                    <label for="">Excelente</label>
+                                    <%}%>
+                                    </div>
+                                  </div>
+                                </div>
+                                  </div>
+                                </div>
+                            <% } %>
+                            <% if (transmission_belts!=""){ %>
+                              <div class="col-12 itemSegment">
+                              <div class="row rowSegment">
+                                <div class="col-12">
+                                  <label for="">Correas de transmisión</label>
+                                </div>
+                                <div class="col-12 colSegment">
+                                  <div class="row">
+                                      <div class="col-3">
+                                        <% if (transmission_belts ==='regular' || transmission_belts <= '1'){ %>
+                                      <label class="segment-orange" for="">Regular</label>
+                                      <% }else{ %>
+                                      <label for="">Regular</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (transmission_belts ==='rueno' || transmission_belts === '1.5'){ %>
+                                      <label class="segment-yellow" for="">Bueno</label>
+                                      <% }else{ %>
+                                      <label for="">Bueno</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (transmission_belts ==='excelente' || transmission_belts === '2'){ %>
+                                      <label class="segment-green" for="">Excelente</label>
+                                      <% }else{ %>
+                                      <label for="">Excelente</label>
+                                      <%}%>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    </div>
+                                  </div>
+                              <% } %>
+                              <% if (appearance_hoses_caps_seals_connections!=""){ %>
+                                <div class="col-12 itemSegment">
+                                <div class="row rowSegment">
+                                  <div class="col-12">
+                                    <label for="">Apariencia Mangueras, tapas, sellos y conexiones</label>
+                                  </div>
+                                  <div class="col-12 colSegment">
+                                    <div class="row">
+                                        <div class="col-3">
+                                          <% if (appearance_hoses_caps_seals_connections ==='regular' || appearance_hoses_caps_seals_connections <= '0'){ %>
+                                        <label class="segment-orange" for="">Regular</label>
+                                        <% }else{ %>
+                                        <label for="">Regular</label>
+                  
+                                        <%}%>
+                                        </div>
+                                        <div class="col-3">
+                                          <% if (appearance_hoses_caps_seals_connections ==='rueno' || appearance_hoses_caps_seals_connections === '1.5'){ %>
+                                        <label class="segment-yellow" for="">Bueno</label>
+                                        <% }else{ %>
+                                        <label for="">Bueno</label>
+                  
+                                        <%}%>
+                                        </div>
+                                        <div class="col-3">
+                                          <% if (appearance_hoses_caps_seals_connections ==='excelente' || appearance_hoses_caps_seals_connections === '2'){ %>
+                                        <label class="segment-green" for="">Excelente</label>
+                                        <% }else{ %>
+                                        <label for="">Excelente</label>
+                                        <%}%>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      </div>
+                                    </div>
+                                <% } %>
+                                <% if (battery_condition_terminal_tightness_corrosion!=""){ %>
+                                  <div class="col-12 itemSegment">
+                                  <div class="row rowSegment">
+                                    <div class="col-12">
+                                      <label for="">Estado de la batería (voltaje)  y apriete o corrosión de los terminales </label>
+                                    </div>
+                                    <div class="col-12 colSegment">
+                                      <div class="row">
+                                          <div class="col-3">
+                                            <% if (battery_condition_terminal_tightness_corrosion ==='regular' || battery_condition_terminal_tightness_corrosion <= '0'){ %>
+                                          <label class="segment-orange" for="">Regular</label>
+                                          <% }else{ %>
+                                          <label for="">Regular</label>
+                    
+                                          <%}%>
+                                          </div>
+                                          <div class="col-3">
+                                            <% if (battery_condition_terminal_tightness_corrosion ==='rueno' || battery_condition_terminal_tightness_corrosion === '1.5'){ %>
+                                          <label class="segment-yellow" for="">Bueno</label>
+                                          <% }else{ %>
+                                          <label for="">Bueno</label>
+                    
+                                          <%}%>
+                                          </div>
+                                          <div class="col-3">
+                                            <% if (battery_condition_terminal_tightness_corrosion ==='excelente' || battery_condition_terminal_tightness_corrosion === '2'){ %>
+                                          <label class="segment-green" for="">Excelente</label>
+                                          <% }else{ %>
+                                          <label for="">Excelente</label>
+                                          <%}%>
+                                          </div>
+                                        </div>
+                                      </div>
+                                        </div>
+                                      </div>
+                                  <% } %>
+                                  <% if (fluid_leak!=""){ %>
+                                    <div class="col-12 itemSegment">
+                                    <div class="row rowSegment">
+                                      <div class="col-12">
+                                        <label for="">Fuga de fluidos</label>
+                                      </div>
+                                      <div class="col-12 colSegment">
+                                        <div class="row">
+                                            <div class="col-3">
+                                              <% if (fluid_leak ==='regular' || fluid_leak <= '1'){ %>
+                                            <label class="segment-orange" for="">Regular</label>
+                                            <% }else{ %>
+                                            <label for="">Regular</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (fluid_leak ==='rueno' || fluid_leak === '1.5'){ %>
+                                            <label class="segment-yellow" for="">Bueno</label>
+                                            <% }else{ %>
+                                            <label for="">Bueno</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (fluid_leak ==='excelente' || fluid_leak === '2'){ %>
+                                            <label class="segment-green" for="">Excelente</label>
+                                            <% }else{ %>
+                                            <label for="">Excelente</label>
+                                            <%}%>
+                                            </div>
+                                          </div>
+                                        </div>
+                                          </div>
+                                        </div>
+                                    <% } %>
+                                  <% if (general_engine_compression_condition!=""){ %>
+                                    <div class="col-12 itemSegment">
+                                    <div class="row rowSegment">
+                                      <div class="col-12">
+                                        <label for="">Condición general de la compresión del motor </label>
+                                      </div>
+                                      <div class="col-12 colSegment">
+                                        <div class="row">
+                                            <div class="col-3">
+                                              <% if (general_engine_compression_condition ==='regular' || general_engine_compression_condition <= '4'){ %>
+                                            <label class="segment-orange" for="">Regular</label>
+                                            <% }else{ %>
+                                            <label for="">Regular</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (general_engine_compression_condition ==='rueno' || general_engine_compression_condition === '5.5'){ %>
+                                            <label class="segment-yellow" for="">Bueno</label>
+                                            <% }else{ %>
+                                            <label for="">Bueno</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (general_engine_compression_condition ==='excelente' || general_engine_compression_condition === '6'){ %>
+                                            <label class="segment-green" for="">Excelente</label>
+                                            <% }else{ %>
+                                            <label for="">Excelente</label>
+                                            <%}%>
+                                            </div>
+                                          </div>
+                                        </div>
+                                          </div>
+                                        </div>
+                                    <% } %>
+            </div>
 
               <hr>
+            <div class="row">
               <div class="col-12" class="itemGroupSegment">
                 <h3>BAJO CHASIS</h3>
               </div>
+              <% if (stabilizer_bars!=""){ %>
+                <div class="col-12 itemSegment">
+                <div class="row rowSegment">
+                  <div class="col-12">
+                    <label for="">Barras estabilizadoras</label>
+                  </div>
+                  <div class="col-12 colSegment">
+                    <div class="row">
+                        <div class="col-3">
+                          <% if (stabilizer_bars ==='regular' || stabilizer_bars <= '2'){ %>
+                        <label class="segment-orange" for="">Regular</label>
+                        <% }else{ %>
+                        <label for="">Regular</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (stabilizer_bars ==='rueno' || stabilizer_bars === '2.5'){ %>
+                        <label class="segment-yellow" for="">Bueno</label>
+                        <% }else{ %>
+                        <label for="">Bueno</label>
+  
+                        <%}%>
+                        </div>
+                        <div class="col-3">
+                          <% if (stabilizer_bars ==='excelente' || stabilizer_bars === '3'){ %>
+                        <label class="segment-green" for="">Excelente</label>
+                        <% }else{ %>
+                        <label for="">Excelente</label>
+                        <%}%>
+                        </div>
+                      </div>
+                    </div>
+                      </div>
+                    </div>
+                <% } %>
 
+                <% if (bearings!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Rodamientos</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (bearings ==='regular' || bearings <= '2'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (bearings ==='rueno' || bearings === '2.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (bearings ==='excelente' || bearings === '3'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+
+                  <% if (joints_dust_covers!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Juntas homocinéticas y guardapolvos</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (joints_dust_covers ==='regular' || joints_dust_covers <= '2'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (joints_dust_covers ==='rueno' || joints_dust_covers === '2.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (joints_dust_covers ==='excelente' || joints_dust_covers === '3'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+
+        
+                    <% if (shock_absorbers!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Amortiguadores</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (shock_absorbers ==='regular' || shock_absorbers <= '2'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (shock_absorbers ==='rueno' || shock_absorbers === '2.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (shock_absorbers ==='excelente' || shock_absorbers === '3'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                 
+                      <% if (spirals!=""){ %>
+                        <div class="col-12 itemSegment">
+                        <div class="row rowSegment">
+                          <div class="col-12">
+                            <label for="">Espirales</label>
+                          </div>
+                          <div class="col-12 colSegment">
+                            <div class="row">
+                                <div class="col-3">
+                                  <% if (spirals ==='regular' || spirals <= '2'){ %>
+                                <label class="segment-orange" for="">Regular</label>
+                                <% }else{ %>
+                                <label for="">Regular</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (spirals ==='rueno' || spirals === '2.5'){ %>
+                                <label class="segment-yellow" for="">Bueno</label>
+                                <% }else{ %>
+                                <label for="">Bueno</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (spirals ==='excelente' || spirals === '3'){ %>
+                                <label class="segment-green" for="">Excelente</label>
+                                <% }else{ %>
+                                <label for="">Excelente</label>
+                                <%}%>
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                            </div>
+                        <% } %>
+                        <% if (upper_lower_plateaus!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Mesetas sup.e inf. </label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (upper_lower_plateaus ==='regular' || upper_lower_plateaus <= '2'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (upper_lower_plateaus ==='rueno' || upper_lower_plateaus === '2.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (upper_lower_plateaus ==='excelente' || upper_lower_plateaus === '3'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
+                          <% if (stumps!=""){ %>
+                            <div class="col-12 itemSegment">
+                            <div class="row rowSegment">
+                              <div class="col-12">
+                                <label for="">Muñones</label>
+                              </div>
+                              <div class="col-12 colSegment">
+                                <div class="row">
+                                    <div class="col-3">
+                                      <% if (stumps ==='regular' || stumps <= '2'){ %>
+                                    <label class="segment-orange" for="">Regular</label>
+                                    <% }else{ %>
+                                    <label for="">Regular</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (stumps ==='rueno' || stumps === '2.5'){ %>
+                                    <label class="segment-yellow" for="">Bueno</label>
+                                    <% }else{ %>
+                                    <label for="">Bueno</label>
+              
+                                    <%}%>
+                                    </div>
+                                    <div class="col-3">
+                                      <% if (stumps ==='excelente' || stumps === '3'){ %>
+                                    <label class="segment-green" for="">Excelente</label>
+                                    <% }else{ %>
+                                    <label for="">Excelente</label>
+                                    <%}%>
+                                    </div>
+                                  </div>
+                                </div>
+                                  </div>
+                                </div>
+                            <% } %>
+                            <% if (terminal_blocks!=""){ %>
+                              <div class="col-12 itemSegment">
+                              <div class="row rowSegment">
+                                <div class="col-12">
+                                  <label for="">Terminales de dirección</label>
+                                </div>
+                                <div class="col-12 colSegment">
+                                  <div class="row">
+                                      <div class="col-3">
+                                        <% if (terminal_blocks ==='regular' || terminal_blocks <= '2'){ %>
+                                      <label class="segment-orange" for="">Regular</label>
+                                      <% }else{ %>
+                                      <label for="">Regular</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (terminal_blocks ==='rueno' || terminal_blocks === '2.5'){ %>
+                                      <label class="segment-yellow" for="">Bueno</label>
+                                      <% }else{ %>
+                                      <label for="">Bueno</label>
+                
+                                      <%}%>
+                                      </div>
+                                      <div class="col-3">
+                                        <% if (terminal_blocks ==='excelente' || terminal_blocks === '3'){ %>
+                                      <label class="segment-green" for="">Excelente</label>
+                                      <% }else{ %>
+                                      <label for="">Excelente</label>
+                                      <%}%>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    </div>
+                                  </div>
+                              <% } %>
+                              <% if (brakes!=""){ %>
+                                <div class="col-12 itemSegment">
+                                <div class="row rowSegment">
+                                  <div class="col-12">
+                                    <label for="">Frenos</label>
+                                  </div>
+                                  <div class="col-12 colSegment">
+                                    <div class="row">
+                                        <div class="col-3">
+                                          <% if (brakes ==='regular' || brakes <= '1'){ %>
+                                        <label class="segment-orange" for="">Regular</label>
+                                        <% }else{ %>
+                                        <label for="">Regular</label>
+                  
+                                        <%}%>
+                                        </div>
+                                        <div class="col-3">
+                                          <% if (brakes ==='rueno' || brakes === '1.5'){ %>
+                                        <label class="segment-yellow" for="">Bueno</label>
+                                        <% }else{ %>
+                                        <label for="">Bueno</label>
+                  
+                                        <%}%>
+                                        </div>
+                                        <div class="col-3">
+                                          <% if (brakes ==='excelente' || brakes === '2'){ %>
+                                        <label class="segment-green" for="">Excelente</label>
+                                        <% }else{ %>
+                                        <label for="">Excelente</label>
+                                        <%}%>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      </div>
+                                    </div>
+                                <% } %>
+                                <% if (cardan_transmission_shaft!=""){ %>
+                                  <div class="col-12 itemSegment">
+                                  <div class="row rowSegment">
+                                    <div class="col-12">
+                                      <label for="">Cardan o Eje de Transmisión</label>
+                                    </div>
+                                    <div class="col-12 colSegment">
+                                      <div class="row">
+                                          <div class="col-3">
+                                            <% if (cardan_transmission_shaft ==='regular' || cardan_transmission_shaft <= '1'){ %>
+                                          <label class="segment-orange" for="">Regular</label>
+                                          <% }else{ %>
+                                          <label for="">Regular</label>
+                    
+                                          <%}%>
+                                          </div>
+                                          <div class="col-3">
+                                            <% if (cardan_transmission_shaft ==='rueno' || cardan_transmission_shaft === '1.5'){ %>
+                                          <label class="segment-yellow" for="">Bueno</label>
+                                          <% }else{ %>
+                                          <label for="">Bueno</label>
+                    
+                                          <%}%>
+                                          </div>
+                                          <div class="col-3">
+                                            <% if (cardan_transmission_shaft ==='excelente' || cardan_transmission_shaft === '2'){ %>
+                                          <label class="segment-green" for="">Excelente</label>
+                                          <% }else{ %>
+                                          <label for="">Excelente</label>
+                                          <%}%>
+                                          </div>
+                                        </div>
+                                      </div>
+                                        </div>
+                                      </div>
+                                  <% } %>
+                                  <% if (engine_transmission_oil_leaks!=""){ %>
+                                    <div class="col-12 itemSegment">
+                                    <div class="row rowSegment">
+                                      <div class="col-12">
+                                        <label for="">Fugas de aceite de motor/transmisión</label>
+                                      </div>
+                                      <div class="col-12 colSegment">
+                                        <div class="row">
+                                            <div class="col-3">
+                                              <% if (engine_transmission_oil_leaks ==='regular' || engine_transmission_oil_leaks <= '2'){ %>
+                                            <label class="segment-orange" for="">Regular</label>
+                                            <% }else{ %>
+                                            <label for="">Regular</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (engine_transmission_oil_leaks ==='rueno' || engine_transmission_oil_leaks === '2.5'){ %>
+                                            <label class="segment-yellow" for="">Bueno</label>
+                                            <% }else{ %>
+                                            <label for="">Bueno</label>
+                      
+                                            <%}%>
+                                            </div>
+                                            <div class="col-3">
+                                              <% if (engine_transmission_oil_leaks ==='excelente' || engine_transmission_oil_leaks === '3'){ %>
+                                            <label class="segment-green" for="">Excelente</label>
+                                            <% }else{ %>
+                                            <label for="">Excelente</label>
+                                            <%}%>
+                                            </div>
+                                          </div>
+                                        </div>
+                                          </div>
+                                        </div>
+                                    <% } %>
+                                    <% if (hydraulic_oil_leak_steering_box!=""){ %>
+                                      <div class="col-12 itemSegment">
+                                      <div class="row rowSegment">
+                                        <div class="col-12">
+                                          <label for="">Fuga de aceite hidráulico  en cajetín de dirección</label>
+                                        </div>
+                                        <div class="col-12 colSegment">
+                                          <div class="row">
+                                              <div class="col-3">
+                                                <% if (hydraulic_oil_leak_steering_box ==='regular' || hydraulic_oil_leak_steering_box <= '1'){ %>
+                                              <label class="segment-orange" for="">Regular</label>
+                                              <% }else{ %>
+                                              <label for="">Regular</label>
+                        
+                                              <%}%>
+                                              </div>
+                                              <div class="col-3">
+                                                <% if (hydraulic_oil_leak_steering_box ==='rueno' || hydraulic_oil_leak_steering_box === '1.5'){ %>
+                                              <label class="segment-yellow" for="">Bueno</label>
+                                              <% }else{ %>
+                                              <label for="">Bueno</label>
+                        
+                                              <%}%>
+                                              </div>
+                                              <div class="col-3">
+                                                <% if (hydraulic_oil_leak_steering_box ==='excelente' || hydraulic_oil_leak_steering_box === '2'){ %>
+                                              <label class="segment-green" for="">Excelente</label>
+                                              <% }else{ %>
+                                              <label for="">Excelente</label>
+                                              <%}%>
+                                              </div>
+                                            </div>
+                                          </div>
+                                            </div>
+                                          </div>
+                                      <% } %>
+
+                                      <% if (excessive_rust_on_frame_compact!=""){ %>
+                                        <div class="col-12 itemSegment">
+                                        <div class="row rowSegment">
+                                          <div class="col-12">
+                                            <label for="">Oxido excesivo en el bastidor o compacto</label>
+                                          </div>
+                                          <div class="col-12 colSegment">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                  <% if (excessive_rust_on_frame_compact ==='regular' || excessive_rust_on_frame_compact <= '2'){ %>
+                                                <label class="segment-orange" for="">Regular</label>
+                                                <% }else{ %>
+                                                <label for="">Regular</label>
+                          
+                                                <%}%>
+                                                </div>
+                                                <div class="col-3">
+                                                  <% if (excessive_rust_on_frame_compact ==='rueno' || excessive_rust_on_frame_compact === '2.5'){ %>
+                                                <label class="segment-yellow" for="">Bueno</label>
+                                                <% }else{ %>
+                                                <label for="">Bueno</label>
+                          
+                                                <%}%>
+                                                </div>
+                                                <div class="col-3">
+                                                  <% if (excessive_rust_on_frame_compact ==='excelente' || excessive_rust_on_frame_compact === '3'){ %>
+                                                <label class="segment-green" for="">Excelente</label>
+                                                <% }else{ %>
+                                                <label for="">Excelente</label>
+                                                <%}%>
+                                                </div>
+                                              </div>
+                                            </div>
+                                              </div>
+                                            </div>
+                                        <% } %>
+                                        <% if (exhaust_pipe!=""){ %>
+                                          <div class="col-12 itemSegment">
+                                          <div class="row rowSegment">
+                                            <div class="col-12">
+                                              <label for="">Oxido excesivo en el bastidor o compacto</label>
+                                            </div>
+                                            <div class="col-12 colSegment">
+                                              <div class="row">
+                                                  <div class="col-3">
+                                                    <% if (exhaust_pipe ==='regular' || exhaust_pipe <= '0'){ %>
+                                                  <label class="segment-orange" for="">Regular</label>
+                                                  <% }else{ %>
+                                                  <label for="">Regular</label>
+                            
+                                                  <%}%>
+                                                  </div>
+                                                  <div class="col-3">
+                                                    <% if (exhaust_pipe ==='rueno' || exhaust_pipe === '0.5'){ %>
+                                                  <label class="segment-yellow" for="">Bueno</label>
+                                                  <% }else{ %>
+                                                  <label for="">Bueno</label>
+                            
+                                                  <%}%>
+                                                  </div>
+                                                  <div class="col-3">
+                                                    <% if (exhaust_pipe ==='excelente' || exhaust_pipe === '1'){ %>
+                                                  <label class="segment-green" for="">Excelente</label>
+                                                  <% }else{ %>
+                                                  <label for="">Excelente</label>
+                                                  <%}%>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                                </div>
+                                              </div>
+                                          <% } %>
+                
+</div>
+            </div>
               <hr>
-              <div class="col-12" class="itemGroupSegment">
-                <h3>LATERALES</h3>
+              <div class="row">
+                <div class="col-12" class="itemGroupSegment">
+                  <h3>LATERALES</h3>
+                </div>
+                <% if (doors!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Puertas</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (doors ==='regular' || doors <= '0'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (doors ==='rueno' || doors === '0.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (doors ==='excelente' || doors === '1'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
               </div>
 
               <hr>
-              <div class="col-12" class="itemGroupSegment">
-                <h3>TRASERA</h3>
+              <div class="row">
+                <div class="col-12" class="itemGroupSegment">
+                  <h3>TRASERA</h3>
+                </div>
+                <% if (stop!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Stop</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (stop ==='regular' || stop <= '1'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (stop ==='rueno' || stop === '1.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (stop ==='excelente' || stop === '2'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+                  <% if (fuel_pump_door!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Compuerta del surtidor de combustible</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (fuel_pump_door ==='regular' || fuel_pump_door <= '0'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (fuel_pump_door ==='rueno' || fuel_pump_door === '0.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (fuel_pump_door ==='excelente' || fuel_pump_door === '1'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+                    <% if (trunk_door!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Puerta del Maletero</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (trunk_door ==='regular' || trunk_door <= '0'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (trunk_door ==='rueno' || trunk_door === '0.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (trunk_door ==='excelente' || trunk_door === '1'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                      <% if (trunk_interior!=""){ %>
+                        <div class="col-12 itemSegment">
+                        <div class="row rowSegment">
+                          <div class="col-12">
+                            <label for="">Interior del Maletero</label>
+                          </div>
+                          <div class="col-12 colSegment">
+                            <div class="row">
+                                <div class="col-3">
+                                  <% if (trunk_interior ==='regular' || trunk_interior <= '0'){ %>
+                                <label class="segment-orange" for="">Regular</label>
+                                <% }else{ %>
+                                <label for="">Regular</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (trunk_interior ==='rueno' || trunk_interior === '0.5'){ %>
+                                <label class="segment-yellow" for="">Bueno</label>
+                                <% }else{ %>
+                                <label for="">Bueno</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (trunk_interior ==='excelente' || trunk_interior === '1'){ %>
+                                <label class="segment-green" for="">Excelente</label>
+                                <% }else{ %>
+                                <label for="">Excelente</label>
+                                <%}%>
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                            </div>
+                        <% } %>
+                        <% if (replacement_rubber_tool_set!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Caucho de repuesto y Juego de Herramientas</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (replacement_rubber_tool_set ==='regular' || replacement_rubber_tool_set <= '0'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (replacement_rubber_tool_set ==='rueno' || replacement_rubber_tool_set === '0.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (replacement_rubber_tool_set ==='excelente' || replacement_rubber_tool_set === '1'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
               </div>
 
               <hr>
-              <div class="col-12" class="itemGroupSegment">
-                <h3>EXTEREOR</h3>
+              <div class="row">
+                <div class="col-12" class="itemGroupSegment">
+                  <h3>EXTEREOR</h3>
+                </div>
+                <% if (complete_emblems!=""){ %>
+                  <div class="col-12 itemSegment">
+                  <div class="row rowSegment">
+                    <div class="col-12">
+                      <label for="">Emblemas completos</label>
+                    </div>
+                    <div class="col-12 colSegment">
+                      <div class="row">
+                          <div class="col-3">
+                            <% if (complete_emblems ==='regular' || complete_emblems <= '0'){ %>
+                          <label class="segment-orange" for="">Regular</label>
+                          <% }else{ %>
+                          <label for="">Regular</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (complete_emblems ==='rueno' || complete_emblems === '0.5'){ %>
+                          <label class="segment-yellow" for="">Bueno</label>
+                          <% }else{ %>
+                          <label for="">Bueno</label>
+    
+                          <%}%>
+                          </div>
+                          <div class="col-3">
+                            <% if (complete_emblems ==='excelente' || complete_emblems === '1'){ %>
+                          <label class="segment-green" for="">Excelente</label>
+                          <% }else{ %>
+                          <label for="">Excelente</label>
+                          <%}%>
+                          </div>
+                        </div>
+                      </div>
+                        </div>
+                      </div>
+                  <% } %>
+                  <% if (bodywork!=""){ %>
+                    <div class="col-12 itemSegment">
+                    <div class="row rowSegment">
+                      <div class="col-12">
+                        <label for="">Carrocería</label>
+                      </div>
+                      <div class="col-12 colSegment">
+                        <div class="row">
+                            <div class="col-3">
+                              <% if (bodywork ==='regular' || bodywork <= '2'){ %>
+                            <label class="segment-orange" for="">Regular</label>
+                            <% }else{ %>
+                            <label for="">Regular</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (bodywork ==='rueno' || bodywork === '2.5'){ %>
+                            <label class="segment-yellow" for="">Bueno</label>
+                            <% }else{ %>
+                            <label for="">Bueno</label>
+      
+                            <%}%>
+                            </div>
+                            <div class="col-3">
+                              <% if (bodywork ==='excelente' || bodywork === '3'){ %>
+                            <label class="segment-green" for="">Excelente</label>
+                            <% }else{ %>
+                            <label for="">Excelente</label>
+                            <%}%>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                    <% } %>
+                    <% if (paint!=""){ %>
+                      <div class="col-12 itemSegment">
+                      <div class="row rowSegment">
+                        <div class="col-12">
+                          <label for="">Pintura</label>
+                        </div>
+                        <div class="col-12 colSegment">
+                          <div class="row">
+                              <div class="col-3">
+                                <% if (paint ==='regular' || paint <= '2'){ %>
+                              <label class="segment-orange" for="">Regular</label>
+                              <% }else{ %>
+                              <label for="">Regular</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (paint ==='rueno' || paint === '2.5'){ %>
+                              <label class="segment-yellow" for="">Bueno</label>
+                              <% }else{ %>
+                              <label for="">Bueno</label>
+        
+                              <%}%>
+                              </div>
+                              <div class="col-3">
+                                <% if (paint ==='excelente' || paint === '3'){ %>
+                              <label class="segment-green" for="">Excelente</label>
+                              <% }else{ %>
+                              <label for="">Excelente</label>
+                              <%}%>
+                              </div>
+                            </div>
+                          </div>
+                            </div>
+                          </div>
+                      <% } %>
+                      <% if (tire_condition!=""){ %>
+                        <div class="col-12 itemSegment">
+                        <div class="row rowSegment">
+                          <div class="col-12">
+                            <label for="">Estado de los neumáticos</label>
+                          </div>
+                          <div class="col-12 colSegment">
+                            <div class="row">
+                                <div class="col-3">
+                                  <% if (tire_condition ==='regular' || tire_condition <= '0'){ %>
+                                <label class="segment-orange" for="">Regular</label>
+                                <% }else{ %>
+                                <label for="">Regular</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (tire_condition ==='rueno' || tire_condition === '0.5'){ %>
+                                <label class="segment-yellow" for="">Bueno</label>
+                                <% }else{ %>
+                                <label for="">Bueno</label>
+          
+                                <%}%>
+                                </div>
+                                <div class="col-3">
+                                  <% if (tire_condition ==='excelente' || tire_condition === '1'){ %>
+                                <label class="segment-green" for="">Excelente</label>
+                                <% }else{ %>
+                                <label for="">Excelente</label>
+                                <%}%>
+                                </div>
+                              </div>
+                            </div>
+                              </div>
+                            </div>
+                        <% } %>
+                        <% if (wheel_ornaments!=""){ %>
+                          <div class="col-12 itemSegment">
+                          <div class="row rowSegment">
+                            <div class="col-12">
+                              <label for="">Ornamentos de ruedas</label>
+                            </div>
+                            <div class="col-12 colSegment">
+                              <div class="row">
+                                  <div class="col-3">
+                                    <% if (wheel_ornaments ==='regular' || wheel_ornaments <= '0'){ %>
+                                  <label class="segment-orange" for="">Regular</label>
+                                  <% }else{ %>
+                                  <label for="">Regular</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (wheel_ornaments ==='rueno' || wheel_ornaments === '0.5'){ %>
+                                  <label class="segment-yellow" for="">Bueno</label>
+                                  <% }else{ %>
+                                  <label for="">Bueno</label>
+            
+                                  <%}%>
+                                  </div>
+                                  <div class="col-3">
+                                    <% if (wheel_ornaments ==='excelente' || wheel_ornaments === '1'){ %>
+                                  <label class="segment-green" for="">Excelente</label>
+                                  <% }else{ %>
+                                  <label for="">Excelente</label>
+                                  <%}%>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                          <% } %>
               </div>
+
 
 
               <hr>
@@ -979,7 +2945,7 @@
                   <div class="col-12 colSegment">
                     <div class="row">
                       <div class="col-6">
-                        <% if (dealer_maintenance === 'no'){ %>
+                        <% if (dealer_maintenance === 'no' || dealer_maintenance <= '2.5'){ %>
                         <ion-label class="segment-red">No</ion-label>
                         <% }else{ %>
                         <ion-label>No</ion-label>
@@ -988,7 +2954,7 @@
                 
               </div>
               <div class="col-6">
-                <% if (dealer_maintenance === 'si'){ %>
+                <% if (dealer_maintenance === 'si' || dealer_maintenance === '3'){ %>
                         <ion-label class="segment-green">Si</ion-label>
                         <% }else{ %>
                         <ion-label>Si</ion-label>
