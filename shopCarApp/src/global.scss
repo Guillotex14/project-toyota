@@ -1501,6 +1501,124 @@ ion-segment {
         }
       }
     }
+
+    .colCardGraphImg{
+      ion-img{
+        margin: auto !important;
+      }
+    }
+
+    .colCardGraphInfo{
+      text-align: center !important;
+      .modelCar{
+        font-size: 20px !important;
+      }
+
+      .cityCar{
+        font-size: 17px !important;
+      }
+
+      .priceCar{
+        font-size: 17px !important;
+      }
+
+      .dateCar{
+        font-size: 17px !important;
+      }
+
+    }
+  }
+
+  app-graphics-admin{
+    .cardChart{
+      width: 80% !important;
+      canvas{
+        width: 100% !important;
+      }
+    }
+
+    .cardSubHome{
+      font-size: 20px !important; 
+    }
+    
+    .titleCardHome{
+      font-size: 20px !important;
+    }
+
+    .whiteIconCard{
+      text-align: right !important;
+    }
+
+    .header{
+      .flagVnzl{
+        width: 45px !important;
+        height: 40px !important;
+      }
+      
+      .logoWhite{
+        width: 60px !important;
+        margin: auto !important;
+      }
+
+      .colHeaderTitle{
+        text-align: center !important;
+      }
+
+      .headerTitle{
+        font-size: 30px !important;
+        text-align: center !important;
+      }
+    }
+
+    .colFilter{
+      .colResultFilter{
+        margin-top: 1% !important;
+        text-align: left !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+      }
+      .colIconFilter{
+        margin-top: 1% !important;
+        text-align: right !important;
+        span{
+          font-size: 17px !important;
+          font-weight: 600 !important;
+        }
+        ion-icon{
+          font-size: 30px;
+          margin: -9px 10px;
+        }
+      }
+    }
+
+    .colCardGraphImg{
+      ion-img{
+        margin: auto !important;
+      }
+    }
+
+    .colCardGraphInfo{
+      text-align: center !important;
+      .modelCar{
+        font-size: 20px !important;
+      }
+
+      .cityCar{
+        font-size: 17px !important;
+      }
+
+      .priceCar{
+        font-size: 17px !important;
+      }
+
+      .dateCar{
+        font-size: 17px !important;
+      }
+
+    }
+
   }
 
   app-list-customers{
@@ -1682,6 +1800,104 @@ ion-segment {
       margin-top: 25px !important;
     }
   
+  }
+
+  app-list-admin-concesionary{
+    .colInfoListUser{
+      
+        .pTitle{
+          font-size: 18px !important;
+        
+        }
+
+        .spanSubtitle{
+          font-size: 16px !important;
+        }
+
+        .btnOutlineBlack{
+          width: 100% !important;
+        }
+
+        .btnOutlineRed{
+          width: 100% !important;
+        }
+
+      }
+      .iconListUser{
+        margin: 50% auto !important;
+      }
+  }
+  
+  app-list-user-admin{
+    .colInfoListUser{
+      
+        .pTitle{
+          font-size: 18px !important;
+        
+        }
+
+        .spanSubtitle{
+          font-size: 16px !important;
+        }
+
+        .btnOutlineBlack{
+          width: 100% !important;
+        }
+
+        .btnOutlineRed{
+          width: 100% !important;
+        }
+
+      }
+      .iconListUser{
+        margin: 50% auto !important;
+      }
+  }
+
+  app-list-mechanic-admin{
+    .colInfoListUser{
+      
+        .pTitle{
+          font-size: 18px !important;
+        
+        }
+
+        .spanSubtitle{
+          font-size: 16px !important;
+        }
+
+        .btnOutlineBlack{
+          width: 100% !important;
+        }
+
+        .btnOutlineRed{
+          width: 100% !important;
+        }
+
+      }
+      .iconListUser{
+        margin: 50% auto !important;
+      }
+  }
+
+  app-add-admin-concesionary{
+    .btnSaveRed{
+      margin: 20% auto !important;
+      width: 80% !important;
+    }
+  }
+
+  app-create-user-admin{
+    .btnSaveRed{
+      margin: 20% auto !important;
+      width: 80% !important;
+    }
+  }
+
+  app-add-model-vehicle{
+    .colModel{
+      margin-top: 0px !important;
+    }
   }
 }
 

@@ -30,7 +30,7 @@
           <ion-row>
             <ion-col sizeXl="4" sizeLg="4" sizeMd="4" sizeSm="6" sizeXs="6" *ngFor="let vehicle of comparison; let i = index" class="colCardVehicles">
 
-              <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.webp )'">
+              <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.svg )'">
                 <ion-icon name="image" *ngIf="vehicle.images?.length === 0" class="iconCard"></ion-icon>
                 <ion-icon name="image" *ngIf="vehicle.image === null" class="iconCard"></ion-icon>
                 <ion-img [src]="vehicle.images[0].img" *ngIf="vehicle.images?.length"></ion-img>

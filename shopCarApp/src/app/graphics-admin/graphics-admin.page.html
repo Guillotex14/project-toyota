@@ -1,21 +1,25 @@
 <ion-content [fullscreen]="true">
+  
   <ion-grid fixed>
+    
     <ion-row>
 
       <ion-col size="12" class="header">
           <ion-row>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="arrow-back-circle-sharp" class="iconBack" (click)="goBack()"></ion-icon>
             </ion-col>
-            <ion-col size="8" style="text-align: center;">
+            <ion-col size="8" style="text-align: center;" sizeMd="10">
               <ion-img src="assets/images/logo/logo_toyota_blanco.png" class="logoRed"></ion-img>
             </ion-col>
-            <ion-col size="2">
+            <ion-col size="2" sizeMd="1">
               <ion-icon name="menu-outline" class="iconMenu" (click)="openMenu()"></ion-icon>
             </ion-col>
           </ion-row>
       </ion-col>
+
       <app-skeleton *ngIf="loading"></app-skeleton>
+      
       <ion-col size="12" style="text-align: left; margin: 10px auto !important;" *ngIf="!loading">
         <ion-title class="titlePage">Gráfica de ventas</ion-title>
       </ion-col>
@@ -135,6 +139,7 @@
         </ion-col>
         <!-- <ion-label style="font-size: 18px; color: black; font-weight: 600;">Lista de vehículos</ion-label> -->
       </ion-list-header>
+      
       <ion-col size="12" style="margin-top: 20px !important;" *ngIf="!loading">
         <ion-list *ngFor="let modelCar of arrayListCars">
 
@@ -182,17 +187,17 @@
               <ion-card-content>
                 <ion-grid fixed>
                   <ion-row>
-                    <ion-col size="5" class="colCardGraphImg">
+                    <ion-col size="5" class="colCardGraphImg" sizeMd="6">
                       <ion-icon name="image" *ngIf="vehicle.imgVehicle === null" class="iconCard"></ion-icon>
                       <ion-img [src]="vehicle.imgVehicle.img" *ngIf="vehicle.imgVehicle !==null"></ion-img>
                     </ion-col>
-                    <ion-col size="7" class="colCardGraphInfo">
+                    <ion-col size="7" class="colCardGraphInfo" sizeMd="6">
                       <ion-row>
-                        <ion-col size="12">
+                        <ion-col size="12" sizeMd="6">
                           <ion-card-title style="font-weight: bold;" class="modelCar">{{vehicle.model}}</ion-card-title>
                           <ion-card-subtitle class="cityCar">Vendido/a en {{vehicle.city}}</ion-card-subtitle>
                         </ion-col>
-                        <ion-col size="12" style="text-align: center;">
+                        <ion-col size="12" style="text-align: center;" sizeMd="6">
                           <ion-card-title  class="priceCar">
                             <!-- {{vehicle.price | currency:'USD':true:'1.0-0'}} -->
                             ${{vehicle.price ? setDot(vehicle.price) : 0}}
@@ -212,7 +217,9 @@
         </ion-list>
         
       </ion-col>
+    
     </ion-row>
+  
   </ion-grid>
 
   <ion-modal #ModalFilterGraphicAdmin>
@@ -526,5 +533,6 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
 </ion-content>
 

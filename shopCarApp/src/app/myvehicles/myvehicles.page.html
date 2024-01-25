@@ -48,7 +48,7 @@
 
             <ion-col sizeXl="4" sizeLg="4" sizeMd="4" sizeSm="6" sizeXs="6" *ngFor="let vehicle of arrayVehicles; let i = index" class="colCardVehicles">
 
-              <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.png )'">
+              <ion-card class="cardVehicles" [style.backgroundImage]="'url( assets/images/logo/poster_lateral.svg )'">
                 <!-- <ion-img src="assets/images/carro/toyota1.png" *ngIf="vehicle.images ===''"></ion-img> -->
                 <ion-icon name="image" *ngIf="vehicle.images ===''" class="iconCard"></ion-icon>
                 <ion-img [src]="vehicle.images.img" *ngIf="vehicle.images !==''"></ion-img>

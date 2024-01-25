@@ -4,6 +4,7 @@ import { AddMechanicFile } from 'src/models/sellet';
 import { MechanicService } from '../services/mechanic/mechanic.service';
 import { UtilsService } from '../services/utils/utils.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MechanicalFileModel } from '../../models/mechanic';
 
 @Component({
   selector: 'app-add-mechanic-file',
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AddMechanicFilePage implements OnInit {
 
-  newMechanicalFile: AddMechanicFile = new AddMechanicFile();
+  newMechanicalFile: MechanicalFileModel = new MechanicalFileModel();
 
   android: boolean = false;
   ios: boolean = false;
@@ -34,56 +35,63 @@ export class AddMechanicFilePage implements OnInit {
       this.newMechanicalFile.id_mechanic = me.id_mechanic;
     }
 
-    this.newMechanicalFile.part_emblems_complete = "";
-    this.newMechanicalFile.wiper_shower_brushes_windshield = "";
-    this.newMechanicalFile.paint_condition = "";
-    this.newMechanicalFile.bugle_accessories = "";
-    this.newMechanicalFile.air_conditioning_system = "";
-    this.newMechanicalFile.radio_player = "";
-    this.newMechanicalFile.courtesy_lights = "";
-    this.newMechanicalFile.upholstery_condition = "";
-    this.newMechanicalFile.board_lights = "";
-    this.newMechanicalFile.tire_life = "";
-    this.newMechanicalFile.battery_status_terminals = "";
-    this.newMechanicalFile.transmitter_belts = "";
-    this.newMechanicalFile.motor_oil = "";
-    this.newMechanicalFile.engine_coolant_container = "";
-    this.newMechanicalFile.radiator_status = "";
-    this.newMechanicalFile.exhaust_pipe_bracket = "";
-    this.newMechanicalFile.distribution_mail = "";
-    this.newMechanicalFile.fuel_system = "";
-    this.newMechanicalFile.parking_break = "";
-    this.newMechanicalFile.brake_bands_drums = "";
-    this.newMechanicalFile.brake_pads_discs = "";
-    this.newMechanicalFile.master_cylinder = "";
-    this.newMechanicalFile.brake_fluid = "";
-    this.newMechanicalFile.bushings_plateaus = "";
-    this.newMechanicalFile.stumps = "";
-    this.newMechanicalFile.terminals = "";
-    this.newMechanicalFile.stabilizer_bar = "";
-    this.newMechanicalFile.bearings = "";
-    this.newMechanicalFile.tripoids_rubbe_bands = "";
-    this.newMechanicalFile.shock_absorbers_coils = "";
-    this.newMechanicalFile.odometer = "";
-    this.newMechanicalFile.engine_start = "";
-    this.newMechanicalFile.windshields_glass = "";
-    this.newMechanicalFile.hits_scratches = "";
-    this.newMechanicalFile.spark_plugs = "";
-    this.newMechanicalFile.injectors = "";
-    this.newMechanicalFile.fuel_filter_anti_pollen_filter = "";
-    this.newMechanicalFile.engine_noises = "";
-    this.newMechanicalFile.hits_scratches_sides = "";
-    this.newMechanicalFile.paint_condition_sides = "";
-    this.newMechanicalFile.trunk_hatch = "";
-    this.newMechanicalFile.spare_tire = "";
-    this.newMechanicalFile.hits_scratches_trunk = "";
-    this.newMechanicalFile.paint_condition_trunk = "";
-    this.newMechanicalFile.headlights_lights_trunk = "";
-    this.newMechanicalFile.fuel_tank_cover = "";
-    this.newMechanicalFile.pipes_hoses_connections = "";
-    this.newMechanicalFile.brake_discs = "";
-    this.newMechanicalFile.general_condition = 0;
+    this.newMechanicalFile.steering_wheel="";
+    this.newMechanicalFile.pedals="";
+    this.newMechanicalFile.gauges_dashboard_lights="";
+    this.newMechanicalFile.transmission_shift_lever="";
+    this.newMechanicalFile.brake_lever="";
+    this.newMechanicalFile.accessories="";
+    this.newMechanicalFile.internal_upholstery="";
+    this.newMechanicalFile.courtesy_lights="";
+    this.newMechanicalFile.windshield="";
+    this.newMechanicalFile.window_glass_operation="";
+    this.newMechanicalFile.door_locks_handles="";
+    this.newMechanicalFile.operation_manual_electric_mirrors="";
+    this.newMechanicalFile.seat_belts="";
+    this.newMechanicalFile.front_bumpers="";
+    this.newMechanicalFile.front_grill="";
+    this.newMechanicalFile.headlights_low_beams_cocuyos="";
+    this.newMechanicalFile.fog_lights="";
+    this.newMechanicalFile.bonnet="";
+    this.newMechanicalFile.engine_ignition="";
+    this.newMechanicalFile.engine_noises="";
+    this.newMechanicalFile.general_condition_fluids="";
+    this.newMechanicalFile.fluid_reservoirs="";
+    this.newMechanicalFile.spark_plugs_coils_general_condition="";
+    this.newMechanicalFile.air_filter="";
+    this.newMechanicalFile.transmission_belts="";
+    this.newMechanicalFile.appearance_hoses_caps_seals_connections="";
+    this.newMechanicalFile.battery_condition_terminal_tightness_corrosion="";
+    this.newMechanicalFile.fluid_leak="";
+    this.newMechanicalFile.general_engine_compression_condition="";
+    this.newMechanicalFile.stabilizer_bars="";
+    this.newMechanicalFile.bearings="";
+    this.newMechanicalFile.joints_dust_covers="";
+    this.newMechanicalFile.shock_absorbers="";
+    this.newMechanicalFile.spirals="";
+    this.newMechanicalFile.upper_lower_plateaus="";
+    this.newMechanicalFile.stumps="";
+    this.newMechanicalFile.terminal_blocks="";
+    this.newMechanicalFile.brakes="";
+    this.newMechanicalFile.cardan_transmission_shaft="";
+    this.newMechanicalFile.engine_transmission_oil_leaks="";
+    this.newMechanicalFile.hydraulic_oil_leak_steering_box="";
+    this.newMechanicalFile.excessive_rust_on_frame_compact="";
+    this.newMechanicalFile.exhaust_pipe="";
+    this.newMechanicalFile.doors="";
+    this.newMechanicalFile.stop="";
+    this.newMechanicalFile.fuel_pump_door="";
+    this.newMechanicalFile.trunk_door="";
+    this.newMechanicalFile.trunk_interior="";
+    this.newMechanicalFile.replacement_rubber_tool_set="";
+    this.newMechanicalFile.complete_emblems="";
+    this.newMechanicalFile.bodywork="";
+    this.newMechanicalFile.paint="";
+    this.newMechanicalFile.tire_condition="";
+    this.newMechanicalFile.wheel_ornaments="";
     this.newMechanicalFile.dealer_maintenance = "";
+    this.newMechanicalFile.general_condition = 0;
+    this.newMechanicalFile.certificate = false;
     this.newMechanicalFile.id_vehicle = this.id_vehicle;
   }
 
@@ -97,145 +105,145 @@ export class AddMechanicFilePage implements OnInit {
 
   public saveMechanicalFile(){
 
-    if(this.newMechanicalFile.air_conditioning_system === "" || this.newMechanicalFile.air_conditioning_system === undefined){
-      this.utils.presentToast("El campo sistema de aire acondicionado es requerido");
+    if(this.newMechanicalFile.steering_wheel === "" || this.newMechanicalFile.steering_wheel === undefined){
+      this.utils.presentToast("El campo Volante es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.battery_status_terminals === "" || this.newMechanicalFile.battery_status_terminals === undefined){
-      this.utils.presentToast("El campo Estado de la batería - Bornes es requerido");
+    if(this.newMechanicalFile.pedals === "" || this.newMechanicalFile.pedals === undefined){
+      this.utils.presentToast("El campo Pedales es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.board_lights === "" || this.newMechanicalFile.board_lights === undefined){
-      this.utils.presentToast("El campo luces del tablero es requerido");
+    if(this.newMechanicalFile.gauges_dashboard_lights === "" || this.newMechanicalFile.gauges_dashboard_lights === undefined){
+      this.utils.presentToast("El campo Medidores y luces del tablero es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.brake_bands_drums === "" || this.newMechanicalFile.brake_bands_drums === undefined){
-      this.utils.presentToast("El campo Bandas de freno y tambores es requerido");
+    if(this.newMechanicalFile.transmission_shift_lever === "" || this.newMechanicalFile.transmission_shift_lever === undefined){
+      this.utils.presentToast("El campo Palanca de cambio de transmisión es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.brake_fluid === "" || this.newMechanicalFile.brake_fluid === undefined){
-      this.utils.presentToast("El campo Fluido de frenos es requerido");
+    if(this.newMechanicalFile.brake_lever === "" || this.newMechanicalFile.brake_lever === undefined){
+      this.utils.presentToast("El campo Palanca de freno es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.brake_pads_discs === "" || this.newMechanicalFile.brake_pads_discs === undefined){
-      this.utils.presentToast("El campo Pastillas de freno y discos es requerido");
+    if(this.newMechanicalFile.accessories === "" || this.newMechanicalFile.accessories === undefined){
+      this.utils.presentToast("El campo Accesorios es requerido");
       return;
     }
 
 
-    if(this.newMechanicalFile.bugle_accessories === "" || this.newMechanicalFile.bugle_accessories === undefined){
-      this.utils.presentToast("El campo Corneta - Accesorios es requerido");
-      return;
-    }
-
-    if(this.newMechanicalFile.bushings_plateaus === "" || this.newMechanicalFile.bushings_plateaus === undefined){
-      this.utils.presentToast("El campo Bujes y mesetas es requerido");
+    if(this.newMechanicalFile.internal_upholstery === "" || this.newMechanicalFile.internal_upholstery === undefined){
+      this.utils.presentToast("El campo Tapicería interna es requerido");
       return;
     }
 
     if(this.newMechanicalFile.courtesy_lights === "" || this.newMechanicalFile.courtesy_lights === undefined){
-      this.utils.presentToast("El campo Luces de cortesía es requerido");
+      this.utils.presentToast("El campo BLuces de cortesía es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.engine_coolant_container === "" || this.newMechanicalFile.engine_coolant_container === undefined){
-      this.utils.presentToast("El campo Refrigerante del motor - Envase es requerido")
+    if(this.newMechanicalFile.windshield === "" || this.newMechanicalFile.windshield === undefined){
+      this.utils.presentToast("El campo Parabrisas es requerido");
       return;
     }
 
-    if(this.newMechanicalFile.exhaust_pipe_bracket === "" || this.newMechanicalFile.exhaust_pipe_bracket === undefined){
-      this.utils.presentToast("El campo Tubo de escape y soporte es requerido")
+    if(this.newMechanicalFile.window_glass_operation === "" || this.newMechanicalFile.window_glass_operation === undefined){
+      this.utils.presentToast("El campo Funcionamiento de vidrios de ventana es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.fuel_system === "" || this.newMechanicalFile.fuel_system === undefined){
-      this.utils.presentToast("El campo Sistema de combustible es requerido")
+    if(this.newMechanicalFile.door_locks_handles === "" || this.newMechanicalFile.door_locks_handles === undefined){
+      this.utils.presentToast("El campo Seguros y manillas de puerta es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.operation_manual_electric_mirrors === "" || this.newMechanicalFile.operation_manual_electric_mirrors === undefined){
+      this.utils.presentToast("El campo Operación de Retrovisores manuales o eléctricos es requerido")
       return;
     }
 
 
-    if(this.newMechanicalFile.master_cylinder === "" || this.newMechanicalFile.master_cylinder === undefined){
-      this.utils.presentToast("El campo Bomba de freno es requerido")
+    if(this.newMechanicalFile.seat_belts === "" || this.newMechanicalFile.seat_belts === undefined){
+      this.utils.presentToast("El campo Cinturones de Seguridad es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.motor_oil === "" || this.newMechanicalFile.motor_oil === undefined){
-      this.utils.presentToast("El campo Aceite de motor es requerido")
+    if(this.newMechanicalFile.front_bumpers === "" || this.newMechanicalFile.front_bumpers === undefined){
+      this.utils.presentToast("El campo Parachoques delanteros es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.paint_condition === "" || this.newMechanicalFile.paint_condition === undefined){
-      this.utils.presentToast("El campo condiciones de la pintura es requerido")
+    if(this.newMechanicalFile.front_grill === "" || this.newMechanicalFile.front_grill === undefined){
+      this.utils.presentToast("El campo Parrilla frontal es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.parking_break === "" || this.newMechanicalFile.parking_break === undefined){
-      this.utils.presentToast("El campo Frenos de estacionamiento es requerido")
+    if(this.newMechanicalFile.headlights_low_beams_cocuyos === "" || this.newMechanicalFile.headlights_low_beams_cocuyos === undefined){
+      this.utils.presentToast("El campo Faros, luces de cruce y cocuyos es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.part_emblems_complete === "" || this.newMechanicalFile.part_emblems_complete === undefined){
-      this.utils.presentToast("El campo Piezas completas - Emblemas completos es requerido")
+    if(this.newMechanicalFile.fog_lights === "" || this.newMechanicalFile.fog_lights === undefined){
+      this.utils.presentToast("El campo Faros antinieblas es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.radiator_status === "" || this.newMechanicalFile.radiator_status === undefined){
-      this.utils.presentToast("El campo Estado del radiador es requerido")
+    if(this.newMechanicalFile.bonnet === "" || this.newMechanicalFile.bonnet === undefined){
+      this.utils.presentToast("El campo Capot es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.radio_player === "" || this.newMechanicalFile.radio_player === undefined){
-      this.utils.presentToast("El campo Radio reproductor es requerido")
+    if(this.newMechanicalFile.engine_ignition === "" || this.newMechanicalFile.engine_ignition === undefined){
+      this.utils.presentToast("El campo Encendido del motor es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.shock_absorbers_coils === "" || this.newMechanicalFile.shock_absorbers_coils === undefined){
-      this.utils.presentToast("El campo Amortiguadores y Espirales es requerido")
+    if(this.newMechanicalFile.engine_noises === "" || this.newMechanicalFile.engine_noises === undefined){
+      this.utils.presentToast("El campo Ruidos de motor es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.stabilizer_bar === "" || this.newMechanicalFile.stabilizer_bar === undefined){
-      this.utils.presentToast("El campo Barra estabilizadora es requerido")
+    if(this.newMechanicalFile.general_condition_fluids === "" || this.newMechanicalFile.general_condition_fluids === undefined){
+      this.utils.presentToast("El campo Fluidos estado general es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.stumps === "" || this.newMechanicalFile.stumps === undefined){
-      this.utils.presentToast("El Muñones es requerido")
+    if(this.newMechanicalFile.fluid_reservoirs === "" || this.newMechanicalFile.fluid_reservoirs === undefined){
+      this.utils.presentToast("El campo Depósitos de fluidos es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.terminals === "" || this.newMechanicalFile.terminals === undefined){
-      this.utils.presentToast("El campo Terminales es requerido")
+    if(this.newMechanicalFile.spark_plugs_coils_general_condition === "" || this.newMechanicalFile.spark_plugs_coils_general_condition === undefined){
+      this.utils.presentToast("El campo Bujías y bobinas condición general es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.tire_life === "" || this.newMechanicalFile.tire_life === undefined){
-      this.utils.presentToast("El campo Vida de los neumaticos es requerido")
+    if(this.newMechanicalFile.air_filter === "" || this.newMechanicalFile.air_filter === undefined){
+      this.utils.presentToast("El campo Filtro de aire es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.transmitter_belts === "" || this.newMechanicalFile.transmitter_belts === undefined){
-      this.utils.presentToast("El campo Correas transmisoras es requerido")
+    if(this.newMechanicalFile.transmission_belts === "" || this.newMechanicalFile.transmission_belts === undefined){
+      this.utils.presentToast("El campo Correas de transmisión es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.tripoids_rubbe_bands === "" || this.newMechanicalFile.tripoids_rubbe_bands === undefined){
-      this.utils.presentToast("El Tripoides y gomas es requerido")
+    if(this.newMechanicalFile.appearance_hoses_caps_seals_connections === "" || this.newMechanicalFile.appearance_hoses_caps_seals_connections === undefined){
+      this.utils.presentToast("El campo apariencia Mangueras, tapas, sellos y conexiones es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.upholstery_condition === "" || this.newMechanicalFile.upholstery_condition === undefined){
-      this.utils.presentToast("El campo Estado de la tapicería es requerido")
+    if(this.newMechanicalFile.battery_condition_terminal_tightness_corrosion === "" || this.newMechanicalFile.battery_condition_terminal_tightness_corrosion === undefined){
+      this.utils.presentToast("El campo Estado de la batería es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.wiper_shower_brushes_windshield === "" || this.newMechanicalFile.wiper_shower_brushes_windshield === undefined){
-      this.utils.presentToast("El Cepillos limpia parabrisas-Ducha Limpia parabrisas es requerido")
+    if(this.newMechanicalFile.fluid_leak === "" || this.newMechanicalFile.fluid_leak === undefined){
+      this.utils.presentToast("El campo Fuga de fluidos es requerido")
       return;
     }
 
@@ -250,110 +258,164 @@ export class AddMechanicFilePage implements OnInit {
       return;
     }
 
-    if(this.newMechanicalFile.odometer === "" || this.newMechanicalFile.odometer === undefined){
+    if(this.newMechanicalFile.general_engine_compression_condition === "" || this.newMechanicalFile.general_engine_compression_condition === undefined){
 
-      this.utils.presentToast("El campo odómetro es requerido")
+      this.utils.presentToast("El campo Condición general de la compresión del motor es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.engine_start === "" || this.newMechanicalFile.engine_start === undefined){
+    if(this.newMechanicalFile.stabilizer_bars === "" || this.newMechanicalFile.stabilizer_bars === undefined){
 
-      this.utils.presentToast("El campo Arranque de motor es requerido")
+      this.utils.presentToast("El campo Barras estabilizadoras es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.hits_scratches === "" || this.newMechanicalFile.hits_scratches === undefined){
+    if(this.newMechanicalFile.bearings === "" || this.newMechanicalFile.bearings === undefined){
 
-      this.utils.presentToast("El campo Golpes - Rayones - Abolladuras es requerido")
+      this.utils.presentToast("El campo Rodamientos es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.spark_plugs === "" || this.newMechanicalFile.spark_plugs === undefined){
+    if(this.newMechanicalFile.joints_dust_covers === "" || this.newMechanicalFile.joints_dust_covers === undefined){
 
-      this.utils.presentToast("El campo Bujías es requerido")
+      this.utils.presentToast("El campo Juntas homocinéticas y guardapolvos es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.injectors === "" || this.newMechanicalFile.injectors === undefined){
+    if(this.newMechanicalFile.shock_absorbers === "" || this.newMechanicalFile.shock_absorbers === undefined){
 
-      this.utils.presentToast("El campo Inyectores es requerido")
+      this.utils.presentToast("El campo Amortiguadores es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.fuel_filter_anti_pollen_filter === "" || this.newMechanicalFile.fuel_filter_anti_pollen_filter === undefined){
+    if(this.newMechanicalFile.spirals === "" || this.newMechanicalFile.spirals === undefined){
 
-      this.utils.presentToast("El campo Filtro de gasolína - Filtro anti polen es requerido")
+      this.utils.presentToast("El campo Espirales es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.engine_noises === "" || this.newMechanicalFile.engine_noises === undefined){
+    if(this.newMechanicalFile.upper_lower_plateaus === "" || this.newMechanicalFile.upper_lower_plateaus === undefined){
 
-      this.utils.presentToast("El campo Ruidos de motor es requerido")
+      this.utils.presentToast("El campo Mesetas sup.e inf. es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.hits_scratches_sides === "" || this.newMechanicalFile.hits_scratches_sides === undefined){
+    if(this.newMechanicalFile.stumps === "" || this.newMechanicalFile.stumps === undefined){
 
-      this.utils.presentToast("El campo Golpes - Rayones - Abolladuras laterales es requerido")
+      this.utils.presentToast("El campo Muñones es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.paint_condition_sides === "" || this.newMechanicalFile.paint_condition_sides === undefined){
+    if(this.newMechanicalFile.terminal_blocks === "" || this.newMechanicalFile.terminal_blocks === undefined){
 
-      this.utils.presentToast("El campo Estado de la pintura laterales es requerido")
+      this.utils.presentToast("El campo Terminales de dirección es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.trunk_hatch === "" || this.newMechanicalFile.trunk_hatch === undefined){
+    if(this.newMechanicalFile.brakes === "" || this.newMechanicalFile.brakes === undefined){
 
-      this.utils.presentToast("El campo Compuerta de maletera es requerido")
+      this.utils.presentToast("El campo Frenos es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.spare_tire === "" || this.newMechanicalFile.spare_tire === undefined){
+    if(this.newMechanicalFile.cardan_transmission_shaft === "" || this.newMechanicalFile.cardan_transmission_shaft === undefined){
 
-      this.utils.presentToast("El campo Caucho de Repuesto y su compartimiento es requerido")
+      this.utils.presentToast("El campo Cardan o Eje de Transmisión es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.hits_scratches_trunk === "" || this.newMechanicalFile.hits_scratches_trunk === undefined){
+    if(this.newMechanicalFile.engine_transmission_oil_leaks === "" || this.newMechanicalFile.engine_transmission_oil_leaks === undefined){
 
-      this.utils.presentToast("El campo Golpes - Rayones - Abolladuras maletero es requerido")
+      this.utils.presentToast("El campo Fugas de aceite de motor/transmisión es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.paint_condition_trunk === "" || this.newMechanicalFile.paint_condition_trunk === undefined){
+    if(this.newMechanicalFile.hydraulic_oil_leak_steering_box === "" || this.newMechanicalFile.hydraulic_oil_leak_steering_box === undefined){
 
-      this.utils.presentToast("El campo Estado de la pintura maletero es requerido")
+      this.utils.presentToast("El campo Fuga de aceite hidráulico  en cajetín de dirección es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.headlights_lights_trunk === "" || this.newMechanicalFile.headlights_lights_trunk === undefined){
+    if(this.newMechanicalFile.excessive_rust_on_frame_compact === "" || this.newMechanicalFile.excessive_rust_on_frame_compact === undefined){
 
-      this.utils.presentToast("El campo Faros - Luces maletero es requerido")
+      this.utils.presentToast("El campo Oxido excesivo en el bastidor o compacto es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.fuel_tank_cover === "" || this.newMechanicalFile.fuel_tank_cover === undefined){
+    if(this.newMechanicalFile.exhaust_pipe === "" || this.newMechanicalFile.exhaust_pipe === undefined){
 
-      this.utils.presentToast("El campo Condición del tanque de combustible es requerido")
+      this.utils.presentToast("El campo Tubo de escape es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.pipes_hoses_connections === "" || this.newMechanicalFile.pipes_hoses_connections === undefined){
+    if(this.newMechanicalFile.doors === "" || this.newMechanicalFile.doors === undefined){
 
-      this.utils.presentToast("El campo Tapa tubos, mangueras y conexiones es requerido")
+      this.utils.presentToast("El campo Puertas es requerido")
       return;
     }
 
-    if(this.newMechanicalFile.brake_discs === "" || this.newMechanicalFile.brake_discs === undefined){
+    if(this.newMechanicalFile.stop === "" || this.newMechanicalFile.stop === undefined){
 
-      this.utils.presentToast("El campo Discos de frenos es requerido")
+      this.utils.presentToast("El campo Stop es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.fuel_pump_door === "" || this.newMechanicalFile.fuel_pump_door === undefined){
+
+      this.utils.presentToast("El campo Compuerta del surtidor de combustible es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.trunk_door === "" || this.newMechanicalFile.trunk_door === undefined){
+
+      this.utils.presentToast("El campo Puerta del Maletero es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.trunk_interior === "" || this.newMechanicalFile.trunk_interior === undefined){
+
+      this.utils.presentToast("El campo Interior del Maletero es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.replacement_rubber_tool_set === "" || this.newMechanicalFile.replacement_rubber_tool_set === undefined){
+
+      this.utils.presentToast("El campo Caucho de repuesto y Juego de Herramientas es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.complete_emblems === "" || this.newMechanicalFile.complete_emblems === undefined){
+
+      this.utils.presentToast("El campo Emblemas completos es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.bodywork === "" || this.newMechanicalFile.bodywork === undefined){
+
+      this.utils.presentToast("El campo Carrocería es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.paint === "" || this.newMechanicalFile.paint === undefined){
+
+      this.utils.presentToast("El campo Pintura es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.tire_condition === "" || this.newMechanicalFile.tire_condition === undefined){
+
+      this.utils.presentToast("El campo Estado de los neumáticos es requerido")
+      return;
+    }
+
+    if(this.newMechanicalFile.wheel_ornaments === "" || this.newMechanicalFile.wheel_ornaments === undefined){
+
+      this.utils.presentToast("El campo Ornamentos de ruedas es requerido")
       return;
     }
 
     if(this.newMechanicalFile.dealer_maintenance === "" || this.newMechanicalFile.dealer_maintenance === undefined){
-      this.utils.presentToast("El campo Discos de frenos es requerido")
+      this.utils.presentToast("El campo Mantenimiento en concesionario es requerido");
       return;
     }
 
@@ -364,54 +426,61 @@ export class AddMechanicFilePage implements OnInit {
         this.utils.dismissLoading()
         this.utils.presentToast("Se ha creado la ficha mecánica correctamente")
         this.router.navigate(['mechanic']);
-        this.newMechanicalFile.part_emblems_complete = "";
-        this.newMechanicalFile.wiper_shower_brushes_windshield = "";
-        this.newMechanicalFile.paint_condition = "";
-        this.newMechanicalFile.bugle_accessories = "";
-        this.newMechanicalFile.air_conditioning_system = "";
-        this.newMechanicalFile.radio_player = "";
+        this.newMechanicalFile.steering_wheel = "";
+        this.newMechanicalFile.pedals = "";
+        this.newMechanicalFile.gauges_dashboard_lights = "";
+        this.newMechanicalFile.transmission_shift_lever = "";
+        this.newMechanicalFile.brake_lever = "";
+        this.newMechanicalFile.accessories = "";
+        this.newMechanicalFile.internal_upholstery = "";
         this.newMechanicalFile.courtesy_lights = "";
-        this.newMechanicalFile.upholstery_condition = "";
-        this.newMechanicalFile.board_lights = "";
-        this.newMechanicalFile.tire_life = "";
-        this.newMechanicalFile.battery_status_terminals = "";
-        this.newMechanicalFile.transmitter_belts = "";
-        this.newMechanicalFile.motor_oil = "";
-        this.newMechanicalFile.engine_coolant_container = "";
-        this.newMechanicalFile.radiator_status = "";
-        this.newMechanicalFile.exhaust_pipe_bracket = "";
-        this.newMechanicalFile.fuel_system = "";
-        this.newMechanicalFile.parking_break = "";
-        this.newMechanicalFile.brake_bands_drums = "";
-        this.newMechanicalFile.brake_pads_discs = "";
-        this.newMechanicalFile.master_cylinder = "";
-        this.newMechanicalFile.brake_fluid = "";
-        this.newMechanicalFile.bushings_plateaus = "";
-        this.newMechanicalFile.stumps = "";
-        this.newMechanicalFile.terminals = "";
-        this.newMechanicalFile.stabilizer_bar = "";
-        this.newMechanicalFile.bearings = "";
-        this.newMechanicalFile.tripoids_rubbe_bands = "";
-        this.newMechanicalFile.shock_absorbers_coils = "";
-        this.newMechanicalFile.general_condition = 0;
-        this.newMechanicalFile.odometer = "";
-        this.newMechanicalFile.engine_start = "";
-        this.newMechanicalFile.windshields_glass = "";
-        this.newMechanicalFile.hits_scratches = "";
-        this.newMechanicalFile.spark_plugs = "";
-        this.newMechanicalFile.injectors = "";
-        this.newMechanicalFile.fuel_filter_anti_pollen_filter = "";
+        this.newMechanicalFile.windshield = "";
+        this.newMechanicalFile.window_glass_operation = "";
+        this.newMechanicalFile.door_locks_handles = "";
+        this.newMechanicalFile.operation_manual_electric_mirrors = "";
+        this.newMechanicalFile.seat_belts = "";
+        this.newMechanicalFile.front_bumpers = "";
+        this.newMechanicalFile.front_grill = "";
+        this.newMechanicalFile.headlights_low_beams_cocuyos = "";
+        this.newMechanicalFile.fog_lights = "";
+        this.newMechanicalFile.bonnet = "";
+        this.newMechanicalFile.engine_ignition = "";
         this.newMechanicalFile.engine_noises = "";
-        this.newMechanicalFile.hits_scratches_sides = "";
-        this.newMechanicalFile.paint_condition_sides = "";
-        this.newMechanicalFile.trunk_hatch = "";
-        this.newMechanicalFile.spare_tire = "";
-        this.newMechanicalFile.hits_scratches_trunk = "";
-        this.newMechanicalFile.paint_condition_trunk = "";
-        this.newMechanicalFile.headlights_lights_trunk = "";
-        this.newMechanicalFile.fuel_tank_cover = "";
-        this.newMechanicalFile.pipes_hoses_connections = "";
-        this.newMechanicalFile.brake_discs = "";
+        this.newMechanicalFile.general_condition_fluids = "";
+        this.newMechanicalFile.fluid_reservoirs = "";
+        this.newMechanicalFile.spark_plugs_coils_general_condition = "";
+        this.newMechanicalFile.air_filter = "";
+        this.newMechanicalFile.transmission_belts = "";
+        this.newMechanicalFile.appearance_hoses_caps_seals_connections = "";
+        this.newMechanicalFile.battery_condition_terminal_tightness_corrosion = "";
+        this.newMechanicalFile.fluid_leak = "";
+        this.newMechanicalFile.general_engine_compression_condition = "";
+        this.newMechanicalFile.stabilizer_bars = "";
+        this.newMechanicalFile.bearings = "";
+        this.newMechanicalFile.joints_dust_covers = "";
+        this.newMechanicalFile.shock_absorbers = "";
+        this.newMechanicalFile.spirals = "";
+        this.newMechanicalFile.upper_lower_plateaus = "";
+        this.newMechanicalFile.stumps = "";
+        this.newMechanicalFile.terminal_blocks = "";
+        this.newMechanicalFile.brakes = "";
+        this.newMechanicalFile.cardan_transmission_shaft = "";
+        this.newMechanicalFile.engine_transmission_oil_leaks = "";
+        this.newMechanicalFile.hydraulic_oil_leak_steering_box = "";
+        this.newMechanicalFile.excessive_rust_on_frame_compact = "";
+        this.newMechanicalFile.exhaust_pipe = "";
+        this.newMechanicalFile.doors = "";
+        this.newMechanicalFile.stop = "";
+        this.newMechanicalFile.fuel_pump_door = "";
+        this.newMechanicalFile.trunk_door = "";
+        this.newMechanicalFile.trunk_interior = "";
+        this.newMechanicalFile.replacement_rubber_tool_set = "";
+        this.newMechanicalFile.complete_emblems = "";
+        this.newMechanicalFile.bodywork = "";
+        this.newMechanicalFile.paint = "";
+        this.newMechanicalFile.tire_condition = "";
+        this.newMechanicalFile.wheel_ornaments = "";
+        this.newMechanicalFile.general_condition = 0;
         this.newMechanicalFile.dealer_maintenance = "";
       }else{
         this.utils.dismissLoading()
@@ -434,62 +503,69 @@ export class AddMechanicFilePage implements OnInit {
       this.backToTop = false;
     }
   }
+  
   public scrollToTop() {
     this.content.scrollToTop(500);
   }
   
   public generalCondition(event: any){
   
-    let total = Number(this.newMechanicalFile.part_emblems_complete) +
-    Number(this.newMechanicalFile.wiper_shower_brushes_windshield) +
-    Number(this.newMechanicalFile.paint_condition) +
-    Number(this.newMechanicalFile.bugle_accessories) +
-    Number(this.newMechanicalFile.air_conditioning_system) +
-    Number(this.newMechanicalFile.radio_player) +
+    let total = 
+    Number(this.newMechanicalFile.steering_wheel) +
+    Number(this.newMechanicalFile.pedals) +
+    Number(this.newMechanicalFile.gauges_dashboard_lights) +
+    Number(this.newMechanicalFile.transmission_shift_lever) +
+    Number(this.newMechanicalFile.brake_lever) +
+    Number(this.newMechanicalFile.accessories) +
+    Number(this.newMechanicalFile.internal_upholstery) +
     Number(this.newMechanicalFile.courtesy_lights) +
-    Number(this.newMechanicalFile.upholstery_condition) +
-    Number(this.newMechanicalFile.board_lights) +
-    Number(this.newMechanicalFile.tire_life) +
-    Number(this.newMechanicalFile.battery_status_terminals) +
-    Number(this.newMechanicalFile.transmitter_belts) +
-    Number(this.newMechanicalFile.motor_oil) +
-    Number(this.newMechanicalFile.engine_coolant_container) +
-    Number(this.newMechanicalFile.radiator_status) +
-    Number(this.newMechanicalFile.exhaust_pipe_bracket) +
-    Number(this.newMechanicalFile.distribution_mail) +
-    Number(this.newMechanicalFile.fuel_system) +
-    Number(this.newMechanicalFile.parking_break) +
-    Number(this.newMechanicalFile.brake_bands_drums) +
-    Number(this.newMechanicalFile.brake_pads_discs) +
-    Number(this.newMechanicalFile.master_cylinder) +
-    Number(this.newMechanicalFile.brake_fluid) +
-    Number(this.newMechanicalFile.bushings_plateaus) +
-    Number(this.newMechanicalFile.stumps) +
-    Number(this.newMechanicalFile.terminals) +
-    Number(this.newMechanicalFile.stabilizer_bar) +
-    Number(this.newMechanicalFile.bearings) +
-    Number(this.newMechanicalFile.tripoids_rubbe_bands) +
-    Number(this.newMechanicalFile.shock_absorbers_coils) +
-    Number(this.newMechanicalFile.odometer) +
-    Number(this.newMechanicalFile.engine_start) +
-    Number(this.newMechanicalFile.windshields_glass) +
-    Number(this.newMechanicalFile.hits_scratches) +
-    Number(this.newMechanicalFile.spark_plugs) +
-    Number(this.newMechanicalFile.injectors) +
-    Number(this.newMechanicalFile.fuel_filter_anti_pollen_filter) +
+    Number(this.newMechanicalFile.windshield) +
+    Number(this.newMechanicalFile.window_glass_operation) +
+    Number(this.newMechanicalFile.door_locks_handles) +
+    Number(this.newMechanicalFile.operation_manual_electric_mirrors) +
+    Number(this.newMechanicalFile.seat_belts) +
+    Number(this.newMechanicalFile.front_bumpers) +
+    Number(this.newMechanicalFile.front_grill) +
+    Number(this.newMechanicalFile.headlights_low_beams_cocuyos) +
+    Number(this.newMechanicalFile.fog_lights) +
+    Number(this.newMechanicalFile.bonnet) +
+    Number(this.newMechanicalFile.engine_ignition) +
     Number(this.newMechanicalFile.engine_noises) +
-    Number(this.newMechanicalFile.hits_scratches_sides) +
-    Number(this.newMechanicalFile.paint_condition_sides) +
-    Number(this.newMechanicalFile.trunk_hatch) +
-    Number(this.newMechanicalFile.spare_tire) +
-    Number(this.newMechanicalFile.hits_scratches_trunk) +
-    Number(this.newMechanicalFile.paint_condition_trunk) +
-    Number(this.newMechanicalFile.headlights_lights_trunk) +
-    Number(this.newMechanicalFile.fuel_tank_cover) +
-    Number(this.newMechanicalFile.pipes_hoses_connections) +
-    Number(this.newMechanicalFile.brake_discs);
-
-    console.log(total)
+    Number(this.newMechanicalFile.general_condition_fluids) +
+    Number(this.newMechanicalFile.fluid_reservoirs) +
+    Number(this.newMechanicalFile.spark_plugs_coils_general_condition) +
+    Number(this.newMechanicalFile.air_filter) +
+    Number(this.newMechanicalFile.transmission_belts) +
+    Number(this.newMechanicalFile.appearance_hoses_caps_seals_connections) +
+    Number(this.newMechanicalFile.battery_condition_terminal_tightness_corrosion) +
+    Number(this.newMechanicalFile.fluid_leak) +
+    Number(this.newMechanicalFile.general_engine_compression_condition) +
+    Number(this.newMechanicalFile.stabilizer_bars) +
+    Number(this.newMechanicalFile.bearings) +
+    Number(this.newMechanicalFile.joints_dust_covers) +
+    Number(this.newMechanicalFile.shock_absorbers) +
+    Number(this.newMechanicalFile.spirals) +
+    Number(this.newMechanicalFile.upper_lower_plateaus) +
+    Number(this.newMechanicalFile.stumps) +
+    Number(this.newMechanicalFile.terminal_blocks) +
+    Number(this.newMechanicalFile.brakes) +
+    Number(this.newMechanicalFile.cardan_transmission_shaft) +
+    Number(this.newMechanicalFile.engine_transmission_oil_leaks) +
+    Number(this.newMechanicalFile.hydraulic_oil_leak_steering_box) +
+    Number(this.newMechanicalFile.excessive_rust_on_frame_compact) +
+    Number(this.newMechanicalFile.exhaust_pipe) +
+    Number(this.newMechanicalFile.doors) +
+    Number(this.newMechanicalFile.stop) +
+    Number(this.newMechanicalFile.fuel_pump_door) +
+    Number(this.newMechanicalFile.trunk_door) +
+    Number(this.newMechanicalFile.trunk_interior) +
+    Number(this.newMechanicalFile.replacement_rubber_tool_set) +
+    Number(this.newMechanicalFile.complete_emblems) +
+    Number(this.newMechanicalFile.bodywork) +
+    Number(this.newMechanicalFile.paint) +
+    Number(this.newMechanicalFile.tire_condition) +
+    Number(this.newMechanicalFile.wheel_ornaments) 
+    
     this.newMechanicalFile.general_condition = total;
   }
 

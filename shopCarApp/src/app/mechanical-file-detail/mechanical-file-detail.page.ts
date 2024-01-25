@@ -35,58 +35,71 @@ export class MechanicalFileDetailPage implements OnInit {
       this.web = true;
     }
 
-    this.mechanicalFile.part_emblems_complete = "";
-    this.mechanicalFile.wiper_shower_brushes_windshield = "";
-    this.mechanicalFile.hits = "";
-    this.mechanicalFile.paint_condition = "";
-    this.mechanicalFile.bugle_accessories = "";
-    this.mechanicalFile.air_conditioning_system = "";
-    this.mechanicalFile.radio_player = "";
-    this.mechanicalFile.courtesy_lights = "";
-    this.mechanicalFile.upholstery_condition = "";
-    this.mechanicalFile.board_lights = "";
-    this.mechanicalFile.tire_life = "";
-    this.mechanicalFile.battery_status_terminals = "";
-    this.mechanicalFile.transmitter_belts = "";
-    this.mechanicalFile.motor_oil = "";
-    this.mechanicalFile.engine_coolant_container = "";
-    this.mechanicalFile.radiator_status = "";
-    this.mechanicalFile.exhaust_pipe_bracket = "";
-    this.mechanicalFile.distribution_mail = "";
-    this.mechanicalFile.fuel_system = "";
-    this.mechanicalFile.parking_break = "";
-    this.mechanicalFile.brake_bands_drums = "";
-    this.mechanicalFile.brake_pads_discs = "";
-    this.mechanicalFile.master_cylinder = "";
-    this.mechanicalFile.brake_fluid = "";
-    this.mechanicalFile.bushings_plateaus = "";
-    this.mechanicalFile.stumps = "";
-    this.mechanicalFile.terminals = "";
-    this.mechanicalFile.stabilizer_bar = "";
-    this.mechanicalFile.bearings = "";
-    this.mechanicalFile.tripoids_rubbe_bands = "";
-    this.mechanicalFile.shock_absorbers_coils = "";
+    this.mechanicalFile.steering_wheel="";
+    this.mechanicalFile.pedals="";
+    this.mechanicalFile.gauges_dashboard_lights="";
+    this.mechanicalFile.transmission_shift_lever="";
+    this.mechanicalFile.brake_lever="";
+    this.mechanicalFile.accessories="";
+    this.mechanicalFile.internal_upholstery="";
+    this.mechanicalFile.courtesy_lights="";
+    this.mechanicalFile.windshield="";
+    this.mechanicalFile.window_glass_operation="";
+    this.mechanicalFile.door_locks_handles="";
+    this.mechanicalFile.operation_manual_electric_mirrors="";
+    this.mechanicalFile.seat_belts="";
+
+    this.mechanicalFile.front_bumpers="";
+    this.mechanicalFile.front_grill="";
+    this.mechanicalFile.headlights_low_beams_cocuyos="";
+    this.mechanicalFile.fog_lights="";
+
+    this.mechanicalFile.bonnet="";
+    this.mechanicalFile.engine_ignition="";
+    this.mechanicalFile.engine_noises="";
+    this.mechanicalFile.general_condition_fluids="";
+    this.mechanicalFile.fluid_reservoirs="";
+    this.mechanicalFile.spark_plugs_coils_general_condition="";
+    this.mechanicalFile.air_filter="";
+    this.mechanicalFile.transmission_belts="";
+    this.mechanicalFile.appearance_hoses_caps_seals_connections="";
+    this.mechanicalFile.battery_condition_terminal_tightness_corrosion="";
+    this.mechanicalFile.fluid_leak="";
+    this.mechanicalFile.general_engine_compression_condition="";
+
+    this.mechanicalFile.stabilizer_bars="";
+    this.mechanicalFile.bearings="";
+    this.mechanicalFile.joints_dust_covers="";
+    this.mechanicalFile.shock_absorbers="";
+    this.mechanicalFile.spirals="";
+    this.mechanicalFile.upper_lower_plateaus="";
+    this.mechanicalFile.stumps="";
+    this.mechanicalFile.terminal_blocks="";
+    this.mechanicalFile.brakes="";
+    this.mechanicalFile.cardan_transmission_shaft="";
+    this.mechanicalFile.engine_transmission_oil_leaks="";
+    this.mechanicalFile.hydraulic_oil_leak_steering_box="";
+    this.mechanicalFile.excessive_rust_on_frame_compact="";
+    this.mechanicalFile.exhaust_pipe="";
+
+    this.mechanicalFile.doors="";
+
+    this.mechanicalFile.stop="";
+    this.mechanicalFile.fuel_pump_door="";
+    this.mechanicalFile.trunk_door="";
+    this.mechanicalFile.trunk_interior="";
+    this.mechanicalFile.replacement_rubber_tool_set="";
+
+    this.mechanicalFile.complete_emblems="";
+    this.mechanicalFile.bodywork="";
+    this.mechanicalFile.paint="";
+    this.mechanicalFile.tire_condition="";
+    this.mechanicalFile.wheel_ornaments="";
+    
     this.mechanicalFile.dealer_maintenance = "";
-    this.mechanicalFile.general_condition = "";
-    this.mechanicalFile.odometer = "";
-    this.mechanicalFile.engine_start = "";
-    this.mechanicalFile.windshields_glass = "";
-    this.mechanicalFile.hits_scratches = "";
-    this.mechanicalFile.spark_plugs = "";
-    this.mechanicalFile.injectors = "";
-    this.mechanicalFile.fuel_filter_anti_pollen_filter = "";
-    this.mechanicalFile.engine_noises = "";
-    this.mechanicalFile.hits_scratches_sides = "";
-    this.mechanicalFile.paint_condition_sides = "";
-    this.mechanicalFile.trunk_hatch = "";
-    this.mechanicalFile.spare_tire = "";
-    this.mechanicalFile.hits_scratches_trunk = "";
-    this.mechanicalFile.paint_condition_trunk = "";
-    this.mechanicalFile.headlights_lights_trunk = "";
-    this.mechanicalFile.fuel_tank_cover = "";
-    this.mechanicalFile.pipes_hoses_connections = "";
-    this.mechanicalFile.brake_discs = "";
-    this.mechanicalFile.id_vehicle = ""
+    this.mechanicalFile.general_condition = 0;
+    this.mechanicalFile.certificate = false;
+    // this.mechanicalFile.id_vehicle = this.id;
   }
 
   ngOnInit() {

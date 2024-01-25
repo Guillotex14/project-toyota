@@ -16,515 +16,628 @@
         <ion-list>
           <ion-item-group>
             <ion-item-divider>
-              <ion-label>PARTE INTERNA</ion-label>
+              <ion-label>INTERIOR</ion-label>
             </ion-item-divider>
 
-            <ion-label>Odómetro</ion-label>
+            <ion-label>Volante (apariencia, juego libre, flojedad o tambaleo)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.odometer" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.steering_wheel" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Luces del tablero</ion-label>
+            <ion-label>Pedales (apariencia y altura del pedal)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.board_lights" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.pedals" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Corneta - Accesorios - Cámara de retroceso</ion-label>
+            <ion-label>Medidores y luces del tablero</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.bugle_accessories" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="0.5" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="0.75" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.gauges_dashboard_lights" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Arranque de motor</ion-label>
+            <ion-label>Palanca de cambio de transmisión (apariencia, funcionamiento suave)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.engine_start" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="3" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.transmission_shift_lever" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Sistema de aire acondicionado</ion-label>
+            <ion-label>Palanca de freno (Funcionamiento)r</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.air_conditioning_system" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.brake_lever" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Radio reproductor</ion-label>
+            <ion-label>Accesorios (audio, aire acondicionado, sensores)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.radio_player" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.accessories" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Tapicería interna (asientos, puertas y tableros)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.internal_upholstery" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
             
             <ion-label>Luces de cortesía</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.courtesy_lights" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.courtesy_lights" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Estado de tapicería (Asientos techo, <br class="br280"> alfombras y <br class="br280notDis"> tapicería de puertas)</ion-label>
+            <!-- <ion-label>Estado de tapicería (Asientos techo, <br class="br280"> alfombras y <br class="br280notDis"> tapicería de puertas)</ion-label> -->
+            <ion-label>Parabrisas (apariencia, funcionamiento de cepillos y duchas)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.upholstery_condition" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.windshield" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Cepillos limpia parabrisas - Ducha Limpia <br> parabrisas</ion-label>
+            <!-- <ion-label>Cepillos limpia parabrisas - Ducha Limpia <br> parabrisas</ion-label> -->
+            <ion-label>Funcionamiento de vidrios de ventana (manuales o eléctricos)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.wiper_shower_brushes_windshield" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="0.5" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="0.75" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.window_glass_operation" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Parabrisas - vidrios</ion-label>
+            <ion-label>Seguros y manillas de puerta</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.windshields_glass" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.door_locks_handles" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Operación de Retrovisores manuales o eléctricos</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Cinturones de Seguridad (mecanismo de bloqueo y cinta)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.seat_belts" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
             <ion-item-divider>
-              <ion-label>FRENTE</ion-label>
+              <ion-label>FRONTAL</ion-label>
             </ion-item-divider>
 
-            <ion-label>Piezas completas - Emblemas completos</ion-label>
+            <ion-label>Parachoques delanteros (cuadratura y ajuste)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.part_emblems_complete" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.front_bumpers" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Golpes - Rayones - Abolladuras</ion-label>
+            <ion-label>Parrilla frontal (cuadratura y ajuste)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.hits_scratches" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.front_grill" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Estado de la pintura</ion-label>
+            <ion-label>Faros, luces de cruce y cocuyos (funcionamiento y condición)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.paint_condition" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Faros - Luces</ion-label>
+            <ion-label>Faros antinieblas *si aplica* (funcionamiento y condición)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.headlights_lights" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.fog_lights" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
+            
 
             <ion-item-divider>
               <ion-label>COMPARTIMIENTO DEL MOTOR</ion-label>
             </ion-item-divider>
 
-            <ion-label>Bujías</ion-label>
+            <ion-label>Capot (operación, ruido, descuadre, varilla, soporte)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.spark_plugs" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.bonnet" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Inyectores</ion-label>
+            <ion-label>Encendido del motor</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.injectors" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="3" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.engine_ignition" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Filtro de gasolina - filtro anti polen</ion-label>
+            <ion-label>Ruidos de motor (parámetro excluyente)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.fuel_filter_anti_pollen_filter" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.engine_noises" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
             
-            <ion-label>Estado del radiador</ion-label>
+            <ion-label>Fluidos estado general (aceite de motor, dirección, liga de freno refrigerante)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.radiator_status" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.general_condition_fluids" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Envase de refrigerante</ion-label>
+            <ion-label>Depósitos de fluidos (estado de los envases y tapas)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.engine_coolant_container" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.fluid_reservoirs" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Aceite de motor</ion-label>
+            <ion-label>Bujías y bobinas condición general</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.motor_oil" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="3" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Correas transmisoras</ion-label>
+            <ion-label>Filtro de aire </ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.transmitter_belts" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.air_filter" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Estado de la batería</ion-label>
+            <ion-label>Correas de transmisión</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.battery_status_terminals" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="0.5" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="0.75" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.transmission_belts" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Ruidos del motor</ion-label>
+            <ion-label>apariencia Mangueras, tapas, sellos y conexiones</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.engine_noises" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="3" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="5" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Estado de la batería (voltaje) y apriete o corrosión de los terminales </ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Fuga de fluidos (Empacaduras, sellos, mangueras)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.fluid_leak" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Condición general de la compresión del motor (medir compresión de todos los cilindros)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.general_engine_compression_condition" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="6" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="6" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-item-divider>
+              <ion-label>BAJO CHASIS</ion-label>
+            </ion-item-divider>
+          
+            <ion-label>Barras estabilizadoras (gomas, links)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.stabilizer_bars" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Rodamientos</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.bearings" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Juntas homocinéticas y guardapolvos (apariencia fuga de grasa y presencia de todas sus abrazaderas¨)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.joints_dust_covers" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Amortiguadores (fugas)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.shock_absorbers" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Espirales (corrosión excesiva o quiebre)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.spirals" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Mesetas sup.e inf. (bujes con desgaste y muñones con juego)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.upper_lower_plateaus" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+
+            <ion-label>Muñones (juego)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.stumps" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Terminales de dirección (int y ext)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.terminal_blocks" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Frenos (disco y pastilla)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.brakes" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Cardan o Eje de Transmisión (juego en crucetas, ruidos o golpes)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.cardan_transmission_shaft" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Fugas de aceite de motor/transmisión (Empacaduras, sellos)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Fuga de aceite hidráulico  en cajetín de dirección</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Oxido excesivo en el bastidor o compacto</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
+              </ion-radio-group>
+            </ion-list>
+
+            <ion-label>Tubo de escape (anclajes de goma, sin fuga, ni perforaciones)</ion-label>
+            <ion-list>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.exhaust_pipe" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
             <ion-item-divider>
               <ion-label>LATERALES</ion-label>
             </ion-item-divider>
-          
-            <ion-label>Estado de neumáticos</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.tire_life" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
 
-            <ion-label>Golpes - Rayones - Abolladuras</ion-label>
+            <ion-label>Puertas (abren,cierra y funcionan los seguros)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.hits_scratches_sides" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Estado de la pintura</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.paint_condition_sides" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.doors" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
             <ion-item-divider>
-              <ion-label>MALETERO</ion-label>
+              <ion-label>TRASERAS</ion-label>
             </ion-item-divider>
 
-            <ion-label>Compuerta de maletera</ion-label>
+            <ion-label>Stop (Incluyendo 3er Stop)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.trunk_hatch" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.stop" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="2" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Caucho de Repuesto y su compartimiento</ion-label>
+            <ion-label>Compuerta del surtidor de combustible (función apertura y tapa)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.spare_tire" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.fuel_pump_door" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Golpes - Rayones - Abolladuras</ion-label>
+            <ion-label>Puerta del Maletero (Funcionamiento y cuadratura)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.hits_scratches_trunk" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.trunk_door" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Estado de la pintura</ion-label>
+            <ion-label>Interior del Maletero (alfombras)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.paint_condition_trunk" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.trunk_interior" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Faros - Luces</ion-label>
+            <ion-label>Caucho de repuesto y Juego de Herramientas (gato y Triangulo de seguridad)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.headlights_lights_trunk" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
             <ion-item-divider>
-              <ion-label>REVISIÓN GENERAL</ion-label>
+              <ion-label>EXTERIOR</ion-label>
             </ion-item-divider>
 
-            <ion-label>Sistema de combustible</ion-label>
+            <ion-label>Emblemas completos</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.fuel_system" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="3" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.complete_emblems" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Tubo de escape</ion-label>
+            <ion-label>Carrocería (golpes, abolladuras, oxidada o picada)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.exhaust_pipe_bracket" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.bodywork" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Condición del tanque de combustible</ion-label>
+            <ion-label>Pintura (decoloración, tonalidad, rayones (+2cm)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.fuel_tank_cover" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.paint" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="3" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-label>Tapa tubos, mangueras y conexiones</ion-label>
+            <ion-label>Estado de los neumáticos ( presión y desgaste no uniforme o anormal)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.pipes_hoses_connections" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.tire_condition" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
-            <ion-item-divider>
-              <ion-label>SISTEMA DE FRENOS</ion-label>
-            </ion-item-divider>
-
-            <ion-label>Freno  de estacionamiento</ion-label>
+            <ion-label>Ornamentos de ruedas (tapa centro de rin)</ion-label>
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.parking_break" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Bandas de freno y tambores (en caso de
-              no <br> poseer calificar como excelente)</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_bands_drums" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Pastillas de frenos</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_pads_discs" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Discos de frenos</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_discs" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Bomba de freno</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.master_cylinder" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Fluido de frenos</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.brake_fluid" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-item-divider>
-              <ion-label>TREN DELANTERO</ion-label>
-            </ion-item-divider>
-
-            <ion-label>Bujes y mesetas</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.bushings_plateaus" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Muñones</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.stumps" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Terminales</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.terminals" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Barra estabilizadora</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.stabilizer_bar" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Rodamientos</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.bearings" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Tripoides y gomas</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.tripoids_rubbe_bands" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
-              </ion-radio-group>
-            </ion-list>
-
-            <ion-label>Amortiguadores y Espirales</ion-label>
-            <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.shock_absorbers_coils" (ionChange)="generalCondition($event)" (ionChange)="generalCondition($event)">
-                <ion-radio value="0" labelPlacement="end" class="radioSmall">Malo</ion-radio>
-                <ion-radio value="1" labelPlacement="end" class="radioSmall">Regular</ion-radio>
-                <ion-radio value="1.5" labelPlacement="end" class="radioSmall">Bueno</ion-radio>
-                <ion-radio value="2" labelPlacement="end" class="radioBig">Excelente</ion-radio>
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.wheel_ornaments" 
+              (ionChange)="generalCondition($event)">
+                <ion-radio value="0" labelPlacement="end" class="radioSmall">No cumple</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioSmall">Mejorar</ion-radio>
+                <ion-radio value="1" labelPlacement="end" class="radioBig">Cumple</ion-radio>
               </ion-radio-group>
             </ion-list>
 
@@ -535,7 +648,7 @@
 
       <ion-col size="12" style="text-align: center; margin-top: 15px !important;">
 
-        <ion-row *ngIf="newMechanicalFile.general_condition >= 96">
+        <ion-row *ngIf="newMechanicalFile.general_condition">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -547,7 +660,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="newMechanicalFile.general_condition >= 86 && newMechanicalFile.general_condition < 96">
+        <ion-row *ngIf="newMechanicalFile.general_condition">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -559,7 +672,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="newMechanicalFile.general_condition >= 76 && newMechanicalFile.general_condition < 86 ">
+        <ion-row *ngIf="newMechanicalFile.general_condition">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -571,7 +684,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="newMechanicalFile.general_condition < 76">
+        <ion-row *ngIf="newMechanicalFile.general_condition">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -594,7 +707,9 @@
             </ion-item-divider>
 
             <ion-list>
-              <ion-radio-group [(ngModel)]="newMechanicalFile.dealer_maintenance">
+              <ion-radio-group 
+              [(ngModel)]="newMechanicalFile.dealer_maintenance"
+              >
                 <ion-radio value="si" labelPlacement="end" class="radioSmall">Si</ion-radio>
                 <ion-radio value="no" labelPlacement="end" class="radioSmall">No</ion-radio>
               </ion-radio-group>
