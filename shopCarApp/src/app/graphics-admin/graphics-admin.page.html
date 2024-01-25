@@ -294,6 +294,20 @@
             </div>
           </ion-accordion>
 
+          <ion-accordion value="year_sold">
+            <ion-item slot="header">
+              <!-- estos se agrego -->
+              <ion-label>Año de venta</ion-label>  
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list>
+                <ion-item>
+                  <ion-input label="Año" labelPlacement="stacked" (ionInput)="dotMinYearSold($event.target)" [value]="yearSold"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+
           <ion-accordion value="month_range">
             <ion-item slot="header">
               <ion-label>Rango de meses</ion-label>

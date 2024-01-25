@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
-const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const mechanicalFiles_schema_1 = __importDefault(require("../schemas/mechanicalFiles.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const brands_schema_1 = __importDefault(require("../schemas/brands.schema"));
 const modelVehicle_schema_1 = __importDefault(require("../schemas/modelVehicle.schema"));
@@ -317,7 +317,7 @@ adminController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const { id } = req.body;
     const infoVehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
     const imgsVehicle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
-    const mechanicFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
+    const mechanicFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id });
     if (infoVehicle) {
         jsonRes.code = 200;
         jsonRes.message = "Vehículo encontrado exitosamente";
@@ -364,7 +364,7 @@ adminController.vehicleById = (req, res) => __awaiter(void 0, void 0, void 0, fu
 adminController.mechanicalFileByIdVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const jsonRes = new Response_1.ResponseModel();
     const { id_vehicle } = req.body;
-    const ress = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
+    const ress = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (ress) {
         jsonRes.code = 200;
         jsonRes.message = "ficha mecánica encontrada exitosamente";

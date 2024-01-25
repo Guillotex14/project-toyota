@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
 const moment_1 = __importDefault(require("moment"));
 const nodemailer_1 = require("../../nodemailer");
-const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const mechanicalFiles_schema_1 = __importDefault(require("../schemas/mechanicalFiles.schema"));
 const notifications_schema_1 = __importDefault(require("../schemas/notifications.schema"));
 const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
@@ -244,7 +244,7 @@ mechanicController.getVehicleById = (req, res) => __awaiter(void 0, void 0, void
         return res.json(reponseJson);
     }
     const vehicle = yield Vehicles_schema_1.default.findOne({ _id: id });
-    const mechanicFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id });
+    const mechanicFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id });
     const imgVehicle = yield ImgVehicle_schema_1.default.find({ id_vehicle: id });
     if (vehicle) {
         let data = {
@@ -309,69 +309,65 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
     let conceSeller = "";
     let citySeller = "";
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    const { part_emblems_complete, wiper_shower_brushes_windshield, hits, scratches, paint_condition, bugle_accessories, air_conditioning_system, radio_player, courtesy_lights, upholstery_condition, gts, board_lights, tire_pressure, tire_life, battery_status_terminals, transmitter_belts, motor_oil, engine_coolant_container, radiator_status, exhaust_pipe_bracket, fuel_tank_cover_pipes_hoses_connections, distribution_mail, spark_plugs_air_filter_fuel_filter_anti_pollen_filter, fuel_system, parking_break, brake_bands_drums, brake_pads_discs, brake_pipes_hoses, master_cylinder, brake_fluid, bushings_plateaus, stumps, terminals, stabilizer_bar, bearings, tripoids_rubbe_bands, shock_absorbers_coils, dealer_maintenance, headlights_lights, general_condition, id_vehicle, id_mechanic, odometer, engine_start, windshields_glass, hits_scratches, spark_plugs, injectors, fuel_filter_anti_pollen_filter, engine_noises, hits_scratches_sides, paint_condition_sides, trunk_hatch, spare_tire, hits_scratches_trunk, paint_condition_trunk, headlights_lights_trunk, fuel_tank_cover, pipes_hoses_connections, brake_discs, } = req.body;
-    const newMechanicFile = new mechanicalsFiles_schema_1.default({
-        part_emblems_complete,
-        wiper_shower_brushes_windshield,
-        hits,
-        scratches,
-        paint_condition,
-        bugle_accessories,
-        air_conditioning_system,
-        radio_player,
+    const { steering_wheel, pedals, gauges_dashboard_lights, transmission_shift_lever, brake_lever, accessories, internal_upholstery, courtesy_lights, windshield, window_glass_operation, door_locks_handles, operation_manual_electric_mirrors, seat_belts, front_bumpers, front_grill, headlights_low_beams_cocuyos, fog_lights, bonnet, engine_ignition, fluid_reservoirs, spark_plugs_coils_general_condition, air_filter, transmission_belts, appearance_hoses_caps_seals_connections, battery_condition_terminal_tightness_corrosion, fluid_leak, general_engine_compression_condition, stabilizer_bars, bearings, joints_dust_covers, shock_absorbers, spirals, upper_lower_plateaus, stumps, terminal_blocks, brakes, cardan_transmission_shaft, engine_transmission_oil_leaks, hydraulic_oil_leak_steering_box, excessive_rust_on_frame_compact, exhaust_pipe, doors, stop, fuel_pump_door, trunk_door, trunk_interior, replacement_rubber_tool_set, complete_emblems, bodywork, paint, tire_condition, wheel_ornaments, general_condition_fluids, id_vehicle, id_mechanic, } = req.body;
+    const newMechanicFile = new mechanicalFiles_schema_1.default({
+        steering_wheel,
+        pedals,
+        gauges_dashboard_lights,
+        transmission_shift_lever,
+        brake_lever,
+        accessories,
+        internal_upholstery,
         courtesy_lights,
-        upholstery_condition,
-        gts,
-        board_lights,
-        tire_pressure,
-        tire_life,
-        battery_status_terminals,
-        transmitter_belts,
-        motor_oil,
-        engine_coolant_container,
-        radiator_status,
-        exhaust_pipe_bracket,
-        fuel_tank_cover_pipes_hoses_connections,
-        distribution_mail,
-        spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-        fuel_system,
-        parking_break,
-        brake_bands_drums,
-        brake_pads_discs,
-        brake_pipes_hoses,
-        master_cylinder,
-        brake_fluid,
-        bushings_plateaus,
-        stumps,
-        terminals,
-        stabilizer_bar,
+        windshield,
+        window_glass_operation,
+        door_locks_handles,
+        operation_manual_electric_mirrors,
+        seat_belts,
+        front_bumpers,
+        front_grill,
+        headlights_low_beams_cocuyos,
+        fog_lights,
+        bonnet,
+        engine_ignition,
+        fluid_reservoirs,
+        spark_plugs_coils_general_condition,
+        air_filter,
+        transmission_belts,
+        appearance_hoses_caps_seals_connections,
+        battery_condition_terminal_tightness_corrosion,
+        fluid_leak,
+        general_engine_compression_condition,
+        stabilizer_bars,
         bearings,
-        tripoids_rubbe_bands,
-        shock_absorbers_coils,
-        dealer_maintenance,
-        headlights_lights,
-        general_condition,
-        odometer,
-        engine_start,
-        windshields_glass,
-        hits_scratches,
-        spark_plugs,
-        injectors,
-        fuel_filter_anti_pollen_filter,
-        engine_noises,
-        hits_scratches_sides,
-        paint_condition_sides,
-        trunk_hatch,
-        spare_tire,
-        hits_scratches_trunk,
-        paint_condition_trunk,
-        headlights_lights_trunk,
-        fuel_tank_cover,
-        pipes_hoses_connections,
-        brake_discs,
+        joints_dust_covers,
+        shock_absorbers,
+        spirals,
+        upper_lower_plateaus,
+        stumps,
+        terminal_blocks,
+        brakes,
+        cardan_transmission_shaft,
+        engine_transmission_oil_leaks,
+        hydraulic_oil_leak_steering_box,
+        excessive_rust_on_frame_compact,
+        exhaust_pipe,
+        doors,
+        stop,
+        fuel_pump_door,
+        trunk_door,
+        trunk_interior,
+        replacement_rubber_tool_set,
+        complete_emblems,
+        bodywork,
+        paint,
+        tire_condition,
+        wheel_ornaments,
+        general_condition_fluids,
         date_create: dateNow,
         id_vehicle,
-        id_mechanic
+        id_mechanic,
+        general_condition: null
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
     const vehicleUpdated = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, { mechanicalFile: true });
@@ -440,7 +436,7 @@ mechanicController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const update = yield mechanicalsFiles_schema_1.default.findByIdAndUpdate(data._id, data);
+    const update = yield mechanicalFiles_schema_1.default.findByIdAndUpdate(data._id, data);
     if (update) {
         reponseJson.code = 200;
         reponseJson.message = "Ficha mecánica actualizada exitosamente";
@@ -468,7 +464,7 @@ mechanicController.getMechanicFileByIdVehicle = (req, res) => __awaiter(void 0, 
         reponseJson.data = null;
         return res.json(reponseJson);
     }
-    const mecFile = yield mechanicalsFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
+    const mecFile = yield mechanicalFiles_schema_1.default.findOne({ id_vehicle: id_vehicle });
     if (mecFile) {
         reponseJson.code = 200;
         reponseJson.status = true;

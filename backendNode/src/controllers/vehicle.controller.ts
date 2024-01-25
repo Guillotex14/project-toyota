@@ -10,7 +10,7 @@ import Vehicles from "../schemas/Vehicles.schema";
 import notifications from "../schemas/notifications.schema";
 import sharp from "sharp";
 import vehicles from "../schemas/Vehicles.schema";
-import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
+import mechanicalsFiles from "../schemas/mechanicalFiles.schema";
 import ImgVehicle from "../schemas/ImgVehicle.schema";
 import fs from 'fs';
 import ejs from 'ejs';
@@ -906,64 +906,62 @@ vehicleController.mechanicalFileByIdVehicle = async (
         _id: 1,
         id_vehicle: 1,
         id_mechanic: 1,
-        part_emblems_complete: 1,
-        wiper_shower_brushes_windshield: 1,
-        hits: 1,
-        scratches: 1,
-        paint_condition: 1,
-        bugle_accessories: 1,
-        air_conditioning_system: 1,
-        radio_player: 1,
+        certificate: 1,
+        steering_wheel: 1,
+        pedals: 1,
+        gauges_dashboard_lights: 1,
+        transmission_shift_lever: 1,
+        brake_lever: 1,
+        accessories: 1,
+        internal_upholstery: 1,
         courtesy_lights: 1,
-        upholstery_condition: 1,
-        gts: 1,
-        board_lights: 1,
-        tire_pressure: 1,
-        tire_life: 1,
-        battery_status_terminals: 1,
-        transmitter_belts: 1,
-        motor_oil: 1,
-        engine_coolant_container: 1,
-        radiator_status: 1,
-        exhaust_pipe_bracket: 1,
-        fuel_tank_cover_pipes_hoses_connections: 1,
-        distribution_mail: 1,
-        spark_plugs_air_filter_fuel_filter_anti_pollen_filter: 1,
-        fuel_system: 1,
-        parking_break: 1,
-        brake_bands_drums: 1,
-        brake_pads_discs: 1,
-        brake_pipes_hoses: 1,
-        master_cylinder: 1,
-        brake_fluid: 1,
-        bushings_plateaus: 1,
-        stumps: 1,
-        terminals: 1,
-        stabilizer_bar: 1,
-        bearings: 1,
-        tripoids_rubbe_bands: 1,
-        shock_absorbers_coils: 1,
-        dealer_maintenance: 1,
-        headlights_lights: 1,
-        general_condition: 1,
-        odometer: 1,
-        engine_start: 1,
-        windshields_glass: 1,
-        hits_scratches: 1,
-        spark_plugs: 1,
-        injectors: 1,
-        fuel_filter_anti_pollen_filter: 1,
+        windshield: 1,
+        window_glass_operation: 1,
+        door_locks_handles: 1,
+        operation_manual_electric_mirrors: 1,
+        seat_belts: 1,
+        front_bumpers: 1,
+        front_grill: 1,
+        headlights_low_beams_cocuyos: 1,
+        fog_lights: 1,
+        bonnet: 1,
+        engine_ignition: 1,
         engine_noises: 1,
-        hits_scratches_sides: 1,
-        paint_condition_sides: 1,
-        trunk_hatch: 1,
-        spare_tire: 1,
-        hits_scratches_trunk: 1,
-        paint_condition_trunk: 1,
-        headlights_lights_trunk: 1,
-        fuel_tank_cover: 1,
-        pipes_hoses_connections: 1,
-        brake_discs: 1,
+        general_condition_fluids: 1,
+        fluid_reservoirs: 1,
+        spark_plugs_coils_general_condition: 1,
+        air_filter: 1,
+        transmission_belts: 1,
+        appearance_hoses_caps_seals_connections: 1,
+        battery_condition_terminal_tightness_corrosion: 1,
+        fluid_leak: 1,
+        general_engine_compression_condition: 1,
+        stabilizer_bars: 1,
+        bearings: 1,
+        joints_dust_covers: 1,
+        shock_absorbers: 1,
+        spirals: 1,
+        upper_lower_plateaus: 1,
+        stumps: 1,
+        terminal_blocks: 1,
+        brakes: 1,
+        cardan_transmission_shaft: 1,
+        engine_transmission_oil_leaks: 1,
+        hydraulic_oil_leak_steering_box: 1,
+        excessive_rust_on_frame_compact: 1,
+        exhaust_pipe: 1,
+        doors: 1,
+        stop: 1,
+        fuel_pump_door: 1,
+        trunk_door: 1,
+        trunk_interior: 1,
+        replacement_rubber_tool_set: 1,
+        complete_emblems: 1,
+        bodywork: 1,
+        paint: 1,
+        tire_condition: 1,
+        wheel_ornaments: 1,
+        general_condition: 1,
         created_at: 1,
         vehicle: {
           price_ofert: 1
@@ -2541,10 +2539,10 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       sendData.general_condition_end = `malo`;
     }
 
-    if(sendData.certificate){
-      sendData.certificateStr="si"
-    }else{
-      sendData.certificateStr="no"
+    if (sendData.certificate) {
+      sendData.certificateStr = "si"
+    } else {
+      sendData.certificateStr = "no"
     }
 
     try {
@@ -2641,66 +2639,63 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
         _id: 1,
         id_vehicle: 1,
         id_mechanic: 1,
-        part_emblems_complete: 1,
-        wiper_shower_brushes_windshield: 1,
-        hits: 1,
-        scratches: 1,
-        paint_condition: 1,
-        bugle_accessories: 1,
-        air_conditioning_system: 1,
-        radio_player: 1,
-        courtesy_lights: 1,
-        upholstery_condition: 1,
-        gts: 1,
-        board_lights: 1,
-        tire_pressure: 1,
-        tire_life: 1,
-        battery_status_terminals: 1,
-        transmitter_belts: 1,
-        motor_oil: 1,
-        engine_coolant_container: 1,
-        radiator_status: 1,
-        exhaust_pipe_bracket: 1,
-        fuel_tank_cover_pipes_hoses_connections: 1,
-        distribution_mail: 1,
-        spark_plugs_air_filter_fuel_filter_anti_pollen_filter: 1,
-        fuel_system: 1,
-        parking_break: 1,
-        brake_bands_drums: 1,
-        brake_pads_discs: 1,
-        brake_pipes_hoses: 1,
-        master_cylinder: 1,
-        brake_fluid: 1,
-        bushings_plateaus: 1,
-        stumps: 1,
-        terminals: 1,
-        stabilizer_bar: 1,
-        bearings: 1,
-        tripoids_rubbe_bands: 1,
-        shock_absorbers_coils: 1,
-        dealer_maintenance: 1,
-        headlights_lights: 1,
-        general_condition: 1,
-        odometer: 1,
-        engine_start: 1,
-        windshields_glass: 1,
-        hits_scratches: 1,
-        spark_plugs: 1,
-        injectors: 1,
-        fuel_filter_anti_pollen_filter: 1,
-        engine_noises: 1,
-        hits_scratches_sides: 1,
-        paint_condition_sides: 1,
-        trunk_hatch: 1,
-        spare_tire: 1,
-        hits_scratches_trunk: 1,
-        paint_condition_trunk: 1,
-        headlights_lights_trunk: 1,
-        fuel_tank_cover: 1,
-        pipes_hoses_connections: 1,
-        brake_discs: 1,
-        created_at: 1,
         certificate: 1,
+        steering_wheel: 1,
+        pedals: 1,
+        gauges_dashboard_lights: 1,
+        transmission_shift_lever: 1,
+        brake_lever: 1,
+        accessories: 1,
+        internal_upholstery: 1,
+        courtesy_lights: 1,
+        windshield: 1,
+        window_glass_operation: 1,
+        door_locks_handles: 1,
+        operation_manual_electric_mirrors: 1,
+        seat_belts: 1,
+        front_bumpers: 1,
+        front_grill: 1,
+        headlights_low_beams_cocuyos: 1,
+        fog_lights: 1,
+        bonnet: 1,
+        engine_ignition: 1,
+        engine_noises: 1,
+        general_condition_fluids: 1,
+        fluid_reservoirs: 1,
+        spark_plugs_coils_general_condition: 1,
+        air_filter: 1,
+        transmission_belts: 1,
+        appearance_hoses_caps_seals_connections: 1,
+        battery_condition_terminal_tightness_corrosion: 1,
+        fluid_leak: 1,
+        general_engine_compression_condition: 1,
+        stabilizer_bars: 1,
+        bearings: 1,
+        joints_dust_covers: 1,
+        shock_absorbers: 1,
+        spirals: 1,
+        upper_lower_plateaus: 1,
+        stumps: 1,
+        terminal_blocks: 1,
+        brakes: 1,
+        cardan_transmission_shaft: 1,
+        engine_transmission_oil_leaks: 1,
+        hydraulic_oil_leak_steering_box: 1,
+        excessive_rust_on_frame_compact: 1,
+        exhaust_pipe: 1,
+        doors: 1,
+        stop: 1,
+        fuel_pump_door: 1,
+        trunk_door: 1,
+        trunk_interior: 1,
+        replacement_rubber_tool_set: 1,
+        complete_emblems: 1,
+        bodywork: 1,
+        paint: 1,
+        tire_condition: 1,
+        wheel_ornaments: 1,
+        general_condition: 1,
+        created_at: 1,
         vehicle: {
           price_ofert: 1
         },
@@ -2711,17 +2706,17 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
     }
 
   ]);
-  if(mecFile[0].certificate){
-    mecFile[0].certificateStr="si"
-  }else{
-    mecFile[0].certificateStr="no"
+  if (mecFile[0].certificate) {
+    mecFile[0].certificateStr = "si"
+  } else {
+    mecFile[0].certificateStr = "no"
   }
 
   if (mecFile) {
 
     try {
       const puppeteer = require('puppeteer');
-      const html: any = await ejs.renderFile('./src/views/templateFichaMecanica.ejs', mecFile[0]);
+      const html: any = await ejs.renderFile('./src/views/templateFichaMecanicaNew.ejs', mecFile[0]);
       const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
       const page = await browser.newPage();
       await page.goto('https://developer.chrome.com/');
@@ -2887,130 +2882,121 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
   let dateNow = moment().format("YYYY-MM-DD");
 
   const {
-    part_emblems_complete,
-    wiper_shower_brushes_windshield,
-    hits,
-    scratches,
-    paint_condition,
-    bugle_accessories,
-    air_conditioning_system,
-    radio_player,
+    steering_wheel,
+    pedals,
+    gauges_dashboard_lights,
+    transmission_shift_lever,
+    brake_lever,
+    accessories,
+    internal_upholstery,
     courtesy_lights,
-    upholstery_condition,
-    gts,
-    board_lights,
-    tire_pressure,
-    tire_life,
-    battery_status_terminals,
-    transmitter_belts,
-    motor_oil,
-    engine_coolant_container,
-    radiator_status,
-    exhaust_pipe_bracket,
-    fuel_tank_cover_pipes_hoses_connections,
-    distribution_mail,
-    spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-    fuel_system,
-    parking_break,
-    brake_bands_drums,
-    brake_pads_discs,
-    brake_pipes_hoses,
-    master_cylinder,
-    brake_fluid,
-    bushings_plateaus,
-    stumps,
-    terminals,
-    stabilizer_bar,
+    windshield,
+    window_glass_operation,
+    door_locks_handles,
+    operation_manual_electric_mirrors,
+    seat_belts,
+    front_bumpers,
+    front_grill,
+    headlights_low_beams_cocuyos,
+    fog_lights,
+    bonnet,
+    engine_ignition,
+    fluid_reservoirs,
+    spark_plugs_coils_general_condition,
+    air_filter,
+    transmission_belts,
+    appearance_hoses_caps_seals_connections,
+    battery_condition_terminal_tightness_corrosion,
+    fluid_leak,
+    general_engine_compression_condition,
+    stabilizer_bars,
     bearings,
-    tripoids_rubbe_bands,
-    shock_absorbers_coils,
-    dealer_maintenance,
-    headlights_lights,
-    general_condition,
+    joints_dust_covers,
+    shock_absorbers,
+    spirals,
+    upper_lower_plateaus,
+    stumps,
+    terminal_blocks,
+    brakes,
+    cardan_transmission_shaft,
+    engine_transmission_oil_leaks,
+    hydraulic_oil_leak_steering_box,
+    excessive_rust_on_frame_compact,
+    exhaust_pipe,
+    doors,
+    stop,
+    fuel_pump_door,
+    trunk_door,
+    trunk_interior,
+    replacement_rubber_tool_set,
+    complete_emblems,
+    bodywork,
+    paint,
+    tire_condition,
+    wheel_ornaments,
+    general_condition_fluids,
     id_vehicle,
     id_mechanic,
-    odometer,
-    engine_start,
-    windshields_glass,
-    hits_scratches,
-    spark_plugs,
-    injectors,
-    fuel_filter_anti_pollen_filter,
-    engine_noises,
-    hits_scratches_sides,
-    paint_condition_sides,
-    trunk_hatch,
-    spare_tire,
-    hits_scratches_trunk,
-    paint_condition_trunk,
-    headlights_lights_trunk,
-    fuel_tank_cover,
-    pipes_hoses_connections,
-    brake_discs,
   } = req.body;
 
   const newMechanicFile = new mechanicalsFiles({
-    part_emblems_complete,
-    wiper_shower_brushes_windshield,
-    hits,
-    scratches,
-    paint_condition,
-    bugle_accessories,
-    air_conditioning_system,
-    radio_player,
+    steering_wheel,
+    pedals,
+    gauges_dashboard_lights,
+    transmission_shift_lever,
+    brake_lever,
+    accessories,
+    internal_upholstery,
     courtesy_lights,
-    upholstery_condition,
-    gts,
-    board_lights,
-    tire_pressure,
-    tire_life,
-    battery_status_terminals,
-    transmitter_belts,
-    motor_oil,
-    engine_coolant_container,
-    radiator_status,
-    exhaust_pipe_bracket,
-    fuel_tank_cover_pipes_hoses_connections,
-    distribution_mail,
-    spark_plugs_air_filter_fuel_filter_anti_pollen_filter,
-    fuel_system,
-    parking_break,
-    brake_bands_drums,
-    brake_pads_discs,
-    brake_pipes_hoses,
-    master_cylinder,
-    brake_fluid,
-    bushings_plateaus,
-    stumps,
-    terminals,
-    stabilizer_bar,
+    windshield,
+    window_glass_operation,
+    door_locks_handles,
+    operation_manual_electric_mirrors,
+    seat_belts,
+    front_bumpers,
+    front_grill,
+    headlights_low_beams_cocuyos,
+    fog_lights,
+    bonnet,
+    engine_ignition,
+    fluid_reservoirs,
+    spark_plugs_coils_general_condition,
+    air_filter,
+    transmission_belts,
+    appearance_hoses_caps_seals_connections,
+    battery_condition_terminal_tightness_corrosion,
+    fluid_leak,
+    general_engine_compression_condition,
+    stabilizer_bars,
     bearings,
-    tripoids_rubbe_bands,
-    shock_absorbers_coils,
-    dealer_maintenance,
-    headlights_lights,
-    general_condition,
-    odometer,
-    engine_start,
-    windshields_glass,
-    hits_scratches,
-    spark_plugs,
-    injectors,
-    fuel_filter_anti_pollen_filter,
-    engine_noises,
-    hits_scratches_sides,
-    paint_condition_sides,
-    trunk_hatch,
-    spare_tire,
-    hits_scratches_trunk,
-    paint_condition_trunk,
-    headlights_lights_trunk,
-    fuel_tank_cover,
-    pipes_hoses_connections,
-    brake_discs,
-    created_at: dateNow,
+    joints_dust_covers,
+    shock_absorbers,
+    spirals,
+    upper_lower_plateaus,
+    stumps,
+    terminal_blocks,
+    brakes,
+    cardan_transmission_shaft,
+    engine_transmission_oil_leaks,
+    hydraulic_oil_leak_steering_box,
+    excessive_rust_on_frame_compact,
+    exhaust_pipe,
+    doors,
+    stop,
+    fuel_pump_door,
+    trunk_door,
+    trunk_interior,
+    replacement_rubber_tool_set,
+    complete_emblems,
+    bodywork,
+    paint,
+    tire_condition,
+    wheel_ornaments,
+    general_condition_fluids,
     id_vehicle,
-    id_mechanic
+    id_mechanic,
+    created_at: dateNow,
+
   });
 
   const newMechanicFileSaved = await newMechanicFile.save();
@@ -3629,7 +3615,7 @@ vehicleController.add_request_models_brands = async (req: Request, res: Response
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic.email ? emailmechanic.email : emailAdmin.email,
-    subject:!data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
+    subject: !data.model && !data.type_vehicle ? "Solicitud de añadir marca" : "Solicitud de añadir modelo",
     html: template,
   };
 
@@ -3761,472 +3747,26 @@ async function generateBase64(pdfPath: string): Promise<string> {
 }
 
 const setCamposActualizados = (oldFicha: any, update: any) => {
-  console.log(oldFicha, update);
-  let campos: any = {}
-  if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
-    campos.part_emblems_complete = update.part_emblems_complete;
-  }
-  if (oldFicha.wiper_shower_brushes_windshield != update.wiper_shower_brushes_windshield) {
-    campos.wiper_shower_brushes_windshield = update.wiper_shower_brushes_windshield;
-  }
-  if (oldFicha.hits != update.hits) {
-    campos.hits = update.hits;
-  }
-  if (oldFicha.scratches != update.scratches) {
-    campos.scratches = update.scratches;
-  }
+  let campos: any = {};
 
-  if (oldFicha.paint_condition != update.paint_condition) {
-    campos.paint_condition = update.paint_condition;
+  for (const key in update) {
+    if (oldFicha[key] !== update[key]) {
+      campos[key] = update[key];
+    }
   }
-
-  if (oldFicha.bugle_accessories != update.bugle_accessories) {
-    campos.bugle_accessories = update.bugle_accessories;
-  }
-
-  if (oldFicha.air_conditioning_system != update.air_conditioning_system) {
-    campos.air_conditioning_system = update.air_conditioning_system;
-  }
-
-  if (oldFicha.radio_player != update.radio_player) {
-    campos.radio_player = update.radio_player;
-  }
-
-  if (oldFicha.courtesy_lights != update.courtesy_lights) {
-    campos.courtesy_lights = update.courtesy_lights;
-  }
-
-  if (oldFicha.upholstery_condition != update.upholstery_condition) {
-    campos.upholstery_condition = update.upholstery_condition;
-  }
-
-  if (oldFicha.gts != update.gts) {
-    campos.gts = update.gts;
-  }
-
-  if (oldFicha.board_lights != update.board_lights) {
-    campos.board_lights = update.board_lights;
-  }
-
-  if (oldFicha.tire_pressure != update.tire_pressure) {
-    campos.tire_pressure = update.tire_pressure;
-  }
-
-  if (oldFicha.tire_life != update.tire_life) {
-    campos.tire_life = update.tire_life;
-  }
-
-  if (oldFicha.battery_status_terminals != update.battery_status_terminals) {
-    campos.battery_status_terminals = update.battery_status_terminals;
-  }
-
-  if (oldFicha.transmitter_belts != update.transmitter_belts) {
-    campos.transmitter_belts = update.transmitter_belts;
-  }
-
-  if (oldFicha.motor_oil != update.motor_oil) {
-    campos.motor_oil = update.motor_oil;
-  }
-
-  if (oldFicha.engine_coolant_container != update.engine_coolant_container) {
-    campos.engine_coolant_container = update.engine_coolant_container;
-  }
-
-  if (oldFicha.radiator_status != update.radiator_status) {
-    campos.radiator_status = update.radiator_status;
-  }
-
-  if (oldFicha.exhaust_pipe_bracket != update.exhaust_pipe_bracket) {
-    campos.exhaust_pipe_bracket = update.exhaust_pipe_bracket;
-  }
-
-  if (oldFicha.fuel_tank_cover_pipes_hoses_connections != update.fuel_tank_cover_pipes_hoses_connections) {
-    campos.fuel_tank_cover_pipes_hoses_connections = update.fuel_tank_cover_pipes_hoses_connections;
-  }
-
-  if (oldFicha.distribution_mail != update.distribution_mail) {
-    campos.distribution_mail = update.distribution_mail;
-  }
-
-  if (oldFicha.spark_plugs_air_filter_fuel_filter_anti_pollen_filter != update.spark_plugs_air_filter_fuel_filter_anti_pollen_filter) {
-    campos.spark_plugs_air_filter_fuel_filter_anti_pollen_filter = update.spark_plugs_air_filter_fuel_filter_anti_pollen_filter;
-  }
-
-  if (oldFicha.fuel_system != update.fuel_system) {
-    campos.fuel_system = update.fuel_system;
-  }
-
-  if (oldFicha.parking_break != update.parking_break) {
-    campos.parking_break = update.parking_break;
-  }
-
-  if (oldFicha.brake_bands_drums != update.brake_bands_drums) {
-    campos.brake_bands_drums = update.brake_bands_drums;
-  }
-
-  if (oldFicha.brake_pads_discs != update.brake_pads_discs) {
-    campos.brake_pads_discs = update.brake_pads_discs;
-  }
-
-  if (oldFicha.brake_pipes_hoses != update.brake_pipes_hoses) {
-    campos.brake_pipes_hoses = update.brake_pipes_hoses;
-  }
-
-  if (oldFicha.master_cylinder != update.master_cylinder) {
-    campos.master_cylinder = update.master_cylinder;
-  }
-
-  if (oldFicha.brake_fluid != update.brake_fluid) {
-    campos.brake_fluid = update.brake_fluid;
-  }
-
-  if (oldFicha.bushings_plateaus != update.bushings_plateaus) {
-    campos.bushings_plateaus = update.bushings_plateaus;
-  }
-
-  if (oldFicha.stumps != update.stumps) {
-    campos.stumps = update.stumps;
-  }
-
-  if (oldFicha.terminals != update.terminals) {
-    campos.terminals = update.terminals;
-  }
-
-  if (oldFicha.stabilizer_bar != update.stabilizer_bar) {
-    campos.stabilizer_bar = update.stabilizer_bar;
-  }
-
-  if (oldFicha.bearings != update.bearings) {
-    campos.bearings = update.bearings;
-  }
-
-  if (oldFicha.tripoids_rubbe_bands != update.tripoids_rubbe_bands) {
-    campos.tripoids_rubbe_bands = update.tripoids_rubbe_bands;
-  }
-
-  if (oldFicha.shock_absorbers_coils != update.shock_absorbers_coils) {
-    campos.shock_absorbers_coils = update.shock_absorbers_coils;
-  }
-
-  if (oldFicha.dealer_maintenance != update.dealer_maintenance) {
-    campos.dealer_maintenance = update.dealer_maintenance;
-  }
-
-  if (oldFicha.headlights_lights != update.headlights_lights) {
-    campos.headlights_lights = update.headlights_lights;
-  }
-
-  if (oldFicha.general_condition != update.general_condition) {
-    campos.general_condition = update.general_condition;
-  }
-
-  if (oldFicha.odometer != update.odometer) {
-    campos.odometer = update.odometer;
-  }
-
-  if (oldFicha.engine_start != update.engine_start) {
-    campos.engine_start = update.engine_start;
-  }
-
-  if (oldFicha.windshields_glass != update.windshields_glass) {
-    campos.windshields_glass = update.windshields_glass;
-  }
-
-  if (oldFicha.hits_scratches != update.hits_scratches) {
-    campos.hits_scratches = update.hits_scratches;
-  }
-
-  if (oldFicha.spark_plugs != update.spark_plugs) {
-    campos.spark_plugs = update.spark_plugs;
-  }
-
-  if (oldFicha.injectors != update.injectors) {
-    campos.injectors = update.injectors;
-  }
-
-  if (oldFicha.fuel_filter_anti_pollen_filter != update.fuel_filter_anti_pollen_filter) {
-    campos.fuel_filter_anti_pollen_filter = update.fuel_filter_anti_pollen_filter;
-  }
-
-  if (oldFicha.engine_noises != update.engine_noises) {
-    campos.engine_noises = update.engine_noises;
-  }
-
-  if (oldFicha.hits_scratches_sides != update.hits_scratches_sides) {
-    campos.hits_scratches_sides = update.hits_scratches_sides;
-  }
-
-  if (oldFicha.paint_condition_sides != update.paint_condition_sides) {
-    campos.paint_condition_sides = update.paint_condition_sides;
-  }
-
-  if (oldFicha.trunk_hatch != update.trunk_hatch) {
-    campos.trunk_hatch = update.trunk_hatch;
-  }
-
-  if (oldFicha.spare_tire != update.spare_tire) {
-    campos.spare_tire = update.spare_tire;
-  }
-
-  if (oldFicha.hits_scratches_trunk != update.hits_scratches_trunk) {
-    campos.hits_scratches_trunk = update.hits_scratches_trunk;
-  }
-
-  if (oldFicha.paint_condition_trunk != update.paint_condition_trunk) {
-    campos.paint_condition_trunk = update.paint_condition_trunk;
-  }
-
-  if (oldFicha.headlights_lights_trunk != update.headlights_lights_trunk) {
-    campos.headlights_lights_trunk = update.headlights_lights_trunk;
-  }
-
-  if (oldFicha.fuel_tank_cover != update.fuel_tank_cover) {
-    campos.fuel_tank_cover = update.fuel_tank_cover;
-  }
-
-  if (oldFicha.pipes_hoses_connections != update.pipes_hoses_connections) {
-    campos.pipes_hoses_connections = update.pipes_hoses_connections;
-  }
-
-  if (oldFicha.brake_discs != update.brake_discs) {
-    campos.brake_discs = update.brake_discs;
-  }
-  console.log(campos);
   return campos;
+
 }
 
 const setCamposAnteriores = (oldFicha: any, update: any) => {
   let campos: any = {}
-  if (oldFicha.part_emblems_complete != update.part_emblems_complete) {
-    campos.part_emblems_complete = oldFicha.part_emblems_complete;
-  }
-  if (oldFicha.wiper_shower_brushes_windshield != update.wiper_shower_brushes_windshield) {
-    campos.wiper_shower_brushes_windshield = oldFicha.wiper_shower_brushes_windshield;
-  }
-  if (oldFicha.hits != update.hits) {
-    campos.hits = oldFicha.hits;
-  }
-  if (oldFicha.scratches != update.scratches) {
-    campos.scratches = oldFicha.scratches;
-  }
 
-  if (oldFicha.paint_condition != update.paint_condition) {
-    campos.paint_condition = oldFicha.paint_condition;
+  for (const key in oldFicha) {
+    if (oldFicha[key] !== update[key]) {
+      campos[key] = oldFicha[key];
+    }
   }
-
-  if (oldFicha.bugle_accessories != update.bugle_accessories) {
-    campos.bugle_accessories = oldFicha.bugle_accessories;
-  }
-
-  if (oldFicha.air_conditioning_system != update.air_conditioning_system) {
-    campos.air_conditioning_system = oldFicha.air_conditioning_system;
-  }
-
-  if (oldFicha.radio_player != update.radio_player) {
-    campos.radio_player = oldFicha.radio_player;
-  }
-
-  if (oldFicha.courtesy_lights != update.courtesy_lights) {
-    campos.courtesy_lights = oldFicha.courtesy_lights;
-  }
-
-  if (oldFicha.upholstery_condition != update.upholstery_condition) {
-    campos.upholstery_condition = oldFicha.upholstery_condition;
-  }
-
-  if (oldFicha.gts != update.gts) {
-    campos.gts = oldFicha.gts;
-  }
-
-  if (oldFicha.board_lights != update.board_lights) {
-    campos.board_lights = oldFicha.board_lights;
-  }
-
-  if (oldFicha.tire_pressure != update.tire_pressure) {
-    campos.tire_pressure = oldFicha.tire_pressure;
-  }
-
-  if (oldFicha.tire_life != update.tire_life) {
-    campos.tire_life = oldFicha.tire_life;
-  }
-
-  if (oldFicha.battery_status_terminals != update.battery_status_terminals) {
-    campos.battery_status_terminals = oldFicha.battery_status_terminals;
-  }
-
-  if (oldFicha.transmitter_belts != update.transmitter_belts) {
-    campos.transmitter_belts = oldFicha.transmitter_belts;
-  }
-
-  if (oldFicha.motor_oil != update.motor_oil) {
-    campos.motor_oil = oldFicha.motor_oil;
-  }
-
-  if (oldFicha.engine_coolant_container != update.engine_coolant_container) {
-    campos.engine_coolant_container = oldFicha.engine_coolant_container;
-  }
-
-  if (oldFicha.radiator_status != update.radiator_status) {
-    campos.radiator_status = oldFicha.radiator_status;
-  }
-
-  if (oldFicha.exhaust_pipe_bracket != update.exhaust_pipe_bracket) {
-    campos.exhaust_pipe_bracket = oldFicha.exhaust_pipe_bracket;
-  }
-
-  if (oldFicha.fuel_tank_cover_pipes_hoses_connections != update.fuel_tank_cover_pipes_hoses_connections) {
-    campos.fuel_tank_cover_pipes_hoses_connections = oldFicha.fuel_tank_cover_pipes_hoses_connections;
-  }
-
-  if (oldFicha.distribution_mail != update.distribution_mail) {
-    campos.distribution_mail = oldFicha.distribution_mail;
-  }
-
-  if (oldFicha.spark_plugs_air_filter_fuel_filter_anti_pollen_filter != update.spark_plugs_air_filter_fuel_filter_anti_pollen_filter) {
-    campos.spark_plugs_air_filter_fuel_filter_anti_pollen_filter = oldFicha.spark_plugs_air_filter_fuel_filter_anti_pollen_filter;
-  }
-
-  if (oldFicha.fuel_system != update.fuel_system) {
-    campos.fuel_system = oldFicha.fuel_system;
-  }
-
-  if (oldFicha.parking_break != update.parking_break) {
-    campos.parking_break = oldFicha.parking_break;
-  }
-
-  if (oldFicha.brake_bands_drums != update.brake_bands_drums) {
-    campos.brake_bands_drums = oldFicha.brake_bands_drums;
-  }
-
-  if (oldFicha.brake_pads_discs != update.brake_pads_discs) {
-    campos.brake_pads_discs = oldFicha.brake_pads_discs;
-  }
-
-  if (oldFicha.brake_pipes_hoses != update.brake_pipes_hoses) {
-    campos.brake_pipes_hoses = oldFicha.brake_pipes_hoses;
-  }
-
-  if (oldFicha.master_cylinder != update.master_cylinder) {
-    campos.master_cylinder = oldFicha.master_cylinder;
-  }
-
-  if (oldFicha.brake_fluid != update.brake_fluid) {
-    campos.brake_fluid = oldFicha.brake_fluid;
-  }
-
-  if (oldFicha.bushings_plateaus != update.bushings_plateaus) {
-    campos.bushings_plateaus = oldFicha.bushings_plateaus;
-  }
-
-  if (oldFicha.stumps != update.stumps) {
-    campos.stumps = oldFicha.stumps;
-  }
-
-  if (oldFicha.terminals != update.terminals) {
-    campos.terminals = oldFicha.terminals;
-  }
-
-  if (oldFicha.stabilizer_bar != update.stabilizer_bar) {
-    campos.stabilizer_bar = oldFicha.stabilizer_bar;
-  }
-
-  if (oldFicha.bearings != update.bearings) {
-    campos.bearings = oldFicha.bearings;
-  }
-
-  if (oldFicha.tripoids_rubbe_bands != update.tripoids_rubbe_bands) {
-    campos.tripoids_rubbe_bands = oldFicha.tripoids_rubbe_bands;
-  }
-
-  if (oldFicha.shock_absorbers_coils != update.shock_absorbers_coils) {
-    campos.shock_absorbers_coils = oldFicha.shock_absorbers_coils;
-  }
-
-  if (oldFicha.dealer_maintenance != update.dealer_maintenance) {
-    campos.dealer_maintenance = oldFicha.dealer_maintenance;
-  }
-
-  if (oldFicha.headlights_lights != update.headlights_lights) {
-    campos.headlights_lights = oldFicha.headlights_lights;
-  }
-
-  if (oldFicha.general_condition != update.general_condition) {
-    campos.general_condition = oldFicha.general_condition;
-  }
-
-  if (oldFicha.odometer != update.odometer) {
-    campos.odometer = oldFicha.odometer;
-  }
-
-  if (oldFicha.engine_start != update.engine_start) {
-    campos.engine_start = oldFicha.engine_start;
-  }
-
-  if (oldFicha.windshields_glass != update.windshields_glass) {
-    campos.windshields_glass = oldFicha.windshields_glass;
-  }
-
-  if (oldFicha.hits_scratches != update.hits_scratches) {
-    campos.hits_scratches = oldFicha.hits_scratches;
-  }
-
-  if (oldFicha.spark_plugs != update.spark_plugs) {
-    campos.spark_plugs = oldFicha.spark_plugs;
-  }
-
-  if (oldFicha.injectors != update.injectors) {
-    campos.injectors = oldFicha.injectors;
-  }
-
-  if (oldFicha.fuel_filter_anti_pollen_filter != update.fuel_filter_anti_pollen_filter) {
-    campos.fuel_filter_anti_pollen_filter = oldFicha.fuel_filter_anti_pollen_filter;
-  }
-
-  if (oldFicha.engine_noises != update.engine_noises) {
-    campos.engine_noises = oldFicha.engine_noises;
-  }
-
-  if (oldFicha.hits_scratches_sides != update.hits_scratches_sides) {
-    campos.hits_scratches_sides = oldFicha.hits_scratches_sides;
-  }
-
-  if (oldFicha.paint_condition_sides != update.paint_condition_sides) {
-    campos.paint_condition_sides = oldFicha.paint_condition_sides;
-  }
-
-  if (oldFicha.trunk_hatch != update.trunk_hatch) {
-    campos.trunk_hatch = oldFicha.trunk_hatch;
-  }
-
-  if (oldFicha.spare_tire != update.spare_tire) {
-    campos.spare_tire = oldFicha.spare_tire;
-  }
-
-  if (oldFicha.hits_scratches_trunk != update.hits_scratches_trunk) {
-    campos.hits_scratches_trunk = oldFicha.hits_scratches_trunk;
-  }
-
-  if (oldFicha.paint_condition_trunk != update.paint_condition_trunk) {
-    campos.paint_condition_trunk = oldFicha.paint_condition_trunk;
-  }
-
-  if (oldFicha.headlights_lights_trunk != update.headlights_lights_trunk) {
-    campos.headlights_lights_trunk = oldFicha.headlights_lights_trunk;
-  }
-
-  if (oldFicha.fuel_tank_cover != update.fuel_tank_cover) {
-    campos.fuel_tank_cover = oldFicha.fuel_tank_cover;
-  }
-
-  if (oldFicha.pipes_hoses_connections != update.pipes_hoses_connections) {
-    campos.pipes_hoses_connections = oldFicha.pipes_hoses_connections;
-  }
-
-  if (oldFicha.brake_discs != update.brake_discs) {
-    campos.brake_discs = oldFicha.brake_discs;
-  }
-
-  return campos;
+  return campos
 }
 
 const crearCarpetaSiNoExiste = (nombreCarpeta: any) => {
