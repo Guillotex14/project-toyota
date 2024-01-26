@@ -2697,7 +2697,8 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
         general_condition: 1,
         created_at: 1,
         vehicle: {
-          price_ofert: 1
+          price_ofert: 1,
+          branch: 1
         },
         mechanic: {
           fullName: 1,

@@ -2940,7 +2940,8 @@
                             style="font-size: 20px; font-weight: 600;margin: auto;"><%= created_at %></label>
                         </div>
                         <% }%>
-                        <% if (general_condition === "excelente" || general_condition > 96){ %>
+                        <% if (vehicle.branch === "Toyota"){ %>
+                          <% if (general_condition === "excelente" || general_condition > 96){ %>
                         <% if (certificateStr=="si"){ %>
                         <div class="col-12 contenteinitText" style="text-align: center; margin-top: 15px !important;">
 
@@ -2950,6 +2951,7 @@
                         </div>
                         <% }%>
 
+                        <% }%>
                         <% }%>
 
 
