@@ -285,7 +285,7 @@ ion-menu{
 }
 
 .itemSegment{
-  margin-left: -5px !important;
+  margin-left: -5px;
 }
 
 .rowSegment{
@@ -371,6 +371,10 @@ ion-menu{
 }
 
 .br375{
+  display: none !important;
+}
+
+.br320{
   display: none !important;
 }
 
@@ -2438,18 +2442,24 @@ ion-segment {
   app-mechanical-file-detail{
     .colSegment{
       width: 365px !important;
-      margin-left: -4px !important;
+      margin-left: 0px !important;
     }
     ion-segment{
       margin-left: -4px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
     }
     .br375{
       display: block !important;
+    }
+    .radioSmall{
+      margin: 15px 3px !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
     }
   }
 
@@ -2459,33 +2469,46 @@ ion-segment {
       margin-left: -4px !important;
     }
     ion-segment{
-      margin-left: -4px !important;
+      margin-left: 0px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
     }
     .br375{
       display: block !important;
+    }
+    .radioSmall{
+      margin: 15px 3px !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
     }
   }
 
   app-mechanical-file-detail-mechanic{
     .colSegment{
       width: 365px !important;
-      margin-left: -4px !important;
+      margin-left: 0px !important;
     }
     ion-segment{
       margin-left: -4px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
     }
     .br375{
       display: block !important;
+    }
+    .brmain{
+      display: none !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
+    
     }
   }
 }
@@ -2746,7 +2769,7 @@ ion-segment {
     ion-segment{
       margin-left: 5px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
 
       // ion-segment-button{
       //   margin: auto 16px !important;
@@ -2769,7 +2792,7 @@ ion-segment {
     ion-segment{
       margin-left: 5px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -2835,7 +2858,7 @@ ion-segment {
     ion-segment{
       margin-left: 2px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
 
       // ion-segment-button{
       //   margin: auto 16px !important;
@@ -2858,7 +2881,7 @@ ion-segment {
     ion-segment{
       margin-left: 2px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -2906,7 +2929,7 @@ ion-segment {
     ion-segment{
       margin-left: -2px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
 
       // ion-segment-button{
       //   margin: auto 16px !important;
@@ -2929,7 +2952,7 @@ ion-segment {
     ion-segment{
       margin-left: -2px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
@@ -3247,7 +3270,7 @@ ion-segment {
     .colSegment{
       // width: 365px !important;
       width: 325px !important;
-      margin-left: -9px !important;
+      margin-left: 0px !important;
       .segmentConce{
         width: 62% !important;
       }
@@ -3255,21 +3278,31 @@ ion-segment {
     ion-segment{
       margin-left: -9px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
 
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
     }
     .br375{
+      display: none !important;
+    }
+
+    .br320{
       display: block !important;
+    }
+    .radioSmall{
+      margin: 15px 3px !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
     }
   }
 
   app-mechanical-file-detail-admin{
     .colSegment{
       width: 325px !important;
-      margin-left: -9px !important;
+      margin-left: 0px !important;
 
       .segmentConce{
         width: 62% !important;
@@ -3278,20 +3311,29 @@ ion-segment {
     ion-segment{
       margin-left: -9px !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.5fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }
     }
     .br375{
+      display: none !important;
+    }
+    .br320{
       display: block !important;
+    }
+    .radioSmall{
+      margin: 15px 3px !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
     }
   }
 
   app-mechanical-file-detail-mechanic{
     .colSegment{
       width: 325px !important;
-      margin-left: -9px !important;
+      margin-left: 0px !important;
       .segmentConce{
         width: 62% !important;
       }
@@ -3303,7 +3345,16 @@ ion-segment {
       // }
     }
     .br375{
+      display: none !important;
+    }
+    .br320{
       display: block !important;
+    }
+    .radioSmall{
+      margin: 15px 3px !important;
+    }
+    .itemSegment{
+      margin-left: 0px !important;
     }
   }
 }
@@ -3329,7 +3380,7 @@ ion-segment {
     }
     ion-segment{
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
 
       // ion-segment-button{
       //   margin: auto 16px !important;
@@ -3345,7 +3396,7 @@ ion-segment {
     }
     ion-segment{
       display: grid;
-      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
     }
     .br375{
       display: block !important;
@@ -3356,7 +3407,7 @@ ion-segment {
     .colSegment{
     }
     ion-segment{
-      grid-template-columns: repeat(2, minmax(50px, 0.4fr));
+      grid-template-columns: repeat(1, minmax(400px, 1fr));
       // ion-segment-button{
       //   margin: auto 16px !important;
       // }

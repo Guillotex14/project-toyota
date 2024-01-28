@@ -71,7 +71,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Volante (apariencia, juego libre, flojedad o tambaleo)</ion-label>
+                  <ion-label>Volante <br class="br375"> (apariencia, juego libre,<br class="br320"> flojedad o tambaleo)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -103,7 +103,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.pedals.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     
@@ -129,7 +129,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.gauges_dashboard_lights.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     
@@ -149,7 +149,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Palanca de cambio de transmisión (apariencia,<br> funcionamiento suave)</ion-label>
+                  <ion-label>Palanca de cambio de transmisión <br class="br375"><br class="br320">(apariencia,<br class="brmain"> funcionamiento suave)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -176,13 +176,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Palanca de freno (Funcionamiento)r</ion-label>
+                  <ion-label>Palanca de freno (Funcionamiento)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.brake_lever.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -202,7 +202,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Accesorios (audio, aire acondicionado, sensores)</ion-label>            </ion-col>
+                  <ion-label>Accesorios (audio, aire acondicionado,<br class="br320"> sensores)</ion-label>            </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
@@ -228,13 +228,13 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Tapicería interna (asientos, puertas y tableros)</ion-label>
+                  <ion-label>Tapicería interna (asientos, puertas y <br class="br320"> tableros)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.internal_upholstery.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -260,7 +260,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.courtesy_lights.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -280,7 +280,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Parabrisas (apariencia, <br>funcionamiento de cepillos y duchas)</ion-label>
+                  <ion-label>Parabrisas (apariencia, <br class="brmain">funcionamiento <br class="br320"><br class="br375"> de cepillos y duchas)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
@@ -306,7 +306,7 @@
 
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
-                <ion-label>Funcionamiento de vidrios de ventana <br> (manuales o eléctricos)</ion-label>
+                <ion-label>Funcionamiento de vidrios de ventana <br class="br320"><br class="brmain"><br class="br375">(manuales o eléctricos)</ion-label>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
@@ -359,7 +359,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Operación de Retrovisores manuales o eléctricos</ion-label>
+                  <ion-label>Operación de Retrovisores <br class="br375"> manuales<br class="br320">o eléctricos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -386,7 +386,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Cinturones de Seguridad (mecanismo de bloqueo <br> y cinta)</ion-label>
+                  <ion-label>Cinturones de Seguridad <br class="br375"> <br class="br320">(mecanismo de bloqueo <br class="brmain"> y cinta)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -417,7 +417,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Parachoques delanteros (cuadratura y ajuste)</ion-label>
+                  <ion-label>Parachoques delanteros <br class="br320">(cuadratura y ajuste)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -470,13 +470,13 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Faros, luces de cruce y cocuyos (funcionamiento y <br> condición)</ion-label>
+                  <ion-label>Faros, luces de cruce y cocuyos <br class="br320"><br class="br375"> (funcionamiento y <br class="brmain"> condición)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.headlights_low_beams_cocuyos.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -495,13 +495,13 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Faros antinieblas *si aplica* (funcionamiento y <br> condición)</ion-label>
+                  <ion-label>Faros antinieblas *si aplica* <br class="br375"><br class="br320"> (funcionamiento y <br class="brmain"> condición)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fog_lights.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -524,7 +524,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Capot (operación, ruido, descuadre, varilla, soporte)</ion-label>
+                  <ion-label>Capot <br class="br375"> (operación, ruido,<br class="br320"> descuadre, varilla, soporte)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -557,7 +557,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.engine_ignition.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -576,17 +576,17 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Ruidos de motor (parámetro excluyente)</ion-label>
+                  <ion-label>Ruidos de motor <br class="br320">(parámetro excluyente)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.engine_noises.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.engine_noises.upgrade === true">
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -601,7 +601,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fluidos estado general (aceite de motor, dirección, <br> liga de freno refrigerante)</ion-label>
+                  <ion-label>Fluidos estado general (aceite de motor, dirección, <br class="br320"><br class="br375"> <br class="brmain"><br class="br320"> liga de freno refrigerante)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -627,13 +627,13 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Depósitos de fluidos (estado de los envases y tapas)</ion-label>
+                  <ion-label>Depósitos de fluidos <br class="br375"><br class="br320">(estado de los envases y tapas)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fluid_reservoirs.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -686,11 +686,11 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.air_filter.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.air_filter.upgrade === true">
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -732,7 +732,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Apariencia Mangueras, tapas, sellos y conexiones</ion-label>
+                  <ion-label>Apariencia Mangueras, tapas, sellos<br class="br320"> <br class="br375"> y conexiones</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -759,13 +759,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Estado de la batería (voltaje) y apriete o corrosión <br>de los terminales </ion-label>
+                  <ion-label>Estado de la batería (voltaje) y apriete <br class="br320"><br class="br375"> o corrosión <br class="brmain">de los terminales </ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -785,7 +785,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fuga de fluidos (Empacaduras, sellos, mangueras)</ion-label>
+                  <ion-label>Fuga de fluidos <br class="br375"> (Empacaduras, sellos,<br class="br320"> mangueras)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -811,7 +811,8 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Condición general de la compresión del motor <br> (medir compresión de todos los cilindros)</ion-label>                </ion-col>
+                  <ion-label>Condición general de la compresión <br class="br320">del motor <br class="brmain"> <br class="br375"> (medir compresión de todos<br class="br320"> los cilindros)</ion-label>
+                </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
@@ -847,7 +848,7 @@
                     <ion-segment
                     [class.mLeft]="android === true || web === true"
                       disabled="true">
-                      <ion-segment-button>
+                      <ion-segment-button [class.segment-red]="mechanicalFile.stabilizer_bars.no_apply === true">
                         <ion-label>Malo</ion-label>
                       </ion-segment-button>
 
@@ -873,7 +874,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.bearings.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -893,18 +894,18 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Juntas homocinéticas y guardapolvos (apariencia fuga <br> de grasa y presencia de todas sus abrazaderas¨)</ion-label>
+                  <ion-label>Juntas homocinéticas y guardapolvos <br class="br375"><br class="br320"> (apariencia fuga <br class="brmain"> de grasa y presencia<br class="br320"> de todas <br class="br375"> sus abrazaderas)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.joints_dust_covers.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.joints_dust_covers.upgrade === true">
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -952,7 +953,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.spirals.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -972,7 +973,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Mesetas sup.e inf. (bujes con desgaste y <br> muñones con juego)</ion-label>
+                  <ion-label>Mesetas sup.e inf. <br class="br375"> (bujes con desgaste y <br class="br320"><br class="brmain"> muñones con juego)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
@@ -1006,11 +1007,11 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.stumps.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.stumps.upgrade === true">
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -1078,13 +1079,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Cardan o Eje de Transmisión (juego en crucetas,<br> ruidos o golpes)</ion-label>
+                  <ion-label>Cardan o Eje de Transmisión <br class="br375"><br class="br320">(juego en crucetas,<br class="brmain"> ruidos o golpes)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.cardan_transmission_shaft.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1104,7 +1105,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fugas de aceite de motor/transmisión <br>(Empacaduras, sellos)</ion-label>
+                  <ion-label>Fugas de aceite de motor/transmisión <br class="br375"><br class="br320"><br class="brmain">(Empacaduras, sellos)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1131,7 +1132,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fuga de aceite hidráulico  en cajetín de dirección</ion-label>
+                  <ion-label>Fuga de aceite hidráulico  en cajetín<br class="br320"> de dirección</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1158,13 +1159,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Oxido excesivo en el bastidor o compacto</ion-label>
+                  <ion-label>Oxido excesivo en el bastidor<br class="br320"> o compacto</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.excessive_rust_on_frame_compact.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1184,7 +1185,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Tubo de escape (anclajes de goma, sin fuga, <br>ni perforaciones)</ion-label>
+                  <ion-label>Tubo de escape (anclajes de goma, <br class="br320"><br class="br375"> sin fuga, <br class="brmain">ni perforaciones)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1215,7 +1216,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Puertas (abren,cierra y funcionan los seguros)</ion-label>                
+                  <ion-label>Puertas (abren,cierra y funcionan<br class="br320"> los seguros)</ion-label>                
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1251,7 +1252,7 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.stop.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1271,13 +1272,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label> Compuerta del surtidor de combustible <br> (función apertura y tapa)</ion-label>
+                  <ion-label> Compuerta del surtidor de combustible<br class="br320"><br class="brmain"><br class="br375"> (función apertura y tapa)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                   disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fuel_pump_door.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1297,12 +1298,12 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Puerta del Maletero (Funcionamiento y cuadratura)</ion-label>                </ion-col>
+                  <ion-label>Puerta del Maletero <br class="br375"> (Funcionamiento y<br class="br320"> cuadratura)</ion-label>                </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.trunk_door.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1350,7 +1351,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Caucho de repuesto y Juego de Herramientas <br> (gato y Triangulo de seguridad)</ion-label>
+                  <ion-label>Caucho de repuesto y Juego de<br class="br320"> Herramientas <br class="br375"> <br class="brmain"> (gato y Triangulo<br class="br320"> de seguridad)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1386,11 +1387,11 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.complete_emblems.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
           
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.complete_emblems.upgrade === true">
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
@@ -1405,7 +1406,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Carrocería (golpes, abolladuras, oxidada o picada)</ion-label>
+                  <ion-label>Carrocería <br class="br375"> (golpes, abolladuras,<br class="br320"> oxidada o picada)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1421,7 +1422,7 @@
                       <ion-label>Bueno</ion-label>
                     </ion-segment-button>
                     <ion-segment-button
-                      [class.segment-green]="mechanicalFile.bodywork.apply === true">
+                      [class.segment-green]="mechanicalFile.bodywork.apply">
                       <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
@@ -1432,13 +1433,13 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Pintura (decoloración, tonalidad, rayones (+2cm)</ion-label>
+                  <ion-label>Pintura <br class="br375"> (decoloración, tonalidad,<br class="br320"> rayones (+2cm)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.paint.no_apply === true">
                       <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
@@ -1458,7 +1459,7 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Estado de los neumáticos <br> (presión y desgaste no uniforme o anormal)</ion-label>
+                  <ion-label>Estado de los neumáticos <br class="br375"><br class="br320"><br class="brmain">(presión y desgaste no uniforme<br class="br320"> o anormal)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -1483,7 +1484,7 @@
             
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
-                <ion-label>Ornamentos de ruedas (tapa centro de rin)</ion-label>
+                <ion-label>Ornamentos de ruedas <br class="br320">(tapa centro de rin)</ion-label>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
@@ -1505,6 +1506,23 @@
                 </ion-col>
               </ion-row>
             </ion-item>
+
+            <!-- <ion-item class="itemSegment">
+              <ion-row class="rowSegment">
+                <ion-col size="12">
+                  <ion-label>¿Se realizaron reparaciones en el taller/concesionario luego de su ingreso?</ion-label>
+                </ion-col>
+                <ion-col size="12"  class="colSegment">
+                  <ion-segment disabled="true" style="width: 73%;">
+                    <ion-segment-button [class.segment-red]="mechanicalFile.dealer_maintenance ===                     <ion-label>No</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button [class.segment-green]="mechanicalFile.dealer_maintenance === 'si'">
+                      <ion-label>Sí</ion-label>
+                    </ion-segment-button>
+                  </ion-segment>
+                </ion-col>
+              </ion-row>
+            </ion-item> -->
 
             <ion-item-divider >
               <ion-label>

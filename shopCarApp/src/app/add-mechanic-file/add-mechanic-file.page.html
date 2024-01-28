@@ -52,7 +52,7 @@
               <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.apply" [disabled]="newMechanicalFile.transmission_shift_lever.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
-            <ion-label>Palanca de freno (Funcionamiento)r</ion-label>
+            <ion-label>Palanca de freno (Funcionamiento)</ion-label>
             <ion-list style="text-align: center;">
             
               <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.brake_lever)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>

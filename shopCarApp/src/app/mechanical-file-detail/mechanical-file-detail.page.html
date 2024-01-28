@@ -84,7 +84,7 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Volante (apariencia, juego libre, flojedad o tambaleo)</ion-label>
+                  <ion-label>Volante <br class="br375"> (apariencia, juego libre,<br class="br320"> flojedad o tambaleo)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
@@ -116,17 +116,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.pedals.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.pedals.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.pedals.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.pedals.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -142,17 +142,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.gauges_dashboard_lights.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.gauges_dashboard_lights.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
                     
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.gauges_dashboard_lights.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.gauges_dashboard_lights.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -162,24 +162,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Palanca de cambio de transmisión (apariencia,<br> funcionamiento suave)</ion-label>
+                  <ion-label>Palanca de cambio de transmisión <br class="br375"><br class="br320">(apariencia,<br class="brmain"> funcionamiento suave)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.transmission_shift_lever.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.transmission_shift_lever.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.transmission_shift_lever.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -189,23 +189,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Palanca de freno (Funcionamiento)r</ion-label>
+                  <ion-label>Palanca de freno (Funcionamiento)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.brake_lever.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.brake_lever.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.brake_lever.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.brake_lever.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -215,24 +215,23 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Accesorios (audio, aire acondicionado, sensores)</ion-label>            
-                </ion-col>
+                  <ion-label>Accesorios (audio, aire acondicionado,<br class="br320"> sensores)</ion-label>            </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.accessories.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.accessories.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.accessories.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -242,23 +241,23 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Tapicería interna (asientos, puertas y tableros)</ion-label>
+                  <ion-label>Tapicería interna (asientos, puertas y <br class="br320"> tableros)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.internal_upholstery.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.internal_upholstery.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.internal_upholstery.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.internal_upholstery.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -274,17 +273,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.courtesy_lights.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.courtesy_lights.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.courtesy_lights.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.courtesy_lights.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -294,24 +293,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Parabrisas (apariencia, <br>funcionamiento de cepillos y duchas)</ion-label>
+                  <ion-label>Parabrisas (apariencia, <br class="brmain">funcionamiento <br class="br320"><br class="br375"> de cepillos y duchas)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.windshield.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.windshield.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.windshield.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -320,23 +319,23 @@
 
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
-                <ion-label>Funcionamiento de vidrios de ventana <br> (manuales o eléctricos)</ion-label>
+                <ion-label>Funcionamiento de vidrios de ventana <br class="br320"><br class="brmain"><br class="br375">(manuales o eléctricos)</ion-label>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.window_glass_operation.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.window_glass_operation.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.window_glass_operation.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -352,18 +351,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.door_locks_handles.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.door_locks_handles.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.door_locks_handles.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -373,24 +372,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Operación de Retrovisores manuales o eléctricos</ion-label>
+                  <ion-label>Operación de Retrovisores <br class="br375"> manuales<br class="br320">o eléctricos</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.operation_manual_electric_mirrors.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.operation_manual_electric_mirrors.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.operation_manual_electric_mirrors.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -400,24 +399,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Cinturones de Seguridad (mecanismo de bloqueo <br> y cinta)</ion-label>
+                  <ion-label>Cinturones de Seguridad <br class="br375"> <br class="br320">(mecanismo de bloqueo <br class="brmain"> y cinta)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.seat_belts.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.seat_belts.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.seat_belts.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -431,24 +430,24 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Parachoques delanteros (cuadratura y ajuste)</ion-label>
+                  <ion-label>Parachoques delanteros <br class="br320">(cuadratura y ajuste)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.front_bumpers.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.front_bumpers.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.front_bumpers.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -464,17 +463,17 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.front_grill.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.front_grill.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.front_grill.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -484,22 +483,22 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Faros, luces de cruce y cocuyos (funcionamiento y <br> condición)</ion-label>
+                  <ion-label>Faros, luces de cruce y cocuyos <br class="br320"><br class="br375"> (funcionamiento y <br class="brmain"> condición)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.headlights_low_beams_cocuyos.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.headlights_low_beams_cocuyos.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.headlights_low_beams_cocuyos.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.headlights_low_beams_cocuyos.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -509,22 +508,22 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Faros antinieblas *si aplica* (funcionamiento y <br> condición)</ion-label>
+                  <ion-label>Faros antinieblas *si aplica* <br class="br375"><br class="br320"> (funcionamiento y <br class="brmain"> condición)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.fog_lights.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fog_lights.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.fog_lights.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.fog_lights.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -538,24 +537,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Capot (operación, ruido, descuadre, varilla, soporte)</ion-label>
+                  <ion-label>Capot <br class="br375"> (operación, ruido,<br class="br320"> descuadre, varilla, soporte)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.bonnet.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.bonnet.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.bonnet.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -571,16 +570,16 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.engine_ignition.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.engine_ignition.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.engine_ignition.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.engine_ignition.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -590,22 +589,22 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Ruidos de motor (parámetro excluyente)</ion-label>
+                  <ion-label>Ruidos de motor <br class="br320">(parámetro excluyente)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.engine_noises.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.engine_noises.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3" [class.segment-yellow]="mechanicalFile.engine_noises.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.engine_noises.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.engine_noises.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -615,23 +614,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fluidos estado general (aceite de motor, dirección, <br> liga de freno refrigerante)</ion-label>
+                  <ion-label>Fluidos estado general (aceite de motor, dirección, <br class="br320"><br class="br375"> <br class="brmain"><br class="br320"> liga de freno refrigerante)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.general_condition_fluids.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.general_condition_fluids.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.general_condition_fluids.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -641,23 +640,23 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Depósitos de fluidos (estado de los envases y tapas)</ion-label>
+                  <ion-label>Depósitos de fluidos <br class="br375"><br class="br320">(estado de los envases y tapas)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.fluid_reservoirs.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fluid_reservoirs.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.fluid_reservoirs.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.fluid_reservoirs.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -673,18 +672,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.spark_plugs_coils_general_condition.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.spark_plugs_coils_general_condition.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.spark_plugs_coils_general_condition.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -700,16 +699,16 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.air_filter.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.air_filter.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1" [class.segment-yellow]="mechanicalFile.air_filter.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.air_filter.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.air_filter.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -725,18 +724,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.transmission_belts.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.transmission_belts.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.transmission_belts.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -746,24 +745,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Apariencia Mangueras, tapas, sellos y conexiones</ion-label>
+                  <ion-label>Apariencia Mangueras, tapas, sellos<br class="br320"> <br class="br375"> y conexiones</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.appearance_hoses_caps_seals_connections.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.appearance_hoses_caps_seals_connections.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.appearance_hoses_caps_seals_connections.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -773,23 +772,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Estado de la batería (voltaje) y apriete o corrosión <br>de los terminales </ion-label>
+                  <ion-label>Estado de la batería (voltaje) y apriete <br class="br320"><br class="br375"> o corrosión <br class="brmain">de los terminales </ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.battery_condition_terminal_tightness_corrosion.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.battery_condition_terminal_tightness_corrosion.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -799,23 +798,23 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fuga de fluidos (Empacaduras, sellos, mangueras)</ion-label>
+                  <ion-label>Fuga de fluidos <br class="br375"> (Empacaduras, sellos,<br class="br320"> mangueras)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.fluid_leak.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.fluid_leak.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.fluid_leak.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -825,23 +824,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Condición general de la compresión del motor <br> (medir compresión de todos los cilindros)</ion-label>                </ion-col>
+                  <ion-label>Condición general de la compresión <br class="br320">del motor <br class="brmain"> <br class="br375"> (medir compresión de todos<br class="br320"> los cilindros)</ion-label>
+                </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.general_engine_compression_condition.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="0.75"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.general_engine_compression_condition.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.general_engine_compression_condition.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -861,17 +861,17 @@
                     <ion-segment
                     [class.mLeft]="android === true || web === true"
                       disabled="true">
-                      <ion-segment-button value="0" [class.segment-red]="mechanicalFile.stabilizer_bars.no_apply === true">
-                        <ion-label>No aplica</ion-label>
+                      <ion-segment-button [class.segment-red]="mechanicalFile.stabilizer_bars.no_apply === true">
+                        <ion-label>Malo</ion-label>
                       </ion-segment-button>
 
-                      <ion-segment-button value="3"
+                      <ion-segment-button
                         [class.segment-yellow]="mechanicalFile.stabilizer_bars.upgrade === true">
-                        <ion-label>Mejora</ion-label>
+                        <ion-label>Bueno</ion-label>
                       </ion-segment-button>
-                      <ion-segment-button value="5"
+                      <ion-segment-button
                         [class.segment-green]="mechanicalFile.stabilizer_bars.apply === true">
-                        <ion-label>Aplica</ion-label>
+                        <ion-label>Excelente</ion-label>
                       </ion-segment-button>
                     </ion-segment>
                   </ion-col>
@@ -887,17 +887,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.bearings.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.bearings.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1.5"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.bearings.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.bearings.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -907,23 +907,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Juntas homocinéticas y guardapolvos (apariencia fuga <br> de grasa y presencia de todas sus abrazaderas¨)</ion-label>
+                  <ion-label>Juntas homocinéticas y guardapolvos <br class="br375"><br class="br320"> (apariencia fuga <br class="brmain"> de grasa y presencia<br class="br320"> de todas <br class="br375"> sus abrazaderas)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.joints_dust_covers.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.joints_dust_covers.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2" [class.segment-yellow]="mechanicalFile.joints_dust_covers.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.joints_dust_covers.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.joints_dust_covers.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -939,18 +939,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.shock_absorbers.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.shock_absorbers.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.shock_absorbers.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -966,17 +966,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.spirals.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.spirals.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.spirals.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.spirals.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -986,25 +986,25 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Mesetas sup.e inf. (bujes con desgaste y <br> muñones con juego)</ion-label>
+                  <ion-label>Mesetas sup.e inf. <br class="br375"> (bujes con desgaste y <br class="br320"><br class="brmain"> muñones con juego)</ion-label>
 
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.upper_lower_plateaus.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.upper_lower_plateaus.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.upper_lower_plateaus.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1020,16 +1020,16 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.stumps.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.stumps.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3" [class.segment-yellow]="mechanicalFile.stumps.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.stumps.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.stumps.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1045,18 +1045,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.terminal_blocks.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.terminal_blocks.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.terminal_blocks.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1071,18 +1071,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.brakes.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.brakes.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.brakes.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1092,23 +1092,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Cardan o Eje de Transmisión (juego en crucetas,<br> ruidos o golpes)</ion-label>
+                  <ion-label>Cardan o Eje de Transmisión <br class="br375"><br class="br320">(juego en crucetas,<br class="brmain"> ruidos o golpes)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.cardan_transmission_shaft.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.cardan_transmission_shaft.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.cardan_transmission_shaft.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.cardan_transmission_shaft.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1118,24 +1118,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fugas de aceite de motor/transmisión <br>(Empacaduras, sellos)</ion-label>
+                  <ion-label>Fugas de aceite de motor/transmisión <br class="br375"><br class="br320"><br class="brmain">(Empacaduras, sellos)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.engine_transmission_oil_leaks.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.engine_transmission_oil_leaks.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.engine_transmission_oil_leaks.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1145,24 +1145,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Fuga de aceite hidráulico  en cajetín de dirección</ion-label>
+                  <ion-label>Fuga de aceite hidráulico  en cajetín<br class="br320"> de dirección</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.hydraulic_oil_leak_steering_box.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="0.75"
-                      [class.segment-yellow]="mechanicalFile.hydraulic_oil_leak_steering_box ==='Mejora' || '0.75'">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button
+                      [class.segment-yellow]="mechanicalFile.hydraulic_oil_leak_steering_box.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.hydraulic_oil_leak_steering_box.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1172,23 +1172,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Oxido excesivo en el bastidor o compacto</ion-label>
+                  <ion-label>Oxido excesivo en el bastidor<br class="br320"> o compacto</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.excessive_rust_on_frame_compact.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.excessive_rust_on_frame_compact.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.excessive_rust_on_frame_compact.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.excessive_rust_on_frame_compact.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1198,24 +1198,24 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Tubo de escape (anclajes de goma, sin fuga, <br>ni perforaciones)</ion-label>
+                  <ion-label>Tubo de escape (anclajes de goma, <br class="br320"><br class="br375"> sin fuga, <br class="brmain">ni perforaciones)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.exhaust_pipe.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
                   
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.exhaust_pipe.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.exhaust_pipe.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1229,23 +1229,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Puertas (abren,cierra y funcionan los seguros)</ion-label>                
+                  <ion-label>Puertas (abren,cierra y funcionan<br class="br320"> los seguros)</ion-label>                
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.doors.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.doors.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.doors.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1265,17 +1265,17 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.stop.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.stop.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.stop.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.stop.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1285,23 +1285,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label> Compuerta del surtidor de combustible <br> (función apertura y tapa)</ion-label>
+                  <ion-label> Compuerta del surtidor de combustible<br class="br320"><br class="brmain"><br class="br375"> (función apertura y tapa)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                   disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.fuel_pump_door.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.fuel_pump_door.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.fuel_pump_door.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.fuel_pump_door.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1311,22 +1311,22 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Puerta del Maletero (Funcionamiento y cuadratura)</ion-label>                </ion-col>
+                  <ion-label>Puerta del Maletero <br class="br375"> (Funcionamiento y<br class="br320"> cuadratura)</ion-label>                </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.trunk_door.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.trunk_door.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.trunk_door.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.trunk_door.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1343,18 +1343,18 @@
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.trunk_interior.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
                   
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.trunk_interior.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.trunk_interior.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1364,23 +1364,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Caucho de repuesto y Juego de Herramientas <br> (gato y Triangulo de seguridad)</ion-label>
+                  <ion-label>Caucho de repuesto y Juego de<br class="br320"> Herramientas <br class="br375"> <br class="brmain"> (gato y Triangulo<br class="br320"> de seguridad)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.replacement_rubber_tool_set.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1.5"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.replacement_rubber_tool_set.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.replacement_rubber_tool_set.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1400,16 +1400,16 @@
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.complete_emblems.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.complete_emblems.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
           
-                    <ion-segment-button value="1" [class.segment-yellow]="mechanicalFile.complete_emblems.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                    <ion-segment-button [class.segment-yellow]="mechanicalFile.complete_emblems.upgrade === true">
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.complete_emblems.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1419,24 +1419,24 @@
             <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Carrocería (golpes, abolladuras, oxidada o picada)</ion-label>
+                  <ion-label>Carrocería <br class="br375"> (golpes, abolladuras,<br class="br320"> oxidada o picada)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.bodywork.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.bodywork.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="2"
-                      [class.segment-green]="mechanicalFile.bodywork ==='3' || '3'">
-                      <ion-label>Aplica</ion-label>
+                    <ion-segment-button
+                      [class.segment-green]="mechanicalFile.bodywork.apply">
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1446,23 +1446,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Pintura (decoloración, tonalidad, rayones (+2cm)</ion-label>
+                  <ion-label>Pintura <br class="br375"> (decoloración, tonalidad,<br class="br320"> rayones (+2cm)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                   [class.mLeft]="android === true || web === true"
                     disabled="true">
-                    <ion-segment-button value="0" [class.segment-red]="mechanicalFile.paint.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                    <ion-segment-button [class.segment-red]="mechanicalFile.paint.no_apply === true">
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.paint.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="3"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.paint.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1472,23 +1472,23 @@
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>Estado de los neumáticos <br> (presión y desgaste no uniforme o anormal)</ion-label>
+                  <ion-label>Estado de los neumáticos <br class="br375"><br class="br320"><br class="brmain">(presión y desgaste no uniforme<br class="br320"> o anormal)</ion-label>
                 </ion-col>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.tire_condition.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.tire_condition.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.tire_condition.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
@@ -1497,46 +1497,45 @@
             
             <ion-item class="itemSegment" >
               <ion-row class="rowSegment">
-                <ion-label>Ornamentos de ruedas (tapa centro de rin)</ion-label>
+                <ion-label>Ornamentos de ruedas <br class="br320">(tapa centro de rin)</ion-label>
                 <ion-col size="12" class="colSegment">
                   <ion-segment
                     
                   [class.mLeft]="android === true || web === true" disabled="true">
-                    <ion-segment-button value="0"
+                    <ion-segment-button
                       [class.segment-red]="mechanicalFile.wheel_ornaments.no_apply === true">
-                      <ion-label>No aplica</ion-label>
+                      <ion-label>Malo</ion-label>
                     </ion-segment-button>
 
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-yellow]="mechanicalFile.wheel_ornaments.upgrade === true">
-                      <ion-label>Mejora</ion-label>
+                      <ion-label>Bueno</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="1"
+                    <ion-segment-button
                       [class.segment-green]="mechanicalFile.wheel_ornaments.apply === true">
-                      <ion-label>Aplica</ion-label>
+                      <ion-label>Excelente</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
               </ion-row>
             </ion-item>
 
-            <ion-item class="itemSegment">
+            <!-- <ion-item class="itemSegment">
               <ion-row class="rowSegment">
                 <ion-col size="12">
-                  <ion-label>¿Se realizaron reparaciones en el taller/concesionario luego de su ingreso.?</ion-label>
+                  <ion-label>¿Se realizaron reparaciones en el taller/concesionario luego de su ingreso?</ion-label>
                 </ion-col>
                 <ion-col size="12"  class="colSegment">
-                  <ion-segment [value]="mechanicalFile.dealer_maintenance" disabled="true" style="width: 73%;">
-                    <ion-segment-button value="no" class="segment-red">
-                      <ion-label>No</ion-label>
+                  <ion-segment disabled="true" style="width: 73%;">
+                    <ion-segment-button [class.segment-red]="mechanicalFile.dealer_maintenance ===                     <ion-label>No</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="si" class="segment-green">
+                    <ion-segment-button [class.segment-green]="mechanicalFile.dealer_maintenance === 'si'">
                       <ion-label>Sí</ion-label>
                     </ion-segment-button>
                   </ion-segment>
                 </ion-col>
               </ion-row>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item-divider >
               <ion-label>
