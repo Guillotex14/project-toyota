@@ -483,7 +483,7 @@
             </ion-row>
           </ion-col>
 
-          <ion-col size="12" sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+          <ion-col size="12" sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="newVehicle.brand === 'toyota' || newVehicle.brand === 'Toyota'">
             <ion-item-divider style="text-align: center;" class="dividerCertificate">
               <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
             </ion-item-divider>

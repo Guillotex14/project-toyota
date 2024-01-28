@@ -143,7 +143,6 @@ export class GraphicsAdminPage implements AfterViewInit {
           tooltip: {
             callbacks: {
               label: function (tooltipItem: any) {
-                console.log(tooltipItem)
                 // Redondear el valor numérico al entero más cercano
                 var value = Math.round(tooltipItem.yLabel);
                 return value.toString(); // Devolver el valor redondeado sin decimales

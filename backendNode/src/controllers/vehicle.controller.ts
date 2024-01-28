@@ -962,6 +962,7 @@ vehicleController.mechanicalFileByIdVehicle = async (
         tire_condition: 1,
         wheel_ornaments: 1,
         general_condition: 1,
+        dealer_maintenance: 1,
         created_at: 1,
         vehicle: {
           price_ofert: 1
@@ -2695,6 +2696,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
         tire_condition: 1,
         wheel_ornaments: 1,
         general_condition: 1,
+        dealer_maintenance: 1,
         created_at: 1,
         vehicle: {
           price_ofert: 1
@@ -2901,6 +2903,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
     fog_lights,
     bonnet,
     engine_ignition,
+    engine_noises,
     fluid_reservoirs,
     spark_plugs_coils_general_condition,
     air_filter,
@@ -2935,6 +2938,8 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
     tire_condition,
     wheel_ornaments,
     general_condition_fluids,
+    dealer_maintenance,
+    general_condition,
     id_vehicle,
     id_mechanic,
   } = req.body;
@@ -2959,6 +2964,7 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
     fog_lights,
     bonnet,
     engine_ignition,
+    engine_noises,
     fluid_reservoirs,
     spark_plugs_coils_general_condition,
     air_filter,
@@ -2993,6 +2999,8 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
     tire_condition,
     wheel_ornaments,
     general_condition_fluids,
+    dealer_maintenance,
+    general_condition,
     id_vehicle,
     id_mechanic,
     created_at: dateNow,

@@ -114,7 +114,42 @@
   
     transform: rotate(45deg);
   }
+
+  ion-checkbox::part(container) {
+    width: 25px;
+    height: 25px;
   
+    border-radius: 8px;
+    border: 2px solid #ddd;
+  }
+  
+  ion-checkbox::part(mark) {
+    background: none;
+    transition: none;
+    transform: none;
+    border-radius: 0;
+  }
+
+  ion-checkbox.checkbox-checked::part(container) {
+    background: #EB0A1E;
+    border-color: transparent;
+  }
+
+  ion-checkbox.checkboxRed.checkbox-checked::part(container) {
+    background: #EB0A1E;
+    border-color: transparent;
+  }
+  
+  ion-checkbox.checkboxGreen.checkbox-checked::part(container) {
+    background: #00A651;
+    border-color: transparent;
+  }
+
+  ion-checkbox.checkboxYellow.checkbox-checked::part(container) {
+    background: #cc9a06;
+    border-color: transparent;
+  }
+
   ion-fab-button{
     --background: #EB0A1E;
     --background-activated: #f6071b;

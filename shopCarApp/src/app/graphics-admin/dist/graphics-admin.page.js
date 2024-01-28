@@ -152,7 +152,6 @@ var GraphicsAdminPage = /** @class */ (function () {
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                console.log(tooltipItem);
                                 // Redondear el valor numérico al entero más cercano
                                 var value = Math.round(tooltipItem.yLabel);
                                 return value.toString(); // Devolver el valor redondeado sin decimales

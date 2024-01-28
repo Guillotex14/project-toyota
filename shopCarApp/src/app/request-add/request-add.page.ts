@@ -100,8 +100,6 @@ export class RequestAddPage implements OnInit {
       type_vehicle: this.type_vehicle
     };
 
-    console.log(data)
-    return;
     this.utilsSrv.presentLoading("Enviando solicitud...")
     this.sellerSrv.requestAdd(data).subscribe((res:any) => {
         if(res.status) {

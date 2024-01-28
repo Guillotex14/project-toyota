@@ -125,7 +125,6 @@ export class AdminService {
   } 
 
   public deleteBrand(id:any){
-    console.log(id);
     return this.http.post(global.urlBase+'vehicle/delete-brand',id,this.authSrv.getToken()!);
   }
 

@@ -48,7 +48,6 @@ export class ListAdminConcesionaryPage implements OnInit {
   public getAdmins() {
 
     this.adminSrv.allAdminsConcesionary(this.dataSearch).subscribe((resp:any) => {
-      console.log(resp)
       if (resp.status) {
         this.loading = false;
         this.arrayAdmins = resp.data.rows;

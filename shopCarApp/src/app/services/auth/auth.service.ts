@@ -57,7 +57,6 @@ export class AuthService {
   }
 
   public setToken(){
-    console.log("setToken")
     this.utils.getLogin().subscribe((data) => {
       if (data === true) {
         this.getToken();

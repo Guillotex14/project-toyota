@@ -425,7 +425,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   }
 
   public onChangeRngMonth(event: any) {
-    console.log(event.detail.value)
     this.rangMonths_breadcrumb = event.detail.value;
   }
 

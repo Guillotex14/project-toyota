@@ -48,7 +48,6 @@ export class ListBrandAdminPage implements OnInit {
   public getBrandsList(){
     this.utils.presentLoading("cargando data...")
     this.adminSrv.getBrandsList(this.search).subscribe((resp:any)=>{
-      console.log(resp.data)
       if (resp.status) {
         this.loading = false;
         this.utils.dismissLoading()

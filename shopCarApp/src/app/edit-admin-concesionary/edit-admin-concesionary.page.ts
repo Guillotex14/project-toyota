@@ -121,7 +121,6 @@ export class EditAdminConcesionaryPage implements OnInit {
   public getAdminById() {
     this.utils.presentLoading("Cargando datos del administrador");
     this.adminSrv.getAdminById(this.id).subscribe((res: any) => {
-      console.log(res)
       if (res.status) {
         this.adminDetail = res.data;
         this.adminDetail.city = res.data.concesionary.state;

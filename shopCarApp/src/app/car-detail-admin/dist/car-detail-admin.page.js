@@ -125,7 +125,6 @@ var CarDetailAdminPage = /** @class */ (function () {
                 };
                 this.sellerSrv.generatePdf(data).subscribe(function (res) { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
-                        console.log(res);
                         if (res.status) {
                             this.utils.dismissLoading();
                             // await Share.share({

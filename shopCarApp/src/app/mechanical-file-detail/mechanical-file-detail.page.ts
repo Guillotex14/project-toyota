@@ -35,71 +35,287 @@ export class MechanicalFileDetailPage implements OnInit {
       this.web = true;
     }
 
-    this.mechanicalFile.steering_wheel="";
-    this.mechanicalFile.pedals="";
-    this.mechanicalFile.gauges_dashboard_lights="";
-    this.mechanicalFile.transmission_shift_lever="";
-    this.mechanicalFile.brake_lever="";
-    this.mechanicalFile.accessories="";
-    this.mechanicalFile.internal_upholstery="";
-    this.mechanicalFile.courtesy_lights="";
-    this.mechanicalFile.windshield="";
-    this.mechanicalFile.window_glass_operation="";
-    this.mechanicalFile.door_locks_handles="";
-    this.mechanicalFile.operation_manual_electric_mirrors="";
-    this.mechanicalFile.seat_belts="";
+    this.mechanicalFile.steering_wheel={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.pedals={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.gauges_dashboard_lights={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.transmission_shift_lever={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.brake_lever={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.accessories={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.internal_upholstery={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.courtesy_lights={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.windshield={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.window_glass_operation={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.door_locks_handles={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.operation_manual_electric_mirrors={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.seat_belts={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.front_bumpers="";
-    this.mechanicalFile.front_grill="";
-    this.mechanicalFile.headlights_low_beams_cocuyos="";
-    this.mechanicalFile.fog_lights="";
+    this.mechanicalFile.front_bumpers={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.front_grill={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.headlights_low_beams_cocuyos={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.fog_lights={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.bonnet="";
-    this.mechanicalFile.engine_ignition="";
-    this.mechanicalFile.engine_noises="";
-    this.mechanicalFile.general_condition_fluids="";
-    this.mechanicalFile.fluid_reservoirs="";
-    this.mechanicalFile.spark_plugs_coils_general_condition="";
-    this.mechanicalFile.air_filter="";
-    this.mechanicalFile.transmission_belts="";
-    this.mechanicalFile.appearance_hoses_caps_seals_connections="";
-    this.mechanicalFile.battery_condition_terminal_tightness_corrosion="";
-    this.mechanicalFile.fluid_leak="";
-    this.mechanicalFile.general_engine_compression_condition="";
+    this.mechanicalFile.bonnet={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.engine_ignition={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.engine_noises={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.general_condition_fluids={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.fluid_reservoirs={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.spark_plugs_coils_general_condition={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.air_filter={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.transmission_belts={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.appearance_hoses_caps_seals_connections={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.battery_condition_terminal_tightness_corrosion={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.fluid_leak={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.general_engine_compression_condition={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.stabilizer_bars="";
-    this.mechanicalFile.bearings="";
-    this.mechanicalFile.joints_dust_covers="";
-    this.mechanicalFile.shock_absorbers="";
-    this.mechanicalFile.spirals="";
-    this.mechanicalFile.upper_lower_plateaus="";
-    this.mechanicalFile.stumps="";
-    this.mechanicalFile.terminal_blocks="";
-    this.mechanicalFile.brakes="";
-    this.mechanicalFile.cardan_transmission_shaft="";
-    this.mechanicalFile.engine_transmission_oil_leaks="";
-    this.mechanicalFile.hydraulic_oil_leak_steering_box="";
-    this.mechanicalFile.excessive_rust_on_frame_compact="";
-    this.mechanicalFile.exhaust_pipe="";
+    this.mechanicalFile.stabilizer_bars={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.bearings={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.joints_dust_covers={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.shock_absorbers={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.spirals={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.upper_lower_plateaus={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.stumps={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.terminal_blocks={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.brakes={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.cardan_transmission_shaft={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.engine_transmission_oil_leaks={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.hydraulic_oil_leak_steering_box={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.excessive_rust_on_frame_compact={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.exhaust_pipe={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.doors="";
+    this.mechanicalFile.doors={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.stop="";
-    this.mechanicalFile.fuel_pump_door="";
-    this.mechanicalFile.trunk_door="";
-    this.mechanicalFile.trunk_interior="";
-    this.mechanicalFile.replacement_rubber_tool_set="";
+    this.mechanicalFile.stop={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.fuel_pump_door={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.trunk_door={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.trunk_interior={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.replacement_rubber_tool_set={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
 
-    this.mechanicalFile.complete_emblems="";
-    this.mechanicalFile.bodywork="";
-    this.mechanicalFile.paint="";
-    this.mechanicalFile.tire_condition="";
-    this.mechanicalFile.wheel_ornaments="";
+    this.mechanicalFile.complete_emblems={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.bodywork={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.paint={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.tire_condition={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
+    this.mechanicalFile.wheel_ornaments={
+      apply: false,
+      no_apply: false,
+      upgrade: false
+    };
     
     this.mechanicalFile.dealer_maintenance = "";
     this.mechanicalFile.general_condition = 0;
     this.mechanicalFile.certificate = false;
-    // this.mechanicalFile.id_vehicle = this.id;
+    this.mechanicalFile.id_vehicle = this.id;
   }
 
   ngOnInit() {

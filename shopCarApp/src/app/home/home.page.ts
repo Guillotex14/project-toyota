@@ -117,7 +117,6 @@ export class HomePage {
   }
 
   public enterKey(event:any){
-    console.log(event)
     if (event.keyCode === '13') this.login(); 
   }
 }

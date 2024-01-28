@@ -356,7 +356,6 @@ export class ComparisonPage implements OnInit {
 
     setTimeout(() => {
       this.loading = false;
-      console.log(this.comparison)
     }, 2000);
   }
 
@@ -447,7 +446,6 @@ export class ComparisonPage implements OnInit {
         }
       }
     }
-    console.log(sortedComparison)
     return sortedComparison;
   }
 

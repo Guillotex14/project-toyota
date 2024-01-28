@@ -47,36 +47,90 @@ ion-fab-button{
   --color: white;
 }
 
+ion-checkbox::part(container) {
+  width: 25px;
+  height: 25px;
+
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+ion-checkbox::part(mark) {
+  background: none;
+  transition: none;
+  transform: none;
+  border-radius: 0;
+}
+
+ion-checkbox::part(container) {
+  width: 25px;
+  height: 25px;
+
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+ion-checkbox::part(mark) {
+  background: none;
+  transition: none;
+  transform: none;
+  border-radius: 0;
+}
+
+ion-checkbox.checkbox-checked::part(container) {
+  background: #EB0A1E;
+  border-color: transparent;
+}
+
+ion-checkbox.checkboxRed.checkbox-checked::part(container) {
+  background: #EB0A1E;
+  border-color: transparent;
+}
+
+ion-checkbox.checkboxGreen.checkbox-checked::part(container) {
+  background: #00A651;
+  border-color: transparent;
+}
+
+ion-checkbox.checkboxYellow.checkbox-checked::part(container) {
+  background: #cc9a06;
+  border-color: transparent;
+}
+
 .segment-green{
   --color-checked: #00A651 !important;
-  --color: #000 !important;
+  --color: #00A651 !important;
   font-weight: bold;
-  --background-checked: rgb(0, 166, 81,0.1);
+  --background: rgb(0, 166, 81,0.1);
   opacity: 1 !important;
+  border-bottom: 2px solid #00A651 !important;
 }
 
 .segment-orange{
   --color-checked: #F7941D !important;
-  --color: #000 !important;
+  --color: #F7941D !important;
   font-weight: bold;
-  --background-checked: rgb(247, 148, 29,0.1);
+  --background: rgb(247, 148, 29,0.1);
   opacity: 1 !important;
+  border-bottom: 2px solid#F7941D !important;
 }
 
 .segment-red{
   --color-checked: #EB0A1E !important;
-  --color: #000 !important;
+  --color: #EB0A1E !important;
   font-weight: bold;
-  --background-checked: rgb(235, 10, 30,0.1);
+  --background: rgb(235, 10, 30,0.1);
   opacity: 1 !important;
+  border-bottom: 2px solid #EB0A1E !important;
 }
 
 .segment-yellow{
   --color-checked: #cc9a06 !important;
-  --color: #000 !important;
+  --color: #cc9a06 !important;
   font-weight: bold;
-  --background-checked: rgb(249, 214, 22,0.1);
+  --background: rgb(249, 214, 22,0.1);
   opacity: 1 !important;
+  border-bottom: 2px solid #cc9a06 !important;
 }
 .listReport{
   width: 100%;

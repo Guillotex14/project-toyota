@@ -647,7 +647,6 @@ export class CarDetailPage implements OnInit {
     }
 
     this.sellerSrv.editImgDoc(img).subscribe((data:any) => {
-      console.log(data)
       let imgAct= data.data;
       this.zone.run(()=>{
         this.carDetail.imgs_documentation.push(imgAct);
@@ -950,7 +949,6 @@ export class CarDetailPage implements OnInit {
 
   public validTypeDni(event:any){
 
-    console.log(event)
     if (event.detail.value !== '') {
       this.typeDoc=false;
     }else{
@@ -965,7 +963,6 @@ export class CarDetailPage implements OnInit {
   public async ofertAlert(){
     
     this.sellerSrv.ofertInfo(this.id).subscribe(async (data:any) => {
-      console.log(data)
       if (data.status) {
         const alert = await this.alertCtrl.create({
           cssClass: 'my-custom-class',
@@ -997,7 +994,6 @@ export class CarDetailPage implements OnInit {
     }
 
     this.sellerSrv.generatePdf(data).subscribe(async (res:any) => {
-      console.log(res)
       if (res.status) {
         this.utils.dismissLoading();
         await Share.share({
@@ -1119,13 +1115,11 @@ export class CarDetailPage implements OnInit {
   public changeMaintenece(eve:any){
 
     if (eve.detail.value === "true") {
-      console.log(this.carDetail.concesionary_maintenance, "true")
       this.carDetail.general_condition = Number(this.carDetail.general_condition)+10
       
     }
 
     if (eve.detail.value === "false") {
-      console.log(this.carDetail.concesionary_maintenance, "true")
       this.carDetail.general_condition = Number(this.carDetail.general_condition)-10
     }
   }

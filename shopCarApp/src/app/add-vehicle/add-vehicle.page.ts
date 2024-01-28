@@ -308,7 +308,7 @@ export class AddVehiclePage implements OnInit {
       return;
     }
 
-    if(this.certified == "" || this.certified == null || this.certified == undefined){
+    if(this.certified == "" && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota' || this.certified == null && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota'|| this.certified == undefined && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota'){
       this.emptyCertified = true;
       return;
     }
@@ -798,6 +798,7 @@ export class AddVehiclePage implements OnInit {
     this.newVehicle.type_vehicle = item.type_vehicle;
     this.arrayAutoComplete = [];
     this.showAutoComplete = false;
+    this.emptyCertified == true ? this.emptyCertified = false : this.emptyCertified = false;
   }
 
   public createMechanic(){
@@ -1165,7 +1166,6 @@ export class AddVehiclePage implements OnInit {
       let numbers = [1,2,3,4,5];
       //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
       let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
-      console.log(aux)
       this.photoNumber = aux[0];
     }
 

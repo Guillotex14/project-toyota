@@ -413,7 +413,6 @@ var GraphicsPage = /** @class */ (function () {
         this.year_breadcrumb = event.detail.value;
     };
     GraphicsPage.prototype.onChangeRngMonth = function (event) {
-        console.log(event.detail.value);
         this.rangMonths_breadcrumb = event.detail.value;
     };
     GraphicsPage.prototype.onChangeMonth = function (event) {
