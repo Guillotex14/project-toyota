@@ -1926,6 +1926,7 @@ ion-segment {
     .header {
       .headerTitle{
         font-size: 22px !important;
+        text-align: center !important;
       }
     }
   }
@@ -2379,6 +2380,10 @@ ion-segment {
       .badgeNotify{
         right: 10% !important;
         z-index: 99999999;
+      }
+      .headerTitle{
+        font-size: 20px !important;
+        text-align: center !important;
       }
     }
 
@@ -2990,12 +2995,16 @@ ion-segment {
     .iconMenu{
       margin-top: 110% !important;
     }
+    .headerTitle{
+      font-size: 22px !important;
+      text-align: center !important;
+    }
   }
   
   app-list-brand-admin, app-list-user-admin, app-list-model-admin,  app-list-mechanic-admin, app-list-admin-concesionary{
     .header{
       .headerTitle{
-        font-size: 20px !important;
+        font-size: 18px !important;
       }
       .iconMenu {
         margin-top: 85% !important;
@@ -3144,7 +3153,8 @@ ion-segment {
         top: 35% !important;
       }
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 20px !important;
+        text-align: center !important;
       }
       .iconMenu{
         margin-top: 110% !important;
@@ -3176,6 +3186,7 @@ ion-segment {
       }
       .headerTitle{
         font-size: 20px !important;
+        text-align: center !important;
       }
       .iconMenu{
         margin-top: 110% !important;

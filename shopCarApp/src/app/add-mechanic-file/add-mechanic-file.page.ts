@@ -392,7 +392,7 @@ export class AddMechanicFilePage implements OnInit {
     if (this.onValidateForm() === false){
       return;
     }
-    return;
+    
     this.disabledSave = true;
     this.utils.presentToast("Creando ficha mecánica")
     this.mechanicSrv.addMechanicalFile(this.newMechanicalFile).subscribe((res:any) => {

@@ -81,11 +81,11 @@ export class AdminService {
   }
 
   public updateModel(model: any){
-    return this.http.post(global.urlBase+"user/updateModel",model,this.authSrv.getToken()!);
+    return this.http.post(global.urlBase+"vehicle/updateModelVehicle",model,this.authSrv.getToken()!);
   }
 
   public deleteModel(model: any){
-    return this.http.post(global.urlBase+"user/deleteModel",model,this.authSrv.getToken()!);
+    return this.http.post(global.urlBase+"vehicle/deleteModelVehicle",model,this.authSrv.getToken()!);
   }
 
   public allMechanics(data:any){

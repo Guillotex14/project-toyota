@@ -997,7 +997,7 @@ export class CarDetailPage implements OnInit {
       if (res.status) {
         this.utils.dismissLoading();
         await Share.share({
-          title: 'Vehiculo compartido',
+          title: 'Vehículo compartido',
           text: 'Visualiza las características del vehículo que te comparto',
           url: res.data
         });

@@ -103,12 +103,13 @@ export class ListModelAdminPage implements OnInit {
     }
 
 
-    this.utils.presentLoading("Actualizando modelo de vehiculo");
+    this.utils.presentLoading("Actualizando modelo de vehículo");
     this.adminSrv.updateModel(this.model).subscribe((resp:any) => {
       if (resp.status) {
         this.modalEdit.dismiss();
         this.utils.dismissLoading();
-        this.utils.presentToast("Modelo de vehiculo Actualizada")
+        this.utils.presentToast("Modelo de vehículo Actualizado")
+        this.getModelsList();
         this.error = false;
       }else{
         this.utils.dismissLoading();

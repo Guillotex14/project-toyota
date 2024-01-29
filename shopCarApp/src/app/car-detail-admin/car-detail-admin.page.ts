@@ -109,8 +109,8 @@ export class CarDetailAdminPage implements OnInit {
       if (res.status) {
         this.utils.dismissLoading();
         await Share.share({
-          title: 'Vehiculo compartido',
-          text: 'Visualiza las Caracteristicas del vehiculo que te comparto',
+          title: 'Vehículo compartido',
+          text: 'Visualiza las Caracteristicas del vehículo que te comparto',
           url: res.data
         });
       }

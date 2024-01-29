@@ -90,7 +90,7 @@ export class RequestAddPage implements OnInit {
     }
 
     if (this.type_vehicle === "" && this.type_vehicle === undefined) {
-      this.utilsSrv.presentToast("El campo tipo de vehiculo es obligatorio");
+      this.utilsSrv.presentToast("El campo tipo de vehículo es obligatorio");
       return;
     }
 
