@@ -25,7 +25,9 @@ export class ListAdminConcesionaryPage implements OnInit {
   }
 
   loading: boolean = true;
-  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) { }
+  constructor(private router: Router, private menu: MenuController, private utils: UtilsService, private adminSrv: AdminService, private alertCtrl: AlertController) { 
+
+  }
 
   ngOnInit() {
   }

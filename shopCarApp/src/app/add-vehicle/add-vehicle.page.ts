@@ -308,7 +308,7 @@ export class AddVehiclePage implements OnInit {
       return;
     }
 
-    if(this.certified == "" && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota' || this.certified == null && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota'|| this.certified == undefined && this.newVehicle.brand === 'toyota' || this.newVehicle.brand === 'Toyota'){
+    if(this.certified === "" && this.newVehicle.brand === 'toyota' || this.certified === "" && this.newVehicle.brand === 'Toyota' || this.certified == null && this.newVehicle.brand === 'toyota' || this.certified == null && this.newVehicle.brand === 'Toyota'|| this.certified == undefined && this.newVehicle.brand === 'toyota' || this.certified == undefined && this.newVehicle.brand === 'Toyota'){
       this.emptyCertified = true;
       return;
     }
