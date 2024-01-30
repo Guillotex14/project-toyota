@@ -426,6 +426,14 @@ export class AddVehiclePage implements OnInit {
     
     this.utils.presentLoading("Cargando imagen...");
 
+    if (this.photoNumber === 5) {
+      this.modalStep.dismiss();
+    }
+
+    if (this.photoNumber < 5){
+      this.photoNumber++; 
+    }
+
     if (this.arrayImages.length === 2){
       let numbers = [1,2,3,4,5];
       //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
@@ -498,7 +506,15 @@ export class AddVehiclePage implements OnInit {
         number: this.photoNumber
       }
       this.arrayImages.push(img);
-      this.photoNumber++;
+      
+      if (this.photoNumber === 5) {
+        this.modalStep.dismiss();
+      }
+
+      if (this.photoNumber < 5){
+        this.photoNumber++; 
+      }
+      
       if (this.arrayImages.length > 5) {
         this.photoNumber = 1;
         this.modalStep.dismiss();
@@ -1161,6 +1177,15 @@ export class AddVehiclePage implements OnInit {
       this.modalStep.present();
     }
 
+    if (this.arrayImages.length === 1) {
+      this.modalStep.present();
+      let numbers = [1,2,3,4,5];
+      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
+      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
+      this.photoNumber = aux[0];
+
+    }
+
     if (this.arrayImages.length === 2) {
       this.modalStep.present();
       let numbers = [1,2,3,4,5];
@@ -1209,7 +1234,5 @@ export class AddVehiclePage implements OnInit {
     this.aux = index;
     this.photoNumberEdit = index + 1;
   }
-
-
 
 }
