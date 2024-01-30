@@ -2421,6 +2421,7 @@ vehicleController.applyCertificate = async (req: Request, res: Response) => {
   const vehicleUpdated: any = await mechanicalsFiles.findByIdAndUpdate(mechanicalFile._id, {
     certificate: auxCertificate,
   });
+
   const mechanicalFileAux: any = await mechanicalsFiles.findOne({ id_vehicle: data.id });
 
   reponseJson.data = mechanicalFileAux.certificate;
@@ -3153,7 +3154,13 @@ vehicleController.updateMechanicalFile = async (
 
   const oldFicha: any = await mechanicalsFiles.findOne({ _id: data._id });
 
+  
+  if (data.general_condition === "excelente" || data.general_condition > "96") {
+    data.certificate = true;
+  }
+
   const update: any = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
+  
 
   const updateFicha: any = await mechanicalsFiles.findOne({ _id: data._id });
 
