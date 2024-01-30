@@ -428,6 +428,7 @@ export class AddVehiclePage implements OnInit {
 
     if (this.photoNumber === 5) {
       this.modalStep.dismiss();
+      this.photoNumber = 1;
     }
 
     if (this.photoNumber < 5){
@@ -508,6 +509,7 @@ export class AddVehiclePage implements OnInit {
       this.arrayImages.push(img);
       
       if (this.photoNumber === 5) {
+        this.photoNumber = 1;
         this.modalStep.dismiss();
       }
 
