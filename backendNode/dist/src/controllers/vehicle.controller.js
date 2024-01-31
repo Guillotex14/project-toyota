@@ -2649,6 +2649,9 @@ vehicleController.updateMechanicalFile = (req, res) => __awaiter(void 0, void 0,
         date: now
     };
     const oldFicha = yield mechanicalFiles_schema_1.default.findOne({ _id: data._id });
+    if (data.general_condition === "excelente" || data.general_condition > "96") {
+        data.certificate = true;
+    }
     const update = yield mechanicalFiles_schema_1.default.findByIdAndUpdate(data._id, data);
     const updateFicha = yield mechanicalFiles_schema_1.default.findOne({ _id: data._id });
     dataFile.campos_actualizados = setCamposActualizados(oldFicha, updateFicha);

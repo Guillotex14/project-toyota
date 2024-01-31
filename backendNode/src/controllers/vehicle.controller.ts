@@ -3154,13 +3154,13 @@ vehicleController.updateMechanicalFile = async (
 
   const oldFicha: any = await mechanicalsFiles.findOne({ _id: data._id });
 
-  
+
   if (data.general_condition === "excelente" || data.general_condition > "96") {
     data.certificate = true;
   }
 
   const update: any = await mechanicalsFiles.findByIdAndUpdate(data._id, data);
-  
+
 
   const updateFicha: any = await mechanicalsFiles.findOne({ _id: data._id });
 
