@@ -17,10 +17,10 @@ export class GraphicsPage implements AfterViewInit, OnInit {
   me: any = null;
   today = new Date();
   lineChart: any;
-  month: any = "";
-  yearSold: any =new Date().getFullYear();
+  month: any = 1;
+  yearSold: any = "";
   yearSoldAux: any = "";
-  rangMonths: any = '';
+  rangMonths: any = "12";
   yearCar: string = "";
   yearCarAux: string = '';
   brandCar: string = '';
@@ -164,17 +164,18 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
         if (res.data.list.length > 0) {
           this.carListGraphic = res.data.list;
-
+        } else {
+          this.month = 1;
+          this.month_breadcrumb = "1";
+          this.yearSold = "";
+          this.rangMonths = "12";
+          this.yearCar = "";
+          this.brandCar = "";
+          this.modelCar = "";
         }
 
         this.lineChartMethod();
-        this.month = 1;
-        this.month_breadcrumb = "1";
-        this.yearSold = new Date().getFullYear();
-        this.rangMonths = "";
-        this.yearCar = "";
-        this.brandCar = "";
-        this.modelCar = "";
+
       } else {
         this.utils.dismissLoading();
         this.utils.presentToast(res.message);
@@ -202,12 +203,16 @@ export class GraphicsPage implements AfterViewInit, OnInit {
       if (res.status) {
         this.loading = false
         this.arrayListCars = res.data.grupocard;
-        // this.dateTo = ""
-        // this.dateFrom = ""
-        // this.yearCar2 = ""
-        // this.brandCar2 = ""
-        // this.modelCar2 = ""
-        // this.concesionary2 = ""
+
+        if (this.arrayListCars.length==0) {
+          this.dateTo = ""
+          this.dateFrom = ""
+          this.yearCar2 = ""
+          this.yearCarAux2 = ""
+          this.brandCar2 = ""
+          this.modelCar2 = ""
+          this.concesionary2 = ""
+        }
       } else {
         this.utils.presentToast(res.message);
       }
@@ -303,13 +308,7 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
   public openModal() {
     this.modalFilter.present();
-    this.month = 1;
-    this.yearSold = new Date().getFullYear();
-    this.rangMonths = '';
-    this.yearCar = '';
-    this.yearCarAux = '';
-    this.brandCar = '';
-    this.modelCar = '';
+
   }
 
   public closeModal() {
@@ -329,13 +328,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
 
   public openModalVehicle() {
     this.modalVehicle.present();
-    this.dateTo = '';
-    this.dateFrom = '';
-    this.yearCar2 = '';
-    this.yearCarAux2 = '';
-    this.brandCar2 = '';
-    this.modelCar2 = '';
-    this.concesionary2 = '';
   }
 
   public closeModal2() {
