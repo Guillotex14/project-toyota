@@ -24,10 +24,10 @@ moment
 export class GraphicsAdminPage implements AfterViewInit {
   today = new Date();
   lineChart: any;
-  month: any = "";
-  yearSold: any = new Date().getFullYear();
+  month: any = 1;
+  yearSold: any = '';
   yearSoldAux: any = '';
-  rangMonths: any = '';
+  rangMonths: any = "12";
   yearCar: string = '';
   yearCarAux: string = '';
   brandCar: string = '';
@@ -53,7 +53,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   arrayListCars: any[] = [];
   arrayConcesionary: any[] = []
 
-   //breadcrumb
+  //breadcrumb
   brand_breadcrumb: string = "";
   model_breadcrumb: string = "";
   year_breadcrumb: string = "";
@@ -166,7 +166,7 @@ export class GraphicsAdminPage implements AfterViewInit {
       concesionary: this.concesionary2,
       triple_m: this.triple_m,
     }
-    this.utils.presentLoading("Cargando datos...",500);
+    this.utils.presentLoading("Cargando datos...", 500);
     this.sellerSrv.getGrafic(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false;
@@ -176,13 +176,6 @@ export class GraphicsAdminPage implements AfterViewInit {
         this.dataGraphy = res.data;
 
         this.lineChartMethod();
-        this.month = 1;
-        this.yearSold = new Date().getFullYear();
-        this.rangMonths = "";
-        this.yearCar = "";
-        this.brandCar = ""
-        this.modelCar = "";
-        this.concesionary2 = "";
 
         let emptyGraphy = 0;
         for (let i = 0; i < this.dataGraphy.datasets[0].data.length; i++) {
@@ -196,11 +189,20 @@ export class GraphicsAdminPage implements AfterViewInit {
           if (emptyGraphy == this.dataGraphy.datasets[0].data.length) {
             this.utils.presentAlert("", "Gráfica sin resultado", "");
           }
-          
+
         }
 
         if (res.data.list.length > 0) {
           this.carListGraphic = res.data.list;
+        } else {
+          this.month = 1;
+          this.yearSold = ""
+          this.yearSoldAux = ""
+          this.rangMonths = "12";
+          this.yearCar = "";
+          this.brandCar = ""
+          this.modelCar = "";
+          this.concesionary2 = "";
         }
 
 
@@ -230,13 +232,19 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false;
-        this.arrayListCars = res.data.grupocard;
-        // this.dateTo="";
-        // this.dateFrom="";
-        // this.yearCar2="";
-        // this.brandCar2="";
-        // this.modelCar2="";
-        // this.concesionary2="";
+        if (res.data.length > 0) {
+          this.arrayListCars = res.data.grupocard;
+
+        } else {
+          this.dateTo = "";
+          this.dateFrom = "";
+          this.yearCar2 = "";
+          this.yearCarAux2 = "";
+          this.brandCar2 = "";
+          this.modelCar2 = "";
+          this.concesionary2 = "";
+
+        }
       } else {
         this.utils.presentToast(res.message);
       }
@@ -333,14 +341,6 @@ export class GraphicsAdminPage implements AfterViewInit {
 
   public openModal() {
     this.modalFilter.present();
-    this.month = 1;
-    this.yearSold = new Date().getFullYear();
-    this.rangMonths = '';
-    this.yearCar = '';
-    this.yearCarAux = '';
-    this.brandCar = '';
-    this.modelCar = '';
-
   }
 
   public closeModal() {
@@ -358,14 +358,6 @@ export class GraphicsAdminPage implements AfterViewInit {
 
   public openModalVehicle() {
     this.modalVehicle.present();
-
-    this.dateTo = '';
-    this.dateFrom = '';
-    this.yearCar2 = '';
-    this.yearCarAux2 = '';
-    this.brandCar2 = '';
-    this.modelCar2 = '';
-    this.concesionary2 = '';
 
   }
 
@@ -449,27 +441,27 @@ export class GraphicsAdminPage implements AfterViewInit {
     return str.join(".");
   }
 
-  public onChangeBrand(event:any){
+  public onChangeBrand(event: any) {
     this.brand_breadcrumb = event.detail.value;
   }
 
-  public onChangeModel(event:any){
+  public onChangeModel(event: any) {
     this.model_breadcrumb = event.detail.value;
   }
 
-  public onInputYear(event:any){
+  public onInputYear(event: any) {
     this.year_breadcrumb = event.detail.value;
   }
 
-  public onChangeRngMonth(event:any){
+  public onChangeRngMonth(event: any) {
     this.rangMonths_breadcrumb = event.detail.value;
   }
 
-  public onChangeMonth(event:any){
+  public onChangeMonth(event: any) {
     this.month_breadcrumb = event.detail.value;
   }
 
-  public onChangeTripleM(event:any){
+  public onChangeTripleM(event: any) {
     this.triple_m_breadcrumb = event.detail.value;
   }
 }

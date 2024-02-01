@@ -58,10 +58,10 @@ var GraphicsPage = /** @class */ (function () {
         this.authSrv = authSrv;
         this.me = null;
         this.today = new Date();
-        this.month = "";
-        this.yearSold = new Date().getFullYear();
+        this.month = 1;
+        this.yearSold = "";
         this.yearSoldAux = "";
-        this.rangMonths = '';
+        this.rangMonths = "12";
         this.yearCar = "";
         this.yearCarAux = '';
         this.brandCar = '';
@@ -179,14 +179,16 @@ var GraphicsPage = /** @class */ (function () {
                 if (res.data.list.length > 0) {
                     _this.carListGraphic = res.data.list;
                 }
+                else {
+                    _this.month = 1;
+                    _this.month_breadcrumb = "1";
+                    _this.yearSold = "";
+                    _this.rangMonths = "12";
+                    _this.yearCar = "";
+                    _this.brandCar = "";
+                    _this.modelCar = "";
+                }
                 _this.lineChartMethod();
-                _this.month = 1;
-                _this.month_breadcrumb = "1";
-                _this.yearSold = new Date().getFullYear();
-                _this.rangMonths = "";
-                _this.yearCar = "";
-                _this.brandCar = "";
-                _this.modelCar = "";
             }
             else {
                 _this.utils.dismissLoading();
@@ -213,12 +215,15 @@ var GraphicsPage = /** @class */ (function () {
             if (res.status) {
                 _this.loading = false;
                 _this.arrayListCars = res.data.grupocard;
-                // this.dateTo = ""
-                // this.dateFrom = ""
-                // this.yearCar2 = ""
-                // this.brandCar2 = ""
-                // this.modelCar2 = ""
-                // this.concesionary2 = ""
+                if (_this.arrayListCars.length == 0) {
+                    _this.dateTo = "";
+                    _this.dateFrom = "";
+                    _this.yearCar2 = "";
+                    _this.yearCarAux2 = "";
+                    _this.brandCar2 = "";
+                    _this.modelCar2 = "";
+                    _this.concesionary2 = "";
+                }
             }
             else {
                 _this.utils.presentToast(res.message);
@@ -309,13 +314,6 @@ var GraphicsPage = /** @class */ (function () {
     };
     GraphicsPage.prototype.openModal = function () {
         this.modalFilter.present();
-        this.month = 1;
-        this.yearSold = new Date().getFullYear();
-        this.rangMonths = '';
-        this.yearCar = '';
-        this.yearCarAux = '';
-        this.brandCar = '';
-        this.modelCar = '';
     };
     GraphicsPage.prototype.closeModal = function () {
         this.modalFilter.dismiss();
@@ -329,13 +327,6 @@ var GraphicsPage = /** @class */ (function () {
     };
     GraphicsPage.prototype.openModalVehicle = function () {
         this.modalVehicle.present();
-        this.dateTo = '';
-        this.dateFrom = '';
-        this.yearCar2 = '';
-        this.yearCarAux2 = '';
-        this.brandCar2 = '';
-        this.modelCar2 = '';
-        this.concesionary2 = '';
     };
     GraphicsPage.prototype.closeModal2 = function () {
         this.modalVehicle.dismiss();

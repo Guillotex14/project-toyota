@@ -2895,7 +2895,7 @@
                   <div class="col-12 colSegment">
                     <div class="row">
                       <div class="col-6">
-                        <% if (dealer_maintenance === 'no' || dealer_maintenance <= '2.5'){ %>
+                        <% if (dealer_maintenance === 'no'){ %>
                         <ion-label class="segment-red">No</ion-label>
                         <% }else{ %>
                         <ion-label>No</ion-label>
@@ -2904,7 +2904,7 @@
                 
               </div>
               <div class="col-6">
-                <% if (dealer_maintenance === 'si' || dealer_maintenance === '3'){ %>
+                <% if (dealer_maintenance === 'si'){ %>
                         <ion-label class="segment-green">Si</ion-label>
                         <% }else{ %>
                         <ion-label>Si</ion-label>
