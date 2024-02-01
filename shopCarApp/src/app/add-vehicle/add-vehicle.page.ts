@@ -340,6 +340,8 @@ export class AddVehiclePage implements OnInit {
         this.utils.presentToast(resp.message);
         this.emptyForm();
         this.arrayImages = [];
+        this.arrayDocuments = [];
+        this.photoNumber = 1;
         this.disabledSave = false;
         this.router.navigate(['/seller']);
       }else{

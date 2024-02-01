@@ -66,6 +66,7 @@
                     Malo
                   </p> -->
                 </ion-card-content>
+
                 <ion-button expand="block" shape="round" style="width: 30px;position: absolute;z-index: 999999;top: 0;left: 0;" (click)="deleteComparison(i)">
                   X
                 </ion-button>
@@ -82,24 +83,9 @@
           <ion-list-header>
             Kilometraje
           </ion-list-header>
-          <ion-item *ngFor="let vehicle of comparison">
-            
-            <p style="font-size: 13px;" *ngIf="vehicle.firstKm===true && vehicle.equalKm===false">
-              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.secondKm===true && vehicle.equalKm===false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el segundo mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.thirdKm===true && vehicle.equalKm===false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el tercer mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.fourthKm===true && vehicle.equalKm===false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un kilometraje de {{vehicle.km | number}}Kms Es el cuarto mejor que los demás carros comparados.
-            </p>
-          </ion-item>
-          <ion-item *ngIf="arrayEqualKm.length>0">
+          <ion-item>
             <p  style="font-size: 13px;">
-              {{renderIqualKm()}}
+              {{renderAutosKm()}}
             </p>
           </ion-item>
         </ion-list>
@@ -111,24 +97,9 @@
           <ion-list-header>
             Precio
           </ion-list-header>
-          <ion-item *ngFor="let vehicle of comparison">
-            <p style="font-size: 13px;" *ngIf="vehicle.firstPrice === true && vehicle.equalPrice === false">
-              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.secondPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el segundo mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.thirdPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el tercer mejor que los demás carros comparados.
-            </p>
-            <p *ngIf="vehicle.fourthPrice === true && vehicle.equalPrice === false" style="font-size: 13px;">
-              {{vehicle.model}}: Tiene un precio de {{vehicle.price | currency:'USD':true:'1.0-0'}} Es el cuarto mejor que los demás carros comparados.
-            </p>
-            
-          </ion-item>
-          <ion-item *ngIf="arrayEqualPrice.length>0">
+          <ion-item >
             <p  style="font-size: 13px;">
-              {{renderIqualPrice()}}
+              {{renderAutosPrice()}}
             </p>
           </ion-item>
         </ion-list>
@@ -139,18 +110,10 @@
           <ion-list-header>
             Títulos
           </ion-list-header>
-          <ion-item *ngFor="let vehicle of comparison">
-          <p *ngIf="bestTitles(vehicle.titles)===1" style="font-size: 13px;">
-            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el mejor carro a nivel de titulares.
-          </p>
-
-          <p *ngIf="bestTitles(vehicle.titles)===2" style="font-size: 13px;">
-            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el segundo mejor carro a nivel de titulares.
-          </p>
-
-          <p *ngIf="bestTitles(vehicle.titles)===3" style="font-size: 13px;">
-            Tiene un cantidad de titulares de {{vehicle.titles}}. Es el posee mayor nivel de titulares.
-          </p>
+          <ion-item >
+            <p  style="font-size: 13px;">
+              {{renderAutosTitle()}}
+            </p>
           </ion-item>
         </ion-list>
       </ion-col>
@@ -161,32 +124,12 @@
             Estado del vehículo
           </ion-list-header>
 
-          <div *ngFor="let vehicle of comparison">
-            <ion-item  *ngIf="vehicle.general_condition">
-              <p *ngIf="vehicle.general_condition < 76" style="font-size: 13px;">
-                Tiene un estado del vehículo en mal estado. Es el peor carro a nivel de estado.
-              </p>
-  
-              <p *ngIf="vehicle.general_condition >= 76 && vehicle.general_condition < 86" style="font-size: 13px;">
-                Tiene un estado del vehículo en regular estado. Es el segundo peor carro a nivel de estado.
-              </p>
-  
-              <p *ngIf="vehicle.general_condition >= 86 && vehicle.general_condition < 96" style="font-size: 13px;">
-                Tiene un estado del vehículo en buen estado. Es el segundo mejor carro a nivel de estado.
-              </p>
-  
-              <p *ngIf="vehicle.general_condition < 96" style="font-size: 13px;">
-                Tiene un estado del vehículo en excelente estado. Es el mejor carro a nivel de estado.
-              </p>
-  
-            </ion-item>
-
-            <ion-item *ngIf="!vehicle.general_condition">
-              <p style="font-size: 13px">
-                {{vehicle.model}}:  No se encontró información del estado del vehículo.
-              </p>
-            </ion-item>
-          </div>
+          
+          <ion-item>
+            <p  style="font-size: 13px;">
+              {{renderAutosCondition()}}
+            </p>
+          </ion-item>
         </ion-list>
       </ion-col>
 

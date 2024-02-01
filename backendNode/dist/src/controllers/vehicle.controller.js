@@ -66,7 +66,6 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     let emailmechanic = "";
     let infoSeller = {};
     let dateNow = (0, moment_1.default)().format("YYYY-MM-DD");
-    let documents = [];
     const { model, brand, year, displacement, km, engine_model, titles, fuel, transmission, traction, city, concesionary, traction_control, performance, comfort, technology, id_seller, id_mechanic, type_vehicle, images, vin, vehicle_plate, imgs_documents, concesionary_maintenance, certified, general_condition } = req.body;
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
@@ -74,6 +73,20 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         reponseJson.status = false;
         reponseJson.data = null;
         return res.json(reponseJson);
+    }
+    let documents = [];
+    if (imgs_documents.length > 0) {
+        console.log("entro");
+        for (let i = 0; i < imgs_documents.length; i++) {
+            // const imgResize = await desgloseImg(imgs_documents[i].image);
+            const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgs_documents[i].image);
+            let data = {
+                img: filename.secure_url,
+                public_id: filename.public_id,
+                name: imgs_documents[i].name,
+            };
+            documents.push(data);
+        }
     }
     const newVehicle = new Vehicles_schema_2.default({
         model,
@@ -104,7 +117,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
         plate: vehicle_plate,
         concesionary_maintenance,
         certified,
-        general_condition
+        general_condition,
     });
     yield newVehicle.save();
     const mec = yield Mechanics_schema_1.default.findOne({ _id: id_mechanic });
@@ -124,24 +137,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         }
     }
-    // ...................
-    if (imgs_documents) {
-        if (imgs_documents.length > 0) {
-            for (let i = 0; i < imgs_documents.length; i++) {
-                // const imgResize = await desgloseImg(imgs_documents[i].image);
-                const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(imgs_documents[i].image);
-                let data = {
-                    img: filename.secure_url,
-                    public_id: filename.public_id,
-                    name: imgs_documents[i].name,
-                };
-                documents.push(data);
-            }
-        }
-    }
-    yield Vehicles_schema_2.default.findByIdAndUpdate(newVehicle._id, {
-        imgs_documentation: documents,
-    });
+    updateImgDocsVehicle(newVehicle._id.toString(), documents);
     const dataVehicle = {
         model: model,
         year: year,
@@ -161,6 +157,7 @@ vehicleController.addVehicle = (req, res) => __awaiter(void 0, void 0, void 0, f
     };
     sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
     yield (0, nodemailer_1.sendEmail)(mailOptions);
+    const datasend = Vehicles_schema_2.default.findById(newVehicle._id);
     reponseJson.code = 200;
     reponseJson.message = "Vehículo agregado exitosamente";
     reponseJson.status = true;
@@ -1041,6 +1038,9 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
     if (vehiclesFiltered) {
         let arrayVehicles = [];
         for (let i = 0; i < vehiclesFiltered.length; i++) {
+            const mechanicalFile = yield mechanicalFiles_schema_1.default.findOne({
+                id_vehicle: vehiclesFiltered[i]._id,
+            });
             let data = {
                 name_new_owner: vehiclesFiltered[i].name_new_owner,
                 dni_new_owner: vehiclesFiltered[i].dni_new_owner,
@@ -1079,6 +1079,7 @@ vehicleController.filterVehiclesWithMongo = (req, res) => __awaiter(void 0, void
                 plate: vehiclesFiltered[i].plate,
                 vin: vehiclesFiltered[i].vin,
                 concesionary_maintenance: vehiclesFiltered[i].concesionary_maintenance,
+                general_condition: mechanicalFile ? mechanicalFile.general_condition : 0,
                 image: (yield ImgVehicle_schema_1.default.findOne({
                     id_vehicle: vehiclesFiltered[i]._id,
                 }))
@@ -3463,6 +3464,17 @@ const sendNotificationAdmin = (id, data, title) => __awaiter(void 0, void 0, voi
         status: false,
     });
     yield notify.save();
+});
+const updateImgDocsVehicle = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    //buscamos el vehiculo y actulizamos el campo img_documentation
+    console.log(data);
+    const vehicle = yield Vehicles_schema_2.default.findOne({ _id: id });
+    if (vehicle) {
+        vehicle.imgs_documentation = data;
+        yield vehicle.save();
+    }
+    const vehicleFound = yield Vehicles_schema_2.default.findOne({ _id: id });
+    console.log(vehicleFound);
 });
 exports.default = vehicleController;
 //# sourceMappingURL=vehicle.controller.js.map

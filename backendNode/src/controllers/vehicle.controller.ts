@@ -38,7 +38,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
-  let documents: any[] = [];
+  
 
   const {
     model,
@@ -76,6 +76,25 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
+  
+  let documents = [];
+
+  if (imgs_documents.length > 0) {
+    console.log("entro");
+    for (let i = 0; i < imgs_documents.length; i++) {
+      // const imgResize = await desgloseImg(imgs_documents[i].image);
+
+      const filename = await uploadDocuments(imgs_documents[i].image);
+
+      let data = {
+        img: filename.secure_url,
+        public_id: filename.public_id,
+        name: imgs_documents[i].name,
+      };
+
+      documents.push(data);
+    }
+  }
 
   const newVehicle = new vehicles({
     model,
@@ -106,7 +125,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     plate: vehicle_plate,
     concesionary_maintenance,
     certified,
-    general_condition
+    general_condition,
   });
 
   await newVehicle.save();
@@ -132,29 +151,8 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
       }
     }
   }
-  // ...................
-
-  if (imgs_documents) {
-    if (imgs_documents.length > 0) {
-      for (let i = 0; i < imgs_documents.length; i++) {
-        // const imgResize = await desgloseImg(imgs_documents[i].image);
-
-        const filename = await uploadDocuments(imgs_documents[i].image);
-
-        let data = {
-          img: filename.secure_url,
-          public_id: filename.public_id,
-          name: imgs_documents[i].name,
-        };
-
-        documents.push(data);
-      }
-    }
-  }
-
-  await vehicles.findByIdAndUpdate(newVehicle._id, {
-    imgs_documentation: documents,
-  });
+  
+  updateImgDocsVehicle(newVehicle._id.toString(), documents);
 
   const dataVehicle = {
     model: model,
@@ -178,6 +176,8 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
 
   sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
   await sendEmail(mailOptions);
+
+  const datasend = vehicles.findById(newVehicle._id);
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";
@@ -1186,6 +1186,11 @@ vehicleController.filterVehiclesWithMongo = async (
     let arrayVehicles: any[] = [];
 
     for (let i = 0; i < vehiclesFiltered.length; i++) {
+
+      const mechanicalFile = await mechanicalsFiles.findOne({
+        id_vehicle: vehiclesFiltered[i]._id,
+      });
+
       let data = {
         name_new_owner: vehiclesFiltered[i].name_new_owner,
         dni_new_owner: vehiclesFiltered[i].dni_new_owner,
@@ -1224,6 +1229,7 @@ vehicleController.filterVehiclesWithMongo = async (
         plate: vehiclesFiltered[i].plate,
         vin: vehiclesFiltered[i].vin,
         concesionary_maintenance: vehiclesFiltered[i].concesionary_maintenance,
+        general_condition: mechanicalFile ? mechanicalFile.general_condition : 0,
         image: (await ImgVehicle.findOne({
           id_vehicle: vehiclesFiltered[i]._id,
         }))
@@ -2709,6 +2715,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
     }
 
   ]);
+
   if (mecFile[0].certificate) {
     mecFile[0].certificateStr = "si"
   } else {
@@ -2756,6 +2763,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
   }
 
   res.json(jsonRes);
+  
 };
 
 vehicleController.inspections = async (req: Request, res: Response) => {
@@ -4103,6 +4111,21 @@ const sendNotificationAdmin = async (id: string, data: any, title: string) => {
     status: false,
   });
   await notify.save();
+};
+
+const updateImgDocsVehicle = async (id: string, data: any) => {
+  //buscamos el vehiculo y actulizamos el campo img_documentation
+  console.log(data)
+  const vehicle = await vehicles.findOne({ _id: id });
+
+  if (vehicle) {
+    vehicle.imgs_documentation = data;
+    await vehicle.save();
+  }
+
+  const vehicleFound = await vehicles.findOne({ _id: id });
+  console.log(vehicleFound)
+
 };
 
 export default vehicleController;

@@ -19,6 +19,7 @@ export class ComparisonPage implements OnInit {
   arrayEqualCondition: any[] = [];
   loading: boolean = true;
   constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) { 
+   
   }
 
   ngOnInit() {
@@ -46,11 +47,13 @@ export class ComparisonPage implements OnInit {
     let labels = ['firstKm', 'secondKm', 'thirdKm', 'fourthKm', 'equalKM'];
     let labelsPrice = ['firstPrice', 'secondPrice', 'thirdPrice', 'fourthPrice', 'equalPrice'];
     let labelsTitle = ['firstTitle', 'secondTitle', 'thirdTitle', 'fourthTitle', 'equalTitle'];
+    let labelsCondition = ['firstCondition', 'secondCondition', 'thirdCondition', 'fourthCondition', 'equalCondition'];
 
     this.comparison = this.assignColorsAndLabelsKm('km', colors, labels);
     this.comparison = this.assignColorsAndLabelsPrice('price', colors, labelsPrice);
     this.comparison = this.assignBestTitle('titles', labelsTitle);
-    
+    this.comparison = this.assignBestCondition('general_condition', labelsCondition);
+    this.renderAutosTitle();
     setTimeout(() => {
       this.loading = false;
     }, 2000);
@@ -133,11 +136,15 @@ export class ComparisonPage implements OnInit {
       sortedComparison[i].equalKm = false;
     }
 
-    //relizamos un loop para buscar los vehiculos que tengan el mismo kilometraje y no le asignamos color, solo la propiedad equalKm
+    //relizamos un loop para buscar los vehiculos que tengan el mismo kilometraje y no le asignamos color, solo la propiedad equalKm y que tambien  tengan la propiedad firstKm en true
 
     for (let i = 0; i < sortedComparison.length; i++) {
       for (let j = 0; j < sortedComparison.length; j++) {
-        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+        if (
+          sortedComparison[i][property] === sortedComparison[j][property] 
+          && i !== j 
+          && sortedComparison[i][labels[i]] === true
+          && sortedComparison[j][labels[j]] === true) {
           sortedComparison[i].equalKM = true;
           this.arrayEqualKm.push(sortedComparison[i]);
         }
@@ -159,7 +166,10 @@ export class ComparisonPage implements OnInit {
 
     for (let i = 0; i < sortedComparison.length; i++) {
       for (let j = 0; j < sortedComparison.length; j++) {
-        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+        if (sortedComparison[i][property] === sortedComparison[j][property] 
+          && i !== j
+          && sortedComparison[i][labels[i]] === true
+          && sortedComparison[j][labels[j]] === true) {
           sortedComparison[i].equalPrice = true;
           this.arrayEqualPrice.push(sortedComparison[i]);
         }
@@ -197,25 +207,12 @@ export class ComparisonPage implements OnInit {
 
     for (let i = 0; i < sortedComparison.length; i++) {
       for (let j = 0; j < sortedComparison.length; j++) {
-        if (sortedComparison[i][property] === sortedComparison[j][property] && i !== j) {
+        if (sortedComparison[i][property] === sortedComparison[j][property] 
+          && i !== j
+          && sortedComparison[i][labels[i]] === true
+          && sortedComparison[j][labels[j]] === true) {
           sortedComparison[i].equalTitle = true;
           this.arrayEqualTitle.push(sortedComparison[i]);
-          
-          if (sortedComparison[i].firstTitle) {
-            sortedComparison[i].firstTitle = false;
-          }
-
-          if (sortedComparison[i].secondTitle) {
-            sortedComparison[i].secondTitle = false;
-          }
-
-          if (sortedComparison[i].thirdTitle) {
-            sortedComparison[i].thirdTitle = false;
-          }
-
-          if (sortedComparison[i].fourthTitle) {
-            sortedComparison[i].fourthTitle = false;
-          }
 
         }
       }
@@ -223,6 +220,33 @@ export class ComparisonPage implements OnInit {
 
     return sortedComparison;
 
+  }
+
+  public assignBestCondition(property: string, labels: string[]) {
+      
+      //realizamos un sort para ordenar los estados de los vehiculos de mayor a menor y que no sea null
+      let sortedComparison = [...this.comparison].sort((a, b) => a[property] + b[property]);
+    console.log(sortedComparison, 'sortedComparison')
+      for (let i = 0; i < sortedComparison.length; i++) {
+        sortedComparison[i][labels[i]] = true;
+        sortedComparison[i].equalCondition = false;
+      }
+  
+      //relizamos un loop para buscar los vehiculos que tengan el mismo estado y no le asignamos color, solo la propiedad equalCondition
+  
+      for (let i = 0; i < sortedComparison.length; i++) {
+        for (let j = 0; j < sortedComparison.length; j++) {
+          if (sortedComparison[i][property] === sortedComparison[j][property] 
+            && i !== j
+            && sortedComparison[i][labels[i]] === true
+            && sortedComparison[j][labels[j]] === true) {
+            sortedComparison[i].equalCondition = true;
+            this.arrayEqualCondition.push(sortedComparison[i]);
+          }
+        }
+      }
+  
+      return sortedComparison;
   }
 
   public renderIqualTitle() {
@@ -240,7 +264,8 @@ export class ComparisonPage implements OnInit {
   public renderIqualKm() {
     let models = this.arrayEqualKm.filter((item: any) => {return item.model });
     let content = `
-      Los vehículos ${this.arrayEqualKm.map((item: any) => {return item.model })} tienen el mismo kilometraje.
+      Los vehículos ${this.arrayEqualKm.map((item: any) => {return item.model })} 
+      tienen el mejor kilometraje en la comparación.
     `
 
     return content;
@@ -250,7 +275,7 @@ export class ComparisonPage implements OnInit {
   public renderIqualPrice() {
     let models = this.arrayEqualPrice.filter((item: any) => {return item.model });
     let content = `
-      Los vehículos ${this.arrayEqualPrice.map((item: any) => {return item.model })} tienen el mismo precio.
+      Los vehículos ${this.arrayEqualPrice.map((item: any) => {return item.model })} tienen el mejor precio en la comparación.
     `
 
     return content;
@@ -274,4 +299,95 @@ export class ComparisonPage implements OnInit {
 
 
   }
+
+  public renderAutosKm(){
+
+    let content = '';
+    //si es solo un vehiculo el que tiene el mejor kilometraje se renderiza el siguiente mensaje
+    if (this.arrayEqualKm.length === 0) {
+
+      for (let i = 0; i < this.comparison.length; i++) {
+        if (this.comparison[i].firstKm === true && this.comparison[i].equalKM === false) {
+          content = `El modelo ${this.comparison[i].model} tiene el mejor kilometraje.`;
+        }
+      }
+    }
+
+    //si son mas de un vehiculo los que tienen el mismo kilometraje se renderiza el siguiente mensaje
+    if (this.arrayEqualKm.length > 0) {
+      content = this.renderIqualKm();
+    }
+
+    return content;
+
+  }
+
+  public renderAutosPrice(){
+
+    let content = '';
+
+    //si es solo un vehiculo el que tiene el mejor precio se renderiza el siguiente mensaje
+    
+    if (this.arrayEqualPrice.length === 0) {
+        
+        for (let i = 0; i < this.comparison.length; i++) {
+          if (this.comparison[i].firstPrice === true && this.comparison[i].equalPrice === false) {
+            content = `El modelo ${this.comparison[i].model} tiene el mejor precio en la comparación.`;
+          }
+        }
+    }
+
+    //si son mas de un vehiculo los que tienen el mismo precio se renderiza el siguiente mensaje
+    if (this.arrayEqualPrice.length > 0) {
+      content = this.renderIqualPrice();
+    }
+
+    return content;
+
+  }
+
+  public renderAutosTitle(){
+
+    let content = '';
+
+    //si es solo un vehiculo el que tiene el mejor titulo se renderiza el siguiente mensaje
+    if (this.arrayEqualTitle.length === 0) {
+      for (let i = 0; i < this.comparison.length; i++) {
+        if (this.comparison[i].firstTitle === true && this.comparison[i].equalTitle === false) {
+          content = `El modelo ${this.comparison[i].model} tiene la menor cantidad de titulares.`;
+        }
+      }
+    }
+
+    //si son mas de un vehiculo los que tienen el mismo titulo se renderiza el siguiente mensaje
+    if (this.arrayEqualTitle.length > 0) {
+      content = this.renderIqualTitle();
+    }
+
+    return content;
+
+  }
+
+  public renderAutosCondition(){
+
+    let content = '';
+
+    //si es solo un vehiculo el que tiene el mejor estado se renderiza el siguiente mensaje
+    if (this.arrayEqualCondition.length === 0) {
+      for (let i = 0; i < this.comparison.length; i++) {
+        if (this.comparison[i].firstCondition === true && this.comparison[i].equalCondition === false) {
+          content = `El modelo ${this.comparison[i].model} tiene el mejor estado en la comparación.`;
+        }
+      }
+    }
+
+    //si son mas de un vehiculo los que tienen el mismo estado se renderiza el siguiente mensaje
+    if (this.arrayEqualCondition.length > 0) {
+      content = `Los vehículos ${this.arrayEqualCondition.map((item: any) => {return item.model })} tienen el mejor estado en la comparación.`;
+    }
+
+    return content;
+
+  }
+
 }

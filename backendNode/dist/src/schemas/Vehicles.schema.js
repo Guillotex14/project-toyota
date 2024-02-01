@@ -84,8 +84,7 @@ const vehicleSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId
     },
     imgs_documentation: {
-        type: Array,
-        default: []
+        type: Array
     }
 });
 exports.default = (0, mongoose_1.model)("vehicle", vehicleSchema);

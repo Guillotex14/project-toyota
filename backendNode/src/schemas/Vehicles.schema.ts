@@ -83,8 +83,7 @@ const vehicleSchema = new Schema({
         type: Schema.Types.ObjectId
     },
     imgs_documentation:{
-        type: Array,
-        default: []
+        type: Array
     }
 });
 

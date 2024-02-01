@@ -714,7 +714,7 @@ ion-segment {
   app-home-seller{
     ion-card{
       ion-card-subtitle{
-        font-size: 13px !important;
+        font-size: 12px !important;
       }
       .titleCardHome{
         font-size: 14px !important;
@@ -731,217 +731,6 @@ ion-segment {
         font-size: 14px !important;
       }
     }
-  }
-}
-
-@media screen and (max-width:414px){
-  .header{
-    .iconMenu{
-      margin-top: 80% !important;
-    }
-  }
-
-  
-  .iconNoInfo{
-    font-size: 180px !important;
-    margin: 10% auto !important;
-    
-  }
-  
-  .titleNoInfo{
-    font-size: 23px !important;
-  }
-  .sidebarUsename{
-    font-size: 19px !important;
-    margin: 0px auto auto 15px !important;
-  }
-
-  .sidebarTypeuser{
-    margin: 0px auto auto 15px !important;
-  }
-
-  app-car-detail-admin{
-    .colPriceCar{
-      text-align: center !important;
-    }
-    .colGenCon{
-      text-align: center !important;
-    }
-    .spanGenCon{
-      font-size: 15px !important;
-    }
-    .cardDataPlus{
-      span{
-        font-size: 12px !important;
-      }
-    }
-  }
-
-  app-car-detail-mechanic{
-    .colPriceCar{
-      text-align: center !important;
-    }
-    .colGenCon{
-      text-align: center !important;
-    }
-    .spanGenCon{
-      font-size: 15px !important;
-    }
-    .cardDataPlus{
-      span{
-        font-size: 12px !important;
-      }
-    }
-  }
-
-  app-create-user-admin{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-brand{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-model-vehicle{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-graphics-admin{
-    .header{
-      .iconMenu{
-        margin-top: 60% !important;
-      }
-      .logoRed {
-        width: 70px !important;
-        height: 70px !important;
-        margin: 22px auto auto auto !important;
-    }
-  }
-
-  }
-
-  app-graphics{
-    .header{
-      .iconMenu{
-        margin-top: 60% !important;
-      }
-      .logoRed {
-        width: 70px !important;
-        height: 70px !important;
-        margin: 22px auto auto auto !important;
-    }
-  }
-
-  }
-
-  app-home-seller{
-    ion-card{
-      ion-card-subtitle{
-        font-size: 12px !important;
-      }
-      .titleCardHome{
-        font-size: 13px !important;
-      }
-    }
-
-    .header{
-      .badgeNotify{
-        right: 15% !important;
-        z-index: 99999999;
-      }
-    }
-
-  }
-
-  app-home-mechanic{
-    ion-card{
-      ion-card-subtitle{
-        font-size: 12px !important;
-      }
-      .titleCardHome{
-        font-size: 13px !important;
-      }
-    }
-
-    .header{
-      .badgeNotify{
-        right: 15% !important;
-        z-index: 99999999;
-      }
-    }
-
-  }
-
-  app-car-detail{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-inspections{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-mechanic-file{
-    .header{
-      .iconMenu{
-        margin-top: 70% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-mechanical-file-detail{
-    ion-segment{
-      margin-left: -10px !important;
-    } 
-  }
-
-  app-mechanical-file-detail-admin{
-    ion-segment{
-      margin-left: -10px !important;
-    } 
-  }
-
-  app-mechanical-file-detail-mechanic{
-    ion-segment{
-      margin-left: -10px !important;
-    } 
   }
 }
 
@@ -1909,7 +1698,8 @@ ion-segment {
   app-home-seller{
     .header {
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 21px !important;
+        text-align: center !important;
       }
     }
   }
@@ -1917,7 +1707,8 @@ ion-segment {
   app-home-mechanic{
     .header {
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 21px !important;
+        text-align: center !important;
       }
     }
   }
@@ -1925,10 +1716,243 @@ ion-segment {
   app-home-admin{
     .header {
       .headerTitle{
-        font-size: 22px !important;
+        font-size: 21px !important;
         text-align: center !important;
       }
     }
+  }
+
+  app-add-admin-concesionary, app-add-brand, app-add-mechanic, app-add-mechanic-file, app-buy-car, app-create-user-admin, app-customers, app-edit-admin-concesionary, app-edit-mechanic-admin, app-edit-user-admin, app-inspections, app-list-brand-admin, app-list-mechanic-admin,app-list-model-admin, app-list-user-admin, app-request-add {
+    .header{
+      .headerTitle {
+          font-size: 23px !important;
+          margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-add-model-vehicle, app-list-admin-concesionary, app-list-customers{
+    .header{
+      .headerTitle {
+          font-size: 20px !important;
+          margin-top: 40px !important;
+      }
+      .iconMenu {
+        margin-top: 60% !important;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width:414px){
+  .header{
+    .iconMenu{
+      margin-top: 80% !important;
+    }
+  }
+
+  
+  .iconNoInfo{
+    font-size: 180px !important;
+    margin: 10% auto !important;
+    
+  }
+  
+  .titleNoInfo{
+    font-size: 23px !important;
+  }
+  .sidebarUsename{
+    font-size: 19px !important;
+    margin: 0px auto auto 15px !important;
+  }
+
+  .sidebarTypeuser{
+    margin: 0px auto auto 15px !important;
+  }
+
+  app-car-detail-admin{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-car-detail-mechanic{
+    .colPriceCar{
+      text-align: center !important;
+    }
+    .colGenCon{
+      text-align: center !important;
+    }
+    .spanGenCon{
+      font-size: 15px !important;
+    }
+    .cardDataPlus{
+      span{
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  app-create-user-admin{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-add-brand{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-add-model-vehicle{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-graphics-admin{
+    .header{
+      .iconMenu{
+        margin-top: 60% !important;
+      }
+      .logoRed {
+        width: 70px !important;
+        height: 70px !important;
+        margin: 22px auto auto auto !important;
+    }
+  }
+
+  }
+
+  app-graphics{
+    .header{
+      .iconMenu{
+        margin-top: 60% !important;
+      }
+      .logoRed {
+        width: 70px !important;
+        height: 70px !important;
+        margin: 22px auto auto auto !important;
+    }
+  }
+
+  }
+
+  app-home-seller{
+    ion-card{
+      ion-card-subtitle{
+        font-size: 12px !important;
+      }
+      .titleCardHome{
+        font-size: 13px !important;
+      }
+    }
+
+    .header{
+      .badgeNotify{
+        right: 15% !important;
+        z-index: 99999999;
+      }
+    }
+
+  }
+
+  app-home-mechanic{
+    ion-card{
+      ion-card-subtitle{
+        font-size: 12px !important;
+      }
+      .titleCardHome{
+        font-size: 13px !important;
+      }
+    }
+
+    .header{
+      .badgeNotify{
+        right: 15% !important;
+        z-index: 99999999;
+      }
+    }
+
+  }
+
+  app-car-detail{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-inspections{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-add-mechanic-file{
+    .header{
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+      .iconBack{
+        margin-top: 40px !important;
+      }
+    }
+  }
+
+  app-mechanical-file-detail{
+    ion-segment{
+      margin-left: -10px !important;
+    } 
+  }
+
+  app-mechanical-file-detail-admin{
+    ion-segment{
+      margin-left: -10px !important;
+    } 
+  }
+
+  app-mechanical-file-detail-mechanic{
+    ion-segment{
+      margin-left: -10px !important;
+    } 
   }
 }
 
@@ -2257,20 +2281,6 @@ ion-segment {
 
       }
     }
-
-    // .radioSmall{
-    //   margin: auto 15px !important;
-    // }
-    // .radioBig{
-    //   margin: auto 7px !important;
-    // }
-    
-    // .br280{
-    //   display: block !important;
-    // }
-    // .br280notDis{
-    //   display: none !important;
-    // }
   }
 
   app-car-detail-admin{
@@ -2303,39 +2313,6 @@ ion-segment {
     .cardDataPlus{
       span{
         font-size: 12px !important;
-      }
-    }
-  }
-
-  app-create-user-admin{
-    .header{
-      .iconMenu{
-        margin-top: 80% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-brand{
-    .header{
-      .iconMenu{
-        margin-top: 80% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-model-vehicle{
-    .header{
-      .iconMenu{
-        margin-top: 80% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
       }
     }
   }
@@ -2419,33 +2396,6 @@ ion-segment {
     }
   }
 
-  app-inspections{
-    .header{
-      .iconMenu{
-        margin-top: 80% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-    }
-  }
-
-  app-add-mechanic-file{
-    .header{
-      .iconMenu{
-        margin-top: 80% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .logoRed{
-        width: 65px !important;
-        height: 65px !important;
-        margin: 22px auto auto auto !important;
-      }
-    }
-  }
-
   app-mechanical-file-detail{
     .colSegment{
       width: 365px !important;
@@ -2518,6 +2468,63 @@ ion-segment {
     
     }
   }
+
+  app-add-mechanic-file{
+    .br375{
+      display: block !important;
+    }
+    .brmain{
+      display: none !important;
+    }
+  }
+
+  app-add-brand, app-add-mechanic, app-add-mechanic-file, app-create-user-admin, app-inspections {
+    .header{
+      .headerTitle {
+          font-size: 20px !important;
+          margin-top: 45px !important;
+      }
+      
+    }
+  }
+  
+  app-add-admin-concesionary, app-buy-car, app-customers, app-edit-admin-concesionary, app-edit-mechanic-admin, app-list-user-admin, app-edit-user-admin, app-list-brand-admin, app-list-mechanic-admin, app-list-model-admin, app-request-add{
+    .header{
+      .headerTitle {
+          font-size: 20px !important;
+      }
+      .iconMenu{
+        margin-top: 70% !important;
+      }
+    }
+  }
+
+  app-add-model-vehicle{
+    .header{
+      .headerTitle {
+          font-size: 18px !important;
+          margin-top: 45px !important;
+      }
+    }
+  }
+
+  app-list-admin-concesionary, app-list-customers{
+    .header{
+      .headerTitle {
+          font-size: 18px !important;
+      }
+      .iconMenu {
+        margin-top: 70% !important;
+      }
+    }
+  }
+
+  app-mechanical-file-detail-mechanic, app-mechanical-file-detail-admin, app-mechanical-file-detail{
+    .rowSegment{
+      margin-left: 0px !important;
+    }
+  }
+
 }
 
 @media screen and (max-width:360px){
@@ -2991,26 +2998,15 @@ ion-segment {
 
 @media screen and (max-width:320px){
 
-  .header{
-    .iconMenu{
-      margin-top: 110% !important;
-    }
-    .headerTitle{
-      font-size: 22px !important;
-      text-align: center !important;
-    }
-  }
-  
-  app-list-brand-admin, app-list-user-admin, app-list-model-admin,  app-list-mechanic-admin, app-list-admin-concesionary{
-    .header{
-      .headerTitle{
-        font-size: 18px !important;
-      }
-      .iconMenu {
-        margin-top: 85% !important;
-      }
-    }
-  }
+  // .header{
+  //   .iconMenu{
+  //     margin-top: 110% !important;
+  //   }
+  //   .headerTitle{
+  //     font-size: 18px !important;
+  //     text-align: center !important;
+  //   }
+  // }
 
   .iconNoInfo{
     font-size: 180px !important;
@@ -3065,48 +3061,6 @@ ion-segment {
     }
   }
 
-  app-create-user-admin{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 21px !important;
-      }
-    }
-  }
-
-  app-add-brand{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 21px !important;
-      }
-    }
-  }
-
-  app-add-model-vehicle{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 18px !important;
-      }
-    }
-  }
-
   app-graphics-admin{
     .header{
       .iconMenu{
@@ -3153,8 +3107,9 @@ ion-segment {
         top: 35% !important;
       }
       .headerTitle{
-        font-size: 20px !important;
+        font-size: 17px !important;
         text-align: center !important;
+        margin-top: 47px !important;
       }
       .iconMenu{
         margin-top: 110% !important;
@@ -3185,8 +3140,42 @@ ion-segment {
         top: 35% !important;  
       }
       .headerTitle{
-        font-size: 20px !important;
+        font-size: 17px !important;
         text-align: center !important;
+        margin-top: 47px !important;
+      }
+      .iconMenu{
+        margin-top: 110% !important;
+      }
+
+      .iconNotify{
+        margin-top: 110% !important;
+      }
+    }
+
+  }
+
+  app-home-admin  {
+    ion-card{
+      ion-card-subtitle{
+        font-size: 11px !important;
+      }
+      .titleCardHome{
+        font-size: 12px !important;
+      }
+    }
+
+    .header{
+      .logoWhite{
+        width: 40px !important;
+      }
+      .badgeNotify{
+        top: 35% !important;  
+      }
+      .headerTitle{
+        font-size: 17px !important;
+        text-align: center !important;
+        margin-top: 47px !important;
       }
       .iconMenu{
         margin-top: 110% !important;
@@ -3212,72 +3201,72 @@ ion-segment {
     }
   }
 
-  app-car-detail{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 21px !important;
-      }
-      .logoRed{
-        width: 60px !important;
-      height: 60px !important;
-      margin: 24px auto auto auto !important;
-      }
-    }
-  }
+  // app-car-detail{
+  //   .header{
+  //     .iconMenu{
+  //       margin-top: 90% !important;
+  //     }
+  //     .iconBack{
+  //       margin-top: 40px !important;
+  //     }
+  //     .headerTitle{
+  //       font-size: 21px !important;
+  //     }
+  //     .logoRed{
+  //       width: 60px !important;
+  //     height: 60px !important;
+  //     margin: 24px auto auto auto !important;
+  //     }
+  //   }
+  // }
 
-  app-inspections{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 21px !important;
-      }
-    }
-    .titlePage{
-      font-size: 16px !important;
-    }
+  // app-inspections{
+  //   .header{
+  //     .iconMenu{
+  //       margin-top: 90% !important;
+  //     }
+  //     .iconBack{
+  //       margin-top: 40px !important;
+  //     }
+  //     .headerTitle{
+  //       font-size: 21px !important;
+  //     }
+  //   }
+  //   .titlePage{
+  //     font-size: 16px !important;
+  //   }
     
-    ion-card{
-      ion-card-content{
-        ion-label {
-          font-size: 11px !important;
-        }
-        .spanData{
-          font-size: 11px !important;
-        }
-      }
-    }
+  //   ion-card{
+  //     ion-card-content{
+  //       ion-label {
+  //         font-size: 11px !important;
+  //       }
+  //       .spanData{
+  //         font-size: 11px !important;
+  //       }
+  //     }
+  //   }
 
-  }
+  // }
 
-  app-add-mechanic-file{
-    .header{
-      .iconMenu{
-        margin-top: 90% !important;
-      }
-      .iconBack{
-        margin-top: 40px !important;
-      }
-      .headerTitle{
-        font-size: 21px !important;
-      }
-      .logoRed{
-        width: 60px !important;
-      height: 60px !important;
-      margin: 24px auto auto auto !important;
-      }
-    }
-  }
+  // app-add-mechanic-file{
+  //   .header{
+  //     .iconMenu{
+  //       margin-top: 90% !important;
+  //     }
+  //     .iconBack{
+  //       margin-top: 40px !important;
+  //     }
+  //     .headerTitle{
+  //       font-size: 21px !important;
+  //     }
+  //     .logoRed{
+  //       width: 60px !important;
+  //     height: 60px !important;
+  //     margin: 24px auto auto auto !important;
+  //     }
+  //   }
+  // }
 
   app-mechanical-file-detail{
     .colSegment{
@@ -3367,6 +3356,99 @@ ion-segment {
       margin: 15px 3px !important;
     }
     .itemSegment{
+      margin-left: 0px !important;
+    }
+  }
+
+  app-add-mechanic-file{
+
+    .br375{
+      display: none !important;
+    }
+
+    .br320{
+      display: block !important;
+    }
+
+    ion-list {
+      ion-item-group{
+        ion-list{
+          display: inline-grid !important;
+          justify-content: center !important;
+          align-items: center !important;
+          align-content: center !important;
+          .radioSmall{
+            margin: 5px 29px !important;
+          }
+        }
+      }
+    }
+  }
+
+  app-add-brand, app-add-mechanic, app-add-mechanic-file, app-create-user-admin, app-inspections {
+    .header{
+      .headerTitle {
+          font-size: 17px !important;
+          margin-top: 42px !important;
+      }
+      .iconBack{
+        margin-top: 35px !important;
+      }
+      .iconMenu{
+        margin-top: 85% !important;
+      
+      }
+      .iconMenu2{
+        margin-top: 85% !important;
+      }
+    }
+  }
+  
+  app-add-admin-concesionary, app-customers, app-edit-admin-concesionary, app-edit-mechanic-admin, app-list-user-admin, app-edit-user-admin, app-list-brand-admin, app-list-mechanic-admin, app-list-model-admin, app-request-add{
+    .header{
+      .headerTitle {
+        font-size: 17px !important;
+      }
+      .iconMenu{
+        margin-top: 80% !important;
+      }
+    }
+  }
+
+  app-buy-car{
+    .header{
+      .headerTitle {
+          font-size: 17px !important;
+          margin-top: 45px !important;
+      }
+      .iconMenu{
+        margin-top: 95% !important;
+      }
+    }
+  }
+
+  app-add-model-vehicle{
+    .header{
+      .headerTitle {
+          font-size: 18px !important;
+          margin-top: 45px !important;
+      }
+    }
+  }
+
+  app-list-admin-concesionary, app-list-customers{
+    .header{
+      .headerTitle {
+          font-size: 18px !important;
+      }
+      .iconMenu {
+        margin-top: 70% !important;
+      }
+    }
+  }
+  
+  app-mechanical-file-detail-mechanic{
+    .rowSegment{
       margin-left: 0px !important;
     }
   }

@@ -309,7 +309,7 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
     let conceSeller = "";
     let citySeller = "";
     let dateNow = (0, moment_1.default)().format('YYYY-MM-DD');
-    const { steering_wheel, pedals, gauges_dashboard_lights, transmission_shift_lever, brake_lever, accessories, internal_upholstery, courtesy_lights, windshield, window_glass_operation, door_locks_handles, operation_manual_electric_mirrors, seat_belts, front_bumpers, front_grill, headlights_low_beams_cocuyos, fog_lights, bonnet, engine_ignition, fluid_reservoirs, spark_plugs_coils_general_condition, air_filter, transmission_belts, appearance_hoses_caps_seals_connections, battery_condition_terminal_tightness_corrosion, fluid_leak, general_engine_compression_condition, stabilizer_bars, bearings, joints_dust_covers, shock_absorbers, spirals, upper_lower_plateaus, stumps, terminal_blocks, brakes, cardan_transmission_shaft, engine_transmission_oil_leaks, hydraulic_oil_leak_steering_box, excessive_rust_on_frame_compact, exhaust_pipe, doors, stop, fuel_pump_door, trunk_door, trunk_interior, replacement_rubber_tool_set, complete_emblems, bodywork, paint, tire_condition, wheel_ornaments, general_condition_fluids, id_vehicle, id_mechanic, } = req.body;
+    const { steering_wheel, pedals, gauges_dashboard_lights, transmission_shift_lever, brake_lever, accessories, internal_upholstery, courtesy_lights, windshield, window_glass_operation, door_locks_handles, operation_manual_electric_mirrors, seat_belts, front_bumpers, front_grill, headlights_low_beams_cocuyos, fog_lights, bonnet, engine_ignition, fluid_reservoirs, spark_plugs_coils_general_condition, air_filter, transmission_belts, appearance_hoses_caps_seals_connections, battery_condition_terminal_tightness_corrosion, fluid_leak, general_engine_compression_condition, stabilizer_bars, bearings, joints_dust_covers, shock_absorbers, spirals, upper_lower_plateaus, stumps, terminal_blocks, brakes, cardan_transmission_shaft, engine_transmission_oil_leaks, hydraulic_oil_leak_steering_box, excessive_rust_on_frame_compact, exhaust_pipe, doors, stop, fuel_pump_door, trunk_door, trunk_interior, replacement_rubber_tool_set, complete_emblems, bodywork, paint, tire_condition, wheel_ornaments, general_condition_fluids, general_condition, id_vehicle, id_mechanic, } = req.body;
     const newMechanicFile = new mechanicalFiles_schema_1.default({
         steering_wheel,
         pedals,
@@ -367,7 +367,7 @@ mechanicController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, v
         date_create: dateNow,
         id_vehicle,
         id_mechanic,
-        general_condition: null
+        general_condition
     });
     const newMechanicFileSaved = yield newMechanicFile.save();
     const vehicleUpdated = yield Vehicles_schema_1.default.findByIdAndUpdate(id_vehicle, { mechanicalFile: true });

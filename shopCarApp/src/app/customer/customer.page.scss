@@ -152,5 +152,12 @@ min-height: 35px !important;
 }
 
 @media screen and (width:320px){
-
+    .header{
+        .headerTitle {
+            font-size: 17px !important;
+        }
+        .iconMenu{
+            margin-top: 80% !important;
+        }
+    }
 }

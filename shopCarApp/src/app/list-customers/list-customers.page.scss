@@ -113,6 +113,7 @@ border: 0.5px solid #F9F9F9;
 border-radius: 20px;
 margin: 10px auto !important;
 }
+
 .sc-ion-input-md-h:not(.legacy-input) {
 min-height: 45px !important;
 ;
@@ -133,6 +134,7 @@ ion-icon{
     font-size: 20px !important;
 }
 }
+
 .btnOutlineRed{
 text-transform: lowercase !important; font-size: 15px !important; width: 72px !important; height: 25px !important; 
 ion-icon{
@@ -258,7 +260,9 @@ ion-icon{
 }
 
 @media screen and (max-width:320px){
-
+    .pTitle{
+    font-size: 12px !important; 
+    }
 }
 
 @media screen  and (max-width: 280px){

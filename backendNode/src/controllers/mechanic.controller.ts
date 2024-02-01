@@ -394,6 +394,7 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
         tire_condition,
         wheel_ornaments,
         general_condition_fluids,
+        general_condition,
         id_vehicle,
         id_mechanic,
     } = req.body;
@@ -455,7 +456,7 @@ mechanicController.addMechanicalFile = async (req: Request, res: Response) => {
         date_create: dateNow,
         id_vehicle,
         id_mechanic,
-        general_condition:null
+        general_condition
     });
 
     const newMechanicFileSaved = await newMechanicFile.save();

@@ -510,46 +510,6 @@
                             </span>
                             <span class="noPhotoTitle" >Cargar Documentos</span>
                           </ion-col>
-            
-                          <!-- <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length > 0">
-                            <swiper-container [loop]="true" [pagination]="true">
-                              <swiper-slide *ngFor="let image of arrayDocuments; let i = index">
-                                <ion-row>
-                                  <ion-col size="4" *ngIf="editCar">
-                                    <ion-button expand="block" shape="round" class="btnRed" (click)="deleteImageDoc(i,image)">
-                                      <ion-icon name="trash" style="font-size: 30px;"></ion-icon>
-                                    </ion-button>
-                                  </ion-col>
-                                  <ion-col size="4" *ngIf="editCar">
-                                    
-                                    
-                                  </ion-col>
-                                  <ion-col size="4" *ngIf="editCar">
-                                    <ion-button expand="block" shape="round" (click)="editInputDocs(i,image)" class="btnRed">
-                                      <ion-icon name="create" style="font-size: 30px;"></ion-icon>
-                                    </ion-button>
-                                  </ion-col>
-
-                                  <ion-col size="12" *ngIf="editCar">
-                                    <ion-img src="assets/images/logo/pdf_logo.png" style="width: 100%;height: 150px; margin: auto;"></ion-img>
-                                  <span>{{image.name ? image.name : ''}}</span>
-                                  </ion-col>
-
-                                  <ion-col size="12" *ngIf="!editCar">
-                                    <ion-img src="assets/images/logo/pdf_logo.png" style="width: 100%;height: 150px; margin: auto;"></ion-img>
-                                    <span>{{image.name ? image.name : ''}}</span>
-
-                                  </ion-col>
-
-
-                                </ion-row>
-                              </swiper-slide>
-                              <div class="swiper-pagination"></div>
-                            </swiper-container>
-                            <ion-button expand="block" shape="round" style="margin-top: 20px;" (click)="openInputDocs()" class="btnSaveRed" *ngIf="editCar">
-                              Añadir imagen
-                            </ion-button>
-                          </ion-col> -->
 
                           <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayDocuments.length > 0 && editCar">
                             <ion-list>
@@ -557,7 +517,7 @@
                                   <ion-row *ngFor="let doc of arrayDocuments; let i = index">
                                     <ion-col size="12">
                                       <ion-button expand="block" shape="round" class="btnRed" (click)="openPdf(doc.img)">
-                                        <span>{{doc.name}}</span>
+                                        <span style="font-size: 11px">{{doc.name}}</span>
                                       </ion-button>
                                     </ion-col>
                                     <ion-col size="12">
@@ -588,7 +548,7 @@
                                 <ion-row *ngFor="let doc of arrayDocuments; let i = index">
                                   <ion-col size="12">
                                     <ion-button expand="block" shape="round" class="btnRed" (click)="openPdf(doc.img)">
-                                      <span>{{doc.name ? doc.name : randomName(doc.public_id)}}</span>
+                                      <span style="font-size: 11px">{{doc.name ? doc.name : randomName(doc.public_id)}}</span>
                                     </ion-button>
                                   </ion-col>
                                 </ion-row>
@@ -659,7 +619,7 @@
               </ion-item>
             </ion-col>
 
-            <ion-col size="12">
+            <ion-col size="12" *ngIf="carDetail.brand === 'Toyota' || carDetail.brand === 'toyota'">
               <ion-item-divider style="text-align: center;">
                 <ion-label style="margin: 10px auto;color: #000;">¿CALIFICA PARA CERTFICACIÓN?</ion-label>
               </ion-item-divider>
@@ -759,7 +719,7 @@
               </ion-grid>
             </ion-col>
 
-            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== 0 ||carDetail.id_seller_buyer==='null' && carDetail.price !== 0 || carDetail.id_seller_buyer==='' && carDetail.price !== 0&& carDetail.sold===false">
+            <ion-col size="12" *ngIf="carDetail.id_seller_buyer===null && carDetail.price !== 0 && carDetail.mechanicalFile === true ||carDetail.id_seller_buyer==='null' && carDetail.price !== 0 && carDetail.mechanicalFile === true|| carDetail.id_seller_buyer==='' && carDetail.price !== 0 && carDetail.sold===false && carDetail.mechanicalFile === true">
               <ion-grid fixed>
                 <ion-row>
                   <ion-col size="12">

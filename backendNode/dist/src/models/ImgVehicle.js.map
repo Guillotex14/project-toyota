@@ -1,1 +1,0 @@
-{"version":3,"file":"ImgVehicle.js","sourceRoot":"","sources":["../../../src/models/ImgVehicle.ts"],"names":[],"mappings":";;AAAA,uCAAyC;AAEzC,MAAM,gBAAgB,GAAG,IAAI,iBAAM,CAAC;IAChC,GAAG,EAAE,MAAM;IACX,SAAS,EAAE,MAAM;IACjB,UAAU,EAAE;QACR,IAAI,EAAE,iBAAM,CAAC,KAAK,CAAC,QAAQ;KAC9B;CACJ,CAAC,CAAA;AAEF,kBAAe,IAAA,gBAAK,EAAC,YAAY,EAAE,gBAAgB,CAAC,CAAC"}
