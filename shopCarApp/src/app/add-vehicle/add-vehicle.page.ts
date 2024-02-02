@@ -1148,8 +1148,11 @@ export class AddVehiclePage implements OnInit {
       return
     }
 
+    console.log(file, "file antes de reader.onload")
+
     let reader = new FileReader();
     reader.onload = (e:any) => {
+      console.log("dentro de reader.onload", e.target.result)
 
       let img = {
         image: e.target.result,
@@ -1157,6 +1160,7 @@ export class AddVehiclePage implements OnInit {
       }
       this.arrayDocuments.push(img);
     }
+    console.log(this.arrayDocuments)
     reader.readAsDataURL(file[0]);
   }
 
@@ -1171,6 +1175,42 @@ export class AddVehiclePage implements OnInit {
       this.arrayDocuments[this.aux].name = file[0].name;
     }
     reader.readAsDataURL(file[0]);
+  }
+
+  public documentSelect(event: any){
+    console.log(event.target.files)
+
+    if (this.arrayDocuments.length === 5) {
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
+      return
+    }
+
+    let reader = new FileReader();
+
+    let file = reader.result;
+
+    let img = {
+      image: file,
+      name: event.target.files[0].name
+    }
+
+    this.arrayDocuments.push(img);
+
+  }
+
+  public documentSelect2(event: any){
+    let reader = new FileReader();
+
+    let file = reader.result;
+
+    let img = {
+      image: file,
+      name: event.target.files[0].name
+    }
+
+    this.arrayDocuments[this.aux].image = file;
+    this.arrayDocuments[this.aux].name = event.target.files[0].name;
+
   }
 
   ////////////------------------ steps de añadir imagenes del vehiculo -----------------////////////

@@ -34,6 +34,9 @@ const templatesMails = (template, data) => {
         case "cancel_request_models_brands":
             templat = cancel_request_models_brands(data);
             break;
+        case "mechanicalFile":
+            templat = mechanicalFile(data);
+            break;
         default:
             break;
     }
@@ -327,5 +330,36 @@ const mechanicalFileReject = (data) => {
         </div>
         </div>
     </div>`;
+};
+const mechanicalFile = (data) => {
+    const template = `<div>
+    <p>Hola ${data.fullname}</p>
+    <p>
+        A traves de este correo adjuntamos la ficha tecnica del vehiculo ${data.model} año ${data.year} ubicado en ${data.city}, si no se visualiza el archivo adjunto puedes visualizarlo dando click en el siguiente enlace:
+    </p>
+
+    <div style="display: block;">
+        <div style="width: 300px;margin: auto;">
+            <p>
+                <a 
+                href="${data.url}" 
+                style="box-sizing: border-box;
+                font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+                border-radius: 4px;
+                color: #fff;
+                display: inline-block;
+                overflow: hidden;
+                text-decoration: none;
+                background-color: #EB0A1E;
+                border-bottom: 8px solid #EB0A1E;
+                border-left: 18px solid #EB0A1E;
+                border-right: 18px solid #EB0A1E;
+                border-top: 8px solid #EB0A1E;"
+                >Ver ficha técnica</a>
+            </p>
+        </div>
+    </div>
+
+</div>`;
 };
 //# sourceMappingURL=templates.mails.js.map

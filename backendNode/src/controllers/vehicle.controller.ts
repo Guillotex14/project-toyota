@@ -80,7 +80,6 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   let documents = [];
 
   if (imgs_documents.length > 0) {
-    console.log("entro");
     for (let i = 0; i < imgs_documents.length; i++) {
       // const imgResize = await desgloseImg(imgs_documents[i].image);
 
@@ -2599,6 +2598,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
   const data: any = req.query;
   const token: any = req.header("Authorization");
   let decode = await jwt.getAuthorization(token, ["seller", "mechanic", "admin", "admin_concesionary"]);
+
   if (decode == false) {
     jsonRes.code = jwt.code;
     jsonRes.message = jwt.message;
@@ -2744,6 +2744,63 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
       const base64Data: string = 'data:application/pdf;base64,' + fileBuffer.toString('base64');
 
       const fileName = await uploadPdf(base64Data);
+      const vehicle = await vehicles.findOne({ _id: data.id_vehicle });
+
+      const dataEmail = {
+        model: vehicle!.model,
+        year: vehicle!.year,
+        city: vehicle!.city,
+        fullname: decode.fullName,
+        url: fileName.secure_url,
+      }
+
+      const template = templatesMails("mechanicalFile", dataEmail);
+      //armamos el mailoptions para enviar el pdf y link de descarga
+      const mailOptions = {
+        from: "Toyousado",
+        to: decode.email,
+        subject: "Ficha técnica",
+        html: `<div>
+        <p>Hola ${dataEmail.fullname}</p>
+        <p>
+            A traves de este correo adjuntamos la ficha tecnica del vehiculo ${dataEmail.model} año ${dataEmail.year} ubicado en ${dataEmail.city}, si no se visualiza el archivo adjunto puedes visualizarlo dando click en el siguiente enlace:
+        </p>
+    
+        <div style="display: block;">
+            <div style="width: 300px;margin: auto;">
+                <p>
+                    <a 
+                    href="${dataEmail.url}" 
+                    style="box-sizing: border-box;
+                    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+                    border-radius: 4px;
+                    color: #fff;
+                    display: inline-block;
+                    overflow: hidden;
+                    text-decoration: none;
+                    background-color: #EB0A1E;
+                    border-bottom: 8px solid #EB0A1E;
+                    border-left: 18px solid #EB0A1E;
+                    border-right: 18px solid #EB0A1E;
+                    border-top: 8px solid #EB0A1E;"
+                    >Ver ficha técnica</a>
+                </p>
+            </div>
+        </div>
+    
+    </div>`,
+        //aqui adjuntamos el pdf creado
+        attachments: [
+          {
+            filename: "Ficha técnica.pdf", // nombre del archivo adjunto
+            path: fileName.secure_url, // ruta completa del archivo a adjuntares
+          },
+        ],
+        
+      };
+
+      await sendEmail(mailOptions);
+
       // jsonRes.data=base64Data;//
       jsonRes.data = fileName.secure_url;
       jsonRes.code = 200;

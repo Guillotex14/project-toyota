@@ -301,8 +301,8 @@
           </ion-col>
 
           <ion-col size="12">
-            <input type="file" #inputDocs style="width: 0px !important;height: 0px !important;" accept="application/pdf, .pdf" (change)="fileSelect($any($event).target.files)">
-            <input type="file" #inputDocs2 style="width: 0px !important;height: 0px !important;" accept="application/pdf, .pdf" (change)="fileSelect2($any($event).target.files)">
+            <input type="file" #inputDocs style="width: 0px !important;height: 0px !important;" accept="application/pdf, .pdf" (change)="documentSelect($event)">
+            <input type="file" #inputDocs2 style="width: 0px !important;height: 0px !important;" accept="application/pdf, .pdf" (change)="documentSelect2($event)">
             <ion-accordion-group expand="inset" style="width: 100%; margin: 10px auto;">
               
               <ion-accordion value="year">

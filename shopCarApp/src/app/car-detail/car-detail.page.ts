@@ -1108,6 +1108,42 @@ export class CarDetailPage implements OnInit {
     reader.readAsDataURL(file[0]);
   }
 
+  public documentSelect(event: any){
+    console.log(event.target.files)
+
+    if (this.arrayDocuments.length === 5) {
+      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
+      return
+    }
+
+    let reader = new FileReader();
+
+    let file = reader.result;
+
+    let img = {
+      image: file,
+      name: event.target.files[0].name
+    }
+
+    this.arrayDocuments.push(img);
+
+  }
+
+  public documentSelect2(event: any){
+    let reader = new FileReader();
+
+    let file = reader.result;
+
+    let img = {
+      image: file,
+      name: event.target.files[0].name
+    }
+
+    this.arrayDocuments[this.aux].image = file;
+    this.arrayDocuments[this.aux].name = event.target.files[0].name;
+
+  }
+
   public async openPdf(url:any){
     await Browser.open({url: url});
   }
