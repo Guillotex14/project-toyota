@@ -265,6 +265,7 @@ vehicleController.addImgDocuments = (req, res) => __awaiter(void 0, void 0, void
     const token = req.header("Authorization");
     let decode = yield generar_jwt_1.default.getAuthorization(token, ["seller", "admin", "admin_concesionary"]);
     const { id_vehicle, image } = req.body;
+    console.log(image);
     if (decode == false) {
         reponseJson.code = generar_jwt_1.default.code;
         reponseJson.message = generar_jwt_1.default.message;
@@ -273,16 +274,19 @@ vehicleController.addImgDocuments = (req, res) => __awaiter(void 0, void 0, void
         return res.json(reponseJson);
     }
     const filename = yield (0, cloudinaryMetods_1.uploadDocuments)(image.image);
+    console.log(filename);
     const document = {
         img: filename.secure_url,
         public_id: filename.public_id,
         name: image.name,
     };
+    console.log(document);
     let vehicle = yield Vehicles_schema_2.default.findById(id_vehicle);
     if (vehicle) {
         vehicle.imgs_documentation.push(document);
         vehicle.save();
     }
+    console.log(vehicle);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.message = "Imagen agregada exitosamente";

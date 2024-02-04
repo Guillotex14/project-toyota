@@ -25,107 +25,107 @@
             <ion-label>Volante <br class="br375"> (apariencia, juego libre,<br class="br320"> flojedad o tambaleo)</ion-label>
             <ion-list style="text-align: center;">
                           
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.steering_wheel)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.upgrade" [disabled]="newMechanicalFile.steering_wheel.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.apply" [disabled]="newMechanicalFile.steering_wheel.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.steering_wheel, 'steering_wheel')"  class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.upgrade" [disabled]="newMechanicalFile.steering_wheel.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.steering_wheel, 'steering_wheel','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.steering_wheel.apply" [disabled]="newMechanicalFile.steering_wheel.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
 
             </ion-list>
 
             <ion-label>Pedales (apariencia y altura del pedal)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.pedals)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.upgrade" [disabled]="newMechanicalFile.pedals.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.apply" [disabled]="newMechanicalFile.pedals.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.pedals,'pedals')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.upgrade" [disabled]="newMechanicalFile.pedals.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.pedals, 'pedals','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.pedals.apply" [disabled]="newMechanicalFile.pedals.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Medidores y luces del tablero</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.gauges_dashboard_lights)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.upgrade" [disabled]="newMechanicalFile.gauges_dashboard_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.apply" [disabled]="newMechanicalFile.gauges_dashboard_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.upgrade" [disabled]="newMechanicalFile.gauges_dashboard_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.gauges_dashboard_lights,'gauges_dashboard_lights','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.gauges_dashboard_lights.apply" [disabled]="newMechanicalFile.gauges_dashboard_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Palanca de cambio de transmisión <br class="br320">(apariencia, <br class="br375"> <br class="brmain"> funcionamiento suave)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.transmission_shift_lever)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.upgrade" [disabled]="newMechanicalFile.transmission_shift_lever.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.apply" [disabled]="newMechanicalFile.transmission_shift_lever.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.transmission_shift_lever,'transmission_shift_lever')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.upgrade" [disabled]="newMechanicalFile.transmission_shift_lever.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_shift_lever,'transmission_shift_lever','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_shift_lever.apply" [disabled]="newMechanicalFile.transmission_shift_lever.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Palanca de freno (Funcionamiento)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.brake_lever)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.upgrade" [disabled]="newMechanicalFile.brake_lever.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.apply" [disabled]="newMechanicalFile.brake_lever.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.brake_lever, 'brake_lever')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.upgrade" [disabled]="newMechanicalFile.brake_lever.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brake_lever,'brake_lever','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brake_lever.apply" [disabled]="newMechanicalFile.brake_lever.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Accesorios (audio, aire acondicionado,<br class="br320"> sensores)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.accessories)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.upgrade" [disabled]="newMechanicalFile.accessories.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.apply" [disabled]="newMechanicalFile.accessories.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.accessories,'accessories')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.upgrade" [disabled]="newMechanicalFile.accessories.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.accessories,'accessories','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.accessories.apply" [disabled]="newMechanicalFile.accessories.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Tapicería interna (asientos, puertas y<br class="br320"> tableros)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.internal_upholstery)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.upgrade" [disabled]="newMechanicalFile.internal_upholstery.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.apply" [disabled]="newMechanicalFile.internal_upholstery.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.internal_upholstery,'internal_upholstery')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.upgrade" [disabled]="newMechanicalFile.internal_upholstery.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.internal_upholstery,'internal_upholstery','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.internal_upholstery.apply" [disabled]="newMechanicalFile.internal_upholstery.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
             
             <ion-label>Luces de cortesía</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.courtesy_lights)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.upgrade" [disabled]="newMechanicalFile.courtesy_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.apply" [disabled]="newMechanicalFile.courtesy_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.courtesy_lights, 'courtesy_lights')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.upgrade" [disabled]="newMechanicalFile.courtesy_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.courtesy_lights,'courtesy_lights','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.courtesy_lights.apply" [disabled]="newMechanicalFile.courtesy_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
 
             <ion-label>Parabrisas <br class="br375"> (apariencia, funcionamiento <br class="br320">de cepillos <br class="br375"> <br class="brmain"> y duchas)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.windshield)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.upgrade" [disabled]="newMechanicalFile.windshield.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.apply" [disabled]="newMechanicalFile.windshield.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.windshield,'windshield')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.upgrade" [disabled]="newMechanicalFile.windshield.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.windshield,'windshield','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.windshield.apply" [disabled]="newMechanicalFile.windshield.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Funcionamiento de vidrios de ventana <br class="brmain"> <br class="br375"><br class="br320"> (manuales o eléctricos)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.window_glass_operation)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.upgrade" [disabled]="newMechanicalFile.window_glass_operation.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.apply" [disabled]="newMechanicalFile.window_glass_operation.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.window_glass_operation,'window_glass_operation')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.upgrade" [disabled]="newMechanicalFile.window_glass_operation.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.window_glass_operation,'window_glass_operation','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.window_glass_operation.apply" [disabled]="newMechanicalFile.window_glass_operation.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Seguros y manillas de puerta</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.door_locks_handles)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.upgrade" [disabled]="newMechanicalFile.door_locks_handles.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.apply" [disabled]="newMechanicalFile.door_locks_handles.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.door_locks_handles,'door_locks_handles')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.upgrade" [disabled]="newMechanicalFile.door_locks_handles.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.door_locks_handles,'door_locks_handles','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.door_locks_handles.apply" [disabled]="newMechanicalFile.door_locks_handles.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Operación de Retrovisores manuales <br class="br375"><br class="br320"> o eléctricos</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.operation_manual_electric_mirrors)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.upgrade" [disabled]="newMechanicalFile.operation_manual_electric_mirrors.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.apply" [disabled]="newMechanicalFile.operation_manual_electric_mirrors.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.upgrade" [disabled]="newMechanicalFile.operation_manual_electric_mirrors.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.operation_manual_electric_mirrors,'operation_manual_electric_mirrors','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.operation_manual_electric_mirrors.apply" [disabled]="newMechanicalFile.operation_manual_electric_mirrors.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Cinturones de Seguridad <br class="br375"><br class="br320"> (mecanismo de bloqueo  <br class="brmain"> y cinta)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.seat_belts)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.upgrade" [disabled]="newMechanicalFile.seat_belts.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.apply" [disabled]="newMechanicalFile.seat_belts.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.seat_belts,'seat_belts')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.upgrade" [disabled]="newMechanicalFile.seat_belts.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.seat_belts,'seat_belts','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.seat_belts.apply" [disabled]="newMechanicalFile.seat_belts.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-item-divider>
@@ -135,33 +135,33 @@
             <ion-label>Parachoques delanteros <br class="br320">(cuadratura y ajuste)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.front_bumpers)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.upgrade" [disabled]="newMechanicalFile.front_bumpers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.apply" [disabled]="newMechanicalFile.front_bumpers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.front_bumpers,'front_bumpers')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.upgrade" [disabled]="newMechanicalFile.front_bumpers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_bumpers,'front_bumpers','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_bumpers.apply" [disabled]="newMechanicalFile.front_bumpers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Parrilla frontal (cuadratura y ajuste)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.front_grill)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.upgrade" [disabled]="newMechanicalFile.front_grill.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.apply" [disabled]="newMechanicalFile.front_grill.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.front_grill,'front_grill')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.upgrade" [disabled]="newMechanicalFile.front_grill.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.front_grill,'front_grill','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.front_grill.apply" [disabled]="newMechanicalFile.front_grill.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Faros, luces de cruce y cocuyos<br class="br375"><br class="br320"><br class="brmain"> (funcionamiento y condición)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.headlights_low_beams_cocuyos)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.upgrade" [disabled]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.apply" [disabled]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.upgrade" [disabled]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.headlights_low_beams_cocuyos,'headlights_low_beams_cocuyos','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.headlights_low_beams_cocuyos.apply" [disabled]="newMechanicalFile.headlights_low_beams_cocuyos.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Faros antinieblas *si aplica* <br class="brmain"><br class="br375"><br class="br320">(funcionamiento y condición)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fog_lights)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.upgrade" [disabled]="newMechanicalFile.fog_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.apply" [disabled]="newMechanicalFile.fog_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fog_lights,'fog_lights')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.upgrade" [disabled]="newMechanicalFile.fog_lights.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fog_lights,'fog_lights','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fog_lights.apply" [disabled]="newMechanicalFile.fog_lights.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
             
 
@@ -172,97 +172,97 @@
             <ion-label>Capot <br class="br375"> (operación, ruido,<br class="br320"> descuadre, varilla, soporte)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bonnet)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.upgrade" [disabled]="newMechanicalFile.bonnet.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.apply" [disabled]="newMechanicalFile.bonnet.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bonnet,'bonnet')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.upgrade" [disabled]="newMechanicalFile.bonnet.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bonnet,'bonnet','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bonnet.apply" [disabled]="newMechanicalFile.bonnet.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Encendido del motor</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_ignition)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.upgrade" [disabled]="newMechanicalFile.engine_ignition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.apply" [disabled]="newMechanicalFile.engine_ignition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_ignition,'engine_ignition')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.upgrade" [disabled]="newMechanicalFile.engine_ignition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_ignition,'engine_ignition','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_ignition.apply" [disabled]="newMechanicalFile.engine_ignition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Ruidos de motor <br class="br320">(parámetro excluyente)</ion-label>
             <ion-list style="text-align: center;">
             
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_noises)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.upgrade" [disabled]="newMechanicalFile.engine_noises.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.apply" [disabled]="newMechanicalFile.engine_noises.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_noises,'engine_noises')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.upgrade" [disabled]="newMechanicalFile.engine_noises.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_noises,'engine_noises','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_noises.apply" [disabled]="newMechanicalFile.engine_noises.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
             
             <ion-label>Fluidos estado general (aceite de motor,<br class="br320"><br class="br375">dirección, <br class="brmain">liga de freno refrigerante)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.general_condition_fluids)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.upgrade" [disabled]="newMechanicalFile.general_condition_fluids.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.apply" [disabled]="newMechanicalFile.general_condition_fluids.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.general_condition_fluids,'general_condition_fluids')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.upgrade" [disabled]="newMechanicalFile.general_condition_fluids.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_condition_fluids,'general_condition_fluids','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_condition_fluids.apply" [disabled]="newMechanicalFile.general_condition_fluids.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Depósitos de fluidos <br class="br375"><br class="br320">(estado de los envases y tapas)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fluid_reservoirs)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.upgrade" [disabled]="newMechanicalFile.fluid_reservoirs.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.apply" [disabled]="newMechanicalFile.fluid_reservoirs.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fluid_reservoirs,'fluid_reservoirs')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.upgrade" [disabled]="newMechanicalFile.fluid_reservoirs.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_reservoirs,'fluid_reservoirs','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_reservoirs.apply" [disabled]="newMechanicalFile.fluid_reservoirs.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Bujías y bobinas condición general</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.spark_plugs_coils_general_condition)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.upgrade" [disabled]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.apply" [disabled]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.upgrade" [disabled]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spark_plugs_coils_general_condition,'spark_plugs_coils_general_condition','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spark_plugs_coils_general_condition.apply" [disabled]="newMechanicalFile.spark_plugs_coils_general_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Filtro de aire </ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.air_filter)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.upgrade" [disabled]="newMechanicalFile.air_filter.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.apply" [disabled]="newMechanicalFile.air_filter.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.air_filter,'air_filter')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.upgrade" [disabled]="newMechanicalFile.air_filter.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.air_filter,'air_filter','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.air_filter.apply" [disabled]="newMechanicalFile.air_filter.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Correas de transmisión</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.transmission_belts)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.upgrade" [disabled]="newMechanicalFile.transmission_belts.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.apply" [disabled]="newMechanicalFile.transmission_belts.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.transmission_belts,'transmission_belts')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.upgrade" [disabled]="newMechanicalFile.transmission_belts.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.transmission_belts,'transmission_belts','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.transmission_belts.apply" [disabled]="newMechanicalFile.transmission_belts.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Apariencia Mangueras, tapas, <br class="br375"> sellos<br class="br320"> y conexiones</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.appearance_hoses_caps_seals_connections)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.upgrade" [disabled]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.apply" [disabled]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.upgrade" [disabled]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.appearance_hoses_caps_seals_connections,'appearance_hoses_caps_seals_connections','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.appearance_hoses_caps_seals_connections.apply" [disabled]="newMechanicalFile.appearance_hoses_caps_seals_connections.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Estado de la batería (voltaje) y apriete o<br class="br320"><br class="br375"> <br class="brmain"> corrosión de los terminales </ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.battery_condition_terminal_tightness_corrosion)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.upgrade" [disabled]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.apply" [disabled]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.upgrade" [disabled]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.battery_condition_terminal_tightness_corrosion,'battery_condition_terminal_tightness_corrosion','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.apply" [disabled]="newMechanicalFile.battery_condition_terminal_tightness_corrosion.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Fuga de fluidos <br class="br375"> (Empacaduras, sellos,<br class="br320"> mangueras)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fluid_leak)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.upgrade" [disabled]="newMechanicalFile.fluid_leak.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.apply" [disabled]="newMechanicalFile.fluid_leak.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fluid_leak,'fluid_leak')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.upgrade" [disabled]="newMechanicalFile.fluid_leak.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fluid_leak,'fluid_leak','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fluid_leak.apply" [disabled]="newMechanicalFile.fluid_leak.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Condición general de la compresión <br class="br320">del motor <br class="br375"> <br class="brmain">(medir compresión de todos<br class="br320"> los cilindros)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.general_engine_compression_condition)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.upgrade" [disabled]="newMechanicalFile.general_engine_compression_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.apply" [disabled]="newMechanicalFile.general_engine_compression_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.upgrade" [disabled]="newMechanicalFile.general_engine_compression_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.general_engine_compression_condition,'general_engine_compression_condition','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.general_engine_compression_condition.apply" [disabled]="newMechanicalFile.general_engine_compression_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-item-divider>
@@ -272,115 +272,115 @@
             <ion-label>Barras estabilizadoras (gomas, links)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stabilizer_bars)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.upgrade" [disabled]="newMechanicalFile.stabilizer_bars.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.apply" [disabled]="newMechanicalFile.stabilizer_bars.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stabilizer_bars,'stabilizer_bars')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.upgrade" [disabled]="newMechanicalFile.stabilizer_bars.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stabilizer_bars,'stabilizer_bars','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stabilizer_bars.apply" [disabled]="newMechanicalFile.stabilizer_bars.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Rodamientos</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bearings)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.upgrade" [disabled]="newMechanicalFile.bearings.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.apply" [disabled]="newMechanicalFile.bearings.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bearings,'bearings')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.upgrade" [disabled]="newMechanicalFile.bearings.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bearings,'bearings','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bearings.apply" [disabled]="newMechanicalFile.bearings.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
 
             </ion-list>
 
             <ion-label>Juntas homocinéticas y guardapolvos <br class="br375"> <br class="brmain"><br class="br320"> (apariencia fuga de grasa y presencia<br class="br320"> de todas <br class="br375"> <br class="brmain"> sus abrazadera)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.joints_dust_covers)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.upgrade" [disabled]="newMechanicalFile.joints_dust_covers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.apply" [disabled]="newMechanicalFile.joints_dust_covers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.joints_dust_covers,'joints_dust_covers')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.upgrade" [disabled]="newMechanicalFile.joints_dust_covers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.joints_dust_covers,'joints_dust_covers','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.joints_dust_covers.apply" [disabled]="newMechanicalFile.joints_dust_covers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Amortiguadores (fugas)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.shock_absorbers)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.upgrade" [disabled]="newMechanicalFile.shock_absorbers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.apply" [disabled]="newMechanicalFile.shock_absorbers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.shock_absorbers,'shock_absorbers')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.upgrade" [disabled]="newMechanicalFile.shock_absorbers.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.shock_absorbers,'shock_absorbers','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.shock_absorbers.apply" [disabled]="newMechanicalFile.shock_absorbers.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Espirales (corrosión excesiva o quiebre)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.spirals)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.upgrade" [disabled]="newMechanicalFile.spirals.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.apply" [disabled]="newMechanicalFile.spirals.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.spirals,'spirals')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.upgrade" [disabled]="newMechanicalFile.spirals.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.spirals,'spirals','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.spirals.apply" [disabled]="newMechanicalFile.spirals.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Mesetas sup.e inf. (bujes con desgaste<br class="br320"> y<br class="br375"><br class="brmain">muñones con juego)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.upper_lower_plateaus)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.upgrade" [disabled]="newMechanicalFile.upper_lower_plateaus.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.apply" [disabled]="newMechanicalFile.upper_lower_plateaus.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.upgrade" [disabled]="newMechanicalFile.upper_lower_plateaus.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.upper_lower_plateaus,'upper_lower_plateaus','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.upper_lower_plateaus.apply" [disabled]="newMechanicalFile.upper_lower_plateaus.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
 
             <ion-label>Muñones (juego)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stumps)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.upgrade" [disabled]="newMechanicalFile.stumps.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.apply" [disabled]="newMechanicalFile.stumps.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stumps,'stumps')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.upgrade" [disabled]="newMechanicalFile.stumps.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stumps,'stumps','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stumps.apply" [disabled]="newMechanicalFile.stumps.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Terminales de dirección (int y ext)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.terminal_blocks)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.upgrade" [disabled]="newMechanicalFile.terminal_blocks.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.apply" [disabled]="newMechanicalFile.terminal_blocks.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.terminal_blocks,'terminal_blocks')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.upgrade" [disabled]="newMechanicalFile.terminal_blocks.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.terminal_blocks,'terminal_blocks','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.terminal_blocks.apply" [disabled]="newMechanicalFile.terminal_blocks.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Frenos (disco y pastilla)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.brakes)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.upgrade" [disabled]="newMechanicalFile.brakes.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.apply" [disabled]="newMechanicalFile.brakes.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.brakes,'brakes')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.upgrade" [disabled]="newMechanicalFile.brakes.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.brakes,'brakes','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.brakes.apply" [disabled]="newMechanicalFile.brakes.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Cardan o Eje de Transmisión (juego en<br class="br320"> crucetas, <br class="br375"> <br class="brmain"> ruidos o golpes)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.cardan_transmission_shaft)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.upgrade" [disabled]="newMechanicalFile.cardan_transmission_shaft.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.apply" [disabled]="newMechanicalFile.cardan_transmission_shaft.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.upgrade" [disabled]="newMechanicalFile.cardan_transmission_shaft.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.cardan_transmission_shaft,'cardan_transmission_shaft','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.cardan_transmission_shaft.apply" [disabled]="newMechanicalFile.cardan_transmission_shaft.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Fugas de aceite de motor/transmisión <br class="brmain"><br class="br375"><br class="br320">(Empacaduras, sellos)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_transmission_oil_leaks)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.upgrade" [disabled]="newMechanicalFile.engine_transmission_oil_leaks.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.apply" [disabled]="newMechanicalFile.engine_transmission_oil_leaks.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.upgrade" [disabled]="newMechanicalFile.engine_transmission_oil_leaks.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.engine_transmission_oil_leaks,'engine_transmission_oil_leaks','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.engine_transmission_oil_leaks.apply" [disabled]="newMechanicalFile.engine_transmission_oil_leaks.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Fuga de aceite hidráulico  en cajetín<br class="br320"> de dirección</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box')" labelPlacement="end" class="radioSmall checkboxRed" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.hydraulic_oil_leak_steering_box)">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box')" labelPlacement="end" class="radioSmall checkboxYellow" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.upgrade" [disabled]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply === true" >Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box')" labelPlacement="end" class="radioSmall checkboxGreen" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.apply" [disabled]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply === true" >Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box','no_apply')" labelPlacement="end" class="radioSmall checkboxRed" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box')">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box','upgrade')" labelPlacement="end" class="radioSmall checkboxYellow" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.upgrade" [disabled]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply === true" >Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.hydraulic_oil_leak_steering_box,'hydraulic_oil_leak_steering_box','apply')" labelPlacement="end" class="radioSmall checkboxGreen" [(ngModel)]="newMechanicalFile.hydraulic_oil_leak_steering_box.apply" [disabled]="newMechanicalFile.hydraulic_oil_leak_steering_box.no_apply === true" >Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Oxido excesivo en el bastidor<br class="br320"> o compacto</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.excessive_rust_on_frame_compact)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.upgrade" [disabled]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.apply" [disabled]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.upgrade" [disabled]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.excessive_rust_on_frame_compact,'excessive_rust_on_frame_compact','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.excessive_rust_on_frame_compact.apply" [disabled]="newMechanicalFile.excessive_rust_on_frame_compact.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Tubo de escape (anclajes de goma<br class="br320">, sin fuga,<br class="br375"><br class="brmain"> ni perforaciones)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.exhaust_pipe)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.upgrade" [disabled]="newMechanicalFile.exhaust_pipe.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.apply" [disabled]="newMechanicalFile.exhaust_pipe.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.exhaust_pipe,'exhaust_pipe')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.upgrade" [disabled]="newMechanicalFile.exhaust_pipe.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.exhaust_pipe,'exhaust_pipe','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.exhaust_pipe.apply" [disabled]="newMechanicalFile.exhaust_pipe.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-item-divider>
@@ -390,9 +390,9 @@
             <ion-label>Puertas (abren,cierra y funcionan<br class="br320"> los seguros)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.doors)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.upgrade" [disabled]="newMechanicalFile.doors.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.apply" [disabled]="newMechanicalFile.doors.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.doors,'doors')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.upgrade" [disabled]="newMechanicalFile.doors.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.doors,'doors','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.doors.apply" [disabled]="newMechanicalFile.doors.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-item-divider>
@@ -402,41 +402,41 @@
             <ion-label>Stop (Incluyendo 3er Stop)</ion-label>
             <ion-list style="text-align: center;">
               
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stop)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.upgrade" [disabled]="newMechanicalFile.stop.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.apply" [disabled]="newMechanicalFile.stop.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.stop,'stop')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.upgrade" [disabled]="newMechanicalFile.stop.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.stop,'stop','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.stop.apply" [disabled]="newMechanicalFile.stop.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Compuerta del surtidor de combustible <br class="brmain"><br class="br320">(función apertura y tapa)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fuel_pump_door)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.upgrade" [disabled]="newMechanicalFile.fuel_pump_door.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.apply" [disabled]="newMechanicalFile.fuel_pump_door.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.fuel_pump_door,'fuel_pump_door')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.upgrade" [disabled]="newMechanicalFile.fuel_pump_door.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.fuel_pump_door,'fuel_pump_door','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.fuel_pump_door.apply" [disabled]="newMechanicalFile.fuel_pump_door.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Puerta del Maletero <br class="br375"> (Funcionamiento y<br class="br320"> cuadratura)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.trunk_door)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.upgrade" [disabled]="newMechanicalFile.trunk_door.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.apply" [disabled]="newMechanicalFile.trunk_door.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.trunk_door,'trunk_door')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.upgrade" [disabled]="newMechanicalFile.trunk_door.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_door,'trunk_door','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_door.apply" [disabled]="newMechanicalFile.trunk_door.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Interior del Maletero (alfombras)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.trunk_interior)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.upgrade" [disabled]="newMechanicalFile.trunk_interior.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.apply" [disabled]="newMechanicalFile.trunk_interior.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.trunk_interior,'trunk_interior')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.upgrade" [disabled]="newMechanicalFile.trunk_interior.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.trunk_interior,'trunk_interior','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.trunk_interior.apply" [disabled]="newMechanicalFile.trunk_interior.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Caucho de repuesto y Juego de<br class="br320"> Herramientas <br class="br375"> <br class="brmain"> (gato y Triangulo<br class="br320"> de seguridad)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.replacement_rubber_tool_set)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.upgrade" [disabled]="newMechanicalFile.replacement_rubber_tool_set.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.apply" [disabled]="newMechanicalFile.replacement_rubber_tool_set.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.upgrade" [disabled]="newMechanicalFile.replacement_rubber_tool_set.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.replacement_rubber_tool_set,'replacement_rubber_tool_set','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.replacement_rubber_tool_set.apply" [disabled]="newMechanicalFile.replacement_rubber_tool_set.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-item-divider>
@@ -446,41 +446,41 @@
             <ion-label>Emblemas completos</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.complete_emblems)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.upgrade" [disabled]="newMechanicalFile.complete_emblems.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.apply" [disabled]="newMechanicalFile.complete_emblems.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.complete_emblems,'complete_emblems')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.upgrade" [disabled]="newMechanicalFile.complete_emblems.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.complete_emblems,'complete_emblems','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.complete_emblems.apply" [disabled]="newMechanicalFile.complete_emblems.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Carrocería <br class="br375"> (golpes, abolladuras,<br class="br320">oxidada o picada)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bodywork)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.upgrade" [disabled]="newMechanicalFile.bodywork.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.apply" [disabled]="newMechanicalFile.bodywork.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.bodywork,'bodywork')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.upgrade" [disabled]="newMechanicalFile.bodywork.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.bodywork,'bodywork','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.bodywork.apply" [disabled]="newMechanicalFile.bodywork.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Pintura (decoloración, tonalidad,<br class="br320"> rayones (+2cm)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.paint)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.upgrade" [disabled]="newMechanicalFile.paint.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.apply" [disabled]="newMechanicalFile.paint.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.paint,'paint')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.upgrade" [disabled]="newMechanicalFile.paint.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.paint,'paint','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.paint.apply" [disabled]="newMechanicalFile.paint.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Estado de los neumáticos <br class="brmain"> <br class="br375"> ( presión y <br class="br320">desgaste no uniforme o anormal)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.tire_condition)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.upgrade" [disabled]="newMechanicalFile.tire_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.apply" [disabled]="newMechanicalFile.tire_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.tire_condition,'tire_condition')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.upgrade" [disabled]="newMechanicalFile.tire_condition.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.tire_condition,'tire_condition','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.tire_condition.apply" [disabled]="newMechanicalFile.tire_condition.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
             <ion-label>Ornamentos de ruedas <br class="br320">(tapa centro de rin)</ion-label>
             <ion-list style="text-align: center;">
 
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.wheel_ornaments)" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.upgrade" [disabled]="newMechanicalFile.wheel_ornaments.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
-              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.apply" [disabled]="newMechanicalFile.wheel_ornaments.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments','no_apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.no_apply" (ionChange)="onCheckNoApply($event,newMechanicalFile.wheel_ornaments,'wheel_ornaments')" class="radioSmall checkboxRed">No Cumple</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments','upgrade')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.upgrade" [disabled]="newMechanicalFile.wheel_ornaments.no_apply === true" class="radioSmall checkboxYellow">Mejorar</ion-checkbox>
+              <ion-checkbox (ionChange)="generalCondition($event, newMechanicalFile.wheel_ornaments,'wheel_ornaments','apply')" labelPlacement="end" [(ngModel)]="newMechanicalFile.wheel_ornaments.apply" [disabled]="newMechanicalFile.wheel_ornaments.no_apply === true" class="radioSmall checkboxGreen">Cumple</ion-checkbox>
             </ion-list>
 
           </ion-item-group>

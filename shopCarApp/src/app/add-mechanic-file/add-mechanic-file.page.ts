@@ -482,16 +482,16 @@ export class AddMechanicFilePage implements OnInit {
     this.content.scrollToTop(500);
   }
   
-  public generalCondition(event: any, field: any, name:string){
+  public generalCondition(event: any, field: any, name:string, input: string){
 
     if (event.detail.checked === true) {
     //   //buscamos el campo en los arreglos para saber cual es su valor y sumarlos       
       if (this.dataValueOne.includes(name)) {
-        if (field.apply === true && field.upgrade === false) {
+        if (field.apply === true && field.upgrade === false && field.no_apply === false) {
           this.newMechanicalFile.general_condition+=1;
         }
 
-        if (field.upgrade === true && field.apply === false ) {
+        if (field.upgrade === true && field.apply === false && field.no_apply === false) {
           this.newMechanicalFile.general_condition+=1;
         }
 
@@ -500,108 +500,22 @@ export class AddMechanicFilePage implements OnInit {
         }
         
         if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          if (this.newMechanicalFile.general_condition > 0) {
+            
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          }
         }
 
         if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          if (this.newMechanicalFile.general_condition > 0) {
+            
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          }
         }
 
         if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
-        }
-
-      }
-
-      if (this.dataValueTwo.includes(name)) {
-        
-        if (field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=2;
-        }
-
-        if (field.upgrade === true && field.apply === false ) {
-          this.newMechanicalFile.general_condition+=2;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=0;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
-        }
-
-      }
-
-      if (this.dataValueThree.includes(name)) {
-        
-        if (field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=3;
-        }
-
-        if (field.upgrade === true && field.apply === false ) {
-          this.newMechanicalFile.general_condition+=3;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=0;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
-        }
-
-      }
-
-      if (this.dataValueSix.includes(name)) {
-        
-        if (field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=6;
-        }
-
-        if (field.upgrade === true && field.apply === false ) {
-          this.newMechanicalFile.general_condition+=6;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
-          this.newMechanicalFile.general_condition+=0;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
-        }
-
-        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
-        }
-
-        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
-        }
-      }
-    }
-
-    if (event.detail.checked === false) {
-      //buscamos el campo en los arreglos para saber cual es su valor y restarlos      
-      if (this.dataValueOne.includes(name)) {
-        if (field.apply === false && field.upgrade === false) {
-          if (this.newMechanicalFile.general_condition !== 0) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
           }
         }
@@ -610,8 +524,122 @@ export class AddMechanicFilePage implements OnInit {
 
       if (this.dataValueTwo.includes(name)) {
         
-        if (field.apply === false && field.upgrade === false) {
-          if (this.newMechanicalFile.general_condition !== 0) {
+        if (field.apply === true && field.upgrade === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=2;
+        }
+
+        if (field.upgrade === true && field.apply === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=2;
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
+          this.newMechanicalFile.general_condition+=0;
+        }
+
+        console.log(this.newMechanicalFile.general_condition)
+        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+          }
+        }
+
+      }
+
+      if (this.dataValueThree.includes(name)) {
+        
+        if (field.apply === true && field.upgrade === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=3;
+        }
+
+        if (field.upgrade === true && field.apply === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=3;
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
+          this.newMechanicalFile.general_condition+=0;
+        }
+
+        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+          }
+        }
+
+      }
+
+      if (this.dataValueSix.includes(name)) {
+        
+        if (field.apply === true && field.upgrade === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=6;
+        }
+
+        if (field.upgrade === true && field.apply === false && field.no_apply === false) {
+          this.newMechanicalFile.general_condition+=6;
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === false) {
+          this.newMechanicalFile.general_condition+=0;
+        }
+
+        if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === false && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+          }
+        }
+
+        if ( field.no_apply === true && field.apply === true && field.upgrade === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+          }
+        }
+      }
+    }
+
+    if (event.detail.checked === false) {
+      //buscamos el campo en los arreglos para saber cual es su valor y restarlos      
+      if (this.dataValueOne.includes(name)) {
+        if (field.apply === false && field.upgrade === false && input !== 'no_apply' ) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          }
+        }
+
+      }
+
+      if (this.dataValueTwo.includes(name)) {
+        
+        if (field.apply === false && field.upgrade === false  && input !== 'no_apply' ) {
+          if (this.newMechanicalFile.general_condition > 0) {
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
           }
         }
@@ -619,8 +647,8 @@ export class AddMechanicFilePage implements OnInit {
 
       if (this.dataValueThree.includes(name)) {
         
-        if (field.apply === false && field.upgrade === false) {
-          if (this.newMechanicalFile.general_condition !== 0) {
+        if (field.apply === false && field.upgrade === false  && input !== 'no_apply' ) {
+          if (this.newMechanicalFile.general_condition > 0) {
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
           }
         }
@@ -628,28 +656,57 @@ export class AddMechanicFilePage implements OnInit {
 
       if (this.dataValueSix.includes(name)) {
         
-        if (field.apply === false && field.upgrade === false) {
-          if (this.newMechanicalFile.general_condition !== 0) {
+        if (field.apply === false && field.upgrade === false  && input !== 'no_apply' ) {
+          if (this.newMechanicalFile.general_condition > 0) {
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
           }
         }
 
-        if (field.upgrade === false && field.apply === false) {
-          if (this.newMechanicalFile.general_condition !== 0) {
+        if (field.upgrade === false && field.apply === false  && input !== 'no_apply' ) {
+          
+          if (this.newMechanicalFile.general_condition > 0) {
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
           }
           
         }
       }
     }
-  
+    
+    console.log(this.newMechanicalFile.general_condition)
   }
 
-  public onCheckNoApply(event: any, field: any){
+  public onCheckNoApply(event: any, field: any, name:string){
     if(event.detail.checked == true){
       field.apply = false;
       field.no_apply = true;
       field.upgrade = false;
+
+      if (this.dataValueOne.includes(name)) {
+        if (this.newMechanicalFile.general_condition > 0) {
+          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          
+        }
+      }
+
+      if (this.dataValueTwo.includes(name)) {
+        if (this.newMechanicalFile.general_condition > 0) {
+          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+        }
+      }
+
+      if (this.dataValueThree.includes(name)) {
+        
+        if (this.newMechanicalFile.general_condition > 0) {
+          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+        }
+      }
+
+      if (this.dataValueSix.includes(name)) {
+        
+        if (this.newMechanicalFile.general_condition > 0) {
+          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+        }
+      }
     }
   }
 

@@ -147,8 +147,6 @@ export class CarDetailPage implements OnInit {
     this.getVehicleById();
     this.buttonsActionSheet();
     this.buttonsActionSheetEdit();
-    this.buttonsASDoc();
-    this.buttonsAStEditDoc();
     this.getBrands();
     // disable();
     // this.screenShotDisables();
@@ -460,101 +458,6 @@ export class CarDetailPage implements OnInit {
     this.utils.dismissLoading();
   }
 
-  public async takePhotoDoc(){
-    this.utils.presentLoading("Cargando imagen...");
-    if(this.arrayDocuments.length === 5){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
-      return
-    };
-    // enable();
-    // this.screenShotEnable();
-    const camera = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera,
-    }).then((imageData)=>{
-      this.addNewImgDocs(imageData.dataUrl);
-    },
-    (err)=>{
-      console.log(err)
-    })
-    this.utils.dismissLoading();
-  }
-
-  public async takePhotoGaleryDoc(){
-    this.utils.presentLoading("Cargando imagen...");
-    if(this.arrayDocuments.length === 5){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
-      return
-    };
-    // enable();
-    // this.screenShotEnable();
-    const camera = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos,
-    }).then((imageData)=>{
-      this.addNewImgDocs(imageData.dataUrl);
-    },
-    (err)=>{
-      console.log(err)
-    })
-    this.utils.dismissLoading();
-  }
-
-  public async editTakePhotoDoc(){
-    this.utils.presentLoading("Cargando imagen...");
-    if(this.arrayDocuments.length === 5){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
-      return
-    };
-    // enable();
-    // this.screenShotEnable();
-    const camera = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera,
-    }).then((imageData)=>{
-      this.editImgDocs(imageData.dataUrl);
-    },
-    (err)=>{
-      console.log(err)
-    })
-
-    this.utils.dismissLoading();
-  }
-
-  public async editTakePhotoGaleryDoc(){
-    this.utils.presentLoading("Cargando imagen...");
-    if(this.arrayDocuments.length === 5){
-      this.utils.dismissLoading();
-      this.utils.presentToast("Solo se pueden añadir 5 documentos") 
-      return
-    };
-    // enable();
-    // this.screenShotEnable();
-    const camera = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos,
-    }).then((imageData)=>{
-      this.editImgDocs(imageData.dataUrl);
-    },
-    (err)=>{
-      console.log(err)
-    })
-
-    this.utils.dismissLoading();
-
-  }
-
   public openActionSheetEdit(index:any, image:any){
 
     this.idImgEdit = image.public_id;
@@ -626,6 +529,9 @@ export class CarDetailPage implements OnInit {
     }
 
     this.sellerSrv.addImgDoc(img).subscribe((data:any) => {
+
+      if (data.status) {
+        
         let newImg = {
           img: data.data.img,
           public_id: data.data.public_id,
@@ -633,10 +539,22 @@ export class CarDetailPage implements OnInit {
         }
         // disable();
         // this.screenShotDisables();
-        this.arrayDocuments.push(newImg);
-        this.carDetail.imgs_documentation.push(newImg);
+        this.zone.run(()=>{
+          // this.carDetail.imgs_documentation.push(newImg);
+          this.arrayDocuments.push(newImg);
+          this.utils.dismissLoading();
+        });
+        console.log(this.arrayDocuments)
+      }else{
+        this.utils.presentToast(data.message);
         this.utils.dismissLoading();
+      }
+
+      console.log(this.arrayDocuments)
+    }, (error:any) => {
+      console.log(error);
     });
+
   }
 
   public editImgDocs(image:any){
@@ -753,56 +671,6 @@ export class CarDetailPage implements OnInit {
     ]
   }
 
-  public buttonsASDoc(){
-    this.aSBtnsDocs = [
-      {
-        text: 'Cámara',
-        icon: 'camera',
-        handler: () => {
-          this.takePhotoDoc();
-        }
-      },
-      {
-        text: 'Galería',
-        icon: 'image',
-        handler: () => {
-          this.takePhotoGaleryDoc();
-        }
-      },
-      {
-        text: 'Cancelar',
-        icon: 'close',
-        role: 'cancel'
-      }
-    ]
-    
-
-  }
-
-  public buttonsAStEditDoc(){
-
-    this.aSBtnsEditDocs = [
-      {
-        text: 'Cámara',
-        icon: 'camera',
-        handler: () => {
-          this.editTakePhotoDoc();
-        }
-      },
-      {
-        text: 'Galería',
-        icon: 'image',
-        handler: () => {
-          this.editTakePhotoGaleryDoc();
-        }
-      },
-      {
-        text: 'Salir',
-        icon: 'close',
-        role: 'cancel'
-      }
-    ]
-  }
 
   public dispatched(){
     this.utils.presentLoading("Actualizando vehículo...");
@@ -1075,73 +943,48 @@ export class CarDetailPage implements OnInit {
     this.inputDocs2.nativeElement.click();
   }
 
-  public fileSelect(file:FileList){
-
-    if (this.arrayDocuments.length === 5) {
-      this.utils.presentToast("Solo se pueden añadir 5 documentos");
-      return
-    }
-
-    let reader = new FileReader();
-    reader.onload = (e:any) => {
-
-      let img = {
-        image: e.target.result,
-        name: file[0].name
-      }
-      this.addNewImgDocs(img);
-    }
-    reader.readAsDataURL(file[0]);
-  }
-
-  public fileSelect2(file:FileList){
-    let reader = new FileReader();
-    reader.onload = (e:any) => {
-      let img = {
-        image: e.target.result,
-        name: file[0].name
-      }
-      this.editImgDocs(img);
-      // this.arrayDocuments[this.aux].image = e.target.result;
-      // this.arrayDocuments[this.aux].name = file[0].name;
-    }
-    reader.readAsDataURL(file[0]);
-  }
-
   public documentSelect(event: any){
-    console.log(event.target.files)
-
     if (this.arrayDocuments.length === 5) {
       this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
       return
     }
-
-    let reader = new FileReader();
-
-    let file = reader.result;
-
-    let img = {
-      image: file,
-      name: event.target.files[0].name
+    
+    let img: any = {
+      image: '',
+      name: ''
     }
 
-    this.arrayDocuments.push(img);
-
+    if (event.target.files && event.target.files[0]) {
+      img.name = event.target.files[0].name;
+      let newInstance = this.getFileReader();
+      newInstance.readAsDataURL(event.target.files[0]); 
+      newInstance.onload = (imgsrc) => {               
+        let url = (imgsrc.target as FileReader).result!; 
+        img.image = url;
+        this.addNewImgDocs(img);
+      }
+    }
   }
 
   public documentSelect2(event: any){
-    let reader = new FileReader();
-
-    let file = reader.result;
-
-    let img = {
-      image: file,
-      name: event.target.files[0].name
+    if (event.target.files && event.target.files[0]) {
+      let newInstance = this.getFileReader();
+      newInstance.readAsDataURL(event.target.files[0]); 
+      newInstance.onload = (imgsrc) => {               
+        let url = (imgsrc.target as FileReader).result!; 
+        let img: any = {
+          image: url,
+          name: event.target.files[0].name
+        }
+        this.editImgDocs(img);
+      }
     }
+  }
 
-    this.arrayDocuments[this.aux].image = file;
-    this.arrayDocuments[this.aux].name = event.target.files[0].name;
-
+  public getFileReader(): FileReader {
+    const fileReader = new FileReader();
+    const zoneOriginalInstance = (fileReader as any)['__zone_symbol__originalInstance'];
+    return zoneOriginalInstance || fileReader;
   }
 
   public async openPdf(url:any){

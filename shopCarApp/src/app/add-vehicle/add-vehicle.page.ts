@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, ModalController,IonModal, IonPopover, IonActionSheet, IonicSafeString, AlertController } from '@ionic/angular';
 import { AddVehicle, CreateMechanic } from 'src/models/sellet';
@@ -159,7 +159,7 @@ export class AddVehiclePage implements OnInit {
   //   }
   // ]
 
-  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService, private sanitizer: DomSanitizer) {
+  constructor(private menu: MenuController, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private modalCtrl: ModalController, private alertCtrl: AlertController, private authSrv: AuthService, private zone: NgZone) {
 
     this.newVehicle.brand = '';
     this.newVehicle.city = '';
@@ -428,36 +428,6 @@ export class AddVehiclePage implements OnInit {
     
     this.utils.presentLoading("Cargando imagen...");
 
-    if (this.photoNumber === 5) {
-      this.modalStep.dismiss();
-      this.photoNumber = 1;
-    }
-
-    if (this.photoNumber < 5){
-      this.photoNumber++; 
-    }
-
-    if (this.arrayImages.length === 2){
-      let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
-      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
-      this.photoNumber = aux[0];
-    }
-
-    if (this.arrayImages.length === 3){
-      let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
-      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
-      this.photoNumber = aux[0];
-    }
-
-    if (this.arrayImages.length === 4){
-      let numbers = [1,2,3,4,5];
-      //buscamos el numero de la imagen que falta por añadir comparando el array de numeros con el valor number del array de imagenes
-      let aux = numbers.filter((item) => !this.arrayImages.some((item2) => item2.number === item));
-      this.photoNumber = aux[0];
-    }
-
     if (this.arrayImages.length === 5) {
       this.utils.dismissLoading();
       this.utils.presentAlert("Solo se pueden añadir 5 imágenes", "Información", "");
@@ -471,16 +441,28 @@ export class AddVehiclePage implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     }).then((imageData)=>{
+
       let img = {
         image: imageData.dataUrl,
         number: this.photoNumber
       }
+
       this.arrayImages.push(img);
-      this.photoNumber++;
+
+      if (this.photoNumber === 5) {
+        this.photoNumber = 1;
+        this.modalStep.dismiss();
+      }
+
+      if (this.photoNumber < 5){
+        this.photoNumber++; 
+      }
+      
       if (this.arrayImages.length > 5) {
         this.photoNumber = 1;
         this.modalStep.dismiss();
       }
+
     },
     (err)=>{
       console.log(err)
@@ -1141,76 +1123,49 @@ export class AddVehiclePage implements OnInit {
     this.inputDocs2.nativeElement.click();
   }
 
-  public fileSelect(file:FileList){
-
+  public documentSelect(event: any){
     if (this.arrayDocuments.length === 5) {
       this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
       return
     }
+    
+    let img: any = {
+      image: '',
+      name: ''
+    }
 
-    console.log(file, "file antes de reader.onload")
-
-    let reader = new FileReader();
-    reader.onload = (e:any) => {
-      console.log("dentro de reader.onload", e.target.result)
-
-      let img = {
-        image: e.target.result,
-        name: file[0].name
+    if (event.target.files && event.target.files[0]) {
+      img.name = event.target.files[0].name;
+      let newInstance = this.getFileReader();
+      console.log(newInstance, "newInstance")
+      newInstance.readAsDataURL(event.target.files[0]); 
+      newInstance.onload = (imgsrc) => {               
+        let url = (imgsrc.target as FileReader).result!; 
+        img.image = url;
       }
       this.arrayDocuments.push(img);
     }
-    console.log(this.arrayDocuments)
-    reader.readAsDataURL(file[0]);
-  }
 
-  public fileSelect2(file:FileList){
-    let reader = new FileReader();
-    reader.onload = (e:any) => {
-      let img = {
-        image: e.target.result,
-      }
-
-      this.arrayDocuments[this.aux].image = e.target.result;
-      this.arrayDocuments[this.aux].name = file[0].name;
-    }
-    reader.readAsDataURL(file[0]);
-  }
-
-  public documentSelect(event: any){
-    console.log(event.target.files)
-
-    if (this.arrayDocuments.length === 5) {
-      this.utils.presentAlert("Solo se pueden añadir 5 documentos", "Información", "");
-      return
-    }
-
-    let reader = new FileReader();
-
-    let file = reader.result;
-
-    let img = {
-      image: file,
-      name: event.target.files[0].name
-    }
-
-    this.arrayDocuments.push(img);
+    console.log(this.arrayDocuments, "arrayDocuments")
 
   }
 
   public documentSelect2(event: any){
-    let reader = new FileReader();
-
-    let file = reader.result;
-
-    let img = {
-      image: file,
-      name: event.target.files[0].name
+    if (event.target.files && event.target.files[0]) {
+      let newInstance = this.getFileReader();
+      newInstance.readAsDataURL(event.target.files[0]); 
+      newInstance.onload = (imgsrc) => {               
+        let url = (imgsrc.target as FileReader).result!; 
+        this.arrayDocuments[this.aux].image = url;
+        this.arrayDocuments[this.aux].name = event.target.files[0].name;
+      }
     }
+  }
 
-    this.arrayDocuments[this.aux].image = file;
-    this.arrayDocuments[this.aux].name = event.target.files[0].name;
-
+  public getFileReader(): FileReader {
+    const fileReader = new FileReader();
+    const zoneOriginalInstance = (fileReader as any)['__zone_symbol__originalInstance'];
+    return zoneOriginalInstance || fileReader;
   }
 
   ////////////------------------ steps de añadir imagenes del vehiculo -----------------////////////
