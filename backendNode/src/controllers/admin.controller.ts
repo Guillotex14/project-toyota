@@ -301,8 +301,6 @@ adminController.updateSeller=async (req: Request, res: Response) => {
 
     await sellers.findOneAndUpdate(seller,sellerUpdate);
 
-    console.log("seller",sellers)
-
     jsonRes.code = 200;
     jsonRes.message = "Vendedor actualizado exitosamente"
     jsonRes.status = true;

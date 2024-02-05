@@ -669,7 +669,7 @@
                             <p style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold;margin: 10px auto !important;">Bueno</p>
                           </ion-col>
                         </ion-row>
-                        <ion-row *ngIf="carDetail.general_condition >= 76 && carDetail.general_condition < 86 ">
+                        <ion-row *ngIf="carDetail.general_condition < 86 ">
                           <ion-col size="12" style="text-align: center !important;">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -681,7 +681,7 @@
                           </ion-col>
                         </ion-row>
                 
-                        <ion-row *ngIf="carDetail.general_condition < 76">
+                        <!-- <ion-row *ngIf="carDetail.general_condition < 76">
                           <ion-col size="12" style="text-align: center !important;">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -691,7 +691,7 @@
                           <ion-col size="7"style="text-align: left !important;">
                             <p style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;margin: 10px auto !important;">Malo</p>
                           </ion-col>
-                        </ion-row>
+                        </ion-row> -->
                       </ion-col>
                     </ion-row>
                   </ion-col>

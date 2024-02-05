@@ -165,7 +165,6 @@ authController.sendMail = async (req: Request, res: Response) => {
 
   // const template = templatesMails("ofertByCar");
 
-  // console.log(template);
 
   // const mailOptions = {
   //   from: 'Servicio de notificaciones',

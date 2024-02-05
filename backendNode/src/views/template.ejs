@@ -938,7 +938,7 @@
                   Bueno</p>
               </div>
               <% } %>
-              <% if (general_condition ==='regular' || (general_condition >= 76 && general_condition<86)){ %>
+              <% if (general_condition ==='regular' || (general_condition < 86)){ %>
 
               <div class="col-12">
                 <p style="font-size: 25px !important; color: #F7941D !important;font-weight: bold; text-align:center;">
@@ -946,12 +946,12 @@
               </div>
               <% } %>
 
-              <% if (general_condition ==='malo' || general_condition < 76){ %>
+              <!-- <% if (general_condition ==='malo' || general_condition < 76){ %>
               <div class="col-12">
                 <p style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold; text-align:center;">
                   Malo</p>
               </div>
-              <% } %>
+              <% } %> -->
 
             </div>
           </div>

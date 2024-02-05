@@ -1455,7 +1455,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       }
 
       nameArray = orderMonths(nameArray);
-      console.log(nameArray)
+      
       const total = vehiclesFiltered.map((dato: any) => dato.total);
 
 
@@ -3339,8 +3339,6 @@ vehicleController.ofertInfo = async (req: Request, res: Response) => {
     },
   ]);
 
-  console.log("vehicle", vehicle)
-
   if (vehicle) {
 
     reponseJson.code = 200;
@@ -4179,7 +4177,7 @@ const sendNotificationAdmin = async (id: string, data: any, title: string) => {
 
 const updateImgDocsVehicle = async (id: string, data: any) => {
   //buscamos el vehiculo y actulizamos el campo img_documentation
-  console.log(data)
+  
   const vehicle = await vehicles.findOne({ _id: id });
 
   if (vehicle) {
@@ -4188,7 +4186,7 @@ const updateImgDocsVehicle = async (id: string, data: any) => {
   }
 
   const vehicleFound = await vehicles.findOne({ _id: id });
-  console.log(vehicleFound)
+  
 
 };
 
