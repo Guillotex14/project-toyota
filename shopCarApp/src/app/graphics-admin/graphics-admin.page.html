@@ -523,7 +523,7 @@
             </div>
           </ion-accordion>
 
-          <ion-accordion value="concesionary">
+          <ion-accordion value="concesionary" *ngIf="data.type_user!='admin_concesionary'">
             <ion-item slot="header">
               <ion-label>Consesionario</ion-label>
             </ion-item>

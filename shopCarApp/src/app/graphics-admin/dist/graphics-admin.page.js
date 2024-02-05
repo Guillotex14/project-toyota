@@ -76,6 +76,7 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.brandCar2 = '';
         this.modelCar2 = '';
         this.concesionary2 = '';
+        this.concesionary = '';
         this.id_user = '';
         this.arrayLabels = [];
         this.arrayBrands = [];
@@ -94,12 +95,17 @@ var GraphicsAdminPage = /** @class */ (function () {
         this.triple_m_breadcrumb = "";
         this.typeUser = 'admin';
         this.loading = true;
+        this.data = {};
         chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
         this.arrayConcesionary = concesionaries_1.concesionaries;
-        var data = JSON.parse(localStorage.getItem('me'));
-        if (data) {
-            this.id_user = data.id;
-            this.typeUser = data.type_user;
+        this.data = JSON.parse(localStorage.getItem('me'));
+        if (this.data) {
+            this.id_user = this.data.id;
+            this.typeUser = this.data.type_user;
+        }
+        if (this.data.type_user == "admin_concesionary") {
+            this.concesionary = this.data.concesionary;
+            this.concesionary2 = this.data.concesionary;
         }
     }
     GraphicsAdminPage.prototype.ngAfterViewInit = function () {

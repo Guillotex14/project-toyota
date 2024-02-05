@@ -42,6 +42,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   brandCar2: string = '';
   modelCar2: string = '';
   concesionary2: string = '';
+  concesionary: string = '';
   id_user: string = '';
 
   arrayLabels: any[] = [];
@@ -64,6 +65,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   typeUser: string = 'admin';
 
   loading: boolean = true;
+  data:any={}
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterGraphicAdmin') modalFilter!: IonModal;
   @ViewChild('ModalFilterVehicleAdmin') modalVehicle!: IonModal;
@@ -79,11 +81,16 @@ export class GraphicsAdminPage implements AfterViewInit {
   ) {
     Chart.register(...registerables);
     this.arrayConcesionary = concesionaries;
-    let data = JSON.parse(localStorage.getItem('me')!);
+    this.data = JSON.parse(localStorage.getItem('me')!);
 
-    if (data) {
-      this.id_user = data.id;
-      this.typeUser = data.type_user;
+    if (this.data) {
+      this.id_user = this.data.id;
+      this.typeUser = this.data.type_user;
+    }
+
+    if (this.data.type_user=="admin_concesionary") {
+      this.concesionary=this.data.concesionary
+      this.concesionary2=this.data.concesionary
     }
   }
 
