@@ -214,8 +214,10 @@ var GraphicsPage = /** @class */ (function () {
         this.sellerSrv.getListCars(data).subscribe(function (res) {
             if (res.status) {
                 _this.loading = false;
-                _this.arrayListCars = res.data.grupocard;
-                if (_this.arrayListCars.length == 0) {
+                if (res.data.grupocard.length > 0) {
+                    _this.arrayListCars = res.data.grupocard;
+                }
+                else {
                     _this.dateTo = "";
                     _this.dateFrom = "";
                     _this.yearCar2 = "";
@@ -223,9 +225,13 @@ var GraphicsPage = /** @class */ (function () {
                     _this.brandCar2 = "";
                     _this.modelCar2 = "";
                     _this.concesionary2 = "";
+                    _this.utils.presentAlert("", "Lista sin resultado", "");
+                    _this.arrayListCars = [];
                 }
             }
-            else {
+            {
+                _this.arrayListCars = [];
+                _this.utils.presentAlert("", "Lista sin resultado", "");
                 _this.utils.presentToast(res.message);
             }
         }, function (err) {

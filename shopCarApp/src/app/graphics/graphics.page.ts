@@ -202,19 +202,26 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false
-        this.arrayListCars = res.data.grupocard;
 
-        if (this.arrayListCars.length==0) {
+        if (res.data.grupocard.length > 0) {
+          this.arrayListCars = res.data.grupocard;
+        } else {
           this.dateTo = ""
           this.dateFrom = ""
           this.yearCar2 = ""
           this.yearCarAux2 = ""
           this.brandCar2 = ""
           this.modelCar2 = ""
-          this.concesionary2 = ""
+          this.concesionary2 = "";
+          this.utils.presentAlert("", "Lista sin resultado", "");
+          this.arrayListCars=[]
         }
-      } else {
+      } {
+        this.arrayListCars=[];
+        this.utils.presentAlert("", "Lista sin resultado", "");
+
         this.utils.presentToast(res.message);
+
       }
     }
       , (err: any) => {

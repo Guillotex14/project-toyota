@@ -232,7 +232,7 @@ export class GraphicsAdminPage implements AfterViewInit {
     this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false;
-        if (res.data.length > 0) {
+        if (res.data.grupocard.length > 0) {
           this.arrayListCars = res.data.grupocard;
 
         } else {
@@ -243,9 +243,13 @@ export class GraphicsAdminPage implements AfterViewInit {
           this.brandCar2 = "";
           this.modelCar2 = "";
           this.concesionary2 = "";
+          this.arrayListCars=[];
+        this.utils.presentAlert("", "Lista sin resultado", "");
 
         }
       } else {
+        this.arrayListCars=[];
+        this.utils.presentAlert("", "Lista sin resultado", "");
         this.utils.presentToast(res.message);
       }
     }
