@@ -1339,6 +1339,15 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     dispatched: true, // Campo de búsqueda adicional
   };
 
+  if (decode.type_user == "admin_concesionary") {
+    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary.name, $options: "i" },
+    };
+
+  }
+
   if (data.yearCar) {
     mongQuery = {
       ...mongQuery,
@@ -1523,7 +1532,14 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       },
     ]);
 
-
+    if (decode.type_user == "admin_concesionary") {
+      let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+      mongQuery = {
+        ...mongQuery,
+        concesionary: { $regex: concesionary.name, $options: "i" },
+      };
+  
+    }
 
     let listCars: any = await Vehicles.aggregate([
       {
@@ -1755,14 +1771,14 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
   //   }
   // }
 
-  // if (decode.type_user == "admin_concesionary") {
-  //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-  //   mongQuery = {
-  //     ...mongQuery,
-  //     concesionary: { $regex: concesionary.name, $options: "i" },
-  //   };
+  if (decode.type_user == "admin_concesionary") {
+    let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: concesionary.name, $options: "i" },
+    };
 
-  // }
+  }
 
   // if (decode.type_user == "seller") {
   //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})

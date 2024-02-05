@@ -1159,6 +1159,11 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         sold: true,
         dispatched: true, // Campo de búsqueda adicional
     };
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
+    console.log(mongQuery);
     if (data.yearCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(data.yearCar) });
     }
@@ -1312,6 +1317,10 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 },
             },
         ]);
+        if (decode.type_user == "admin_concesionary") {
+            let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+            mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+        }
         let listCars = yield Vehicles_schema_1.default.aggregate([
             {
                 $match: mongQuery,
@@ -1485,13 +1494,10 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
     //     }
     //   }
     // }
-    // if (decode.type_user == "admin_concesionary") {
-    //   let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
-    //   mongQuery = {
-    //     ...mongQuery,
-    //     concesionary: { $regex: concesionary.name, $options: "i" },
-    //   };
-    // }
+    if (decode.type_user == "admin_concesionary") {
+        let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
     // if (decode.type_user == "seller") {
     //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
     //   mongQuery = {
