@@ -60,7 +60,7 @@
                     {{vehicle.concesionary}}
                   </p>
                   <p *ngIf="vehicle.general_condition" [style.color]="evaluateStatus(vehicle.general_condition)">
-                    {{ vehicle.general_condition && vehicle.general_condition < 76 ? '': vehicle.general_condition < 76 ? 'Malo' : vehicle.general_condition >= 76 && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
+                    {{ vehicle.general_condition && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
                   </p>
                   <!-- <p *ngIf="!vehicle.general_condition" style="color: #EB0A1E;">
                     Malo

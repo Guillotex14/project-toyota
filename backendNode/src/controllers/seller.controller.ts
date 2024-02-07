@@ -2177,7 +2177,7 @@ sellerController.allConcesionaries = async (req: Request, res: Response) => {
   const ress = await concesionary
     .find()
     .then(async (res: any) => {
-      console.log(res);
+      
       if (res) {
         reponseJson.code = 200;
         reponseJson.message = "concesionarias encontradas";

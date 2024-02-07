@@ -13,7 +13,7 @@ import clientRouter from "./src/routes/client.route";
 
 export class App {
     app: Express.Application;
-
+    
     constructor() {
         this.app = Express();
         this.settings();
