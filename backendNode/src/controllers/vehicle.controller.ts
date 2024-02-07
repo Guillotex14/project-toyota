@@ -2569,7 +2569,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     } else {
       sendData.certificateStr = "no"
     }
-
+console.log(sendData);
     try {
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);

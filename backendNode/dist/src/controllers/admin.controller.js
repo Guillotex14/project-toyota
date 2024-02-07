@@ -273,7 +273,6 @@ adminController.updateSeller = (req, res) => __awaiter(void 0, void 0, void 0, f
         yield Users_schema_1.default.findOneAndUpdate(user, userUpdate);
     }
     yield Sellers_schema_1.default.findOneAndUpdate(seller, sellerUpdate);
-    console.log("seller", Sellers_schema_1.default);
     jsonRes.code = 200;
     jsonRes.message = "Vendedor actualizado exitosamente";
     jsonRes.status = true;

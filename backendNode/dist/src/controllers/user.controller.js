@@ -695,28 +695,6 @@ userController.getNotifications = (req, res) => __awaiter(void 0, void 0, void 0
     sendData.pages = totalPages;
     reponseJson.data = sendData;
     res.json(reponseJson);
-    // if (decode == false) {
-    //   reponseJson.code = jwt.code;
-    //   reponseJson.message = jwt.message;
-    //   reponseJson.status = false;
-    //   reponseJson.data = null;
-    //   return res.json(reponseJson);
-    // }
-    // console.log(id_user)
-    // const notificationsUser = await notifications
-    //   .find({ id_user: id_user, status: false })
-    //   .sort({ date: -1 });
-    // if (notificationsUser) {
-    //   reponseJson.code = 200;
-    //   reponseJson.message = "notificaciones obtenidas exitosamente";
-    //   reponseJson.status = true;
-    //   reponseJson.data = notificationsUser;
-    // } else {
-    //   reponseJson.code = 400;
-    //   reponseJson.message = "no se encontraron notificaciones";
-    //   reponseJson.status = false;
-    // }
-    // res.json(reponseJson);
 });
 userController.updateNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reponseJson = new Response_1.ResponseModel();

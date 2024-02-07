@@ -1163,7 +1163,6 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
     }
-    console.log(mongQuery);
     if (data.yearCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(data.yearCar) });
     }
@@ -1254,7 +1253,6 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
                 nameArray[i] = getNameMonth(labels[i]); // devuelve el nombre del mes
             }
             nameArray = orderMonths(nameArray);
-            console.log(nameArray);
             const total = vehiclesFiltered.map((dato) => dato.total);
             datos = {
                 labels: nameArray,
@@ -2102,6 +2100,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             date_create: infoVehicle.date_create,
             plate: infoVehicle.plate,
             vin: infoVehicle.vin,
+            certified: infoVehicle.certified,
             price_ofert: infoVehicle.price_ofert,
             final_price_sold: infoVehicle.final_price_sold,
             concesionary_maintenance: infoVehicle.concesionary_maintenance,
@@ -2138,6 +2137,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
             technology: data.technology,
             performance: data.performance,
             comfort: data.comfort,
+            certified: data.certified,
             certificate: data.dataSheet.certificate,
             concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
             general_condition: data.general_condition,
@@ -2161,6 +2161,7 @@ vehicleController.generatePdf = (req, res) => __awaiter(void 0, void 0, void 0, 
         else {
             sendData.certificateStr = "no";
         }
+        console.log(sendData);
         try {
             const puppeteer = require('puppeteer');
             const html = yield ejs_1.default.renderFile('./src/views/template.ejs', sendData);
@@ -2811,7 +2812,6 @@ vehicleController.ofertInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
             },
         },
     ]);
-    console.log("vehicle", vehicle);
     if (vehicle) {
         reponseJson.code = 200;
         reponseJson.status = true;
@@ -3527,14 +3527,12 @@ const sendNotificationAdmin = (id, data, title) => __awaiter(void 0, void 0, voi
 });
 const updateImgDocsVehicle = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
     //buscamos el vehiculo y actulizamos el campo img_documentation
-    console.log(data);
     const vehicle = yield Vehicles_schema_2.default.findOne({ _id: id });
     if (vehicle) {
         vehicle.imgs_documentation = data;
         yield vehicle.save();
     }
     const vehicleFound = yield Vehicles_schema_2.default.findOne({ _id: id });
-    console.log(vehicleFound);
 });
 exports.default = vehicleController;
 //# sourceMappingURL=vehicle.controller.js.map

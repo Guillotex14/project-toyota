@@ -177,7 +177,6 @@ authController.sendMail = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const jsonRes = new Response_1.ResponseModel();
     // const { id } = req.query;
     // const template = templatesMails("ofertByCar");
-    // console.log(template);
     // const mailOptions = {
     //   from: 'Servicio de notificaciones',
     //   to: 'jefersonmujica@gmail.com',

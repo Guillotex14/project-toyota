@@ -1754,7 +1754,6 @@ sellerController.allConcesionaries = (req, res) => __awaiter(void 0, void 0, voi
     const ress = yield Concesionaries_schema_1.default
         .find()
         .then((res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(res);
         if (res) {
             reponseJson.code = 200;
             reponseJson.message = "concesionarias encontradas";
