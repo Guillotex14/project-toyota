@@ -16,7 +16,7 @@
       </ion-col>
 
       <ion-col size="12" style="text-align: center; margin-top: 15px !important;" *ngIf="!loading">
-        <ion-row *ngIf= "mechanicalFile.general_condition >= 96">
+        <ion-row *ngIf= "mechanicalFile.general_condition >= 95">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -32,7 +32,7 @@
         </ion-row>
 
         <ion-row
-          *ngIf="mechanicalFile.general_condition >= 86 && mechanicalFile.general_condition < 96">
+          *ngIf="mechanicalFile.general_condition >= 86 && mechanicalFile.general_condition < 95">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
