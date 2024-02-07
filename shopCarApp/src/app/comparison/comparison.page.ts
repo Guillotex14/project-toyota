@@ -210,7 +210,10 @@ export class ComparisonPage implements OnInit {
         if (sortedComparison[i][property] === sortedComparison[j][property] 
           && i !== j
           && sortedComparison[i][labels[i]] === true
-          && sortedComparison[j][labels[j]] === true) {
+          && sortedComparison[j][labels[j]] === true
+          && sortedComparison[i][property].split('-')[0] === "1" 
+          && sortedComparison[j][property].split('-')[0] === "1"
+          ) {
           sortedComparison[i].equalTitle = true;
           this.arrayEqualTitle.push(sortedComparison[i]);
 
@@ -226,7 +229,6 @@ export class ComparisonPage implements OnInit {
       
       //realizamos un sort para ordenar los estados de los vehiculos de mayor a menor y que no sea null
       let sortedComparison = [...this.comparison].sort((a, b) => a[property] + b[property]);
-    console.log(sortedComparison, 'sortedComparison')
       for (let i = 0; i < sortedComparison.length; i++) {
         sortedComparison[i][labels[i]] = true;
         sortedComparison[i].equalCondition = false;
@@ -239,7 +241,9 @@ export class ComparisonPage implements OnInit {
           if (sortedComparison[i][property] === sortedComparison[j][property] 
             && i !== j
             && sortedComparison[i][labels[i]] === true
-            && sortedComparison[j][labels[j]] === true) {
+            && sortedComparison[j][labels[j]] === true
+            && sortedComparison[i][property] >= 96
+            && sortedComparison[j][property] >= 96) {
             sortedComparison[i].equalCondition = true;
             this.arrayEqualCondition.push(sortedComparison[i]);
           }
@@ -262,7 +266,6 @@ export class ComparisonPage implements OnInit {
   }
 
   public renderIqualKm() {
-    let models = this.arrayEqualKm.filter((item: any) => {return item.model });
     let content = `
       Los vehículos ${this.arrayEqualKm.map((item: any) => {return item.model })} 
       tienen el mejor kilometraje en la comparación.
@@ -307,8 +310,10 @@ export class ComparisonPage implements OnInit {
     if (this.arrayEqualKm.length === 0) {
 
       for (let i = 0; i < this.comparison.length; i++) {
-        if (this.comparison[i].firstKm === true && this.comparison[i].equalKM === false) {
-          content = `El modelo ${this.comparison[i].model} tiene el mejor kilometraje.`;
+        if (this.comparison[i].firstKm === true) {
+          if (this.comparison[i].equalKm === false) {
+            content = `El modelo ${this.comparison[i].model} tiene el mejor kilometraje.`;
+          }
         }
       }
     }
@@ -331,8 +336,10 @@ export class ComparisonPage implements OnInit {
     if (this.arrayEqualPrice.length === 0) {
         
         for (let i = 0; i < this.comparison.length; i++) {
-          if (this.comparison[i].firstPrice === true && this.comparison[i].equalPrice === false) {
-            content = `El modelo ${this.comparison[i].model} tiene el mejor precio en la comparación.`;
+          if (this.comparison[i].firstPrice === true) {
+            if (this.comparison[i].equalPrice === false) {
+              content = `El modelo ${this.comparison[i].model} tiene el mejor precio en la comparación.`;
+            }
           }
         }
     }
@@ -353,8 +360,10 @@ export class ComparisonPage implements OnInit {
     //si es solo un vehiculo el que tiene el mejor titulo se renderiza el siguiente mensaje
     if (this.arrayEqualTitle.length === 0) {
       for (let i = 0; i < this.comparison.length; i++) {
-        if (this.comparison[i].firstTitle === true && this.comparison[i].equalTitle === false) {
-          content = `El modelo ${this.comparison[i].model} tiene la menor cantidad de titulares.`;
+        if (this.comparison[i].firstTitle === true) {
+          if (this.comparison[i].equalTitle === false) {
+            content = `El modelo ${this.comparison[i].model} tiene la menor cantidad de titulares.`;
+          }
         }
       }
     }
@@ -375,8 +384,10 @@ export class ComparisonPage implements OnInit {
     //si es solo un vehiculo el que tiene el mejor estado se renderiza el siguiente mensaje
     if (this.arrayEqualCondition.length === 0) {
       for (let i = 0; i < this.comparison.length; i++) {
-        if (this.comparison[i].firstCondition === true && this.comparison[i].equalCondition === false) {
-          content = `El modelo ${this.comparison[i].model} tiene el mejor estado en la comparación.`;
+        if (this.comparison[i].firstCondition === true) {
+          if (this.comparison[i].equalCondition === false) {
+            content = `El modelo ${this.comparison[i].model} tiene el mejor estado en la comparación.`;
+          }
         }
       }
     }
