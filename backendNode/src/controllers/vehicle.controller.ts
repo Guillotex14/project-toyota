@@ -2504,6 +2504,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       date_create: infoVehicle.date_create,
       plate: infoVehicle.plate,
       vin: infoVehicle.vin,
+      certified:infoVehicle.certified,
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
 
@@ -2543,6 +2544,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       technology: data.technology,
       performance: data.performance,
       comfort: data.comfort,
+      certified:data.certified,
       certificate: data.dataSheet.certificate,
       concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
       general_condition: data.general_condition,
