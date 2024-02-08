@@ -100,8 +100,9 @@ ion-accordion{
   text-align: left !important;
 }
 
-.redBorder{
-  border: 1px solid #EB0A1E !important;
+.redBorder label{
+
+    border: 1px solid #EB0A1E !important;
 }
 
 .noPhotoIcon{
@@ -145,6 +146,12 @@ font-size: 12px !important ;
   top:0;
   right:0;
   margin-top: -20px;
+}
+
+.borderRed{
+  label{
+    border: 1px solid #EB0A1E !important;
+  }
 }
 
 @media (max-width: 320px) {

@@ -536,7 +536,6 @@ export class AddMechanicFilePage implements OnInit {
           this.newMechanicalFile.general_condition+=0;
         }
 
-        console.log(this.newMechanicalFile.general_condition)
         if ( field.no_apply === true && field.apply === true && field.upgrade === false) {
           if (this.newMechanicalFile.general_condition > 0) {
             this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
@@ -671,8 +670,6 @@ export class AddMechanicFilePage implements OnInit {
         }
       }
     }
-    
-    console.log(this.newMechanicalFile.general_condition)
   }
 
   public onCheckNoApply(event: any, field: any, name:string){
@@ -682,29 +679,34 @@ export class AddMechanicFilePage implements OnInit {
       field.upgrade = false;
 
       if (this.dataValueOne.includes(name)) {
-        if (this.newMechanicalFile.general_condition > 0) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
-          
+        if (field.apply === true && field.upgrade === true && field.no_apply === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 1;
+          }
         }
       }
 
       if (this.dataValueTwo.includes(name)) {
-        if (this.newMechanicalFile.general_condition > 0) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+        if (field.apply === true && field.upgrade === true && field.no_apply === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 2;
+          }
         }
       }
 
       if (this.dataValueThree.includes(name)) {
-        
-        if (this.newMechanicalFile.general_condition > 0) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+        if (field.apply === true && field.upgrade === true && field.no_apply === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 3;
+          }
         }
       }
 
       if (this.dataValueSix.includes(name)) {
-        
-        if (this.newMechanicalFile.general_condition > 0) {
-          this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+        if (field.apply === true && field.upgrade === true && field.no_apply === true) {
+          if (this.newMechanicalFile.general_condition > 0) {
+            this.newMechanicalFile.general_condition = this.newMechanicalFile.general_condition - 6;
+          }
         }
       }
     }

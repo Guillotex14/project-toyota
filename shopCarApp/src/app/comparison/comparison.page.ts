@@ -88,11 +88,11 @@ export class ComparisonPage implements OnInit {
 
     let color = '';
 
-    if (status >= 96) {
+    if (status >= 95) {
       color = '#11D800';
     }
 
-    if (status >= 86 && status < 96) {
+    if (status >= 86 && status < 95) {
       color = '#F9D616';
     }
 
@@ -242,8 +242,8 @@ export class ComparisonPage implements OnInit {
             && i !== j
             && sortedComparison[i][labels[i]] === true
             && sortedComparison[j][labels[j]] === true
-            && sortedComparison[i][property] >= 96
-            && sortedComparison[j][property] >= 96) {
+            && sortedComparison[i][property] >= 95
+            && sortedComparison[j][property] >= 95) {
             sortedComparison[i].equalCondition = true;
             this.arrayEqualCondition.push(sortedComparison[i]);
           }

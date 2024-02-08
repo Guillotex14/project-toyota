@@ -63,6 +63,7 @@ export class CarDetailPage implements OnInit {
   aux: number = 0;
   auxDocs: number = 0;
   km: string = "";
+  year: string = '';
   me: any = null;
 
   invalidCodePhone: boolean = false;
@@ -72,6 +73,19 @@ export class CarDetailPage implements OnInit {
   typeDoc: boolean = false;
   emptyDni: boolean = false;
   emptyPrice: boolean = false;
+
+  emptyDisplacement: boolean = false;
+  emptyTransmission: boolean = false;
+  emptyTypeVehicle: boolean = false;
+  emptyTraction: boolean = false;
+  emptyTitles: boolean = false;
+  emptyBrand: boolean = false;
+  emptyModel: boolean = false;
+  emptyFuel: boolean = false;
+  emptyYear: boolean = false;
+  emptyKm: boolean = false;
+  emptyPlate: boolean = false;
+  validPlate: boolean = false;
 
   openPop: boolean = false;
   loading: boolean = true;
@@ -184,6 +198,7 @@ export class CarDetailPage implements OnInit {
         this.km = JSON.stringify(this.setDot(this.carDetail.km));
         this.km = this.km.replace('"','');
         this.km = this.km.replace('"','');
+        this.year = JSON.stringify(this.carDetail.year);
         this.utils.dismissLoading();
         
         if (this.carDetail.price !== null) {
@@ -223,39 +238,39 @@ export class CarDetailPage implements OnInit {
 
     if(this.priceOfert == 0 || this.priceOfert == null || this.priceOfert == undefined || this.priceOfert.toString() == ""){
       this.emptyPrice = true;
-      return;
+      return false;
     }
 
     if(this.fullName == "" || this.fullName == null || this.fullName == undefined){
       this.emptyName = true;
-      return;
+      return false;
     }
       
     if(this.typeDni == "" || this.typeDni == null || this.typeDni == undefined){
       this.typeDoc = true;
-      return;
+      return false;
     }
     
     if(this.dni == "" || this.dni == null || this.dni == undefined){
       this.emptyDni = true;
-      return;
+      return false;
     }
 
     if(this.codePhone == "" || this.codePhone == null || this.codePhone == undefined){
       this.invalidCodePhone = true;
-      return; 
+      return false; 
     }
 
     if(this.phone == "" || this.phone == null || this.phone == undefined){
       this.emptyPhoneNumber = true;
-      return; 
+      return false; 
     }
 
     if(this.email == "" || this.email == null || this.email == undefined){
       this.emptyEmail = true;
-      return;
+      return false;
     }
-    // return;
+    
     let data = {
       id_vehicle: this.id,
       id_seller: this.myId,
@@ -265,8 +280,10 @@ export class CarDetailPage implements OnInit {
       email_new_owner: this.email,
       price_ofert: this.priceOfert
     }
+
     this.dismissModal();
     this.utils.presentLoading("Cargando...");
+    
     this.sellerSrv.buyVehicle(data).subscribe((data:any) => {
         
         if(data.status){
@@ -275,12 +292,17 @@ export class CarDetailPage implements OnInit {
           this.router.navigate(['seller']);
         }else{
           this.utils.presentToast(data.message);
+          return;
         }
     
     }, (error:any) => {
       console.log(error);
+      this.utils.dismissLoading();
+      this.utils.presentToast("Server error");
+      
     });
 
+    return true;
   }
 
   public approveBuyVehicle(){
@@ -329,8 +351,13 @@ export class CarDetailPage implements OnInit {
 
   public updateVehicle(){
     
+    if (!this.validateUpdate()) {
+      return
+    }
+
     this.carDetail.km = parseInt(this.km.replace(/\./g,''));
     this.carDetail.price = this.price
+    this.carDetail.year = parseInt(this.year);
     let data = {
       data: this.carDetail
     }
@@ -1007,6 +1034,93 @@ export class CarDetailPage implements OnInit {
     let name = public_name.split("/");
     name = name[1]+".pdf";
     return name;
+  }
+
+  public validatePlate(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyPlate = false;
+    }
+
+    if (e.target.value.length < 7) {
+      this.validPlate = true;
+    }else{
+      this.validPlate = false;
+    }
+
+  }
+
+  public validateYear(e:any){
+    
+    if (e.target.value != "") {
+      this.emptyYear = false;
+    }
+
+  }
+
+  public validateUpdate(){
+    if(this.carDetail.model == "" || this.carDetail.model == null || this.carDetail.model == undefined){
+      this.emptyModel = true;
+      return false;
+    }
+
+        
+    if(this.carDetail.type_vehicle == "" || this.carDetail.type_vehicle == null || this.carDetail.type_vehicle == undefined){
+      this.emptyTypeVehicle = true;
+      return false;
+    }
+
+    if(this.carDetail.brand == "" || this.carDetail.brand == null || this.carDetail.brand == undefined){
+      this.emptyBrand = true;
+      return false;
+    } 
+
+    if(this.year === "" || this.year == null || this.year == undefined){
+      this.emptyYear = true;
+      return false;
+    }
+
+    if(this.carDetail.plate == "" || this.carDetail.plate == null || this.carDetail.plate == undefined){
+      this.emptyPlate = true;
+      return false;
+    }
+
+    if(this.carDetail.displacement == "" || this.carDetail.displacement == null || this.carDetail.displacement == undefined){
+      this.emptyDisplacement = true;
+      return false;
+    }
+
+    if(this.km == "" || this.km == null || this.km == undefined){
+      this.emptyKm = true;
+      return false;
+    }
+
+    if(this.carDetail.titles == "" || this.carDetail.titles == null || this.carDetail.titles == undefined){
+      this.emptyTitles = true;
+      return false;
+    }
+
+    if(this.carDetail.fuel == "" || this.carDetail.fuel == null || this.carDetail.fuel == undefined){
+      this.emptyFuel = true;
+      return false;
+    }
+
+    if(this.carDetail.transmission == "" || this.carDetail.transmission == null || this.carDetail.transmission == undefined){
+      this.emptyTransmission = true;
+      return false;
+    }
+
+    if(this.carDetail.traction == "" || this.carDetail.traction == null || this.carDetail.traction == undefined){
+      this.emptyTraction = true;
+      return false;
+    }
+
+    if(this.price == 0 || this.price == null || this.price == undefined || this.price.toString() == "" || this.price.toString() == "0"){
+      this.emptyPrice = true;
+      return false;
+    }
+
+    return true;
   }
 
   // public async screenShotDisables(){

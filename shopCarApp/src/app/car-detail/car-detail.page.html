@@ -34,7 +34,7 @@
               <ion-img 
                 src="assets/images/logo/vehiculo_certificado.png"
                 class="certificate"
-                *ngIf="carDetail.certified === true && carDetail.general_condition >= 96"
+                *ngIf="carDetail.certified === true && carDetail.general_condition >= 95"
               >
               </ion-img>
               <ion-col sizeXl="12" sizeLg="12" sizeMd="12" sizeSm="12" sizeXs="12" *ngIf="arrayImages.length === 0">
@@ -224,7 +224,7 @@
 
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Modelo</ion-label>
-                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.model" (ionInput)="searchAutoComplete()"></ion-input>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.model" (ionInput)="searchAutoComplete()" [class.borderRed]="emptyModel"></ion-input>
       
                   <ion-list class="listModels" *ngIf="carDetail.model !== '' && showAutoComplete">
                     <ion-list-header>
@@ -245,31 +245,92 @@
                     </ng-template>
                   </ion-popover>
                 </ion-col>
-    
+                
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="emptyModel">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo model es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Marca</ion-label>
-                  <ion-select [(ngModel)]="carDetail.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.brand" [class.borderRed]="emptyBrand" disabled style="opacity: 1;"></ion-input>
+                  <!-- <ion-select [(ngModel)]="carDetail.brand" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect">
                     <ion-select-option value="">Todos</ion-select-option>
                     <ion-select-option [value]="brand.name" *ngFor="let brand of arrayBrands">{{brand.name}}</ion-select-option>
                     
-                  </ion-select>
+                  </ion-select> -->
                 </ion-col>
-    
+                
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="emptyBrand">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo marca es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
+                  <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tipo de vehículo</ion-label>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.type_vehicle" [class.borderRed]="emptyTypeVehicle" disabled style="opacity: 1;"></ion-input>
+                  <!-- <ion-select [(ngModel)]="newVehicle.type_vehicle" interface="action-sheet" placeholder="tipo de vehículo" fill="outline" id="typeSelect" (ionChange)="validateTypeVehicle($event)" [class.borderRedSelect]="emptyTypeVehicle">
+                    <ion-select-option value="">Todos</ion-select-option>
+                    <ion-select-option value="pickup">Pick-up y carga</ion-select-option>
+                    <ion-select-option value="suv">SUV</ion-select-option>
+                    <ion-select-option value="sedan">Sedan</ion-select-option>
+                    <ion-select-option value="hatchback">Hatchback</ion-select-option>
+                  </ion-select> -->
+                </ion-col>
+      
+                <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12" *ngIf="emptyTypeVehicle">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo tipo de vehículo es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Año</ion-label>
-                  <ion-input type="tel" fill="outline" [(ngModel)]="carDetail.year"></ion-input>
+                  <ion-input type="tel" fill="outline" [(ngModel)]="year" [class.redBorder]="emptyYear" (ionInput)="validateYear($event)"></ion-input>
+                </ion-col>
+
+                <ion-col size="12" *ngIf="emptyYear">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo año es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
                 </ion-col>
     
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Km</ion-label>
-                  <ion-input type="tel" fill="outline" [value]="km" (ionInput)="setDotKm($event.target)"></ion-input>
+                  <ion-input type="tel" fill="outline" [value]="km" (ionInput)="setDotKm($event.target)" [class.borderRed]="emptyKm"></ion-input>
                 </ion-col>
-    
+                
+                <ion-col size="12" *ngIf="emptyKm">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo km es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Cilindrada</ion-label>
-                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.displacement"></ion-input>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.displacement" [class.borderRed]="emptyDisplacement"></ion-input>
                 </ion-col>
-    
+                
+                <ion-col size="12" *ngIf="emptyDisplacement">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo cilindrada es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Combustible</ion-label>
                   <ion-select [(ngModel)]="carDetail.fuel" interface="action-sheet" fill="outline" placeholder="seleccionar combustible">
@@ -279,7 +340,15 @@
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="eléctrico">Eléctrico</ion-select-option>
                   </ion-select>
                 </ion-col>
-    
+                
+                <ion-col size="12" *ngIf="emptyFuel">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo combustible es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Títulos</ion-label>
                   <ion-select [(ngModel)]="carDetail.titles" interface="action-sheet" fill="outline" placeholder="seleccionar títulos">
@@ -296,11 +365,30 @@
                   </ion-select>
                 </ion-col>
                 
+                <ion-col size="12" *ngIf="emptyTitles">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo títulos es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Placa del vehículo</ion-label>
-                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.plate"></ion-input>
+                  <ion-input type="text" fill="outline" [(ngModel)]="carDetail.plate" (ionInput)="validatePlate($event)"></ion-input>
                 </ion-col>
                 
+                <ion-col size="12" *ngIf="emptyPlate || validPlate">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;" *ngIf="emptyPlate">El campo placa es obligatorio</span>
+                      <span style="color:red; font-size: 15px;" *ngIf="validPlate">
+                        Debe ingresar una placa válida 
+                      </span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Transmisión</ion-label>
                   <ion-select [(ngModel)]="carDetail.transmission" interface="action-sheet" fill="outline" placeholder="seleccionar transmisión">
@@ -308,7 +396,15 @@
                     <ion-select-option style="text-transform: capitalize;" interface="action-sheet" value="manual">Manual</ion-select-option>
                   </ion-select>
                 </ion-col>
-    
+                
+                <ion-col size="12" *ngIf="emptyTransmission">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo transmisión es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col sizeXl="6" sizeLg="6" sizeMd="6" sizeSm="12" sizeXs="12">
                   <ion-label style="font-size: 14px; color: #898989; margin: 10px 0px !important;">Tracción</ion-label>
                   <ion-select [(ngModel)]="carDetail.traction" interface="action-sheet" fill="outline" placeholder="seleccionar tracción">
@@ -318,6 +414,14 @@
                   </ion-select>
                 </ion-col>
                 
+                <ion-col size="12" *ngIf="emptyTraction">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">El campo tracción es obligatorio</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
                 <ion-col size="12" style="margin-top: 10px;">
                   <ion-label class="titleDatosPlus" >Datos plus</ion-label>
                 </ion-col>
@@ -465,12 +569,22 @@
                     </ion-row>
                   </ion-col>
                 </ion-col>
-
+                <ion-col size="12">
+                  <ion-row>
+                    <ion-col size="12" style="text-align: center;">
+                      <span style="color:red; font-size: 15px;">
+                        {{ priceAux.length === 0 ? 'El precio es obligatorio' : 
+                        this.priceAux === '0' ? 'Debe ingresar un monto valido' 
+                        : ''}}
+                      </span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
                 <ion-col size="12" *ngIf="carDetail.mechanicalFile && carDetail.id_seller ===myId && carDetail.price_ofert === null && carDetail.final_price_sold=== null&& carDetail.sold===false">
                   <ion-button (click)="onEditPrice()" expand="block" shape="round" class="btnSaveRed" *ngIf="!editPrice">
                     Indicar Precio
                   </ion-button>
-                  <ion-button (click)="updateVehicle()" expand="block" shape="round" class="btnSaveRed" *ngIf="editPrice">
+                  <ion-button (click)="updateVehicle()" expand="block" shape="round" class="btnSaveRed" *ngIf="editPrice" [disabled]="priceAux.length === 0 && priceAux === '' || priceAux==='0'">
                     Guardar Precio
                   </ion-button>
                 </ion-col>
@@ -646,7 +760,7 @@
                     <ion-row>
                       <ion-col size="12">
                         
-                        <ion-row *ngIf="carDetail.general_condition >= 96">
+                        <ion-row *ngIf="carDetail.general_condition >= 95">
                           <ion-col size="12" style="text-align: center !important;">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
@@ -658,7 +772,7 @@
                           </ion-col>
                         </ion-row>
                 
-                        <ion-row *ngIf="carDetail.general_condition >= 86 && carDetail.general_condition < 96">
+                        <ion-row *ngIf="carDetail.general_condition >= 86 && carDetail.general_condition < 95">
                           <ion-col size="12" style="text-align: center !important;">
                             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
                           </ion-col>
