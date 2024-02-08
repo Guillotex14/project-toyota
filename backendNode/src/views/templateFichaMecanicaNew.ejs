@@ -833,7 +833,7 @@
       </div>
     </div>
     <div class="row">
-      <% if (general_condition ==='excelente' || general_condition >= 96){ %>
+      <% if (general_condition ==='excelente' || general_condition >= 95){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -847,7 +847,7 @@
         </div>
       </div>
       <% } %>
-      <% if (general_condition ==='bueno' || (general_condition >= 86 && general_condition < 96)){ %>
+      <% if (general_condition ==='bueno' || (general_condition >= 86 && general_condition < 95)){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -2941,7 +2941,7 @@
                         </div>
                         <% }%>
                         <% if (vehicle.branch === "Toyota"){ %>
-                          <% if (general_condition === "excelente" || general_condition > 96){ %>
+                          <% if (general_condition === "excelente" || general_condition > 95){ %>
                         <% if (certificateStr=="si"){ %>
                         <div class="col-12 contenteinitText" style="text-align: center; margin-top: 15px !important;">
 
