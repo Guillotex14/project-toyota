@@ -198,6 +198,7 @@ export class CarDetailPage implements OnInit {
         this.km = JSON.stringify(this.setDot(this.carDetail.km));
         this.km = this.km.replace('"','');
         this.km = this.km.replace('"','');
+        this.year = JSON.stringify(this.carDetail.year);
         this.utils.dismissLoading();
         
         if (this.carDetail.price !== null) {
