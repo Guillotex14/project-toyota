@@ -742,7 +742,7 @@
           </div>
         </div>
         <div class="row my-3 content-img">
-          <% if (general_condition >= 95 && certified==true){ %>
+          <% if (general_condition >= 90 && certified==true){ %>
           <% if (brand == "Toyota"){ %>
           <div class="col-8" style="text-align: center;">
             <img src="<%= img %>" alt="">
@@ -934,20 +934,20 @@
               <div class="col-12 condiciones">
                 <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
               </div>
-              <% if (general_condition ==='excelente' || general_condition >= 95){ %>
+              <% if (general_condition ==='excelente' || general_condition >= 90){ %>
               <div class="col-12">
                 <p style="font-size: 25px !important; color: #11D800 !important;font-weight: bold; text-align:center;">
                   Excelente</p>
               </div>
               <% } %>
 
-              <% if (general_condition ==='bueno' || (general_condition >= 86 && general_condition<95)){ %>
+              <% if (general_condition ==='bueno' || (general_condition >= 80 && general_condition<90)){ %>
               <div class="col-12">
                 <p style="font-size: 25px !important; color: #F9D616 !important;font-weight: bold; text-align:center;">
                   Bueno</p>
               </div>
               <% } %>
-              <% if (general_condition ==='regular' || (general_condition < 86)){ %>
+              <% if (general_condition ==='regular' || (general_condition < 80)){ %>
 
               <div class="col-12">
                 <p style="font-size: 25px !important; color: #F7941D !important;font-weight: bold; text-align:center;">

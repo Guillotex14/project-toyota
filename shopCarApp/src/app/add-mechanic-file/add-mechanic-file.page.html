@@ -490,7 +490,7 @@
 
       <ion-col size="12" style="text-align: center; margin-top: 15px !important;">
 
-        <ion-row *ngIf="newMechanicalFile.general_condition  >= 95">
+        <ion-row *ngIf="newMechanicalFile.general_condition  >= 90">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -502,7 +502,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="newMechanicalFile.general_condition >= 86 && newMechanicalFile.general_condition < 95">
+        <ion-row *ngIf="newMechanicalFile.general_condition >= 80 && newMechanicalFile.general_condition < 90">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>
@@ -514,7 +514,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="newMechanicalFile.general_condition  < 86 ">
+        <ion-row *ngIf="newMechanicalFile.general_condition  < 80 ">
           <ion-col size="12">
             <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
           </ion-col>

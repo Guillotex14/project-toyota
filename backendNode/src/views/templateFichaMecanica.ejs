@@ -833,7 +833,7 @@
       </div>
     </div>
     <div class="row">
-      <% if (general_condition ==='excelente' || general_condition >= 95){ %>
+      <% if (general_condition ==='excelente' || general_condition >= 90){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -847,7 +847,7 @@
         </div>
       </div>
       <% } %>
-      <% if (general_condition ==='bueno' || (general_condition >= 86 && general_condition < 95)){ %>
+      <% if (general_condition ==='bueno' || (general_condition >= 80 && general_condition < 90)){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -860,7 +860,7 @@
         </div>
       </div>
       <% } %>
-      <% if (general_condition ==='regular' || (general_condition >= 76 && general_condition < 86)){ %>
+      <% if (general_condition ==='regular' || (general_condition < 80)){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -873,7 +873,7 @@
         </div>
       </div>
       <% } %>
-      <% if (general_condition ==='malo' || general_condition < 76){ %>
+      <!-- <% if (general_condition ==='malo' || general_condition < 76){ %>
       <div class="row" style="text-align: center; margin-top: 15px !important;">
         <div class="col-12">
           <span style="font-size: 22px !important;font-weight: bold;">Condición del vehículo:</span>
@@ -885,7 +885,7 @@
           <p style="font-size: 25px !important; color: #EB0A1E !important;font-weight: bold;">Malo</p>
         </div>
       </div>
-      <% } %>
+      <% } %> -->
     </div>
     <div class="row">
       <hr>
@@ -3168,7 +3168,7 @@
       <label for="" style="font-size: 20px; font-weight: 600;margin: auto;"><%= created_at %></label>
     </div>
     <% }%>
-      <% if (general_condition === "excelente" || general_condition > 95){ %>
+      <% if (general_condition === "excelente" || general_condition > 90){ %>
         <% if (certificateStr=="si"){ %>
           <div class="col-12 contenteinitText" style="text-align: center; margin-top: 15px !important;">
       

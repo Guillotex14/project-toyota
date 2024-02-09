@@ -60,7 +60,7 @@
                     {{vehicle.concesionary}}
                   </p>
                   <p *ngIf="vehicle.general_condition" [style.color]="evaluateStatus(vehicle.general_condition)">
-                    {{ vehicle.general_condition && vehicle.general_condition < 86 ? 'Regular' : vehicle.general_condition >= 86 && vehicle.general_condition < 96 ? 'Bueno' : 'Excelente' }}
+                    {{ vehicle.general_condition && vehicle.general_condition < 80 ? 'Regular' : vehicle.general_condition >= 80 && vehicle.general_condition < 90 ? 'Bueno' : 'Excelente' }}
                   </p>
                   <!-- <p *ngIf="!vehicle.general_condition" style="color: #EB0A1E;">
                     Malo
@@ -133,7 +133,7 @@
         </ion-list>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colRecomendation">
+      <!-- <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colRecomendation">
         <ion-list>
           <ion-list-header>
             Nuestra recomendación
@@ -145,7 +145,7 @@
           </ion-item>
         </ion-list>
 
-      </ion-col>
+      </ion-col> -->
 
       <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
