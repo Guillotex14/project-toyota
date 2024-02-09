@@ -38,7 +38,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
   let emailmechanic: any = "";
   let infoSeller: any = {};
   let dateNow = moment().format("YYYY-MM-DD");
-  
+
 
   const {
     model,
@@ -76,7 +76,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
     reponseJson.data = null;
     return res.json(reponseJson);
   }
-  
+
   let documents = [];
 
   if (imgs_documents.length > 0) {
@@ -150,7 +150,7 @@ vehicleController.addVehicle = async (req: Request, res: Response) => {
       }
     }
   }
-  
+
   updateImgDocsVehicle(newVehicle._id.toString(), documents);
 
   const dataVehicle = {
@@ -1332,21 +1332,27 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
 
   let mongQuery: any = {
     date_sell: {
-      $gte: from, // Filtrar documentos a partir del 1 de enero del año
-      $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
+      $gte: from,
+      $lte: to,
     },
-    sold: true, // Campo de búsqueda adicional
-    dispatched: true, // Campo de búsqueda adicional
+    sold: true,
+    dispatched: true,
   };
-
   if (decode.type_user == "admin_concesionary") {
     let concesionary: any = await ConcesionariesSchema.findOne({ _id: decode.id_concesionary })
     mongQuery = {
       ...mongQuery,
       concesionary: { $regex: concesionary.name, $options: "i" },
     };
-
   }
+
+  if (decode.type_user == "seller") {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: decode.concesionary, $options: "i" },
+    };
+  }
+
 
   if (data.yearCar) {
     mongQuery = {
@@ -1437,7 +1443,8 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
     // sendData = getQuantityTotals(vehiclesFiltered);
 
     let cantMonth = calcularMeses(from, to);
-    if (cantMonth == 1 || sendData.length == 1) {
+    
+    if (cantMonth == 1) {
       let groupByWeek = [];
       let groupByOneMonth = [];
       groupByWeek = agruparPorSemana(vehiclesFiltered);
@@ -1464,7 +1471,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
       }
 
       nameArray = orderMonths(nameArray);
-      
+
       const total = vehiclesFiltered.map((dato: any) => dato.total);
 
 
@@ -1538,7 +1545,7 @@ vehicleController.filterGraphySale = async (req: Request, res: Response) => {
         ...mongQuery,
         concesionary: { $regex: concesionary.name, $options: "i" },
       };
-  
+
     }
 
     let listCars: any = await Vehicles.aggregate([
@@ -1780,13 +1787,12 @@ vehicleController.listVehiclesSale = async (req: Request, res: Response) => {
 
   }
 
-  // if (decode.type_user == "seller") {
-  //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-  //   mongQuery = {
-  //     ...mongQuery,
-  //     concesionary: { $regex: decode.concesionary, $options: "i" },
-  //   };
-  // }
+  if (decode.type_user == "seller") {
+    mongQuery = {
+      ...mongQuery,
+      concesionary: { $regex: decode.concesionary, $options: "i" },
+    };
+  }
 
   const cardsgroupmodel = await vehicles.aggregate([
     {
@@ -2504,7 +2510,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       date_create: infoVehicle.date_create,
       plate: infoVehicle.plate,
       vin: infoVehicle.vin,
-      certified:infoVehicle.certified,
+      certified: infoVehicle.certified,
       price_ofert: infoVehicle.price_ofert,
       final_price_sold: infoVehicle.final_price_sold,
 
@@ -2544,7 +2550,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
       technology: data.technology,
       performance: data.performance,
       comfort: data.comfort,
-      certified:data.certified,
+      certified: data.certified,
       certificate: data.dataSheet.certificate,
       concesionary_maintenance: data.concesionary_maintenance ? data.concesionary_maintenance : "false",
       general_condition: data.general_condition,
@@ -2569,7 +2575,7 @@ vehicleController.generatePdf = async (req: Request, res: Response) => {
     } else {
       sendData.certificateStr = "no"
     }
-console.log(sendData);
+    console.log(sendData);
     try {
       const puppeteer = require('puppeteer');
       const html: any = await ejs.renderFile('./src/views/template.ejs', sendData);
@@ -2814,7 +2820,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
             path: fileName.secure_url, // ruta completa del archivo a adjuntares
           },
         ],
-        
+
       };
 
       await sendEmail(mailOptions);
@@ -2839,7 +2845,7 @@ vehicleController.generatePdfFichaTecnica = async (req: Request, res: Response) 
   }
 
   res.json(jsonRes);
-  
+
 };
 
 vehicleController.inspections = async (req: Request, res: Response) => {
@@ -4195,7 +4201,7 @@ const sendNotificationAdmin = async (id: string, data: any, title: string) => {
 
 const updateImgDocsVehicle = async (id: string, data: any) => {
   //buscamos el vehiculo y actulizamos el campo img_documentation
-  
+
   const vehicle = await vehicles.findOne({ _id: id });
 
   if (vehicle) {
@@ -4204,7 +4210,7 @@ const updateImgDocsVehicle = async (id: string, data: any) => {
   }
 
   const vehicleFound = await vehicles.findOne({ _id: id });
-  
+
 
 };
 

@@ -65,7 +65,7 @@ export class GraphicsAdminPage implements AfterViewInit {
   typeUser: string = 'admin';
 
   loading: boolean = true;
-  data:any={}
+  data: any = {}
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('ModalFilterGraphicAdmin') modalFilter!: IonModal;
   @ViewChild('ModalFilterVehicleAdmin') modalVehicle!: IonModal;
@@ -88,9 +88,9 @@ export class GraphicsAdminPage implements AfterViewInit {
       this.typeUser = this.data.type_user;
     }
 
-    if (this.data.type_user=="admin_concesionary") {
-      this.concesionary=this.data.concesionary
-      this.concesionary2=this.data.concesionary
+    if (this.data.type_user == "admin_concesionary") {
+      this.concesionary = this.data.concesionary
+      this.concesionary2 = this.data.concesionary
     }
   }
 
@@ -250,13 +250,11 @@ export class GraphicsAdminPage implements AfterViewInit {
           this.brandCar2 = "";
           this.modelCar2 = "";
           this.concesionary2 = "";
-          this.arrayListCars=[];
-        this.utils.presentAlert("", "Lista sin resultado", "");
+          this.arrayListCars = [];
+          this.utils.presentAlert("", "Lista sin resultado", "");
 
         }
       } else {
-        this.arrayListCars=[];
-        this.utils.presentAlert("", "Lista sin resultado", "");
         this.utils.presentToast(res.message);
       }
     }

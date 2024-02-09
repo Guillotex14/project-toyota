@@ -1154,14 +1154,17 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
     let mongQuery = {
         date_sell: {
             $gte: from,
-            $lte: to, // Filtrar documentos hasta el 31 de diciembre del año
+            $lte: to,
         },
         sold: true,
-        dispatched: true, // Campo de búsqueda adicional
+        dispatched: true,
     };
     if (decode.type_user == "admin_concesionary") {
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
+    }
+    if (decode.type_user == "seller") {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
     }
     if (data.yearCar) {
         mongQuery = Object.assign(Object.assign({}, mongQuery), { year: parseInt(data.yearCar) });
@@ -1231,7 +1234,7 @@ vehicleController.filterGraphySale = (req, res) => __awaiter(void 0, void 0, voi
         }
         // sendData = getQuantityTotals(vehiclesFiltered);
         let cantMonth = calcularMeses(from, to);
-        if (cantMonth == 1 || sendData.length == 1) {
+        if (cantMonth == 1) {
             let groupByWeek = [];
             let groupByOneMonth = [];
             groupByWeek = agruparPorSemana(vehiclesFiltered);
@@ -1496,13 +1499,9 @@ vehicleController.listVehiclesSale = (req, res) => __awaiter(void 0, void 0, voi
         let concesionary = yield Concesionaries_schema_1.default.findOne({ _id: decode.id_concesionary });
         mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: concesionary.name, $options: "i" } });
     }
-    // if (decode.type_user == "seller") {
-    //   // let concesionary:any=await ConcesionariesSchema.findOne({_id:decode.id_concesionary})
-    //   mongQuery = {
-    //     ...mongQuery,
-    //     concesionary: { $regex: decode.concesionary, $options: "i" },
-    //   };
-    // }
+    if (decode.type_user == "seller") {
+        mongQuery = Object.assign(Object.assign({}, mongQuery), { concesionary: { $regex: decode.concesionary, $options: "i" } });
+    }
     const cardsgroupmodel = yield Vehicles_schema_2.default.aggregate([
         {
             $match: mongQuery,

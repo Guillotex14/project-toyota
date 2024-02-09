@@ -255,8 +255,6 @@ var GraphicsAdminPage = /** @class */ (function () {
                 }
             }
             else {
-                _this.arrayListCars = [];
-                _this.utils.presentAlert("", "Lista sin resultado", "");
                 _this.utils.presentToast(res.message);
             }
         }, function (err) {
