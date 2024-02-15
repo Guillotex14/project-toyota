@@ -250,7 +250,8 @@ export class ComparisonPage implements OnInit {
             && sortedComparison[i][labels[i]] === true
             && sortedComparison[j][labels[j]] === true
             && sortedComparison[i][property] >= 95
-            && sortedComparison[j][property] >= 95) {
+            && sortedComparison[j][property] >= 95
+            && !this.arrayEqualCondition.includes(sortedComparison[i])) {
             sortedComparison[i].equalCondition = true;
             this.arrayEqualCondition.push(sortedComparison[i]);
           }

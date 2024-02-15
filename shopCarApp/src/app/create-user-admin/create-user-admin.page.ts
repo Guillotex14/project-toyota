@@ -182,7 +182,7 @@ export class CreateUserAdminPage implements OnInit {
       let zon;
 
       for (let i = 0; i < this.arrayConcesionaries.length; i++) {
-        zon = this.arrayConcesionaries[i].estado.toLowerCase();
+        zon = this.arrayConcesionaries[i].state.toLowerCase();
         if (zon.includes(this.newSeller.city.toLowerCase())) {
           this.auxConces.push(this.arrayConcesionaries[i]);
         }
