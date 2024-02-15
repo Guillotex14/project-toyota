@@ -40,6 +40,11 @@ const Users_schema_1 = __importDefault(require("../schemas/Users.schema"));
 const Sellers_schema_1 = __importDefault(require("../schemas/Sellers.schema"));
 const Mechanics_schema_1 = __importDefault(require("../schemas/Mechanics.schema"));
 const imgUser_schema_1 = __importDefault(require("../schemas/imgUser.schema"));
+const Vehicles_schema_1 = __importDefault(require("../schemas/Vehicles.schema"));
+const mechanicalFiles_schema_1 = __importDefault(require("../schemas/mechanicalFiles.schema"));
+const mechanicalsFiles_schema_1 = __importDefault(require("../schemas/mechanicalsFiles.schema"));
+const ImgVehicle_schema_1 = __importDefault(require("../schemas/ImgVehicle.schema"));
+const reportsMechanicalsFiles_schema_1 = __importDefault(require("../schemas/reportsMechanicalsFiles.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const cloudinaryMetods_1 = require("../../cloudinaryMetods");
 const generar_jwt_1 = __importDefault(require("../helpers/generar-jwt"));
@@ -185,6 +190,61 @@ authController.sendMail = (req, res) => __awaiter(void 0, void 0, void 0, functi
     // }
     // const responseMail = await sendEmail(mailOptions);
     res.json(global.urlBase);
+});
+authController.deleteVehicleAndTheirInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const jsonRes = new Response_1.ResponseModel();
+    const { id } = req.query;
+    console.log(id);
+    //recibimos el id del vendedor para buscar los vehiculos que ha creado
+    const vehicle = yield Vehicles_schema_1.default.find({
+        id_seller: id,
+    });
+    if (vehicle) {
+        for (let i = 0; i < vehicle.length; i++) {
+            const mechalFiles = yield mechanicalFiles_schema_1.default.find({
+                id_vehicle: vehicle[i]._id,
+            });
+            const mechalsFiles = yield mechanicalsFiles_schema_1.default.find({
+                id_vehicle: vehicle[i]._id,
+            });
+            const imgVehicle = yield ImgVehicle_schema_1.default.find({
+                id_vehicle: vehicle[i]._id,
+            });
+            if (mechalFiles) {
+                for (let j = 0; j < mechalFiles.length; j++) {
+                    yield reportsMechanicalsFiles_schema_1.default.findOneAndDelete({
+                        id_mechanical_file: mechalFiles[j]._id,
+                    });
+                }
+            }
+            if (mechalsFiles) {
+                for (let j = 0; j < mechalsFiles.length; j++) {
+                    yield reportsMechanicalsFiles_schema_1.default.findOneAndDelete({
+                        id_mechanical_file: mechalsFiles[j]._id,
+                    });
+                }
+            }
+            if (imgVehicle) {
+                for (let j = 0; j < imgVehicle.length; j++) {
+                    yield ImgVehicle_schema_1.default.findOneAndDelete({
+                        _id: imgVehicle[j]._id,
+                    });
+                }
+            }
+            yield mechanicalFiles_schema_1.default.findOneAndDelete({
+                id_vehicle: vehicle[i]._id,
+            });
+            yield mechanicalsFiles_schema_1.default.findOneAndDelete({
+                id_vehicle: vehicle[i]._id,
+            });
+            yield Vehicles_schema_1.default.findOneAndDelete({
+                _id: vehicle[i]._id,
+            });
+        }
+    }
+    jsonRes.code = 200;
+    jsonRes.message = "Vehiculos eliminados";
+    res.json(jsonRes);
 });
 exports.default = authController;
 //# sourceMappingURL=auth.controller.js.map

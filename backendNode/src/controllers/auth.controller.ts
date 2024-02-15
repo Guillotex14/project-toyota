@@ -4,6 +4,12 @@ import Users from "../schemas/Users.schema";
 import sellers from "../schemas/Sellers.schema";
 import mechanics from "../schemas/Mechanics.schema";
 import imgUser from "../schemas/imgUser.schema";
+import vehicles from "../schemas/Vehicles.schema";
+import mechanicalFiles from "../schemas/mechanicalFiles.schema";
+import mechanicalsFiles from "../schemas/mechanicalsFiles.schema";
+import ImgVehicleSchema from "../schemas/ImgVehicle.schema";
+import reportsMechanicalsFiles from "../schemas/reportsMechanicalsFiles.schema";
+
 import { sendEmail } from "../../nodemailer";
 import bcrypt from "bcrypt";
 import { deleteImageUser, uploadImageUser } from "../../cloudinaryMetods";
@@ -178,5 +184,95 @@ authController.sendMail = async (req: Request, res: Response) => {
   res.json(global.urlBase);
 
 }
+
+authController.deleteVehicleAndTheirInfo = async (req: Request, res: Response) => {
+  const jsonRes = new ResponseModel();
+  const { id } = req.query;
+  console.log(id)
+  //recibimos el id del vendedor para buscar los vehiculos que ha creado
+  const vehicle = await vehicles.find(
+    {
+      id_seller: id,
+    }
+  );
+
+  if (vehicle) {
+    for (let i = 0; i < vehicle.length; i++) {
+
+      const mechalFiles = await mechanicalFiles.find(
+        {
+          id_vehicle: vehicle[i]._id,
+        }
+      );
+      
+      const mechalsFiles = await mechanicalsFiles.find(
+        {
+          id_vehicle: vehicle[i]._id,
+        }
+      );
+
+      const imgVehicle = await ImgVehicleSchema.find(
+        {
+          id_vehicle: vehicle[i]._id,
+        }
+      );
+      
+      if (mechalFiles) {
+        for (let j = 0; j < mechalFiles.length; j++) {
+          await reportsMechanicalsFiles.findOneAndDelete(
+            {
+              id_mechanical_file: mechalFiles[j]._id,
+            }
+          );
+        }
+      }
+
+      if (mechalsFiles) {
+        for (let j = 0; j < mechalsFiles.length; j++) {
+          await reportsMechanicalsFiles.findOneAndDelete(
+            {
+              id_mechanical_file: mechalsFiles[j]._id,
+            }
+          );
+        }
+      }
+
+      if (imgVehicle) {
+        for (let j = 0; j < imgVehicle.length; j++) {
+          await ImgVehicleSchema.findOneAndDelete(
+            {
+              _id: imgVehicle[j]._id,
+            }
+          );
+        }
+      }
+
+      await mechanicalFiles.findOneAndDelete(
+        {
+          id_vehicle: vehicle[i]._id,
+        }
+      );
+
+
+      await mechanicalsFiles.findOneAndDelete(
+        {
+          id_vehicle: vehicle[i]._id,
+        }
+      );
+
+      await vehicles.findOneAndDelete(
+        {
+          _id: vehicle[i]._id,
+        }
+      );
+    }
+  }
+
+  jsonRes.code = 200;
+  jsonRes.message = "Vehiculos eliminados";
+
+
+  res.json(jsonRes);
+};
 
 export default authController;
