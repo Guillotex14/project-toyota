@@ -230,8 +230,6 @@ var GraphicsPage = /** @class */ (function () {
                 }
             }
             {
-                _this.arrayListCars = [];
-                _this.utils.presentAlert("", "Lista sin resultado", "");
                 _this.utils.presentToast(res.message);
             }
         }, function (err) {

@@ -202,7 +202,6 @@ export class GraphicsPage implements AfterViewInit, OnInit {
     this.sellerSrv.getListCars(data).subscribe((res: any) => {
       if (res.status) {
         this.loading = false
-
         if (res.data.grupocard.length > 0) {
           this.arrayListCars = res.data.grupocard;
         } else {
@@ -214,11 +213,9 @@ export class GraphicsPage implements AfterViewInit, OnInit {
           this.modelCar2 = ""
           this.concesionary2 = "";
           this.utils.presentAlert("", "Lista sin resultado", "");
-          this.arrayListCars=[]
+          this.arrayListCars = []
         }
       } {
-        this.arrayListCars=[];
-        this.utils.presentAlert("", "Lista sin resultado", "");
 
         this.utils.presentToast(res.message);
 
