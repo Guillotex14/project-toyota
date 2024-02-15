@@ -200,9 +200,10 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
     title: "Tienes el siguiente vehículo para generar la ficha técnica",
   };
 
+  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
+
   await sendEmail(mailOptions);
 
-  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";
@@ -779,14 +780,15 @@ sellerController.approveBuyVehicle = async (req: Request, res: Response) => {
         userSeller!.email
       } o al número telefono ${infoSeller!.phone}`,
     };
-
-    await sendEmail(mailOptions);
-
+    
     sendNotification(
       userbuyer!._id.toString(),
       mailOptions.text,
       mailOptions.subject
     );
+
+    await sendEmail(mailOptions);
+
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al aprobar la oferta";
@@ -848,13 +850,14 @@ sellerController.rejectBuyVehicle = async (req: Request, res: Response) => {
       } o al número de teléfono ${infoSeller!.phone}`,
     };
 
-    await sendEmail(mailOptions);
-
     sendNotification(
       userbuyer!._id.toString(),
       mailOptions.text,
       mailOptions.subject
     );
+
+    await sendEmail(mailOptions);
+
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al rechazar la oferta";
@@ -1773,13 +1776,14 @@ sellerController.buyVehicle = async (req: Request, res: Response) => {
     title: "Tienes una oferta de compra para:",
   };
 
-  await sendEmail(mailOptions);
-
   sendNotification(
     infoSeller!._id.toString(),
     dataVehicle,
     "Oferta de vehículo"
   );
+  
+  await sendEmail(mailOptions);
+
 
   responseJson.code = 200;
   responseJson.message =

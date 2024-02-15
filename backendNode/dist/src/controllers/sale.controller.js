@@ -186,8 +186,8 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
             subject: "Oferta de vehículo aprobada",
             html: template,
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), dataVehicle, "Oferta de vehículo aprobada");
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
     else {
         reponseJson.code = 400;

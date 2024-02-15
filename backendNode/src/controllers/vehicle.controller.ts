@@ -3197,13 +3197,14 @@ vehicleController.addMechanicalFile = async (req: Request, res: Response) => {
       link: `${vehicle!._id}`
     };
 
-    await sendEmail(mailOptions);
-
     sendNotification(
       vehicle!.id_seller?.toString()!,
       dataVehicle,
       "Ficha técnica creada"
     );
+    
+    await sendEmail(mailOptions);
+
   } else {
     reponseJson.code = 400;
     reponseJson.status = false;

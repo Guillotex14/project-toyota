@@ -25,7 +25,7 @@
         <p class="titlePage">Comparación</p>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading">
+      <ion-col size="12" *ngIf="comparison && comparison.length > 0 && !loading">
         <ion-grid fixed>
           <ion-row>
             <ion-col sizeXl="4" sizeLg="4" sizeMd="4" sizeSm="6" sizeXs="6" *ngFor="let vehicle of comparison; let i = index" class="colCardVehicles">
@@ -78,7 +78,7 @@
         </ion-grid>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colKm">
+      <ion-col size="12" *ngIf="comparison && comparison.length > 0 && !loading" class="colKm">
         <ion-list>
           <ion-list-header>
             Kilometraje
@@ -92,7 +92,7 @@
 
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colPrice">
+      <ion-col size="12" *ngIf="comparison && comparison.length > 0 && !loading" class="colPrice">
         <ion-list>
           <ion-list-header>
             Precio
@@ -105,7 +105,7 @@
         </ion-list>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colTitles">
+      <ion-col size="12" *ngIf="comparison && comparison.length > 0 && !loading" class="colTitles">
         <ion-list>
           <ion-list-header>
             Títulos
@@ -118,7 +118,7 @@
         </ion-list>
       </ion-col>
 
-      <ion-col size="12" *ngIf="comparison.length > 0 && !loading" class="colStates">
+      <ion-col size="12" *ngIf="comparison && comparison.length > 0 && !loading" class="colStates">
         <ion-list>
           <ion-list-header>
             Estado del vehículo
@@ -147,7 +147,7 @@
 
       </ion-col> -->
 
-      <ion-col size="12" *ngIf="comparison.length === 0 && !loading" style="text-align: center;">
+      <ion-col size="12" *ngIf="comparison ===null || comparison.length === 0 && !loading" style="text-align: center;">
         <ion-icon name="help-circle" class="iconNoInfo"></ion-icon>
         <p class="titleNoInfo">No se encontraron vehículos</p>
       </ion-col>

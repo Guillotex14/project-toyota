@@ -155,13 +155,13 @@ saleController.buyVehicle = async (req: Request, res: Response) => {
       link: getVehicle!._id,
     };
   
-    await sendEmail(mailOptions);
-  
     sendNotification(
       infoSeller!._id.toString(),
       dataVehicle,
       "Oferta de vehículo"
     );
+    await sendEmail(mailOptions);
+  
   
     responseJson.code = 200;
     responseJson.message =
@@ -231,13 +231,13 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
       html: template,
     };
 
-    await sendEmail(mailOptions);
-
     sendNotification(
       userbuyer!._id.toString(),
       dataVehicle,
       "Oferta de vehículo aprobada"
     );
+    await sendEmail(mailOptions);
+
 
   } else {
     reponseJson.code = 400;
@@ -298,13 +298,13 @@ saleController.rejectBuyVehicle = async (req: Request, res: Response) => {
       } o al número de teléfono ${infoSeller!.phone}`,
     };
 
-    await sendEmail(mailOptions);
-
     sendNotification(
       userbuyer!._id.toString(),
       mailOptions.text,
       mailOptions.subject
     );
+    await sendEmail(mailOptions);
+
   } else {
     reponseJson.code = 400;
     reponseJson.message = "error al rechazar la oferta";

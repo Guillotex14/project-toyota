@@ -19,7 +19,7 @@ export class ComparisonPage implements OnInit {
   arrayEqualCondition: any[] = [];
   loading: boolean = true;
   constructor(private actRoute: ActivatedRoute, private router: Router, private sellerSrv: SellerService, private utils: UtilsService, private menuCtrl: MenuController) { 
-   
+  
   }
 
   ngOnInit() {
@@ -48,12 +48,15 @@ export class ComparisonPage implements OnInit {
     let labelsPrice = ['firstPrice', 'secondPrice', 'thirdPrice', 'fourthPrice', 'equalPrice'];
     let labelsTitle = ['firstTitle', 'secondTitle', 'thirdTitle', 'fourthTitle', 'equalTitle'];
     let labelsCondition = ['firstCondition', 'secondCondition', 'thirdCondition', 'fourthCondition', 'equalCondition'];
-
-    this.comparison = this.assignColorsAndLabelsKm('km', colors, labels);
-    this.comparison = this.assignColorsAndLabelsPrice('price', colors, labelsPrice);
-    this.comparison = this.assignBestTitle('titles', labelsTitle);
-    this.comparison = this.assignBestCondition('general_condition', labelsCondition);
-    this.renderAutosTitle();
+    
+    if (this.comparison && this.comparison.length > 0) {
+      this.comparison = this.assignColorsAndLabelsKm('km', colors, labels);
+      this.comparison = this.assignColorsAndLabelsPrice('price', colors, labelsPrice);
+      this.comparison = this.assignBestTitle('titles', labelsTitle);
+      this.comparison = this.assignBestCondition('general_condition', labelsCondition);
+      this.renderAutosTitle();
+    }
+    
     setTimeout(() => {
       this.loading = false;
     }, 2000);
@@ -207,16 +210,20 @@ export class ComparisonPage implements OnInit {
 
     for (let i = 0; i < sortedComparison.length; i++) {
       for (let j = 0; j < sortedComparison.length; j++) {
-        if (sortedComparison[i][property] === sortedComparison[j][property] 
-          && i !== j
-          && sortedComparison[i][labels[i]] === true
-          && sortedComparison[j][labels[j]] === true
-          && sortedComparison[i][property].split('-')[0] === "1" 
-          && sortedComparison[j][property].split('-')[0] === "1"
-          ) {
+        if (
+          sortedComparison[i][property] === sortedComparison[j][property] &&
+          i !== j &&
+          sortedComparison[i][labels[i]] === true &&
+          sortedComparison[j][labels[j]] === true &&
+          sortedComparison[i][property].split('-')[0] === '1' &&
+          sortedComparison[j][property].split('-')[0] === '1' &&
+          !this.arrayEqualTitle.includes(sortedComparison[i])
+        ) {
+          console.log(sortedComparison[i][labels[i]]);
+          console.log(sortedComparison[i][property].split('-')[0]);
+          console.log(sortedComparison[i].model, sortedComparison[j].model);
           sortedComparison[i].equalTitle = true;
           this.arrayEqualTitle.push(sortedComparison[i]);
-
         }
       }
     }
@@ -254,7 +261,7 @@ export class ComparisonPage implements OnInit {
   }
 
   public renderIqualTitle() {
-    let models = this.arrayEqualTitle.filter((item: any) => {return item.model });
+    console.log(this.arrayEqualTitle)
     let content = `
       Los vehículos ${this.arrayEqualTitle.map((item: any) => {return item.model })} tienen la misma cantidad de titulos.
     `
