@@ -131,8 +131,8 @@ saleController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, func
         title: "Tienes una oferta de compra para:",
         link: getVehicle._id,
     };
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     responseJson.code = 200;
     responseJson.message =
         "Compra realizada, esperar confirmación o rechazo del vendedor";
@@ -160,7 +160,7 @@ saleController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 
         final_price_sold: infoVehicle.price_ofert,
         sold: false,
     });
-    const infoBuyer = yield Sellers_schema_1.default.findById(vehicle.id_seller_buyer);
+    const infoBuyer = yield Sellers_schema_1.default.findById(infoVehicle.id_seller_buyer);
     const userbuyer = yield Users_schema_1.default.findById(infoBuyer.id_user);
     const infoSeller = yield Sellers_schema_1.default.findById(vehicle.id_seller);
     const Userseller = yield Users_schema_1.default.findById(infoSeller.id_user);
@@ -227,14 +227,24 @@ saleController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0
         reponseJson.message = "oferta rechazada exitosamente";
         reponseJson.status = true;
         reponseJson.data = vehicle;
+        const dataVehicle = {
+            model: vehicle.model,
+            year: vehicle.year,
+            plate: vehicle.plate ? vehicle.plate : "",
+            fullName: infoSeller.fullName,
+            concesionary: vehicle.concesionary,
+            city: vehicle.city,
+            title: "Oferta de vehículo aprobada",
+            link: id_vehicle,
+        };
         const mailOptions = {
             from: "Toyousado Notifications",
             to: userbuyer.email,
             subject: "Compra de vehículo rechazada",
             text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el vendedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
         };
+        sendNotification(userbuyer._id.toString(), dataVehicle, mailOptions.subject);
         yield (0, nodemailer_1.sendEmail)(mailOptions);
-        sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
     }
     else {
         reponseJson.code = 400;
@@ -245,10 +255,13 @@ saleController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void 0
 });
 const sendNotification = (id_seller, data, title) => __awaiter(void 0, void 0, void 0, function* () {
     // const jsonRes: ResponseModel = new ResponseModel();
-    const userInfo = yield Sellers_schema_1.default.findOne({ _id: id_seller });
+    console.log(id_seller, "id seller");
+    const userInfo = yield Users_schema_1.default.findOne({ _id: id_seller });
+    console.log(userInfo, "user info");
     if (userInfo) {
+        console.log(userInfo, "user info en el if");
         const notify = new notifications_schema_1.default({
-            id_user: userInfo.id_user,
+            id_user: userInfo._id.toString(),
             title: title,
             data: data,
             date: (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss"),

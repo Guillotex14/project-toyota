@@ -73,6 +73,8 @@ const add_request_models_brands = (data?: any) => {
         </div>
         </div>
     </div>`;
+
+    return template;
 }
 
 const approve_request_models_brands = (data?: any) => {
@@ -96,6 +98,8 @@ const approve_request_models_brands = (data?: any) => {
         </div>
         </div>
     </div>`;
+
+    return template;
 }
 
 const success_request_models_brands = (data?: any) => {
@@ -118,6 +122,8 @@ const success_request_models_brands = (data?: any) => {
         </div>
         </div>
     </div>`
+
+    return template;
 }
 
 const cancel_request_models_brands = (data?: any) => {
@@ -140,6 +146,8 @@ const cancel_request_models_brands = (data?: any) => {
         </div>
         </div>
     </div>`
+
+    return template;
 }
 
 
@@ -176,6 +184,8 @@ const ofertBuyCar = (data?: any) => {
         </div>
         </div>
     </div>`
+
+    return template;
 }
 
 const ofertApprove = (data: any) => {
@@ -246,11 +256,13 @@ const ofertReject = (data: any) => {
         </div>
         </div>
     </div>`
+
+    return template;
 }
 
 const newInspect = (data: any) => {
     const template = `<div>
-    <p>Oferta de vehículo aprobada para:</p>
+    <p>Nueva inspeccion para:</p>
     </div>
     <div class="div-table" style="width: 100%;">
         <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
@@ -280,6 +292,8 @@ const newInspect = (data: any) => {
         </div>
         </div>
     </div>`
+
+    return template;
 }
 
 const addMechanicalFile = (data: any) => {
@@ -350,6 +364,7 @@ const mechanicalFileReject = (data: any) => {
         </div>
         </div>
     </div>`
+    return template;
 }
 
 const mechanicalFile = (data: any) => {
@@ -382,5 +397,6 @@ const mechanicalFile = (data: any) => {
     </div>
 
 </div>`
+    return template;
 }
 

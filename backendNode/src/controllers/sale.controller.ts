@@ -197,7 +197,7 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
     sold: false,
   });
 
-  const infoBuyer = await sellers.findById(vehicle!.id_seller_buyer);
+  const infoBuyer = await sellers.findById(infoVehicle!.id_seller_buyer);
 
   const userbuyer = await Users.findById(infoBuyer!.id_user);
 
@@ -236,6 +236,7 @@ saleController.approveBuyVehicle = async (req: Request, res: Response) => {
       dataVehicle,
       "Oferta de vehículo aprobada"
     );
+    
     await sendEmail(mailOptions);
 
 
@@ -287,6 +288,17 @@ saleController.rejectBuyVehicle = async (req: Request, res: Response) => {
     reponseJson.status = true;
     reponseJson.data = vehicle;
 
+    const dataVehicle = {
+      model: vehicle!.model,
+      year: vehicle!.year,
+      plate: vehicle!.plate ? vehicle!.plate : "",
+      fullName: infoSeller!.fullName,
+      concesionary: vehicle!.concesionary,
+      city: vehicle!.city,
+      title: "Oferta de vehículo aprobada",
+      link: id_vehicle,
+    };
+
     const mailOptions = {
       from: "Toyousado Notifications",
       to: userbuyer!.email,
@@ -300,9 +312,10 @@ saleController.rejectBuyVehicle = async (req: Request, res: Response) => {
 
     sendNotification(
       userbuyer!._id.toString(),
-      mailOptions.text,
+      dataVehicle,
       mailOptions.subject
     );
+
     await sendEmail(mailOptions);
 
   } else {
@@ -321,11 +334,11 @@ const sendNotification = async (
 ) => {
   // const jsonRes: ResponseModel = new ResponseModel();
 
-  const userInfo = await sellers.findOne({ _id: id_seller });
+  const userInfo = await Users.findOne({ _id: id_seller });
 
   if (userInfo) {
     const notify = new notifications({
-      id_user: userInfo.id_user,
+      id_user: userInfo._id.toString(),
       title: title,
       data: data,
       date: moment().format("YYYY-MM-DD HH:mm:ss"),

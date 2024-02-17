@@ -145,7 +145,7 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
     { _id: newVehicle._id },
     { imgs_documentation: documents }
   );
-
+    
   const mailOptions = {
     from: "Toyousado",
     to: emailmechanic,
@@ -200,10 +200,10 @@ sellerController.addVehicle = async (req: Request, res: Response) => {
     title: "Tienes el siguiente vehículo para generar la ficha técnica",
   };
 
-  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
-
+  
   await sendEmail(mailOptions);
-
+  
+  sendNotificationMechanic(id_mechanic, dataVehicle, "Revisión de vehículo");
 
   reponseJson.code = 200;
   reponseJson.message = "Vehículo agregado exitosamente";

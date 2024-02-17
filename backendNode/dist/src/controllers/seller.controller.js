@@ -650,8 +650,8 @@ sellerController.approveBuyVehicle = (req, res) => __awaiter(void 0, void 0, voi
             subject: "Oferta de vehículo aprobada",
             text: `Tu oferta del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} ha sido aceptada, para mas información comunicate con el vendedor al correo ${userSeller.email} o al número telefono ${infoSeller.phone}`,
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
     else {
         reponseJson.code = 400;
@@ -698,8 +698,8 @@ sellerController.rejectBuyVehicle = (req, res) => __awaiter(void 0, void 0, void
             subject: "Compra de vehículo rechazada",
             text: `Tu compra del vehículo ${vehicle.model} del concesionario ${vehicle.concesionary} fue rechazada, para más información comunicaté con el vendedor al correo ${userSeller.email} o al número de teléfono ${infoSeller.phone}`,
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification(userbuyer._id.toString(), mailOptions.text, mailOptions.subject);
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
     else {
         reponseJson.code = 400;
@@ -1405,8 +1405,8 @@ sellerController.buyVehicle = (req, res) => __awaiter(void 0, void 0, void 0, fu
         city: infoSeller.city,
         title: "Tienes una oferta de compra para:",
     };
-    yield (0, nodemailer_1.sendEmail)(mailOptions);
     sendNotification(infoSeller._id.toString(), dataVehicle, "Oferta de vehículo");
+    yield (0, nodemailer_1.sendEmail)(mailOptions);
     responseJson.code = 200;
     responseJson.message =
         "Compra realizada, esperar confirmación o rechazo del vendedor";

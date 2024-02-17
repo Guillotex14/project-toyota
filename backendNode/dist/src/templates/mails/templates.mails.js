@@ -64,6 +64,7 @@ const add_request_models_brands = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const approve_request_models_brands = (data) => {
     let message = "";
@@ -86,6 +87,7 @@ const approve_request_models_brands = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const success_request_models_brands = (data) => {
     let message = "";
@@ -108,6 +110,7 @@ const success_request_models_brands = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const cancel_request_models_brands = (data) => {
     let message = "";
@@ -130,6 +133,7 @@ const cancel_request_models_brands = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const ofertBuyCar = (data) => {
     const template = `<div>
@@ -163,6 +167,7 @@ const ofertBuyCar = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const ofertApprove = (data) => {
     const template = `<div>
@@ -230,10 +235,11 @@ const ofertReject = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const newInspect = (data) => {
     const template = `<div>
-    <p>Oferta de vehículo aprobada para:</p>
+    <p>Nueva inspeccion para:</p>
     </div>
     <div class="div-table" style="width: 100%;">
         <div class="table" style="display: table;border-collapse: collapse;margin: auto;">
@@ -263,6 +269,7 @@ const newInspect = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const addMechanicalFile = (data) => {
     const template = `<div>
@@ -330,6 +337,7 @@ const mechanicalFileReject = (data) => {
         </div>
         </div>
     </div>`;
+    return template;
 };
 const mechanicalFile = (data) => {
     const template = `<div>
@@ -361,5 +369,6 @@ const mechanicalFile = (data) => {
     </div>
 
 </div>`;
+    return template;
 };
 //# sourceMappingURL=templates.mails.js.map

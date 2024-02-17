@@ -2674,8 +2674,8 @@ vehicleController.addMechanicalFile = (req, res) => __awaiter(void 0, void 0, vo
             title: "Ficha técnica creada exitosamente para:",
             link: `${vehicle._id}`
         };
-        yield (0, nodemailer_1.sendEmail)(mailOptions);
         sendNotification((_a = vehicle.id_seller) === null || _a === void 0 ? void 0 : _a.toString(), dataVehicle, "Ficha técnica creada");
+        yield (0, nodemailer_1.sendEmail)(mailOptions);
     }
     else {
         reponseJson.code = 400;
